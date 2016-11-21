@@ -1153,6 +1153,8 @@ namespace isis
 			return PRO_FEM_FEAS_ABAQUS;
 		  else if ( AnalysisSolverType_string.compare("ABAQUS_MODEL_BASED") == 0 )
 			return PRO_FEM_FEAS_ABAQUS;
+		  else if ( AnalysisSolverType_string.compare("PATRAN_NASTRAN") == 0 )
+			return PRO_FEM_FEAS_PATRAN;
 		 
 		  string temp_string = "Function AnalysisSolverType_enum was passed " + in_AnalysisSolverType_string + " which is an erroneous type.";
 		  throw isis::application_exception(temp_string.c_str());
@@ -1173,12 +1175,15 @@ namespace isis
 			case PRO_FEM_FEAS_ABAQUS:
 				return "ABAQUS";
 				break;
+			case PRO_FEM_FEAS_PATRAN:
+				return "PATRAN_NASTRAN";
+				break;
 
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function AnalysisSolverType_string was passed " + 
 					std::string(itoa(in_AnalysisSolverType_enum, temp_char_array, 10)) + 
-					" which is an erroneous type.  Allowed enum values are PRO_FEM_FEAS_NASTRAN, PRO_FEM_FEAS_ANSYS, and PRO_FEM_FEAS_ABAQUS.";
+					" which is an erroneous type.  Allowed enum values are PRO_FEM_FEAS_NASTRAN, PRO_FEM_FEAS_ANSYS,PRO_FEM_FEAS_ABAQUS, and PRO_FEM_FEAS_PATRAN.";
 				throw isis::application_exception(temp_string.c_str());
 	  }
 	}
@@ -1189,7 +1194,7 @@ namespace isis
 	 {
 		  std::string AnalysisSolutionType_string = ConvertToUpperCase(in_AnalysisSolutionType_string);
 
-		  if ( AnalysisSolutionType_string.compare("ABAQUS_MODEL_BASED") == 0 )
+		  if ( AnalysisSolutionType_string.compare("ABAQUS_MODEL_BASED") == 0 || AnalysisSolutionType_string.compare("PATRAN_NASTRAN") == 0 )
 			  return ANALYSIS_MODEL_BASED;
 		  else
 			  return ANALYSIS_DECK_BASED;
@@ -1272,6 +1277,7 @@ namespace isis
 		  else if ( AnalysisMeshType_string.compare("QUILT")== 0 )		return PRO_FEM_QUILT_MESH;
 		  else if ( AnalysisMeshType_string.compare("BOUNDARY") == 0 ) return PRO_FEM_BOUNDARY_MESH;
 		  else if ( AnalysisMeshType_string.compare("BAR") == 0 )		return PRO_FEM_BAR_MESH;
+		  else if ( AnalysisMeshType_string.compare("SURFACE") == 0 )		return PRO_FEM_SHELL_MESH;
 		 
 		  string temp_string = "Function AnalysisMeshType_enum was passed " + in_AnalysisMeshType_string + " which is an erroneous type.";
 		  throw isis::application_exception(temp_string.c_str());
@@ -1288,7 +1294,7 @@ namespace isis
 				return "SOLID";
 				break;
 			case PRO_FEM_SHELL_MESH:
-				return "SHELL";
+				return "SURFACE";
 				break;
 			case PRO_FEM_MIXED_MESH:
 				return "MIXED";
@@ -1317,15 +1323,14 @@ namespace isis
 																throw (isis::application_exception)
 	 {
 		  std::string AnalysisShellElementType_string = ConvertToUpperCase(in_AnalysisShellElementType_string);
-
-		  if ( AnalysisShellElementType_string.compare("N/A") == 0 )  // N/A Means that it is ignored for the analysis type. Use Quad as default.
-			  return PRO_FEM_SHELL_MESH_QUADRANGLE;
-		  else
-			  if ( AnalysisShellElementType_string.compare("TRIANGLE") == 0 )
-				return PRO_FEM_SHELL_MESH_TRIANGLE;
-		  		  else
-					  if ( AnalysisShellElementType_string.compare("QUADRANGLE") == 0 )
-						return PRO_FEM_SHELL_MESH_QUADRANGLE;
+		  // N/A Means that it is ignored for the analysis type. Use Quad as default.
+		  if ( AnalysisShellElementType_string.compare("N/A") == 0 )  return PRO_FEM_SHELL_MESH_QUADRANGLE; 
+		  else if ( AnalysisShellElementType_string.compare("TRIANGLE") == 0 ) return PRO_FEM_SHELL_MESH_TRIANGLE;
+		  else if ( AnalysisShellElementType_string.compare("TETRA4") == 0 ) return PRO_FEM_SHELL_MESH_TRIANGLE;
+		  else if ( AnalysisShellElementType_string.compare("TETRA10") == 0 ) return PRO_FEM_SHELL_MESH_TRIANGLE;
+		  else if ( AnalysisShellElementType_string.compare("QUADRANGLE") == 0 ) return PRO_FEM_SHELL_MESH_QUADRANGLE;
+		  else if ( AnalysisShellElementType_string.compare("PLATE4") == 0 ) return PRO_FEM_SHELL_MESH_QUADRANGLE;
+		  else if ( AnalysisShellElementType_string.compare("PLATE8") == 0 ) return PRO_FEM_SHELL_MESH_QUADRANGLE;
 		 
 		  string temp_string = "Function AnalysisShellElementType_enum was passed " + in_AnalysisShellElementType_string + " which is an erroneous type.";
 		  throw isis::application_exception(temp_string.c_str());
@@ -1826,6 +1831,10 @@ namespace isis
 		  else	if ( ComputationType_string.compare("MAXHORIZONALVELOCITY") == 0 )  return MAX_HORIZONAL_VELOCITY;
 		  else	if ( ComputationType_string.compare("MINIMUMTEMPERATURE") == 0 )  return MINIMUM_TEMPERATURE;
 		  else	if ( ComputationType_string.compare("MAXIMUMTEMPERATURE") == 0 )  return MAXIMUM_TEMPERATURE;
+		  else	if ( ComputationType_string.compare("TSAI_WU_FAILURE") == 0 )  return TSAI_WU_FAILURE;
+		  else	if ( ComputationType_string.compare("HILL_FAILURE") == 0 )  return HILL_FAILURE;
+		  else	if ( ComputationType_string.compare("HOFFMAN_FAILURE") == 0 )  return HOFFMAN_FAILURE;
+		  else	if ( ComputationType_string.compare("MAXIMUM_FAILURE") == 0 )  return MAXIMUM_FAILURE;
 
 		  string temp_string = "Function ComputationType_enum was passed " + in_ComputationType_string + " which is an erroneous type.";
 		  throw isis::application_exception(temp_string.c_str());
@@ -1900,6 +1909,22 @@ namespace isis
 				return "MaximumTemperature";
 				break;	
 
+			case TSAI_WU_FAILURE:
+				return "Tsai_Wu_Failure";
+				break;	
+
+			case HILL_FAILURE:
+				return "Hill_Failure";
+				break;	
+
+			case HOFFMAN_FAILURE:
+				return "Hoffman_Failure";
+				break;	
+
+			case MAXIMUM_FAILURE:
+				return "Maximum_Failure";
+				break;	
+
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				std::stringstream errorString;
@@ -1907,7 +1932,8 @@ namespace isis
 					   std::endl << "Allowed enum values are: COMPUTATION_BOUNDING_BOX, COMPUTATION_CG, Z_COORDINATE, COMPUTATION_MASS, COMPUTATION_POINT," <<
 					   std::endl << "COMPUTATION_PLANE, COMPUTATION_COEFFICIENT_OF_DRAG, COMPUTATION_STRESS_MISES, COMPUTATION_STRESS_SHEAR, "  <<
 					   std::endl << "COMPUTATION_STRESS_BEARING, COMPUTATION_FACTOR_OF_SAFETY, COMPUTATION_TOTAL_INTERSECTIONS, COMPUTATION_TOTAL_KILLS, " <<
-					   std::endl <<  "MAX_VERTICAL_JUMP, MAX_VERTICAL_VELOCITY, MAX_HORIZONAL_VELOCITY, MINIMUM_TEMPERATURE, and MAXIMUM_TEMPERATURE.";
+					   std::endl <<  "MAX_VERTICAL_JUMP, MAX_VERTICAL_VELOCITY, MAX_HORIZONAL_VELOCITY, MINIMUM_TEMPERATURE, MAXIMUM_TEMPERATURE,  " <<
+					   std::endl <<  "TSAI_WU_FAILURE, HILL_FAILURE, HOFFMAN_FAILURE, and MAXIMUM_FAILURE.";
 				throw isis::application_exception(errorString.str());
 
 	  }

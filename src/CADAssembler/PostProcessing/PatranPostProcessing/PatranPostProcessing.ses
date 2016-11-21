@@ -1,0 +1,48 @@
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vConstants.pcl" into  .\PatranPostProcess_PLB\vConstants.plb
+!!library .\PatranPostProcess_PLB\vConstants.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vLogger.pcl" into  .\PatranPostProcess_PLB\vLogger.plb
+!!library .\PatranPostProcess_PLB\vLogger.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vPatranUtils.pcl" into  .\PatranPostProcess_PLB\vPatranUtils.plb
+!!library .\PatranPostProcess_PLB\vPatranUtils.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vPatranPostProcess.pcl" into  .\PatranPostProcess_PLB\vPatranPostProcess.plb
+!!library .\PatranPostProcess_PLB\vPatranPostProcess.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vFileReader.pcl" into  .\PatranPostProcess_PLB\vFileReader.plb
+!!library .\PatranPostProcess_PLB\vFileReader.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vInputFile.pcl" into  .\PatranPostProcess_PLB\vInputFile.plb
+!!library .\PatranPostProcess_PLB\vInputFile.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vSolidLegacyApproach.pcl" into  .\PatranPostProcess_PLB\vSolidLegacyApproach.plb
+!!library .\PatranPostProcess_PLB\vSolidLegacyApproach.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vRegions.pcl" into  .\PatranPostProcess_PLB\vRegions.plb
+!!library .\PatranPostProcess_PLB\vRegions.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vSurfaceOrSolid.pcl" into  .\PatranPostProcess_PLB\vSurfaceOrSolid.plb
+!!library .\PatranPostProcess_PLB\vSurfaceOrSolid.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vLoadcases.pcl" into  .\PatranPostProcess_PLB\vLoadcases.plb
+!!library .\PatranPostProcess_PLB\vLoadcases.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vSubCases.pcl" into  .\PatranPostProcess_PLB\vSubCases.plb
+!!library .\PatranPostProcess_PLB\vSubCases.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vMetrics.pcl" into  .\PatranPostProcess_PLB\vMetrics.plb
+!!library .\PatranPostProcess_PLB\vMetrics.plb
+
+!!compile "zz_POST_PROCESSING_SOURCE_DIR_zz\vPlots.pcl" into  .\PatranPostProcess_PLB\vPlots.plb
+!!library .\PatranPostProcess_PLB\vPlots.plb
+
+# STRING patranDir[512] = "C:\MSC.Software\Patran_x64\20140"
+#STRING dir[262] = "D:\BLADE\Rowens\Bracket\SolidModel\results\TEST\PostProcessingTest\Analysis\Patran_Nastran"
+STRING dir[262] = ".\"
+STRING filename[64] = "zz_Model_Name_zz"
+STRING bdfPath[262] = "zz_Model_Name_zz.bdf"
+STRING xdbPath[262] = "zz_Model_Name_zz.xdb"
+STRING op2Path[262] = "zz_Model_Name_zz.op2"
+#vPostProcessing.PostProcess(patranDir, dir, filename, bdfPath, xdbPath)
+vPatranPostProcess.patranPostProcess(dir, filename, bdfPath, xdbPath, op2Path)

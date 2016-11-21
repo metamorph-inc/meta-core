@@ -1,0 +1,376 @@
+###########################
+# vPatranUtils Class
+###########################
+CLASS vPatranUtils
+				
+	CLASSWIDE STRING	c_ClassName[32]			
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vPatranUtils"
+	
+END FUNCTION
+################################################################################
+FUNCTION createPatranDB(	in_File_Patran_Model_Name, 	in_File_Patran_Model_Dir )
+				
+				
+	# If the Patran DB exists, this function will not overwrite it
+    STRING 	in_File_Patran_Model_Name[]
+    STRING 	in_File_Patran_Model_Dir[]
+
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createPatranDB"		
+	
+	# If DB open, close it.  No DBs should be open.  Put this here in case this function is reused elsewhere.
+    uil_file_close.go(  )		
+	
+	STRING db_Path_Name[512]
+	IF ( in_File_Patran_Model_Dir == ".\" ) THEN
+		db_Path_Name = in_File_Patran_Model_Dir // in_File_Patran_Model_Name // ".db"
+	ELSE
+		db_Path_Name = in_File_Patran_Model_Dir // "\" // in_File_Patran_Model_Name // ".db"
+	END IF
+	
+	# Delete the Patran DB if it exist.	
+	IF (file_exists(db_Path_Name, "" )) THEN
+		file_delete(db_Path_Name) 
+	End IF		
+		
+	returnStatus = uil_file_new.go( "", db_Path_Name )
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not create DB (uil_file_new.go), DB: " // in_File_Patran_Model_Dir // "\" // in_File_Patran_Model_Name// ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus	
+    END IF		
+	
+	text_write_string( vLogger.getChannel(), "Created Patran DB: " // db_Path_Name)	
+	
+    RETURN returnStatus
+
+END FUNCTION	
+###############################################################################	
+FUNCTION setPatranWorkingDir (	in_File_Patran_Model_Dir )
+												
+    STRING 	in_File_Patran_Model_Dir[]
+	
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".setPatranWorkingDir"		
+	
+    returnStatus = set_current_dir( in_File_Patran_Model_Dir )	
+ 	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not set Patran working directory, Dir: " // in_File_Patran_Model_Dir // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN returnStatus	
+    END IF		
+	
+	text_write_string( vLogger.getChannel(), "Set Patran working directory: " // in_File_Patran_Model_Dir) 		
+	
+    RETURN returnStatus
+
+END FUNCTION	
+###############################################################################
+# dbdir is absolute path to new project's desired directory, can be .\
+
+FUNCTION createProject( dbname, dbdir )
+
+    STRING dbname[]
+    STRING dbdir[]
+    
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createProject"	
+
+	STRING db_Path_Name[512]
+	IF ( dbdir == ".\" ) THEN
+		db_Path_Name = dbdir // dbname // ".db"
+	ELSE
+		db_Path_Name = dbdir // "\" // dbname // ".db"
+	END IF
+	
+	IF (file_exists(db_Path_Name,"" )) THEN
+		file_delete(db_Path_Name) 
+	End IF		
+	
+    #uil_file_close.go(  )
+    #uil_file_new.go( installPath // "\" // "template.db", dbdir // "\" // dbname // ".db" )
+    #returnStatus =  uil_file_new.go( "", dbdir // "\" // dbname // ".db" )	
+	
+	returnStatus =  vPatranUtils.createPatranDB(	dbname,	dbdir )
+	IF ( returnStatus != 0 ) THEN return returnStatus
+
+    #set_current_dir( dbdir )	
+	returnStatus =  vPatranUtils.setPatranWorkingDir(dbdir )
+	IF ( returnStatus != 0 ) THEN return returnStatus	
+	
+	uil_primary_file.db_save( )	
+	
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+
+# bdfPath must have extension (e.g. ".bdf")
+
+FUNCTION importBDF(bdfPath)
+    STRING bdfPath[]
+   
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".importBDF"	
+
+	IF ( !file_exists(bdfPath,"" )) THEN
+		errorMsg = "Could not find bdf file, File: " // bdfPath 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN -1	
+	End IF			
+	
+    returnStatus =  nastran_input_import( bdfPath, "default_group", 11, @
+        [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE], @
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], @
+        [-2000000000, -2000000000, -2000000000, -2000000000, -2000000000, -2000000000, -2000000000, -2000000000, 0, 0, 1000] )
+    
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not import import bdf (function nastran_input_import()), File: " // bdfPath // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus
+    END IF				
+	
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+
+# dbdir is absolute path to new project's desired directory, can be .\
+# xdbPath is relative to dbdir
+# xdbPath must have extension (e.g. ".xdb")
+
+FUNCTION attachXDB(dbname, dbdir, xdbPath)
+
+    STRING dbname[]
+    STRING dbdir[]
+    STRING xdbPath[]
+    GLOBAL REAL defWidth
+    GLOBAL REAL defHeight
+    defWidth = 18.427588
+    defHeight = 8.0
+    
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".attachXDB"	
+
+	IF ( !file_exists(xdbPath,"" )) THEN
+		errorMsg = "Could not find xdb file, File: " // xdbPath 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN -1	
+	End IF		
+	
+    msc_dra_init_stream(  )
+    msc_dra_add_param( "DATABASE", dbdir // dbname // ".db" )
+    msc_dra_add_param( "JOBNAME", "" )
+    msc_dra_add_param( "RESULTS FILE", xdbPath )
+    msc_dra_add_param( "OBJECT", "Result Entities" )
+    msc_dra_add_param( "ANALYSIS TYPE", "Structural" )
+    msc_dra_add_param( "DIVISION TOLERANCE", "1.0E-8" )
+    msc_dra_add_param( "NUMERICAL TOLERANCE", "1.0E-4" )
+    msc_dra_add_param( "MODEL TOLERANCE", "0.0049999999" )
+    msc_dra_add_param( "ROTATIONAL NODAL RESULTS", "OFF" )
+    msc_dra_add_param( "STRESS/STRAIN INVARIANTS", "OFF" )
+    msc_dra_add_param( "PRINCIPAL DIRECTIONS", "OFF" )
+    msc_dra_add_param( "ELEMENT RESULTS POSITIONS", "Nodal       " )
+    msc_dra_add_param( "TITLE DESCRIPTION", "ON" )
+    msc_dra_finish_stream(  )
+	
+	# The following fucntion does not return a returnStatus
+    # returnStatus = analysis_import( "MSC.Nastran", "",  "Attach Results File No Job", xdbPath, TRUE )
+    
+	analysis_import( "MSC.Nastran", "",  "Attach Results File No Job", xdbPath, TRUE )
+	
+    ga_viewport_location_set   ( "default_viewport", 0.0, 0.0, 1 )
+    ga_viewport_size_set       ( "default_viewport", defWidth, defHeight, 1 )
+	
+	uil_primary_file.db_save( )
+ 
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+
+# dbdir is absolute path to new project's desired directory, can be .\
+# op2Path is relative to dbdir
+# op2Path must have extension (e.g. ".op2")
+
+FUNCTION attachOp2(dbname, dbdir, op2Path)
+
+    STRING dbname[]
+    STRING dbdir[]
+    STRING op2Path[]
+    GLOBAL REAL defWidth
+    GLOBAL REAL defHeight
+    defWidth = 18.427588
+    defHeight = 8.0
+    
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".attachOp2"	
+
+	IF ( !file_exists(op2Path,"" )) THEN
+		errorMsg = "Could not find op2 file, File: " // op2Path 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN -1	
+	End IF	
+		
+	/******** Example session code
+	msc_dra_init_stream(  )
+	msc_dra_add_param( "DATABASE", "C:\Users\rowens\My_SVN\META_Sandbox\Blade_" // @
+	"Wind_Turbine\CyPhyModels\Bracket\Bracket_Surace_Model\Example_CreatePatra" // @
+	"nModelInput_Tsa_Wu\Nastran_mod.db" )
+	msc_dra_add_param( "JOBNAME", "Nastran_mod" )
+	msc_dra_add_param( "RESULTS FILE", "C:\Users\rowens\My_SVN\META_Sandbox\Bl" // @
+	"ade_Wind_Turbine\CyPhyModels\Bracket\Bracket_Surace_Model\Example_CreateP" // @
+	"atranModelInput_Tsa_Wu\nastran_mod.op2" )
+	msc_dra_add_param( "OBJECT", "Results Entities" )
+	msc_dra_add_param( "ANALYSIS TYPE", "Structural" )
+	msc_dra_add_param( "DIVISION TOLERANCE", "1.0E-8" )
+	msc_dra_add_param( "NUMERICAL TOLERANCE", "1.0E-4" )
+	msc_dra_add_param( "MODEL TOLERANCE", "0.0049999999" )
+	msc_dra_add_param( "ROTATIONAL NODAL RESULTS", "OFF" )
+	msc_dra_add_param( "STRESS/STRAIN INVARIANTS", "OFF" )
+	msc_dra_add_param( "PRINCIPAL DIRECTIONS", "OFF" )
+	msc_dra_add_param( "CREATE P-ORDER FIELD", "OFF" )
+	msc_dra_add_param( "ELEMENT RESULTS POSITIONS", "Nodal       " )
+	msc_dra_add_param( "NASTRAN VERSION", "2014." )
+	msc_dra_add_param( "TITLE DESCRIPTION", "ON" )
+	msc_dra_finish_stream(  )
+	
+	analysis_import( "MSC.Nastran", "Nastran_mod", "Attach DBALL Results File",  @
+	"C:\Users\rowens\My_SVN\META_Sandbox\Blade_Wind_Turbine\CyPhyModels\Bracke" // @
+	"t\Bracket_Surace_Model\Example_CreatePatranModelInput_Tsa_Wu\nastran_mod.op2" @
+	, TRUE )	
+	
+	*************/
+	msc_dra_init_stream(  )
+    msc_dra_add_param( "DATABASE", dbdir // dbname // ".db" )
+    msc_dra_add_param( "JOBNAME", "" )
+    msc_dra_add_param( "RESULTS FILE", op2Path )
+	msc_dra_add_param( "OBJECT", "Results Entities" )
+	msc_dra_add_param( "ANALYSIS TYPE", "Structural" )
+	msc_dra_add_param( "DIVISION TOLERANCE", "1.0E-8" )
+	msc_dra_add_param( "NUMERICAL TOLERANCE", "1.0E-4" )
+	msc_dra_add_param( "MODEL TOLERANCE", "0.0049999999" )
+	msc_dra_add_param( "ROTATIONAL NODAL RESULTS", "OFF" )
+	msc_dra_add_param( "STRESS/STRAIN INVARIANTS", "OFF" )
+	msc_dra_add_param( "PRINCIPAL DIRECTIONS", "OFF" )
+	msc_dra_add_param( "CREATE P-ORDER FIELD", "OFF" )
+	msc_dra_add_param( "ELEMENT RESULTS POSITIONS", "Nodal       " )
+	msc_dra_add_param( "NASTRAN VERSION", "2014." )
+	msc_dra_add_param( "TITLE DESCRIPTION", "ON" )
+	msc_dra_finish_stream(  )	
+
+	# analysis_import does not return a return value
+	analysis_import( "MSC.Nastran", "", "Attach DBALL Results File", op2Path, TRUE )
+
+    #ga_viewport_location_set   ( "default_viewport", 0.0, 0.0, 1 )
+    #ga_viewport_size_set       ( "default_viewport", defWidth, defHeight, 1 )
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+$do not suggest with db files created on another machine
+FUNCTION openProject(dbname)
+    STRING dbname[]
+    GLOBAL REAL defWidth
+    GLOBAL REAL defHeight
+    defWidth = 18.427588
+    defHeight = 8.0
+    
+    uil_file_close.go(  )
+    uil_file_open.go(dbname)
+END FUNCTION 
+################################################################################
+FUNCTION closeProject()
+
+	# The following function does not return a status
+    uil_file_close.goquit()
+	
+END FUNCTION
+
+################################################################################
+FUNCTION get_Nodes( in_NumPropertySets, in_PropertySets, out_Nodes )
+
+	INTEGER in_NumPropertySets
+
+	STRING 	in_PropertySets[]()
+	
+	STRING out_Nodes[]
+	
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_Nodes"	
+
+	STRING   PropertySets_temp[32](VIRTUAL)
+    STRING elemList[VIRTUAL]	
+	
+	SYS_ALLOCATE_ARRAY (PropertySets_temp, 	1, in_NumPropertySets)
+	
+	INTEGER i
+	
+	FOR ( i = 1 TO in_NumPropertySets )
+		PropertySets_temp(i) = in_PropertySets(i)
+	END FOR
+	
+    returnStatus = list_create_elem_att_prop( 0, PropertySets_temp, in_NumPropertySets, "lista", elemList)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "list_create_elem_att_prop() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF				
+	
+    returnStatus = list_create_node_ass_elem( elemList, "listb", out_Nodes)
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "list_create_node_ass_elem() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+	SYS_FREE_ARRAY(PropertySets_temp)	
+	SYS_FREE_STRING(elemList)		
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION log_Nodes( in_Nodes )
+
+	STRING in_Nodes[]
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN Nodes  *******")	
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), in_Nodes )
+
+	text_write_string( vLogger.getChannel(), "******** END Nodes ********")
+
+END FUNCTION
+
+################################################################################
+END CLASS

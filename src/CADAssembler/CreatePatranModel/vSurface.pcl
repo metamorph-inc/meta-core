@@ -1,0 +1,1049 @@
+# This class is for standalone surfaces, not solid surfaces.
+# Solid surfaces are handled in vSolid
+/*****************  Example Input ***************************
+Surface
+	ID = 1
+	Geometry_ID = 1
+	Element_Type = QUAD4    	# QUAD4 or QUAD8
+	Mesh_Parameters_ID = 1
+	Normal_Point_ID =  5     	# Wall Attachment Plate, Plate_Side_A_Pt 
+	Normal_Direction = TOWARD  	# TOWARD or AWAY, default TOWARD
+***********************************************************/
+###########################
+# vSurface Class
+###########################
+CLASS vSurface
+
+	CLASSWIDE STRING	c_ClassName[32],			@
+						c_Surface[32],				@	
+						c_geometry_ID[32],			@	
+						c_Element_Type[32],			@	
+						c_Mesh_Parameters_ID[32],	@	
+						c_Normal_Point_ID[32],		@
+						c_Normal_Direction[32],		@
+						c_Component_Instance_ID[32]										
+
+	CLASSWIDE STRING	c_TOWARD[32],				@
+						c_AWAY[32]
+			
+	CLASSWIDE INTEGER	ci_TOWARD,					@
+						ci_AWAY
+			
+						###########################################
+						#  Surface 
+						###########################################		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						geometry_ID(VIRTUAL)
+	
+	CLASSWIDE STRING	component_Instance_ID[256](VIRTUAL)	
+	
+						# vCommon.FEA_Element_Type_toStr() / vCommon.FEA_Element_Type_toInt()
+	CLASSWIDE INTEGER	element_Type(VIRTUAL),					@
+						mesh_Parameters_ID(VIRTUAL),			@
+						normal_Point_ID(VIRTUAL)
+						# normal_Direction default ci_TOWARD, other option ci_AWAY
+	CLASSWIDE INTEGER	normal_Direction(VIRTUAL)
+
+	CLASSWIDE INTEGER	model_SurfaceIDs_internal_temp(VIRTUAL)
+					
+				
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vSurface"
+	
+	c_Surface =					"Surface"
+	c_geometry_ID =				"geometry_ID"	
+	c_Element_Type = 			"Element_Type"
+	c_Mesh_Parameters_ID =		"Mesh_Parameters_ID"
+	c_Normal_Point_ID =			"Normal_Point_ID"
+	c_Normal_Direction = 		"Normal_Direction"
+	
+	c_Component_Instance_ID = 		"Component_Instance_ID"	
+	
+	c_TOWARD =					"Toward"
+	c_AWAY =					"Away"
+			
+	ci_TOWARD =					1
+	ci_AWAY	 =					2	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 						1, count )
+		sys_allocate_array ( geometry_ID, 				1, count )
+		sys_allocate_array ( element_Type, 				1, count )
+		sys_allocate_array ( mesh_Parameters_ID, 		1, count )	
+		sys_allocate_array ( normal_Point_ID, 			1, count )	
+		sys_allocate_array ( normal_Direction, 			1, count )		
+		sys_allocate_array ( component_Instance_ID, 	1, count )		
+	END IF
+	
+	INTEGER i
+	
+	FOR ( i = 1 to count )
+		iD(i) = 					vConstants.get_ci_Undefined()
+		geometry_ID(i) = 			vConstants.get_ci_Undefined()
+		element_Type(i) = 			vConstants.get_cr_Undefined()
+		mesh_Parameters_ID(i) = 	vConstants.get_cr_Undefined()	
+		normal_Point_ID(i) = 		vConstants.get_ci_Undefined()
+		normal_Direction(i) = 		vConstants.get_ci_Undefined()
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_Surface()
+	RETURN c_Surface
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION get_geometry_ID ( in_Index )
+	INTEGER in_Index
+	return geometry_ID(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION get_Component_Instance_ID(in_Index)
+	INTEGER in_Index
+	return component_Instance_ID(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+								in_out_LineNum,		@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	INTEGER realStatus = 0
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE		
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )			
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF ( iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )																		
+					  END IF
+
+					CASE (c_geometry_ID)
+					  geometry_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  geometry_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+					  
+					CASE (c_Element_Type)
+					  element_Type(count_temp) =  vCommon.FEA_Element_Type_toInt(valueField )
+					  IF (  element_Type(count_temp) != vConstants.get_ci_ELEMENT_TYPE_CQUAD4() && element_Type(count_temp) != vConstants.get_ci_ELEMENT_TYPE_CQUAD8()) THEN
+							errorMsg = "Could not covert value in name-value pair to " // vConstants.get_c_ELEMENT_TYPE_CQUAD4() // @
+							" or " // vConstants.get_c_ELEMENT_TYPE_CQUAD8() // ". name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 				  
+							  
+					CASE (c_Mesh_Parameters_ID)
+					  mesh_Parameters_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  mesh_Parameters_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: , name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 								  
+		
+					CASE (c_Normal_Point_ID)
+					  Normal_Point_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  Normal_Point_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+							  
+					CASE (c_Normal_Direction)
+					  normal_Direction(count_temp) =  vSurface.direction_toInt(valueField)
+					  IF (  normal_Direction(count_temp) == vConstants.get_ci_Undefined() ) THEN 
+							errorMsg = "Could not convert normal direction to one of " // vSurface.direction_validStrings() // ", String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage( errorLevel, functionName, errorMsg )									
+					  END IF							  
+						
+					CASE (c_Component_Instance_ID)
+					  component_Instance_ID(count_temp) =  valueField
+						
+					DEFAULT
+							errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+				END SWITCH
+								
+			END IF
+		END IF
+	END WHILE
+
+	in_out_Buffer = buffer
+
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Surface // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() // " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_geometry_ID 		// " = " // vCommon.ID_toStr(geometry_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Element_Type 		// " = " // vCommon.FEA_Element_Type_toStr(Element_Type(i)) )		
+		text_write_string( vLogger.getChannel(), "   " // c_Mesh_Parameters_ID 	// " = " // vCommon.ID_toStr(Mesh_Parameters_ID(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Normal_Point_ID 	// " = " // vCommon.ID_toStr (Normal_Point_ID(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Normal_Direction 	// " = " // vSurface.direction_toStr(normal_Direction(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Component_Instance_ID 	// " = " // component_Instance_ID(i) )		
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Surface // " --------")			
+END FUNCTION
+
+#################################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0		
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	STRING headingName[64]
+	
+	
+	INTEGER i
+
+	INTEGER index 
+	INTEGER target_index 
+	STRING taret_name[64]
+	INTEGER valid_Integer
+	
+	headingName = c_Surface
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF
+	
+	
+	FOR ( i = 1 TO count )
+	
+		index = geometry_ID(i)
+		target_index =   vGeometry.getIndex(index)
+		taret_name = c_Geometry_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF
+		
+		index = normal_Point_ID(i)
+		target_index =   vPoint.getIndex(index)
+		taret_name = c_Normal_Point_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF		
+			
+		IF ( str_length(component_Instance_ID(i)) == 0 ) THEN
+			errorMsg = "An entry for " // c_Component_Instance_ID // " was not found."
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1	
+		END IF				
+			
+	END FOR
+		
+	RETURN returnStatus
+		
+END FUNCTION	
+
+
+#################################################################################
+FUNCTION direction_toStr ( in_direction_ID )
+
+	INTEGER in_direction_ID
+	
+	SWITCH ( in_direction_ID )
+		CASE ( ci_TOWARD )
+			return c_Toward
+		CASE ( ci_AWAY)
+			return c_AWAY
+		DEFAULT
+			return ""	
+	END SWITCH
+	
+	END FUNCTION
+	
+#------------------------------------------------------------------------------
+FUNCTION direction_toInt ( in_direction_string )
+
+	STRING in_direction_string[]
+	
+	SWITCH ( in_direction_string )
+		CASE ( c_TOWARD )
+			return ci_Toward
+		CASE ( c_AWAY)
+			return ci_AWAY
+		DEFAULT
+			return vConstants.get_ci_Undefined()	
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION direction_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_TOWARD // " " // c_AWAY
+	
+END FUNCTION
+#################################################################################
+FUNCTION get_NumberSurfaces()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_NumberSurfaces"	
+	
+	INTEGER returnStatus = 0
+	INTEGER i
+	INTEGER num_faces
+	
+	STRING list_entities[64]	
+	
+	list_entities = "Surface 1:#"
+	
+	INTEGER ci_LP_SUBLIST_SURFACE
+	ci_LP_SUBLIST_SURFACE = vConstants.get_ci_LP_SUBLIST_SURFACE()
+	
+	####################
+	# Get Surface Names
+	####################
+	INTEGER status
+	INTEGER numberSurfaces
+	numberSurfaces = 0
+	numberSurfaces = fem_u_count_id_list(ci_LP_SUBLIST_SURFACE, list_entities, FALSE, status)	
+
+	return numberSurfaces
+END FUNCTION	
+#################################################################################
+FUNCTION retrieveStore_SurfaceInfo()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".retrieveStore_SurfaceInfo"	
+	
+	INTEGER returnStatus = 0
+	INTEGER i
+	INTEGER num_faces
+	
+	STRING list_entities[64]	
+	
+	list_entities = "Surface 1:#"
+	
+	INTEGER ci_LP_SUBLIST_SURFACE
+	ci_LP_SUBLIST_SURFACE = vConstants.get_ci_LP_SUBLIST_SURFACE()
+	
+	####################
+	# Get Surface Names
+	####################
+	INTEGER status
+	INTEGER model_NumberSurfaces_temp
+	model_NumberSurfaces_temp = 0
+	model_NumberSurfaces_temp = fem_u_count_id_list(ci_LP_SUBLIST_SURFACE, list_entities, FALSE, status)	
+	
+	IF ( status != 0 ) THEN
+		errorMsg = "fem_u_count_id_list returned and error when retrieving the number of surfaces in them Patran model."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1				
+	END IF
+	
+	IF ( model_NumberSurfaces_temp == 0 ) THEN
+		errorMsg = "fem_u_count_id_list did not find any surfaces in the Patran model."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1				
+	END IF	
+			
+	#######################################
+	# Get Surface Names (e.g.1,2)  
+	# model_surface_ids_temp(VIRTUAL) = [1, 2]
+	#######################################
+
+	# New Approach
+	INTEGER	model_surface_ids_temp(VIRTUAL)
+	sys_allocate_array(model_surface_ids_temp, 1, model_NumberSurfaces_temp)		
+	sys_allocate_array(model_SurfaceIDs_internal_temp, 1, model_NumberSurfaces_temp)		
+		
+	returnStatus =  fem_u_get_id_list (ci_LP_SUBLIST_SURFACE, list_entities, model_NumberSurfaces_temp, FALSE, model_surface_ids_temp )
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "fem_u_get_id_list returned and error."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1				
+	END IF
+	
+	#######################################
+	# Get Internal IDs  ( integers 1, 2, 3, )  
+	# model_surface_ids_temp(VIRTUAL) = [1, 2]
+	#######################################	
+	
+	INTEGER handle	
+	INTEGER surf_intArray(1)	
+	
+	STRING surface_string[31]	
+	INTEGER ci_LP_EVAL_FOR_ID
+	ci_LP_EVAL_FOR_ID = vConstants.get_ci_LP_EVAL_FOR_ID()
+	INTEGER ci_LP_ATTRIBUTE_ID
+	ci_LP_ATTRIBUTE_ID = vConstants.get_ci_LP_ATTRIBUTE_ID()	
+
+	INTEGER surfaceType_ci_temp 
+	INTEGER undefined_ci_temp 
+	
+	surfaceType_ci_temp =  vConstants.get_ci_GeometryType_Surface()
+	undefined_ci_temp =    vConstants.get_ci_Undefined()		
+	
+	FOR ( i = 1 TO model_NumberSurfaces_temp )
+						
+		surface_string = "Surface " // str_from_integer(model_surface_ids_temp(i))
+		
+		returnStatus = lp_eval(surface_string, ci_LP_EVAL_FOR_ID , handle)	
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "lp_eval returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus		
+		END IF				
+		
+		returnStatus = lp_sublist_attribute_get_int(handle, ci_LP_ATTRIBUTE_ID, surf_intArray)	
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "lp_sublist_attribute_get_int returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus		
+		END IF	
+		
+
+		INTEGER model_SurfaceID_internal_temp
+		model_SurfaceID_internal_temp = surf_intArray(1)
+		lp_eval_cleanup(handle)		
+		
+		REAL model_SurfaceCenterPoint_temp(3)
+		REAL model_SurfaceNormalVector_temp(3)
+					
+		returnStatus = vSurface_Database.get_SurfaceCenter_NormalVector( model_SurfaceID_internal_temp, model_SurfaceCenterPoint_temp, model_SurfaceNormalVector_temp )		
+				
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "vSurface_Database.get_SurfaceCenter_NormalVector returned an error, Surface: " // surface_string // " Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus		
+		END IF			
+
+		returnStatus = vSurface_Database.addSurface( 	model_SurfaceID_internal_temp,		@				
+														surfaceType_ci_temp,				@
+														model_surface_ids_temp(i),			@	
+														undefined_ci_temp,					@	
+														model_SurfaceCenterPoint_temp,		@
+														model_SurfaceNormalVector_temp)		
+		
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "vSurface_Database.addSurface returned an error, Surface: " // surface_string //  " Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus		
+		END IF							
+		
+	END FOR		
+	
+	# dump model_surface_ids_temp
+	# dump model_SurfaceIDs_string
+	
+	# INTEGER model_surface_ids_temp(VIRTUAL) = [1, 2]
+	# STRING model_surfaceids_string[31](VIRTUAL) = ["Surface 1", "Surface 2"]	
+	
+	sys_free_array(model_surface_ids_temp)
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION createSurfaceMesh()
+								
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createSurfaceMesh"								
+							
+	INTEGER returnStatus = 0			
+	
+	REAL	mesh_Max_Global_Length ,			@
+			mesh_Max_Curv_Delta_Div_Edge_Ln,	@
+			mesh_Ratio_Min_Edge_To_Max_Edge,	@
+			mesh_Match_Face_Proximity_Tol	
+	
+	
+	############################################################
+	# For now, there should be one and only one mesh parameters.
+	# Later, we may apply mesh parameters per solid.
+	############################################################		
+		
+	IF ( vMesh_Parameters.get_Count() != 1 ) THEN
+		INTEGER mesh_Parameters_count
+		mesh_Parameters_count = vMesh_Parameters.get_Count()
+		errorMsg = "There should be one and only one Mesh_Parameters, Mesh_Parameters Count: " // str_from_integer(Mesh_Parameters_count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		return -1
+	END IF
+	
+	mesh_Max_Global_Length = 			vMesh_Parameters.get_max_Global_Length(1)
+	mesh_Max_Curv_Delta_Div_Edge_Ln =  	vMesh_Parameters.get_max_Curv_Delta_Div_Edge_Ln(1)
+	mesh_Ratio_Min_Edge_To_Max_Edge = 	vMesh_Parameters.get_ratio_Min_Edge_To_Max_Edge(1)
+	mesh_Match_Face_Proximity_Tol =		vMesh_Parameters.get_match_Face_Proximity_Tol(1)
+	
+	#Mesh_Parameters
+	#	ID = 1
+	#	Max_Global_Length = .1
+	#	Max_Curv_Delta_Div_Edge_Len = .1
+	#	Ratio_Min_Edge_To_Max_Edge =  .2
+	#	Match_Face_Proximity_Tol = .05
+
+				
+	STRING sa_mesher_val[32](4)
+	
+	# Example for session file.
+	# sa_mesher_val(1) = "21.0729"  // Max_Global_Length:    		21.0729 Global Edge Length, when auto calculated,   Max_Global_Length
+	# sa_mesher_val(2) = "0.1111"  // Max_Curv_Delta_Div_Edge_Len:   0.1111 Maximum k/l  Should be between 0 and .25, but could be higher, Max_Curv_Delta_Div_Edge_Len
+	# sa_mesher_val(3) = "0.2222"   // Ratio_Min_Edge_To_Max_Edge:    0.2222  Minimum Edge Length = Global Edge Length * Ratio_Min_Edge_To_Max_Edge
+	# sa_mesher_val(4) = "1.0"    Not sure what this is, maybe scale 
+
+	# Match_Face_Proximity_Tol: 0.0049999999, REAL r_FMF_prox_tol
+	
+	sa_mesher_val(1) = str_from_real( mesh_Max_Global_Length )
+	sa_mesher_val(2) = str_from_real( mesh_Max_Curv_Delta_Div_Edge_Ln )
+	sa_mesher_val(3) = str_from_real( mesh_Ratio_Min_Edge_To_Max_Edge )
+	sa_mesher_val(4) =	"1.0"
+	
+	REAL r_FMF_prox_tol 
+
+	r_FMF_prox_tol = mesh_Match_Face_Proximity_Tol
+	
+	IF ( count < 1 ) THEN
+		errorMsg = "This function should not be called unless there is at leat one Surface, Surface count:" // str_from_integer(count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		return -1	
+	END IF
+
+	# All elements for all solids must be of the same type (i.e. ci_ELEMENT_TYPE_TETRA4/ci_ELEMENT_TYPE_TETRA10
+	# Just use the setting from the first solid
+   IF ( element_Type(1)	!= vConstants.get_ci_ELEMENT_TYPE_CQUAD4() && element_Type(1) != vConstants.get_ci_ELEMENT_TYPE_CQUAD8() ) THEN
+		errorMsg = "Surface elements must be meshed with Quad4 or Quad8, Element Type Specified: " // FEA_Element_Type_toStr(element_Type(1))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+       RETURN -1
+	END IF
+   
+   
+   # s_elem_topo Tet4 or Tet10 
+  STRING s_elem_topo[32]   
+   
+  IF ( element_Type(1)	==  vConstants.get_ci_ELEMENT_TYPE_CQUAD4() ) THEN
+		s_elem_topo = "Quad4"
+   ELSE
+		s_elem_topo = "Quad8"
+   END IF
+      
+	INTEGER fem_create_mesh_surfa_num_nodes
+	INTEGER fem_create_mesh_surfa_num_elems
+	STRING fem_create_mesh_s_nodes_created[VIRTUAL]
+	STRING fem_create_mesh_s_elems_created[VIRTUAL]	
+
+	/************* From session file
+	fem_create_mesh_surf_4( "Paver", 49680, "Surface 1 2", 4, ["26.1638", "0.1",  @
+	"0.2", "1.0"], "Quad4", "#", "#", "Coord 0", "Coord 0",  @
+	fem_create_mesh_surfa_num_nodes, fem_create_mesh_surfa_num_elems,  @
+	fem_create_mesh_s_nodes_created, fem_create_mesh_s_elems_created )
+	**************/		
+				
+	returnStatus = fem_create_mesh_surf_4( "Paver", 49680, "Surface 1:#", 4, sa_mesher_val,  @
+	s_elem_topo, "#", "#", "Coord 0", "Coord 0",  @
+	fem_create_mesh_surfa_num_nodes, fem_create_mesh_surfa_num_elems,  @
+	fem_create_mesh_s_nodes_created, fem_create_mesh_s_elems_created )				
+		
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "fem_create_mesh_sol_5 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF		
+	
+	
+	REAL fem_equiv_all_x_equivtol_ab
+	INTEGER fem_equiv_all_x_segment
+	fem_equiv_all_group4( [" "], 0, "", 1, 1, 0.0049999999, FALSE,  @
+	fem_equiv_all_x_equivtol_ab, fem_equiv_all_x_segment )
+	
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+#################################################################################
+FUNCTION  set_Normal_DirectionHandled ( in_SurfaceID_internal, in_HandledLogical )
+
+	INTEGER in_SurfaceID_internal
+	
+	LOGICAL in_HandledLogical
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".set_Normal_DirectionHandled"								
+							
+	INTEGER returnStatus = 0	
+
+
+	INTEGER index
+	
+	
+	index = vSurface_Database.getIndex ( in_SurfaceID_internal )
+	
+	IF ( index == vConstants.get_ci_Undefined() )	THEN
+		# This is the case that in_SurfaceID_internal was not found.  This would only
+		# be caused by a programming error/bug.
+		# return -1.  The caller of this function should handle (log/ignore) the condition.
+		RETURN -1 
+	END IF
+	
+	vSurface_Database.set_Normal_DirectionHandled(index, in_HandledLogical )
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION  get_Normal_DirectionHandled( in_SurfaceID_internal, out_Normal_DirectionHandled )
+
+	INTEGER in_SurfaceID_internal
+	INTEGER out_Normal_DirectionHandled 
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_Normal_DirectionHandled"								
+				
+	INTEGER returnStatus = 0	
+
+	
+	index = vSurface_Database.getIndex ( in_SurfaceID_internal )
+	
+	IF ( index == vConstants.get_ci_Undefined() )	THEN
+		# This is the case that in_SurfaceID_internal was not found.  This would only
+		# be caused by a programming error/bug.
+		# return -1.  The caller of this function should handle (log/ignore) the condition.
+		RETURN -1 
+	END IF
+	
+	out_Normal_DirectionHandled = vSurface_Database.get_Normal_DirectionHandled(index )	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION orientASurfacePerNormalPoint( in_Surf_Index, in_SurfaceID_internal )
+
+	INTEGER	in_Surf_Index
+	INTEGER in_SurfaceID_internal
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".orientASurfacePerNormalPoint"								
+				
+	INTEGER returnStatus = 0
+	INTEGER returnStatus_temp = 0		
+
+	Logical normPointSameDirectionAsSurfVec
+	Logical shouldFlip	
+	
+	REAL normalPoint(3)
+	INTEGER normalPointIndex	
+	REAL centerPoint(3)
+	REAL normalVector(3)	
+	
+	normalPointIndex = vPoint.getIndex(normal_Point_ID(in_Surf_Index))
+  
+	normalPoint = vPoint.get_Point_array( normalPointIndex )
+ 
+	shouldFlip = FALSE
+			
+	
+	returnStatus = vSurface_Database.get_SurfaceCenter_NormalVector( in_SurfaceID_internal, centerPoint, normalVector )
+
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = " vSurface_Database.get_SurfaceCenter_NormalVector returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF				
+	
+	# Make sure normal Vector is set
+	IF ( normalVector(1) == 0.0 &&   normalVector(2) == 0.0 &&  normalVector(3) == 0.0 ) THEN
+		errorMsg = "normalVector not set, Surface Name: "  // model_SurfaceIDs_string(in_Surf_Index)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN -1		
+	END IF				
+		
+
+	normPointSameDirectionAsSurfVec = vSurface.refPointSameDirectionAssSurfVec(	normalPoint, centerPoint, 	normalVector )
+ 
+	SWITCH (  normal_Direction(in_Surf_Index) )
+		CASE ( ci_TOWARD )
+			IF ( !normPointSameDirectionAsSurfVec ) THEN shouldFlip = TRUE
+		CASE ( ci_AWAY)
+			IF ( normPointSameDirectionAsSurfVec ) THEN shouldFlip = TRUE
+		DEFAULT
+			errorMsg = "Invalid entry for normal_Direction(in_Surf_Index)"
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 		
+			RETURN -1		
+	END SWITCH 
+ 
+	text_write_string( vLogger.getChannel(), str_from_integer(id(in_Surf_Index)) // "                       " // str_from_integer(in_SurfaceID_internal) // @
+										"                     " // str_from_integer(normal_Point_ID(in_Surf_Index)) //  @ 
+										"           "  // vCommon.str_from_real_array(3,normalPoint)  // @
+										"           "  // vSurface.direction_toStr(normal_Direction(in_Surf_Index)) // @
+										"         "    // vCommon.str_from_real_array(3, centerPoint)  // @		
+										"          "   // vCommon.str_from_real_array(3, normalVector)  // @												
+										"         "    // str_from_logical(shouldFlip))
+		
+	IF ( shouldFlip ) THEN
+		returnStatus_temp = vSurface.reverseSruface( in_SurfaceID_internal )
+		IF ( returnStatus_temp != 0 ) THEN returnStatus = returnStatus_temp
+	END IF
+
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+# WARNING  - vSurface.retrieveStore_SurfaceInformation() must be called before calling this function
+FUNCTION orientSurfacesPerNormalPoint()
+	# Overall flow:
+	#	1. Orient surfaces of get_ci_GEOMETRY_TYPE_FACE, set normal_DirectionHandled
+	#	2. For polygons, orient surfaces that are within the polygon and that have not already been oriented per step 1.
+	#	3. For extrusions, orient surfaces that are within the extrusion and that have not already been oriented steps 1 and 2.
+	#	4. For global setting for Surface_Contents, orient surfaces that have not already been oriented steps 1, 2, and 3.
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".orientSurfacesPerNormalPoint"								
+							
+	INTEGER returnStatus = 0	
+	
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "*********** BEGIN orientSurfacesPerNormalPoint **************")	
+	text_write_string( vLogger.getChannel(), "Number of Surfaces: " // str_from_integer(count))	
+	text_write_string( vLogger.getChannel(), "Surf_ID_Input_File  Surf_Internal_ID   Normal_Point_ID  Normal_Point (x,y,z)   Direction    Center_Point (x,y,z)    Normal_Vector  (x,y,z)  Flip_Surface  ")                                	
+	text_write_string( vLogger.getChannel(), "------------------- ----------------   ---------------  ---------------------  ----------   ----------------------  ---------------------   --------------")		
+
+	INTEGER i
+	INTEGER numberSurfaceIDs_internal
+	INTEGER index
+
+	############################
+	#get_ci_GEOMETRY_TYPE_FACE
+	############################
+			
+	#vSurface_Database.logData()		
+	FOR ( i = 1 TO count )
+	
+		#text_write_string( vLogger.getChannel(), "orientSurfacesPerNormalPoint, check for get_ci_GEOMETRY_TYPE_FACE")
+		IF (  vGeometry.get_Geometry_Type( geometry_ID(i) ) == vGeometry.get_ci_GEOMETRY_TYPE_FACE() ) THEN
+		
+			#text_write_string( vLogger.getChannel(), "orientSurfacesPerNormalPoint, FOUND get_ci_GEOMETRY_TYPE_FACE")
+			returnStatus = vGeometry.getGeometrySurfaceIDsInternal( geometry_ID(i),numberSurfaceIDs_internal, model_SurfaceIDs_internal_temp  )
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vGeometry.getGeometrySurfaceIDsInternal returned an error, Return Status: " // str_from_integer(returnStatus) // ", Geometry ID: " // str_from_integer(geometry_ID(i))
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+				RETURN returnStatus		
+			END IF			
+			
+			IF ( numberSurfaceIDs_internal != 1 ) THEN
+				errorMsg = "vGeometry.getGeometrySurfaceIDsInternal returned numberSurfaceIDs_internal != 1.  This should be 1 for ci_GEOMETRY_TYPE_FACE"
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+				RETURN -1		
+			END IF				
+			
+			returnStatus = vSurface.orientASurfacePerNormalPoint( i, model_SurfaceIDs_internal_temp(1) )
+			
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vSurface.orientASurfacePerNormalPoint returned an error, Return Status: " // str_from_integer(returnStatus) // ", Surface ID: " // str_from_integer(iD(i))
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+				RETURN returnStatus		
+			END IF
+
+			#index = vSurface.getIndex_Model_SurfID_internal(model_SurfaceIDs_internal_temp(1))
+			
+			index = vSurface_Database.getIndex(model_SurfaceIDs_internal_temp(1))
+							
+			IF ( index == vConstants.get_ci_Undefined()) THEN
+				errorMsg = "Could not find data for vSurface_Database.getIndex(model_SurfaceIDs_internal_temp(1)) with ID: "// str_from_integer(model_SurfaceIDs_internal_temp(1)) 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus = -1							
+			END IF	
+			
+			#model_Normal_DirectionHandled(index) = TRUE
+			vSurface_Database.set_Normal_DirectionHandled(index, TRUE )
+						
+		END IF		
+		
+	END FOR
+	
+	#vSurface_Database.logData()	
+	
+	##############################################################
+	# get_ci_GEOMETRY_TYPE_POLYGON, get_ci_GEOMETRY_TYPE_EXTRUSION
+	##############################################################		
+	FOR ( i = 1 TO count )		
+			#text_write_string( vLogger.getChannel(), "orientSurfacesPerNormalPoint, check for get_ci_GEOMETRY_TYPE_POLYGON")
+		
+		IF (  vGeometry.get_Geometry_Type( geometry_ID(i) ) == vGeometry.get_ci_GEOMETRY_TYPE_POLYGON() || @
+			  vGeometry.get_Geometry_Type( geometry_ID(i) ) == vGeometry.get_ci_GEOMETRY_TYPE_EXTRUSION()) THEN	
+			#text_write_string( vLogger.getChannel(), "orientSurfacesPerNormalPoint, FOUND get_ci_GEOMETRY_TYPE_POLYGON")
+		
+			returnStatus = vGeometry.getGeometrySurfaceIDsInternal( geometry_ID(i),numberSurfaceIDs_internal, model_SurfaceIDs_internal_temp  )
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vGeometry.getGeometrySurfaceIDInternal returned an error, Return Status: " // str_from_integer(returnStatus) // ", Geometry ID: " // str_from_integer(geometry_ID(i))
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+				RETURN returnStatus		
+			END IF		
+		
+			#dump numberSurfaceIDs_internal
+			#dump model_SurfaceIDs_internal_temp
+			INTEGER j
+			FOR ( j = 1 TO numberSurfaceIDs_internal )
+				#text_write_string( vLogger.getChannel(), "model_SurfaceIDs_internal_temp: " //  str_from_integer(model_SurfaceIDs_internal_temp(j)))	
+				
+				#index = vSurface.getIndex_Model_SurfID_internal(model_SurfaceIDs_internal_temp(j))
+				
+				index = vSurface_Database.getIndex(model_SurfaceIDs_internal_temp(j))
+								
+				IF ( index == vConstants.get_ci_Undefined()) THEN
+					errorMsg = "Could not find data for vSurface_Database.getIndex(model_SurfaceIDs_internal_temp(1)) with ID: "// str_from_integer(model_SurfaceIDs_internal_temp(j)) 
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					returnStatus = -1							
+				END IF						
+				#vSurface_Database.logData()
+				Logical handled_temp
+				handled_temp = vSurface_Database.get_Normal_DirectionHandled(index )
+				#dump handled_temp
+				#IF ( !model_Normal_DirectionHandled(index) ) THEN
+				IF ( !vSurface_Database.get_Normal_DirectionHandled(index )) THEN
+					returnStatus = vSurface.orientASurfacePerNormalPoint( i, model_SurfaceIDs_internal_temp(j) )
+					
+					IF ( returnStatus != 0 ) THEN
+						errorMsg = "vSurface.orientASurfacePerNormalPoint returned an error, Return Status: " // str_from_integer(returnStatus) // ", Surface ID: " // str_from_integer(iD(i))
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						RETURN returnStatus		
+					END IF				
+					# model_Normal_DirectionHandled(index) = TRUE
+					vSurface_Database.set_Normal_DirectionHandled(index, TRUE )
+				END IF
+				
+			END FOR
+		END IF
+	END FOR
+	
+	
+	text_write_string( vLogger.getChannel(), "************ END orientSurfacesPerNormalPoint ***************")	
+	
+	RETURN returnStatus	
+
+END FUNCTION
+#################################################################################
+FUNCTION refPointSameDirectionAssSurfVec( in_ReferencePoint, in_SurfaceCenterPoint, in_SurfaceNormalVector )
+
+	REAL in_ReferencePoint()
+	REAL in_SurfaceCenterPoint()
+	REAL in_SurfaceNormalVector()
+	
+	REAL centerToReference_vector(3)
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".refPointSameDirectionAssSurfVec"								
+							
+	INTEGER returnStatus = 0	
+	
+	centerToReference_vector(1) = in_ReferencePoint(1) - in_SurfaceCenterPoint(1)
+	centerToReference_vector(2) = in_ReferencePoint(2) - in_SurfaceCenterPoint(2)
+	centerToReference_vector(3) = in_ReferencePoint(3) - in_SurfaceCenterPoint(3)	
+	
+	# Convert to Unit Vectors
+	
+	REAL surfaceNormal_UnitVec(3)
+	REAL centerToReference_unitVec(3)		
+	
+	vMath.unitVector_3D(in_SurfaceNormalVector, surfaceNormal_UnitVec)	
+	vMath.unitVector_3D(centerToReference_vector, centerToReference_unitVec)
+	
+	 #dump in_SurfaceNormalVector
+	 #dump surfaceNormal_UnitVec
+	 #dump centerToReference_vector
+	 #dump centerToReference_unitVec
+	
+	###################################
+	# Need to avoid 0 and 180 degrees
+	###################################
+	# Avoid 0
+	# Get magnitude of vector from end point of the two vectors
+	#############################################################
+	REAL endToEnd_vec(3)
+	endToEnd_vec(1) = surfaceNormal_UnitVec(1) - centerToReference_unitVec(1)
+	endToEnd_vec(2) = surfaceNormal_UnitVec(2) - centerToReference_unitVec(2)
+	endToEnd_vec(3) = surfaceNormal_UnitVec(3) - centerToReference_unitVec(3)	
+	
+	REAL tolerance
+	tolerance = vConstants.get_cr_TOLERANCE()
+	# Check vectors are aligned
+	IF ( mth_abs(endToEnd_vec(1))  < tolerance &&  mth_abs(endToEnd_vec(2))  < tolerance &&  mth_abs(endToEnd_vec(3))  < tolerance ) THEN
+		# unit vectors are congruent
+		return TRUE
+	END IF
+	
+	###################################
+	# Avoid 180, The vectors are at 180 if the negative of one vector points in the same direction as the other vector
+	###################################
+	REAL inverse_vec(3)
+	inverse_vec(1) = -surfaceNormal_UnitVec(1)
+	inverse_vec(2) = -surfaceNormal_UnitVec(2)
+	inverse_vec(3) = -surfaceNormal_UnitVec(3)	
+	
+	endToEnd_vec(1) = inverse_vec(1) - centerToReference_unitVec(1)
+	endToEnd_vec(2) = inverse_vec(2) - centerToReference_unitVec(2)
+	endToEnd_vec(3) = inverse_vec(3) - centerToReference_unitVec(3)
+	
+	# Check vectors are aligned
+	IF ( mth_abs(endToEnd_vec(1))  < tolerance &&  mth_abs(endToEnd_vec(2))  < tolerance &&  mth_abs(endToEnd_vec(3))  < tolerance ) THEN
+		return FALSE
+	END IF	
+	
+	###################################
+	# Check Angle
+	###################################
+	IF ( vMath.getAngle_3D( surfaceNormal_UnitVec, centerToReference_unitVec) < 90.0 ) THEN
+		return TRUE
+	ELSE
+		return FALSE
+	END IF
+		
+END FUNCTION
+#################################################################################
+FUNCTION reverseSruface( in_SurfaceInternalID )
+
+	INTEGER in_SurfaceInternalID
+
+	STRING  surfaceList[64]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".reverseSruface"								
+							
+	INTEGER returnStatus = 0
+	
+	/****************************************************************************
+	STRING sgm_edit_surface_r_reversed_ids[VIRTUAL]
+	sgm_edit_surface_reverse( TRUE, "Surface 1", sgm_edit_surface_r_reversed_ids )
+	******************************************************************************/
+
+	STRING sgm_edit_surface_r_reversed_ids[VIRTUAL]
+	
+	surfaceList = "Surface " // str_from_integer(in_SurfaceInternalID)
+	
+	returnStatus = sgm_edit_surface_reverse( TRUE, surfaceList, sgm_edit_surface_r_reversed_ids )
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_edit_surface_reverse returned an error, Return Status: " // str_from_integer(returnStatus) // ", Surface: " // surfaceList
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF		
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+END CLASS

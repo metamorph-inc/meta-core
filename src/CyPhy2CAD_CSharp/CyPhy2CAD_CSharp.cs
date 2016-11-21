@@ -141,9 +141,11 @@ namespace CyPhy2CAD_CSharp
             }
             catch (Exception ex)
             {
+
                 Logger.Instance.AddLogMessage(ex.Message, Severity.Error);
                 Logger.Instance.DumpLog(GMEConsole, LogDir);
-                GMEConsole.Out.WriteLine("Finished CyPhy2CAD with failure.");
+                GMEConsole.Out.WriteLine(ex.StackTrace.ToString());
+                GMEConsole.Out.WriteLine("Finished CyPhy2CAD with failure. Exception encountered.");
                 return false;
             }
         }

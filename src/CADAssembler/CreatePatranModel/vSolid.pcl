@@ -1,0 +1,764 @@
+
+/*****************  Example Input ***************************
+Solid
+	ID = 1
+	# Element_Type = TETRA4/TETRA10
+	Element_Type = TETRA10
+	Material_ID = 1
+	Mesh_Parameters_ID = 1
+Solid
+	ID = 2
+	Element_Type = TETRA10
+	Material_ID = 2
+	Mesh_Parameters_ID = 1
+Solid
+	ID = 3
+	Element_Type = TETRA10
+	Material_ID = 3
+	Mesh_Parameters_ID = 1 
+***********************************************************/
+
+###########################
+# vSolid Class
+###########################
+CLASS vSolid
+
+	CLASSWIDE STRING	c_ClassName[32]	
+
+	##########################################
+	# Input File Section Name (i.e. Analysis)
+	##########################################
+	CLASSWIDE STRING	c_SOLID[32]
+	##############################
+	# Names for Name-Value Pairs
+	#############################
+	CLASSWIDE STRING	c_MATERIAL_ID[32],							@
+						c_MESH_PARAMETERS_ID[32],					@
+						c_NAME_IN_PATRAN_MODEL[32],					@
+						c_Component_Instance_ID[32]	
+				
+	#################
+	# Solid
+	#################							
+	CLASSWIDE INTEGER	count,										@
+						count_temp,									@
+						iD(VIRTUAL)
+						# sol_Element_Type = TETRA4/ TETRA10, see functions FEA_Element_Type_toStr()/FEA_Element_Type_toInt()
+	CLASSWIDE INTEGER	sol_Element_Type(VIRTUAL),					@
+						sol_Mat_ID(VIRTUAL),						@
+						sol_Mesh_Params_ID(VIRTUAL)				
+	CLASSWIDE STRING	sol_InModelSolidName[31](VIRTUAL)	
+							
+				
+	###############################
+	# IDs Internal to Patran Model
+	###############################		
+	CLASSWIDE INTEGER	solid_Ids(VIRTUAL),							@
+						numberSolidFaces(VIRTUAL),					@
+						model_NumberSurfaces
+						
+								
+	CLASSWIDE STRING	component_Instance_ID[256](VIRTUAL)				
+		
+	CLASSWIDE STRING 	poperty_Set_Name[31](VIRTUAL) 		
+										
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = 			"vSolid"
+	
+	c_SOLID = 				"Solid"
+	
+	c_MATERIAL_ID = 		"Material_ID"	
+	c_MESH_PARAMETERS_ID = 	"Mesh_Parameters_ID"	
+	
+	c_Component_Instance_ID = 		"Component_Instance_ID"		
+			
+	c_NAME_IN_PATRAN_MODEL	= 		"Name_in_Patran_Model"		
+
+	model_NumberSurfaces = 0	
+	
+	count = 0
+	count_temp = 0
+	
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+
+	IF ( count > 0 ) THEN
+	
+		sys_allocate_array ( iD, 				    1, count )
+		sys_allocate_array ( sol_Element_Type, 		1, count )
+		sys_allocate_array ( sol_Mat_ID, 			1, count )
+		sys_allocate_array ( sol_Mesh_Params_ID, 	1, count )		
+		sys_allocate_array ( sol_InModelSolidName, 	1, count )	
+		sys_allocate_array ( solid_Ids, 			1, count )
+		sys_allocate_array ( numberSolidFaces, 		1, count )
+		sys_allocate_array ( component_Instance_ID, 1, count )	
+		sys_allocate_array ( poperty_Set_Name, 		1, count )			
+	END IF
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_SOLID()
+	RETURN c_SOLID
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+
+FUNCTION readNameValuePairs( 	modelFile,						@
+								in_out_LineNum,					@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"		
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )					
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					
+					CASE (vConstants.get_c_ID())
+					  id(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF ( id(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()					
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF
+	  		  
+					CASE (vConstants.get_c_Element_Type())  
+					  sol_Element_Type(count_temp) =  vCommon.FEA_Element_Type_toInt(valueField)
+					  IF (  sol_Element_Type(count_temp) < 0 ) THEN
+						errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vCommon.FEA_Element_Type_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF				
+
+					CASE (c_Material_ID)  					  
+					  sol_Mat_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  sol_Mat_ID(count_temp) < 0 ) THEN
+					
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF					  
+					  
+					CASE (c_MESH_PARAMETERS_ID) 
+					  sol_Mesh_Params_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  sol_Mesh_Params_ID(count_temp) < 0 ) THEN
+					
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()		
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF						  
+					
+					CASE (c_Component_Instance_ID)
+					  component_Instance_ID(count_temp) =  valueField
+  					
+					DEFAULT
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()					
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+		WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_SOLID // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+	FOR ( i = 1 TO count )
+			text_write_string( vLogger.getChannel(), "")	
+			text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 			// " = " // vCommon.ID_toStr(id(i)) )
+			text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_Element_Type() 	// " = " // vCommon.FEA_Element_Type_toStr (sol_Element_Type(i)) )
+			text_write_string( vLogger.getChannel(), "   " // c_MATERIAL_ID 					// " = " // vCommon.ID_toStr(sol_Mat_ID(i)) )
+			text_write_string( vLogger.getChannel(), "   " // c_MESH_PARAMETERS_ID 	 			// " = " // vCommon.ID_toStr(sol_Mesh_Params_ID(i)) )
+			text_write_string( vLogger.getChannel(), "   " // c_NAME_IN_PATRAN_MODEL  			// " = " // sol_InModelSolidName(i) )
+			text_write_string( vLogger.getChannel(), "   " // c_Component_Instance_ID 			// " = " // component_Instance_ID(i) )			
+	END FOR
+	text_write_string( vLogger.getChannel(), "-------- End " // c_SOLID // " --------")		
+END FUNCTION
+#################################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0		
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	INTEGER i
+
+	INTEGER material_index 
+	INTEGER mesh_Params_index
+	
+	STRING headingName[64]	
+	headingName = c_Solid
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF	
+	
+	
+	
+	FOR ( i = 1 TO count )
+	
+		material_index = 	vMaterial.getIndex(sol_Mat_ID(i))
+		mesh_Params_index = vMesh_Parameters.getIndex(sol_Mesh_Params_ID(i))
+	
+		IF ( material_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Solid ID: " // str_from_integer(iD(i)) // ", missing Material with ID: "  // str_from_integer(sol_Mat_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF
+
+		IF ( mesh_Params_index  == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Solid ID: " // str_from_integer(iD(i)) // ", missing Mesh Parameter with ID: "  // str_from_integer(sol_Mesh_Params_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1				
+		END IF
+		
+		IF ( vCommon.FEA_Element_Type_toStr( sol_Element_Type(i)) == "" ) THEN
+			errorMsg = "Solid ID: " // str_from_integer(iD(i)) // ", unknown element type ID, Element type: "  // str_from_integer(sol_Element_Type(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1						
+		END IF
+		
+		IF ( str_length(component_Instance_ID(i)) == 0 ) THEN
+			errorMsg = "An entry for " // c_Component_Instance_ID // " was not found."
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1	
+		END IF			
+		
+	END FOR
+
+	INTEGER elementType = 0
+	IF ( count > 0) THEN
+		elementType = sol_Element_Type(1)
+	END IF
+		
+	FOR ( i = 1 TO count )
+		IF ( sol_Element_Type(i) != elementType ) THEN
+	
+			errorMsg = "mixed element types: " // vCommon.FEA_Element_Type_toStr(sol_Element_Type(i)) // ", Solid ID: "  // str_from_integer(sol_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+		END IF	
+	END FOR
+	
+
+	# uncomment when we can mix TETRA4 with TETRA8 and CQUAD4 with CQUAD8
+	#STRING elementType[64] = ""
+	#IF ( sol_Count_temp > 0) THEN
+	#	elementType = vCommon.FEA_Element_Type_toStr(sol_Element_Type(1))
+	#	IF ( str_index( elementType, "TETRA" ) == 0 ) THEN
+	#		elementType = "CQUAD"
+	#	END IF
+	#END IF
+	#FOR ( i = 1 TO sol_Count_temp )
+	#	IF ( str_index( vCommon.FEA_Element_Type_toStr(sol_Element_Type(i)) , elementType ) == 0 ) THEN
+	#
+	#							errorMsg = "mixed element types: " // vCommon.FEA_Element_Type_toStr(sol_Element_Type(i)) // ", Solid ID: "  // str_from_integer(sol_ID(i))), @
+	#						in_ErrorMessages_maxCount, in_out_ErrorMessages_current, in_out_errorMessages ) 	
+	#	END IF
+	#END FOR
+
+	return returnStatus
+
+END FUNCTION
+#################################################################################
+FUNCTION setInModelSolidName()
+	INTEGER i
+	# Solid IDs (Solid 1, Solid 2,...) are in the order of the Parasolid file		
+	FOR ( i = 1 TO count )
+		sol_InModelSolidName(i) = "Solid " // str_from_integer(i)
+	END FOR
+
+END FUNCTION
+#################################################################################
+# The vMaterial.createMaterials() MUST BE CALLED before calling this function.
+FUNCTION createPropertySet_PSolid( 	in_SolidIndex, 				@
+									in_Material_Name,  				@
+									in_InPatranSolidName)											
+
+	INTEGER in_SolidIndex
+	STRING 	in_Material_Name[] 
+	STRING 	in_InPatranSolidName[]	
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createPropertySet_PSolid"	
+	
+	#poperty_Set_Name(in_SolidIndex) = vCommon.buildNameString ( "P", in_SolidIndex, "_Solid_" // in_Material_Name, 31 )
+	
+	# Must use the following naming convention to be compatible with deck-based FEA
+	poperty_Set_Name(in_SolidIndex) = "psolid." // str_from_integer(in_SolidIndex)
+	
+	/********** from the session file
+	elementprops_create( "Prop_Set_1", 71, 25, 30, 1, 1, 20, [13, 21, 4124, 4126,  @
+	4125, 8111], [5, 4, 4, 4, 4, 4], ["m:steel_filler_weld_070ksi", "", "", "", "" @
+	, ""], "Solid 1" )
+	
+	Another example
+	elementprops_create( "Prop_Set_Name_2", 71, 25, 30, 1, 1, 20, [13, 21, 4124,  @
+	4126, 4125, 8111, 4401, 4402, 4403, 4404, 4405, 4406, 4407, 4410, 4411], [5,  @
+	4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 6], ["m:M2_low_alloy_steel_a515_gr70",  @
+	"", "", "", "", "", "", "", "", "", "", "", "", "", ""], "Solid 1" )
+	
+	***********/
+		
+	INTEGER returnStatus = 0
+
+	STRING propertyData[256](6)		
+	propertyData(2) =	""	
+	propertyData(3) =	""
+	propertyData(4) =	""
+	propertyData(5) =	""
+	propertyData(6) =	""		
+	
+	propertyData(1) = "m:" // in_Material_Name
+	
+	returnStatus = elementprops_create( poperty_Set_Name(in_SolidIndex), 71, 25, 30, 1, 1, 20, [13, 21, 4124, 4126,  @
+	4125, 8111], [5, 4, 4, 4, 4, 4], propertyData, in_InPatranSolidName )			
+	
+	IF ( returnStatus != 0 ) THEN
+			errorMsg = "Could not create property set. poperty_Set_Name(in_SolidIndex), material name, solidName: " // @
+			poperty_Set_Name(in_SolidIndex) // "  " // propertyData(1) // "  " // in_InPatranSolidName // " , Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN returnStatus		
+		
+	ELSE			
+		text_write_string ( vLogger.getChannel(), "" )			
+		text_write_string ( vLogger.getChannel(), "Created ElementProp (i.e. PSolid card) :" )	
+		text_write( vLogger.getChannel(), "    Property Set Name: %A%",0,0.0, poperty_Set_Name(in_SolidIndex))	
+		text_write( vLogger.getChannel(), "    Material Name:     %A%",0,0.0, propertyData(1))
+		text_write( vLogger.getChannel(), "    Solid Name:        %A%",0,0.0, in_InPatranSolidName )			
+	END IF
+		
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION createPropertySets()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createPropertySets"	
+	
+	INTEGER returnStatus = 0
+	STRING  tempMaterialName[64]	
+	
+	INTEGER i
+	INTEGER index
+	
+	FOR ( i = 1 TO count )
+
+		index = vMaterial.getIndex( sol_Mat_ID(i) )
+	
+		if ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Could not find material referenced by solid, solid ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			return -1
+		ELSE
+			tempMaterialName = vMaterial.get_InModelMaterialName(index)
+			returnStatus = vSolid.createPropertySet_PSolid( i, 	tempMaterialName, sol_InModelSolidName(i))		
+			IF ( returnStatus != 0 ) THEN BREAK  		
+		END IF
+	
+	END FOR
+	
+	RETURN returnStatus		
+	
+END FUNCTION
+#################################################################################
+FUNCTION retrieveStore_SolidIDs_FaceIDs()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".retrieveStore_SolidIDs_FaceIDs"	
+	
+	INTEGER returnStatus = 0
+	INTEGER i
+	INTEGER num_faces
+	
+	STRING list_entities[64]	
+	
+	list_entities = "Solid 1:#"
+	
+	###################
+	# Get Solid IDs
+	###################		
+	INTEGER ci_LP_SUBLIST_SOLID
+	ci_LP_SUBLIST_SOLID = vConstants.get_ci_LP_SUBLIST_SOLID()
+	
+	#returnStatus =  fem_u_get_id_list (ci_LP_SUBLIST_SOLID, list_entities, in_Mdl_SolidCount, FALSE, solid_Ids )
+	returnStatus =  fem_u_get_id_list (ci_LP_SUBLIST_SOLID, list_entities, count, FALSE, solid_Ids )
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "fem_u_get_id_list when retrieving solid_Ids returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN returnStatus		
+	END IF		
+	
+	###################
+	# Log Solid IDs
+	###################		
+	text_write_string( vLogger.getChannel(), "")   
+	text_write_string( vLogger.getChannel(), "Solid IDs")   	
+	
+	FOR ( i = 1 TO count BY 1 )
+		text_write(  vLogger.getChannel(), "   %I%",solid_Ids(i),0.0,"")
+	END FOR	
+	
+	############################
+	# Get Faces for Each Solid
+	############################		
+
+	FOR ( i = 1 TO count BY 1 )
+		#solid_Ids(i) = solid_Ids(i)
+		sgm_db_get_num_faces_body(solid_Ids(i), num_faces, returnStatus)
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "sgm_db_get_num_faces_body returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus			
+		END IF
+		
+		numberSolidFaces(i) = num_faces
+	END FOR		
+	
+	RETURN returnStatus		
+	
+END FUNCTION
+#################################################################################
+FUNCTION get_NumberSurfaces()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_NumberSurfaces"	
+	
+	INTEGER returnStatus = 0
+	INTEGER i	
+	
+	model_NumberSurfaces = 0
+	
+	###########################
+	# Count Number of Surfaces
+	###########################
+	numberSolidFaces
+	FOR ( i = 1 TO count BY 1 )
+		model_NumberSurfaces = model_NumberSurfaces + numberSolidFaces(i)
+	END FOR	
+
+	return model_NumberSurfaces
+
+END FUNCTION
+#################################################################################
+FUNCTION retrieveStore_SurfaceInfo()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".retrieveStore_SurfaceInfo"	
+	
+	INTEGER returnStatus = 0
+	INTEGER i	
+	
+	model_NumberSurfaces = 0
+	
+	###########################
+	# Count Number of Surfaces
+	###########################
+	#numberSolidFaces
+	FOR ( i = 1 TO count BY 1 )
+		model_NumberSurfaces = model_NumberSurfaces + numberSolidFaces(i)
+	END FOR	
+	
+
+	##################
+	# Set Surface IDs
+	##################	
+  	
+	INTEGER handle
+	
+	STRING surface_string[31]	
+	INTEGER surf_intArray(1)	
+	
+	INTEGER counter = 0
+	
+	#text_write_string( vLogger.getChannel(), "" )	
+	#text_write_string( vLogger.getChannel(), "Solid Face    Internal Surface ID")	
+	#text_write_string( vLogger.getChannel(), "-----------   --------------------")	
+	INTEGER j
+	INTEGER ci_LP_EVAL_FOR_ID
+	ci_LP_EVAL_FOR_ID = vConstants.get_ci_LP_EVAL_FOR_ID()
+	INTEGER ci_LP_ATTRIBUTE_ID
+	ci_LP_ATTRIBUTE_ID = vConstants.get_ci_LP_ATTRIBUTE_ID()
+	
+	INTEGER surfaceType_ci_temp 
+	
+	surfaceType_ci_temp =  vConstants.get_ci_GeometryType_Solid()
+	
+	FOR ( i = 1 TO count BY 1 )
+		FOR ( j = 1 TO numberSolidFaces(i) BY 1 )
+			counter = counter + 1		
+			
+			surface_string = "Solid " // str_from_integer(solid_Ids(i)) // "." // str_from_integer(j)
+			
+			returnStatus = lp_eval(surface_string, ci_LP_EVAL_FOR_ID , handle)	
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "lp_eval returned an error, Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus		
+			END IF				
+			
+			returnStatus = lp_sublist_attribute_get_int(handle, ci_LP_ATTRIBUTE_ID, surf_intArray)	
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "lp_sublist_attribute_get_int returned an error, Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus		
+			END IF	
+			
+			
+			INTEGER model_SurfaceID_internal_temp
+			model_SurfaceID_internal_temp = surf_intArray(1)					
+			
+			lp_eval_cleanup(handle)
+				
+
+			REAL model_SurfaceCenterPoint_temp(3)
+			REAL model_SurfaceNormalVector_temp(3)
+			
+			returnStatus = vSurface_Database.get_SurfaceCenter_NormalVector( model_SurfaceID_internal_temp, model_SurfaceCenterPoint_temp, model_SurfaceNormalVector_temp )			
+
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vSurface_Database.get_SurfaceCenter_NormalVector returned an error, Surface: " // surface_string // " Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus		
+			END IF							
+						
+			returnStatus = vSurface_Database.addSurface( 	model_SurfaceID_internal_temp,		@				
+															surfaceType_ci_temp,				@
+															solid_Ids(i),						@	
+															j,									@	
+															model_SurfaceCenterPoint_temp,		@
+															model_SurfaceNormalVector_temp )		
+ 
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vSurface_Database.addSurface returned an error, Surface: " // surface_string //  " Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus		
+			END IF					
+							
+			#text_write_string( vLogger.getChannel(), surface_string // "     " // str_from_integer(model_SurfaceID_internal_temp)
+			
+		END FOR
+	END FOR			
+	
+	RETURN returnStatus		
+	
+END FUNCTION
+#################################################################################
+FUNCTION createSolidMesh()
+								
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createSolidMesh"								
+							
+	INTEGER returnStatus = 0			
+	
+	REAL	mesh_Max_Global_Length ,			@
+			mesh_Max_Curv_Delta_Div_Edge_Ln,	@
+			mesh_Ratio_Min_Edge_To_Max_Edge,	@
+			mesh_Match_Face_Proximity_Tol	
+	
+	
+	############################################################
+	# For now, there should be one and only one mesh parameters.
+	# Later, we may apply mesh parameters per solid.
+	############################################################		
+		
+	IF ( vMesh_Parameters.get_Count() != 1 ) THEN
+		INTEGER mesh_Parameters_count
+		mesh_Parameters_count = vMesh_Parameters.get_Count()
+		errorMsg = "There should be one and only one Mesh_Parameters, Mesh_Parameters Count: " // str_from_integer(Mesh_Parameters_count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		return -1
+	END IF
+	
+	mesh_Max_Global_Length = 			vMesh_Parameters.get_max_Global_Length(1)
+	mesh_Max_Curv_Delta_Div_Edge_Ln =  	vMesh_Parameters.get_max_Curv_Delta_Div_Edge_Ln(1)
+	mesh_Ratio_Min_Edge_To_Max_Edge = 	vMesh_Parameters.get_ratio_Min_Edge_To_Max_Edge(1)
+	mesh_Match_Face_Proximity_Tol =		vMesh_Parameters.get_match_Face_Proximity_Tol(1)
+	
+	#Mesh_Parameters
+	#	ID = 1
+	#	Max_Global_Length = .1
+	#	Max_Curv_Delta_Div_Edge_Len = .1
+	#	Ratio_Min_Edge_To_Max_Edge =  .2
+	#	Match_Face_Proximity_Tol = .05
+
+				
+	STRING sa_mesher_val[32](4)
+	
+	# Example for session file.
+	# sa_mesher_val(1) = "21.0729"  // Max_Global_Length:    		21.0729 Global Edge Length, when auto calculated,   Max_Global_Length
+	# sa_mesher_val(2) = "0.1111"  // Max_Curv_Delta_Div_Edge_Len:   0.1111 Maximum k/l  Should be between 0 and .25, but could be higher, Max_Curv_Delta_Div_Edge_Len
+	# sa_mesher_val(3) = "0.2222"   // Ratio_Min_Edge_To_Max_Edge:    0.2222  Minimum Edge Length = Global Edge Length * Ratio_Min_Edge_To_Max_Edge
+	# sa_mesher_val(4) = "0.0"    Not sure what this is 
+
+	# Match_Face_Proximity_Tol: 0.0049999999, REAL r_FMF_prox_tol
+	
+	sa_mesher_val(1) = str_from_real( mesh_Max_Global_Length )
+	sa_mesher_val(2) = str_from_real( mesh_Max_Curv_Delta_Div_Edge_Ln )
+	sa_mesher_val(3) = str_from_real( mesh_Ratio_Min_Edge_To_Max_Edge )
+	sa_mesher_val(4) =	"0.0"
+	
+	REAL r_FMF_prox_tol 
+
+	r_FMF_prox_tol = mesh_Match_Face_Proximity_Tol
+	
+	IF ( count < 1 ) THEN
+		errorMsg = "This function should not be called unless there is at leat one Solid, Solid count:" // str_from_integer(count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		return -1	
+	END IF
+
+	# All elements for all solids must be of the same type (i.e. ci_ELEMENT_TYPE_TETRA4/ci_ELEMENT_TYPE_TETRA10
+	# Just use the setting from the first solid
+   IF ( sol_Element_Type(1)	!= vConstants.get_ci_ELEMENT_TYPE_TETRA4() && sol_Element_Type(1) != vConstants.get_ci_ELEMENT_TYPE_TETRA10() ) THEN
+		errorMsg = "Solid elements must be meshed with TETRA4 or TETRA10, Element Type Specified: " // FEA_Element_Type_toStr(sol_Element_Type(1))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF
+   
+   
+   # s_elem_topo Tet4 or Tet10 
+  STRING s_elem_topo[32]   
+   
+   IF ( sol_Element_Type(1)	==  vConstants.get_ci_ELEMENT_TYPE_TETRA4() ) THEN
+		s_elem_topo = "Tet4"
+   ELSE
+		s_elem_topo = "Tet10"
+   END IF
+      
+	INTEGER fem_create_mesh_solid_num_nodes
+	INTEGER fem_create_mesh_solid_num_elems
+	STRING fem_create_mesh_s_nodes_created[VIRTUAL]
+	STRING fem_create_mesh_s_elems_created[VIRTUAL]	
+	
+	
+	/************* From session file
+	fem_create_mesh_sol_5( "Solid 1:#", "TetHybrid", "Tet4", 4, ["21.0729",  @
+	"0.1111", "0.2222", "0.0"], 16464, 1, 0, 0, 1, 0.0049999999, "Solid 1:#", "#", @
+	"#", "Coord 0", "Coord 0", fem_create_mesh_solid_num_nodes,  @
+	fem_create_mesh_solid_num_elems, fem_create_mesh_s_nodes_created,  @
+	fem_create_mesh_s_elems_created )
+	**************/
+				
+	returnStatus = fem_create_mesh_sol_5( "Solid 1:#", "TetHybrid", s_elem_topo, 4, sa_mesher_val, @
+	16464, 1, 0, 0, 1, r_FMF_prox_tol, "Solid 1:#", "#", "#",  @
+	"Coord 0", "Coord 0", fem_create_mesh_solid_num_nodes,  @
+	fem_create_mesh_solid_num_elems, fem_create_mesh_s_nodes_created,  @
+	fem_create_mesh_s_elems_created )
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "fem_create_mesh_sol_5 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF		
+	
+	RETURN returnStatus
+	
+END FUNCTION		
+#############################################################################################
+FUNCTION writeCompInstanceID_to_PropSet( in_Channel ) 
+
+	INTEGER in_Channel
+
+	INTEGER i
+	FOR ( i = 1 TO count )
+		text_write_string (in_Channel, "ComponentInstanceID_PropertySet = " // component_Instance_ID(i) // "," //  poperty_Set_Name(i) )
+	END FOR
+
+END FUNCTION
+#############################################################################################
+
+END CLASS

@@ -1,0 +1,288 @@
+###########################
+# vTransformation Class
+###########################
+CLASS vTransformation
+				
+	CLASSWIDE STRING	c_ClassName[32]			
+				
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+
+	CLASSWIDE REAL		matrix(4,4)
+	
+	CLASSWIDE LOGICAL   matrixSet		
+	
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vTransformation"
+	
+	vTransformation.setMatrixToZero()
+	
+	matrixSet = FALSE
+	
+END FUNCTION
+################################################################################
+FUNCTION setMatrixToZero()
+
+	INTEGER i, j
+	
+	FOR ( i = 1 to 4 )
+		FOR ( j = 1 to 4 ) 
+			matrix(i,j) = 0.0
+		END FOR		
+	END FOR
+
+END FUNCTION
+################################################################################
+FUNCTION setTransformationMatrix (	in_Vector_XDirection,		@
+									in_Vector_XYPlane,			@
+									in_offset,					@
+									in_Tolerance )
+												
+	REAL	in_Vector_XDirection()
+	REAL	in_Vector_XYPlane()
+	REAL	in_offset()
+	REAL	in_Tolerance
+	
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".setTransformationMatrix"		
+	
+	INTEGER upperBound = 0
+	
+	vTransformation.setMatrixToZero()		
+	
+	text_write_string(vLogger.getChannel(), "" )
+	text_write_string(vLogger.getChannel(), functionName)
+	text_write_string(vLogger.getChannel(), "     in_Vector_XDirection: " // vCommon.str_from_real_array(3,in_Vector_XDirection))
+	text_write_string(vLogger.getChannel(), "     in_Vector_XYPlane:    " // vCommon.str_from_real_array(3,in_Vector_XYPlane))	
+	text_write_string(vLogger.getChannel(), "     in_offset:            " // vCommon.str_from_real_array(3,in_offset))	
+	text_write_string(vLogger.getChannel(), "     in_Tolerance:         " // str_from_real(in_Tolerance))	
+	
+	#####################################
+	# Make sure vectors contain 3 fields
+	#####################################
+	upperBound = sys_array_hbound ( in_Vector_XDirection, 1 )	
+	IF ( upperBound != 3 ) THEN
+		errorMsg = "in_Vector_XDirection must be an array with a dimension of three fields, number of fields found: " // str_from_integer(upperBound)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF
+	
+	upperBound = sys_array_hbound ( in_Vector_XYPlane, 1 )	
+	
+	IF ( upperBound != 3 ) THEN
+		errorMsg = "in_Vector_XYPlane must be an array with a dimension of three fields, number of fields found: " // str_from_integer(upperBound)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF	
+	
+	upperBound = sys_array_hbound ( in_offset, 1 )	
+	
+	IF ( upperBound != 3 ) THEN
+		errorMsg = "in_offset must be an array with a dimension of three fields, number of fields found: " // str_from_integer(upperBound)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF		
+
+	####################
+	# Get Unit Vectors
+	####################	
+
+	REAL vector_XDirection_unit(3)	
+	REAL vector_XYPlane_unit(3)		
+			
+	returnStatus = vMath.unitVector_3D( in_Vector_XDirection, vector_XDirection_unit ) 	
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not compute unit vector from in_Vector_XDirection, in_Vector_XDirection: " // @
+		str_from_real(in_Vector_XDirection(1)) // "  " // str_from_real(in_Vector_XDirection(2)) // "  " // str_from_real(in_Vector_XDirection(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1	
+    END IF		
+	
+	returnStatus = vMath.unitVector_3D( in_Vector_XYPlane, vector_XYPlane_unit ) 	
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not compute unit vector from in_Vector_XYPlane, in_Vector_XYPlane: " // @
+		str_from_real(in_Vector_XYPlane(1)) // "  " // str_from_real(in_Vector_XYPlane(2)) // "  " // str_from_real(in_Vector_XYPlane(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1	
+    END IF			
+	
+	########################################
+	# Make sure unit vectors are not equal
+	#######################################
+	
+	# in_Tolerance / 10.0 because we are dealing with unit vectors.
+ 	IF ( vMath.vectorsEqual_3D( vector_XDirection_unit, vector_XYPlane_unit, in_Tolerance / 10.0 )) THEN
+		errorMsg = "vector_XDirection_unit and vector_XYPlane_unit have the same unit vector,  vector_XDirection_unit: " // @
+		str_from_real(vector_XDirection_unit(1)) // "  " // str_from_real(vector_XDirection_unit(2)) // "  " // str_from_real(vector_XDirection_unit(3)) // @
+		" vector_XYPlane_unit: " // @
+		str_from_real(vector_XYPlane_unit(1)) // "  " // str_from_real(vector_XYPlane_unit(2)) // "  " // str_from_real(vector_XYPlane_unit(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1			
+	END IF
+	
+	##############
+	# Set Offset
+	##############	
+	matrix(1,4) = in_offset(1)
+	matrix(2,4) = in_offset(2)	
+	matrix(3,4) = in_offset(3)
+	matrix(4,4) = 0.0
+
+	##############################################
+	# Setthe rotation matrix about the x axis
+	##############################################
+	matrix(1,1) = vector_XDirection_unit(1)
+	matrix(1,2) = vector_XDirection_unit(2)	
+	matrix(1,3) = vector_XDirection_unit(3)	
+	
+	##############################################
+	# Set Set the rotation matrix about the z axis
+	##############################################	
+	REAL crossProduct(3)
+	REAL vector_ZDirection_unit(3)	
+	
+	returnStatus = vMath.crossProduct_3D(in_Vector_XDirection, in_Vector_XYPlane, crossProduct)
+	
+ 	IF ( returnStatus != 0 ) THEN
+		errorMsg = "crossProduct_3D returned error code, vectors in_Vector_XDirection: " // @
+		str_from_real(in_Vector_XDirection(1)) // "  " // str_from_real(in_Vector_XDirection(2)) // "  " // str_from_real(in_Vector_XDirection(3)) // @
+		" in_Vector_XYPlane: " // @
+		str_from_real(in_Vector_XYPlane(1)) // "  " // str_from_real(in_Vector_XYPlane(2)) // "  " // str_from_real(in_Vector_XYPlane(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1			
+	END IF	
+	
+	returnStatus = vMath.unitVector_3D( crossProduct, vector_ZDirection_unit ) 	
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not compute unit vector from crossProduct, crossProduct: " // @
+		str_from_real(crossProduct(1)) // "  " // str_from_real(crossProduct(2)) // "  " // str_from_real(crossProduct(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1	
+    END IF				
+	
+	matrix(3,1) = vector_ZDirection_unit(1)
+	matrix(3,2) = vector_ZDirection_unit(2)	
+	matrix(3,3) = vector_ZDirection_unit(3)
+		
+	
+	##############################################
+	# Set Set the rotation matrix about the y axis
+	##############################################		
+	
+	REAL vector_YDirection_unit(3)		
+	
+	returnStatus = vMath.crossProduct_3D(vector_ZDirection_unit, vector_XDirection_unit, crossProduct)
+	
+ 	IF ( returnStatus != 0 ) THEN
+		errorMsg = "crossProduct_3D returned error code, vectors vector_ZDirection_unit: " // @
+		str_from_real(vector_ZDirection_unit(1)) // "  " // str_from_real(vector_ZDirection_unit(2)) // "  " // str_from_real(vector_ZDirection_unit(3)) // @
+		" vector_XDirection_unit: " // @
+		str_from_real(vector_XDirection_unit(1)) // "  " // str_from_real(vector_XDirection_unit(2)) // "  " // str_from_real(vector_XDirection_unit(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1			
+	END IF	
+	
+	returnStatus = vMath.unitVector_3D( crossProduct, vector_YDirection_unit ) 	
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not compute unit vector from crossProduct, crossProduct: " // @
+		str_from_real(crossProduct(1)) // "  " // str_from_real(crossProduct(2)) // "  " // str_from_real(crossProduct(3)) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1	
+    END IF					
+	
+	matrix(2,1) = vector_YDirection_unit(1)
+	matrix(2,2) = vector_YDirection_unit(2)	
+	matrix(2,3) = vector_YDirection_unit(3)	
+			
+	matrixSet = TRUE		
+		
+    RETURN returnStatus
+
+END FUNCTION	
+###############################################################################	
+FUNCTION transformPoint_3D(	in_Point, out_Point )	
+
+	REAL in_Point()
+	REAL out_Point()	
+							
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".transformPoint_3D"										
+						
+	#####################################
+	# Make sure vectors contain 3 fields
+	#####################################
+	INTEGER upperBound
+	upperBound = sys_array_hbound( in_Point, 1 )	
+	IF ( upperBound != 3 ) THEN
+		errorMsg = "in_Point must be an array with a dimension of three fields, number of fields found: " // str_from_integer(upperBound)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF
+	
+	upperBound = sys_array_hbound ( out_Point, 1 )	
+	IF ( upperBound != 3 ) THEN
+		errorMsg = "out_Point must be an array with a dimension of three fields, number of fields found: " // str_from_integer(upperBound)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+        RETURN -1
+	END IF	
+
+	###############################################
+	# Multiple Transformation Matrix times in_Point
+	###############################################
+		
+	REAL in_Point_temp(4)
+	REAL out_Point_temp(4)
+	
+	in_Point_temp(1) = in_Point(1) - matrix(1,4)
+	in_Point_temp(2) = in_Point(2) - matrix(2,4)
+	in_Point_temp(3) = in_Point(3) - matrix(3,4)
+	in_Point_temp(4) = 0.0	
+
+		
+	returnStatus = vMath.multiplyMatrix_4x4_x_1x4 ( matrix,  in_Point_temp, out_Point_temp )
+	
+	out_Point(1) = out_Point_temp(1)
+	out_Point(2) = out_Point_temp(2)
+	out_Point(3) = out_Point_temp(3)
+
+						
+    RETURN returnStatus
+									
+END FUNCTION
+###############################################################################		
+FUNCTION logTransformationMatrix()
+
+	text_write_string(vLogger.getChannel(), "" )
+
+	text_write_string(vLogger.getChannel(), "Transformation Matrix:" )		
+	text_write_string(vLogger.getChannel(), "   " // str_from_real(matrix(1,1)) // "   " // str_from_real(matrix(1,2)) // "   " // str_from_real(matrix(1,3)) // "   " // str_from_real(matrix(1,4)))
+	text_write_string(vLogger.getChannel(), "   " // str_from_real(matrix(2,1)) // "   " // str_from_real(matrix(2,2)) // "   " // str_from_real(matrix(2,3)) // "   " // str_from_real(matrix(2,4)))	
+	text_write_string(vLogger.getChannel(), "   " // str_from_real(matrix(3,1)) // "   " // str_from_real(matrix(3,2)) // "   " // str_from_real(matrix(3,3)) // "   " // str_from_real(matrix(3,4)))	
+	text_write_string(vLogger.getChannel(), "   " // str_from_real(matrix(4,1)) // "   " // str_from_real(matrix(4,2)) // "   " // str_from_real(matrix(4,3)) // "   " // str_from_real(matrix(4,4)))
+	
+	text_write_string(vLogger.getChannel(), "" )
+	
+END FUNCTION
+################################################################################								
+END CLASS

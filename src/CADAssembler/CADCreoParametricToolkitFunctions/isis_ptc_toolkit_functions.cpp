@@ -602,6 +602,44 @@ namespace isis
 		return err;
 	}
 
+	ProError isis_ProFeatureElemtreeFree (	ProFeature *feature,
+											ProElement  p_elem) throw(isis::application_exception)
+	{
+		ProError err = ProFeatureElemtreeFree (feature, p_elem  );
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProFeatureElemtreeFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06031",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProFeatureRedefine (	ProAsmcomppath   *comp_path,
+										ProFeature       *feature,
+										ProElement        elemtree,
+										ProFeatureCreateOptions options[],
+										int               num_opts,
+										ProErrorlist     *p_errors ) throw(isis::application_exception)
+	{
+		ProError err = ProFeatureRedefine ( comp_path, feature, elemtree, options, num_opts,p_errors);
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
+			for (int i = 0; i < p_errors->error_number; ++i )
+			{
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].error: "<< p_errors->error_list[i].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_id: "<< p_errors->error_list[i].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_type: "<< p_errors->error_list[i].err_item_type;
+			}
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProFeatureRedefine returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06031",err_str);  
+		}
+		return err;
+	}
+
 
 	ProError isis_ProGeomitemFeatureGet (	ProGeomitem  *p_geom_item, 
 											ProFeature   *p_feat_handle  ) throw(isis::application_exception)
@@ -757,6 +795,19 @@ namespace isis
 	}
 
 
+	ProError isis_ProSelectionCopy( ProSelection  from_selection, ProSelection  *p_to_selection ) throw(isis::application_exception)
+	{
+		ProError err =  ProSelectionCopy( from_selection,  p_to_selection );
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSelectionCopy returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06041",err_str);  
+		}
+		return err;
+	}
+
+
 	ProError isis_ProFeatureCreate (	ProSelection     model,
 										ProElement       elemtree,
 										ProFeatureCreateOptions options[],
@@ -768,6 +819,14 @@ namespace isis
 
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
+			for (int i = 0; i < p_errors->error_number; ++i )
+			{
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].error: "<< p_errors->error_list[i].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_id: "<< p_errors->error_list[i].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_type: "<< p_errors->error_list[i].err_item_type;
+			}
+
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
 			sprintf( err_str, "exception : ProFeatureCreate returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
 			throw isis::application_exception("C06041",err_str);  
@@ -1325,9 +1384,9 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].error: "<< p_errors->error_list[i].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_id: "<< p_errors->error_list[i].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_type: "<< p_errors->error_list[i].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -1357,9 +1416,9 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_number: " << p_errors->error_number;
 			for (int i = 0; i < p_errors->error_number; ++i )
 			{
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].error: "<< p_errors->error_list[0].error;
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_id: "<< p_errors->error_list[0].err_item_id;
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[0].err_item_type: "<< p_errors->error_list[0].err_item_type;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].error: "<< p_errors->error_list[i].error;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_id: "<< p_errors->error_list[i].err_item_id;
+				isis_LOG(lg, isis_FILE, isis_ERROR) << "p_errors->error_list[i].err_item_type: "<< p_errors->error_list[i].err_item_type;
 			}
 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
@@ -2523,6 +2582,184 @@ namespace isis
 
 	}
 
+	ProError  isis_ProSectionNameGet (ProSection section, ProName r_name) throw (isis::application_exception)
+	{
+		ProError err =  ProSectionNameGet (section, r_name);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionNameGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+
+	}
+
+	ProError isis_ProSectionNameSet (ProSection section, wchar_t new_name[]) throw (isis::application_exception)
+	{
+		ProError err =  ProSectionNameSet (section, new_name);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionNameSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+
+	ProError isis_ProSectionEntityFromProjection (	ProSection		section,
+													ProSelection	ref_geometry,
+													int				*r_ent_id) throw (isis::application_exception)
+	{
+
+		ProError err =  ProSectionEntityFromProjection (section, ref_geometry, r_ent_id);
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionEntityFromProjection returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProSectionEntityGet (	ProSection section, 
+										int ent_id,
+										Pro2dEntdef **POutEnt) throw (isis::application_exception)
+	{
+
+		ProError err =  ProSectionEntityGet ( section, ent_id, POutEnt );
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionEntityGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProSectionLocationGet (	ProSection section,
+											ProMatrix  location_matrix) throw (isis::application_exception)
+	{
+
+		ProError err =  ProSectionLocationGet ( section, location_matrix );
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionLocationGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProSectionEntityAdd ( ProSection section,
+										Pro2dEntdef *entity2d,
+										int *r_ent_id) throw (isis::application_exception)
+	{
+
+		ProError err =  ProSectionEntityAdd ( section, entity2d, r_ent_id );
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionEntityAdd returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		return err;
+	}
+
+	std::string RetrieveSectionErrors( ProWSecerror errors)
+	{
+		ProError err;
+		std::string detailErrorMsgs;
+		
+		int n_errors;
+		err = ProSecerrorCount (&errors, &n_errors);
+
+		//std::cout << std::endl << "--------------------------> Error Count: " << n_errors;
+
+		if ( err == PRO_TK_NO_ERROR )
+		{
+			for (int e = 0; e < n_errors; e++)
+			{
+				ProMsg              wmsg;
+				char                msg[PRO_PATH_SIZE];
+				err = ProSecerrorMsgGet (errors, e, wmsg);
+				if ( err == PRO_TK_NO_ERROR )
+				{
+					ProWstringToString (msg, wmsg);
+					detailErrorMsgs += " " + std::string(msg);
+				}
+			}
+		}
+		return detailErrorMsgs;
+	}
+
+	ProError isis_ProSectionAutodim ( ProSection section ) throw (isis::application_exception)
+	{
+		ProWSecerror        sec_errors;
+		ProSecerrorAlloc	(&sec_errors);
+
+		ProError err =  ProSectionAutodim ( section, &sec_errors );
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			std::string detailErrorMsgs = RetrieveSectionErrors(sec_errors);
+
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionAutodim returned ProError: %s(%d,), Optional Error Descriptions: %s",ProToolKitError_string(err).c_str(), err, detailErrorMsgs );
+			throw isis::application_exception("C06102",err_str);  
+		}
+
+		ProSecerrorFree(&sec_errors);
+		return err;
+	}
+
+
+	ProError isis_ProSectionSolve ( ProSection section) throw (isis::application_exception)
+	{
+		ProWSecerror        sec_errors;
+		ProSecerrorAlloc(&sec_errors);
+
+		ProError err =  ProSectionSolve ( section, &sec_errors );
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			std::string detailErrorMsgs = RetrieveSectionErrors(sec_errors);
+
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionSolve returned ProError: %s(%d,), Optional Error Descriptions: %s",ProToolKitError_string(err).c_str(), err, detailErrorMsgs );
+			throw isis::application_exception("C06102",err_str);  
+		}
+
+		ProSecerrorFree(&sec_errors);
+		return err;
+	}
+
+
+	ProError isis_ProSectionRegenerate ( ProSection section) throw (isis::application_exception)
+	{
+		ProWSecerror        sec_errors;
+		ProSecerrorAlloc(&sec_errors);
+
+		ProError err =  ProSectionRegenerate ( section, &sec_errors );
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			std::string detailErrorMsgs = RetrieveSectionErrors(sec_errors);
+
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProSectionRegenerate returned ProError: %s(%d,), Optional Error Descriptions: %s",ProToolKitError_string(err).c_str(), err, detailErrorMsgs );
+			throw isis::application_exception("C06102",err_str);  
+		}
+		ProSecerrorFree(&sec_errors);
+		return err;
+	}
 
 	/*
 	

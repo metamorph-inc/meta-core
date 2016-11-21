@@ -901,7 +901,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 												out_CADComponentData_map );
 				}
 				else
-				{   // Abaqus Model Based
+				{   // Abaqus Model Based, Patran_Nastran
 					// For Abaqus Model Based, only need to create AnalysisMetaData.xml
 
 					// Create Analysis Directories

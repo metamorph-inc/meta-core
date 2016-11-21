@@ -303,9 +303,9 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			  j != i->analysisSolvers.end();
 			  ++j )
 		{
-			if ( (j->type != PRO_FEM_FEAS_ABAQUS && j->type != PRO_FEM_FEAS_NASTRAN ) || j->meshType != PRO_FEM_SOLID_MESH || j->elementShapeType != PRO_FEM_MIDPNT_PARABOLIC_FIXED )
+			if ( (j->type != PRO_FEM_FEAS_ABAQUS &&  j->type != PRO_FEM_FEAS_NASTRAN &&  j->type != PRO_FEM_FEAS_PATRAN ) || j->meshType != PRO_FEM_SOLID_MESH || j->elementShapeType != PRO_FEM_MIDPNT_PARABOLIC_FIXED )
 			{
-				TempError += " For FEA analysis, the only supported solver settings are Type=\"ABAQUS/NASTRAN\", MeshType=\"SOLID\", ShellElementType=\"N/A\", and ElementShapeType=\"MIDPOINT_PARABOLIC_FIXED\"";
+				TempError += " For FEA analysis, the only supported solver settings are Type=\"ABAQUS/NASTRAN/PATRAN_NASTRAN\", MeshType=\"SOLID\", ShellElementType=\"N/A\", and ElementShapeType=\"MIDPOINT_PARABOLIC_FIXED\"";
 				throw isis::application_exception(TempError.c_str());		
 			}
 		}
@@ -2243,10 +2243,30 @@ void FEA_AnalysisMetaData_Add_SubAssemblies_Parts(
 	if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == PRO_MDL_PART )
 	{
 		out_ComponentRoot.Type() = "PART";
-		out_ComponentRoot.FEAElementType() =  "TETRA_10_NODE";
-		if ( NastranMaterialIDsSpecified )
-			out_ComponentRoot.FEAElementID() = "PSOLID_" + in_componentID_to_NastranMaterialID_map[in_ComponentInstanceID]; 
 
+		if ( NastranMaterialIDsSpecified )
+		{
+			out_ComponentRoot.FEAElementType() =  "TETRA_10_NODE";
+			out_ComponentRoot.FEAElementID() = "PSOLID_" + in_componentID_to_NastranMaterialID_map[in_ComponentInstanceID]; 
+		}
+		else
+		{
+			// We don't know if a TETRA_4_NODE, TETRA_10_NODE, or surface model.  For surfaces, refactoring will be needed.
+			out_ComponentRoot.FEAElementType() =  "";
+
+			if ( in_CADComponentData_map[in_ComponentInstanceID].partOrdinal < 1 )
+			{
+				// This should normally not occur, but possibly could occur when parts not known to CyPhy (e.g. parts in a leaf sub-assembly)
+				// are supported in FEA mode.
+				std::stringstream errorString;
+				errorString <<
+				"Function - " << __FUNCTION__ << " Incorrect part ordinal (i.e. order the part was added into the assembly)."
+				<< "  This could occur for parts not known to CyPhy (i.e. part in a leaf assembly). Ordinal: " <<  in_CADComponentData_map[in_ComponentInstanceID].partOrdinal;
+				throw isis::application_exception(errorString.str());	
+			}
+
+			out_ComponentRoot.FEAElementID() = "PSOLID_" + boost::lexical_cast<string>(in_CADComponentData_map[in_ComponentInstanceID].partOrdinal); 
+		}
 	}
 	else
 	{

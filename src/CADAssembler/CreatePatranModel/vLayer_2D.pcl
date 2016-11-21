@@ -1,0 +1,297 @@
+/*****************  Example Input ***************************
+Layer_2D
+	ID = 1
+	Material_ID = 1
+	Thickness = .07
+	Orientation_Angle = 0  # default is 0
+	Drop_Order = 4	
+	
+Layer_2D
+	ID = 2
+	Material_ID = 2
+	Thickness = 1.1
+	Orientation_Angle = 30  
+	Drop_Order = 2	
+***********************************************************/
+###########################
+# vLayer_2D Class
+###########################
+CLASS vLayer_2D
+
+	CLASSWIDE STRING	c_ClassName[32],			@
+						c_Layer_2D[32],	@	
+						c_Material_ID[32],			@	
+						c_Thickness[32],			@	
+						c_Orientation_Angle[32],	@	
+						c_Drop_Order[32]	
+
+						###########################################
+						#  Layer_2D 
+						###########################################		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						material_ID(VIRTUAL)
+	CLASSWIDE REAL		thickness(VIRTUAL)	
+						# orientation_angle - Angle in degress
+	CLASSWIDE REAL		orientation_Angle(VIRTUAL)
+	CLASSWIDE INTEGER	drop_Order(VIRTUAL)					
+				
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vLayer_2D"
+	
+	c_Layer_2D =				"Layer_2D"
+	c_Material_ID =				"Material_ID"	
+	c_Thickness = 				"Thickness"
+	c_Orientation_Angle =		"Orientation_Angle"
+	c_Drop_Order =				"Drop_Order"
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 				1, count )
+		sys_allocate_array ( material_ID, 		1, count )
+		sys_allocate_array ( thickness, 		1, count )
+		sys_allocate_array ( orientation_Angle, 1, count )	
+		sys_allocate_array ( drop_Order, 		1, count )			
+	END IF
+	
+	INTEGER i
+	
+	FOR ( i = 1 to count )
+		iD(i) = 				vConstants.get_ci_Undefined()
+		material_ID(i) = 		vConstants.get_ci_Undefined()
+		thickness(i) = 			vConstants.get_cr_Undefined()
+		orientation_Angle(i) = 	0.0	
+		drop_Order(i) = 		vConstants.get_ci_Undefined()
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_Layer_2D()
+	RETURN c_Layer_2D
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Material_ID( in_Index)
+	INTEGER in_Index
+	return material_ID(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION get_Thickness(in_Index)
+	INTEGER in_Index
+	return thickness(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION get_orientation_Angle(in_Index)
+	INTEGER in_Index
+	return orientation_Angle(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+							in_out_LineNum,			@
+							in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	INTEGER realStatus = 0
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE		
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )			
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF ( iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )																		
+					  END IF
+
+					CASE (c_Material_ID)
+					  material_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  material_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+					  
+					CASE (c_Thickness)
+					  thickness(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 				  
+							  
+					CASE (c_Orientation_Angle)
+					  orientation_Angle(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 								  
+		
+					CASE (c_Drop_Order)
+					  drop_Order(count_temp) =  str_to_integer(valueField)
+					  IF (  drop_Order(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+							  
+							  
+					DEFAULT
+							errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+				END SWITCH
+				
+				#WRITE ( "                         in_out_ErrorMessages_current" // str_from_integer(in_out_ErrorMessages_current) )
+				
+			END IF
+		END IF
+	END WHILE
+
+	in_out_Buffer = buffer
+
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Layer_2D // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " //vConstants.get_c_ID() 	// " = " // vCommon.ID_toStr (iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_material_ID 		// " = " // vCommon.ID_toStr (material_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Thickness 			// " = " // str_from_real(thickness(i)) )		
+		text_write_string( vLogger.getChannel(), "   " // c_Orientation_Angle 	// " = " // str_from_real (orientation_Angle(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Drop_Order 			// " = " // str_from_integer (drop_Order(i)) )			
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Layer_2D // " --------")			
+END FUNCTION
+
+#################################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0		
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	STRING headingName[64]
+	
+	
+	INTEGER i
+
+	INTEGER index 
+	INTEGER target_index 
+	STRING taret_name[64]
+	#INTEGER valid_Integer
+	
+	REAL value
+	
+	headingName = c_Layer_2D
+	
+
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF		
+	
+	FOR ( i = 1 TO count )
+	
+		index = material_ID(i)
+		target_index =  vMaterial.getIndex(index)
+		taret_name = c_Material_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF
+						
+	
+		value = thickness(i)
+		taret_name = c_Thickness
+		
+		IF ( !(value > 0.0 ) ) THEN
+				errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", must be greater than 0, field name: " //  taret_name 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus = -1							
+		END IF	
+	
+	END FOR
+	
+	RETURN returnStatus
+		
+END FUNCTION			
+#################################################################################
+
+END CLASS

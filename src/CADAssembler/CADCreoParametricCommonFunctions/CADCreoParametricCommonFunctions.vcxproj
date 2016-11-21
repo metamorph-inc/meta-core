@@ -162,6 +162,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClInclude Include="Disassembler.h" />
     <ClInclude Include="FeatureFactory.h" />
     <ClInclude Include="JointCreo.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Selector.h" />
     <ClInclude Include="CreoModelToCyphyXML.h" />
     <ClInclude Include="ExteriorShell.h" />
@@ -205,6 +206,9 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ProjectReference Include="..\CADCommonFunctions\CADCommonFunctions.vcxproj">
       <Project>{9438fde8-a6e2-41e7-8523-250484cb4981}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CADCreoParametricCommonFunctions.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

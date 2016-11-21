@@ -37,7 +37,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             MINIMUMTEMPERATURE,
             MAXIMUMTEMPERATURE,
             BLASTCOMPUTATION,
-            DISPLACEMENT
+            DISPLACEMENT,
+            TSAI_WU_FAILURE,
+            HILL_FAILURE,
+            HOFFMAN_FAILURE,
+            MAX_FAILURE
         }
         public Type ComputationType;
         public string RequestedValueType;
@@ -72,6 +76,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public bool IsAutomated { get; set; }
         public bool MetaLink    { get; set; } // true if Meta-Link invoked the intepreter
         public List<TBComputation> Computations { get; set; }
+        public List<TBComputation> StaticAnalysisMetrics { get; set; }
         public string AnalysisID { get; set; }
         public List<KeyValuePair<String, String>> ProcessingInstructions = new List<KeyValuePair<string, string>>();
 
@@ -86,6 +91,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public string CADOptions { get; set; } // Additional options for the CAD executable (CAD only)
 
         public bool CopySTL { get; set; }
+
+
+        // 3/4/2016: ExportComponentPoints
+        protected bool ExportComponentPoints;
         
         public TestBenchBase(CyPhy2CADSettings cadSetting,
                              string outputdir,
@@ -119,6 +128,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             IsAutomated = auto;
             MetaLink = cadSetting.MetaLink;
             Computations = new List<TBComputation>();
+            StaticAnalysisMetrics = new List<TBComputation>();
+            ExportComponentPoints = false;
         }
 
         public string GetRepresentation(DataRep.CADComponent component)
@@ -164,6 +175,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 string[] paramarr = param.Attributes.Value.Split(',');
                 ProcessingInstructions.Add(new KeyValuePair<string, string>(paramarr[0], paramarr.Length > 1 ? paramarr[1] : ""));
             }
+
+            ExportComponentPoints = testBench.Children.ParameterCollection
+                                                      .Where(p => p.Name == "Export_All_Component_Points")
+                                                      .Any();
+            
+         
 
             // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
             // a CADComputationComponent
@@ -314,6 +331,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             assembliesoutroot.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAssemblyFile));
         }
 
+        /*
         public List<CAD.MetricType> MetricsToCADXMLOutput(string componentID)
         {
             List<CAD.MetricType> metriclist = new List<CAD.MetricType>();
@@ -330,6 +348,27 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 metriclist.Add(metric);
             }
 
+            return metriclist;
+        }
+        */
+
+        public List<CAD.MetricType> MetricsToCADXMLOutput(List<TBComputation> dataSet, string componentID = "")
+        {
+            List<CAD.MetricType> metriclist = new List<CAD.MetricType>();
+            foreach (var item in dataSet)
+            {          
+                CAD.MetricType ptout = new CAD.MetricType();
+                ptout._id = UtilityHelpers.MakeUdmID();
+                ptout.ComponentID = item.ComponentID;
+                ptout.MetricID = item.MetricID;
+                ptout.MetricType1 = item.ComputationType.ToString();
+                ptout.RequestedValueType = item.RequestedValueType;
+                ptout.ComponentID = String.IsNullOrEmpty(componentID) ? item.ComponentID : componentID;     // PointCoordinate metric is tied to a specific Component  
+                ptout.Details = item.Details ?? "";
+                ptout.MetricName = item.MetricName ?? "";
+                metriclist.Add(ptout);
+            }
+            
             return metriclist;
         }
 
@@ -446,8 +485,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             CAD.AnalysesType analysis;
             if (assembly.Analyses == null)
             {
-                analysis = new CAD.AnalysesType();
-                analysis._id = UtilityHelpers.MakeUdmID();
+                analysis = new CAD.AnalysesType()
+                {
+                    _id = UtilityHelpers.MakeUdmID()
+                };
                 assembly.Analyses = analysis;
             }
             else
@@ -455,6 +496,30 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 analysis = assembly.Analyses;
             }
             return analysis;
+        }
+
+        protected CAD.StaticType GetStaticAnalysis(CAD.AnalysesType analyses)
+        {
+            CAD.StaticType staticAnalysis;
+            if (analyses.Static == null)
+            {
+                analyses.Static = new CAD.StaticType[1] 
+                {
+                    new CAD.StaticType()
+                    {
+                        _id = UtilityHelpers.MakeUdmID(),
+                        AnalysisID = AnalysisID
+                    }
+                };
+
+                staticAnalysis = analyses.Static[0];              
+            }
+            else
+            {
+                staticAnalysis = analyses.Static.FirstOrDefault();
+            }
+
+            return staticAnalysis;
         }
 
         protected virtual void AddAnalysisToXMLOutput(CAD.AssemblyType assembly)
@@ -471,6 +536,27 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             //    cadanalysis.Interference = new CAD.InterferenceType[] { intfanalysis };
             //}
         }
+
+        protected void AddStaticAnalysisMetrics(CAD.AssemblyType assemblyRoot)
+        { 
+            if (ExportComponentPoints && cadDataContainer.PointCoordinatesList.Any())
+            {
+                StaticAnalysisMetrics.AddRange(cadDataContainer.PointCoordinatesList.Where(x => !StaticAnalysisMetrics.Exists( r=> r.MetricID == x.MetricID)));
+            }
+
+            if (StaticAnalysisMetrics.Any())
+            {
+                CAD.AnalysesType cadanalysis = GetCADAnalysis(assemblyRoot);
+                CAD.StaticType staticanalysis = GetStaticAnalysis(cadanalysis);           //CAD.StaticType staticanalysis = new CAD.StaticType();
+
+                List<CAD.MetricType> metriclist = MetricsToCADXMLOutput(StaticAnalysisMetrics);
+                staticanalysis.Metrics = new CAD.MetricsType();
+                staticanalysis.Metrics._id = UtilityHelpers.MakeUdmID();
+                staticanalysis.Metrics.Metric = metriclist.ToArray();
+
+                cadanalysis.Static = new CAD.StaticType[] { staticanalysis };
+            }
+        } 
 
         public void GenerateProcessingScripts(List<string> ScriptPaths, bool preProcess = false)
         {

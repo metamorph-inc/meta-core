@@ -361,7 +361,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 ballisticanalysis.Shotlines = cadshotlinesuite;
             }
 
-            List<CAD.MetricType> metrics = MetricsToCADXMLOutput(cadassembly.ConfigurationID);
+
+            List<CAD.MetricType> metrics = MetricsToCADXMLOutput(Computations, cadassembly.ConfigurationID);
             if (metrics.Count > 0)
             {
                 ballisticanalysis.Metrics = new CAD.MetricsType();
@@ -394,6 +395,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 fileloc.name = assembliesoutroot.Assembly[0].CADComponent.Name + "_asm.stp";
                 fileloc.type = Survivability.FileLocation.FileTypeEnum.STEPFile;
                 ballisticConfig.fileLocations.Add(fileloc);
+
+                AddStaticAnalysisMetrics(assembliesoutroot.Assembly[0]);
             }
 
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);

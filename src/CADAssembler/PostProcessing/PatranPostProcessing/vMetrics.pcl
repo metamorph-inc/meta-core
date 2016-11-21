@@ -1,0 +1,666 @@
+CLASS vMetrics
+
+	CLASSWIDE STRING	c_ClassName[32]
+
+	#CLASSWIDE LOGICAL 	failureCriteriaDefined
+	
+	CLASSWIDE INTEGER 	numComponentInstanceIDs
+	
+	CLASSWIDE STRING  	componentInstanceID[128](VIRTUAL) 
+	CLASSWIDE REAL		vonMises(VIRTUAL)
+	CLASSWIDE REAL		principalStress(VIRTUAL)
+	CLASSWIDE REAL		displacement(VIRTUAL)
+	CLASSWIDE REAL		failureIndex(VIRTUAL)
+	CLASSWIDE LOGICAL	isLaminate(VIRTUAL)	
+	CLASSWIDE INTEGER 	numLayers(VIRTUAL)			
+	
+	CLASSWIDE LOGICAL	anyLaminatesFound
+	CLASSWIDE INTEGER	maxNumLayersFound	
+	
+	CLASSWIDE LOGICAL	totalVolumeDefined
+	CLASSWIDE REAL		totalVolume	
+	
+	CLASSWIDE LOGICAL	totalMassDefined
+	CLASSWIDE REAL		totalMass		
+	
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+	
+###############################################################################	
+FUNCTION initialize()
+
+	c_ClassName = "vMetrics"
+	#failureCriteriaDefined = FALSE
+	
+	numComponentInstanceIDs = vConstants.get_ci_Undefined()
+	
+	anyLaminatesFound = FALSE
+	maxNumLayersFound = 0		
+	
+	totalVolumeDefined = FALSE
+	totalVolume = 0.0	
+	
+	totalMassDefined = FALSE
+	totalMass = 0.0		
+	
+END FUNCTION
+###############################################################################	
+FUNCTION allocateMetricsVariables( in_numComponentInstanceIDs)
+
+	INTEGER in_numComponentInstanceIDs
+	
+	numComponentInstanceIDs = in_numComponentInstanceIDs
+	
+	sys_allocate_array( componentInstanceID,1, numComponentInstanceIDs)
+	sys_allocate_array( vonMises, 			1, numComponentInstanceIDs)
+	sys_allocate_array( principalStress, 	1, numComponentInstanceIDs)
+	sys_allocate_array( displacement, 		1, numComponentInstanceIDs)
+	sys_allocate_array( failureIndex, 		1, numComponentInstanceIDs)
+	sys_allocate_array( isLaminate, 		1, numComponentInstanceIDs)
+	sys_allocate_array( numLayers, 		    1, numComponentInstanceIDs)	
+	
+	INTEGER 	i
+	REAL		undefined 
+	undefined = vConstants.get_cr_Undefined()
+
+	FOR ( i = 1 TO numComponentInstanceIDs )
+		vonMises(i) 		= undefined
+		principalStress(i) 	= undefined
+		displacement(i) 	= undefined
+		failureIndex(i) 	= undefined	
+		isLaminate(i)		= false
+		numLayers(i) 		= vConstants.get_ci_Undefined()
+	END FOR
+
+END FUNCTION
+###############################################################################	
+FUNCTION computeMetrics( in_CompInstID_index, in_ComponentInstanceID, in_Nodes, out_LaminatesFound, out_MaxNumLayersFound ) 
+
+	# in_CompInstID_index >= 1 &&  in_CompInstID_index <= numComponentInstanceIDs
+	INTEGER		in_CompInstID_index
+	STRING 		in_ComponentInstanceID[]
+	STRING 		in_Nodes[]
+	
+	LOGICAL		out_LaminatesFound
+	INTEGER		out_MaxNumLayersFound
+	
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".computeMetrics"
+
+	INTEGER 	i
+	INTEGER 	j
+	INTEGER 	loadCaseID
+	INTEGER 	subCaseID	
+	
+	REAL 		maxMetricValue_temp
+	LOGICAL		isLaminate_temp
+	INTEGER 	numLayers_temp
+
+	IF ( in_CompInstID_index < 1 || in_CompInstID_index > numComponentInstanceIDs ) THEN
+		errorMsg = "Erroneous in_CompInstID_index: " // str_from_integer(in_CompInstID_index) // ", Valid values 1 to " // str_from_integer(numComponentInstanceIDs)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN -1
+	END IF			
+	
+	ComponentInstanceID(in_CompInstID_index) = in_ComponentInstanceID
+	
+	STRING metricQualifier[32]
+	
+	FOR ( i = 1 to vLoadcases.get_NumLoadCases() )
+		loadCaseID = vLoadcases.get_LoadCaseID( i)
+		vSubcases.retrieve_Subcases( loadCaseID )
+
+		FOR ( j = 1 to vSubcases.get_NumSubcases() )
+			subCaseID = vSubcases.get_SubcaseID(j) 
+
+			# All solid models must NOT have a failure criteria defined. A surface can/cannot have a failure criteria.  If not the following 
+			# should be computed for surfaces.
+			IF ( vInputFile.get_model_Geometry_Type() ==  vInputFile.get_ci_Solid() ||  !vInputFile.get_failureCriteriaDefined()	) THEN
+			
+				metricQualifier = ""
+				###### VM ######
+				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "VM", metricQualifier,  maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				IF ( maxMetricValue_temp > vonMises(in_CompInstID_index) ) 	THEN vonMises(in_CompInstID_index) = maxMetricValue_temp
+				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )
+				
+				###### MP ######
+				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "MP", metricQualifier, maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				IF ( maxMetricValue_temp > principalStress(in_CompInstID_index) ) 	THEN principalStress(in_CompInstID_index) = maxMetricValue_temp
+				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )				
+				
+				###### D ######
+				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "D",  metricQualifier, maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				IF ( maxMetricValue_temp > displacement(in_CompInstID_index) ) 	THEN displacement(in_CompInstID_index) = maxMetricValue_temp
+				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )						
+			ELSE
+				###### FailureIndex ######
+				# This applies only to surfaces
+				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "FailureIndex",  "Bonding", maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				IF ( maxMetricValue_temp > failureIndex(in_CompInstID_index) ) 	THEN failureIndex(in_CompInstID_index) = maxMetricValue_temp
+				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )					
+				
+				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "FailureIndex",  "Ply", maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				IF ( maxMetricValue_temp > failureIndex(in_CompInstID_index) ) 	THEN failureIndex(in_CompInstID_index) = maxMetricValue_temp
+				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )					
+				
+			END IF		
+			
+		END FOR
+	END FOR
+	
+	out_LaminatesFound = anyLaminatesFound
+	out_MaxNumLayersFound = maxNumLayersFound	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+###############################################################################
+FUNCTION setLayerLaminateVariables( in_CompInstID_index, in_IsLaminate, in_NumLayers )
+	INTEGER in_CompInstID_index
+	LOGICAl	in_IsLaminate
+	INTEGER in_NumLayers
+	
+	IF ( in_IsLaminate ) THEN 
+		isLaminate(in_CompInstID_index) = TRUE
+		anyLaminatesFound = TRUE
+	END IF
+	
+	IF ( in_NumLayers > numLayers(in_CompInstID_index)) THEN numLayers(in_CompInstID_index) = in_NumLayers	
+	
+	IF ( in_NumLayers > maxNumLayersFound ) THEN maxNumLayersFound = in_NumLayers	
+	
+END FUNCTION
+###############################################################################
+$in_Metric = "VM" (for von Mises), "MP" (for max principal), "D" (for displacement, translation), FailureIndex (failure Index)
+$ in_MetricQualifier = Bonding/Ply/""
+FUNCTION computeMetricsAllLayers( in_Nodes, in_LoadCaseID, in_SubCaseID, in_Metric, in_MetricQualifier, out_MaxMetricValue, out_IsLaminate, out_NumLayers ) 
+
+	STRING 		in_Nodes[]
+	INTEGER 	in_LoadCaseID
+	INTEGER 	in_SubCaseID
+    STRING 		in_Metric[]
+	STRING 		in_MetricQualifier[]	
+    REAL 		out_MaxMetricValue	
+	LOGICAL 	out_IsLaminate
+	INTEGER 	out_NumLayers	
+	
+	out_IsLaminate = 		FALSE
+	out_NumLayers = 		0		
+	
+    INTEGER 	resultids(5)
+    INTEGER   	result_ids(4), layerids(VIRTUAL)
+    STRING    	layerlabels[80](VIRTUAL)
+   
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".computeMetricsAllLayers"	
+	
+	INTEGER returnStatus = 0	
+	
+	out_MaxMetricValue = 0
+	
+	#############################################
+    # Clear any previous results from the memory
+	#############################################
+    returnStatus = res_utl_clear_result()
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		    
+	
+    REAL maxFactor
+	maxFactor = vConstants.get_cr_Undefined()
+
+    STRING pName[32]
+    STRING sName[32]
+    INTEGER pID
+    INTEGER sID
+          
+	pName = ""	  
+	sName = ""
+		 
+	SWITCH ( in_Metric )
+		CASE ("VM")
+			pName = "Stress Invariants"
+			sName = "Von Mises"		
+		CASE ("MP")
+			pName = "Stress Invariants"
+			sName = "Major Principal"		
+		CASE ("D")
+			pName = "Displacements"
+			sName = "Translational"
+		CASE ("FailureIndex")		
+			IF ( in_MetricQualifier == "BONDING" ) THEN
+				pName = "Failure Index for Bonding"
+				sName = "Interlaminar Stress"
+			END IF
+			IF ( in_MetricQualifier == "PLY" ) THEN
+				pName = "Failure Index for Ply"
+				sName = "Direct Stress/Strain"
+			END IF				
+		DEFAULT 
+			errorMsg = "Incorrect stress metric, allowed metrics VM, MP, D, and FailureIndex.  Encountered Value: " // in_Metric
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			RETURN -1	
+	END SWITCH
+	
+	IF ( str_length(pName) == 0 || str_length(sName) == 0 ) THEN
+		errorMsg = "Erroneous entry for in_Metric/in_MetricQualifier,  in_Metric: " // in_Metric // ", in_MetricQualifier: " // in_MetricQualifier
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN -1		
+	END IF
+				
+	text_write_string( vLogger.getChannel(), "")				
+	text_write_string( vLogger.getChannel(), "Before res_data_get_result_ids, pname: " // 	pName // ", sName: " // sName )	
+	text_write_string( vLogger.getChannel(), "")				
+	
+	returnStatus = 	res_data_get_result_ids(pName, sName, pID, sID)
+	
+	# The above call could have failed because the material is a laminate. VM for a laminate would be VM for each layer,  different pName, sName
+	# Try again with laminate settings
+	IF ( returnStatus != 0 ) THEN		
+		IF ( in_Metric == "VM" ) THEN
+			# try setting for laminate
+			pName = "Stress Tensor"
+			sName = ""		
+			returnStatus = 	res_data_get_result_ids(pName, sName, pID, sID)
+		END IF
+	END IF
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_get_result_ids() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF
+	
+	# Gets the layer positions associated with the results
+	result_ids(1) = in_LoadcaseID
+	result_ids(2) = in_SubCaseID
+	result_ids(3) = pID
+	result_ids(4) = sID
+
+	returnStatus = res_utl_get_result_layers(result_ids, out_NumLayers, layerids, layerlabels)		
+	IF ( returnStatus != 0 ) THEN		
+		errorMsg = "res_utl_get_result_layers() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN returnStatus	
+	END IF		
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN result_ids, layers *******")		
+	text_write_string( vLogger.getChannel(), "in_LoadcaseID: " // str_from_integer(in_LoadcaseID))
+	text_write_string( vLogger.getChannel(), "subid:      " // str_from_integer(in_SubCaseID))
+	text_write_string( vLogger.getChannel(), "pID:        " // str_from_integer(pID))
+	text_write_string( vLogger.getChannel(), "sID:        " // str_from_integer(sID))
+	text_write_string( vLogger.getChannel(), "Metric:     " // in_Metric)	
+	
+	text_write_string( vLogger.getChannel(), "out_NumLayers:    " // str_from_integer(out_NumLayers))
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "layer ID      layer label")
+	text_write_string( vLogger.getChannel(), "---------     -----------")		
+	FOR (i = 1 TO out_NumLayers )
+		text_write_string( vLogger.getChannel(), str_from_integer(layerids(i)) // "             " // layerlabels(i))
+	END FOR 	
+	
+	IF ( !out_IsLaminate && out_NumLayers == 1 ) THEN
+		IF ( layerlabels(1) != "(NON-LAYERED)" ) THEN out_IsLaminate = TRUE
+	END IF
+	
+	IF ( !out_IsLaminate && out_NumLayers > 1 ) THEN out_IsLaminate = TRUE	
+			
+	text_write_string( vLogger.getChannel(), "******* END result_ids, layers *******")		
+	
+	
+	text_write_string( vLogger.getChannel(), "")
+	
+	IF ( returnStatus != 0 ) THEN		
+		errorMsg = "res_data_get_result_ids() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN returnStatus	
+	END IF
+			   
+	FOR (i = 1 TO SYS_ARRAY_HBOUND(layerids, 1))
+		resultids(1) = result_ids(1)
+		resultids(2) = result_ids(2)
+		resultids(3) = result_ids(3)
+		resultids(4) = result_ids(4)		
+		resultids(5) = layerids(i)
+		 
+		returnStatus = vMetrics.getMaxFactor(in_Metric, in_Nodes, out_IsLaminate, resultids, layerlabels, maxFactor)
+		IF ( returnStatus != 0 ) THEN
+		   RETURN returnStatus	
+		END IF					
+
+		IF (maxFactor > out_MaxMetricValue) THEN 
+			out_MaxMetricValue = maxFactor
+		END IF
+				
+	END FOR
+	
+	#Release virtual arrays
+	SYS_FREE_ARRAY (layerids)
+	SYS_FREE_ARRAY (layerlabels)
+    
+	RETURN returnStatus
+END FUNCTION
+
+################################################################################
+# not meant for user to call
+# same as getFactorMax2 except for a specific subcase of a load
+# in_Resultids(1) is load case id
+# in_Resultids(2) is sub case id
+# resultid(3) is primary result id (getFactorIDs is relevant)
+# resultid (4) is secondary result id (getFactorIDs is relevant)
+# returns max in_Metric value
+#
+# Note - For a laminate stackup, this function will be called for each layer
+FUNCTION getMaxFactor(in_Metric, in_Nodes, in_IsLaminate, in_Resultids,  in_layerlabels, out_MaxMetricValue )
+    STRING in_Metric[]
+    STRING in_Nodes[]
+	LOGICAL in_IsLaminate		
+    INTEGER in_Resultids()
+    STRING derivation[10]
+	
+	STRING in_layerlabels[]()	
+	
+	REAL out_MaxMetricValue
+
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getMaxFactor"	
+	
+	INTEGER returnStatus = 0
+
+	SWITCH ( in_Metric )
+		CASE ( "VM")
+			IF ( in_IsLaminate ) THEN
+				derivation = "vonm"
+			Else
+				derivation = ""
+			END IF
+		CASE ( "MP")
+			 derivation = ""
+		CASE ( "D")
+			derivation = "MAG"
+		CASE ("FailureIndex")
+			derivation = ""
+		DEFAULT
+			errorMsg = "Incorrect stress metric, allowed metrics VM, MP, D, and FailureIndex.  Encountered Value: " // in_Metric
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			RETURN -1	
+	END SWITCH	
+	
+    INTEGER data_type
+    INTEGER nres
+    INTEGER ids(VIRTUAL)
+    REAL results(VIRTUAL)
+    INTEGER minloc(6)
+    INTEGER maxloc(6)
+    
+	#dump in_Resultids
+	#dump in_Nodes
+	#dump derivation
+	
+    returnStatus  = res_utl_extract_nodal_results2(in_Resultids, in_Nodes, derivation, "", "DeriveAverage", "All", "ShapeFunc", "", 0., data_type, nres, ids, results, minloc,maxloc)
+
+	#dump data_type
+	#dump nres
+	#dump ids
+	#dump results
+	#dump minloc
+	#dump maxloc
+	
+	
+	IF ( returnStatus == 4012029 ) THEN
+		# Metric is not available, typical for a particular layer
+		errorMsg = "res_utl_extract_nodal_results2 returned 4012029, Typically, this means that data is not available for a particular layer. Layer Label: " // in_layerlabels(in_Resultids(5))
+		errorLevel = vLogger.get_ci_WARNING()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN 0	
+	END IF	
+	
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_utl_extract_nodal_results2 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF
+	
+
+#	results would be a one dimensional array for a region that has single plys (just one layer)
+#	results would be a two dimensional array for a laminate stack-up
+
+	INTEGER arrayDimension = 0
+	arrayDimension = sys_array_nbound ( results )
+
+	IF ( arrayDimension != 1 && arrayDimension != 2 ) THEN
+		errorMsg = "Invalid array dimension for the results array returned from res_utl_extract_nodal_results2,  Array Dimension: " // str_from_integer(arrayDimension)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF	
+	
+	
+	#if ( arrayDimension == 1 ) THEN
+	#	out_MaxMetricValue = results(maxloc(1))
+	#ELSE	
+	#	out_MaxMetricValue = results(maxloc(1), 1 )		
+	#END IF
+		
+	# There is a case where the maxloc would look like the following:
+	# INTEGER maxloc(6) = [0, 0, 0, 0, 0, 0]
+	# Results would be all zeros
+	# REAL results(VIRTUAL) = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0....
+	# This is probably caused by all node (in_Nodes) being completely constrained and thus
+	# can have not have any displacement.  The stresses at that node would all be zero.
+		
+	IF ( maxloc(1) != 0 ) THEN 
+		out_MaxMetricValue = results(maxloc(1))	
+	ELSE
+		out_MaxMetricValue = 0
+	END IF
+		
+	#dump out_MaxMetricValue
+	text_write_string( vLogger.getChannel(), "   ----> out_MaxMetricValue: " // str_from_real(out_MaxMetricValue) )
+		
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+FUNCTION log_Metrics()
+
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "***************** BEGIN Metrics **************")	
+	text_write_string( vLogger.getChannel(), "Number of componentInstanceIDs: " // str_from_integer(numComponentInstanceIDs))
+
+	FOR ( i = 1 TO numComponentInstanceIDs )
+			text_write_string( vLogger.getChannel(),"")
+			text_write_string( vLogger.getChannel(), "   componentInstanceID = " // componentInstanceID(i)) 
+			text_write_string( vLogger.getChannel(), "      vonMises =        " // str_from_real(vonMises(i))) 
+			text_write_string( vLogger.getChannel(), "      principalStress = " // str_from_real(principalStress(i)))  
+			text_write_string( vLogger.getChannel(), "      displacement =    " // str_from_real(displacement(i)))
+			text_write_string( vLogger.getChannel(), "      failureIndex =    " // str_from_real(failureIndex(i))) 
+			text_write_string( vLogger.getChannel(), "      isLaminate =      " // str_from_logical(isLaminate(i))) 
+			text_write_string( vLogger.getChannel(), "      numLayers =       " //str_from_integer(numLayers(i))) 			
+	END FOR	
+	
+	text_write_string( vLogger.getChannel(),"")
+	
+	IF ( totalVolumeDefined ) THEN
+		text_write_string( vLogger.getChannel(), "   totalVolume =    " // str_from_real(totalVolume)) 
+	ELSE
+		text_write_string( vLogger.getChannel(), "   totalVolume =     Not Defined") 	
+	END IF
+	
+	IF ( totalMassDefined ) THEN
+		text_write_string( vLogger.getChannel(), "   totalMass =      " // str_from_real(totalMass)) 
+	ELSE
+		text_write_string( vLogger.getChannel(), "   totalMass =     Not Defined") 	
+	END IF	
+	
+	text_write_string( vLogger.getChannel(), "***************** END Metrics *****************")	
+		
+END FUNCTION	
+################################################################################
+FUNCTION computeMassAndVolume()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".computeMassAndVolume"	
+	
+	INTEGER returnStatus = 0	
+	
+	REAL mass_prop_mass_props_array(VIRTUAL)
+	STRING mass_prop_entity_list[VIRTUAL]
+	STRING mass_prop_reject_list[VIRTUAL]
+
+	INTEGER mass_prop_noutputs
+	STRING mass_prop_gnames_out[32](VIRTUAL)
+	INTEGER mass_prop_entities(VIRTUAL)
+	INTEGER mass_prop_entity_types(VIRTUAL)
+	INTEGER mass_prop_len_elist
+	INTEGER mass_prop_num_ents
+	INTEGER mass_prop_len_rlist
+	INTEGER mass_prop_num_rejects
+	INTEGER mass_prop_segment_id
+	INTEGER mass_prop_cord_label
+	INTEGER mass_prop_user_cord_label
+	
+	returnStatus = mass_prop_create_detailed( "3D", "Group", "FEM", "Summary", 1, [ @
+	"default_group"], "", "Coord 0", "Use Element Properties",  @
+	"Use Element Properties", "Coord 0", 3, 1, FALSE, FALSE, mass_prop_noutputs,  @
+	mass_prop_gnames_out, mass_prop_entities, mass_prop_entity_types,  @
+	mass_prop_mass_props_array, mass_prop_entity_list, mass_prop_len_elist,  @
+	mass_prop_num_ents, mass_prop_reject_list, mass_prop_len_rlist,  @
+	mass_prop_num_rejects, mass_prop_segment_id, mass_prop_cord_label,  @
+	mass_prop_user_cord_label )	
+
+	#dump mass_prop_noutputs
+	#dump mass_prop_gnames_out
+	#dump mass_prop_entities
+	#dump mass_prop_entity_types
+	#dump mass_prop_mass_props_array
+	#dump mass_prop_entity_list
+	#dump mass_prop_len_elist
+	#dump mass_prop_num_ents
+	#dump mass_prop_reject_list
+	#dump mass_prop_len_rlist
+	#dump mass_prop_num_rejects 
+	#dump mass_prop_segment_id
+	#dump mass_prop_cord_label
+	#dump mass_prop_user_cord_label 	
+	
+	mass_prop_noutputs
+	
+	IF ( mass_prop_noutputs < 1 ) THEN
+		errorMsg = "mass_prop_create_detailed returned erroneous mass_prop_noutputs, mass_prop_noutputs: " // str_from_integer(mass_prop_noutputs)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF		
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "mass_prop_create_detailed returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF	
+	
+	# Check for zero volume
+	IF ( mass_prop_mass_props_array(1,1) == 0.0  || mass_prop_mass_props_array(1,1) < 0.0 ) THEN
+		errorMsg = "mass_prop_create_detailed returned zero or negative value for volume." 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF
+	
+	totalVolumeDefined = TRUE
+	totalVolume = mass_prop_mass_props_array(1,1)
+	
+	# Check for zero mass
+	IF ( mass_prop_mass_props_array(1,2) == 0.0  || mass_prop_mass_props_array(1,2) < 0.0 ) THEN
+		errorMsg = "mass_prop_create_detailed returned zero or negative value for mass." 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	    RETURN returnStatus	
+	END IF	
+		
+	totalMassDefined = TRUE
+	totalMass =  mass_prop_mass_props_array(1,2)		
+	
+	# Free the arrays
+	mass_prop.cleanup_detailed( mass_prop_mass_props_array, mass_prop_entity_list, @
+	mass_prop_reject_list )	
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+################################################################################
+FUNCTION writeMetricsToOutputFile(  )
+	/********* Example Output **********
+	Fields
+	-------
+	MetricName, ComponentInstanceID, Scalar Value
+	
+	Non-Laminate Solid - or - Surface single material  
+
+	VM,d44a4d66-1560-4634-9d20-c83c063be51d,75.252937
+	MP,d44a4d66-1560-4634-9d20-c83c063be51d,79.947487
+	D,d44a4d66-1560-4634-9d20-c83c063be51d,1.7319989E-006
+	... This would be repeated for other ComponentInstanceIDs
+	
+	Laminate
+	FailureIndex,d44a4d66-1560-4634-9d20-c83c063be51d,.88
+	************************************/
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".writeMetricsToOutputFile"	
+	
+	INTEGER returnStatus = 0
+	
+	STRING fileName[512]
+	INTEGER channel
+	INTEGER i
+	
+	fileName = vPatranPostProcess.get_resultsFile_v2_name()
+
+	
+	IF (file_exists(fileName,"" )) THEN
+		file_delete(fileName) 
+	End IF		
+	
+	returnStatus = text_open( fileName, "NOW", 0, 0, channel )		
+	IF ( returnStatus != 0 ) THEN 
+		errorMsg = "Could not open output (results) file: " // fileName 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		return -1  
+	END IF
+	
+	REAL		undefined 
+	undefined = vConstants.get_cr_Undefined()	
+	
+	FOR ( i = 1 TO numComponentInstanceIDs )
+		IF ( vonMises(i) != undefined )        THEN	text_write_string(channel, 	"VM," //  componentInstanceID(i) 			// "," // str_from_real(vonMises(i)))
+		IF ( principalStress(i) != undefined ) THEN text_write_string(channel, 	"MP," //  componentInstanceID(i) 			// "," // str_from_real(principalStress(i)))
+		IF ( displacement(i) != undefined )    THEN text_write_string(channel, 	"D," //  componentInstanceID(i) 			// "," // str_from_real(displacement(i)))		
+		IF ( failureIndex(i) != undefined )    THEN text_write_string(channel, 	"FailureIndex," //  componentInstanceID(i) 	// "," // str_from_real(failureIndex(i)))	
+	END FOR	
+	
+	IF ( totalVolumeDefined ) THEN text_write_string(channel, "TotalVolume," // "," // str_from_real(totalVolume))
+	IF ( totalMassDefined )   THEN text_write_string(channel, "TotalMass," // "," // str_from_real(totalMass))	
+
+	text_close(channel,"")
+	
+END FUNCTION
+################################################################################
+END CLASS

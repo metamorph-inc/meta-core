@@ -1,0 +1,477 @@
+/*****************  Example Input ***************************
+Geometry
+	ID = 2
+	Type = FACE     # Only support FACE, POLYGON, and EXTRUSIONS for now.  Later other types will be supported
+	Point_ID = 2  
+***********************************************************/
+###########################
+# vGeometry Class
+###########################
+CLASS vGeometry
+
+	CLASSWIDE STRING	c_ClassName[32],				@
+						c_GEOMETRY[32],					@	
+						c_GEOMETRY_TYPE_FACE[32],		@
+						c_GEOMETRY_TYPE_POLYGON[32],	@
+						c_GEOMETRY_TYPE_EXTRUSION[32],	@						
+						c_POINT_ID[32],					@
+						c_POLYGON_ID[32],				@
+						c_EXTRUSION_ID[32]
+	
+	CLASSWIDE INTEGER	ci_GEOMETRY_TYPE_FACE,			@
+						ci_GEOMETRY_TYPE_POLYGON,		@
+						ci_GEOMETRY_TYPE_EXTRUSION						
+						
+						##############
+						#  Geometry 
+						##############		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						geometry_Type(VIRTUAL),					@			
+						geometry_Point_ID(VIRTUAL),				@
+						geometry_Polygon_ID(VIRTUAL),			@
+						geometry_Extrusion_ID(VIRTUAL)
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+
+	c_ClassName = "vGeometry"
+	
+	c_GEOMETRY =					"Geometry"
+	c_GEOMETRY_TYPE_FACE =			"FACE"
+	c_GEOMETRY_TYPE_POLYGON =		"POLYGON"
+	c_GEOMETRY_TYPE_EXTRUSION =		"EXTRUSION"	
+	
+	ci_GEOMETRY_TYPE_FACE =			1
+	ci_GEOMETRY_TYPE_POLYGON =		2
+	ci_GEOMETRY_TYPE_EXTRUSION =	3
+	
+	c_Point_ID =					"Point_ID"
+	c_Polygon_ID = 					"Polygon_ID"
+	c_Extrusion_ID = 				"Extrusion_ID"	
+	
+	count = 0
+	count_temp = 0
+	
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 					1,  count )
+		sys_allocate_array ( geometry_Type, 		1,  count )
+		sys_allocate_array ( geometry_Point_ID,  	1,  count )	
+		sys_allocate_array ( geometry_Polygon_ID,  	1,  count )
+		sys_allocate_array ( geometry_Extrusion_ID, 1,  count )		
+	END IF
+	
+	INTEGER i
+	
+	FOR ( i = 1 to count)
+		geometry_Type(i)	   		= vConstants.get_ci_Undefined()
+		geometry_Point_ID(i)   		= vConstants.get_ci_Undefined()
+		geometry_Polygon_ID(i) 		= vConstants.get_ci_Undefined()
+		geometry_Extrusion_ID(i) 	= vConstants.get_ci_Undefined()
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_GEOMETRY()
+	RETURN c_GEOMETRY
+END FUNCTION
+
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION  get_geometry_Point_ID( in_Index )
+	INTEGER in_Index
+	return geometry_Point_ID(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION get_Geometry_Type( in_Geometry_ID )
+
+	INTEGER in_Geometry_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_Geometry_ID == id(i)) THEN Return geometry_Type(i)
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION get_ci_GEOMETRY_TYPE_FACE()
+	RETURN ci_GEOMETRY_TYPE_FACE
+END FUNCTION
+
+FUNCTION get_ci_GEOMETRY_TYPE_POLYGON()
+	RETURN ci_GEOMETRY_TYPE_POLYGON
+END FUNCTION
+
+FUNCTION get_ci_GEOMETRY_TYPE_EXTRUSION()
+	RETURN ci_GEOMETRY_TYPE_EXTRUSION
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION pointIDOnAFace( in_Point_ID)
+
+	INTEGER in_Point_ID
+	INTEGER i
+
+	FOR ( i = 1 TO count )
+		IF ( in_Point_ID == geometry_Point_ID(i)) THEN 
+			IF ( geometry_Type(i) == ci_GEOMETRY_TYPE_FACE  ) THEN RETURN TRUE
+		END IF
+	END FOR	
+
+	RETURN FALSE
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+								in_out_LineNum,		@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )					
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )					
+					  END IF  
+					
+					CASE (vConstants.get_c_Type())  
+					  geometry_Type(count_temp) =  vGeometry.geometry_Type_toInt(valueField)
+					  IF (  geometry_Type(count_temp) < 0 ) THEN
+						errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vGeometry.geometry_Type_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF				
+
+					CASE (c_Point_ID)  					  
+					  geometry_Point_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  geometry_Point_ID(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF	
+
+					  
+					CASE (c_Polygon_ID )  					  
+					  geometry_Polygon_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  geometry_Polygon_ID(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF	
+					  
+					CASE (c_Extrusion_ID )  					  
+					  geometry_Extrusion_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  geometry_Extrusion_ID(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF						  
+					   
+					DEFAULT
+					errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+					errorLevel = vLogger.get_ci_ERROR()	
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_GEOMETRY // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 	// " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_Type() 	// " = " // vGeometry.geometry_Type_toStr (iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Point_ID				// " = " // vCommon.ID_toStr(geometry_Point_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Polygon_ID				// " = " // vCommon.ID_toStr(geometry_Polygon_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Extrusion_ID			// " = " // vCommon.ID_toStr(geometry_Extrusion_ID(i)) )		
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_GEOMETRY // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION geometry_Type_toStr ( in_geometry_Type_ID )
+
+	INTEGER in_geometry_Type_ID
+
+	SWITCH(in_geometry_Type_ID)
+		CASE(ci_GEOMETRY_TYPE_FACE)
+			return c_GEOMETRY_TYPE_FACE
+		CASE(ci_GEOMETRY_TYPE_POLYGON )
+			return c_GEOMETRY_TYPE_POLYGON 
+		CASE(ci_GEOMETRY_TYPE_EXTRUSION )
+			return c_GEOMETRY_TYPE_EXTRUSION 				
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION geometry_Type_toInt ( in_geometry_Type_str )
+
+	STRING in_geometry_Type_str[]
+	
+	SWITCH(in_geometry_Type_str)
+		CASE(c_GEOMETRY_TYPE_FACE)
+			return ci_GEOMETRY_TYPE_FACE
+		CASE(c_GEOMETRY_TYPE_POLYGON )
+			return ci_GEOMETRY_TYPE_POLYGON 
+		CASE(c_GEOMETRY_TYPE_EXTRUSION )
+			return ci_GEOMETRY_TYPE_EXTRUSION 			
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION geometry_Type_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_GEOMETRY_TYPE_FACE	
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER I
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+#################################################################################
+# This function should be called after calling vPoint.associatePointsToSurfaces(); otherwise,
+# this function will just return errors.
+FUNCTION verifyGeometryReferencesSurfs ( )
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".verifyGeometryReferencesSurfs"	
+
+	INTEGER i, index
+	
+	INTEGER returnStatus = 0
+	
+	FOR ( i = 1 TO count )
+	
+		SWITCH ( geometry_Type(i) )
+			CASE (ci_GEOMETRY_TYPE_FACE )
+				index = vPoint.getIndex(geometry_Point_ID(i) )	
+				IF ( index == vConstants.get_ci_Undefined() ) THEN
+						errorMsg = "Point referenced by Geometry not found, Geometry ID: " // str_from_integer(id(i)) // ", Point ID: " // str_from_integer(geometry_Point_ID(i))
+						errorLevel = vLogger.get_ci_ERROR()	
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						returnStatus = -1
+				ELSE
+					IF ( !vPoint.get_Model_SurfaceID_defined(index)) THEN
+						errorMsg = "Surface not found for Geometry ID: " // str_from_integer(id(i)) // ", Point ID: " // str_from_integer(geometry_Point_ID(i))	
+						errorLevel = vLogger.get_ci_ERROR()	
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						returnStatus = -1		
+					END IF					
+				END IF
+							
+			CASE (ci_GEOMETRY_TYPE_POLYGON )
+				index = vPolygon.getIndex(geometry_Polygon_ID(i) )	
+				IF ( index == vConstants.get_ci_Undefined() ) THEN
+						errorMsg = "Polygon referenced by Geometry not found, Geometry ID: " // str_from_integer(id(i)) // ", Polygon ID: " // str_from_integer(geometry_Polygon_ID(i))
+						errorLevel = vLogger.get_ci_ERROR()	
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						returnStatus = -1
+				ELSE
+					IF ( vPolygon.get_Model_SurfaceIDs_NumFound(index) == 0 ) THEN
+						errorMsg = "Surface(s) not found for Geometry ID: " // str_from_integer(id(i)) // ", Polygon ID: " // str_from_integer(geometry_Polygon_ID(i))	
+						errorLevel = vLogger.get_ci_ERROR()	
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						returnStatus = -1		
+					END IF					
+				END IF
+							
+			DEFAULT	
+		END SWITCH
+		
+	END FOR
+		
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION getGeometrySurfaceName( in_Geometry_ID, out_SurfaceID_string )
+
+	INTEGER in_Geometry_ID
+	STRING  out_SurfaceID_string[]
+	
+	out_SurfaceID_string = ""
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getGeometrySurfaceName"	
+
+	INTEGER index
+	INTEGER returnStatus = 0
+	
+	index = vGeometry.getIndex( in_Geometry_ID )
+
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Geometry ID was not found, Geometry ID: " // str_from_integer(in_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF	
+	
+	IF ( geometry_Type(index) != ci_GEOMETRY_TYPE_FACE &&  @
+		 geometry_Type(index) != ci_GEOMETRY_TYPE_POLYGON && @
+		 geometry_Type(index) != ci_GEOMETRY_TYPE_EXTRUSION)  THEN
+			errorMsg = "Requested a surface name for a geometry type that is not the type of " //  c_GEOMETRY_TYPE_FACE // ", " //  c_GEOMETRY_TYPE_POLYGON //  ", or " //  c_GEOMETRY_TYPE_EXTRUSION // @
+			", Geometry ID: " // str_from_integer(in_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF
+	
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_FACE )  THEN		
+		returnStatus = vPoint.getPointSurfaceName(geometry_Point_ID(index), out_SurfaceID_string )
+		#dump "*** getGeometrySurfaceName ***"
+		#dump geometry_Type(index)
+		#dump out_SurfaceID_string
+	END IF
+	
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_POLYGON )  THEN	
+		returnStatus = vPolygon.getPolygonSurfaceNames(geometry_Polygon_ID(index), out_SurfaceID_string )
+		#dump geometry_Type(index)
+		#dump out_SurfaceID_string		
+	END IF
+	
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_EXTRUSION )  THEN	
+		returnStatus = vExtrusion.getExtrusionSurfaceNames(geometry_Extrusion_ID(index), out_SurfaceID_string )				
+		#dump geometry_Type(index)
+		#dump out_SurfaceID_string
+	END IF	
+	
+	RETURN returnStatus
+
+END FUNCTION
+#################################################################################
+FUNCTION getGeometrySurfaceIDsInternal( in_Geometry_ID, out_NumIDs, out_SurfaceIDs_internal  )
+
+	INTEGER in_Geometry_ID
+	INTEGER out_NumIDs
+	INTEGER out_SurfaceIDs_internal()
+	
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getGeometrySurfaceIDsInternal"	
+
+	INTEGER index
+	INTEGER returnStatus = 0
+	
+	index = vGeometry.getIndex( in_Geometry_ID )
+
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Geometry ID was not found, Geometry ID: " // str_from_integer(in_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF	
+	
+	IF ( geometry_Type(index) != ci_GEOMETRY_TYPE_FACE  &&  geometry_Type(index) != ci_GEOMETRY_TYPE_POLYGON &&  geometry_Type(index) != ci_GEOMETRY_TYPE_EXTRUSION )  THEN
+			errorMsg = "Requested a surface name for a geometry type that is not the type of " //  c_GEOMETRY_TYPE_FACE // ", " //   c_GEOMETRY_TYPE_POLYGON // @
+			" or " //   c_GEOMETRY_TYPE_EXTRUSION // ", Geometry ID: " // str_from_integer(in_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF
+	
+	# For ci_GEOMETRY_TYPE_FACE only one surface
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_FACE ) THEN
+		out_NumIDs = 1
+		returnStatus = vPoint.getPointSurfaceIDInternal(geometry_Point_ID(index), out_SurfaceIDs_internal(1) )
+	END IF
+	
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_POLYGON ) THEN
+		returnStatus = vPolygon.getSurfaceIDsInternal_InPolygon( geometry_Polygon_ID(index), out_NumIDs, out_SurfaceIDs_internal )
+	END IF		
+		
+	IF ( geometry_Type(index) == ci_GEOMETRY_TYPE_EXTRUSION ) THEN
+		returnStatus = vExtrusion.getSurfaceIDsInternal_InExtrusi( geometry_Extrusion_ID(index), out_NumIDs, out_SurfaceIDs_internal )
+	END IF				
+		
+	RETURN returnStatus
+
+END FUNCTION
+#################################################################################
+
+
+END CLASS

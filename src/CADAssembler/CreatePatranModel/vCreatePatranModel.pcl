@@ -1,0 +1,563 @@
+/****
+Known issues
+------------
+	1) The following error should be handled.  Should the material be checked ahead of time.  Should probably ask Dave.
+	** Question from application MATERIALS
+	**     The given values of E33, E11 and Nu31 do not satisfy the condition  @
+	** that E33/E11 > Nu31*Nu31. Do you wish to continue?
+	search for ui_answer_message or ui_override_message to see instances of the Yes/No prompt being answered
+	The given values of E11, E22, E33, Nu12, Nu23, and Nu31 do not form positive definite matrix. Do you wish to continue?
+	
+	
+	2) * Warning reported from application MATERIALS
+		**     The calculated material stiffness matrix is not positive definite.
+		** Session file stopped playing (level 1)
+
+		
+Notes
+-----
+1. Surface Normal Vector Orienting - When the surface normal vector is orientied in the Patran model, the
+   the following hierarchy is used:		
+	1. Orient surfaces of get_ci_GEOMETRY_TYPE_FACE, set model_Normal_DirectionHandled
+	2. For polygons, orient surfaces that are within the polygon and that have not already been oriented per step 1.
+	3. For extrusions, orient surfaces that are within the extrusion and that have not already been oriented steps 1 and 2.
+	4. For global setting for Surface_Contents, orient surfaces that have not already been oriented steps 1, 2, and 3.   
+		
+2. Property Set Creation - Property sets are created per Surface_Contents.  The surface contents refers to geometry
+   (via  Surface_Contents/Surface_ID/Geometry_ID).  The assumption is ????zzzz
+		
+Limitations
+-----------	
+If the limitations are reached, an error message will be logged and this program will return an error.
+		max_Num_Layers = 100   // This is the maximum number of layers per ply stack up.  See vMaterial_Layup_2D.
+		max_Num_Points = 50    // This is the maximum number of points defining a polygon or a polygon as part of an extrusion.  See vPolygon and vExtrusion.
+
+Revision History
+----------------
+6/10/2016  R.O.  	CreatePatranModel_01_Initial_PCL_Code_Entry  
+					This supports both solid and surface models.  For surfaces, isotropic and orthotropic 
+					materials are supported along with laminate layups. 
+					
+6/22/2016 R.O.		Modified to place the log file in the .\log directory	
+
+7/14/2016 R.O.		Added vPoint.createPointsInPatranModel().  Added more logging relative to
+					locating points on surfaces.  Updated places where functionName was
+					incorrectly specified.
+					
+8/3/2016  R.O.		Added support for Tsai-Wu, Hill, Hoffman, and Maximum Stress failure criteria.
+					Created the file CreatePatranModelOutput.txt, which contains data necessary
+					for post processing Tsai-Wu, Hill, Hoffman, and Maximum Stress failure criteria.
+
+8/11/2016 R.O.		Modified logging to not return an error if only warning/info messages exists.	
+
+8/19/2016 R.O.		Added support for flipping surfaces based on the normal point.	
+
+11/11/2016 R.O.		Added support for polygon and extrusions. Added vMath.pcl, which supports the routines
+					that determine if points are within polygons and extrusions. This support applies to 
+					both surface and solid models and for both the cases of identifying surface contents (i.e. ply 
+					layups) and for applying loads/constraints. Re-factored such that surfaces are
+					treated generically for both solid surfaces and surface surfaces.  This was 
+					accommodated by adding vSurface_Database.pcl.
+*****/
+CLASS vCreatePatranModel
+
+
+FUNCTION  createPatranModel( 	in_Working_Dir,				@
+								in_FEAModelDefinitionFile,	@
+								in_log_FileName )
+
+	STRING in_Working_Dir[]
+	STRING in_FEAModelDefinitionFile[]
+	STRING in_log_FileName[]		
+	STRING  functionName[64] = "createPatranModel"
+
+	INTEGER returnStatus = 0
+	INTEGER i
+	
+	STRING  errorMsg[1024] 
+	INTEGER errorLevel		
+	
+	INTEGER integer_temp	
+	
+	STRING log_DirAndFileName[512]
+		
+	# if the following function returns 0 if the directory already exists.
+	# 511 = 7*64+7*8+7   which is full access i.e. chmod 777
+	file_create_directory ( ".\log", 511 )
+	
+	log_DirAndFileName = ".\log\" // in_log_FileName	
+	
+	# Delete log file if it exists, otherwise if the PCL does not compile, the old log file will still exist. 
+	IF (file_exists(log_DirAndFileName,"" )) THEN
+		file_delete(log_DirAndFileName) 
+	End IF	
+		
+	STRING output_DirAndFileName[512]			
+	output_DirAndFileName = ".\CreatePatranModelOutput.txt"		
+	# Delete output file if it exists, otherwise post processing could use stale data 
+	IF (file_exists(output_DirAndFileName,"" )) THEN
+		file_delete(output_DirAndFileName) 
+	End IF			
+		
+	vLogger.initialize(log_DirAndFileName)	
+		
+    vConstants.initialize()
+	vLogger.initialize(log_DirAndFileName)
+	vAnalysis.initialize()	
+	vFiles.initialize()	
+    vSubCase.initialize()
+    vMesh_Parameters.initialize()
+    vMaterial.initialize()
+    vSolid.initialize()
+    vPoint.initialize()
+    vGeometry.initialize()
+	vDisplacement.initialize()		
+    # not doing Pin and Ball now vPin.initialize()
+    vConstraint.initialize()	
+    vLoad_Value.initialize()
+    vLoad.initialize()		
+	vMaterial_Layup_2D.initialize()	
+	vLayer_2D.initialize()
+	vSurface.initialize()
+	vSurface_Contents.initialize()
+	vSurface_Database.initialize()	
+	vPatranUtils.initialize()	
+	vModelDefinitionReader.initialize()	
+	vTransformation.initialize()	
+	vPolygon.initialize()
+	vExtrusion.initialize()
+	vMath.initialize()	
+	vTraversal_Utils.initialize()			
+
+	# Delete _SUCCEEDED.TXT
+	IF (file_exists("_SUCCEEDED_CreatePatranModel.TXT","" )) THEN
+		file_delete("_SUCCEEDED_CreatePatranModel.TXT") 
+	End IF
+	
+	####################################
+	# Log Input File Data and Date/Time
+	####################################		
+	text_write_string( vLogger.getChannel(), "Date Time:       " // sys_date() // "  " // sys_time())
+	text_write_string( vLogger.getChannel(), "MSC Application: " // sys_product()// " " // sys_release())
+	text_write_string( vLogger.getChannel(), "" )	
+	text_write_string( vLogger.getChannel(), "in_Working_Dir:            " // in_Working_Dir)
+	text_write_string( vLogger.getChannel(), "in_FEAModelDefinitionFile: " // in_FEAModelDefinitionFile)
+	text_write_string( vLogger.getChannel(), "in_log_FileName:           " // in_log_FileName)
+	text_write_string( vLogger.getChannel(), "log_DirAndFileName:        " // log_DirAndFileName)	
+	log_DirAndFileName
+	
+	text_write_string( vLogger.getChannel(), "" )		
+		
+	###########################################################################
+	# Read the FEA Definition File Into the Data Structures within the Program
+	###########################################################################
+	vModelDefinitionReader.initialize()	
+	vModelDefinitionReader.readModelDefinition(in_Working_Dir, in_FEAModelDefinitionFile )	
+	
+	#####################################################
+	# Set the the material name used in the Patran Model
+	######################################################	
+	vMaterial.setInModelMaterialName()
+	vMaterial_Layup_2D.setInModelMaterialName()
+	
+	#####################################################
+	# Set the the material subtype 2D/3D/"N/A"
+	######################################################	
+	vMaterial.setTropic_SubType()
+	
+	#####################################################
+	# Set the the solid name used in the Patran Model
+	######################################################	
+	vSolid.setInModelSolidName()
+	
+	######################
+	# Log In-Memory Data
+	######################
+	
+	text_write_string( vLogger.getChannel(), "******************** Begin In-Memory FEA Model Definition **********************")
+	vAnalysis.logData()	
+	vFiles.logData()	
+	vSubCase.logData()	
+	vMesh_Parameters.logData()	
+    vMaterial.logData()
+    vSolid.logData()
+    vPoint.logData()
+    vGeometry.logData()
+	vDisplacement.logData()
+    # not doing Pin and ball now vPin.logData()
+    vConstraint.logData()	
+    vLoad_Value.logData()	
+    vLoad.logData()	
+	vMaterial_Layup_2D.logData()	
+	vLayer_2D.logData()
+	vSurface.logData()
+	vPolygon.logData()	
+	vExtrusion.logData()	
+	vSurface_Contents.logData()	
+		
+#    vMaterial_Layup.logData()	
+#    vConstraint.logData()		
+
+
+	#######################
+	# Check In-Memory Data
+	#######################
+	if ( VFiles.check() 			!= 0 ) 	THEN returnStatus = -1
+	if ( vSolid.check() 			!= 0 ) 	THEN returnStatus = -1
+	if ( vLoad.check() 				!= 0 ) 	THEN returnStatus = -1
+	if ( vConstraint.check() 		!= 0 ) 	THEN returnStatus = -1
+	if ( vMaterial.check() 			!= 0 ) 	THEN returnStatus = -1
+	if ( vAnalysis.check() 			!= 0 ) 	THEN returnStatus = -1
+	if ( vMaterial_Layup_2D.check()	!= 0 ) 	THEN returnStatus = -1	
+	if ( vLayer_2D.check() 			!= 0 ) 	THEN returnStatus = -1	
+	if ( vSurface.check() 			!= 0 ) 	THEN returnStatus = -1			
+	if ( vSurface_Contents.check() 	!= 0 ) 	THEN returnStatus = -1		
+	if ( vPolygon.check() 			!= 0 ) 	THEN returnStatus = -1	
+	if ( vExtrusion.check() 		!= 0 ) 	THEN returnStatus = -1		
+
+
+	IF ( vSolid.get_Count() > 0 && vSurface.get_Count() > 0 ) THEN
+		errorMsg = "This model contains both Solid and Surface entries. Surfaces and Solids cannot be mixed in the same model."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	
+	END IF
+
+	STRING tempString[1024]	
+	####################
+	# Create Patran DB	
+	####################
+	STRING patran_Model_Name[512]
+	STRING patran_Model_Dir[512]	
+	patran_Model_Name = vFiles.get_Patran_Model_Name()
+	patran_Model_Dir = vFiles.get_patran_Model_Dir()	
+	
+	if ( returnStatus == 0 ) THEN   
+	    # Delete the Patran DB if it exist.	
+		tempString = vFiles.get_patran_Model_Dir() // "\" // patran_Model_Name // ".db"
+		IF (file_exists(tempString, "" )) THEN
+			file_delete(tempString) 
+		End IF		
+
+		returnStatus = vPatranUtils.createPatranDB( patran_Model_Name, patran_Model_Dir)							
+	END IF		
+			
+	################################
+	# Set Patrans Working Directory	
+	################################
+	if ( returnStatus == 0 ) THEN   	
+		returnStatus = vPatranUtils.setPatranWorkingDir( patran_Model_Dir)		
+	END IF	
+		
+	########################
+	# Import Parasolid File	
+	########################	
+	STRING geometry_File_Name[64]
+	STRING geometry_File_Dir[512]	
+	geometry_File_Name = vFiles.get_Geometry_File_Name()
+	geometry_File_Dir  = vFiles.get_Geometry_File_Dir()
+	
+	if ( returnStatus == 0 ) THEN   
+		#   Parasolid Models are always in meters
+		#   in_Unit_Conversion_Factor = 1000, mm
+		#   in_Unit_Conversion_Factor = 1, m
+		#   in_Unit_Conversion_Factor = 39.370079, inch
+		returnStatus = vPatranUtils.importParasolidFile( geometry_File_Name, geometry_File_Dir, 1000.0 )																						
+	END IF			
+	
+	
+	###########################################################
+	# Create Point in Patran Model for Each Point in Input File  
+	# (This if for debugging purposes
+	###########################################################		
+	#vPoint.createPointsInPatranModel()	
+	
+	INTEGER numSurfacesAllTypes	= 0	
+	numSurfacesAllTypes = numSurfacesAllTypes + vSurface.get_NumberSurfaces()
+		
+	##############################################
+	# Determine number of Solids and Solid Surface
+	##############################################	
+	IF ( returnStatus == 0 && vSolid.get_Count() > 0 ) THEN
+		returnStatus = vSolid.retrieveStore_SolidIDs_FaceIDs()	
+		IF ( returnStatus == 0 ) THEN numSurfacesAllTypes = numSurfacesAllTypes + vSolid.get_NumberSurfaces()
+	END IF				
+
+	#####################################################
+	# Initialize the Array Sizes for the Surface_Database
+	#####################################################
+	vSurface_Database.allocateArrays(numSurfacesAllTypes)
+	vPolygon.allocateSurfaceIDs_Arrays( numSurfacesAllTypes )
+	vExtrusion.allocateSurfaceIDs_Arrays(numSurfacesAllTypes)	
+	
+	#####################################################################
+	# Retrieve and store Patran Model Surface IDs and Internal IDs
+	#####################################################################			
+	IF ( returnStatus == 0 && vSurface.get_Count() > 0 ) THEN
+		returnStatus = vSurface.retrieveStore_SurfaceInfo()	
+		# log surfaces later after vSurface_Contents.setMdlSurfsRefByFaces() has been called
+		# IF ( returnStatus == 0 ) THEN vSurface.logSurfaceIDs()
+	END IF			
+
+	
+	###################################################################
+	# Retrieve and store Internal IDs of the Faces defining the Solids
+	###################################################################		
+	IF ( returnStatus == 0 && vSolid.get_Count() > 0 ) THEN	
+		IF ( returnStatus == 0 ) THEN returnStatus = vSolid.retrieveStore_SurfaceInfo()
+	END IF
+	
+	IF ( returnStatus == 0 ) THEN vSurface_Database.logData()
+	
+	######################################
+	# Set Mapping Surface IDs to Points 
+	######################################	
+	IF ( returnStatus == 0 && vSolid.get_Count() > 0 ) THEN
+		#returnStatus = vPoint.associatePointsToSolidSurfaces()
+		integer_temp = vConstants.get_ci_GeometryType_Solid()
+		returnStatus = vPoint.associatePointsToSurfaces_Faces(integer_temp)		
+	END IF
+	 
+	IF ( returnStatus == 0 && vSurface.get_Count() > 0 ) THEN
+		integer_temp = vConstants.get_ci_GeometryType_Surface()
+		returnStatus = vPoint.associatePointsToSurfaces_Faces(integer_temp)		
+	END IF	 
+	 
+	IF ( returnStatus == 0 ) THEN vPoint.logAssociatePointsToSurfaces() 
+	
+	##################################################
+	# Set in VSurface model_SurfAssocToFaceBySurfCont
+	##################################################	
+	# The hierarchy is: 
+	#	vSufrace_Contents
+	#		vSurface
+	#			vGeometry
+	#				vPoint/vPolygon/vEstrusion    // Note if VPoint then vGeometry.geometry_Type would be FACE
+	#
+	#	If Vpoint (not vPolygon) then we must set vSurface.model_SurfAssocToFaceBySurfCont
+	#	to true.  This is needed so that when setting normal direction for surfaces
+	# 	and property sets for surfaces, if a vPoint indicated the surface 
+	#	based on vSurface_Contents, then vPolygon should not be used to set 
+	#	the normal direction and property set for that surface.
+	# 	vPoint.associatePointsToSurfaces_Faces() must be called before calling vSurface_Contents.setMdlSurfsRefByFaces() 
+	IF ( returnStatus == 0 ) THEN returnStatus = vSurface_Contents.setMdlSurfsRefByFaces()
+	
+	#IF ( returnStatus == 0 ) THEN vSurface.logSurfaceIDs()
+	
+	IF ( returnStatus == 0 ) THEN 	vSurface_Database.logData()
+	
+	
+	######################################
+	# Set Mapping Surface IDs to Polygons
+	######################################	
+	IF ( returnStatus == 0 && vSolid.get_Count() > 0 ) THEN
+		integer_temp = vConstants.get_ci_GeometryType_Solid()
+		returnStatus = vPolygon.associatePolygonsToSurfaces( integer_temp )
+	END IF
+	 
+	IF ( returnStatus == 0 && vSurface.get_Count() > 0 ) THEN
+		integer_temp = vConstants.get_ci_GeometryType_Surface()
+		returnStatus = vPolygon.associatePolygonsToSurfaces( integer_temp )
+	END IF	 
+
+	IF ( returnStatus == 0 ) THEN  vPolygon.logAssociatePolygonsToSurfaces()
+	
+	######################################
+	# Set Mapping Surface IDs to Extrusions
+	######################################	
+	IF ( returnStatus == 0 && vSolid.get_Count() > 0 ) THEN
+		integer_temp = vConstants.get_ci_GeometryType_Solid()
+		returnStatus = vExtrusion.associateExtrusionsToSurfaces( integer_temp )
+	END IF
+	 
+	IF ( returnStatus == 0 && vSurface.get_Count() > 0 ) THEN
+		integer_temp = vConstants.get_ci_GeometryType_Surface()
+		returnStatus = vExtrusion.associateExtrusionsToSurfaces( integer_temp )
+	END IF	 
+
+	IF ( returnStatus == 0 ) THEN  vExtrusion.logAssociateExtrusionsToSurfs()	
+
+	#######################################################
+	# Verify that surfaces exist in the Patran model
+	# for all Geometry  
+	#######################################################				
+	# If a surface does not exists for a Geometry, should this
+	# be an error?  For now treat it as an error. However,
+	# the surface could have gone away because a parameter
+	# was changed that made the surfacd go away.  In some cases
+	# this should definitely be an error.  For example, if a load/constraint
+	# was being placed per the geometry.  If the geometry was
+	# used to define contents (composite layup) it probably
+	# would not be a mistake.  For now treat it as mistake.
+
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vGeometry.verifyGeometryReferencesSurfs()
+	END IF	
+		
+		
+	#######################################################
+	# Orient Surfaces - Normal Direction Oriented Properly
+	#######################################################	
+	IF ( returnStatus == 0 && vSurface.get_Count() > 0 ) THEN
+		# Note - This only applies to standalone surfaces and not solid surfaces
+		returnStatus = vSurface.orientSurfacesPerNormalPoint()
+	END IF	
+	
+	
+	###################################
+	# Create Materials in Patran Model
+	###################################	
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vMaterial.createMaterials()
+	END IF
+	
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vMaterial_Layup_2D.createLaminateMaterials()
+	END IF
+	
+	##########################################################
+	# Create Property Sets For Solids/Surface in Patran Model
+	##########################################################	
+	IF ( returnStatus == 0  &&   vSolid.get_Count() > 0) THEN
+		returnStatus = vSolid.createPropertySets()
+	END IF	
+	IF ( returnStatus == 0  &&   vSurface.get_Count() > 0) THEN
+		returnStatus = vSurface_Contents.createPropertySets()
+	END IF	
+
+
+	##########################################################################
+	# createAndPopulateOutputFile, This file contains data for Post Processing
+	##########################################################################
+	# Must call the createPropertySets() functions before calling createAndPopulateOutputFile
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vPatranUtils.createAndPopulateOutputFile(output_DirAndFileName)
+	END IF
+	
+	########################################
+	# Create Constraints in the Patran Model
+	########################################		
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vConstraint.applyConstraints()
+	END IF
+		
+	########################################
+	# Create Loads in the Patran Model
+	########################################		
+	IF ( returnStatus == 0 ) THEN
+		returnStatus = vLoad.createLoads()
+	END IF	
+	
+	####################
+	# Create  Mesh
+	####################	
+	IF ( returnStatus == 0  && vSolid.get_Count() > 0 ) THEN
+		returnStatus = vSolid.createSolidMesh()
+	END IF
+	IF ( returnStatus == 0  &&   vSurface.get_Count() > 0) THEN
+		returnStatus = vSurface.createSurfaceMesh()
+	END IF	
+		
+	#############################
+	# Export Graphics of the Mesh
+	#############################	
+	IF ( returnStatus == 0 && ( vSolid.get_Count() > 0 || vSurface.get_Count() > 0) ) THEN
+		returnStatus = vPatranUtils.writeMeshImagesAndVRML( )	
+	END IF
+
+	##################################
+	# Make sure vAnalysis Data Exists
+	##################################		
+
+	IF (vAnalysis.get_Count() != 1) THEN
+		# This occurs because the input file was partially written (error occurred writing the input file)
+		errorMsg = "An Analysis section was not found in the input file. File: ." // in_FEAModelDefinitionFile
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	END IF
+	#######################
+	# Submit Job to Solver
+	#######################	
+	IF ( returnStatus == 0 ) THEN  
+		IF ( vAnalysis.get_instruction() == vAnalysis.get_ci_MESH_AND_SOLVE()) THEN
+			# returnStatus = vPatranUtils.submitSolution101(patran_Model_Name )	
+			# must hard code the job name so the bdf and xdb will have this name so it can be consumed by patran_pp.pcl
+			# patran_pp.pcl supports PATRAN_NASTRAN and deck-based NASTRAN. 
+			
+			returnStatus = vPatranUtils.submitSolution101("Nastran_mod" )
+			
+			# The following will be supported when 3D Orthotropic (i.e. solid composite) is supported.
+			#IF ( ?? if materials are all ar 3D Orthotropic with a failure (e.g. Tsai_Wu) defined ) THEN
+			#	returnStatus = vPatranUtils.submitSolution101("Nastran_mod" )
+			#ELSE
+			#	# Tsai_Wu, Hoffman, Hill, Maximum_Stress
+			#	returnStatus = vPatranUtils.submitSolution400("Nastran_mod" )
+			#END IF
+		END IF 
+	END IF		
+
+	
+	############################
+	# Write Final Result Files
+	############################
+	# Since in some case error messages are stacked up without returning a non zero return status, we need to check if 
+	# the messages are just info/warnings or if they are actually errors
+	IF ( returnStatus == 0 && vLogger.getErrorMessages_current() > 0 ) THEN
+		# Error message could contain info, warnings, or errors.  If errors we need to set returnStatus to non zero
+		IF ( vLogger.errorMessages_containERROR() ) THEN returnStatus = -1
+	END IF 
+	
+	IF ( returnStatus == 0  ) THEN
+		INTEGER succeededFile = 0
+		text_open( "_SUCCEEDED_CreatePatranModel.TXT", "NOWA", 0, 0, succeededFile )	
+		text_write_string ( succeededFile, "Processing completed successfully" )			
+		text_write_string( succeededFile, "Date Time: " // sys_date() // "  " // sys_time())			
+		text_write_string( succeededFile, "Patran model created/ran successfully.")
+		text_write_string( succeededFile, "See the log file, " // log_DirAndFileName // ", for details about this successful run." )			
+		text_close(succeededFile,"")	
+		
+		# This will write only warnings, since we checked above if the messages contained any errors.
+		text_write_string ( vLogger.getChannel(), "" )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( vLogger.getChannel(), "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR		
+
+		text_write_string ( vLogger.getChannel(), "" )					
+		text_write_string( vLogger.getChannel(), "Patran model created/ran successfully, Date Time: " // sys_date() // "  " // sys_time())		
+	ELSE
+		INTEGER failedFile = 0
+		INTEGER failedFile_ResultsDir = 0		
+		
+		text_open( "_FAILED.TXT", "NOWA", 0, 0, failedFile )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( failedFile, "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+		text_write_string( failedFile, "See the log file, " // log_DirAndFileName // ", for details about the error condition(s).  Start by scrolling to the bottom of the log file." )		
+		text_close(failedFile,"")	
+		
+		text_open( "..\..\_FAILED.TXT", "NOWA", 0, 0, failedFile_ResultsDir )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( failedFile_ResultsDir, "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+		text_write_string( failedFile_ResultsDir, "See the log file, .\Analysis\Patran_Nastran\log\" // in_log_FileName // ", for details about the error condition(s).  Start by scrolling to the bottom of the log file." )		
+		text_close(failedFile_ResultsDir,"")				
+		
+		text_write_string ( vLogger.getChannel(), "" )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( vLogger.getChannel(), "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+
+		text_write_string( vLogger.getChannel(), "Patran model creation FAILED, Date Time: " // sys_date() // "  " // sys_time())
+
+		return -1
+	END IF	
+	
+	
+	vLogger.closeLogFile()
+	vLogger.destruct()
+	
+END FUNCTION
+
+END CLASS

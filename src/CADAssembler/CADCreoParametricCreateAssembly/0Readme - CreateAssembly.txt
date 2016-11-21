@@ -990,7 +990,52 @@ v1.5.7.0 04/26/2016	GitHub Branch: CAD_005_Update_TO_Creo_3_VS2012
 			Patran_PP.py was modified to handle the case where not all
 			test-injection-points have a StructuralFEAComputation.
 
-				
+	
+v1.5.8.0 05/9/2016	GitHub Branch: CAD_006_Support_Patran_Solid_Models
+
+			For supporting Patran_Nastran, Modified CreateAssembly program to 
+				a) recognize Patran_Nastran switch 
+				b) create Parsolid files when Patran_Nastran switch is set, 
+				c) create AnalysisMetaData.xml when Patran_Nastran switch is set, and 
+				d) added CreatePatranModel.pcl and CreatePatranModel.ses.
+			Added parsing the switch InfiniteCycle="true".  Acting on this
+			switch via the CreateAssembly program has not been implemented yet.
+			Added parsing
+		     		<MeshParameters Max_Global_Length="0.101" 
+				Max_Curv_Delta_Div_Edge_Len="0.102" 
+				Ratio_Min_Edge_To_Max_Edge="0.201" Match_Face_Proximity_Tol="0.0501" />
+			MeshParameters are not used by the CreateAssembly program.  They are used
+			by CreatePatranModel.pcl.
+
+
+v1.5.9.0 06/29/2016	GitHub Branch: CAD_007_AnalysisMetaData_FEAElementID_For_Patran
+
+			Modified the creation of AnalysisMetaData.xml to enter the correct value for
+			FEAElementID in the Patran_Nastran mode.
+			Modifed vSolid.pcl to set the solid part name to psolid.1, psolid.2 etc.  This
+			was necessary so that the values in Nastran_mod_out.txt would appear the
+			same as those for deck-based FEA; otherwise, post processing would fail.
+	
+v1.5.10.0  07/01/2016	GitHub Branch: CAD_008_AnalysisMeshType_Support_Surface
+
+			Corrected the bug: application error: Function AnalysisMeshType_enum was 
+			passed SURFACE which is an erroneous type. This is necessary to support surface 
+			FEA models.
+			
+v1.5.11.0  07/01/2016	GitHub Branch: CAD_010_AnalysisShellElementType_Support_Plate
+
+			Corrected application error: application error: Function AnalysisShellElementType_enum 
+			was passed Plate4 which is an erroneous type. This is necessary to support surface FEA models.
+
+	
+v1.5.12.0  08/17/2016	GitHub Branch: Patran_010_Orient_Surfaces_Properly
+
+			Added support for parsing the CADAssembly.xml entries of TSAI_WU_FAILURE, 
+			HILL_FAILURE, HOFFMAN_FAILURE, MAXIMUM_FAILURE.
+
+
+v1.5.13.0  08/19/2016	Add support for Tetra4 and Tetra10 in CADAssembly.xml. 
+			R.O.
 
 Known Defects
 -------------

@@ -1,0 +1,209 @@
+###########################
+# Logger Class
+###########################
+CLASS vLogger
+
+	CLASSWIDE STRING	c_ClassName[32]	
+
+	CLASSWIDE INTEGER 	errorMessages_maxCount,		@
+						errorMessages_current,		@
+						channel
+	
+	CLASSWIDE INTEGER   ci_MaxMessageLength 
+	
+	CLASSWIDE STRING errorMessages[2048](Virtual)	
+
+	CLASSWIDE STRING 	c_ERROR[32],				@
+						c_WARNING[32],				@
+						c_INFORMATION[32]				
+
+	CLASSWIDE INTEGER 	ci_ERROR,					@
+						ci_WARNING,					@
+						ci_INFORMATION					
+						
+				
+	CLASSWIDE STRING  errorMsg[2048] 
+	CLASSWIDE INTEGER errorLevel	
+
+	CLASSWIDE INTEGER errorReferenceCount	
+				
+################################################################################
+# Note:  If the log file does not open properly, the messages will be written to the session log file (e.g. Patran_Model_Session.log) 
+# 		 patran -b -graphics -sfp  Patran_Model.ses -stdout Patran_Model_log.txt
+FUNCTION initialize(in_log_DirAndFileName)
+
+	c_ClassName = "vLogger"
+
+	ci_MaxMessageLength = 2048
+	
+	errorReferenceCount = 0	
+	
+	STRING in_Log_DirAndFileName[]
+
+	errorMessages_maxCount = 100
+	errorMessages_current = 0
+	channel = 0
+	c_ERROR = 						"ERROR"
+	c_WARNING = 					"WARN"
+	c_INFORMATION =					"INFO"	
+	
+	ci_ERROR =			1
+	ci_WARNING =		2	
+	ci_INFORMATION	=	3	
+	
+	sys_allocate_array(errorMessages, 1, errorMessages_maxCount)
+		
+	STRING  functionName[64]
+	functionName = c_ClassName // ".initialize"	
+	
+	INTEGER returnStatus = 0
+	
+	IF (file_exists(in_Log_DirAndFileName,"" )) THEN
+		file_delete(in_Log_DirAndFileName) 
+	End IF
+
+	IF (in_log_DirAndFileName != "") THEN
+		# If the log file does not open properly, the messages will be written to the session log file (e.g. Patran_Model_Session.log)
+		# patran -b -graphics -sfp  Patran_Model.ses -stdout Patran_Model_log.txt
+		returnStatus = text_open( in_log_DirAndFileName, "NOW", 0, 0, channel )		
+		IF ( returnStatus != 0 ) THEN 
+			errorMsg = "Could not open log file: " // in_log_DirAndFileName // ", Logging to session log file"
+			errorLevel = vLogger.get_ci_WARNING()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+			# c_WARNING non fatal, set returnStatus = 0 
+			returnStatus = 0  
+		END IF
+	END IF		
+	
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION getChannel()
+	return channel
+END FUNCTION
+################################################################################
+FUNCTION get_ci_ERROR()
+	return ci_ERROR
+END FUNCTION
+################################################################################	
+FUNCTION get_ci_WARNING()
+	return ci_WARNING
+END FUNCTION	
+################################################################################
+FUNCTION get_ci_INFORMATION()
+	return ci_INFORMATION
+END FUNCTION
+################################################################################
+FUNCTION getErrorMessages_current()
+	return errorMessages_current
+END FUNCTION
+################################################################################
+FUNCTION errorMessages_containERROR()  
+
+	INTEGER i
+	
+	FOR ( i = 1 TO errorMessages_current )
+		IF (  str_index(errorMessages(i), c_ERROR ) == 1 ) THEN return TRUE
+	END FOR		
+	return FALSE
+END FUNCTION
+
+################################################################################
+FUNCTION getErrorMessage(i)
+	INTEGER i
+	return errorMessages(i)
+END FUNCTION
+################################################################################
+#FUNCTION addErrorMessage( in_Message) 
+#
+#	STRING 	in_Message[]
+#		
+#	if ( (errorMessages_current + 1) <= errorMessages_maxCount ) THEN 
+#		errorMessages_current += 1
+#		errorMessages(errorMessages_current) = in_Message
+#	END IF
+#											
+#END FUNCTION
+################################################################################
+FUNCTION addErrorMessage( in_Error_Level, in_Function, in_Msg ) 
+
+	INTEGER in_Error_Level
+	STRING 	in_Function[]	
+	STRING 	in_Msg[]
+		
+	if ( (errorMessages_current + 1) <= errorMessages_maxCount ) THEN 
+		errorMessages_current += 1
+		errorMessages(errorMessages_current) = vLogger.formatErrorMessage( in_Error_Level, in_Function, in_Msg ) 
+	END IF
+											
+END FUNCTION
+################################################################################
+FUNCTION formatErrorMessage( in_Error_Level, in_Function, in_Msg )
+	INTEGER in_Error_Level
+	#STRING	in_Error_Level[]
+	STRING 	in_Function[]	
+	STRING 	in_Msg[]
+	
+	STRING msg[2048]
+
+	STRING error_Level[32]
+	
+	SWITCH ( in_Error_Level )
+		CASE ( ci_ERROR)
+			error_Level = c_ERROR
+		CASE ( ci_WARNING)
+			error_Level = c_WARNING
+		CASE ( ci_INFORMATION)
+			error_Level = c_INFORMATION	
+	END SWITCH
+
+	msg = error_Level // ", Function: " //  in_Function // ", Message: " //in_Msg
+	
+	IF ( str_length(msg) > (ci_MaxMessageLength - 1 )) THEN msg = str_substr(msg,1, (ci_MaxMessageLength - 1 )) 
+
+    return msg
+END FUNCTION 
+################################################################################
+FUNCTION closeLogFile()
+
+	text_close(channel,"")
+
+END FUNCTION
+################################################################################
+FUNCTION destruct()
+
+	sys_free_array ( errorMessages )
+
+END FUNCTION
+
+################################################################################
+FUNCTION logErrorReferenceStart()
+
+	errorReferenceCount += 1
+
+	text_write_string( vLogger.getChannel(), "***************************************")	
+	text_write_string( vLogger.getChannel(), "**** Begin Error Reference Data: " // str_from_integer(errorReferenceCount) // " ****")
+	text_write_string( vLogger.getChannel(), "***************************************")
+	
+END FUNCTION
+################################################################################
+FUNCTION logErrorReferenceEnd()
+
+	text_write_string( vLogger.getChannel(), "***************************************")	
+	text_write_string( vLogger.getChannel(), "**** END Error Reference Data: " // str_from_integer(errorReferenceCount) // " ******")
+	text_write_string( vLogger.getChannel(), "***************************************")	
+	
+END FUNCTION
+################################################################################
+FUNCTION get_errorReferenceCount()
+	return errorReferenceCount
+	
+END FUNCTION
+################################################################################
+FUNCTION get_errorReferenceKeyString()
+	return "Error Reference Data: " // str_from_integer(errorReferenceCount) 
+END FUNCTION
+################################################################################
+
+END CLASS

@@ -1,0 +1,35 @@
+
+CLASS vConstants
+
+	CLASSWIDE STRING	c_ClassName[32]	
+	
+	CLASSWIDE INTEGER	ci_Undefined
+	CLASSWIDE REAL		cr_Undefined
+				
+	CLASSWIDE INTEGER 	ci_Display_Tool_Does_Not_Exist
+				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vConstants"
+	
+	ci_Undefined		-1	
+	cr_Undefined = 		-9999.0	 
+	
+	#4700201 The specified Results Display tool does not exist.
+	ci_Display_Tool_Does_Not_Exist = 4700201
+	
+END FUNCTION
+################################################################################
+FUNCTION get_ci_Undefined()
+	return ci_Undefined
+END FUNCTION
+################################################################################
+FUNCTION get_cr_Undefined()
+	return cr_Undefined
+END FUNCTION
+################################################################################
+FUNCTION get_ci_Display_Tool_Not_Exist()
+	return ci_Display_Tool_Does_Not_Exist
+END FUNCTION
+
+END CLASS

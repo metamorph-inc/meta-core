@@ -272,10 +272,11 @@ namespace isis_CADCommon
 	//				return false;
 	bool PointOnLine_2D( const Point_2D &in_Point, const Line_2D &in_Line, double in_Tolerance = DEFAULT_TOLERANCE );
 
-
 	void  MultiplyMatrix_3x3_x_3x3( double in_Matrix_1[3][3], double in_Matrix_2[3][3], double out_Matrix[3][3] );
 
 	void  MultiplyMatrix_3x3_x_1x3( const double in_Matrix_1[3][3], const double in_Matrix_2[3], double out_Matrix[3] );
+
+	void  MultiplyMatrix_2x2_x_1x2( const double in_Matrix_1[2][2], const double in_Matrix_2[2], double out_Matrix[2] );
 
 	bool AllMatrixValuesEqualTarget_3X3( double in_Matrix[3][3], double in_Target );
 	

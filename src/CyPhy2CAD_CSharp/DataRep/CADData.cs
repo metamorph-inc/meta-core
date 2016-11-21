@@ -66,6 +66,14 @@ namespace CyPhy2CAD_CSharp.DataRep
         public MetaLinkData MetaLinkData { get; set; }
 
         public string RootComponentID { get; set; }
+        private List<TestBenchModel.TBComputation> pointCoordinatesList;
+        public List<TestBenchModel.TBComputation> PointCoordinatesList
+        {
+            get
+            {
+                return pointCoordinatesList;
+            }
+        }
 
         public CADAssembly()
         {
@@ -75,6 +83,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             ChildEdges = new List<CADEdge>();
             ChildSize2FitComponents = new Dictionary<string, CADComponent>();
             ChildSize2FitEdges = new List<CADEdge>();
+            pointCoordinatesList = new List<TestBenchModel.TBComputation>();
         }
 
         public CADAssembly(string id,
@@ -90,6 +99,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             Id = id;
             Name = name;
             DisplayName = name;
+            pointCoordinatesList = new List<TestBenchModel.TBComputation>();
         }
 
         public bool Size2Fit(string id)
@@ -192,6 +202,9 @@ namespace CyPhy2CAD_CSharp.DataRep
                 //tmpComponents[component.Id] = componentout;
                 tmpComponents.Add(componentout);
 
+                // 3/7/2016 - Export_All_Component_Points at TB level
+                pointCoordinatesList.AddRange(component.PointCoordinatesList);
+
             }
             
             var size2fitCompSorted = ChildSize2FitComponents.OrderBy(x => x.Value.Name).ToDictionary(x => x.Key, x => x.Value).Values.ToList();
@@ -205,6 +218,9 @@ namespace CyPhy2CAD_CSharp.DataRep
 
                 //tmpComponents[component.Id] = componentout;
                 tmpComponents.Add(componentout);
+
+                // 3/7/2016 - Export_All_Component_Points at TB level
+                pointCoordinatesList.AddRange(component.PointCoordinatesList);
             }
 
             // Fill MetaLinkData. Only needed in case if data is prepared for Meta-Link communication

@@ -119,7 +119,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     {
                         string name = (pointFound as CyPhy.Point).Attributes.DatumName;
                         string componentID = CyPhyClasses.Component.Cast((pointFound as CyPhy.Point).ParentContainer.ParentContainer.Impl).Attributes.InstanceGUID;
-                        Computations.Add(new TBComputation() { ComponentID = componentID, FeatureDatumName = name, MetricID = "Anchor", ComputationType = TBComputation.Type.POINTCOORDINATES, RequestedValueType = "Vector" });
+                        StaticAnalysisMetrics.Add(new TBComputation() { ComponentID = componentID, Details = name, MetricID = "Anchor", ComputationType = TBComputation.Type.POINTCOORDINATES, RequestedValueType = "Vector" });
+                        //Computations.Add(new TBComputation() { ComponentID = componentID, FeatureDatumName = name, MetricID = "Anchor", ComputationType = TBComputation.Type.POINTCOORDINATES, RequestedValueType = "Vector" });
                         GroundCyphyID = componentID;
                     }
                 }
@@ -296,10 +297,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             assembliesoutroot.ProcessingInstructions = instr;
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);
             if (assembliesoutroot.Assembly.Length>0)
-                AddStaticAnalysis(assembliesoutroot.Assembly[0], Computations);
+                AddStaticAnalysisMetrics(assembliesoutroot.Assembly[0]);
             assembliesoutroot.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAssemblyFile));
         }
 
+        /*
         // This code is copy/pasted from TestBench. Since this class is not a subclass of TestBench,
         // it can't be re-used. Can this code be re-used from there by moving it to TestBenchBase?
         private void AddStaticAnalysis(CAD.AssemblyType assemblyRoot, List<TBComputation> computations)
@@ -349,6 +351,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 cadanalysis.Static = new CAD.StaticType[] { staticanalysis };
             }
         }
+        */
 
         public override void GenerateRunBat()
         {

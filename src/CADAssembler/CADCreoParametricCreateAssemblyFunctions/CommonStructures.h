@@ -927,6 +927,10 @@ namespace isis
 
 		e_Data_Initial_Source		dataInitialSource;
 
+		int							partOrdinal;           // This is the order parts are added to the assembly.  First part ordinal would be 1
+		int							partAssemblyOrdinal;   // This is the order parts/assemblies are added to the assembly.  
+														   // First part/assembly ordinal would be 1, second part/assembly ordinal would be 2
+
 		int							addedToAssemblyOrdinal;  // This is the ordinal position for models added into the assembly.
 															 //	The top-assembly would have a value of 1.
 															 // The next .prt/.asm added to the top-assembly one have a value 2 ...
@@ -943,7 +947,9 @@ namespace isis
 							analysisTempMaterialDefined(false), 
 							cyPhyComponent(true),
 							geometryRepresentation(PRO_NAME_SIZE - 1),
-							addedToAssemblyOrdinal(LONG_MAX) 
+							addedToAssemblyOrdinal(LONG_MAX),
+							partOrdinal(-1),
+							partAssemblyOrdinal(-1)
 		{
 			assembledFeature.id = 0;
 			assembledFeature.type = PRO_TYPE_INVALID;

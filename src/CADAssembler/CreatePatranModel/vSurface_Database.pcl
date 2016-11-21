@@ -1,0 +1,378 @@
+/*****************  Example Input ***************************
+This class does not represent a keyword in the input file.
+It is a data structure internal to this application
+***********************************************************/
+###########################
+# vSurface_Database Class
+###########################
+CLASS vSurface_Database
+	
+	CLASSWIDE STRING	c_ClassName[32],				   @		
+						c_Surface_Database[32]	
+	
+	
+	CLASSWIDE INTEGER	count, 								@
+						current_added_index
+						
+						# SurfaceIDs_internal is the PRIMARY KEY
+	CLASSWIDE INTEGER	surfaceIDs_internal(VIRTUAL)						
+						
+						# SurfaceType = vConstants.get_ci_GeometryType_Surface()  / vConstants.get_ci_GeometryType_Solid()
+	CLASSWIDE INTEGER	surfaceType(Virtual)
+						# A surface surface has only one ID (e,g, 1, 2, 3...). A solid has two IDs before and after the decimal points(e.g. 2.1, 2.3...) 
+	CLASSWIDE INTEGER	surfaceIDs_external_int1(VIRTUAL), 	@	
+						surfaceIDs_external_int2(VIRTUAL)
+						
+	CLASSWIDE REAL		surfaceCenterPoint(VIRTUAL),		@
+						surfaceNormalVector(VIRTUAL)						
+						
+						
+	CLASSWIDE LOGICAL	surfAssocToFaceBySurfContents(VIRTUAL)
+	
+	# normal_DirectionHandled means that the direction of the surface was either not changed because the surfaces was already oriented per normal_Direction
+	# specified in the input file, or the surface normal was flipped.  In either case no reorientation of the surface should be done by a 
+	# later construct (later than surface FACE) identifying the surface such as polygon, extrusion, or global setting.
+	CLASSWIDE LOGICAL	normal_DirectionHandled(VIRTUAL)	
+						
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+
+	c_ClassName = 			"vSurface_Database"
+	c_Surface_Database =	"Surface_Database"	
+
+	count = 0	
+	current_added_index	= 0
+
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays( in_NumberSurfaces)
+	INTEGER in_NumberSurfaces
+
+	IF ( in_NumberSurfaces > 0 ) THEN
+		count = in_NumberSurfaces
+		sys_allocate_array ( surfaceType, 				1,  count )
+		sys_allocate_array ( surfaceIDs_external_int1, 	1,  count )
+		sys_allocate_array ( surfaceIDs_external_int2,  1,  count )	
+		sys_allocate_array ( surfaceIDs_internal,  		1,  count )
+		sys_allocate_array( surfaceCenterPoint, 		1, count, 1, 3)
+		sys_allocate_array( surfaceNormalVector, 		1, count, 1, 3)		
+		sys_allocate_array ( surfAssocToFaceBySurfContents,	1,  count )	
+		sys_allocate_array ( normal_DirectionHandled,	1,  count )			
+		
+		
+	END IF
+	
+	INTEGER i, j
+	
+	FOR ( i = 1 to in_NumberSurfaces)
+		
+		surfaceType(i) = vConstants.get_ci_Undefined()
+		surfaceIDs_external_int1(i)	= vConstants.get_ci_Undefined()
+		surfaceIDs_external_int2(i)	= vConstants.get_ci_Undefined()
+		surfaceIDs_internal(i)				= vConstants.get_ci_Undefined()
+		surfAssocToFaceBySurfContents(i) 	= FALSE
+		normal_DirectionHandled(i)          = FALSE	
+		FOR ( j = 1 to 3)
+			surfaceCenterPoint(i,j)  = 0.0
+			surfaceNormalVector(i,j) = 0.0			
+		END FOR 
+		
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Surface_Database // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // "surfaceIDs_internal     "  // " = " //   str_from_integer(surfaceIDs_internal(i)))
+		text_write_string( vLogger.getChannel(), "   " // "surfaceType             "              // " = " //   vSurface_Database.get_SurfaceType_string( i ))
+		text_write_string( vLogger.getChannel(), "   " // "surfaceIDs_external_int1" // " = " //   str_from_integer(surfaceIDs_external_int1(i)))
+		text_write_string( vLogger.getChannel(), "   " // "surfaceIDs_external_int2" // " = " //   str_from_integer(surfaceIDs_external_int2(i)))
+		
+		text_write_string( vLogger.getChannel(), "   surfaceCenterPoint, x y z: " // vCommon.str_from_real_array( 3, surfaceCenterPoint(i,1:3))) 
+
+		
+		#IF ( surfaceType(i) == vConstants.get_ci_GeometryType_Surface() ) THEN
+		#	text_write_string( vLogger.getChannel(), "   surfaceNormalVector, x y z: " // vCommon.str_from_real_array( 3, surfaceNormalVector(i,1:3))) 
+		#ELSE
+		#	text_write_string( vLogger.getChannel(), "   surfaceNormalVector not defined for Solids")
+		#END IF
+		
+		text_write_string( vLogger.getChannel(), "   surfaceNormalVector, x y z: " // vCommon.str_from_real_array( 3, surfaceNormalVector(i,1:3))) 
+		
+		text_write_string( vLogger.getChannel(), "   " // "surfAssocToFaceBySurfContents" // " = " //   str_from_logical(surfAssocToFaceBySurfContents(i)))
+		text_write_string( vLogger.getChannel(), "   " // "normal_DirectionHandled      " // " = " //   str_from_logical(normal_DirectionHandled(i)))
+		
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Surface_Database // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION get_SurfAssocToFaceBySurfConts(in_SurfaceIndex)
+	INTEGER in_SurfaceIndex
+	return surfAssocToFaceBySurfContents(in_SurfaceIndex)
+END FUNCTION
+#-----------------------------------------------------
+FUNCTION setSurfAssocToFaceBySurfConts(in_SurfaceIndex, in_SurfAssocToFace)
+	INTEGER in_SurfaceIndex
+	LOGICAL in_SurfAssocToFace
+	#dump in_SurfaceIndex
+	surfAssocToFaceBySurfContents(in_SurfaceIndex) =  in_SurfAssocToFace
+END FUNCTION
+
+################################################################################
+FUNCTION get_Normal_DirectionHandled(in_SurfaceIndex)
+	INTEGER in_SurfaceIndex
+	return normal_DirectionHandled(in_SurfaceIndex)
+END FUNCTION
+#-----------------------------------------------------
+FUNCTION set_Normal_DirectionHandled(in_SurfaceIndex, in_Normal_DirectionHandled)
+	INTEGER in_SurfaceIndex
+	LOGICAL in_Normal_DirectionHandled
+	normal_DirectionHandled(in_SurfaceIndex) =  in_Normal_DirectionHandled
+END FUNCTION
+################################################################################
+FUNCTION addSurface( in_SurfaceIDs_internal,		@				
+					 in_SurfaceType,				@
+					 in_SurfaceIDs_external_int1,	@	
+					 in_SurfaceIDs_external_int2,	@	
+					 in_SurfaceCenterPoint,			@
+					 in_SurfaceNormalVector)
+					 
+	INTEGER in_SurfaceIDs_internal				 
+	INTEGER in_SurfaceType	
+	INTEGER in_SurfaceIDs_external_int1
+	INTEGER in_SurfaceIDs_external_int2
+	REAL	in_SurfaceCenterPoint()
+	REAL	in_SurfaceNormalVector() 		
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".addSurface"	
+	
+	INTEGER returnStatus = 0	
+	
+	current_added_index = current_added_index + 1
+	###################################
+	# Make sure count is not exceeded
+	##################################
+	IF ( current_added_index > count ) THEN
+		errorMsg = "Attempted to add a surface to vSurface_Database wherein the surface count exceeded the allocated array sizes. in_SurfaceIDs_internal: " // str_from_integer(in_SurfaceIDs_internal)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1						
+	END IF
+		
+	##########################################################
+	# If Surface in_SurfaceNormalVector must not be all zeros
+	##########################################################		
+	IF ( in_SurfaceType == vConstants.get_ci_GeometryType_Surface() ) THEN		
+		IF ( in_SurfaceNormalVector(1) == 0.0 &&  in_SurfaceNormalVector(2) == 0.0  && in_SurfaceNormalVector(3) == 0.0 ) THEN
+			errorMsg = "Attempted to add a surface where in_SurfaceNormalVector was all zeros. in_SurfaceIDs_internal: " // str_from_integer(in_SurfaceIDs_internal)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1				
+		END IF
+	END IF
+		
+	surfaceIDs_internal(current_added_index)		=	in_SurfaceIDs_internal				
+	surfaceType(current_added_index)				= 	in_SurfaceType
+	
+	IF ( in_SurfaceType == vConstants.get_ci_GeometryType_Surface() ) THEN
+		surfaceIDs_external_int1(current_added_index) 	= in_SurfaceIDs_external_int1	
+		# Note surfaceIDs_external_int2(current_added_index) previously set to vConstants.get_ci_Undefined() in vSurface_Database.allocateArrays()
+		surfaceCenterPoint(current_added_index,1:3) = in_SurfaceCenterPoint(1:3)
+		surfaceNormalVector(current_added_index,1:3) = 	in_SurfaceNormalVector(1:3) 
+	ELSE	
+		# Solid Surface, has two IDs e.g. 5.2 would be IDs 5 and 2
+		surfaceIDs_external_int1(current_added_index) 	= in_SurfaceIDs_external_int1	
+		surfaceIDs_external_int2(current_added_index) 	= in_SurfaceIDs_external_int2	
+		surfaceCenterPoint(current_added_index,1:3) = in_SurfaceCenterPoint(1:3)	
+		# Note surfaceNormalVector was set to 0.0 in vSurface_Database.allocateArrays()
+		IF ( in_SurfaceNormalVector(1) != 0.0 ||  in_SurfaceNormalVector(2) != 0.0  || in_SurfaceNormalVector(3) != 0.0 ) THEN
+			surfaceNormalVector(current_added_index,1:3) = in_SurfaceNormalVector(1:3)
+		END IF
+						
+	END IF
+		
+	RETURN returnStatus	
+		
+END FUNCTION				 
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_SurfaceID_internal )
+
+	INTEGER in_SurfaceID_internal
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_SurfaceID_internal == surfaceIDs_internal(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION  get_SurfaceID_internal( in_Index )
+	INTEGER in_Index
+	return surfaceIDs_internal(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION  get_SurfaceType( in_Index )
+	INTEGER in_Index
+	return surfaceType(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION  get_SurfaceIDs_external_int1( in_Index )
+	INTEGER in_Index
+	return surfaceIDs_external_int1(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION  get_SurfaceIDs_external_int2( in_Index )
+	INTEGER in_Index
+	return surfaceIDs_external_int2(in_Index)
+END FUNCTION
+################################################################################
+FUNCTION get_SurfaceCenterPoint(in_Index)
+	INTEGER in_Index
+	return surfaceCenterPoint(in_Index, 1:3)
+END FUNCTION
+################################################################################
+FUNCTION  get_SurfaceType_string( in_Index )
+	INTEGER in_Index
+	
+	SWITCH (  surfaceType(in_Index) )
+		CASE (vConstants.get_ci_GeometryType_Surface())
+			RETURN "SURFACE"
+		CASE (vConstants.get_ci_GeometryType_Solid())
+			RETURN "SOLID"		
+		DEFAULT
+			RETURN ""
+	END SWITCH
+	
+END FUNCTION
+################################################################################
+# Returns the surface name exposed externally 
+# e.g
+# For surface:
+# 1     
+# For solid:
+# 4.10   
+
+FUNCTION  get_SurfaceExternal_Num_string( in_Index )
+	INTEGER in_Index
+	
+	STRING string_1[64]
+	STRING string_2[64]	
+	
+	IF ( surfaceType(in_Index) == vConstants.get_ci_GeometryType_Surface() ) THEN
+		return str_from_integer( surfaceIDs_external_int1(in_Index))
+	ELSE 
+		string_1 = str_from_integer( surfaceIDs_external_int1(in_Index))
+		string_2 = str_from_integer( surfaceIDs_external_int2(in_Index))
+		return string_1 // "." // string_2
+	END IF
+END FUNCTION
+################################################################################
+# Examples
+# 	Solid 4.10
+# 	Surface 3
+FUNCTION  get_SurfaceExternal_string( in_Index )
+	INTEGER in_Index
+	STRING num_string[31]
+	num_string = vSurface_Database.get_SurfaceExternal_Num_string( in_Index)
+
+	IF ( surfaceType(in_Index) == vConstants.get_ci_GeometryType_Surface() ) THEN
+		return "Surface " // num_string
+	ELSE 
+		return "Solid " // num_string
+	END IF	
+	
+END FUNCTION
+
+################################################################################
+FUNCTION get_SurfaceCenter_NormalVector( in_Mdl_SurfaceID_internal, out_CenterPoint, out_NormalVector )
+
+	INTEGER in_Mdl_SurfaceID_internal
+	# The following two REALs should be dimensioned to hold three values
+	REAL	out_CenterPoint()	
+	REAL	out_NormalVector()
+	
+	REAL rv_surface(VIRTUAL)	
+
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_SurfaceCenter_NormalVector"								
+							
+	INTEGER returnStatus = 0				
+	
+	INTEGER i_blob_size
+	
+	# Getting the blob size for surface(entity type = 3) and allocating
+	sgm_db_get_blob_size(3, in_Mdl_SurfaceID_internal, i_blob_size, returnStatus) 
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_db_get_blob_size returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF		
+	
+	#########################
+	# Allocate Surface Blob
+	#########################	
+	sys_allocate_array(rv_surface,1,i_blob_size)				
+	
+	#########################
+	# Get Surface
+	#########################
+	INTEGER surf_IntArray(1)
+	surf_IntArray(1) = in_Mdl_SurfaceID_internal
+	
+	sgm_db_get_surface(in_Mdl_SurfaceID_internal,i_blob_size,rv_surface, returnStatus)	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_db_get_surface returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF				
+	
+	####################################
+	# Get Center Point and Normal Vector
+	####################################	
+
+	REAL evalTable(12)
+	
+	sgm_surface_evaluate( rv_surface , 0.5, 0.5, 1, evalTable, returnStatus )	
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_surface_evaluate returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF					
+	
+	out_CenterPoint = evalTable(1:3)
+	out_NormalVector = evalTable(4:6)
+	
+	##############
+	# Free Memory
+	##############	
+	sys_free_array(rv_surface)	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+
+END CLASS

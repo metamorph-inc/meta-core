@@ -1,0 +1,105 @@
+CLASS vSubcases
+
+	CLASSWIDE STRING	c_ClassName[32]
+
+	CLASSWIDE INTEGER	num_Subcases
+	
+	CLASSWIDE INTEGER	subcaseIDs(VIRTUAL)
+		
+	CLASSWIDE LOGICAL	subcasesRetrieved
+	
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+	
+###############################################################################	
+FUNCTION initialize()
+
+	c_ClassName = "vSubcases"
+	
+	num_Subcases = vConstants.get_ci_Undefined() 
+	
+	subcasesRetrieved = FALSE
+END FUNCTION
+###############################################################################	
+FUNCTION retrieve_Subcases( in_LoadcaseID)
+   
+   INTEGER in_LoadcaseID
+   INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".retrieve_Subcases"
+		
+	IF ( subcasesRetrieved ) THEN SYS_FREE_ARRAY(subcaseIDs)	
+		
+   returnStatus = res_utl_get_subcases(in_LoadcaseID, num_Subcases, subcaseIDs)
+
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_utl_get_subcases(in_LoadcaseID, num_Subcases, subcaseIDs) returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+       RETURN returnStatus	
+    END IF		
+	
+	subcasesRetrieved = TRUE
+	
+	RETURN returnStatus	
+END FUNCTION
+###############################################################################	
+FUNCTION get_NumSubcases()
+
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_NumSubcases"
+
+	IF ( !subcasesRetrieved ) THEN
+		errorMsg = "Before calling this function retrieve_Subcases must be invoked" 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+		RETURN vConstants.get_ci_Undefined() 
+    END IF		
+	
+	RETURN 	num_Subcases	
+END FUNCTION
+###############################################################################
+FUNCTION get_SubcaseID( in_Index)
+
+	INTEGER in_Index
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_SubcaseID"
+
+	IF ( !subcasesRetrieved ) THEN
+		errorMsg = "Before calling this function retrieve_Subcases must be invoked."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+		RETURN vConstants.get_ci_Undefined() 
+    END IF	
+
+	IF ( in_Index < 1 || in_Index > num_Subcases) THEN
+		errorMsg = "Invalid Subcase index, index must be >= 1 and <=  num_Subcases, Index: " // str_from_integer(in_Index) // ", num_Subcases: " // str_from_integer(num_Subcases)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN vConstants.get_ci_Undefined() 
+    END IF		
+	
+	RETURN 	subcaseIDs(in_Index)	
+END FUNCTION
+###############################################################################
+FUNCTION log_subcaseIDs()
+
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN Load Case IDs *******")	
+	text_write_string( vLogger.getChannel(), "Number of SubCases: " // str_from_integer(num_Subcases))
+	text_write_string( vLogger.getChannel(), "SubCase ID")
+	text_write_string( vLogger.getChannel(), "------------")	
+	FOR ( i = 1 TO num_Subcases )
+		text_write_string( vLogger.getChannel(), str_from_integer(subcaseIDs(i)) )
+	END FOR
+
+	text_write_string( vLogger.getChannel(), "******* END SubCase IDs *******")	
+
+END FUNCTION
+###############################################################################
+END CLASS

@@ -74,7 +74,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             featureList.ForEach(f => GeometryFeatures.Add(new GeometryFeature() { ComponentID = f.Value, DatumName = f.Key, MetricID = f.Value+":"+f.Key }));
         }
 
-        private static List<MgaFCO> FindByRole(MgaModel mgaModel,
+        public static List<MgaFCO> FindByRole(MgaModel mgaModel,
                                 string roleName)
         {
             return mgaModel.ChildFCOs.Cast<MgaFCO>().Where(x => x.MetaRole.Name == roleName).ToList();
@@ -342,8 +342,10 @@ namespace CyPhy2CAD_CSharp.DataRep
 
         private static bool AddFace(CyPhy.Face face, List<KeyValuePair<string, string>> featureList, out CADGeometry.FeatureTypeEnum type)
         {
-            int ptCnt = face.Children.PointCollection.Count(),
-                surfCnt = face.Children.SurfaceCollection.Count();
+            List<MgaFCO> referencePts = new List<MgaFCO>();
+            referencePts = FindByRole(face.Impl as MgaModel, "ReferencePoint");
+            int ptCnt = referencePts.Count();
+            int surfCnt = face.Children.SurfaceCollection.Count();
 
             type = CADGeometry.FeatureTypeEnum.POINT;
             if ((ptCnt + surfCnt) > 1)
@@ -356,7 +358,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             if (ptCnt > 0)          // Plane
             {
                 type = CADGeometry.FeatureTypeEnum.POINT;
-                CyPhy.Point point = face.Children.PointCollection.First();
+                CyPhy.Point point = CyPhyClasses.Point.Cast(referencePts.First());
                 if (CreateFeatureFromPoint(point,
                                            featureList))
                     return true;

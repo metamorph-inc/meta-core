@@ -314,7 +314,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             cfdanalysis._id = UtilityHelpers.MakeUdmID();
             cfdanalysis.AnalysisID = AnalysisID;
 
-            List<CAD.MetricType> metrics = MetricsToCADXMLOutput(cadassembly.ConfigurationID);
+            List<CAD.MetricType> metrics = MetricsToCADXMLOutput(Computations, cadassembly.ConfigurationID);
             if (metrics.Count > 0)
             {
                 cfdanalysis.Metrics = new CAD.MetricsType();
@@ -342,7 +342,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             }
 
             cadanalysis.CFD = new CAD.CFDType[] { cfdanalysis };
-           
+
+            AddStaticAnalysisMetrics(cadassembly);
         }
 
         public override bool GenerateOutputFiles()

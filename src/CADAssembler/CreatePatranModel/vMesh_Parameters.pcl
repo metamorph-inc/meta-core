@@ -1,0 +1,235 @@
+/*****************  Example Input ***************************
+Mesh_Parameters
+	ID = 1
+	Max_Global_Length = 20.0
+	Max_Curv_Delta_Div_Edge_Len = .1
+	Ratio_Min_Edge_To_Max_Edge =  .2
+	Match_Face_Proximity_Tol = .005
+***********************************************************/
+###########################
+# vMesh_Parameters Class
+###########################
+CLASS vMesh_Parameters
+
+	CLASSWIDE STRING	c_ClassName[32]
+	
+	CLASSWIDE STRING	c_MESH_PARAMETERS[32],						@	
+						c_MAX_GLOBAL_LENGTH[32],					@	
+						c_MAX_CURV_DELTA_DIV_EDGE_LEN[32],			@							
+						c_RATIO_MIN_EDGE_TO_MAX_EDGE[32],			@
+						c_MATCH_FACE_PROXIMITY_TOL[32]	
+
+						#################
+						# Mesh_Parameters
+						#################	
+						# There should be only one mesh_Parms
+	CLASSWIDE INTEGER	count,							@
+						count_temp,						@
+						iD(VIRTUAL)
+	CLASSWIDE REAL		max_Global_Length(VIRTUAL),			@
+						max_Curv_Delta_Div_Edge_Ln(VIRTUAL),	@
+						ratio_Min_Edge_To_Max_Edge(VIRTUAL),	@
+						match_Face_Proximity_Tol(VIRTUAL)
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vMesh_Parameters"
+	
+	c_MESH_PARAMETERS = "Mesh_Parameters"
+	
+	c_MAX_GLOBAL_LENGTH = 			"Max_Global_Length"
+	c_MAX_CURV_DELTA_DIV_EDGE_LEN = "Max_Curv_Delta_Div_Edge_Len"
+	c_RATIO_MIN_EDGE_TO_MAX_EDGE = 	"Ratio_Min_Edge_To_Max_Edge"
+	c_MATCH_FACE_PROXIMITY_TOL = 	"Match_Face_Proximity_Tol"	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 					1, count )
+		sys_allocate_array ( max_Global_Length, 			1, count )
+		sys_allocate_array ( max_Curv_Delta_Div_Edge_Ln, 	1, count )
+		sys_allocate_array ( ratio_Min_Edge_To_Max_Edge, 	1, count )
+		sys_allocate_array ( match_Face_Proximity_Tol, 	1, count )	
+	ENDIF
+END FUNCTION
+################################################################################
+FUNCTION get_c_MESH_PARAMETERS()
+	RETURN c_MESH_PARAMETERS
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION get_max_Global_Length( in_Index)
+	INTEGER in_Index
+	return max_Global_Length(in_Index)
+END FUNCTION
+
+FUNCTION get_max_Curv_Delta_Div_Edge_Ln( in_Index)
+	INTEGER in_Index
+	return max_Curv_Delta_Div_Edge_Ln(in_Index)
+END FUNCTION
+
+FUNCTION get_ratio_Min_Edge_To_Max_Edge( in_Index)
+	INTEGER in_Index
+	return ratio_Min_Edge_To_Max_Edge(in_Index)
+END FUNCTION
+
+FUNCTION get_match_Face_Proximity_Tol( in_Index)
+	INTEGER in_Index
+	return match_Face_Proximity_Tol(in_Index)
+END FUNCTION
+
+################################################################################
+FUNCTION readNameValuePairs( modelFile,						@
+							in_out_LineNum,					@
+							in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+	INTEGER realStatus	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )					
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					
+					CASE (vConstants.get_c_ID())
+						iD(count_temp) =  vCommon.ID_toInt(valueField)
+						IF (  iD(count_temp) < 0 ) THEN									
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+									
+					  END IF
+
+					CASE (c_MAX_GLOBAL_LENGTH)
+						max_Global_Length(count_temp) = 	str_to_real(valueField, realStatus)		
+						IF (  realStatus != 0 ) THEN									
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+									
+						END IF
+						
+					CASE (c_MAX_CURV_DELTA_DIV_EDGE_LEN)
+						max_Curv_Delta_Div_Edge_Ln(count_temp) = str_to_real(valueField, realStatus)	
+						IF (  realStatus != 0 ) THEN									
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+									
+						END IF									
+						
+					CASE (c_RATIO_MIN_EDGE_TO_MAX_EDGE)
+						ratio_Min_Edge_To_Max_Edge(count_temp) = str_to_real(valueField, realStatus)
+						IF (  realStatus != 0 ) THEN											
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+									
+						END IF			
+
+					CASE (c_MATCH_FACE_PROXIMITY_TOL)
+						match_Face_Proximity_Tol(count_temp) = str_to_real(valueField, realStatus)
+						IF (  realStatus != 0 ) THEN									
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+									
+						END IF
+					DEFAULT
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )																	
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )		
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_MESH_PARAMETERS // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count)
+			text_write_string( vLogger.getChannel(), "")	
+			text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID()  			// " = " // vCommon.ID_toStr (iD(i)) )
+			text_write_string( vLogger.getChannel(), "   " // c_MAX_GLOBAL_LENGTH				// " = " // str_from_real(max_Global_Length(i) ))
+			text_write_string( vLogger.getChannel(), "   " // c_MAX_CURV_DELTA_DIV_EDGE_LEN		// " = " // str_from_real(max_Curv_Delta_Div_Edge_Ln(i) ))
+			text_write_string( vLogger.getChannel(), "   " // c_RATIO_MIN_EDGE_TO_MAX_EDGE		// " = " // str_from_real(ratio_Min_Edge_To_Max_Edge(i) ))
+			text_write_string( vLogger.getChannel(), "   " // c_MATCH_FACE_PROXIMITY_TOL		// " = " // str_from_real(match_Face_Proximity_Tol(i) ))
+	END FOR				
+	
+	text_write_string( vLogger.getChannel(), "-------- END " // c_MESH_PARAMETERS // " --------")	
+	
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER I
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+END CLASS

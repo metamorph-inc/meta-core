@@ -1,0 +1,297 @@
+/*****************  Example Input ***************************
+Files
+	Patran_Model_Name = support_plates_fea
+	Patran_Model_Dir = .\
+	Geometry_File_Name = StructuralFEATestBench_1_asm.x_t
+	Geometry_File_Dir = .\Parasolid
+	Geometry_File_Type = Parasolid
+***********************************************************/
+###########################
+# vFiles Class
+###########################
+CLASS vFiles
+
+	CLASSWIDE STRING	c_ClassName[32]	
+	
+	CLASSWIDE STRING 	c_FILES[32]
+
+	CLASSWIDE STRING 	c_PATRAN_MODEL_NAME[32],				@									
+						c_PATRAN_MODEL_DIR[32],					@
+						c_GEOMETRY_FILE_NAME[32],				@
+						c_GEOMETRY_FILE_DIR[32],				@
+						c_GEOMETRY_FILE_TYPE[32]	
+		
+	
+	CLASSWIDE STRING	c_PARASOLID[32]
+	CLASSWIDE INTEGER	ci_PARASOLID						
+	
+	# count should always be one.  Capture the value for error checking
+	CLASSWIDE INTEGER	count,									@
+						count_temp
+	CLASSWIDE STRING	patran_Model_Name[256](VIRTUAL),		@
+						patran_Model_Dir[512](VIRTUAL),			@
+						geometry_File_Name[256](VIRTUAL),		@
+						geometry_File_Dir[512](VIRTUAL)
+						# geometry_File_Type = ci_PARSOLID, no other types supported
+	CLASSWIDE INTEGER	geometry_File_Type(VIRTUAL)		
+	
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vFiles"
+	
+	c_FILES = 						"Files"	
+	
+	c_PATRAN_MODEL_NAME = 			"Patran_Model_Name"
+	c_PATRAN_MODEL_DIR = 			"Patran_Model_Dir"
+	c_GEOMETRY_FILE_NAME = 			"Geometry_File_Name"
+	c_GEOMETRY_FILE_DIR = 			"Geometry_File_Dir"
+	c_GEOMETRY_FILE_TYPE = 			"Geometry_File_Type"
+	
+	c_PARASOLID =					"Parasolid"	
+	ci_PARASOLID = 					1
+	
+	
+	count = 0
+	count_temp = 0	
+	
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+
+	IF ( count > 0 ) THEN
+			sys_allocate_array ( patran_Model_Name, 		1, count )
+			sys_allocate_array ( patran_Model_Dir, 			1, count )
+			sys_allocate_array ( geometry_File_Name, 		1, count )
+			sys_allocate_array ( geometry_File_Dir, 		1, count )
+			sys_allocate_array ( geometry_File_Type, 		1, count )			
+	END IF
+	
+	INTEGER i
+	FOR ( i = 1 to count)
+		geometry_File_Type(i) = vConstants.get_ci_Undefined()	
+	END FOR
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_FILES()
+	RETURN c_FILES
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Patran_Model_Name()
+	#There should be only one array entry
+	return patran_Model_Name(1)
+END FUNCTION
+
+FUNCTION get_patran_Model_Dir()
+	#There should be only one array entry
+	return patran_Model_Dir(1)
+END FUNCTION
+################################################################################
+FUNCTION get_Geometry_File_Name()
+	#There should be only one array entry
+	return geometry_File_Name(1)
+END FUNCTION
+
+FUNCTION get_Geometry_File_Dir()
+	#There should be only one array entry
+	return geometry_File_Dir(1)
+END FUNCTION
+
+FUNCTION get_Patran_Model_Name()
+	#There should be only one array entry
+	return patran_Model_Name(1)
+END FUNCTION
+
+
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+							in_out_LineNum,			@
+							in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )					
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+
+					CASE (c_PATRAN_MODEL_NAME)
+						patran_Model_Name(count_temp) = 	valueField	
+					CASE (c_PATRAN_MODEL_DIR)
+						patran_Model_Dir(count_temp) = 	valueField		
+					CASE (c_PATRAN_MODEL_DIR)
+						patran_Model_Dir(count_temp) = 	valueField					
+					CASE (c_GEOMETRY_FILE_NAME)
+						geometry_File_Name(count_temp) = 	valueField	
+					CASE (c_GEOMETRY_FILE_DIR)
+						geometry_File_Dir(count_temp) = 	valueField						
+						
+					CASE (c_GEOMETRY_FILE_TYPE)
+					  geometry_File_Type(count_temp) = vFiles.fileGeometry_File_Type_toInt (valueField)
+					  IF ( geometry_File_Type(count_temp) < 0 ) THEN								
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): " // @
+										vFiles.fileGeometry_File_Type_vStrs()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+					  END IF 
+					  
+					DEFAULT
+							errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				END SWITCH
+				
+				#WRITE ( "                         in_out_ErrorMessages_current" // str_from_integer(in_out_ErrorMessages_current) )
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Files // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")
+		text_write_string( vLogger.getChannel(), "   " // c_PATRAN_MODEL_NAME 	// " = " // patran_Model_Name(i) )
+		text_write_string( vLogger.getChannel(), "   " // c_PATRAN_MODEL_DIR 		// " = " // patran_Model_Dir(i) )	
+		text_write_string( vLogger.getChannel(), "   " // c_GEOMETRY_FILE_NAME 	// " = " // geometry_File_Name(i) )
+		text_write_string( vLogger.getChannel(), "   " // c_GEOMETRY_FILE_DIR 	// " = " // geometry_File_Dir(i) )	
+		text_write_string( vLogger.getChannel(), "   " // c_GEOMETRY_FILE_TYPE 	// " = " // vFiles.fileGeometry_File_Type_toStr(geometry_File_Type(i)) )
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- End " // c_Files // " --------")		
+END FUNCTION
+################################################################################
+FUNCTION fileGeometry_File_Type_toStr ( in_fileGeometry_File_Type_ID )
+
+	INTEGER in_fileGeometry_File_Type_ID
+
+	IF ( in_fileGeometry_File_Type_ID == ci_PARASOLID ) THEN
+		return c_PARASOLID
+	ELSE
+		return ""
+	END IF
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION fileGeometry_File_Type_toInt ( in_fileGeometry_File_Type_str )
+
+	STRING in_fileGeometry_File_Type_str[]
+	
+	IF ( in_fileGeometry_File_Type_str == c_PARASOLID ) THEN
+		return ci_PARASOLID
+	Else
+		return -1
+	END IF
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION fileGeometry_File_Type_vStrs()
+	# if more are added, the strings would be separated by spaces
+	return c_PARASOLID
+END FUNCTION
+###############################################################################
+FUNCTION check()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"
+
+	INTEGER returnStatus = 0		
+	
+	IF (count != 1 ) THEN
+		errorMsg = "There must be one and only one Files entry in the input file, Files enteris found: " // str_from_integer(count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+		return returnStatus
+	END IF
+
+	IF ( str_length(patran_Model_Dir(1)) == 0 ) THEN
+		errorMsg = "A Files entry for " // c_PATRAN_MODEL_DIR // " was not found."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF
+	
+	IF ( str_length(geometry_File_Name(1)) == 0 ) THEN
+		errorMsg = "A Files entry for " // c_GEOMETRY_FILE_NAME // " was not found."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF	
+	
+	IF ( str_length(geometry_File_Dir(1)) == 0 ) THEN
+		errorMsg = "A Files entry for " // c_GEOMETRY_FILE_DIR // " was not found."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF	
+	
+	IF ( geometry_File_Type(1) == vConstants.get_ci_Undefined() ) THEN
+		errorMsg = "A Files entry for " // c_GEOMETRY_FILE_TYPE // " was not found."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF	
+	
+	
+	return returnStatus	
+	
+END FUNCTION
+###############################################################################
+END CLASS

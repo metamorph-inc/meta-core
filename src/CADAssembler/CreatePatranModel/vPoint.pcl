@@ -1,0 +1,502 @@
+/*****************  Example Input ***************************
+Point
+	ID = 1
+	x_Cord = 20
+	y_Cord = 200
+	z_Cord = 35
+
+Point
+	ID = 2
+	x_Cord = 10.0
+	y_Cord = 190.0
+	z_Cord = 0.0
+***********************************************************/
+###########################
+# vPoint Class
+###########################
+CLASS vPoint
+
+	CLASSWIDE STRING	c_ClassName[32]
+	
+	CLASSWIDE STRING	c_POINT[32],							@
+						c_X_Cord[32],							@
+						c_Y_Cord[32],							@
+						c_Z_Cord[32]
+											
+	
+						###########################################
+						#  SubCase (Should be only one of these)
+						###########################################		
+						# SubCase should always be one.  Capture count for error checking
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL)
+	CLASSWIDE REAL		point_x(VIRTUAL),						@
+						point_y(VIRTUAL),						@
+						point_z(VIRTUAL)	
+				
+						#####################################
+						# Point mapping to Patran Surface ID
+						#####################################					
+	CLASSWIDE LOGICAL	model_SurfaceID_defined(VIRTUAL)
+	CLASSWIDE INTEGER	model_SurfaceID_internal(VIRTUAL)				
+	CLASSWIDE STRING	model_SurfaceID_string[31](VIRTUAL)			
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = 		"vPoint"
+	
+	c_POINT = 			"Point"		
+	
+	c_X_Cord =			"x_Cord"
+	c_Y_Cord =			"y_Cord"
+	c_Z_Cord =			"z_Cord"	
+	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 						1, count )
+		sys_allocate_array ( point_x, 					1, count )
+		sys_allocate_array ( point_y, 					1, count )
+		sys_allocate_array ( point_z, 					1, count )	
+		sys_allocate_array ( model_SurfaceID_defined,  	1, count )
+		sys_allocate_array ( model_SurfaceID_internal, 	1, count )	
+		sys_allocate_array ( model_SurfaceID_string, 	1, count )		
+	END IF
+	
+	INTEGER i
+	FOR ( i = 1 TO count )
+		model_SurfaceID_defined(i) =  FALSE
+		model_SurfaceID_internal(i) = vConstants.get_ci_Undefined()
+	END FOR		
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_POINT()
+	RETURN c_POINT
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION get_Model_SurfaceID_defined ( in_ID )
+	INTEGER in_ID
+	return model_SurfaceID_defined(in_ID)
+END FUNCTION
+################################################################################
+FUNCTION get_Point_array( in_Index )
+	INTEGER in_Index
+	
+	REAL point(3)
+	
+	point(1) = point_x( in_Index )
+	point(2) = point_y( in_Index )
+	point(3) = point_z( in_Index )
+
+	return point
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( modelFile,				@
+							in_out_LineNum,			@
+							in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	logical point_x_undefined = TRUE
+	logical point_y_undefined = TRUE
+	logical point_z_undefined = TRUE
+	
+	INTEGER startLineNum
+	startLineNum = in_out_LineNum	
+	
+	INTEGER realStatus = 0	
+
+	count_temp += 1	
+				
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )					
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)					  
+					  IF (  iD(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR() 
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF
+	  
+					CASE (c_X_Cord)
+						point_x(count_temp) = str_to_real(valueField, realStatus)	
+						point_x_undefined = FALSE
+						IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						ELSE
+							point_x_undefined = FALSE
+						END IF	
+					CASE (c_Y_Cord)
+						point_y(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						ELSE
+							point_y_undefined = FALSE
+						END IF
+					CASE (c_Z_Cord)
+						point_z(count_temp) = str_to_real(valueField, realStatus)						
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						ELSE
+							point_z_undefined = FALSE				  
+						END IF
+					  					
+					DEFAULT
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+ 						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	IF ( point_x_undefined || point_y_undefined || point_z_undefined ) THEN
+		errorMsg = "A " // c_POINT // " must have a " // c_X_Cord // ", " // c_Y_Cord // ", and " //  c_Z_Cord // " entries, Line number: "  // str_from_integer(startLineNum)
+		errorLevel = vLogger.get_ci_ERROR() 
+		 						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+	END IF	
+		
+	in_out_Buffer = buffer
+	
+		WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )		
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_POINT // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 	// " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_X_Cord 					// " = " // str_from_real(point_x(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Y_Cord 					// " = " //	str_from_real(point_y(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Z_Cord 					// " = " // str_from_real(point_z(i)) )			
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_POINT // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION createPointsInPatranModel()
+
+	STRING asm_create_grid_xyz_created_ids[VIRTUAL]
+
+	STRING cordinates_string[64]
+	
+	INTEGER i
+	FOR ( i = 1 TO count )	
+		cordinates_string = "[" // str_from_real(point_x(i)) // " " //  str_from_real(point_y(i)) // " " // str_from_real(point_z(i)) // "]"
+		asm_const_grid_xyz( "#", cordinates_string, "Coord 0", asm_create_grid_xyz_created_ids )
+	END FOR
+
+END FUNCTION
+################################################################################
+FUNCTION associatePointsToSurfaces_Faces( in_GeometryType )
+
+	INTEGER in_GeometryType
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".associatePointsToSurfaces_Faces"	
+		
+	INTEGER i
+	INTEGER j	
+	INTEGER returnStatus = 0
+	
+	IF ( in_GeometryType != vConstants.get_ci_GeometryType_Surface()  && in_GeometryType != vConstants.get_ci_GeometryType_Solid() ) THEN
+		errorMsg = "in_GeometryType must be Surface(1) or Solid(2), the function was passed: " // str_from_integer( in_GeometryType)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	END IF
+	
+	INTEGER returnStatus_final = 0	
+	returnStatus_final
+	
+	INTEGER numberOfSurfaces = 0
+	
+	#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN
+	#	numberOfSurfaces = vSurface.get_Model_NumberSurfaces()
+	#ELSE
+	#	numberOfSurfaces = vSolid.get_Model_NumberSurfaces()
+	#END IF
+
+	numberOfSurfaces = vSurface_Database.get_Count()
+	
+	LOGICAL pointOnSurface
+	
+	REAL point(3)	
+	INTEGER surfaceID_internal
+	
+	STRING surfaceID_string[31]
+	
+	REAL nearestPoint(3)
+	REAL u
+	REAL v	
+	
+	FOR ( i = 1 TO count )	
+		
+		IF ( vGeometry.pointIDOnAFace(iD(i)) ) THEN
+			# We only need to find the surfaces that are referenced by FACES. 
+			# The other references (e.g. polygon, extrusions) for points do not rely on indicating a single surface.
+	
+			point(1) = point_x(i)
+			point(2) = point_y(i)
+			point(3) = point_z(i)
+		
+			logical pointOnSurface_AlreadyFound = FALSE
+		
+			FOR ( j = 1 TO numberOfSurfaces )	
+			
+				#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN
+				#	#surfaceID_internal = vSurface.get_model_SurfaceIDs_internal(j)
+				#ELSE
+				#	surfaceID_internal = vSolid.get_model_SurfaceIDs_internal(j)
+				#END IF			
+			
+				surfaceID_internal = vSurface_Database.get_SurfaceID_internal( j )
+				
+				returnStatus = vPatranUtils.determineIf_PointOnSurface( point, surfaceID_internal, pointOnSurface, nearestPoint, u, v )
+
+				IF ( returnStatus != 0 ) THEN
+					return returnStatus
+				ELSE
+					IF ( pointOnSurface ) THEN
+					
+						#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN
+						#	#surfaceID_string = vSurface.get_model_SurfaceIDs_string(j)
+						#ELSE
+						#	surfaceID_string = vSolid.get_model_SurfaceIDs_string(j)
+						#END IF							
+					
+						surfaceID_string = vSurface_Database.get_SurfaceExternal_string( j )
+					
+						IF ( pointOnSurface_AlreadyFound) THEN
+							# Point is on more than one surface, this would be an error
+							errorMsg = "Point on more than one surface, Point ID: " // str_from_integer(iD(i)) // ", Point Index: " // str_from_integer(i) //  @
+							", Point Coordinates, xyz: " // str_from_real(point(1)) // "  " // str_from_real(point(2)) // "  " // str_from_real(point(3)) // @
+							", u v: " // str_from_real(u) // "  " // str_from_real(v)  // @
+							", Surface Name: " // surfaceID_string 
+							errorLevel = vLogger.get_ci_ERROR()	
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+							returnStatus_final = -1
+						END IF
+						pointOnSurface_AlreadyFound = TRUE
+						model_SurfaceID_defined(i) 	= 	TRUE
+						model_SurfaceID_internal(i) = 	surfaceID_internal			
+
+						model_SurfaceID_string(i) 	=	surfaceID_string					
+						
+						text_write_string(vLogger.getChannel(), "*** BEGIN Found Surface ***" )	
+						text_write_string(vLogger.getChannel(), "  Point ID:                       " // str_from_integer(iD(i)))	
+						text_write_string(vLogger.getChannel(), "  Surface Name:                   " // surfaceID_string)
+						text_write_string(vLogger.getChannel(), "  Surface ID:                     " // str_from_integer(model_SurfaceID_internal(i)))					
+						text_write_string(vLogger.getChannel(), "  Point Coordinates, xyz:         " // vCommon.str_from_real_array(3,point ) )	
+						text_write_string(vLogger.getChannel(), "  Nearest Point Coordinates, xyz: " // vCommon.str_from_real_array(3,nearestPoint ) )
+						text_write_string(vLogger.getChannel(), "  u, v:                           " // str_from_real(u) // "  " // str_from_real(v)  )						
+						text_write_string(vLogger.getChannel(), "*** END Found Surface ***" )	
+
+						STRING attribute[64]
+						p3_cad_get_entity_name(model_SurfaceID_internal(i), 3, attribute) 
+						
+						text_write_string(vLogger.getChannel(), "  CAD Attribute: " // 	attribute )
+						
+					END IF
+				END IF	
+			END FOR
+		END IF
+	END FOR
+	
+	RETURN returnStatus_final
+	
+END FUNCTION
+################################################################################
+FUNCTION logAssociatePointsToSurfaces()
+
+	INTEGER i
+
+	text_write_string(vLogger.getChannel(), "" )	
+	text_write_string(vLogger.getChannel(), "Point Index   Point ID    Identifies FACE  Surface Found  Surface Internal ID   Surface Name   Point x y Z              ")	
+	text_write_string(vLogger.getChannel(), "------------  ----------  ---------------  -------------  -------------------   ------------   ------------------------")		
+	
+	STRING model_SurfaceID_string_temp[64]
+	
+	LOGICAL identifiesFace 
+	
+	STRING model_SurfaceID_defined_str[32]
+	STRING model_SurfaceID_internal_str[32]	
+	
+	FOR ( i = 1 TO count )
+	
+		IF ( str_length(model_SurfaceID_string(i)) == 0 ) THEN
+			model_SurfaceID_string_temp = "        "
+		ELSE
+			model_SurfaceID_string_temp = model_SurfaceID_string(i)
+		END IF
+		
+		IF ( vGeometry.pointIDOnAFace(iD(i)) ) THEN
+			identifiesFace = TRUE
+			model_SurfaceID_defined_str = str_from_logical(model_SurfaceID_defined(i))
+			model_SurfaceID_internal_str = str_from_integer(model_SurfaceID_internal(i))
+		ELSE
+			identifiesFace = FALSE	
+			model_SurfaceID_defined_str = "N/A"
+			model_SurfaceID_internal_str = "N/A"
+		END IF
+	
+		text_write_string( vLogger.getChannel(), 	str_from_integer(i) // "             " // @ 
+													str_from_integer(id(i)) //  "           "  // @
+													str_from_logical(identifiesFace)  //  "             "  // @
+													model_SurfaceID_defined_str //  "           "  // @
+													model_SurfaceID_internal_str //  "                     "  // @
+													model_SurfaceID_string_temp // "     " // @
+													str_from_real(point_x(i)) // "  " // str_from_real(point_y(i)) // "  " // str_from_real(point_z(i)) )		
+	END FOR
+	
+	text_write_string( vLogger.getChannel(), "NOTE - Only points that identify FACEs should have an associated surface.")
+	
+		text_write_string( vLogger.getChannel(), "")
+	
+END FUNCTION
+################################################################################
+FUNCTION getPointSurfaceName( in_Point_ID, out_SurfaceID_string )
+
+	INTEGER in_Point_ID
+	STRING  out_SurfaceID_string[]
+	
+	out_SurfaceID_string = ""
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getPointSurfaceName"	
+
+	INTEGER index
+	INTEGER returnStatus = 0
+	
+	index = vPoint.getIndex( in_Point_ID )
+
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Point ID was not found, Point ID: " // str_from_integer(in_Point_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF	
+	
+	IF ( !model_SurfaceID_defined(index) )  THEN
+			errorMsg = "Surface not defined for point, Point ID: " // str_from_integer(in_Point_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF
+	
+	out_SurfaceID_string = model_SurfaceID_string(index)
+	#dump "---- vPoint.getPointSurfaceName ****"
+	#dump out_SurfaceID_string
+			
+	RETURN returnStatus
+
+END FUNCTION
+#################################################################################
+FUNCTION getPointSurfaceIDInternal( in_Point_ID, out_SurfaceID_internal )
+
+	INTEGER in_Point_ID
+	INTEGER out_SurfaceID_internal
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getPointSurfaceIDInternal"	
+
+	INTEGER index
+	INTEGER returnStatus = 0
+	
+	index = vPoint.getIndex( in_Point_ID )
+
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Point ID was not found, Point ID: " // str_from_integer(in_Point_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1
+	END IF	
+	
+	IF ( !model_SurfaceID_defined(index) )  THEN
+			errorMsg = "Surface not defined for point, Point ID: " // str_from_integer(in_Point_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1
+	END IF
+	
+	out_SurfaceID_internal = model_SurfaceID_internal(index)
+		
+	RETURN returnStatus
+
+END FUNCTION
+#################################################################################
+
+END CLASS

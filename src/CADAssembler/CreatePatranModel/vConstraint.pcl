@@ -1,0 +1,413 @@
+/*****************  Example Input ***************************
+Constraint
+	ID = 1
+	Type = DISPLACEMENT
+	SubCase_ID = 1
+	Geometry_ID = 1
+	Displacement_ID = 1
+***********************************************************/
+###########################
+# vConstraint Class
+###########################
+CLASS vConstraint
+
+	CLASSWIDE STRING	c_ClassName[32],					@
+						c_Constraint[32],					@	
+						c_SubCase_ID[32],					@
+						c_GEOMETRY_ID[32],					@
+						c_DISPLACEMENT_ID[32],				@	
+						c_PIN_ID[32],						@	
+						c_BALL_ID[32],						@
+						c_CONSTRAINT_DISPLACEMENT[32],		@
+						c_CONSTRAINT_PIN[32],				@	
+						c_CONSTRAINT_BALL[32]						
+	
+	CLASSWIDE INTEGER	ci_CONSTRAINT_DISPLACEMENT,			@
+						ci_CONSTRAINT_PIN,					@	
+						ci_CONSTRAINT_BALL
+	
+						###########################################
+						#  Constraint (Should be only one of these)
+						###########################################		
+						# Constraint should always be one.  Capture count for error checking
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						constraint_SubCase_ID(VIRTUAL)
+						# Only Displacement supported, PIN and Ball Supported in future							
+	CLASSWIDE INTEGER	constraint_Type(VIRTUAL),				@				
+						constraint_Geometry_ID(VIRTUAL)
+						# Only one of the following IDs (Displacement, Pin, or Ball) would exist depending on constraint_Type
+	CLASSWIDE INTEGER	constraint_Displacement_ID(VIRTUAL),	@
+						constraint_Pin_ID(VIRTUAL),				@
+						constraint_Ball_ID(VIRTUAL)
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vConstraint"
+	
+	c_Constraint =		"Constraint"
+	c_SubCase_ID = 		"SubCase_ID"	
+	c_GEOMETRY_ID =		"Geometry_ID"	
+	c_DISPLACEMENT_ID =	"Displacement_ID"	
+	
+	c_PIN_ID =			    		"Pin_ID"	
+	c_BALL_ID =			    		"Ball_ID"
+
+	# Use lower case for Displacement, Pin, and Ball  because these string will appear in the Patran Model
+	# See vLoad.get_Load_InPatMdl_Name	
+	c_CONSTRAINT_DISPLACEMENT =		"Displacement"
+	c_CONSTRAINT_PIN =				"Pin"	
+	c_CONSTRAINT_BALL =				"Ball"	
+	
+	ci_CONSTRAINT_DISPLACEMENT = 	1
+	ci_CONSTRAINT_PIN = 			2
+	ci_CONSTRAINT_BALL = 			3	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array (iD,   						1, 	count )		
+		sys_allocate_array (constraint_SubCase_ID,   	1, 	count )
+		sys_allocate_array (constraint_Type,   			1, 	count )
+		sys_allocate_array (constraint_Geometry_ID,   	1, 	count )
+		sys_allocate_array (constraint_Displacement_ID,	1, 	count )
+		sys_allocate_array (constraint_Pin_ID,   		1, 	count )
+		sys_allocate_array (constraint_Ball_ID,   		1, 	count )		
+	END IF
+END FUNCTION
+################################################################################
+FUNCTION get_c_Constraint()
+	RETURN c_Constraint
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+								in_out_LineNum,		@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )				
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )					
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF  
+					
+					CASE (c_SubCase_ID)
+					  constraint_SubCase_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  constraint_SubCase_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF  					
+
+					CASE (c_GEOMETRY_ID)
+					  constraint_Geometry_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  constraint_SubCase_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF									
+					
+					CASE (vConstants.get_c_Type())  
+						constraint_Type(count_temp) =  vConstraint.constraint_Type_toInt(valueField)
+						IF (  constraint_Type(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vConstraint.constraint_Type_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF				
+
+					CASE (c_DISPLACEMENT_ID)  					  
+						constraint_Displacement_ID(count_temp) =  vCommon.ID_toInt(valueField)
+						IF (  constraint_Displacement_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF	
+					CASE (c_PIN_ID)  					  
+						constraint_Pin_ID(count_temp) =  vCommon.ID_toInt(valueField)
+						IF (  constraint_Pin_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF					  		  		
+					CASE (c_BALL_ID)  					  
+						constraint_Ball_ID(count_temp) =  vCommon.ID_toInt(valueField)
+						IF (  constraint_Ball_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					  END IF					  		  							  
+					  					  
+					DEFAULT
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 						
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Constraint // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+
+		text_write_string( vLogger.getChannel(), "" )	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 		// " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_Type()		// " = " // vConstraint.constraint_Type_toStr(constraint_Type(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_SUBCASE_ID					// " = " // vCommon.ID_toStr(constraint_SubCase_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_GEOMETRY_ID					// " = " // vCommon.ID_toStr(constraint_Geometry_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_DISPLACEMENT_ID				// " = " // vCommon.ID_toStr(constraint_Displacement_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_PIN_ID						// " = " // vCommon.ID_toStr(constraint_Pin_ID(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_BALL_ID						// " = " // vCommon.ID_toStr(constraint_Ball_ID(i)) )
+		
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Constraint // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION check()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	Integer i
+	INTEGER returnStatus = 0		
+
+	INTEGER subCase_index
+	INTEGER geometry_index
+	INTEGER displacement_index	
+		
+	STRING headingName[64]	
+	headingName = c_Constraint
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF			
+		
+		
+	FOR ( i = 1 TO count )
+	
+		subCase_index = vSubcase.getIndex( constraint_SubCase_ID(i))
+		geometry_index = vGeometry.getIndex( constraint_Geometry_ID(i))
+		displacement_index = vDisplacement.getIndex( constraint_Displacement_ID(i))
+		
+		IF ( subCase_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Constraint ID: " // str_from_integer(iD(i)) // ", missing Subcase with ID: "  // str_from_integer(constraint_SubCase_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1		
+		END IF
+
+		IF ( geometry_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Constraint ID: " // str_from_integer(iD(i)) // ", missing Geometry with ID: "  // str_from_integer(constraint_Geometry_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1		
+		END IF
+
+		# only displacement is supported currently
+		IF ( displacement_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Constraint ID: " // str_from_integer(iD(i)) // ", missing Diplacement with ID: "  // str_from_integer(constraint_Displacement_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1	
+		END IF
+	END FOR
+
+	return returnStatus
+END FUNCTION
+##############################################################################
+FUNCTION constraint_Type_toStr ( in_constraint_Type_ID )
+
+	INTEGER in_constraint_Type_ID
+
+	SWITCH(in_constraint_Type_ID)
+		CASE(ci_CONSTRAINT_DISPLACEMENT )
+			return c_CONSTRAINT_DISPLACEMENT
+			
+		# Pin and Ball not currently supported
+		#CASE(ci_CONSTRAINT_PIN )
+		#	return c_CONSTRAINT_PIN	
+		#CASE(ci_CONSTRAINT_BALL )
+		#	return c_CONSTRAINT_BALL					
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION constraint_Type_toInt ( in_constraint_Type_str )
+
+	STRING in_constraint_Type_str[]
+	
+	SWITCH(in_constraint_Type_str)
+		CASE(c_CONSTRAINT_DISPLACEMENT )
+			return ci_CONSTRAINT_DISPLACEMENT
+		# Pin and Ball not currently supported			
+		#CASE(c_CONSTRAINT_PIN )
+		#	return ci_CONSTRAINT_PIN	
+		#CASE(c_CONSTRAINT_BALL )
+		#	return ci_CONSTRAINT_BALL	
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION constraint_Type_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_CONSTRAINT_DISPLACEMENT 	
+END FUNCTION
+###############################################################################
+FUNCTION get_InPatMdl_Name( in_Index )
+	INTEGER in_Index
+	RETURN "C" // str_from_integer(iD(in_Index)) // "_" // vConstraint.constraint_Type_toStr(constraint_Type(in_Index))
+END FUNCTION
+###############################################################################
+FUNCTION get_Constraint_InPatMdl_Name( in_Index )
+	INTEGER in_Index
+	return vConstraint.get_InPatMdl_Name( in_Index )
+END FUNCTION
+###############################################################################
+FUNCTION get_Constraint_InPatMdl_Names( out_Names )
+
+	STRING  out_Names[]()
+	
+	INTEGER i
+	
+	FOR ( i = 1 to count )
+		out_Names(i) = vConstraint.get_InPatMdl_Name(i)
+	END FOR
+	
+END FUNCTION
+###############################################################################
+FUNCTION applyConstraints()
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".applyConstraints"	
+
+	INTEGER i
+	INTEGER returnStatus = 0
+	INTEGER returnStatus_temp = 0
+	
+	STRING headingName[64]
+	headingName = c_Constraint	
+
+	STRING mdl_SurfaceID_string[2048]
+
+	mdl_SurfaceID_string = ""
+	
+	STRING lbc_name[31]
+	
+	FOR ( i = 1 TO count )	
+		IF ( constraint_Type(i) == ci_CONSTRAINT_DISPLACEMENT ) THEN
+	
+			returnStatus =  vGeometry.getGeometrySurfaceName( constraint_Geometry_ID(i), mdl_SurfaceID_string )
+						
+			dump mdl_SurfaceID_string
+						
+			IF ( str_length( mdl_SurfaceID_string ) == 0 ) THEN
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", could not retrieve Patran model surface name." 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus_temp = -1											
+				CONTINUE
+			END IF						
+							
+			lbc_name = vConstraint.get_Constraint_InPatMdl_Name(i)
+			
+			returnStatus = vPatranUtils.applyConstraint_Displacement( iD(i), constraint_Displacement_ID(i), mdl_SurfaceID_string, lbc_name )	
+				
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", vPatranUtils.applyConstraint_Displacement returned an error." 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus_temp = -1											
+				CONTINUE
+			END IF			
+			
+		ELSE
+			errorMsg = "Unsupported constraint type, only " // constraint_Type_validStrings() // " supported.  Constraint ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus_temp = -1
+		END IF	
+	
+	END FOR
+	
+	RETURN returnStatus_temp
+	
+END FUNCTION	
+###############################################################################	
+END CLASS

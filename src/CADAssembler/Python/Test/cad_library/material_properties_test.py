@@ -12,6 +12,8 @@ material_names_list = []
 material_names_list.append("aluminum_alloy_6061_t6")
 material_names_list.append("aluminum_alloy_6061_t4")
 material_names_list.append("aluminum_qc7")
+
+
 # material_names_list.append("aluminum_qc7zzz")
 # Create output dictionary
 material_lib_props_dict = {}  # AnalysisMaterialProperties dictionary, material-name key
@@ -19,6 +21,11 @@ material_lib_props_dict = {}  # AnalysisMaterialProperties dictionary, material-
 # Retrieve Properties from the material library
 try:
     material_properties.get_props_from_material_library(material_names_list, material_lib_props_dict)
+
+    material_names_list.append("Epoxy_C_G_30_70_Mix")
+    material_names_list.append("IM7_8551_7_Carbon_Epoxy")
+    material_names_list.append("T300_PR319_Carbon_Epoxy")
+    material_properties.get_props_from_material_library_typed(material_names_list, material_lib_props_dict)
 
     # Print the retrieved data
     for k in material_lib_props_dict:
