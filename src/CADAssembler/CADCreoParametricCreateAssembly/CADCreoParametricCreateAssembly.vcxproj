@@ -148,6 +148,8 @@
       <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

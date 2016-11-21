@@ -66,7 +66,12 @@ namespace isis
 			char name_narrow[ISIS_CHAR_BUFFER_LENGTH];
 			ProWstringToString(name_narrow, (wchar_t *)name); 
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProMdlRetrieve returned ProError: %s(%d), Model Name: %s  Type: %s", ProToolKitError_string(err).c_str(), err, name_narrow, isis::ProMdlType_string(type).c_str() );
+			const char* extra = "";
+			if (err == PRO_TK_E_NOT_FOUND)
+			{
+				extra = ", Possible causes: 1. No model by this name on load path 2. wrong type 3. a model created with Academic Creo being loaded by Commercial Creo, or vice versa";
+			}
+			sprintf( err_str, "exception : ProMdlRetrieve returned ProError: %s(%d), Model Name: %s  Type: %s%s", ProToolKitError_string(err).c_str(), err, name_narrow, isis::ProMdlType_string(type).c_str(), extra );
 			throw isis::application_exception("C06002",err_str); 
 		}
 
