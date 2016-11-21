@@ -1,0 +1,893 @@
+/*****************  Example Input ***************************
+Surface_Contents
+	ID = 1
+	Surface_ID = 1
+	Material_Layup_2D_ID = 1
+	Material_Orientation_Vector_Start_Point_ID = 1
+	Material_Orientation_Vector_End_Point_ID = 2
+	Material_Layup_Position = CENTERED  			# CENTERED/OFFSET_BY_VALUE/FLUSH_ABOVE_NORMAL_SIDE/FLUSH_BELOW_NORMAL_SIDE.  The default is CENTERED
+	Material_Layup_Direction = SURFACE_NORMAL 		# SURFACE_NORMAL / OPPOSITE_SURFACE_NORMAL, The default is SURFACE_NORMAL. This is only valide for OFFSET_BY_VALUE
+	Material_Layup_Offset_Value = 0  				# This is only valid if Position == Offset_By_Value, positive in in normal direction
+													# Offset_Value is optional
+***********************************************************/
+###########################
+# vSurface_Contents Class
+###########################
+CLASS vSurface_Contents
+
+	CLASSWIDE STRING	c_ClassName[32],						@
+						c_Surface_Contents[32],					@	
+						c_Surface_ID[32],						@		
+						c_Material_Layup_2D_ID[32],				@	
+						c_Mat_Orient_Vec_Start_Pt_ID[64],		@	
+						c_Mat_Orient_Vec_End_Pt_ID[64],			@	
+						c_Material_Layup_Position[32],			@		
+						c_Material_Layup_Direction[32],			@	
+						c_Material_Layup_Offset_Value[32]			
+	
+	CLASSWIDE STRING 	c_Surface_NORMAL[32],					@
+						c_OPPOSITE_Surface_NORMAL[32]								
+			
+	CLASSWIDE INTEGER	ci_Surface_NORMAL,						@
+						ci_OPPOSITE_Surface_NORMAL	
+	
+	CLASSWIDE STRING	c_CENTERED[32],							@
+						c_OFFSET_BY_VALUE[32],					@
+						c_FLUSH_ABOVE_NORMAL_SIDE[32],			@
+						c_FLUSH_BELOW_NORMAL_SIDE[32]
+	
+	CLASSWIDE INTEGER 	ci_CENTERED,							@
+						ci_OFFSET_BY_VALUE,						@
+						ci_FLUSH_ABOVE_NORMAL_SIDE,				@
+						ci_FLUSH_BELOW_NORMAL_SIDE	
+	
+										
+						###########################################
+						#  Surface_Contents 
+						###########################################		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						Surface_ID(VIRTUAL),					@
+						material_Layup_2D_ID(VIRTUAL),			@
+						mat_Orient_Vec_Start_Pt_ID(VIRTUAL),	@
+						mat_Orient_Vec_End_Pt_ID(VIRTUAL)
+						# material_Layup_Position default ci_CENTERED
+	CLASSWIDE INTEGER	material_Layup_Position(VIRTUAL)
+						# material_Layup_Direction default ci_Surface_NORMAL
+	CLASSWIDE INTEGER	material_Layup_Direction(VIRTUAL)	
+	CLASSWIDE REAL		material_Layup_Offset_Value(VIRTUAL)
+	
+	CLASSWIDE STRING 	poperty_Set_Name[31](VIRTUAL) 		
+	
+				
+	CLASSWIDE INTEGER	globalPly_ID_counter
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vSurface_Contents"
+	
+	c_Surface_Contents =			"Surface_Contents"
+	c_Surface_ID =					"Surface_ID"	
+	c_Material_Layup_2D_ID =		"Material_Layup_2D_ID"
+	
+	c_Mat_Orient_Vec_Start_Pt_ID = 	"Material_Orientation_Vector_Start_Point_ID"
+	c_Mat_Orient_Vec_End_Pt_ID =  	"Material_Orientation_Vector_End_Point_ID"
+	c_Material_Layup_Position = 	"Material_Layup_Position"	
+	c_Material_Layup_Direction =	"Material_Layup_Direction"
+
+	c_Material_Layup_Offset_Value = "Material_Layup_Offset_Value"
+	
+	
+	c_Surface_NORMAL =				"Surface_Normal"
+	c_OPPOSITE_Surface_NORMAL = 	"Opposite_Surface_Normal"
+	
+	ci_Surface_NORMAL = 		 	1
+	ci_OPPOSITE_Surface_NORMAL = 	2
+	
+	c_CENTERED =					"Centered"
+	c_OFFSET_BY_VALUE =				"Ofset_By_Value"
+	c_FLUSH_ABOVE_NORMAL_SIDE =		"Flush_Above_Normal_Side"
+	c_FLUSH_BELOW_NORMAL_SIDE =		"Flush_Below_Normal_Side"
+
+	ci_CENTERED =					1
+	ci_OFFSET_BY_VALUE =			2
+	ci_FLUSH_ABOVE_NORMAL_SIDE =	3
+	ci_FLUSH_BELOW_NORMAL_SIDE =	4
+		
+	globalPly_ID_counter = 0	
+		
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 							1, count )
+		sys_allocate_array ( Surface_ID, 					1, count )
+		sys_allocate_array ( Material_Layup_2D_ID, 			1, count )	
+		sys_allocate_array ( mat_Orient_Vec_Start_Pt_ID, 	1, count )	
+		sys_allocate_array ( mat_Orient_Vec_End_Pt_ID, 		1, count )	
+		sys_allocate_array ( material_Layup_Position, 		1, count )	
+		sys_allocate_array ( material_Layup_Direction, 		1, count )	
+		sys_allocate_array ( material_Layup_Offset_Value, 	1, count )	
+		sys_allocate_array ( poperty_Set_Name, 				1, count )		
+	END IF
+	
+	INTEGER i
+	
+	FOR ( i = 1 to count )
+		Surface_ID(i) = 					vConstants.get_ci_Undefined()
+		Material_Layup_2D_ID(i) = 			vConstants.get_ci_Undefined()	
+		mat_Orient_Vec_Start_Pt_ID(i) = 	vConstants.get_ci_Undefined()	
+		mat_Orient_Vec_End_Pt_ID(i) = 		vConstants.get_ci_Undefined()	
+		material_Layup_Position(i) = 		ci_CENTERED	
+		material_Layup_Direction(i) = 		ci_Surface_NORMAL	
+		material_Layup_Offset_Value(i) = 	vConstants.get_cr_Undefined()
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_Surface_Contents()
+	RETURN c_Surface_Contents
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION get_Surface_ID( in_Index)
+	INTEGER in_Index
+	return Surface_ID( in_Index)
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+								in_out_LineNum,		@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	INTEGER realStatus = 0
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE		
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )			
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF ( iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )																		
+					  END IF
+
+					CASE (c_Surface_ID)
+					  Surface_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  Surface_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+					  
+	  							  
+					CASE (c_Material_Layup_2D_ID)
+					  Material_Layup_2D_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  Material_Layup_2D_ID(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: , name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 								  
+		
+					CASE (c_Mat_Orient_Vec_Start_Pt_ID )
+					  mat_Orient_Vec_Start_Pt_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  mat_Orient_Vec_Start_Pt_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF
+							  
+					CASE (c_Mat_Orient_Vec_End_Pt_ID  )
+					  mat_Orient_Vec_End_Pt_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  mat_Orient_Vec_Start_Pt_ID(count_temp) < 0 ) THEN 
+							errorMsg = "Could not convert to a positive non-zero integer, String: , name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage( errorLevel, functionName, errorMsg )									
+					  END IF	
+
+					CASE (c_Material_Layup_Position  )
+					  material_Layup_Position(count_temp) =  vSurface_Contents.layup_Position_toInt(valueField)
+					  IF (  material_Layup_Position(count_temp) == vConstants.get_ci_Undefined() ) THEN 
+							errorMsg = "Could not convert layup position to one of " // vSurface_Contents.layup_Position_validStrings() // ", String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage( errorLevel, functionName, errorMsg )									
+					  END IF						  
+					
+					CASE (c_Material_Layup_Direction   )
+					  material_Layup_Direction(count_temp) =  vSurface_Contents.normal_direction_toInt(valueField)
+					  IF (  material_Layup_Position(count_temp) == vConstants.get_ci_Undefined() ) THEN 
+							errorMsg = "Could not convert layup direction to one of " // vSurface_Contents.normal_direction_validStrings() // ", String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage( errorLevel, functionName, errorMsg )									
+					  END IF	
+
+					CASE (c_Material_Layup_Offset_Value)
+					  material_Layup_Offset_Value(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+					  END IF 					    
+					  					  
+					DEFAULT
+							errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )									
+				END SWITCH
+				
+			END IF
+		END IF
+	END WHILE
+
+	in_out_Buffer = buffer
+
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Surface_Contents // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 		// " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Surface_ID 					// " = " // vCommon.ID_toStr(Surface_ID(i)) )		
+		text_write_string( vLogger.getChannel(), "   " // c_Material_Layup_2D_ID 		// " = " // vCommon.ID_toStr(Material_Layup_2D_ID(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Mat_Orient_Vec_Start_Pt_ID 	// " = " // vCommon.ID_toStr (mat_Orient_Vec_Start_Pt_ID(i)) )	
+		text_write_string( vLogger.getChannel(), "   " // c_Mat_Orient_Vec_End_Pt_ID 	// " = " // vCommon.ID_toStr (mat_Orient_Vec_Start_Pt_ID(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_Material_Layup_Position 	// " = " // vSurface_Contents.layup_Position_toStr(material_Layup_Position(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_Material_Layup_Direction 	// " = " // vSurface_Contents.normal_direction_toStr(material_Layup_Direction(i)) )		
+		text_write_string( vLogger.getChannel(), "   " // c_Material_Layup_Offset_Value // " = " // str_from_real(material_Layup_Offset_Value(i)) )			
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Surface_Contents // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0		
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	INTEGER i
+	
+	STRING headingName[64]	
+
+	INTEGER index 
+	INTEGER target_index 
+	STRING taret_name[64]
+	INTEGER valid_Integer
+
+	headingName = c_Surface_Contents
+	
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF		
+	
+
+	IF ( vCommon.iDsOccurMoreThanOnce(count, Surface_ID)) THEN
+		errorMsg = " A " // headingName // " entry has an "// c_Surface_ID // " that appears more than once.  Make sure each " // headingName  // " entry has unique entries (i.e. don't reuse ID numbers) for " // c_Surface_ID //"."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF		
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF	
+	
+	FOR ( i = 1 TO count )
+	
+		index = surface_ID(i)
+		target_index =   vSurface.getIndex(index)
+		taret_name = c_surface_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF
+		
+		
+		index = material_Layup_2D_ID(i)
+		target_index =   vMaterial_Layup_2D.getIndex(index)
+		taret_name = c_Material_Layup_2D_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF		
+		
+		index = mat_Orient_Vec_Start_Pt_ID(i)
+		target_index =   vPoint.getIndex(index)
+		taret_name = c_Mat_Orient_Vec_Start_Pt_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF		
+
+		index = mat_Orient_Vec_End_Pt_ID(i)
+		target_index =   vPoint.getIndex(index)
+		taret_name = c_Mat_Orient_Vec_End_Pt_ID
+
+		IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1							
+		END IF		
+		
+	END FOR
+		
+	RETURN returnStatus
+		
+END FUNCTION			
+#################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+#################################################################################
+FUNCTION layup_Position_toStr ( in_layup_Position_ID )
+
+	INTEGER in_layup_Position_ID
+	
+	SWITCH ( in_layup_Position_ID )
+		CASE ( ci_CENTERED )
+			return c_CENTERED
+		CASE ( ci_OFFSET_BY_VALUE)
+			return c_OFFSET_BY_VALUE
+		CASE ( ci_FLUSH_ABOVE_NORMAL_SIDE)
+			return c_FLUSH_ABOVE_NORMAL_SIDE
+		CASE ( ci_FLUSH_BELOW_NORMAL_SIDE)
+			return c_FLUSH_BELOW_NORMAL_SIDE						
+		DEFAULT
+			return ""	
+	END SWITCH
+	
+	END FUNCTION
+	
+#------------------------------------------------------------------------------
+FUNCTION layup_Position_toInt ( in_layup_Position_string )
+
+	STRING in_layup_Position_string[]
+	
+	SWITCH ( in_layup_Position_string )
+		CASE ( c_CENTERED )
+			return ci_CENTERED
+		CASE ( c_OFFSET_BY_VALUE)
+			return ci_OFFSET_BY_VALUE
+		CASE ( c_FLUSH_ABOVE_NORMAL_SIDE)
+			return ci_FLUSH_ABOVE_NORMAL_SIDE
+		CASE ( c_FLUSH_BELOW_NORMAL_SIDE)
+			return ci_FLUSH_BELOW_NORMAL_SIDE						
+		DEFAULT
+			return vConstants.get_ci_Undefined()	
+	END SWITCH	
+	
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION layup_Position_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_CENTERED // " " // c_OFFSET_BY_VALUE // " " // c_FLUSH_ABOVE_NORMAL_SIDE // " " // ci_FLUSH_BELOW_NORMAL_SIDE
+	
+END FUNCTION
+#################################################################################
+FUNCTION normal_direction_toStr ( in_normal_direction_ID )
+
+	INTEGER in_normal_direction_ID
+	
+	SWITCH ( in_normal_direction_ID )
+		CASE ( ci_Surface_NORMAL )
+			return c_SURFACE_NORMAL
+		CASE ( ci_OPPOSITE_Surface_NORMAL)
+			return c_OPPOSITE_SURFACE_NORMAL
+		DEFAULT
+			return ""	
+	END SWITCH
+	
+	END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION normal_direction_toInt ( in_normal_direction_string )
+
+	STRING in_normal_direction_string[]
+	
+	SWITCH ( in_normal_direction_string )
+		CASE ( c_SURFACE_NORMAL )
+			return ci_Surface_NORMAL
+		CASE ( c_OPPOSITE_SURFACE_NORMAL)
+			return ci_OPPOSITE_Surface_NORMAL
+		DEFAULT
+			return vConstants.get_ci_Undefined()	
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION normal_direction_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_SURFACE_NORMAL // " " // c_OPPOSITE_SURFACE_NORMAL
+	
+END FUNCTION
+#################################################################################
+FUNCTION create_Laminate( in_Surface_Contents_index, layer_2D_count, in_Layer_2D_IDs )
+
+	INTEGER in_Surface_Contents_index
+	INTEGER layer_2D_count
+	INTEGER	in_Layer_2D_IDs()
+
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".create_Laminate"	
+	
+	# Create Laminate example
+	
+	/*****
+		mat_create_lam3( "Laminate_4", "Laminate zzz 1", 1, ["M1_Epoxy_C_G_30_70_Mix", @
+		 "M2_Epoxy_C_G_Cloth", "M1_Epoxy_C_G_30_70_Mix", "M2_Epoxy_C_G_Cloth"], [ @
+		"7.000000E-002", "1.100000E+000", "7.000000E-002", "1.100000E+000"], [ @
+		"0.000000E+000", "3.000000E+001", "6.000000E+001", "9.000000E+001"], ["1", "2" @
+		, "3", "4"], 4, "", "Create" )	
+	****/
+	
+	STRING laminate_material_name[31]
+	STRING material_descrip[64]	
+	
+	INTEGER stack_sequence
+	
+	#stack_sequence 	This value specifies the stacking sequence convention:
+	#					1=Total; 2=Symmetric; 3=Symmetric/Mid-Ply; 4=Anti-
+	#					Symmetric; and 5=Anti-Symmetric/Mid-Ply.	
+	# Always set stack_sequence to 1, will always define all the layers
+	stack_sequence = 1
+	
+	laminate_material_name = vCommon.buildNameString ( "L", iD(in_Surface_Contents_index), "_Surf_Contents", 31 )
+	material_descrip = "Laminate layup for Surface Contents " // str_from_integer( iD(in_Surface_Contents_index))	
+	
+	STRING 	ply_material_names[31](VIRTUAL)
+	STRING 	thicknesses[31](VIRTUAL)
+	STRING 	angles[31](VIRTUAL)
+	STRING 	globalPly_IDs[31](VIRTUAL)
+	
+	sys_allocate_array ( ply_material_names, 	1, layer_2D_count )
+	sys_allocate_array ( thicknesses, 			1, layer_2D_count )
+	sys_allocate_array ( angles, 				1, layer_2D_count )	
+	sys_allocate_array ( globalPly_IDs, 		1, layer_2D_count )	
+	
+	INTEGER i
+	INTEGER layer_2D_index
+	INTEGER material_ID
+	INTEGER material_index	
+	
+	#########################################
+	# Set material names, thicknesses, angles
+	#########################################
+	FOR ( i = 1 TO layer_2D_count )
+		layer_2D_index = vLayer_2D.getIndex(in_Layer_2D_IDs(i))
+		material_ID = vLayer_2D.get_Material_ID(layer_2D_index)
+		material_index = vMaterial.getIndex(material_ID)
+		ply_material_names(i) = vMaterial.get_InModelMaterialName(material_index)	
+		
+		thicknesses(i) = str_from_real(vLayer_2D.get_Thickness(layer_2D_index))
+		angles(i) = str_from_real(vLayer_2D.get_Orientation_Angle(layer_2D_index))
+		globalPly_ID_counter += 1
+		globalPly_IDs(i) = str_from_integer(globalPly_ID_counter)
+	END FOR	
+		
+	returnStatus = mat_create_lam3( laminate_material_name, material_descrip, stack_sequence, @
+									ply_material_names, thicknesses, angles, globalPly_IDs,  layer_2D_count, "", "Create" )		
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "mat_create_lam3 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+	END IF			
+	
+	sys_free_array ( ply_material_names )
+	sys_free_array (thicknesses)	
+	sys_free_array (angles)
+	sys_free_array (globalPly_IDs)	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+FUNCTION createPropertySets()
+	INTEGER returnStatus = 0
+	INTEGER returnStatus_temp = 0
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createPropertySets"	
+
+	STRING headingName[64]
+	headingName = c_Surface_Contents
+	
+	INTEGER i
+	#INTEGER material_Layup_2D_index	
+	#INTEGER layer_2D_count
+	#INTEGER layer_2D_IDs(VIRTUAL)
+	#INTEGER temp_ID
+	
+	/*****
+	Laminate (Thin Laminate Standard Formulation) example
+	elementprops_create( "P_1", 51, 25, 35, 1, 3, 20, [13, 20, 4037, 4111, 4213,  @
+	4265, 1005, 5, 8111], [5, 2, 1, 1, 4, 1, 1, 1, 4], ["m:M_L1_Laminate_Layup",  @
+	"<1.1, 2.2, 3.3>", "", ".314", "", "", "", "", ""], "Surface 1" )	
+	
+	Laminate (Thin Homogenous Standard Formulation) example	
+	elementprops_create( "P_2", 51, 25, 35, 1, 1, 20, [13, 20, 36, 4037, 4111,  @
+	4118, 4119, 8111, 4400, 4401, 4402, 4403, 4404, 4405, 4406, 4407, 4408, 4409], @
+	 [5, 2, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4], [ @
+	"m:M1_Epoxy_C_G_30_70_Mix", "<1.1, 2.2, 3.3>", ".2", "", ".314", "", "", "",  @
+	"", "", "", "", "", "", "", "", "", ""], "Surface 2" )	
+	***/
+	
+	#INTEGER iD_Temp
+	INTEGER index
+	STRING  model_SurfaceID_string[2048]	
+
+	STRING inModelMaterialName[32]	
+
+	INTEGER Pt1_index
+	INTEGER Pt2_index	
+	
+	REAL direction_vector(3)
+	
+	REAL Pt1_array(3)
+	REAL Pt2_array(3)
+	
+	FOR ( i = 1 To count )
+	
+		###################################
+		# Get Surface name in Patran Model
+		###################################
+		poperty_Set_Name(i) = vCommon.buildNameString( "P_SC", iD(i), "_Surface_Contents", 31 )	
+	
+		###################################
+		# Get Surface name in Patran Model
+		###################################
+		index = vSurface.getIndex(Surface_ID(i))
+		INTEGER surfaceGeometry_ID		
+		surfaceGeometry_ID = vSurface.get_geometry_ID(index)
+		model_SurfaceID_string = ""
+		
+		vGeometry.getGeometrySurfaceName( surfaceGeometry_ID, model_SurfaceID_string )
+		
+		IF ( str_length( model_SurfaceID_string ) == 0 ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", could not retrieve Patran model surface name." 
+			errorLevel = vLogger.get_ci_WARNING()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus= -1											
+			CONTINUE
+		END IF
+		
+		#########################
+		# Get Orientation Vector
+		#########################
+		Pt1_index = vPoint.getIndex(mat_Orient_Vec_Start_Pt_ID(i))
+		Pt2_index = vPoint.getIndex(mat_Orient_Vec_End_Pt_ID(i))
+		
+		Pt1_array =	vPoint.get_Point_array(Pt1_index)
+		Pt2_array =	vPoint.get_Point_array(Pt2_index)
+
+		direction_vector(1) = Pt2_array(1) - Pt1_array(1)
+		direction_vector(2) = Pt2_array(2) - Pt1_array(2)
+		direction_vector(3) = Pt2_array(3) - Pt1_array(3)
+					
+		text_write_string( vLogger.getChannel(), "zzzzzzzz BEGIN  Surface Contents Debug  zzzzzz")	
+		
+		text_write_string( vLogger.getChannel(), "Surface Contents ID(i):" 	// str_from_integer(iD(i)))
+		text_write_string( vLogger.getChannel(), "Surface_ID(i):" 			// str_from_integer(Surface_ID(i)))		
+		text_write_string( vLogger.getChannel(), "direction_vector(1):" 	// str_from_real(direction_vector(1)))
+		text_write_string( vLogger.getChannel(), "direction_vector(2):" 	// str_from_real(direction_vector(2)))
+		text_write_string( vLogger.getChannel(), "direction_vector(3):" 	// str_from_real(direction_vector(3)))
+		text_write_string( vLogger.getChannel(), "model_SurfaceID_string" 	// model_SurfaceID_string)			
+		
+		text_write_string( vLogger.getChannel(), "zzzzzzzz END  Surface Contents Debug  zzzzzz")
+				
+		IF ( direction_vector(1) == 0.0 && direction_vector(2) == 0.0 && direction_vector(3) == 0.0 ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", The orientation vector is all zeros." 
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus= -1											
+			CONTINUE			
+		END IF
+		###########################
+		# Get Patran Material Name
+		###########################				
+		index = vMaterial_Layup_2D.getIndex( material_Layup_2D_ID(i) )
+		inModelMaterialName = vMaterial_Layup_2D.get_inModelMaterialName( index ) 
+	
+		IF (  str_length( inModelMaterialName ) == 0 ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", Material name not defined." 
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus= -1											
+			CONTINUE			
+		END IF		
+			
+		#################################################
+		# Determine If Single Material or Laminate Layup
+		#################################################	
+		LOGICAL LaminateLayup = False
+		INTEGER numLayers
+		numLayers = vMaterial_Layup_2D.get_Count_Layer_2D_IDs( index ) 
+		
+		#################
+		# Get Thickness
+		#################
+		REAL totalLaminateThickness
+		totalLaminateThickness =	vMaterial_Layup_2D.get_TotalLaminateThickness(index)
+
+		#################
+		# Compute Offset
+		#################		
+		REAL Offset
+		STRING Offset_string[32]
+		SWITCH (material_Layup_Position(i) )
+			CASE (ci_CENTERED )
+				Offset_string = ""
+			CASE (ci_OFFSET_BY_VALUE  )
+				IF ( material_Layup_Direction(i) == ci_Surface_NORMAL ) THEN
+					Offset = material_Layup_Offset_Value(i)
+				Else
+					Offset = -material_Layup_Offset_Value(i)
+				END IF
+				Offset_string = str_from_real(Offset)
+			CASE (ci_FLUSH_ABOVE_NORMAL_SIDE  )
+				Offset = totalLaminateThickness / 2.0
+				Offset_string = str_from_real(Offset)
+			CASE (ci_FLUSH_BELOW_NORMAL_SIDE   )	
+				Offset = -totalLaminateThickness / 2.0
+				Offset_string = str_from_real(Offset)
+			DEFAULT
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", Erroneous material_Layup_Position(i), should be  CENTERED/OFFSET_BY_VALUE/FLUSH_ABOVE_NORMAL_SIDE/FLUSH_BELOW_NORMAL_SIDE" 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus= -1											
+				CONTINUE				
+		END SWITCH
+			
+		
+		STRING propertyData[256](18)		
+		propertyData(2) =	"<" // str_from_real(direction_vector(1)) // ", " // str_from_real(direction_vector(2)) // ", " // str_from_real(direction_vector(3)) //">"	
+		propertyData(3) =	""
+		propertyData(4) =	Offset_string
+		propertyData(5) =	""
+		propertyData(6) =	""
+		propertyData(7) =	""
+		propertyData(8) =	""
+		propertyData(9) =	""	
+		propertyData(10) =	""	
+		propertyData(11) =	""	
+		propertyData(12) =	""	
+		propertyData(13) =	""	
+		propertyData(14) =	""	
+		propertyData(15) =	""
+		propertyData(16) =	""
+		propertyData(17) =	""
+		propertyData(18) =	""		
+		
+		propertyData(1) = "m:" // inModelMaterialName		
+		
+		IF ( numLayers > 1 ) THEN LaminateLayup = True
+					
+		IF ( LaminateLayup ) THEN
+			/*****
+			Laminate (Thin Laminate Standard Formulation) example
+			elementprops_create( "P_1", 51, 25, 35, 1, 3, 20, [13, 20, 4037, 4111, 4213,  @
+			4265, 1005, 5, 8111], [5, 2, 1, 1, 4, 1, 1, 1, 4], ["m:M_L1_Laminate_Layup",  @
+			"<1.1, 2.2, 3.3>", "", ".314", "", "", "", "", ""], "Surface 1" )
+			****/
+									
+			returnStatus_temp = elementprops_create( poperty_Set_Name(i), 51, 25, 35, 1, 3, 20, [13, 20, 4037, 4111, 4213,  @
+								4265, 1005, 5, 8111], [5, 2, 1, 1, 4, 1, 1, 1, 4], 	propertyData, model_SurfaceID_string )	
+								
+			IF ( returnStatus_temp != 0 ) THEN
+				errorMsg = "elementprops_create returned an error, Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+				returnStatus= -1											
+				CONTINUE						
+			END IF						
+		ELSE
+			/**** Laminate (Thin Homogenous Standard Formulation) example	
+			elementprops_create( "P_2", 51, 25, 35, 1, 1, 20, [13, 20, 36, 4037, 4111,  @
+			4118, 4119, 8111, 4400, 4401, 4402, 4403, 4404, 4405, 4406, 4407, 4408, 4409], @
+			 [5, 2, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4], [ @
+			"m:M1_Epoxy_C_G_30_70_Mix", "<1.1, 2.2, 3.3>", ".2", "", ".314", "", "", "",  @
+			"", "", "", "", "", "", "", "", "", ""], "Surface 2" )	
+			*****/
+			
+			propertyData(2) =	"<1.1, 2.2, 3.3>"	
+			propertyData(3) =	str_from_real(totalLaminateThickness)
+			propertyData(4) =	""
+			propertyData(5) =	Offset_string
+			propertyData(6) =	""			
+			
+			returnStatus_temp = elementprops_create( poperty_Set_Name(i), 51, 25, 35, 1, 1, 20, [13, 20, 36, 4037, 4111,  @
+			4118, 4119, 8111, 4400, 4401, 4402, 4403, 4404, 4405, 4406, 4407, 4408, 4409], @
+			 [5, 2, 1, 1, 1, 1, 1, 4, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4], propertyData, model_SurfaceID_string )					
+				
+			IF ( returnStatus_temp != 0 ) THEN
+				errorMsg = "elementprops_create returned an error, Return Status: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+				returnStatus= -1											
+				CONTINUE						
+			END IF			
+		END IF
+	END FOR
+		
+	RETURN returnStatus
+	
+END FUNCTION
+
+#################################################################################
+FUNCTION writeCompInstanceID_to_PropSet( in_Channel ) 
+
+	INTEGER in_Channel
+	
+	INTEGER i
+	FOR ( i = 1 TO count )
+		text_write_string (in_Channel, "ComponentInstanceID_PropertySet = " // vSurface.get_Component_Instance_ID( Surface_ID(i)) // "," //  poperty_Set_Name(i) )
+	END FOR
+
+END FUNCTION
+#################################################################################	
+# The hierarchy is: 
+#	vSufrace_Contents
+#		vSurface
+#			vGeometry
+#				vPoint/vPolygon    // Note if VPoint then vGeometry.geometry_Type would be FACE
+#
+#	If Vpoint (not vPolygon) then we must set vSurface.model_SurfAssocToFaceBySurfCont
+#	to true.  This is needed so that when setting normal direction for surfaces
+# 	and property sets for surfaces, if a vPoint indicated the surface 
+#	based on vSurface_Contents, then vPolygon should not be used to set 
+#	the normal direction and property set for that surface.
+# 	vPoint.associatePointsToSurfaces_Faces() must be called before calling vSurface_Contents.setMdlSurfsRefByFaces() 
+FUNCTION  setMdlSurfsRefByFaces()
+
+	INTEGER i
+	
+	INTEGER  index
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".setMdlSurfsRefByFaces"		
+	
+	INTEGER returnStatus = 0	
+	
+	INTEGER geometry_ID
+	INTEGER point_ID
+	INTEGER surfaceID_internal
+	
+	FOR ( i = 1 TO count )
+	
+		returnStatus = vTraversal_Utils.Surface_to_Geometry( Surface_ID(i), geometry_ID)
+	
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "Could not find geometry_ID, Surface_Contents ID " // str_from_integer(iD(i)) // ", Surface ID " //  str_from_integer(Surface_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN returnStatus					
+		END IF
+		
+		IF ( vGeometry.get_Geometry_Type(geometry_ID ) == vGeometry.get_ci_GEOMETRY_TYPE_FACE() ) THEN
+		
+			returnStatus =  vTraversal_Utils.Geometry_to_Point( geometry_ID, point_ID )
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "Could not find point_ID, Surface_Contents ID " // str_from_integer(iD(i)) // ", Surface ID " //  str_from_integer(Surface_ID(i)) // ", Geometry ID: " // str_from_integer(geometry_ID)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus							
+			END IF			
+			
+			returnStatus =   vPoint.getPointSurfaceIDInternal( point_ID, surfaceID_internal )
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "Could not find PointSurfaceIDInternal, Surface_Contents ID " // str_from_integer(iD(i)) // ", Surface ID " //  str_from_integer(Surface_ID(i)) // ", Point ID: " // str_from_integer(point_ID)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus							
+			END IF	
+
+			#index = vSurface.getIndex_Model_SurfID_internal ( surfaceID_internal )
+			
+			index = vSurface_Database.getIndex(surfaceID_internal)
+			
+			IF (index == vConstants.get_ci_Undefined() ) THEN
+				errorMsg = "vSurface_Database.getIndex( surfaceID_internal ) returned error, surfaceID_internal: " // str_from_integer(surfaceID_internal)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN returnStatus				
+			END IF
+			
+			#vSurface.setMd_SurfAssocToFaceBySurfCont(index, TRUE)
+			vSurface_Database.setSurfAssocToFaceBySurfConts(index, TRUE)
+			
+		END IF 	
+	END FOR
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#################################################################################
+END CLASS

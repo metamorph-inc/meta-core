@@ -17,6 +17,14 @@ namespace CyPhy2CAD_CSharp.DataRep
         public Dictionary<string, string> GMEIDToJointIDMap { get; set; }
 
         public Dictionary<string, CadManifestObject> CADManifestList { get; set; }
+        private List<TestBenchModel.TBComputation> pointCoordinatesList;
+        public List<TestBenchModel.TBComputation> PointCoordinatesList
+        {
+            get
+            {
+                return pointCoordinatesList;
+            }
+        }
 
 
         public CADContainer(string configid)
@@ -26,6 +34,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             ConfigID = configid;
             CADManifestList = new Dictionary<string, CadManifestObject>();
             GMEIDToJointIDMap = new Dictionary<string, string>();
+            pointCoordinatesList = new List<TestBenchModel.TBComputation>();
         }
 
         public CAD.AssembliesType ToCADXMLOutput(TestBenchModel.TestBenchBase tb, bool metalink = false)
@@ -38,6 +47,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             {
                 CAD.AssemblyType assembly = item.ToCADXMLOutput(tb);
                 asmlist.Add(assembly);
+                pointCoordinatesList.AddRange(item.PointCoordinatesList);
             }
 
             if (asmlist.Count > 1 && metalink)

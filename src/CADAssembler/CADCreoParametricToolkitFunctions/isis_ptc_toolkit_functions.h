@@ -135,6 +135,17 @@ namespace isis
 												ProFeatureElemtreeExtractOptions opts,
 												ProElement *p_elem) throw(isis::application_exception);
 
+	extern ProError isis_ProFeatureElemtreeFree (	ProFeature *feature,
+													ProElement  p_elem) throw(isis::application_exception);
+
+	extern ProError isis_ProFeatureRedefine (	ProAsmcomppath   *comp_path,
+										ProFeature       *feature,
+										ProElement        elemtree,
+										ProFeatureCreateOptions options[],
+										int               num_opts,
+										ProErrorlist     *p_errors ) throw(isis::application_exception);
+
+
 	extern ProError isis_ProGeomitemFeatureGet (	ProGeomitem  *p_geom_item, 
 													ProFeature   *p_feat_handle  ) 
 															throw(isis::application_exception);
@@ -172,6 +183,9 @@ namespace isis
 	extern ProError isis_ProSelectionAlloc (	ProAsmcomppath *p_cmp_path,
 										ProModelitem *p_mdl_itm,
 										ProSelection *p_selection) throw(isis::application_exception);
+
+	extern ProError isis_ProSelectionCopy( ProSelection  from_selection, ProSelection  *p_to_selection ) 
+																	throw(isis::application_exception);
 
 	extern ProError isis_ProFeatureCreate (	ProSelection     model,
 										ProElement       elemtree,
@@ -632,6 +646,29 @@ namespace isis
 																						//	call the function ProArrayFree()*/
 																				)
 																		throw (isis::application_exception);
+
+	extern ProError  isis_ProSectionNameGet (ProSection section, ProName r_name) throw (isis::application_exception);
+	extern ProError isis_ProSectionNameSet (ProSection section, wchar_t new_name[]) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionEntityFromProjection (ProSection section, ProSelection ref_geometry, int	*r_ent_id) 
+																						throw (isis::application_exception);
+
+	extern ProError isis_ProSectionEntityGet (	ProSection section, 
+												int ent_id,
+												Pro2dEntdef **POutEnt) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionLocationGet (	ProSection section,
+											ProMatrix  location_matrix) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionEntityAdd ( ProSection section,
+										Pro2dEntdef *entity2d,
+										int *r_ent_id) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionAutodim ( ProSection section ) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionSolve ( ProSection section) throw (isis::application_exception);
+
+	extern ProError isis_ProSectionRegenerate ( ProSection section) throw (isis::application_exception);
 
 
 	// Need Toolkit Mechanica license

@@ -6,6 +6,107 @@
 <!-- generated on Wed Apr 27 15:53:43 2016 -->
 
 
+	<xsd:complexType name="LayerType">
+		<xsd:attribute name="ID" type="xsd:long" use="required"/>
+		<xsd:attribute name="Material_Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Thickness" type="xsd:double" use="required"/>
+		<xsd:attribute name="Orientation" type="xsd:double" use="required"/>
+		<xsd:attribute name="Drop_Order" type="xsd:long" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="SurfaceNormalType">
+		<xsd:sequence>
+			<xsd:element name="Geometry" type="GeometryType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Direction" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="OrientationType">
+		<xsd:sequence>
+			<xsd:element name="Geometry" type="GeometryType"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MaterialLayupType">
+		<xsd:sequence>
+			<xsd:element name="Layer" type="LayerType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="Position" type="xsd:string" use="required"/>
+		<xsd:attribute name="Offset" type="xsd:double" use="required"/>
+		<xsd:attribute name="Direction" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ElementContentsType">
+		<xsd:sequence>
+			<xsd:element name="MaterialLayup" type="MaterialLayupType"/>
+			<xsd:element name="Orientation" type="OrientationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ElementType">
+		<xsd:sequence>
+			<xsd:element name="ElementContents" type="ElementContentsType"/>
+			<xsd:element name="Geometry" type="GeometryType"/>
+			<xsd:element name="SurfaceNormal" type="SurfaceNormalType"/>
+		</xsd:sequence>
+		<xsd:attribute name="ElementType" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ElementsType">
+		<xsd:sequence>
+			<xsd:element name="Element" type="ElementType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
 	<xsd:complexType name="LimitReferenceType">
 		<xsd:attribute name="ComponentID" type="xsd:string" use="required"/>
 		<xsd:attribute name="FeatureName" type="xsd:string" use="required"/>
@@ -436,6 +537,20 @@
 		<xsd:attribute name="FeatureGeometryType" type="xsd:string" use="required"/>
 		<xsd:attribute name="PrimaryGeometryQualifier" type="xsd:string" use="required"/>
 		<xsd:attribute name="SecondaryGeometryQualifier" type="xsd:string" use="required"/>
+		<xsd:attribute name="_id" type="xsd:ID"/>
+		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
+		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
+		<xsd:attribute name="_instances" type="xsd:IDREFS"/>
+		<xsd:attribute name="_desynched_atts" type="xsd:string"/>
+		<xsd:attribute name="_real_archetype" type="xsd:boolean"/>
+		<xsd:attribute name="_subtype" type="xsd:boolean"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="MeshParametersType">
+		<xsd:attribute name="Max_Global_Length" type="xsd:double" use="required"/>
+		<xsd:attribute name="Max_Curv_Delta_Div_Edge_Len" type="xsd:double" use="required"/>
+		<xsd:attribute name="Ratio_Min_Edge_To_Max_Edge" type="xsd:double" use="required"/>
+		<xsd:attribute name="Match_Face_Proximity_Tol" type="xsd:double" use="required"/>
 		<xsd:attribute name="_id" type="xsd:ID"/>
 		<xsd:attribute name="_archetype" type="xsd:IDREF"/>
 		<xsd:attribute name="_derived" type="xsd:IDREFS"/>
@@ -904,6 +1019,7 @@
 			<xsd:element name="AnalysisConstraints" type="AnalysisConstraintsType" minOccurs="0"/>
 			<xsd:element name="Conditions" type="ConditionsType" minOccurs="0"/>
 			<xsd:element name="Loads" type="LoadsType" minOccurs="0"/>
+			<xsd:element name="MeshParameters" type="MeshParametersType" minOccurs="0"/>
 			<xsd:element name="Metrics" type="MetricsType" minOccurs="0"/>
 			<xsd:element name="PartInterfaces" type="PartInterfacesType" minOccurs="0"/>
 			<xsd:element name="Solvers" type="SolversType"/>
@@ -1234,6 +1350,7 @@
 		<xsd:sequence>
 			<xsd:element name="CADComponent" type="CADComponentType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="Constraint" type="ConstraintType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Elements" type="ElementsType" minOccurs="0"/>
 			<xsd:element name="KinematicConnections" type="KinematicConnectionsType" minOccurs="0"/>
 			<xsd:element name="ManufacturingParameter" type="ManufacturingParameterType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="MetaData" type="MetaDataType" minOccurs="0" maxOccurs="unbounded"/>

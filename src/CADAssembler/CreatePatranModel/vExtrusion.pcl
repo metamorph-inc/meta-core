@@ -1,0 +1,748 @@
+/*****************  Example Input ***************************
+Extrusion
+	ID = 1
+	# Notes: 1) The following polygon points must be in order, Only up to 50 points are supported
+	# 		 2) The order of other entities ( ID, Offset_Point_ID, Bondary_Qualifier can be in any order 
+	#			including being intermingled with Polygion_Point_ID entries.
+	Polygion_Point_ID = 7
+	Polygion_Point_ID = 8
+	Polygion_Point_ID = 9
+	Polygion_Point_ID = 10
+	Offset_Point_ID = 11
+	# Interior_Only / Interior_and_Boundary / Boundary_Only
+	Bondary_Qualifier  = Interior_and_Boundary
+***********************************************************/
+###########################
+# vExtrusion Class
+###########################
+CLASS vExtrusion
+
+	CLASSWIDE STRING	c_ClassName[32],				@
+						c_Extrusion[32],				@						
+						c_POLYGON_POINT_ID[32],			@
+						c_OFFSET_POINT_ID[32],			@
+						c_BOUNDARY_QUALIFIER[32]
+												
+						#############
+						#  Extrusion 
+						#############		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL),							@
+						count_Polygon_Point_IDs(VIRTUAL),		@
+						polygon_Point_IDs(VIRTUAL),				@
+						offset_Point_ID(VIRTUAL)
+						# boundary_Qualifier INTERIOR_ONLY / INTERIOR_AND_BOUNDARY / BOUNDARY_ONLY
+	CLASSWIDE INTEGER	boundary_Qualifier(VIRTUAL)								
+				
+	CLASSWIDE INTEGER   max_Num_Points			
+				
+						#####################################
+						# Point mapping to Patran Surface IDs
+						#####################################
+	CLASSWIDE INTEGER	model_SurfaceIDs_NumFound(VIRTUAL)			
+	CLASSWIDE LOGICAL	model_SurfaceIDs_defined(VIRTUAL)
+	CLASSWIDE INTEGER	model_SurfaceIDs_internal(VIRTUAL)						
+				
+				
+	CLASSWIDE REAL		points_Coordinates_3D_temp(VIRTUAL), @
+						points_Coordinates_3D_trans_tmp(VIRTUAL), @
+						points_Coordinates_2D_trans_tmp(VIRTUAL), @
+						offset_Coordinates_3D_temp(VIRTUAL), @
+						offset_Coordinates_3D_trans_tmp(VIRTUAL)				
+				
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel				
+################################################################################
+FUNCTION initialize()
+
+	c_ClassName = "vExtrusion"
+	
+	c_Extrusion =					"Extrusion"
+		
+	c_POLYGON_POINT_ID =			"Polygon_Point_ID"
+	c_OFFSET_POINT_ID =				"Offset_Point_ID"	
+	c_BOUNDARY_QUALIFIER =			"Boundary_Qualifier"
+	
+	max_Num_Points = 50
+	
+	sys_allocate_array( points_Coordinates_3D_temp, 	 1,  max_Num_Points, 1, 3 )
+	sys_allocate_array( points_Coordinates_3D_trans_tmp, 1,  max_Num_Points, 1, 3 )	
+	sys_allocate_array( points_Coordinates_2D_trans_tmp, 1,  max_Num_Points, 1, 2 )	
+	sys_allocate_array( offset_Coordinates_3D_temp, 	 1,  3 )
+	sys_allocate_array( offset_Coordinates_3D_trans_tmp, 1,  3 )		
+	
+	count = 0
+	count_temp = 0
+	
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 						1,  count )
+		sys_allocate_array ( count_Polygon_Point_IDs, 	1,  count )
+		sys_allocate_array ( polygon_Point_IDs, 		1,  count, 1, max_Num_Points )		
+		sys_allocate_array ( offset_Point_ID, 			1,  count )		
+		sys_allocate_array ( boundary_Qualifier, 		1,  count )
+		sys_allocate_array ( model_SurfaceIDs_defined, 	1,  count )	
+		sys_allocate_array ( model_SurfaceIDs_NumFound, 1,  count )			
+	END IF
+	
+	INTEGER i, j
+	
+	FOR ( i = 1 to count)
+		boundary_Qualifier(i) = 	vConstants.get_ci_Undefined()
+		count_Polygon_Point_IDs(i) = 		0
+		model_SurfaceIDs_defined(i) = FALSE
+		model_SurfaceIDs_NumFound(i) = 0
+		offset_Point_ID(i) = vConstants.get_ci_Undefined()
+		
+		FOR ( j = 1 to max_Num_Points )
+			polygon_Point_IDs(i,j) = vConstants.get_ci_Undefined()
+		END FOR		
+		
+	END FOR
+	
+END FUNCTION
+################################################################################
+# WARNING - This must be called after calling vSurface.retrieveStore_SurfaceInfo()
+FUNCTION allocateSurfaceIDs_Arrays( in_Model_NumberSurfaces)
+	INTEGER in_Model_NumberSurfaces
+
+	IF ( count > 0 ) THEN
+		# Since one Extrusion could include all the surfaces in the Patran model, allocate space for all surfaces per Extrusion
+		sys_allocate_array ( model_SurfaceIDs_internal, 1,  count, 1, in_Model_NumberSurfaces )	
+	END IF
+END FUNCTION
+################################################################################
+FUNCTION get_c_Extrusion()
+	RETURN c_Extrusion
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION get_Model_SurfaceIDs_NumFound( in_Index )
+
+	integer in_Index
+
+	RETURN model_SurfaceIDs_NumFound( in_Index )
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,			@
+								in_out_LineNum,		@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )					
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )					
+					  END IF  
+					
+				
+					CASE (c_POLYGON_POINT_ID)
+					  count_Polygon_Point_IDs(count_temp) += 1 
+					  INTEGER count_Polygon_Point_IDs_temp
+					  count_Polygon_Point_IDs_temp = count_Polygon_Point_IDs(count_temp)
+					  
+					  IF ( count_Polygon_Point_IDs_temp > max_Num_Points ) THEN
+							errorMsg = "Exceeded maximum of " // str_from_integer(max_Num_Points) // " polygon_Point_IDs. valueField: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+							# Must decrement, or logging will get a subscript violation
+							count_Polygon_Point_IDs(count_temp)  -= 1
+					  ELSE					  
+						  polygon_Point_IDs(count_temp, count_Polygon_Point_IDs_temp ) =  vCommon.ID_toInt(valueField)
+						  IF ( polygon_Point_IDs(count_temp,count_Polygon_Point_IDs_temp) < 0 ) THEN
+								errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+								errorLevel = vLogger.get_ci_ERROR()
+								vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+						  END IF
+					  END IF	
+					  
+					CASE (c_OFFSET_POINT_ID)  					  
+					  offset_Point_ID(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  offset_Point_ID(count_temp) < 0 ) THEN
+						errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF	
+					  
+					CASE (c_BOUNDARY_QUALIFIER)  
+					  boundary_Qualifier(count_temp) =  vMath.boundary_Qualifier_toInt(valueField)
+					  IF (  boundary_Qualifier(count_temp) < 0 ) THEN
+						errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vMath.boundary_Qualifier_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF		
+					  
+					DEFAULT
+					errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+					errorLevel = vLogger.get_ci_ERROR()	
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )
+	
+END FUNCTION
+################################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0		
+		
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+
+	INTEGER i, j
+	
+	STRING headingName[64]	
+	
+	headingName = c_Extrusion	
+	
+	INTEGER index 
+	INTEGER target_index 
+	STRING taret_name[64]	
+	
+	##################################
+	# Verify all Extrusion Points Exist
+	##################################
+	
+	FOR ( i = 1 to count)
+	
+		taret_name = c_POLYGON_POINT_ID
+		
+		FOR ( j = 1 to count_Polygon_Point_IDs(i) )
+			index = polygon_Point_IDs(i,j)
+			target_index =   vPoint.getIndex(index)
+
+			IF ( target_index == vConstants.get_ci_Undefined() ) THEN
+				errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name // " with ID: "  // str_from_integer(index)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus = -1							
+			END IF		
+		END FOR
+	
+		taret_name = c_OFFSET_POINT_ID
+		
+		IF ( boundary_Qualifier(i) == vConstants.get_ci_Undefined() ) THEN	
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name 
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1									
+		END IF	
+	
+		taret_name = c_BOUNDARY_QUALIFIER
+		
+		IF ( boundary_Qualifier(i) == vConstants.get_ci_Undefined() ) THEN	
+			errorMsg = headingName // ", ID: " // str_from_integer(iD(i)) // ", missing " //  taret_name 
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus = -1									
+		END IF
+	
+	END FOR
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Extrusion // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+
+	INTEGER i, j
+		
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 	// " = " // vCommon.ID_toStr(iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_BOUNDARY_QUALIFIER 	    // " = " // vMath.boundary_Qualifier_toStr (boundary_Qualifier(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_OFFSET_POINT_ID 	    // " = " // vCommon.ID_toStr(offset_Point_ID(i)) )		
+		text_write_string( vLogger.getChannel(), "   Extrusion Points:")
+		FOR ( j = 1 TO count_Polygon_Point_IDs(i) ) 
+		    text_write_string( vLogger.getChannel(), "      " // c_POLYGON_POINT_ID		// " = " // vCommon.ID_toStr(polygon_Point_IDs(i,j)) )
+		END FOR
+	
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_Extrusion // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER I
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+#################################################################################
+FUNCTION associateExtrusionsToSurfaces( in_GeometryType )
+
+	INTEGER in_GeometryType
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".associateExtrusionsToSurfaces"	
+
+	INTEGER i, j, k
+	INTEGER returnStatus = 0
+	
+	INTEGER numberOfSurfaces = 0
+	
+	IF ( in_GeometryType != vConstants.get_ci_GeometryType_Surface()  && in_GeometryType != vConstants.get_ci_GeometryType_Solid() ) THEN
+		errorMsg = "in_GeometryType must be Surface(1) or Solid(2), the function was passed: " // str_from_integer( in_GeometryType)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	END IF	
+	
+	#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN
+	#	numberOfSurfaces = vSurface.get_Model_NumberSurfaces()
+	#ELSE
+	#	numberOfSurfaces = vSolid.get_Model_NumberSurfaces()
+	#END IF
+	
+	numberOfSurfaces = vSurface_Database.get_Count()
+	
+	INTEGER surfaceID_internal	
+	STRING surfaceID_string[31]
+	
+
+	INTEGER pointIndex
+	
+	REAL vector_XDirection(3)
+	REAL vector_XYPlane(3)
+	REAL offsetToPolygon(3)
+	REAL tolerance
+	
+	REAL surfaceCenterPont_3D(3)	
+	REAL surfaceCenterPont_3D_trans(3)	
+	REAL surfaceCenterPont_2D_trans(2)		
+	
+	REAL offsetScalarValue	
+	
+	tolerance = vConstants.get_cr_TOLERANCE()	
+	
+	LOGICAL point2D_InOn_Extrusion
+	LOGICAL includeValuesOnBoundary
+	
+	FOR ( i = 1 TO count )	
+	
+		########################################################
+		# Make sure at least three points defining Extrusion
+		########################################################
+		IF ( count_Polygon_Point_IDs(i) < 3 ) THEN
+			errorMsg = "There must be a least three points per Extrusion, Extrusion ID: " // str_from_integer(iD(i)) // " count_Polygon_Point_IDs(i): " // str_from_integer( count_Polygon_Point_IDs(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1				
+		END IF
+		
+		
+		########################################################
+		# Retrieve Point Coordinates for Each Point in Extrusion
+		########################################################		
+		FOR ( j = 1 TO count_Polygon_Point_IDs(i) )
+		
+			pointIndex = vPoint.getIndex ( polygon_Point_IDs(i,j) )
+			
+			IF ( pointIndex == vConstants.get_ci_Undefined()) THEN
+				errorMsg = "Point referenced by a Extrusion was not found, Extrusion ID: " // str_from_integer(iD(i)) // " Point ID: " // str_from_integer(polygon_Point_IDs(i,j))
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+				returnStatus = -1								
+			END IF
+			
+			points_Coordinates_3D_temp(j,1:3) = vPoint.get_Point_array(pointIndex)
+				
+		END FOR
+		
+		##############################
+		# Retrieve Offset Coordinates
+		##############################		
+		
+		pointIndex = vPoint.getIndex ( offset_Point_ID(i) )
+		
+		IF ( pointIndex == vConstants.get_ci_Undefined()) THEN
+			errorMsg = "Offset Point referenced by a Extrusion was not found, Extrusion ID: " // str_from_integer(iD(i)) // " Point ID: " // str_from_integer(offset_Point_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1								
+		END IF
+
+		
+		offset_Coordinates_3D_temp = vPoint.get_Point_array(pointIndex)
+				
+	
+		########################
+		# Set Up Transformation
+		########################
+		
+		vector_XDirection(1) = points_Coordinates_3D_temp(2,1) - points_Coordinates_3D_temp(1,1)
+		vector_XDirection(2) = points_Coordinates_3D_temp(2,2) - points_Coordinates_3D_temp(1,2)
+		vector_XDirection(3) = points_Coordinates_3D_temp(2,3) - points_Coordinates_3D_temp(1,3)	
+
+		vector_XYPlane(1) = points_Coordinates_3D_temp(3,1) - points_Coordinates_3D_temp(1,1)
+		vector_XYPlane(2) = points_Coordinates_3D_temp(3,2) - points_Coordinates_3D_temp(1,2)
+		vector_XYPlane(3) = points_Coordinates_3D_temp(3,3) - points_Coordinates_3D_temp(1,3)		
+		
+		offsetToPolygon = points_Coordinates_3D_temp(1,1:3)
+		
+		vTransformation.setTransformationMatrix (	vector_XDirection, vector_XYPlane, offsetToPolygon, tolerance )
+
+		vTransformation.logTransformationMatrix()
+		
+		###########################
+		# Transform Extrusion Points
+		###########################		
+		FOR ( j = 1 TO count_Polygon_Point_IDs(i) )		
+			returnStatus = vTransformation.transformPoint_3D( points_Coordinates_3D_temp(j,1:3), points_Coordinates_3D_trans_tmp(j,1:3) )
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = "vTransformation.transformPoint_3D returned and error, returnStatus: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+				RETURN returnStatus
+			END IF	
+		END FOR		
+		
+		###########################
+		# Transform Offset Point
+		###########################			
+	
+		returnStatus = vTransformation.transformPoint_3D( offset_Coordinates_3D_temp, offset_Coordinates_3D_trans_tmp) 
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "vTransformation.transformPoint_3D returned and error, returnStatus: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+			RETURN returnStatus
+		END IF	
+	
+		offsetScalarValue = offset_Coordinates_3D_trans_tmp(3)
+	
+		text_write_string(vLogger.getChannel(), "Offset Point: " // vCommon.str_from_real_array(3,offset_Coordinates_3D_temp) // @
+												", Offset Point Transformed: " //  vCommon.str_from_real_array(3,offset_Coordinates_3D_trans_tmp) // @
+												", Offset Value: " // str_from_real(offsetScalarValue))
+	
+		###################################################################
+		# Check if all Transformed Polygon Points have 0 Value for z Axis
+		##################################################################
+		# If non 0 z axis, then the Extrusion in not planar
+		FOR ( j = 1 TO count_Polygon_Point_IDs(i) )
+			IF ( mth_abs(points_Coordinates_3D_trans_tmp(j,3) ) > tolerance ) THEN
+				errorMsg = "The Extrusion Polygon does not have planar points, Extrusion ID: " // str_from_integer(iD(i)) // ", z Coordinate: "  // str_from_real(points_Coordinates_3D_trans_tmp(j,3)) 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+				returnStatus = -1				
+			END IF
+		END FOR				
+	
+		######################################################
+		# Convert Transformed Extrusion to 2D Points
+		######################################################
+		FOR ( j = 1 TO count_Polygon_Point_IDs(i) )		
+			points_Coordinates_2D_trans_tmp(j,1:2) = points_Coordinates_3D_trans_tmp(j,1:2) 
+		END FOR		
+		
+		FOR ( j = 1 TO numberOfSurfaces )	
+		
+			#################################
+			# Transform Surface Center Point
+			#################################					
+			
+			#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN
+			#	#surfaceCenterPont_3D = vSurface.get_model_SurfaceCenterPoint(j)
+			#ELSE
+			#	surfaceCenterPont_3D = vSolid.get_model_SurfaceCenterPoint(j)
+			#END IF				
+		
+			surfaceCenterPont_3D = vSurface_Database.get_SurfaceCenterPoint(j)
+			
+			vTransformation.transformPoint_3D(	surfaceCenterPont_3D, surfaceCenterPont_3D_trans )		
+			
+			#IF ( in_GeometryType == vConstants.get_ci_GeometryType_Surface() ) THEN				
+			#	#surfaceID_internal  = vSurface.get_model_SurfaceIDs_internal(j)
+			#	#surfaceID_string 	= vSurface.get_model_SurfaceIDs_string(j)
+			#ELSE
+			#	surfaceID_internal  = vSolid.get_model_SurfaceIDs_internal(j)
+			#	surfaceID_string 	= vSolid.get_model_SurfaceIDs_string(j)				
+			#END IF			
+			
+			surfaceID_internal = vSurface_Database.get_SurfaceID_internal( j )
+			surfaceID_string = vSurface_Database.get_SurfaceExternal_string( j )
+			
+			text_write_string(vLogger.getChannel(), "---> Checking if surface (" // surfaceID_string // ") center point " // vCommon.str_from_real_array(3,surfaceCenterPont_3D ) // @
+													" Transformed center point " // vCommon.str_from_real_array(3,surfaceCenterPont_3D_trans ) // @
+													" is within Extrusion ID: " // str_from_integer(iD(i)) // " Point IDs: ")
+			
+			text_write_string(vLogger.getChannel(), "  Extrusion Point IDs   Point 3D Coordinates     Point 3D Coordinates Transformed " )
+			text_write_string(vLogger.getChannel(), "  -----------------   --------------------     ---------------------------------" )
+			FOR ( k = 1 TO count_Polygon_Point_IDs(i) )
+				text_write_string(vLogger.getChannel(), "     " // str_from_integer(polygon_Point_IDs(i,k)) // "                " //  @
+														vCommon.str_from_real_array(3,points_Coordinates_3D_temp(k,1:3)) // "                " //  @
+														vCommon.str_from_real_array(3,points_Coordinates_3D_trans_tmp(k,1:3)) )
+			END FOR
+			
+			
+			############################################################################
+			# Check if surfaceCenterPont_3D_trans(3) within range of  offsetScalarValue 
+			############################################################################	
+			IF ( boundary_Qualifier(i) == vMath.get_ci_INTERIOR_AND_BOUNDARY() ||  boundary_Qualifier(i) == vMath.get_ci_BOUNDARY_ONLY() ) THEN
+				includeValuesOnBoundary = TRUE
+			ELSE
+				includeValuesOnBoundary = FALSE
+			END IF
+				
+			IF ( vMath.coordinateWithinRange( 0.0, offsetScalarValue, surfaceCenterPont_3D_trans(3), includeValuesOnBoundary, tolerance ) ) THEN
+				surfaceCenterPont_3D_trans(3) = 0.0  
+			ELSE
+				#text_write_string(vLogger.getChannel(), "----> Continue")
+				Continue
+			END IF
+			#text_write_string(vLogger.getChannel(), "----> Within Offset")
+			#############################################################
+			# Check if surfaceCenterPont_3D_trans has 0 Value for z Axis
+			#############################################################
+			# Note - IF surfaceCenterPont_3D_trans(3) != 0 then center point cannot be within Extrusion
+			IF ( mth_abs(surfaceCenterPont_3D_trans(3) ) < tolerance ) THEN
+	
+				surfaceCenterPont_2D_trans = surfaceCenterPont_3D_trans(1:2)
+
+				point2D_InOn_Extrusion = vMath.point2D_InOn_Polygon_2D(	surfaceCenterPont_2D_trans, 		@
+																		boundary_Qualifier(i),					@
+																		count_Polygon_Point_IDs(i), 			@
+																		points_Coordinates_2D_trans_tmp, 		@
+																		tolerance )		
+				IF ( point2D_InOn_Extrusion ) THEN
+										
+					model_SurfaceIDs_NumFound(i) += 1				
+					model_SurfaceIDs_defined(i) 	= 	TRUE
+					model_SurfaceIDs_internal(i, model_SurfaceIDs_NumFound(i)) = surfaceID_internal								
+						
+					text_write_string(vLogger.getChannel(), "*** BEGIN Found Surface Based on Extrusion ***" )	
+					text_write_string(vLogger.getChannel(), "  Extrusion ID:                           "  // str_from_integer(iD(i)))	
+					text_write_string(vLogger.getChannel(), "  Surface Name:                         "  // surfaceID_string)
+					text_write_string(vLogger.getChannel(), "  Surface Center 3D Point:              " // vCommon.str_from_real_array(3,surfaceCenterPont_3D ))
+					text_write_string(vLogger.getChannel(), "  Surface Center 3D Point, Transformed: " // vCommon.str_from_real_array(3,surfaceCenterPont_3D_trans ))				
+					text_write_string(vLogger.getChannel(), "  Surface Internal ID:                  "  // str_from_integer(model_SurfaceIDs_internal(i, model_SurfaceIDs_NumFound(i))))	
+					text_write_string(vLogger.getChannel(), "  Extrusion Point IDs   Point 3D Coordinates     Point 3D Coordinates Transformed " )
+					text_write_string(vLogger.getChannel(), "  -----------------   --------------------     ---------------------------------" )				
+					FOR ( k = 1 TO count_Polygon_Point_IDs(i) )
+						text_write_string(vLogger.getChannel(), "     " // str_from_integer(polygon_Point_IDs(i,k)) // "                " //  @
+																vCommon.str_from_real_array(3,points_Coordinates_3D_temp(k,1:3)) // "                " //  @
+																vCommon.str_from_real_array(3,points_Coordinates_3D_trans_tmp(k,1:3)) )
+					END FOR
+					
+					text_write_string(vLogger.getChannel(), "*** END Found Surface Based on Extrusion ***" )	
+					
+				END IF	
+					
+			ELSE 
+			
+			END IF
+		END FOR
+	END FOR
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION  logAssociateExtrusionsToSurfs()
+
+	INTEGER i, j
+
+	text_write_string(vLogger.getChannel(), "" )	
+	text_write_string(vLogger.getChannel(), "Extrusion Index  Extrusion ID  Number Points    Number Surfaces   Model Internal Surface IDs")	
+	text_write_string(vLogger.getChannel(), "---------------  ----------  ---------------  ----------------  --------------------------")		
+		
+		
+	FOR ( i = 1 TO count )
+	
+		text_write_string( vLogger.getChannel(), 	str_from_integer(i) // "                " // @ 
+													str_from_integer(id(i)) //  "           "  // @
+													str_from_integer(count_Polygon_Point_IDs(i))  //  "                "  // @
+													str_from_integer(model_SurfaceIDs_NumFound(i)))
+
+		FOR ( j = 1 TO model_SurfaceIDs_NumFound(i) )		
+			text_write_string( vLogger.getChannel(), "                                                               " // str_from_integer(model_SurfaceIDs_internal(i,j)))
+		END FOR
+													
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION getSurfaceIDsInternal_InExtrusi( in_Extrusion_ID, out_Num_SurfaceIDs_internal, out_SurfaceIDs_internal )
+
+	INTEGER in_Extrusion_ID
+	INTEGER out_Num_SurfaceIDs_internal
+	INTEGER out_SurfaceIDs_internal()
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getSurfaceIDsInternal_InExtrusi"	
+
+	INTEGER index
+	INTEGER returnStatus = 0
+	INTEGER i	
+	
+	index = vExtrusion.getIndex( in_Extrusion_ID )
+
+	#text_write_string( vLogger.getChannel(), "qqq in_Extrusion_ID: " // str_from_integer(in_Extrusion_ID))
+	#text_write_string( vLogger.getChannel(), "qqq index:         " // str_from_integer(index))	
+	
+	
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Extrusion ID was not found, Extrusion ID: " // str_from_integer(in_Extrusion_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			#returnStatus = -1
+			RETURN -1
+	END IF	
+	
+	out_Num_SurfaceIDs_internal = model_SurfaceIDs_NumFound(index)
+	
+	FOR ( i = 1 TO out_Num_SurfaceIDs_internal)
+		out_SurfaceIDs_internal(i) = model_SurfaceIDs_internal(index,i)
+		
+	END FOR
+			
+	RETURN returnStatus
+
+END FUNCTION
+################################################################################
+FUNCTION getExtrusionSurfaceNames( in_Extrusion_ID, out_SurfaceIDs_string )
+
+	INTEGER in_Extrusion_ID
+	STRING  out_SurfaceIDs_string[]
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getExtrusionSurfaceNames"	
+
+	out_SurfaceIDs_string = ""
+	
+	INTEGER extrusion_Index
+	INTEGER returnStatus = 0
+	INTEGER i	
+	
+	extrusion_Index = vExtrusion.getIndex( in_Extrusion_ID )
+	
+	IF ( extrusion_Index == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "Extrusion ID was not found, Extrusion ID: " // str_from_integer(in_Extrusion_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1
+	END IF	
+	
+	INTEGER num_surfaces	
+	num_surfaces = model_SurfaceIDs_NumFound(extrusion_Index)	
+	
+	IF ( num_surfaces == 0 )  THEN
+			# Treat this as a warning for now
+			errorMsg = "Surface not defined for Extrusion, in_Extrusion_ID: " // str_from_integer(in_Extrusion_ID)
+			errorLevel = vLogger.get_ci_WARNING()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			return 0
+	END IF	
+	
+	LOGICAL foundSurface
+	foundSurface = FALSE
+	
+	INTEGER surfaceDB_Index
+	
+	LOGICAL firstLoop = TRUE
+	
+	FOR ( i = 1 TO num_surfaces)
+		surfaceDB_Index = vSurface_Database.getIndex ( model_SurfaceIDs_internal(extrusion_Index,i) )
+	
+		IF ( surfaceDB_Index == vConstants.get_ci_Undefined() ) THEN
+				errorMsg = " model_SurfaceIDs_internal not found for Extrusion ID: " // str_from_integer(in_Extrusion_ID) //  ", SurfaceIDs_internal: "  // str_from_integer(model_SurfaceIDs_internal(extrusion_Index,i))
+				errorLevel = vLogger.get_ci_ERROR()	
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				RETURN -1
+		END IF		
+		
+		IF ( firstLoop ) THEN
+			out_SurfaceIDs_string = vSurface_Database.get_SurfaceExternal_string(surfaceDB_Index)
+			firstLoop = FALSE
+		ELSE
+			out_SurfaceIDs_string = out_SurfaceIDs_string // " " // vSurface_Database.get_SurfaceExternal_Num_string( surfaceDB_Index )
+		END IF
+	END FOR			
+	
+	IF ( str_length(out_SurfaceIDs_string ) == 0 ) THEN
+			errorMsg = "No surfaces were found for extrusion, Extrusion ID: " // str_from_integer(in_Extrusion_ID)
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1
+	END IF		
+			
+	RETURN returnStatus
+
+END FUNCTION
+#################################################################################
+END CLASS

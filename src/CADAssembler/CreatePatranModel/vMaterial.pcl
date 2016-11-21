@@ -1,0 +1,2615 @@
+/*****************  Examples Isotropic and Orthotropic ***************************
+Material
+	ID = 2
+	Tropic_Type = ISOTROPIC
+	Name = low_alloy_steel_a515_gr70
+	Description = low_alloy steel a515 gr70
+	Elastic_Modulus = 1.99942E8
+	Poissons_Ratio = .22
+	Density = 7.82702E-6
+	Therm_Expan_Coef = 1.12E-5
+
+Material
+	ID = 1
+	Tropic_Type = ORTHOTROPIC
+	Name = Epoxy_C_G_30_70_Mix
+	Description = "Epoxy_C_G_30_70_Mix"
+	
+	Elastic_Modulus_11 = 74300.0
+	Elastic_Modulus_22 = 20000.0
+	Elastic_Modulus_33 = 20000.0					
+						
+	Shear_Modulus_12 = 4800.0
+	Shear_Modulus_23 = 3000.0
+	Shear_Modulus_31 = 3000.0				
+						
+	Poissons_Ratio_12 = 0.35
+	Poissons_Ratio_23 =	0.3
+	Poissons_Ratio_31 = 0.35	
+
+	Density = 1.621e-6
+	
+	Cured_Ply_Thickness = .7
+	
+Material 2D Orthotropic
+	# Data from http://jcm.sagepub.com/content/46/19-20/2295.full.pdf
+	ID = 2
+	Tropic_Type = ORTHOTROPIC
+	Tropic_SubType = 2D	
+	Name =  T300_PR319_Carbon_Epoxy
+	Description = T300_PR319_Carbon_Epoxy
+	Elastic_Modulus_11 = 129000    		    # Required
+	Elastic_Modulus_22 = 5600.0				# Required	
+	Shear_Modulus_12 =   1330.0		    	# Optional
+	Shear_Modulus_23 =   1860.0		    	# Required
+	Shear_Modulus_31 =   1330.0			 	# Required
+	Poissons_Ratio_12 = .318			   	# Required	
+	density = 1.621e-006					# made-up number Required
+	
+	Tension_Stress_Limit_11 =  1378	# MPA Tsai-Wu, Hoffman, Hill, Maximum Stress
+	Tension_Stress_Limit_22 = 	40  # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Compress_Stress_Limit_11 =  950	#  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Compress_Stress_Limit_22 = 	125 # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Shear_Stress_Limit_12 = 	97  #  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Shear_Stress_Bond =			90  #  made-up number Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Interactive_Strength_XY =	100 #  made-up number Tsai_Wu		
+	
+Material 3D Orthotropic   ** Not Currently Supported ***
+	# Data from http://jcm.sagepub.com/content/46/19-20/2295.full.pdf
+	ID = 2
+	Tropic_Type = ORTHOTROPIC
+	Tropic_SubType = 2D	
+	Name =  T300_PR319_Carbon_Epoxy
+	Description = T300_PR319_Carbon_Epoxy
+	Elastic_Modulus_11 = 129000    		    # Required
+	Elastic_Modulus_22 = 5600.0				# Required	
+	Elastic_Modulus_33 = 5600.0				# Required	
+	Shear_Modulus_12 =   1330.0		    	# Optional
+	Shear_Modulus_23 =   1860.0		    	# Optional
+	Shear_Modulus_31 =   1330.0			 	# Optional
+	Poissons_Ratio_12 = .318			   	# Required	
+	Poissons_Ratio_23 = .5			    	# Required		
+	Poissons_Ratio_31 = .318			   	# Required	
+	density = 1.621e-006					# made-up number Required
+	
+	Tension_Stress_Limit_11 =  1378	# MPA Tsai-Wu, Hoffman, Hill, Maximum Stress
+	Tension_Stress_Limit_22 = 	40  # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Tension_Stress_Limit_33 = 	40  # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Compress_Stress_Limit_11 =  950	#  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Compress_Stress_Limit_22 = 	125 # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Compress_Stress_Limit_33 = 	125 # Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Shear_Stress_Limit_12 = 	97  #  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Shear_Stress_Limit_13 = 	45  #  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Shear_Stress_Limit_31 =		97  #  Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Failure_Index =				1   #  not in reference Tsai-Wu, Hoffman, Hill
+	Shear_Stress_Bond =			90  #  made-up number Tsai_Wu, Hoffman, Hill, Maximum Stress
+	Interactive_Strength_XY =	100 #  made-up number Tsai_Wu
+	Interactive_Strength_YZ =	80  #  made-up number Tsai_Wu
+	Interactive_Strength_ZX	=	80  #  made-up number Tsai_Wu		
+		
+***********************************************************/
+###########################
+# vMaterial Class
+###########################
+CLASS vMaterial
+
+	CLASSWIDE STRING	c_ClassName[32],			@
+						c_MATERIAL[32]
+								
+	CLASSWIDE INTEGER	ci_MAT_ISOTROPIC,			@							
+						ci_MAT_ORTHOTROPIC,			@
+						ci_MAT_ANSITROPIC,			@
+						ci_MAT_2D,					@
+						ci_MAT_3D,					@
+						ci_MAT_NA
+						
+	CLASSWIDE STRING 	c_NAME[32],								@
+						c_NAME_IN_PATRAN_MODEL[32],				@									
+						c_MAT_TROPIC_TYPE[32],					@	
+						c_MAT_Tropic_Subtype[32],				@						
+						c_DESCRIPTION[32],						@						
+						c_ELASTIC_MODULUS[32],					@
+						c_POISSONS_RATIO[32],					@
+						c_DENSITY[32],							@
+						c_THERM_EXPAN_COEF[32],					@
+						c_ELASTIC_MODULUS_11[32],				@
+						c_ELASTIC_MODULUS_22[32],				@
+						c_ELASTIC_MODULUS_33[32],				@
+						c_SHEAR_MODULUS_12[32],					@
+						c_SHEAR_MODULUS_23[32],					@
+						c_SHEAR_MODULUS_31[32],					@
+						c_POISSONS_RATIO_12[32],				@
+						c_POISSONS_RATIO_23[32],				@
+						c_POISSONS_RATIO_31[32],				@						
+						c_CURED_PLY_THICKNESS [32],				@						
+						c_MAT_ISOTROPIC[32],					@
+						c_MAT_ORTHOTROPIC[32],					@
+						c_MAT_ANSITROPIC[32],					@	
+						c_MAT_2D[32],							@
+						c_MAT_3D[32],							@
+						c_MAT_NA[32],							@						
+						c_TENSION_STRESS_LIMIT_11[32],			@
+						c_TENSION_STRESS_LIMIT_22[32],			@
+						c_TENSION_STRESS_LIMIT_33[32],			@
+						c_COMPRESS_STRESS_LIMIT_11[32],			@
+						c_COMPRESS_STRESS_LIMIT_22[32],			@
+						c_COMPRESS_STRESS_LIMIT_33[32],			@
+						c_SHEAR_STRESS_LIMIT_12[32],			@
+						c_SHEAR_STRESS_LIMIT_23[32],			@ 
+						c_SHEAR_STRESS_LIMIT_31[32],			@	
+						c_FAILURE_INDEX[32],					@
+						c_SHEAR_STRESS_BOND[32],				@
+						c_INTERACTIVE_STRENGTH_12[32],			@
+						c_INTERACTIVE_STRENGTH_23[32],			@
+						c_INTERACTIVE_STRENGTH_31[32]						
+						
+						###########################################
+						#  Material (Should be one to many materials)
+						###########################################		
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL)
+	CLASSWIDE STRING	mat_Name[128](VIRTUAL),					@
+						mat_InModelMaterialName[31](VIRTUAL)					
+	
+						# Isotropic / Orthotropic,  ci_MAT_ISOTROPIC / ci_MAT_ORTHOTROPIC
+	CLASSWIDE INTEGER	mat_Tropic_Type(VIRTUAL)
+						# 2D/3D/"N/A"   ci_MAT_2D/ci_MAT_3D/ci_MAT_NA
+	CLASSWIDE INTEGER	mat_Tropic_Subtype(VIRTUAL)
+	CLASSWIDE STRING	mat_Description[245](VIRTUAL)
+	CLASSWIDE REAL		mat_Elastic_Modulus(VIRTUAL),				@
+						mat_Poissons_Ratio(VIRTUAL),				@
+						mat_Density(VIRTUAL),						@
+						mat_Therm_Expan_Coef(VIRTUAL)
+
+	CLASSWIDE REAL		mat_Elastic_Modulus_11(VIRTUAL),			@	
+						mat_Elastic_Modulus_22(VIRTUAL),			@
+						mat_Elastic_Modulus_33(VIRTUAL)						
+						
+	CLASSWIDE REAL		mat_Shear_Modulus_12(VIRTUAL),				@	
+						mat_Shear_Modulus_23(VIRTUAL),				@
+						mat_Shear_Modulus_31(VIRTUAL)						
+						
+	CLASSWIDE REAL		mat_Poissons_Ratio_12(VIRTUAL),				@	
+						mat_Poissons_Ratio_23(VIRTUAL),				@
+						mat_Poissons_Ratio_31(VIRTUAL)									
+						
+	CLASSWIDE REAL		mat_Tension_Stress_Limit_11(VIRTUAL),		@
+						mat_Tension_Stress_Limit_22(VIRTUAL),		@
+						mat_Tension_Stress_Limit_33(VIRTUAL),		@
+						mat_Compress_Stress_Limit_11(VIRTUAL),		@
+						mat_Compress_Stress_Limit_22(VIRTUAL),		@
+						mat_Compress_Stress_Limit_33(VIRTUAL),		@
+						mat_Shear_Stress_Limit_12(VIRTUAL),			@
+						mat_Shear_Stress_Limit_23(VIRTUAL),			@ 
+						mat_Shear_Stress_Limit_31(VIRTUAL),			@	
+						mat_Failure_Index(VIRTUAL),					@	
+						mat_Shear_Stress_Bond(VIRTUAL),				@
+						mat_Interactive_Strength_12(VIRTUAL),		@
+						mat_Interactive_Strength_23(VIRTUAL),		@
+						mat_Interactive_Strength_31(VIRTUAL)					
+						
+	CLASSWIDE REAL		mat_Cured_Ply_Thickness(VIRTUAL)
+				
+	CLASSWIDE STRING  errorMsg[2048] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "Material"
+	
+	c_MATERIAL =					"Material"	
+	
+	ci_MAT_ISOTROPIC =				1
+	ci_MAT_ORTHOTROPIC = 			2
+	ci_MAT_ANSITROPIC = 			3	
+	ci_MAT_2D =						1
+	ci_MAT_3D =						2
+	ci_MAT_NA =						3	
+	
+	c_MAT_ISOTROPIC =				"Isotropic"
+	c_MAT_ORTHOTROPIC =				"Orthotropic"
+	c_MAT_ANSITROPIC =				"Ansitropic "
+	c_MAT_2D =						"2D"	
+	c_MAT_3D =						"3D"
+	c_MAT_NA =						"N/A"	
+	
+	c_NAME_IN_PATRAN_MODEL	= 		"Name_in_Patran_Model"	
+	
+	c_MAT_TROPIC_TYPE =				"Tropic_Type"
+	c_MAT_Tropic_Subtype = 			"Tropic_Subtype"
+	c_NAME = 						"Name"
+	c_DESCRIPTION = 				"Description"
+	c_ELASTIC_MODULUS = 			"Elastic_Modulus"
+
+	c_POISSONS_RATIO = 				"Poissons_Ratio"
+	c_DENSITY = 					"Density"
+	c_THERM_EXPAN_COEF = 			"Therm_Expan_Coef"	
+	
+	c_ELASTIC_MODULUS_11 =			"Elastic_Modulus_11"
+	c_ELASTIC_MODULUS_22 =			"Elastic_Modulus_22"
+	c_ELASTIC_MODULUS_33 =			"Elastic_Modulus_33"
+	
+	c_SHEAR_MODULUS_12 =			"Shear_Modulus_12"
+	c_SHEAR_MODULUS_23 =			"Shear_Modulus_23"
+	c_SHEAR_MODULUS_31 =			"Shear_Modulus_31"
+	
+	c_POISSONS_RATIO_12 =			"Poissons_Ratio_12"
+	c_POISSONS_RATIO_23 =			"Poissons_Ratio_23"
+	c_POISSONS_RATIO_31 =			"Poissons_Ratio_31"	
+	
+	c_CURED_PLY_THICKNESS =			"Cured_Ply_Thickness"	
+	
+	c_TENSION_STRESS_LIMIT_11 =	"Tension_Stress_Limit_11"
+	c_TENSION_STRESS_LIMIT_22 =	"Tension_Stress_Limit_22"
+	c_TENSION_STRESS_LIMIT_33 =	"Tension_Stress_Limit_33"
+	c_COMPRESS_STRESS_LIMIT_11 = "Compress_Stress_Limit_11"
+	c_COMPRESS_STRESS_LIMIT_22 = "Compress_Stress_Limit_22"
+	c_COMPRESS_STRESS_LIMIT_33 = "Compress_Stress_Limit_33"
+	c_SHEAR_STRESS_LIMIT_12 =	"Shear_Stress_Limit_12"
+	c_SHEAR_STRESS_LIMIT_23 =	"Shear_Stress_Limit_23" 
+	c_SHEAR_STRESS_LIMIT_31 =	"Shear_Stress_Limit_31"	
+	c_FAILURE_INDEX =			"Failure_Index"	
+	c_SHEAR_STRESS_BOND =		"Shear_Stress_Bond"
+	c_INTERACTIVE_STRENGTH_12 =	"Interactive_Strength_12"
+	c_INTERACTIVE_STRENGTH_23 =	"Interactive_Strength_23"
+	c_INTERACTIVE_STRENGTH_31 =	"Interactive_Strength_31"	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD,	 						1,count )
+		sys_allocate_array ( mat_Name, 						1,count )
+		sys_allocate_array ( mat_InModelMaterialName, 		1,count )		
+		sys_allocate_array ( mat_Tropic_Type, 				1,count )
+		sys_allocate_array ( mat_Tropic_Subtype, 			1,count )		
+		sys_allocate_array ( mat_Description, 				1,count )	
+		sys_allocate_array ( mat_Elastic_Modulus, 			1,count )
+		sys_allocate_array ( mat_Poissons_Ratio, 			1,count )
+		sys_allocate_array ( mat_Density, 					1,count )
+		sys_allocate_array ( mat_Therm_Expan_Coef, 			1,count )	
+
+		sys_allocate_array ( mat_Elastic_Modulus_11, 		1,count )
+		sys_allocate_array ( mat_Elastic_Modulus_22, 		1,count )
+		sys_allocate_array ( mat_Elastic_Modulus_33, 		1,count )
+		
+		sys_allocate_array ( mat_Shear_Modulus_12, 			1,count )
+		sys_allocate_array ( mat_Shear_Modulus_23,			1,count )
+		sys_allocate_array ( mat_Shear_Modulus_31, 			1,count )
+		
+		sys_allocate_array ( mat_Poissons_Ratio_12, 		1,count )
+		sys_allocate_array ( mat_Poissons_Ratio_23, 		1,count )	
+		sys_allocate_array ( mat_Poissons_Ratio_31, 		1,count )		
+
+		sys_allocate_array ( mat_Cured_Ply_Thickness, 		1,count )	
+
+		sys_allocate_array ( mat_Tension_Stress_Limit_11, 	1,count )	
+		sys_allocate_array ( mat_Tension_Stress_Limit_22, 	1,count )	
+		sys_allocate_array ( mat_Tension_Stress_Limit_33, 	1,count )	
+		sys_allocate_array ( mat_Compress_Stress_Limit_11, 	1,count )	
+		sys_allocate_array ( mat_Compress_Stress_Limit_22, 	1,count )	
+		sys_allocate_array ( mat_Compress_Stress_Limit_33, 	1,count )	
+		sys_allocate_array ( mat_Shear_Stress_Limit_12, 	1,count )		
+		sys_allocate_array ( mat_Shear_Stress_Limit_23, 	1,count )		
+		sys_allocate_array ( mat_Shear_Stress_Limit_31, 	1,count )		
+		sys_allocate_array ( mat_Failure_Index, 			1,count )				
+		sys_allocate_array ( mat_Shear_Stress_Bond, 		1,count )			
+		sys_allocate_array ( mat_Interactive_Strength_12, 	1,count )	
+		sys_allocate_array ( mat_Interactive_Strength_23, 	1,count )	
+		sys_allocate_array ( mat_Interactive_Strength_31, 	1,count )	
+
+	END IF
+	
+	INTEGER i
+	FOR ( i = 1 TO count )
+		mat_Tropic_Type(i) =     	vConstants.get_ci_Undefined()
+		mat_Tropic_Subtype(i) =     vConstants.get_ci_Undefined()		
+		
+		mat_Elastic_Modulus(i) = 	vConstants.get_cr_Undefined()
+		mat_Poissons_Ratio(i) = 	vConstants.get_cr_Undefined()
+		mat_Density(i) = 			vConstants.get_cr_Undefined()
+		mat_Therm_Expan_Coef(i)  = 	vConstants.get_cr_Undefined()
+
+		mat_Elastic_Modulus_11(i) = vConstants.get_cr_Undefined()
+		mat_Elastic_Modulus_22(i) = vConstants.get_cr_Undefined()
+		mat_Elastic_Modulus_33(i) = vConstants.get_cr_Undefined()						
+							
+		mat_Shear_Modulus_12(i) = 	vConstants.get_cr_Undefined()
+		mat_Shear_Modulus_23(i) = 	vConstants.get_cr_Undefined()
+		mat_Shear_Modulus_31(i) = 	vConstants.get_cr_Undefined()
+							
+		mat_Poissons_Ratio_12(i) = 	vConstants.get_cr_Undefined()	
+		mat_Poissons_Ratio_23(i) = 	vConstants.get_cr_Undefined()
+		mat_Poissons_Ratio_31(i) = 	vConstants.get_cr_Undefined()		
+							
+		mat_Tension_Stress_Limit_11(i) = 	vConstants.get_cr_Undefined()	
+		mat_Tension_Stress_Limit_22(i) = 	vConstants.get_cr_Undefined()	
+		mat_Tension_Stress_Limit_33(i) = 	vConstants.get_cr_Undefined()	
+		mat_Compress_Stress_Limit_11(i) = 	vConstants.get_cr_Undefined()	
+		mat_Compress_Stress_Limit_22(i) = 	vConstants.get_cr_Undefined()	
+		mat_Compress_Stress_Limit_33(i) = 	vConstants.get_cr_Undefined()	
+		mat_Shear_Stress_Limit_12(i) = 		vConstants.get_cr_Undefined()		
+		mat_Shear_Stress_Limit_23(i) = 		vConstants.get_cr_Undefined()		
+		mat_Shear_Stress_Limit_31(i) = 		vConstants.get_cr_Undefined()		
+		mat_Failure_Index(i) = 				vConstants.get_cr_Undefined()				
+		mat_Shear_Stress_Bond(i) = 			vConstants.get_cr_Undefined()			
+		mat_Interactive_Strength_12(i) = 	vConstants.get_cr_Undefined()	
+		mat_Interactive_Strength_23(i) = 	vConstants.get_cr_Undefined()	
+		mat_Interactive_Strength_31(i) = 	vConstants.get_cr_Undefined()	
+	
+		mat_Cured_Ply_Thickness(i) = vConstants.get_cr_Undefined()	
+	
+	END FOR		
+
+END FUNCTION
+################################################################################
+FUNCTION get_c_MATERIAL()
+	RETURN c_MATERIAL
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Count()
+	return count
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+# WARNING - It is the caller's responsibility to assure in_Index is valid.
+#			Call getIndex( in_ID) first to assure in_Index is valid
+FUNCTION get_Material_Name(in_Index)
+	INTEGER in_Index
+	RETURN mat_Name(in_Index)
+END FUNCTION
+
+################################################################################
+# WARNING - It is the caller's responsibility to assure in_Index is valid.
+#			Call getIndex( in_ID) first to assure in_Index is valid
+FUNCTION get_InModelMaterialName(in_Index)
+	INTEGER in_Index
+	RETURN mat_InModelMaterialName(in_Index)
+END FUNCTION
+################################################################################
+# The Tropic_Subtype can be 
+#		Isotropic Material       - ci_MAT_NA
+#		Orthotropic 2D  Material - ci_MAT_2D 
+#		Orthotropic 3D Material  - ci_MAT_3D   // Not supported at this time
+# Note - The Tropic_Subtype should be added to the input file.  It will be added later.
+FUNCTION setTropic_Subtype()
+
+	INTEGER i
+
+	FOR ( i = 1 TO count)
+		
+		mat_Tropic_Subtype(i) = ci_MAT_NA 
+		
+		IF 	( mat_Tropic_Type(i) == ci_MAT_ORTHOTROPIC) THEN 
+			mat_Tropic_Subtype(i) = ci_MAT_2D 						
+		END IF
+		
+		#IF 	( mat_Elastic_Modulus(i) != vConstants.get_cr_Undefined() ) THEN 
+		#	mat_Tropic_Subtype(i) = ci_MAT_NA 						
+		#	CONTINUE
+		#END IF
+		
+
+		#IF ( mat_Elastic_Modulus_11(i)  != vConstants.get_cr_Undefined() &&  	@ 
+		#	 mat_Elastic_Modulus_22(i)  != vConstants.get_cr_Undefined() &&  	@
+		#	 mat_Elastic_Modulus_33(i)  == vConstants.get_cr_Undefined() ) THEN
+		#	mat_Tropic_Subtype(i) = ci_MAT_2D 	
+		#	CONTINUE
+		#END IF
+
+		#IF ( mat_Elastic_Modulus_11(i)  != vConstants.get_cr_Undefined() &&  	@ 
+		#	 mat_Elastic_Modulus_22(i)  != vConstants.get_cr_Undefined() &&  	@
+		#	 mat_Elastic_Modulus_33(i)  != vConstants.get_cr_Undefined() ) THEN
+		#	mat_Tropic_Subtype(i) = ci_MAT_3D 	
+		#	CONTINUE
+		#END IF		
+	END FOR
+		
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,				@
+								in_out_LineNum,			@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	INTEGER realStatus = 0
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )				
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					
+					CASE (vConstants.get_c_ID())					
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+						errorMsg =  "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+					  END IF
+
+					CASE (c_NAME)
+						mat_Name(count_temp) = 	valueField					  
+					  
+					  
+					CASE (c_MAT_TROPIC_TYPE)  
+					  mat_Tropic_Type(count_temp) =  vMaterial.mat_Tropic_Type_toInt(valueField)
+					  IF (  mat_Tropic_Type(count_temp) < 0 ) THEN	
+						errorMsg =  "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vMaterial.mat_Tropic_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF	
+
+					CASE (c_MAT_Tropic_Subtype)  
+					  mat_Tropic_SubType (count_temp) =  vMaterial.mat_Tropic_Subtype_toInt(valueField)
+					  IF (  mat_Tropic_SubType (count_temp) < 0 ) THEN	
+						errorMsg =  "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vMaterial.mat_Tropic_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF	
+					  
+
+					CASE (c_DESCRIPTION)
+						mat_Description(count_temp) = 	valueField						
+						
+					CASE (c_ELASTIC_MODULUS)
+						mat_Elastic_Modulus(count_temp) = str_to_real(valueField, realStatus)	
+					   IF (  realStatus != 0 ) THEN						
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF						
+					CASE (c_POISSONS_RATIO)
+						mat_Poissons_Ratio(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+					CASE (c_DENSITY)
+						mat_Density(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()						
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+					CASE (c_THERM_EXPAN_COEF)
+						mat_Therm_Expan_Coef(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+						
+					CASE (c_ELASTIC_MODULUS_11)
+						mat_Elastic_Modulus_11(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF						
+						
+					CASE (c_ELASTIC_MODULUS_22)
+						mat_Elastic_Modulus_22(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF									
+						
+					CASE (c_ELASTIC_MODULUS_33)
+						mat_Elastic_Modulus_33(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN							
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF								
+						
+					CASE (c_SHEAR_MODULUS_12)
+						mat_Shear_Modulus_12(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN	
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+						END IF						
+			
+					CASE (c_SHEAR_MODULUS_23)
+						mat_Shear_Modulus_23(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN						
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF		
+						
+					CASE (c_SHEAR_MODULUS_31)
+						mat_Shear_Modulus_31(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF								
+						
+					CASE (c_POISSONS_RATIO_12)
+						mat_Poissons_Ratio_12(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF							
+
+
+					CASE (c_POISSONS_RATIO_23)
+						mat_Poissons_Ratio_23(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+						
+					CASE (c_POISSONS_RATIO_31)
+						mat_Poissons_Ratio_31(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+
+
+					CASE (c_TENSION_STRESS_LIMIT_11)
+						mat_Tension_Stress_Limit_11(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_TENSION_STRESS_LIMIT_22)
+						mat_Tension_Stress_Limit_22(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF						
+						
+
+					CASE (c_TENSION_STRESS_LIMIT_33)
+						mat_Tension_Stress_Limit_33(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_COMPRESS_STRESS_LIMIT_11)
+						mat_Compress_Stress_Limit_11(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+
+
+					CASE (c_COMPRESS_STRESS_LIMIT_22)
+						mat_Compress_Stress_Limit_22(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_COMPRESS_STRESS_LIMIT_33)
+						mat_Compress_Stress_Limit_33(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+
+
+					CASE (c_SHEAR_STRESS_LIMIT_12)
+						mat_Shear_Stress_Limit_12(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_SHEAR_STRESS_LIMIT_23)
+						mat_Shear_Stress_Limit_23(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+
+
+					CASE (c_SHEAR_STRESS_LIMIT_31)
+						mat_Shear_Stress_Limit_31(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_FAILURE_INDEX)
+						mat_Failure_Index(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+
+
+					CASE (c_SHEAR_STRESS_BOND)
+						mat_Shear_Stress_Bond(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_INTERACTIVE_STRENGTH_12)
+						mat_Interactive_Strength_12(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+						
+					CASE (c_INTERACTIVE_STRENGTH_23)
+						mat_Interactive_Strength_23(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF
+
+					CASE (c_INTERACTIVE_STRENGTH_31)
+						mat_Interactive_Strength_31(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF	
+							
+					
+					CASE (c_CURED_PLY_THICKNESS)
+						mat_Cured_Ply_Thickness(count_temp) = str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg =  "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+						END IF			
+			
+					DEFAULT
+						errorMsg =  "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()						
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )						
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+		WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData_Common_Properties( in_Index )
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+
+	text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 	// " = " // vCommon.ID_toStr (iD(i)) )
+	text_write_string( vLogger.getChannel(), "   " // c_Name 					// " = " // mat_Name(i) )
+	text_write_string( vLogger.getChannel(), "   " // c_NAME_IN_PATRAN_MODEL 	// " = " // mat_InModelMaterialName(i) )			
+	text_write_string( vLogger.getChannel(), "   " // c_MAT_TROPIC_TYPE 		// " = " // vMaterial.mat_Tropic_Type_toStr(mat_Tropic_Type(i)) )
+	text_write_string( vLogger.getChannel(), "   " // c_MAT_Tropic_Subtype             // " = " // vMaterial.mat_Tropic_Subtype_toStr(mat_Tropic_Subtype(i)) )	
+	text_write_string( vLogger.getChannel(), "   " // c_DESCRIPTION				// " = " // mat_Description(i) )
+	text_write_string( vLogger.getChannel(), "   " // c_DENSITY					// " = " // str_from_real(mat_Density(i) ))	
+	text_write_string( vLogger.getChannel(), "   " // c_THERM_EXPAN_COEF		// " = " // str_from_real(mat_Therm_Expan_Coef(i) ))	
+		
+END FUNCTION
+#-------------------------------------------------------------------------------#
+FUNCTION logData_Common_Props_required()
+
+	text_write_string( vLogger.getChannel(), "")	
+	text_write_string( vLogger.getChannel(), "   " // c_Name 					// ", Required" )
+	text_write_string( vLogger.getChannel(), "   " // c_NAME_IN_PATRAN_MODEL 	// ", Required" )			
+	text_write_string( vLogger.getChannel(), "   " // c_MAT_TROPIC_TYPE 		// ", Required" )
+	text_write_string( vLogger.getChannel(), "   " // c_MAT_Tropic_Subtype             // ", Determined from material properties" )	
+	text_write_string( vLogger.getChannel(), "   " // c_DESCRIPTION				// ", Required" )
+	text_write_string( vLogger.getChannel(), "   " // c_DENSITY					// ", Required" )	
+	text_write_string( vLogger.getChannel(), "   " // c_THERM_EXPAN_COEF		// ", Optional" )
+		
+END FUNCTION
+################################################################################
+FUNCTION logData_isotropic( in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS			// " = " // str_from_real(mat_Elastic_Modulus(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO			// " = " // str_from_real(mat_Poissons_Ratio(i) ))
+END FUNCTION
+#-------------------------------------------------------------------------------#
+FUNCTION isotropic_required()
+
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS			// ", Required" )
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO			// ", Required" )
+	
+END FUNCTION
+################################################################################
+FUNCTION logData_Orthotropic( in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_11		// " = " // str_from_real(mat_Elastic_Modulus_11(i) ))	
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_22		// " = " // str_from_real(mat_Elastic_Modulus_22(i) ))	
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_33		// " = " // str_from_real(mat_Elastic_Modulus_33(i) ))	
+
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_12		// " = " // str_from_real(mat_Shear_Modulus_12(i) ))	
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_23		// " = " // str_from_real(mat_Shear_Modulus_23(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_31		// " = " // str_from_real(mat_Shear_Modulus_31(i) ))	
+
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_12		// " = " // str_from_real(mat_Poissons_Ratio_12(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_23		// " = " // str_from_real(mat_Poissons_Ratio_23(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_31		// " = " // str_from_real(mat_Poissons_Ratio_31(i) ))
+
+
+	
+END FUNCTION
+#-------------------------------------------------------------------------------#
+FUNCTION logData_Orthotropic_required()
+
+	
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_11		// ", Required for: Orthotropic 2D and 3D" )	
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_22		// ", Required for: Orthotropic 2D and 3D" )	
+	text_write_string( vLogger.getChannel(), "   " // c_ELASTIC_MODULUS_33		// ", Required for: Orthotropic 3D" )
+
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_12		// ", Required for:  Orthotropic 2D optional for 3D" )		
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_23		// ", Required for:  Orthotropic 2D optional for 3D" )	
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_MODULUS_31		// ", Required for:  Orthotropic 2D optional for 3D" )		
+
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_12		// ", Required for: Orthotropic 2D and 3D" )	
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_23		// ", Required for: Orthotropic 3D" )	
+	text_write_string( vLogger.getChannel(), "   " // c_POISSONS_RATIO_31		// ", Required for: Orthotropic 3D" )	
+
+
+END FUNCTION
+################################################################################
+FUNCTION logData_OrthoStrengths3D( in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "3D Orthotropic Material Strengths")		
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_11		// " = " // str_from_real(mat_Tension_Stress_Limit_11(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_22		// " = " // str_from_real(mat_Tension_Stress_Limit_22(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_33		// " = " // str_from_real(mat_Tension_Stress_Limit_33(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_11	// " = " // str_from_real(mat_Compress_Stress_Limit_11(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_22	// " = " // str_from_real(mat_Compress_Stress_Limit_22(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_33	// " = " // str_from_real(mat_Compress_Stress_Limit_33(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_12		// " = " // str_from_real(mat_Shear_Stress_Limit_12(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_23		// " = " // str_from_real(mat_Shear_Stress_Limit_23(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_31		// " = " // str_from_real(mat_Shear_Stress_Limit_31(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_FAILURE_INDEX				// " = " // str_from_real(mat_Failure_Index(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_BOND			// " = " // str_from_real(mat_Shear_Stress_Bond(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_12		// " = " // str_from_real(mat_Interactive_Strength_12(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_23		// " = " // str_from_real(mat_Interactive_Strength_23(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_31		// " = " // str_from_real(mat_Interactive_Strength_31(i) ))		
+	
+END FUNCTION
+
+FUNCTION logData_OrthoStrengths2D( in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "3D Orthotropic Material Strengths")		
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_11		// " = " // str_from_real(mat_Tension_Stress_Limit_11(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_22		// " = " // str_from_real(mat_Tension_Stress_Limit_22(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_11	// " = " // str_from_real(mat_Compress_Stress_Limit_11(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_22	// " = " // str_from_real(mat_Compress_Stress_Limit_22(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_12		// " = " // str_from_real(mat_Shear_Stress_Limit_12(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_BOND			// " = " // str_from_real(mat_Shear_Stress_Bond(i) ))
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_12		// " = " // str_from_real(mat_Interactive_Strength_12(i) ))
+	
+END FUNCTION
+
+#-------------------------------------------------------------------------------#
+FUNCTION logData_OrthoStrengths_req3D()
+
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "3D Orthotropic Material Strengths Requirements")	
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_11		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_22		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_33		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_11	// ", Required for:  " //  vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_22	// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_33	// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_12		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_23		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_31		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_FAILURE_INDEX				// ", Required for:  " // vAnalysis.failure_Criteria_Tsai_Hoff_Hill())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_BOND			// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_12		// ", Optional for:  " // vAnalysis.failure_Criteria_Tsai_Wu())
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_23		// ", Optional for:  " // vAnalysis.failure_Criteria_Tsai_Wu())
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_31		// ", Optional for:  " // vAnalysis.failure_Criteria_Tsai_Wu())		
+
+END FUNCTION
+
+FUNCTION logData_OrthoStrengths_2D()
+
+	text_write_string( vLogger.getChannel(), "")		
+	text_write_string( vLogger.getChannel(), "2D Orthotropic Material Strengths Requirements")	
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_11		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_TENSION_STRESS_LIMIT_22		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_11	// ", Required for:  " //  vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_COMPRESS_STRESS_LIMIT_22	// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_LIMIT_12		// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_SHEAR_STRESS_BOND			// ", Required for:  " // vAnalysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "   " // c_INTERACTIVE_STRENGTH_12		// ", Required for:  " // vAnalysis.failure_Criteria_Tsai_Wu())
+
+END FUNCTION
+
+
+################################################################################
+FUNCTION logData_Miscellaneous( in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+
+	text_write_string( vLogger.getChannel(), "   " // c_CURED_PLY_THICKNESS		// " = " // str_from_real(mat_Cured_Ply_Thickness(i) ))		
+	
+END FUNCTION
+#-------------------------------------------------------------------------------#
+FUNCTION miscellaneous_toString(in_Index)
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+
+	return @ 
+	c_CURED_PLY_THICKNESS		// " = " // str_from_real(mat_Cured_Ply_Thickness(i) )
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_MATERIAL // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+		vMaterial.logData_Common_Properties( i )
+		vMaterial.logData_isotropic( i )
+		vMaterial.logData_Orthotropic( i )
+		vMaterial.logData_OrthoStrengths2D( i )	
+		vMaterial.logData_OrthoStrengths3D( i )			
+		vMaterial.logData_Miscellaneous( i )
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_MATERIAL // " --------")			
+END FUNCTION
+################################################################################
+FUNCTION reason3DNotSupportedForFailCrit()
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "3D Orthotropic Materials not supported for " // vAnalaysis.failure_Criteria_validStrings())
+	text_write_string( vLogger.getChannel(), "material because Patran, for this case, outputs 	MATORT/MATF cards, ")
+	text_write_string( vLogger.getChannel(), "which apply to solid elements (e.g. tetras).  Currently, not supporting")
+	text_write_string( vLogger.getChannel(), "solid composite elements.")	
+END FUNCTION
+################################################################################
+/****************************************************************************
+vAnalysis.get_failure_Criteria() returns
+	vConstants.get_ci_Undefined()
+	ci_TSAI_WU =			1
+	ci_HOFFMAN =			2
+	ci_HILL =				3
+	ci_MAXIMUM_STRESS =		4
+
+If   vAnalysis.get_failure_Criteria()!= vConstants.get_ci_Undefined()    // i.e. ci_TSAI_WU || ci_HOFFMAN || ci_HILL || ci_MAXIMUM_STRESS
+	then
+		certian values of the following must be set
+		Tension_Stress_Limit_11 
+		Tension_Stress_Limit_22 
+		Tension_Stress_Limit_33 
+		Compress_Stress_Limit_11 
+		Compress_Stress_Limit_22 
+		Compress_Stress_Limit_33 
+		Shear_Stress_Limit_12 
+		Shear_Stress_Limit_13 
+		Shear_Stress_Limit_31
+		Failure_Index
+		Shear_Stress_Bond
+		Interactive_Strength_XY 
+		Interactive_Strength_YZ
+		Interactive_Strength_ZX
+		See the top of this file for the specification for which fields must be set per failure criteria.
+	
+Also If	  vAnalysis.get_failure_Criteria() != vConstants.get_ci_Undefined() && vMaterial.mat_Tropic_Subtype() == ci_MAT_3D
+	then
+		This not allowed. It is because Patran does not produce a usable BDF for this case.
+		The BDF does not have Mat8 cards but instead has the following lines
+		MATORT   2      129000. 5600.   5600.   .318    .5      .318    1.6-6
+				1330.   1860.   1330.
+				 -1      1      1.+20           1.+20   1.+20   1.+20
+				1.+20   1.+20   1.+20
+		MATF     1       0
+				 CRI     5      2560.   1590.   73.     185.    63.     185.
+				90.     90.     57.     1.      100.    80.     80.
+		+
+		MATF     2       0
+				 CRI     5      1378.   950.    40.     125.    40.     125.
+				97.     45.     97.     1.      100.    80.     80.		
+		
+		These entries are for solid elements (e.g. Tetras), and thus will not
+		work for plate elements (CQUAD4/8). 
+		This appears to be a bug in Patran and a ticket with MSC will be opened once 
+		we have support.
+		
+
+Also, we are requiring that all materials in run a support the same failure criteria.
+This means that if the failure criteria is ci_TSAI_WU, then all materials must have
+the necessary entries/limits for ci_TSAI_WU.	
+***********************************************************************************/	
+FUNCTION check_FailureCriteriaData( in_Index )
+
+	INTEGER in_Index
+	INTEGER i
+	i = in_Index
+	
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check_FailureCriteriaData"			
+			
+	IF ( vAnalysis.get_failure_Criteria()== vConstants.get_ci_Undefined() ) THEN
+		# Do nothing  vMaterial.check() would have verified that the necessary properties were present
+		RETURN 0
+	END IF
+				
+	IF ( vAnalysis.get_failure_Criteria() != vConstants.get_ci_Undefined() && mat_Tropic_Subtype(in_Index) == ci_MAT_3D ) THEN
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.reason3DNotSupportedForFailCrit()
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - 3D Orthotropic Materials not supported for " // @
+				   vAnalaysis.failure_Criteria_validStrings() // ", See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for an explanation."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		RETURN returnStatus
+
+	END IF
+				
+				
+	############################################################		
+	# At this point ci_TSAI_WU, ci_HOFFMAN,  ci_HILL, or ci_MAXIMUM_STRESS applies for 3D Orthotropic only
+	# For both vMaterial.mat_Tropic_Subtype() == ci_MAT_2D && vMaterial.mat_Tropic_Subtype() == ci_MAT_3D (when supported)
+	# The following must hold
+	# All four the following fields must be set
+	# Tension_Stress_Limit_11
+	# Tension_Stress_Limit_22
+	# Compress_Stress_Limit_11
+	# Compress_Stress_Limit_22
+	# Shear_Stress_Limit_12
+	# Shear_Stress_Bond
+	
+	# When 3D Orthotropic is supported, will add checks for the following
+	# Tension_Stress_Limit_33
+	# Compress_Stress_Limit_33
+	# Shear_Stress_Limit_13
+	# Shear_Stress_Limit_31
+	
+	
+	IF ( mat_Tension_Stress_Limit_11(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Tension_Stress_Limit_11 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF	
+	
+	IF ( mat_Tension_Stress_Limit_22(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Tension_Stress_Limit_22 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	END IF	
+
+	#IF ( mat_Tension_Stress_Limit_33(i) == vConstants.get_cr_Undefined() ) THEN
+	#	errorMsg = c_Tension_Stress_Limit_22 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+	#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+	#	errorLevel = vLogger.get_ci_ERROR()
+	#	vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	#	returnStatus = -1
+	#END IF		
+	
+	IF ( mat_Compress_Stress_Limit_11(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Compress_Stress_Limit_11 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF	
+	
+	IF ( mat_Compress_Stress_Limit_22(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Compress_Stress_Limit_22 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF	
+
+	#IF ( mat_Compress_Stress_Limit_33(i) == vConstants.get_cr_Undefined() ) THEN
+	#	errorMsg = c_Compress_Stress_Limit_22 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+	#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+	#	errorLevel = vLogger.get_ci_ERROR()
+	#	vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	#	returnStatus = -1
+	#END IF			
+
+	IF ( mat_Shear_Stress_Limit_12(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Shear_Stress_Limit_12 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF	
+	
+	#IF ( mat_Shear_Stress_Limit_23(i) == vConstants.get_cr_Undefined() ) THEN
+	#	errorMsg = c_Shear_Stress_Limit_23 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+	#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+	#	errorLevel = vLogger.get_ci_ERROR()
+	#	vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	#	returnStatus = -1
+	#END IF	
+
+	#IF ( mat_Shear_Stress_Limit_31(i) == vConstants.get_cr_Undefined() ) THEN
+	#	errorMsg = c_Shear_Stress_Limit_31 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+	#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+	#	errorLevel = vLogger.get_ci_ERROR()
+	#	vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	#	returnStatus = -1
+	#END IF		
+	
+	IF ( mat_Shear_Stress_Bond(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Shear_Stress_Bond // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF		
+	
+	############################################################
+	# For Tsai-Wu, Hoffman, Hill the following field must be set
+	# Failure_Index 
+	
+	# will be supported when 3D Orthotropic is supported
+	#IF ( vAnalysis.get_failure_Criteria() == vAnalysis.get_ci_TSAI_WU() ||  @ 
+	#	 vAnalysis.get_failure_Criteria() == vAnalysis.get_ci_HOFFMAN() ||  @ 
+	#	 vAnalysis.get_failure_Criteria() == vAnalysis.get_ci_HILL() ) THEN
+	#	 
+	#	IF ( mat_Failure_Index(i) == vConstants.get_cr_Undefined() ) THEN
+	#		errorMsg = c_Failure_Index // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+	#		".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_Tsai_Hoff_Hill()
+	#		errorLevel = vLogger.get_ci_ERROR()
+	#		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	#		returnStatus = -1
+	#	END IF			 
+		 
+	#END IF
+	
+	############################################################
+	# For Tsai-Wu,
+	# Interactive_Strength_12
+	# Interactive_Strength_23
+	# Interactive_Strength_31
+	
+
+	/**** These are optional fields
+	IF ( vAnalysis.get_failure_Criteria() == vAnalysis.get_ci_TSAI_WU() ) THEN
+		IF ( mat_Interactive_Strength_12(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Interactive_Strength_12 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+			".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_Tsai_Wu()
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1
+		END IF	
+
+		# the following two will be supported when 3D Orthotropic is supported
+		#IF ( mat_Interactive_Strength_23(i) == vConstants.get_cr_Undefined() ) THEN
+		#	errorMsg = c_Interactive_Strength_23 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_Tsai_Wu()
+		#	errorLevel = vLogger.get_ci_ERROR()
+		#		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		#	returnStatus = -1
+		#END IF	
+
+		#IF ( mat_Interactive_Strength_31(i) == vConstants.get_cr_Undefined() ) THEN
+		#	errorMsg = c_Interactive_Strength_31 // " undefined, Material ID: " // str_from_integer(iD(i)) // @
+		#	".  This must be defined for failure criteria: " // vAnalysis.failure_Criteria_Tsai_Wu()
+		#	errorLevel = vLogger.get_ci_ERROR()
+		#	vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		#	returnStatus = -1
+		#END IF			
+		
+	END IF
+	*************/
+	
+	RETURN returnStatus	
+			
+END FUNCTION
+################################################################################
+FUNCTION check_OrthotropicMaterial( in_Index)
+	INTEGER in_Index
+
+	INTEGER i
+	i = in_Index
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check_OrthotropicMaterial"		
+	
+	INTEGER returnStatus = 0	
+	
+	# For Orthotropic 2D, the following must be defined
+	#	mat_Elastic_Modulus_11
+	# 	mat_Elastic_Modulus_22
+	# 	mat_Shear_Modulus_12
+	# 	mat_Shear_Modulus_23
+	# 	mat_Shear_Modulus_31		
+	#	mat_Poissons_Ratio_12
+		
+	#	mat_Density
+
+	# For Orthotropic 3D, the following must be defined
+	#	mat_Elastic_Modulus_11
+	# 	mat_Elastic_Modulus_22
+	#	mat_Elastic_Modulus_33			
+	#	mat_Poissons_Ratio_12
+	#	mat_Poissons_Ratio_23
+	#	mat_Poissons_Ratio_31				
+	#	mat_Density
+	#
+	#	Note - it is acceptable if 	mat_Shear_Modulus_??  is not defined for 3D
+
+	################################################
+	# Check Properties that are Common to 2D and 3D
+	###############################################
+	
+	IF ( mat_Elastic_Modulus_11(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Elastic_Modulus_11 // " undefined, Material ID: " // str_from_integer(iD(i))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF									
+
+	IF ( mat_Elastic_Modulus_22(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Elastic_Modulus_22 // " undefined, Material ID: " // str_from_integer(iD(i))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1		
+	END IF	
+			
+	IF ( mat_Poissons_Ratio_12(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Poissons_Ratio_12 // " undefined, Material ID: " // str_from_integer(iD(i))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 			
+		returnStatus = -1		
+	END IF				
+			
+	IF ( mat_Density(i) == vConstants.get_cr_Undefined() ) THEN
+		errorMsg = c_Density //  " undefined, Material ID: " // str_from_integer(iD(i))
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+		returnStatus = -1		
+	END IF				
+
+	################################################
+	# Check Properties that are applicable to 2D
+	###############################################	
+	if ( mat_Tropic_Subtype(i) == ci_MAT_2D ) THEN	
+		IF ( mat_Shear_Modulus_12(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Shear_Modulus_12 // " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+			returnStatus = -1			
+		END IF		
+		
+		IF ( mat_Shear_Modulus_23(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Shear_Modulus_23 //  " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+			returnStatus = -1			
+		END IF			
+		
+		IF ( mat_Shear_Modulus_31(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Shear_Modulus_31 // " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+			returnStatus = -1			
+		END IF		
+	END IF		
+	################################################
+	# Check Properties that are applicable to 3D
+	###############################################		
+	if ( mat_Tropic_Subtype(i) == ci_MAT_3D ) THEN	
+	
+
+		
+	/******* The following will not work because it appears that string lengths are limited to 256 characters.
+		errorMsg = "3D Orthotropic materials are currently not supported,  Material ID: " // str_from_integer(iD(i)) // @
+		".  This is because Patran does not covert 3D Orthotropic materials to Mat8 cards for use by plate (e.g. CQuad) elements." // @
+		"  If " // c_Elastic_Modulus_11 // ", " //  c_Elastic_Modulus_22 // ",  and " // c_Elastic_Modulus_33 // @ 
+		" are defined in the input file, then the material is considered to be 3D Orthotropic.  If only " // c_Elastic_Modulus_11 // " and" // @
+		c_Elastic_Modulus_22 // " are defined, then the material is considered to be 2D Orthotropic."
+    *****/	
+		errorLevel = vLogger.get_ci_ERROR()
+		errorMsg = "3D Orthotropic materials are currently not supported,  Material ID: " // str_from_integer(iD(i)) // @
+			".  This is because Patran does not covert 3D Orthotropic materials to Mat8 cards for use by plate (e.g. CQuad) elements."					
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+		
+		errorLevel = vLogger.get_ci_INFORMATION()		
+		errorMsg = "If " // c_Elastic_Modulus_11 // ", " //  c_Elastic_Modulus_22 // ", and " // c_Elastic_Modulus_33 // @ 
+		" are defined in the input file, then the material is considered to be 3D Orthotropic." 				
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+		errorMsg =  "If only " // c_Elastic_Modulus_11 // " and" // @
+		c_Elastic_Modulus_22 // " are defined, then the material is considered to be 2D Orthotropic."				
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+		
+		returnStatus = -1	
+
+		/********** implement this when 3D Orthotropic is supported
+		IF ( mat_Elastic_Modulus_33(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Elastic_Modulus_33 // " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+			returnStatus = -1			
+		END IF					
+		
+		
+		IF ( mat_Poissons_Ratio_23(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Poissons_Ratio_23 // " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )										
+			returnStatus = -1			
+		END IF
+	
+		IF ( mat_Poissons_Ratio_31(i) == vConstants.get_cr_Undefined() ) THEN
+			errorMsg = c_Poissons_Ratio_31 // " undefined, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+			returnStatus = -1			
+		END IF
+		************/
+	END IF	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION check()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"	
+	
+	Integer i
+	INTEGER returnStatus = 0
+	INTEGER returnStatus_temp = 0	
+
+	# Material Type not defined
+	
+	STRING headingName[64]	
+	headingName = c_Material
+	
+	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
+		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1							
+	END IF		
+	
+
+	FOR ( i = 1 TO count )
+		If ( mat_Tropic_Type(i) == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = "mat_Tropic_Type undefined, this must be set to Isotropic or Orthotropic, Material ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+			returnStatus = -1					
+		END IF	
+	END FOR
+
+	# If mat_Tropic_Type not set, then the other checks cannot be made
+	IF ( returnStatus != 0 ) THEN
+		return returnStatus
+	END IF	
+	
+	FOR ( i = 1 TO count )	
+		SWITCH ( mat_Tropic_Type(i) )					
+			CASE (ci_MAT_ISOTROPIC)
+				# For Isotropic, the following must be defined
+				#	mat_Elastic_Modulus
+				# 	mat_Poissons_Ratio
+				#	mat_Density			
+				IF ( mat_Elastic_Modulus(i) == vConstants.get_cr_Undefined() ) THEN
+					errorMsg = "mat_Elastic_Modulus undefined, Material ID: " // str_from_integer(iD(i))
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					returnStatus = -1
+				END IF
+				
+				IF ( mat_Poissons_Ratio(i) == vConstants.get_cr_Undefined() ) THEN
+					errorMsg = "mat_Poissons_Ratio undefined, Material ID: " // str_from_integer(iD(i))
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					returnStatus = -1
+				END IF	
+
+				IF ( mat_Density(i) == vConstants.get_cr_Undefined() ) THEN
+					errorMsg = "mat_Density undefined, Material ID: " // str_from_integer(iD(i))
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					returnStatus = -1
+				END IF				
+	    			
+			CASE (ci_MAT_ORTHOTROPIC)
+				returnStatus_temp = vMaterial.check_OrthotropicMaterial(i)
+				IF ( returnStatus_temp != 0 ) THEN returnStatus = returnStatus_temp
+				
+			DEFAULT
+					errorMsg = "Unknown mat_Tropic_Type, Material ID: " // str_from_integer(iD(i))
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					returnStatus = -1
+		END SWITCH		
+	END FOR	
+	
+	FOR ( i = 1 TO count )
+		returnStatus_temp = vMaterial.check_FailureCriteriaData( i )
+		IF ( returnStatus_temp != 0 ) THEN returnStatus = -1
+	END FOR
+	
+	return returnStatus	
+	
+END FUNCTION
+################################################################################
+FUNCTION mat_Tropic_Type_toStr ( in_mat_Tropic_Type_ID )
+
+	INTEGER in_mat_Tropic_Type_ID
+
+	SWITCH( in_mat_Tropic_Type_ID )
+		CASE( ci_MAT_ISOTROPIC )
+			return c_MAT_ISOTROPIC
+		CASE( ci_MAT_ORTHOTROPIC )	
+			return c_MAT_ORTHOTROPIC
+		CASE( ci_MAT_ANSITROPIC )		
+			c_MAT_ANSITROPIC
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION mat_Tropic_Type_toInt ( in_mat_Tropic_Type_str )
+
+	STRING in_mat_Tropic_Type_str[]
+	
+	SWITCH( in_mat_Tropic_Type_str )
+		CASE( c_MAT_ISOTROPIC )
+			return ci_MAT_ISOTROPIC
+		CASE( c_MAT_ORTHOTROPIC )	
+			return ci_MAT_ORTHOTROPIC
+		CASE( c_MAT_ANSITROPIC )		
+			ci_MAT_ANSITROPIC
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION mat_Tropic_validStrings()
+	return c_MAT_ISOTROPIC// "  " // c_MAT_ORTHOTROPIC // "   " // c_MAT_ANSITROPIC
+	
+END FUNCTION
+################################################################################
+FUNCTION mat_Tropic_Subtype_toStr ( in_mat_Tropic_Subtype_ID )
+
+	INTEGER in_mat_Tropic_Subtype_ID
+
+	SWITCH( in_mat_Tropic_Subtype_ID )
+		CASE( ci_MAT_2D )
+			return c_MAT_2D
+		CASE( ci_MAT_3D )	
+			return c_MAT_3D
+		CASE( ci_MAT_NA )	
+			return c_MAT_NA			
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION mat_Tropic_Subtype_toInt ( in_mat_Tropic_Subtype_str )
+
+	STRING in_mat_Tropic_Subtype_str[]
+	
+	SWITCH( in_mat_Tropic_Subtype_str )
+		CASE( c_MAT_2D )
+			return ci_MAT_2D
+		CASE( c_MAT_3D )	
+			return ci_MAT_3D
+		CASE( c_MAT_NA )	
+			return ci_MAT_NA			
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION mat_Tropic_validStrings()
+	return c_MAT_2D// "  " // c_MAT_3D // "  Undefined" 
+END FUNCTION
+################################################################################
+FUNCTION setInModelMaterialName( )
+	INTEGER i
+	FOR ( i = 1 TO count )
+		mat_InModelMaterialName(i) = vCommon.buildNameString ( "M", iD(i), "_" // mat_Name(i), 31 )
+	END FOR
+	
+END FUNCTION
+
+################################################################################
+FUNCTION createMaterials_Isotropic( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_Isotropic"	
+	
+	INTEGER returnStatus = 0
+			
+	# Note - for the purposes of this program  material can have the following values:
+	#	Property				Required/Optional  ( See checkMaterial)
+	#	---------				-----------------
+	#	in_Mat_ElasticModulus	Required 										
+	#	in_Mat_PoissonsRatio	Required
+	#	in_Mat_Density			Required
+	#	in_Mat_ThermExpanCoef	Optional			
+			
+	/**********  Original Copied from session file *******
+	
+	Isotropic
+	--------
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	"steel_stainless_321", 0, "Date: 20-Jul-15           Time: 12:56:25",  @
+	"Isotropic", 1, "Directionality", 1, "Linearity", 1, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Elastic Modulus", "Poisson Ratio", "Density", "Thermal Expan. Coeff"], [2, 5, @
+	 16, 24, 0], "Property Values", ["1.99948E8", ".27", "7.82708E-6", "1.17E-5",  @
+	""] )
+	
+	****************/
+
+	text_write_string ( vLogger.getChannel(), "" )		
+
+	# Property ID 	Property Name   		 See: PCL Reference Manual Volume 1: Function Descriptions
+	# ------------- -------------------
+	# 2 			Elastic Modulus
+	# 5 			Poisson Ratio		
+	# 16 			Density
+	# 24 			Thermal Expansion Coeff
+	
+	STRING prop_names[31](4)
+	prop_names(1) = "Elastic Modulus"
+	prop_names(2) = "Poisson Ratio"
+	prop_names(3) = "Density"
+	IF ( mat_Therm_Expan_Coef(in_index) == vConstants.get_cr_Undefined() ) THEN
+		prop_names(4) = ""
+	ELSE
+		prop_names(4) = "Thermal Expan. Coeff"
+	END IF
+	
+	INTEGER prop_ids(5)
+	prop_ids(1) = 2	
+	prop_ids(2) = 5	
+	prop_ids(3) = 16	
+	IF ( mat_Therm_Expan_Coef(in_index) == vConstants.get_cr_Undefined() ) THEN
+		prop_ids(4) = 0	
+	ELSE
+		prop_ids(4) = 24	
+	END IF
+	prop_ids(5) = 0
+	
+	STRING PropertyValues[32](5)		
+	PropertyValues(1) = str_from_real(mat_Elastic_Modulus(in_index))
+	PropertyValues(2) = str_from_real(mat_Poissons_Ratio(in_index))
+	PropertyValues(3) = str_from_real(mat_Density(in_index))
+	IF ( mat_Therm_Expan_Coef(in_index) == vConstants.get_cr_Undefined() ) THEN
+		PropertyValues(4) = ""
+	ELSE
+		PropertyValues(4) = str_from_real(mat_Therm_Expan_Coef(in_index))	
+	END IF	
+	PropertyValues(5) =	""	
+	
+	STRING material_cat[31]
+	# This value specifies the material category: "Isotropic", 
+	# "3d Orthotropic", "3d Anisotropic", "2d Orthotropic", or 
+	# "2d Anisotropic".
+	material_cat = "Isotropic"
+	
+	INTEGER directionality_id	
+	# This value specifies the material directionality ID: 0=N/A;
+	# 1=Isotropic; 2=Orthotropic; 3=Anisotropic; 4=2d
+	# Orthotropic; and 5=2d Anisotropic.	
+	directionality_id = 1
+
+	INTEGER linearity_id
+	# This value specifies the linearity ID: 0=N/A; 1=Linear
+	# Elastic; 2=Nonlinear Elastic; 3=Elastoplastic;
+	# 4=Hyperelastic; 5=Viscoelastic; and 6=Creep.	
+	linearity_id = 1
+	
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), 0, mat_Description(in_index),  @
+	material_cat, 1, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, @
+	"Property Values", PropertyValues )				
+		
+	IF ( returnStatus != 0 ) THEN		
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.logData_isotropic( in_Index)
+		vMaterial.logData_Common_Props_required()
+		vMaterial.isotropic_required()		
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - Could not create isotropic material, See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for supporting information"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		RETURN returnStatus
+	ELSE
+		text_write( vLogger.getChannel(), "Created Material:",0,0.0,"")	
+		vMaterial.logData_common_properties( in_index )
+		vMaterial.logData_isotropic( in_index )		
+	END IF
+	
+	RETURN returnStatus	
+		
+END FUNCTION
+################################################################################
+FUNCTION createMaterials_Orthotropic( in_index )
+	Integer in_index
+
+	INTEGER returnStatus = 0
+	
+	returnStatus = vMaterial.createMaterials_OrthoLinearElas( in_index )
+
+	IF ( returnStatus == 0 ) THEN
+		IF ( vAnalysis.get_failure_Criteria() != vConstants.get_ci_Undefined() ) THEN
+			IF ( mat_Tropic_Subtype(in_index) == ci_MAT_3D ) THEN	
+				returnStatus = vMaterial.createMaterials_OrthoStrength3D( in_index )
+			ELSE
+				returnStatus = vMaterial.createMaterials_OrthoStrength2D( in_index )
+			END IF						
+		END IF
+	END IF
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION createMaterials_OrthoLinearElas( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_OrthoLinearElas"	
+	
+	INTEGER returnStatus = 0
+	
+	IF ( mat_Tropic_Subtype(in_index) == ci_MAT_3D ) THEN	
+		returnStatus = vMaterial.createMaterials_OrthoLinElas3D( in_index )
+	ELSE
+		returnStatus = vMaterial.createMaterials_OrthoLinElas2D( in_index )
+	END IF
+	
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+FUNCTION createMaterials_OrthoLinElas2D( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_OrthoLinElas2D"	
+	
+	INTEGER returnStatus = 0
+	
+
+	/**** Example that works
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), 0, "Date: 26-Jul-16           Time: 16:27:24",  @
+	"2d Orthotropic", 5, "Directionality", 4, "Linearity", 1, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Elastic Modulus 11", "Elastic Modulus 22", "Poisson Ratio 12",  @
+	"Shear Modulus 12", "Shear Modulus 23", "Shear Modulus 13", "Density"], [2, 3, @
+	 5, 8, 9, 10, 16, 0], "Property Values", ["165000", "8400.0", ".34", "5600.0", @
+	 "2800.0", "5600.6", "1.621e-006", ""] )
+	RETURN 0
+    ********/
+		
+	# Note - for the purposes of this program orthotropic material can have the following values:
+	#	Property					Required/Optional  ( See checkMaterial)
+	#	---------					-----------------
+	# in_Mat_Elastic_Modulus_11		Required	
+	# in_Mat_Elastic_Modulus_22		Required
+	# in_Mat_Poissons_Ratio_12		Required		
+	# in_Mat_Shear_Modulus_12		Required	
+	# in_Mat_Shear_Modulus_23		Required		
+	# in_mat_Shear_Modulus_31		Required							
+	# in_Mat_Density				Required
+			
+	/**********  Original Copied from session file *******
+	Orthotropic_2D
+	--------------
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	"Orthotropic_2D_Examplezz", 0, "Date: 26-Jul-16           Time: 16:27:24",  @
+	"2d Orthotropic", 5, "Directionality", 4, "Linearity", 1, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Elastic Modulus 11", "Elastic Modulus 22", "Poisson Ratio 12",  @
+	"Shear Modulus 12", "Shear Modulus 23", "Shear Modulus 13", "Density"], [2, 3, @
+	 5, 8, 9, 10, 16, 0], "Property Values", ["165000", "8400.0", ".34", "5600.0", @
+	 "2800.0", "5600.6", "1.621e-006", ""] )		
+		
+	***************/
+	text_write_string ( vLogger.getChannel(), "" )		
+
+	
+	# Elastic Modulus 11	2
+	# Elastic Modulus 22	3
+	# Poisson Ratio 12		5
+	# Shear Modulus 12		8
+	# Shear Modulus 23		9
+	# Shear Modulus 31		10
+	# Density				16
+	
+	INTEGER i
+	
+	
+	STRING prop_names[31](7)
+	FOR ( i = 1 TO 7 )
+		prop_names(i) = ""
+	END FOR
+	
+	prop_names(1)	= "Elastic Modulus"
+	prop_names(2)	= "Elastic Modulus 22"
+	prop_names(3)	= "Poisson Ratio 12"
+	prop_names(4)	= "Shear Modulus 12"
+	prop_names(5)	= "Shear Modulus 23"
+	prop_names(6)	= "Shear Modulus 13"
+	prop_names(7) 	= "Density"
+
+		
+	INTEGER prop_ids(8)
+	FOR ( i = 1 TO 8 )
+		prop_ids(i) = 0
+	END FOR
+	
+	prop_ids(1) = 2	
+	prop_ids(2) = 3
+	prop_ids(3) = 5	
+	prop_ids(4) = 8	
+	prop_ids(5) = 9	
+	prop_ids(6) = 10	
+	prop_ids(7) = 16	
+
+	
+	STRING PropertyValues[32](8)		
+	FOR ( i = 1 TO 8 )
+		PropertyValues(i) = ""
+	END FOR
+		
+	PropertyValues(1) =  str_from_real(mat_Elastic_Modulus_11(in_index))			
+	PropertyValues(2) =  str_from_real(mat_Elastic_Modulus_22(in_index))								
+	PropertyValues(3) =  str_from_real(mat_Poissons_Ratio_12(in_index))					
+	PropertyValues(4) =  str_from_real(mat_Shear_Modulus_12(in_index))			
+	PropertyValues(5) =  str_from_real(mat_Shear_Modulus_23(in_index))		
+	PropertyValues(6) =  str_from_real(mat_Shear_Modulus_31(in_index))		
+	PropertyValues(7) = str_from_real(mat_Density(in_index))	
+
+		
+	#dump prop_names
+	#dump prop_ids
+	#dump PropertyValues
+	
+	STRING material_cat[31]
+	# This value specifies the material category: "Isotropic", 
+	# "3d Orthotropic", "3d Anisotropic", "2d Orthotropic", or 
+	# "2d Anisotropic".	
+	material_cat = "2d Orthotropic"
+
+	
+	INTEGER material_cat_id 
+	# This value specifies the material category ID: 1=Isotropic;
+	# 2=3d Orthotropic; 3=3d Anisotropic; 4=2d Anisotropic; and
+	# 5=2d Orthotropic.
+	material_cat_id = 5
+	
+	INTEGER directionality_id	
+	# This value specifies the material directionality ID: 0=N/A;
+	# 1=Isotropic; 2=Orthotropic; 3=Anisotropic; 4=2d
+	# Orthotropic; and 5=2d Anisotropic.	
+	directionality_id = 4
+
+	INTEGER linearity_id
+	# This value specifies the linearity ID: 0=N/A; 1=Linear
+	# Elastic; 2=Nonlinear Elastic; 3=Elastoplastic;
+	# 4=Hyperelastic; 5=Viscoelastic; and 6=Creep.	
+	linearity_id = 1
+		
+	
+	# 28003213 The given values of E11, E22 and Nu12 do not satisfy the condition that E11/E22 > Nu12*Nu12. Do you wish to continue?
+	# 28003214 The given values of E22, E33 and Nu23 do not satisfy the condition that E22/E33 > Nu23*Nu23. Do you wish to continue?
+	# 28003215 The given values of E33, E11 and Nu31 do not satisfy the condition that E33/E11 > Nu31*Nu31. Do you wish to continue?
+	# 28003216 The given values of E11, E33 and Nu13 do not satisfy the condition that E11/E33 > Nu13*Nu13. Do you wish to continue?
+	# 28003217 The given values of E11, E22, E33, Nu12, Nu23, and Nu13 do not form positive definite matrix. Do you wish to continue?
+	# 28003218 The given values of E11, E22, E33, Nu12, Nu23, and Nu31 do not form positive 3 definite matrix. Do you wish to continue?	
+	
+	# 28003209 "%A%" has a value less than or equal to zero. Do you wish to continue?	
+	
+	text_write( vLogger.getChannel(), "Creating Material: %A%",0,0.0, mat_Name(in_index))	
+	
+	# The following did not work, because the ui_answer_message seems to apply to only the next question.
+	# material.create can generate multiple questions.
+	# ui_answer_message(28003213, "YES")	
+	# ui_answer_message(28003214, "YES")	
+	# ui_answer_message(28003215, "YES")
+	# ui_answer_message(28003216, "YES")	
+	# ui_answer_message(28003217, "YES")
+	# ui_answer_message(28003218, "YES")		
+			
+	ui_override_message(28003213, "YES")	
+	ui_override_message(28003214, "YES")	
+	ui_override_message(28003215, "YES")
+	ui_override_message(28003216, "YES")	
+	ui_override_message(28003217, "YES")
+	ui_override_message(28003218, "YES")
+
+	# ui_override_message(28003209, "YES")	
+			
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), 0, mat_Description(in_index),  @
+	material_cat, material_cat_id, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, @
+	"Property Values", PropertyValues )				
+		
+	# Turn off override
+	ui_override_message(28003213, "")	
+	ui_override_message(28003214, "")	
+	ui_override_message(28003215, "")
+	ui_override_message(28003216, "")	
+	ui_override_message(28003217, "")
+	ui_override_message(28003218, "")		
+				
+	ui_override_message(28003209, "")					
+				
+	IF ( returnStatus != 0 ) THEN			
+		
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.logData_Orthotropic( in_Index)
+		vMaterial.logData_Common_Props_required()		
+		vMaterial.logData_Orthotropic_required()	
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - Could not create 2D orthotropic material, See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for supporting information."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
+		
+		RETURN returnStatus
+	ELSE
+		vMaterial.logData_Common_Properties( in_index )
+		vMaterial.logData_Orthotropic( in_index )					
+	END IF
+	
+	RETURN returnStatus	
+	
+END FUNCTION	
+################################################################################
+FUNCTION createMaterials_OrthoLinElas3D( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_OrthoLinElas3D"	
+	
+	INTEGER returnStatus = 0
+	
+		
+	# Note - for the purposes of this program orthotropic material can have the following values:
+	#	Property					Required/Optional  ( See checkMaterial)
+	#	---------					-----------------
+	# in_Mat_Elastic_Modulus_11		Required	
+	# in_Mat_Elastic_Modulus_22		Required	
+	# in_Mat_Elastic_Modulus_33		Required			
+	# in_Mat_Shear_Modulus_12		Optional	
+	# in_Mat_Shear_Modulus_23		Optional		
+	# in_mat_Shear_Modulus_31		Optional						
+	# in_Mat_Poissons_Ratio_12		Required			
+	# in_Mat_Poissons_Ratio_23		Required
+	# in_mat_Poissons_Ratio_31		Required		
+	# in_Mat_Density				Required
+			
+	/**********  Original Copied from session file *******
+		
+	Orthotropic_3D
+	--------------
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	"Epoxy_C_G_30_70_Mix", 0, "Date: 16-May-16           Time: 14:42:10",  @
+	"3d Orthotropic", 2, "Directionality", 2, "Linearity", 1, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Elastic Modulus 11", "Elastic Modulus 22", "Elastic Modulus 33",  @
+	"Poisson Ratio 12", "Poisson Ratio 23", "Poisson Ratio 31", "Shear Modulus 12" @
+	, "Shear Modulus 23", "Shear Modulus 31", "Density"], [2, 3, 4, 5, 6, 7, 8, 9, @
+	 10, 16, 0], "Property Values", ["74300", "10000", "500", ".35", ".36", ".37", @
+	 "4800.", "3000", "3200", "1.621E-006", ""] )
+	****************/
+	
+	text_write_string ( vLogger.getChannel(), "" )		
+
+	
+	# Elastic Modulus 11	2
+	# Elastic Modulus 22	3
+	# Elastic Modulus 33	4
+	# Poisson Ratio 12		5
+	# Poisson Ratio 23		6
+	# Poisson Ratio 31		7
+	# Shear Modulus 12		8
+	# Shear Modulus 23		9
+	# Shear Modulus 31		10
+	# Density				16
+	
+	INTEGER i
+	
+	STRING prop_names[31](11)
+	FOR ( i = 1 TO 11 )
+		prop_names(i) = ""
+	END FOR
+	
+	prop_names(1)	= "Elastic Modulus"
+	prop_names(2)	= "Elastic Modulus 22"
+	prop_names(3)	= "Elastic Modulus 33"
+	prop_names(4)	= "Poisson Ratio"
+	prop_names(5)	= "Poisson Ratio 23"
+	prop_names(6)	= "Poisson Ratio 31"
+	IF ( mat_Shear_Modulus_12(in_index) == vConstants.get_cr_Undefined() ) THEN
+		prop_names(7) = "Density"
+	ELSE
+		prop_names(7)	= "Shear Modulus"
+		prop_names(8)	= "Shear Modulus 23"
+		prop_names(9)	= "Shear Modulus 31"
+		prop_names(10) 	= "Density"
+	END IF
+		
+	INTEGER prop_ids(11)
+	FOR ( i = 1 TO 11 )
+		prop_ids(i) = 0
+	END FOR
+	
+	prop_ids(1) = 2	
+	prop_ids(2) = 3
+	prop_ids(3) = 4	
+	prop_ids(4) = 5	
+	prop_ids(5) = 6	
+	prop_ids(6) = 7	
+	IF ( mat_Shear_Modulus_12(in_index) == vConstants.get_cr_Undefined() ) THEN
+		prop_ids(7) = 16	
+	ELSE
+		prop_ids(7) = 8	
+		prop_ids(8) = 9	
+		prop_ids(9) = 10	
+		prop_ids(10) = 16	
+	END IF
+	
+	
+	STRING PropertyValues[32](11)		
+	FOR ( i = 1 TO 11 )
+		PropertyValues(i) = ""
+	END FOR
+		
+	PropertyValues(1) =  str_from_real(mat_Elastic_Modulus_11(in_index))			
+	PropertyValues(2) =  str_from_real(mat_Elastic_Modulus_22(in_index))		
+	PropertyValues(3) =  str_from_real(mat_Elastic_Modulus_33(in_index))						
+	PropertyValues(4) =  str_from_real(mat_Poissons_Ratio_12(in_index))			
+	PropertyValues(5) =  str_from_real(mat_Poissons_Ratio_23(in_index))	
+	PropertyValues(6) =  str_from_real(mat_Poissons_Ratio_31(in_index))		
+	IF ( mat_Shear_Modulus_12(in_index) == vConstants.get_cr_Undefined() ) THEN
+		PropertyValues(7) = str_from_real(mat_Density(in_index))	
+	ELSE
+		PropertyValues(7) =  str_from_real(mat_Shear_Modulus_12(in_index))			
+		PropertyValues(8) =  str_from_real(mat_Shear_Modulus_23(in_index))		
+		PropertyValues(9) =  str_from_real(mat_Shear_Modulus_31(in_index))		
+		PropertyValues(10) = str_from_real(mat_Density(in_index))	
+	END IF	
+		
+	#dump prop_names
+	#dump prop_ids
+	#dump PropertyValues
+	
+	STRING material_cat[31]
+	# This value specifies the material category: "Isotropic", 
+	# "3d Orthotropic", "3d Anisotropic", "2d Orthotropic", or 
+	# "2d Anisotropic".	
+	material_cat = "3d Orthotropic"
+
+	
+	INTEGER material_cat_id 
+	# This value specifies the material category ID: 1=Isotropic;
+	# 2=3d Orthotropic; 3=3d Anisotropic; 4=2d Anisotropic; and
+	# 5=2d Orthotropic.
+	material_cat_id = 2
+	
+	INTEGER directionality_id	
+	# This value specifies the material directionality ID: 0=N/A;
+	# 1=Isotropic; 2=Orthotropic; 3=Anisotropic; 4=2d
+	# Orthotropic; and 5=2d Anisotropic.	
+	directionality_id = 2
+
+	INTEGER linearity_id
+	# This value specifies the linearity ID: 0=N/A; 1=Linear
+	# Elastic; 2=Nonlinear Elastic; 3=Elastoplastic;
+	# 4=Hyperelastic; 5=Viscoelastic; and 6=Creep.	
+	linearity_id = 1
+		
+	
+	# 28003213 The given values of E11, E22 and Nu12 do not satisfy the condition that E11/E22 > Nu12*Nu12. Do you wish to continue?
+	# 28003214 The given values of E22, E33 and Nu23 do not satisfy the condition that E22/E33 > Nu23*Nu23. Do you wish to continue?
+	# 28003215 The given values of E33, E11 and Nu31 do not satisfy the condition that E33/E11 > Nu31*Nu31. Do you wish to continue?
+	# 28003216 The given values of E11, E33 and Nu13 do not satisfy the condition that E11/E33 > Nu13*Nu13. Do you wish to continue?
+	# 28003217 The given values of E11, E22, E33, Nu12, Nu23, and Nu13 do not form positive definite matrix. Do you wish to continue?
+	# 28003218 The given values of E11, E22, E33, Nu12, Nu23, and Nu31 do not form positive 3 definite matrix. Do you wish to continue?	
+	
+	
+	text_write( vLogger.getChannel(), "Creating Material: %A%",0,0.0, mat_Name(in_index))	
+	
+	# The following did not work, because the ui_answer_message seems to apply to only the next question.
+	# material.create can generate multiple questions.
+	# ui_answer_message(28003213, "YES")	
+	# ui_answer_message(28003214, "YES")	
+	# ui_answer_message(28003215, "YES")
+	# ui_answer_message(28003216, "YES")	
+	# ui_answer_message(28003217, "YES")
+	# ui_answer_message(28003218, "YES")		
+			
+	ui_override_message(28003213, "YES")	
+	ui_override_message(28003214, "YES")	
+	ui_override_message(28003215, "YES")
+	ui_override_message(28003216, "YES")	
+	ui_override_message(28003217, "YES")
+	ui_override_message(28003218, "YES")		
+			
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), 0, mat_Description(in_index),  @
+	material_cat, material_cat_id, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Linear Elastic", 1, "Model Options & IDs", ["", "", "", "", ""], [0, 0, 0, 0, @
+	 0], "Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, @
+	"Property Values", PropertyValues )				
+		
+	# Turn off override
+	ui_override_message(28003213, "")	
+	ui_override_message(28003214, "")	
+	ui_override_message(28003215, "")
+	ui_override_message(28003216, "")	
+	ui_override_message(28003217, "")
+	ui_override_message(28003218, "")		
+				
+	IF ( returnStatus != 0 ) THEN	
+
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.logData_Orthotropic( in_Index)
+		vMaterial.logData_Common_Props_required()		
+		vMaterial.logData_Orthotropic_required()
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - Could not create 3D orthoropic material, See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for supporting information."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		RETURN returnStatus		
+				
+	ELSE
+		vMaterial.logData_Common_Properties( in_index )
+		vMaterial.logData_Orthotropic( in_index )					
+	END IF
+	
+	RETURN returnStatus	
+	
+END FUNCTION	
+################################################################################
+FUNCTION createMaterials_OrthoStrength2D( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_OrthoStrength2D"	
+	
+	INTEGER returnStatus = 0
+	
+	# Note - for the purposes of this program failure are required as follows:
+	#	Limit Property					Required for Method(s)  ( See checkMaterial)
+	#	---------						-----------------
+	# Tension_Stress_Limit_11   		Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Tension_Stress_Limit_22  			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Compress_Stress_Limit_11  		Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Compress_Stress_Limit_22 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Shear_Stress_Limit_12 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Shear_Stress_Bond 				Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Interactive_Strength_XY			Tsai_Wu	
+	
+	
+	/***********************************************************************
+	"Tsai-Wu"
+	
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	"M2_T300_PR319_Carbon_Epoxy", 2, "T300_PR319_Carbon_Epoxy", "2d Orthotropic",  @
+	5, "Directionality", 4, "Linearity", 0, "Homogeneous", 0, "Failure", 4,  @
+	"Model Options & IDs", ["Stress", "Tsai-Wu", "", "", ""], [6, 4, 0, 0, 0],  @
+	"Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Tension Stress Limit 11", "Tension Stress Limit 22",  @
+	"Compress Stress Limit 11", "Compress Stress Limit 22", "Shear Stress Limit",  @
+	"Interaction Term", "Bonding Shear Stress Limit"], [99, 102, 100, 103, 101,  @
+	133, 132, 0], "Property Values", ["2560", "73", "1590", "185", "90", "100",  @
+	"90", ""] )	
+	
+	"Hill"
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1, "test_zzz_name" @
+	, 0, "T300_PR319_Carbon_Epoxy", "2d Orthotropic", 5, "Directionality", 4,  @
+	"Linearity", 0, "Homogeneous", 0, "Failure", 4, "Model Options & IDs", [ @
+	"Stress", "Hill", "", "", ""], [6, 2, 0, 0, 0], "Active Flag", 1, "Create",  @
+	10, "External Flag", FALSE, "Property IDs", ["Tension Stress Limit 11",  @
+	"Tension Stress Limit 22", "Compress Stress Limit 11",  @
+	"Compress Stress Limit 22", "Shear Stress Limit", "Bonding Shear Stress Limit" @
+	], [99, 102, 100, 103, 101, 132, 0], "Property Values", ["2560.", "73.",  @
+	"1590.", "185.", "90.", "90.", ""] )
+	
+	
+	"Hoffman"
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1, "test_zzz_hoff" @
+	, 0, "T300_PR319_Carbon_Epoxy", "2d Orthotropic", 5, "Directionality", 4,  @
+	"Linearity", 0, "Homogeneous", 0, "Failure", 4, "Model Options & IDs", [ @
+	"Stress", "Hoffman", "", "", ""], [6, 3, 0, 0, 0], "Active Flag", 1, "Create", @
+	 10, "External Flag", FALSE, "Property IDs", ["Tension Stress Limit 11",  @
+	"Tension Stress Limit 22", "Compress Stress Limit 11",  @
+	"Compress Stress Limit 22", "Shear Stress Limit", "Bonding Shear Stress Limit" @
+	], [99, 102, 100, 103, 101, 132, 0], "Property Values", ["2560.", "73.",  @
+	"1590.", "185.", "90.", "90.", ""] )	
+	
+	"Maximum Stress"  / "Maximum"
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	"test_zzz_max_stress", 0, "T300_PR319_Carbon_Epoxy", "2d Orthotropic", 5,  @
+	"Directionality", 4, "Linearity", 0, "Homogeneous", 0, "Failure", 4,  @
+	"Model Options & IDs", ["Stress", "Maximum", "", "", ""], [6, 5, 0, 0, 0],  @
+	"Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", [ @
+	"Tension Stress Limit 11", "Tension Stress Limit 22",  @
+	"Compress Stress Limit 11", "Compress Stress Limit 22", "Shear Stress Limit",  @
+	"Bonding Shear Stress Limit"], [99, 102, 100, 103, 101, 132, 0],  @
+	"Property Values", ["2560.", "73.", "1590.", "185.", "90.", "90.", ""] )	
+	
+	Tsai-Wu
+	"Tension Stress Limit 11"
+	"Tension Stress Limit 22"
+	"Compress Stress Limit 11"
+	"Compress Stress Limit 22", 
+	"Shear Stress Limit"
+	"Interaction Term"
+	"Bonding Shear Stress Limit"
+
+	Hill
+	["Tension Stress Limit 11"
+	"Tension Stress Limit 22"
+	"Compress Stress Limit 11"
+	"Compress Stress Limit 22"
+	"Shear Stress Limit"
+	"Bonding Shear Stress Limit"
+
+	Hoffman
+	"Tension Stress Limit 11"
+	"Tension Stress Limit 22"
+	"Compress Stress Limit 11"
+	"Compress Stress Limit 22"
+	"Shear Stress Limit"
+	"Bonding Shear Stress Limit"
+
+	"Maximum Stress" 
+	"Tension Stress Limit 11"
+	"Tension Stress Limit 22"
+	"Compress Stress Limit 11"
+	"Compress Stress Limit 22"
+	"Shear Stress Limit"
+	"Bonding Shear Stress Limit"	
+	
+	***********************************************************************/
+
+	INTEGER i
+	
+	STRING option_names[31](5)
+	INTEGER option_ids(5)	
+	
+	FOR ( i = 1 TO 5 )
+		option_names(i) = ""
+		option_ids(i) = 0
+	END FOR		
+
+	# ["Stress", "Tsai-Wu", "", "", ""], [6, 4, 0, 0, 0]
+	# ["Stress", "Hill", "", "", ""], 	 [6, 2, 0, 0, 0]
+	# ["Stress", "Hoffman", "", "", ""], [6, 3, 0, 0, 0]
+	# ["Stress", "Maximum", "", "", ""], [6, 5, 0, 0, 0]
+
+	option_names(1) = "Stress"
+	option_ids(1) = 6	
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_TSAI_WU() ) THEN
+		option_names(2) = "Tsai-Wu"
+		option_ids(2) = 4
+	END IF
+	
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_HILL() ) THEN
+		option_names(2) = "Hill"
+		option_ids(2) = 2
+	END IF	
+	
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_HOFFMAN() ) THEN
+		option_names(2) = "Hoffman"
+		option_ids(2) = 3
+	END IF	
+	
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_MAXIMUM_STRESS() ) THEN
+		option_names(2) = "Maximum"
+		option_ids(2) = 5
+	END IF	
+	
+	
+	STRING prop_names[31](7)
+	FOR ( i = 1 TO 7 )
+		prop_names(i) = ""
+	END FOR
+		
+	prop_names(1)	= "Tension Stress Limit 11"
+	prop_names(2)	= "Tension Stress Limit 22"
+	prop_names(3)	= "Compress Stress Limit 11"
+	prop_names(4)	= "Compress Stress Limit 22"
+	prop_names(5)	= "Shear Stress Limit"
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_TSAI_WU() ) THEN
+		prop_names(6)	= "Interaction Term"
+		prop_names(7)	= "Bonding Shear Stress Limit"
+	ELSE
+		prop_names(6)	= "Bonding Shear Stress Limit"
+	END IF	
+	
+		
+	INTEGER prop_ids(8)
+	FOR ( i = 1 TO 8 )
+		prop_ids(i) = 0
+	END FOR
+	
+	prop_ids(1) = 99	
+	prop_ids(2) = 102
+	prop_ids(3) = 100
+	prop_ids(4) = 103	
+	prop_ids(5) = 101	
+	prop_ids(6) = 133	
+	prop_ids(7) = 132	
+
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_TSAI_WU() ) THEN
+		prop_ids(6) = 133	
+		prop_ids(7) = 132	
+	ELSE
+		prop_ids(6) = 132
+	END IF		
+		
+	STRING PropertyValues[32](8)		
+	FOR ( i = 1 TO 8 )
+		PropertyValues(i) = ""
+	END FOR		
+	
+	PropertyValues(1) =   str_from_real(mat_Tension_Stress_Limit_11(in_index))
+	PropertyValues(2) =   str_from_real(mat_Tension_Stress_Limit_22(in_index))
+	PropertyValues(3) =   str_from_real(mat_Compress_Stress_Limit_11(in_index))
+	PropertyValues(4) =   str_from_real(mat_Compress_Stress_Limit_22(in_index))
+	PropertyValues(5) =   str_from_real(mat_Shear_Stress_Limit_12(in_index))
+	IF ( vAnalysis.get_failure_Criteria() ==  vAnalysis.get_ci_TSAI_WU() ) THEN
+		IF ( mat_Interactive_Strength_12(in_index) != vConstants.get_cr_Undefined() ) THEN
+			PropertyValues(6) =  str_from_real(mat_Interactive_Strength_12(in_index))	
+		END IF
+		PropertyValues(7) =  str_from_real(mat_Shear_Stress_Bond(in_index))		
+	ELSE
+		PropertyValues(6) =  str_from_real(mat_Shear_Stress_Bond(in_index))	
+	END IF			
+	
+		
+	#dump prop_names
+	#dump prop_ids
+	#dump PropertyValues
+	
+	STRING material_cat[31]
+	# This value specifies the material category: "Isotropic", 
+	# "3d Orthotropic", "3d Anisotropic", "2d Orthotropic", or 
+	# "2d Anisotropic".
+	
+	INTEGER material_cat_id 
+	# This value specifies the material category ID: 1=Isotropic;
+	# 2=3d Orthotropic; 3=3d Anisotropic; 4=2d Anisotropic; and
+	# 5=2d Orthotropic.
+	
+	INTEGER directionality_id	
+	# This value specifies the material directionality ID: 0=N/A;
+	# 1=Isotropic; 2=Orthotropic; 3=Anisotropic; 4=2d
+	# Orthotropic; and 5=2d Anisotropic.	
+	
+
+	material_cat = "2d Orthotropic"	
+	material_cat_id = 5
+	directionality_id = 4	
+
+
+	INTEGER linearity_id
+	# This value specifies the linearity ID: 0=N/A; 1=Linear
+	# Elastic; 2=Nonlinear Elastic; 3=Elastoplastic;
+	# 4=Hyperelastic; 5=Viscoelastic; and 6=Creep.	
+	linearity_id = 0
+		
+	INTEGER mat_exisits 
+	INTEGER mid
+	exp_data_fitting.material_exists ( mat_InModelMaterialName(in_index), mat_exisits, mid )
+
+    
+	text_write_string( vLogger.getChannel(), "exp_data_fitting.material_exists, mat_exisits: " // str_from_integer(mat_exisits))
+	text_write_string( vLogger.getChannel(), "exp_data_fitting.material_exists, mid:         " // str_from_integer(mat_exisits))	
+	
+	IF ( mat_exisits == 0 ) THEN
+		errorMsg = "The material must already exist in the Patran model when adding failure criteria. Material not found, Material Name: " // mat_InModelMaterialName(in_index)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )	
+		return -1
+	END IF
+	
+	text_write( vLogger.getChannel(), "Creating Material: %A%",0,0.0, mat_Name(in_index))	
+	
+	INTEGER const_model_id = 4
+			
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), mid, mat_Description(in_index),  @
+	material_cat, material_cat_id, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Failure", const_model_id, "Model Options & IDs", option_names, option_ids, @
+	"Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, "Property Values", PropertyValues )				
+		
+	IF ( returnStatus != 0 ) THEN		
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.logData_OrthoStrengths2D( in_Index)
+		vMaterial.logData_Common_Props_required()		
+		vMaterial.logData_OrthoStrengths_req2D()
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - Could not create 2D orthotropic material strength limits, See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for supporting information."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		RETURN returnStatus				
+	ELSE		
+		vMaterial.logData_common_properties( in_index )
+		vMaterial.logData_OrthoStrengths2D( in_index )	
+	END IF	
+
+	RETURN returnStatus		
+	
+END FUNCTION		
+################################################################################
+FUNCTION createMaterials_OrthoStrength3D( in_index )
+
+	Integer in_index
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials_OrthoStrength3D"	
+	
+	INTEGER returnStatus = 0
+		
+	# Note - for the purposes of this program failure are required as follows:
+	#	Limit Property					Required for Method(s)  ( See checkMaterial)
+	#	---------						-----------------
+	# Tension_Stress_Limit_11   		Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Tension_Stress_Limit_22  			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Tension_Stress_Limit_33  			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Compress_Stress_Limit_11  		Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Compress_Stress_Limit_22 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Compress_Stress_Limit_33  		Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Shear_Stress_Limit_12 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Shear_Stress_Limit_13 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Shear_Stress_Limit_31 			Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Failure_Index   					Tsai_Wu, Hoffman, Hill
+	# Shear_Stress_Bond 				Tsai_Wu, Hoffman, Hill, Maximum Stress
+	# Interactive_Strength_XY			Tsai_Wu
+	# Interactive_Strength_YZ			Tsai_Wu
+	# Interactive_Strength_ZX			Tsai_Wu
+			
+	/**********  Original Copied from session file *******
+		 
+	material.create( "Analysis code ID", 1, "Analysis type ID", 1, "Tsai_Wu_Material", 5,  @
+	"Date: 20-Jul-16           Time: 14:11:50", "3d Orthotropic", 2,  @
+	"Directionality", 2, "Linearity", 0, "Homogeneous", 0,  @
+	"Failure1 (SOL 400/600)", 35, "Model Options & IDs", ["Tsai-Wu", "None", "",  @
+	"", ""], [4, 30, 0, 0, 0], "Active Flag", 1, "Create", 10, "External Flag",  @
+	FALSE, "Property IDs", ["Tension Stress Limit X", "Tension Stress Limit Y",  @
+	"Tension Stress Limit Z", "Compress Stress Limit X", "Compress Stress Limit Y" @
+	, "Compress Stress Limit Z", "Shear Stress Limit XY", "Shear Stress Limit YZ", @
+	 "Shear Stress Limit ZX", "Shear Stress Bond (SB)", "Failure Index",  @
+	"Interactive Strength XY", "Interactive Strength YZ",  @
+	"Interactive Strength ZX"], [7506, 7507, 7508, 7509, 7510, 7511, 7512, 7513,  @
+	7514, 7535, 7504, 7501, 7502, 7503, 0], "Property Values", ["2560", "73", "63" @
+	, "1590", "185", "185", "90", "90", "57", "90", "1", "100 ", "80", "80", ""] )	  
+	****************/
+	
+	text_write_string ( vLogger.getChannel(), "" )		
+
+
+	
+	INTEGER i
+	
+	STRING prop_names[31](15)
+	FOR ( i = 1 TO 15 )
+		prop_names(i) = ""
+	END FOR
+	
+	prop_names(1)	= "Tension Stress Limit X"
+	prop_names(2)	= "Tension Stress Limit Y"
+	prop_names(3)	= "Tension Stress Limit Z"
+	prop_names(4)	= "Compress Stress Limit X"
+	prop_names(5)	= "Compress Stress Limit Y"
+	prop_names(6)	= "Compress Stress Limit Z"
+	prop_names(7)	= "Shear Stress Limit XY"
+	prop_names(8)	= "Shear Stress Limit YZ"
+	prop_names(9)	= "Shear Stress Limit ZX"
+	prop_names(10) 	= "Shear Stress Bond (SB)"
+	prop_names(11) 	= "Failure Index"
+	prop_names(12) 	= "Interactive Strength XY"
+	prop_names(13) 	= "Interactive Strength YZ"
+	prop_names(14) 	= "Interactive Strength ZX"
+
+		
+	INTEGER prop_ids(15)
+	FOR ( i = 1 TO 15 )
+		prop_ids(i) = 0
+	END FOR
+	
+	prop_ids(1) = 7506	
+	prop_ids(2) = 7507
+	prop_ids(3) = 7508	
+	prop_ids(4) = 7509	
+	prop_ids(5) = 7510	
+	prop_ids(6) = 7511	
+	prop_ids(7) = 7512	
+	prop_ids(8) = 7513	
+	prop_ids(9) = 7514	
+	prop_ids(10) = 7535	
+	prop_ids(11) = 7504	
+	prop_ids(12) = 7501
+	prop_ids(13) = 7502
+	prop_ids(14) = 7503	
+	
+	STRING PropertyValues[32](15)		
+	FOR ( i = 1 TO 15 )
+		PropertyValues(i) = ""
+	END FOR		
+	
+	PropertyValues(1) =   str_from_real(mat_Tension_Stress_Limit_11(in_index))
+	PropertyValues(2) =   str_from_real(mat_Tension_Stress_Limit_22(in_index))
+	PropertyValues(3) =   str_from_real(mat_Tension_Stress_Limit_33(in_index))
+	PropertyValues(4) =   str_from_real(mat_Compress_Stress_Limit_11(in_index))
+	PropertyValues(5) =   str_from_real(mat_Compress_Stress_Limit_22(in_index))
+	PropertyValues(6) =   str_from_real(mat_Compress_Stress_Limit_33(in_index))
+	PropertyValues(7) =   str_from_real(mat_Shear_Stress_Limit_12(in_index))
+	PropertyValues(8) =   str_from_real(mat_Shear_Stress_Limit_23(in_index)) 
+	PropertyValues(9) =   str_from_real(mat_Shear_Stress_Limit_31(in_index))
+	PropertyValues(10) =  str_from_real(mat_Shear_Stress_Bond(in_index))	
+	PropertyValues(11) =  str_from_real(mat_Failure_Index(in_index))
+	
+	IF ( mat_Interactive_Strength_12(in_index) != vConstants.get_cr_Undefined() ) THEN
+		PropertyValues(12) =  str_from_real(mat_Interactive_Strength_12(in_index))	
+	END IF
+	
+	IF ( mat_Interactive_Strength_23(in_index) != vConstants.get_cr_Undefined() ) THEN
+		PropertyValues(13) =  str_from_real(mat_Interactive_Strength_23(in_index))
+	END IF	
+	
+	IF ( mat_Interactive_Strength_31(in_index) != vConstants.get_cr_Undefined() ) THEN
+		PropertyValues(14) =  str_from_real(mat_Interactive_Strength_31(in_index))	
+	END IF		
+	
+
+		
+		
+	#dump prop_names
+	#dump prop_ids
+	#dump PropertyValues
+	
+	STRING material_cat[31]
+	# This value specifies the material category: "Isotropic", 
+	# "3d Orthotropic", "3d Anisotropic", "2d Orthotropic", or 
+	# "2d Anisotropic".
+	
+	INTEGER material_cat_id 
+	# This value specifies the material category ID: 1=Isotropic;
+	# 2=3d Orthotropic; 3=3d Anisotropic; 4=2d Anisotropic; and
+	# 5=2d Orthotropic.
+	
+	INTEGER directionality_id	
+	# This value specifies the material directionality ID: 0=N/A;
+	# 1=Isotropic; 2=Orthotropic; 3=Anisotropic; 4=2d
+	# Orthotropic; and 5=2d Anisotropic.	
+	
+	
+	IF ( mat_Tropic_Subtype(in_index) == ci_MAT_3D ) THEN
+		material_cat = "3d Orthotropic"
+		material_cat_id = 2
+		directionality_id = 2	
+	ELSE
+		material_cat = "2d Orthotropic"	
+		material_cat_id = 5
+		directionality_id = 4	
+	END IF
+
+
+
+	INTEGER linearity_id
+	# This value specifies the linearity ID: 0=N/A; 1=Linear
+	# Elastic; 2=Nonlinear Elastic; 3=Elastoplastic;
+	# 4=Hyperelastic; 5=Viscoelastic; and 6=Creep.	
+	linearity_id = 0
+		
+	INTEGER mat_exisits 
+	INTEGER mid
+	exp_data_fitting.material_exists ( mat_InModelMaterialName(in_index), mat_exisits, mid )
+
+    
+	text_write_string( vLogger.getChannel(), "exp_data_fitting.material_exists, mat_exisits: " // str_from_integer(mat_exisits))
+	text_write_string( vLogger.getChannel(), "exp_data_fitting.material_exists, mid:         " // str_from_integer(mat_exisits))	
+	
+	IF ( mat_exisits == 0 ) THEN
+		errorMsg = "The material must already exist in the Patran model when adding failure criteria. Material not found, Material Name: " // mat_InModelMaterialName(in_index)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )	
+		return -1
+	END IF
+	
+	
+	text_write( vLogger.getChannel(), "Creating Material: %A%",0,0.0, mat_Name(in_index))	
+	
+	
+	INTEGER const_model_id = 35
+		
+	/*** old
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), mid, mat_Description(in_index),  @
+	material_cat, material_cat_id, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Failure1 (SOL 400/600)", const_model_id, "Model Options & IDs", ["Tsai-Wu", "None", "", "", ""], [4, 30, 0, 0, 0], @
+	"Active Flag", 1, "Modify", 31, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, @
+	"Property Values", PropertyValues )		
+	****/
+		
+	returnStatus = material.create( "Analysis code ID", 1, "Analysis type ID", 1,  @
+	mat_InModelMaterialName(in_index), mid, mat_Description(in_index),  @
+	material_cat, material_cat_id, "Directionality", directionality_id, "Linearity", linearity_id, "Homogeneous", 0,  @
+	"Failure1 (SOL 400/600)", const_model_id, "Model Options & IDs", ["Tsai-Wu", "None", "", "", ""], [4, 30, 0, 0, 0], @
+	"Active Flag", 1, "Create", 10, "External Flag", FALSE, "Property IDs", prop_names, @
+	prop_ids, @
+	"Property Values", PropertyValues )				
+		
+			
+	IF ( returnStatus != 0 ) THEN	
+		
+		vLogger.logErrorReferenceStart()
+		vMaterial.logData_Common_Properties(in_index)
+		vMaterial.logData_OrthoStrengths3D( in_Index)
+		vMaterial.logData_Common_Props_required()		
+		vMaterial.logData_OrthoStrengths_req3D()
+		vLogger.logErrorReferenceEnd()		
+		errorMsg = "Function: " // functionName // ", ERROR - Could not create orthotropic material strength limits, See  "  // @
+				   vLogger.get_errorReferenceKeyString() //   "  above for supporting information."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		RETURN returnStatus		
+		
+	ELSE		
+		vMaterial.logData_common_properties( in_index )
+		vMaterial.logData_OrthoStrengths3D( in_index )	
+	END IF
+	
+	RETURN returnStatus	
+	
+END FUNCTION	
+################################################################################
+FUNCTION createMaterials()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createMaterials"	
+	
+	Integer i
+	INTEGER returnStatus = 0
+
+	FOR ( i = 1 TO count )
+
+		IF ( mat_Tropic_Type(i) == ci_MAT_ISOTROPIC ) THEN
+			returnStatus = vMaterial.createMaterials_Isotropic(	i ) 	
+			IF ( returnStatus != 0 ) THEN BREAK  
+		ELSE
+			returnStatus = vMaterial.createMaterials_Orthotropic( i ) 
+			IF ( returnStatus != 0 ) THEN BREAK 		
+		END IF 
+	END FOR
+
+	RETURN returnStatus
+END FUNCTION
+################################################################################
+
+END CLASS

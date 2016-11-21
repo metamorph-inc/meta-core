@@ -48,7 +48,22 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 testBench = CyPhyClasses.TestBench.Cast(testBenchBase.Impl);
             base.TraverseTestBench(testBenchBase);   //AnalysisID = testBench.ID;
 
-            
+            // R.O. added 11/15/2016, because the MSD_CAD.xme/TestBench_Valid was failing because the schema for CADAssmbly.xml requires
+            // that ComponentID be set for Metrics/Metric attributes.  For Mass, CenterOfGravity, BoundingBox, and Interference,
+            // the metric applies to the entire assembly; therefore, we will use the top-level assembly as the ComponentID.
+            var catlsut = testBench.Children.ComponentAssemblyCollection.FirstOrDefault();     // should be an instance b/c elaborate was called earlier
+            if (catlsut == null)
+            {
+                // This check occurs earlier in ProcessCAD(), but will repeat here in case someone changes the code to not
+                // test this earlier.
+                throw new Exception("There is no elaborated system under test component assembly in the model!");
+            }
+            // "|1" is set in other places in the code for the top-level assembly.  Search on "|" to see those places.
+            // If someone changes to another system ( different suffix than "|1") and does not change the following
+            // line, then the CreateAssembly program will throw an exception.  This will be caught by the build tests 
+            // (e.g. MSD_CAD.xme/TestBench_Valid). 
+            string topLevelAssemblyComponentInstanceID_temp = catlsut.Attributes.ConfigurationUniqueID + "|" + "1";
+
             // CADComputations Metrics
             foreach (var conn in testBench.Children.CADComputation2MetricCollection)
             {
@@ -58,26 +73,30 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 tbcomputation.MetricID = conn.DstEnds.Metric.ID;
                 if (cadcomputation is CyPhy.CenterOfGravity)
                 {
+                    tbcomputation.ComponentID = topLevelAssemblyComponentInstanceID_temp;
                     tbcomputation.RequestedValueType = (cadcomputation as CyPhy.CenterOfGravity).Attributes.CADComputationRequestedValue.ToString();
                     tbcomputation.ComputationType = TBComputation.Type.CENTEROFGRAVITY;
                 }
                 else if (cadcomputation is CyPhy.BoundingBox)
                 {
+                    tbcomputation.ComponentID = topLevelAssemblyComponentInstanceID_temp;
                     tbcomputation.RequestedValueType = (cadcomputation as CyPhy.BoundingBox).Attributes.CADComputationRequestedValue.ToString();
                     tbcomputation.ComputationType = TBComputation.Type.BOUNDINGBOX;
                 }
                 else if (cadcomputation is CyPhy.InterferenceCount)
                 {
+                    tbcomputation.ComponentID = topLevelAssemblyComponentInstanceID_temp;
                     tbcomputation.RequestedValueType = "Scalar";
                     tbcomputation.ComputationType = TBComputation.Type.INTERFERENCECOUNT;
                 }
                 else if (cadcomputation is CyPhy.Mass)
                 {
+                    tbcomputation.ComponentID = topLevelAssemblyComponentInstanceID_temp;
                     tbcomputation.RequestedValueType = "Scalar";
                     tbcomputation.ComputationType = TBComputation.Type.MASS;
                 }
 
-                Computations.Add(tbcomputation);
+                this.StaticAnalysisMetrics.Add(tbcomputation);
             }
 
             // PointCoordinate Metrics
@@ -108,10 +127,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
                         tbcomputation.MetricID = metric.ID;
                         tbcomputation.RequestedValueType = "Vector";
-                        tbcomputation.FeatureDatumName = (traverser.portsFound.First() as CyPhy.Point).Attributes.DatumName;
+                        tbcomputation.Details = (traverser.portsFound.First() as CyPhy.Point).Attributes.DatumName;
                         tbcomputation.ComponentID = CyPhyClasses.Component.Cast(traverser.portsFound.First().ParentContainer.ParentContainer.Impl).Attributes.InstanceGUID;
                         tbcomputation.MetricName = metric.Name;
-                        Computations.Add(tbcomputation);
+                        StaticAnalysisMetrics.Add(tbcomputation);
                     }
                 }
             }
@@ -132,7 +151,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 return true;
             }
 
-            if ((assemblyCnt > 1 || orphanCnt > 0) && Computations.Any())
+            if ((assemblyCnt > 1 || orphanCnt > 0) && this.StaticAnalysisMetrics.Any())
             {
                 Logger.Instance.AddLogMessage("Test Bench has islands of connected components and/or orphan components, metrics can not be computed. Please remove the metrics or orphan components from test bench and try again.", Severity.Error);
                 return true;
@@ -220,14 +239,16 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             // R.O. 1/26/2015, InterferenceCheck deprecated. Now interference check is specified by adding a InterferenceCount to
             // a CADComputationComponent
             //if ((Computations.Any() || InterferenceCheck) && assembliesoutroot.Assembly.Length > 0)
-            if (Computations.Any() && assembliesoutroot.Assembly.Length > 0)
+            if (this.StaticAnalysisMetrics.Any() && assembliesoutroot.Assembly.Length > 0)
             {
-                AddAnalysisToXMLOutput(assembliesoutroot.Assembly[0]);
+                AddStaticAnalysisMetrics(assembliesoutroot.Assembly[0]);       //AddAnalysisToXMLOutput(assembliesoutroot.Assembly[0]);
             }
+
             AddDataExchangeFormatToXMLOutput(assembliesoutroot);
             assembliesoutroot.SerializeToFile(Path.Combine(OutputDirectory, TestBenchBase.CADAssemblyFile));
         }
 
+        /*
         // Computation - Metric
         protected override void AddAnalysisToXMLOutput(CAD.AssemblyType assemblyRoot)
         {
@@ -278,6 +299,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 cadanalysis.Static = new CAD.StaticType[] { staticanalysis };
             }
         }
+        */
 
         /*
         public void GeneratePostProcessingScripts()

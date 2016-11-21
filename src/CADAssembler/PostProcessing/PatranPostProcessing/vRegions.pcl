@@ -1,0 +1,166 @@
+
+CLASS vRegions
+
+
+	CLASSWIDE STRING	c_ClassName[32]	
+	
+
+	
+	CLASSWIDE INTEGER 	numRegions
+	
+	CLASSWIDE INTEGER 	regionIDs(VIRTUAL)
+
+	CLASSWIDE STRING 	propertySetNames[32](VIRTUAL)	
+	
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vRegions"
+	numRegions = 0
+	
+END FUNCTION
+################################################################################
+FUNCTION retrieveRegionIDs()
+
+	INTEGER returnStatus = 0
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".retrieveRegionIDs"
+	
+	
+	#########################
+	# Get Number Region IDs
+	#########################
+	
+	returnStatus = db_count_region_ids(numRegions)
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not retrieve the number of regions (i.e. property sets)."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN returnStatus
+	END IF	
+	
+	IF ( numRegions == 0 ) THEN
+		errorMsg = "Found no regions (i.e. property sets) in the model."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN -1
+	END IF	
+	
+	SYS_ALLOCATE_ARRAY (regionIDs, 			1, numRegions)
+	SYS_ALLOCATE_ARRAY (propertySetNames, 	1, numRegions)	
+
+	
+	#########################
+	# Get Region IDs
+	#########################
+	
+	returnStatus = db_get_all_region_ids( numRegions, regionIDs )
+	
+	IF ( numRegions == 0 ) THEN
+		errorMsg = "Found no regions (i.e. property sets) in the model."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg ) 
+		RETURN returnStatus
+	END IF		
+		
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION logRegionIDs()
+
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN Region IDs *******")	
+	text_write_string( vLogger.getChannel(), "Number of Region IDs: " // str_from_integer(numRegions))
+	FOR ( i = 1 TO numRegions )
+		text_write_string( vLogger.getChannel(), "Region ID: " // str_from_integer(regionIDs(i)) )
+	END FOR
+
+	text_write_string( vLogger.getChannel(), "******* END Region IDs *******")	
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION  retrieveRegions_to_PropSetNames()
+
+	INTEGER returnStatus = 0
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".retrieveRegions_to_PropSetNames"
+	
+    INTEGER gener_elem_type
+    INTEGER dof_set_flag 
+    INTEGER condense_flag
+    INTEGER geom_flag
+    INTEGER form_flag 
+    INTEGER lam_flag 
+    INTEGER layer_count
+    INTEGER material_id
+    INTEGER material_lin 
+    INTEGER material_dir
+    	
+	INTEGER i	
+		
+	FOR ( i = 1 TO numRegions )
+	
+		returnStatus = db_get_region_definition(regionIDs(i), propertySetNames(i), gener_elem_type, @
+			dof_set_flag, condense_flag, geom_flag, @
+			form_flag, lam_flag, layer_count, material_id, @
+			material_lin, material_dir)
+			
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "db_get_region_definition() returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF			
+		
+	END FOR
+	
+	RETURN returnStatus	
+	
+END FUNCTION
+################################################################################
+FUNCTION logPropertySetNames()
+
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN Region IDs  Property Set Names *******")	
+	text_write_string( vLogger.getChannel(), "Number of Region IDs: " // str_from_integer(numRegions))
+	text_write_string( vLogger.getChannel(), "Region ID    Property Set Name")
+	text_write_string( vLogger.getChannel(), "---------    -----------------")	
+	FOR ( i = 1 TO numRegions )
+		text_write_string( vLogger.getChannel(), str_from_integer(regionIDs(i)) // "            " //  propertySetNames(i) )
+	END FOR
+
+	text_write_string( vLogger.getChannel(), "******* BEGIN Region IDs  Property Set Names *******")	
+	
+END FUNCTION
+################################################################################
+FUNCTION get_RegionID( in_PropertySetName)
+
+	STRING in_PropertySetName[]
+	
+	INTEGER regionID_temp
+	
+	regionID_temp = vConstants.get_ci_Undefined()
+	
+	INTEGER i
+	
+	FOR ( i = 1 TO numRegions )
+		IF ( in_PropertySetName == propertySetNames(i) ) THEN
+			regionID_temp = regionIDs(i)
+			BREAK
+		END IF
+	END FOR
+
+	RETURN regionID_temp
+	
+END FUNCTION
+################################################################################	
+END CLASS

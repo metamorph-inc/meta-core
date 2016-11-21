@@ -1,0 +1,93 @@
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vConstants.pcl" into  .\CreatePatranModel_PLB\vConstants.plb
+!!library .\CreatePatranModel_PLB\vConstants.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vCommon.pcl" into .\CreatePatranModel_PLB\vCommon.plb
+!!library .\CreatePatranModel_PLB\vCommon.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vLogger.pcl" into  .\CreatePatranModel_PLB\vLogger.plb
+!!library .\CreatePatranModel_PLB\vLogger.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vAnalysis.pcl" into .\CreatePatranModel_PLB\vAnalysis.plb
+!!library .\CreatePatranModel_PLB\vAnalysis.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vFiles.pcl" into .\CreatePatranModel_PLB\vFiles.plb
+!!library .\CreatePatranModel_PLB\vFiles.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vMaterial.pcl" into .\CreatePatranModel_PLB\vMaterial.plb
+!!library .\CreatePatranModel_PLB\vMaterial.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vMaterial_Layup_2D.pcl" into .\CreatePatranModel_PLB\vMaterial_Layup_2D.plb
+!!library .\CreatePatranModel_PLB\vMaterial_Layup_2D.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vSubCase.pcl" into .\CreatePatranModel_PLB\vSubCase.plb
+!!library .\CreatePatranModel_PLB\vSubCase.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vMesh_Parameters.pcl" into .\CreatePatranModel_PLB\vMesh_Parameters.plb
+!!library .\CreatePatranModel_PLB\vMesh_Parameters.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vSolid.pcl" into .\CreatePatranModel_PLB\vSolid.plb
+!!library .\CreatePatranModel_PLB\vSolid.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vPoint.pcl" into .\CreatePatranModel_PLB\vPoint.plb
+!!library .\CreatePatranModel_PLB\vPoint.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vGeometry.pcl" into .\CreatePatranModel_PLB\vGeometry.plb
+!!library .\CreatePatranModel_PLB\vGeometry.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vLayer_2D.pcl" into .\CreatePatranModel_PLB\vLayer_2D.plb
+!!library .\CreatePatranModel_PLB\vLayer_2D.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vSurface_Contents.pcl" into .\CreatePatranModel_PLB\vSurface_Contents.plb
+!!library .\CreatePatranModel_PLB\vSurface_Contents.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vSurface.pcl" into .\CreatePatranModel_PLB\vSurface.plb
+!!library .\CreatePatranModel_PLB\vSurface.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vDisplacement.pcl" into .\CreatePatranModel_PLB\vDisplacement.plb
+!!library .\CreatePatranModel_PLB\vDisplacement.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vConstraint.pcl" into .\CreatePatranModel_PLB\vConstraint.plb
+!!library .\CreatePatranModel_PLB\vConstraint.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vLoad_Value.pcl" into .\CreatePatranModel_PLB\vLoad_Value.plb
+!!library .\CreatePatranModel_PLB\vLoad_Value.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vLoad.pcl" into .\CreatePatranModel_PLB\vLoad.plb
+!!library .\CreatePatranModel_PLB\vLoad.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vModelDefinitionReader.pcl" into .\CreatePatranModel_PLB\vModelDefinitionReader.plb
+!!library .\CreatePatranModel_PLB\vModelDefinitionReader.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vPatranUtils.pcl" into .\CreatePatranModel_PLB\vPatranUtils.plb
+!!library .\CreatePatranModel_PLB\vPatranUtils.plb
+
+!!compile "zz_CREATE_PATRAN_MODEL_SOURCE_DIR_zz\vCreatePatranModel.pcl" into .\CreatePatranModel_PLB\vCreatePatranModel.plb
+!!library .\CreatePatranModel_PLB\vCreatePatranModel.plb
+
+
+#	Revision History
+#	Date		Developer 	Revision
+#	5/9/2016	R. Owens	Initial Release
+#
+#	This session file is submitted (i.e. run by Patran) via a command such as:
+#		patran -b -graphics -sfp  CreatePatranModel.ses -stdout CreatePatranModel_Session.log
+#
+#	See the CreatePatranModel.pcl for documentation on the variables in this file and how to use the
+# 	function CreatePatranModel() (see below).
+ 
+#STRING patranInstall_Dir[512] = "C:\MSC.Software\Patran_x64\20140"
+
+# Both of the following work
+# STRING working_Dir[512] = "E:\Temp\scratch\2015_07_13_Patran_PCL_Code\Analysis\Mesher\Patran"
+STRING working_Dir[512] = "."
+
+STRING fEAModelDefinitionFile[512] = "CreatePatranModelInput.txt"
+
+STRING log_FileName[512] = "CreatePatranModel_Application.log"
+
+vCreatePatranModel.createPatranModel( 	working_Dir,			@
+										fEAModelDefinitionFile, @
+										log_FileName )
+
+
+		

@@ -27,9 +27,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public CyPhyClasses.CADTestBench.AttributesClass.AdjoiningTreatment_enum AdjSurfTreatment;
         public string FEAAnalysisType;
 
-        public List<TBComputation> StaticComputations = new List<TBComputation>();
+        //public List<TBComputation> StaticComputations = new List<TBComputation>();
 
         protected CyPhy.CADTestBench CyphyTestBenchRef;
+
+        protected CAD.MeshParametersType cadMeshParameters;
+
 
         public FEATestBench (CyPhy2CADSettings cadSetting,
                                   string outputdir,
@@ -150,6 +153,9 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             if (testBench == null)
                 testBench = CyPhyClasses.CADTestBench.Cast(testBenchBase.Impl);
 
+            if (testBench.Attributes.SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.PATRAN_NASTRAN)
+                STLDataExchangeFormats.Add("Parasolid");
+
             this.CyphyTestBenchRef = testBench;
             base.TraverseTestBench(testBenchBase);
 
@@ -157,9 +163,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             // Solver Settings
             ElementType = "MIDPOINT_PARABOLIC_FIXED";
-            ShellType = "N/A";
             SolverType = testBench.Attributes.SolverType.ToString(); 
-            MeshType = "SOLID";
+            MeshType = (testBench.Attributes.ElementType == CyPhyClasses.CADTestBench.AttributesClass.ElementType_enum.Tetra10 ||
+                        testBench.Attributes.ElementType == CyPhyClasses.CADTestBench.AttributesClass.ElementType_enum.Tetra4 ) ? "SOLID" : "SURFACE";
+            ShellType = (MeshType == "SOLID") ? "N/A" : testBench.Attributes.ElementType.ToString();
             MaxAdaptiveIterations = testBench.Attributes.MaxAdaptiveIterations;
 
             FEAAnalysisType = "STRUCTURAL";
@@ -168,6 +175,18 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 FEAAnalysisType = "THERMAL";
             }
 
+            // Mesh Parameters
+            CyPhy.MeshParameters meshParam = testBench.Children.MeshParametersCollection.FirstOrDefault();
+            if (meshParam != null)
+            {
+                this.cadMeshParameters = new CAD.MeshParametersType()
+                {
+                    Match_Face_Proximity_Tol = meshParam.Attributes.Match_Face_Proximity_Tol,
+                    Max_Curv_Delta_Div_Edge_Len = meshParam.Attributes.Max_Curv_Delta_Divide_Edge_Len,
+                    Max_Global_Length = meshParam.Attributes.Max_Global_Length,
+                    Ratio_Min_Edge_To_Max_Edge = meshParam.Attributes.Ratio_Min_Edge_To_Max_Edge
+                };
+            }
 
             // Metrics
             foreach (var item in testBench.Children.TIP2StructuralMetricCollection)
@@ -214,7 +233,66 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             } else if (cyphycompport is CyPhy.FactorOfSafety)
                             {
                                 tbcomputation.ComputationType = TBComputation.Type.FACTOROFSAFETY;
+                            } else if (cyphycompport is CyPhy.TsaiWuCriteria)
+                            {
+                                if (feaComp.Children.StructuralAnalysisComputationTypeCollection.Count() > 1)
+                                {
+                                    Logger.Instance.AddLogMessage("Tsai-Wu failure criteria set, no other Structural FEA Computation types are allowed!", Severity.Error);
+                                    return;
+                                }
+
+                                if (comp.Children.MaterialContentsCollection.Count() == 0)
+                                {
+                                    Logger.Instance.AddLogMessage("Tsai-Wu failure criteria set, referenced component [" + comp.Name + "] must be surface model components with material contents!", Severity.Error);
+                                    return;
+                                }
+
+                                tbcomputation.ComputationType = TBComputation.Type.TSAI_WU_FAILURE;
+                            } else if (cyphycompport is CyPhy.HillCriteria)
+                            {
+                                if (feaComp.Children.StructuralAnalysisComputationTypeCollection.Count() > 1)
+                                {
+                                    Logger.Instance.AddLogMessage("Hill failure criteria set, no other Structural FEA Computation types are allowed!", Severity.Error);
+                                    return;
+                                }
+                                if (comp.Children.MaterialContentsCollection.Count() == 0)
+                                {
+                                    Logger.Instance.AddLogMessage("Hill failure criteria set, referenced component [" + comp.Name + "] must be surface model components with material contents!", Severity.Error);
+                                    return;
+                                }
+
+                                tbcomputation.ComputationType = TBComputation.Type.HILL_FAILURE;
+                            } else if (cyphycompport is CyPhy.HoffmanCriteria)                            
+                            {
+                                if (feaComp.Children.StructuralAnalysisComputationTypeCollection.Count() > 1)
+                                {
+                                    Logger.Instance.AddLogMessage("Hoffman failure criteria set, no other Structural FEA Computation types are allowed!", Severity.Error);
+                                    return;
+                                }
+                                if (comp.Children.MaterialContentsCollection.Count() == 0)
+                                {
+                                    Logger.Instance.AddLogMessage("Hoffman failure criteria set, referenced component [" + comp.Name + "] must be surface model components with material contents!", Severity.Error);
+                                    return;
+                                }
+
+                                tbcomputation.ComputationType = TBComputation.Type.HOFFMAN_FAILURE;
                             }
+                            else if (cyphycompport is CyPhy.MaximumFailureCriteria)
+                            {
+                                if (feaComp.Children.StructuralAnalysisComputationTypeCollection.Count() > 1)
+                                {
+                                    Logger.Instance.AddLogMessage("Maximum failure criteria set, no other Structural FEA Computation types are allowed!", Severity.Error);
+                                    return;
+                                }
+                                if (comp.Children.MaterialContentsCollection.Count() == 0)
+                                {
+                                    Logger.Instance.AddLogMessage("Maximum failure criteria set, referenced component [" + comp.Name + "] must be surface model components with material contents!", Severity.Error);
+                                    return;
+                                }
+
+                                tbcomputation.ComputationType = TBComputation.Type.MAX_FAILURE;
+                            }
+
                             tbcomputation.FeatureDatumName = "";
                             tbcomputation.RequestedValueType = "Scalar";
                             tbcomputation.Details = "InfiniteCycle";
@@ -222,7 +300,9 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
                             foreach (var cyphyconn in cyphycompport.DstConnections.FEAComputation2MetricCollection)
                             {
-                                tbcomputation.MetricID = cyphyconn.DstEnds.Metric.ID;
+                                //  JK 8/19/2016, This should be Guid instead of GME Object ID
+                                //tbcomputation.MetricID = cyphyconn.DstEnds.Metric.ID;  
+                                tbcomputation.MetricID = cyphyconn.DstEnds.Metric.Guid.ToString();
                             }
 
                             if (!String.IsNullOrEmpty(tbcomputation.MetricID))
@@ -709,10 +789,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
                     tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
                     tbcomputation.RequestedValueType = "Vector";
-                    tbcomputation.FeatureDatumName = point.DatumName;
+                    tbcomputation.Details = point.DatumName;   //tbcomputation.FeatureDatumName = point.DatumName;
                     tbcomputation.ComponentID = point.ComponentID;
 
-                    StaticComputations.Add(tbcomputation);
+                    StaticAnalysisMetrics.Add(tbcomputation);
                 }
             }
 
@@ -742,10 +822,10 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
                     tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
                     tbcomputation.RequestedValueType = "Vector";
-                    tbcomputation.FeatureDatumName = point.DatumName;
+                    tbcomputation.Details = point.DatumName;       //tbcomputation.FeatureDatumName = point.DatumName;
                     tbcomputation.ComponentID = point.ComponentID;
 
-                    StaticComputations.Add(tbcomputation);
+                    StaticAnalysisMetrics.Add(tbcomputation);
                 }
             }
 
@@ -860,6 +940,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             solversType.Solver[0] = solver;
             feaanalysis.Solvers = solversType;
 
+            // mesh parameter
+            if (this.cadMeshParameters != null)
+            {
+                feaanalysis.MeshParameters = this.cadMeshParameters;
+            }
+
             // loads
             if (Loads.Count > 0)
             {
@@ -943,10 +1029,12 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             cadanalysis.FEA = new CAD.FEAType[] { feaanalysis };
 
-            AddStaticAnalysis(assembly, StaticComputations);
+            this.ExportComponentPoints = true;
+            AddStaticAnalysisMetrics(assembly);
 
         }
 
+        /*
         // This code is copy/pasted from TestBench. Since this class is not a subclass of TestBench,
         // it can't be re-used. Can this code be re-used from there by moving it to TestBenchBase?
         private void AddStaticAnalysis(CAD.AssemblyType assemblyRoot, List<TBComputation> computations)
@@ -995,7 +1083,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
                 cadanalysis.Static = new CAD.StaticType[] { staticanalysis };
             }
-        }
+        } */
 
         public override void GenerateRunBat()
         {
@@ -1027,6 +1115,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             {
                 searchmeta.Mesher = "CREO";
                 searchmeta.Analyzer = "CALCULIX";
+            }
+            else if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.PATRAN_NASTRAN.ToString())
+            {
+                searchmeta.Mesher = "PATRAN";
+                searchmeta.Analyzer = "PATRAN_NASTRAN";
             }
 
             if (SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.ABAQUS_Model_Based.ToString())

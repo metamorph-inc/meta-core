@@ -46,7 +46,8 @@ def update_manifest(tbmanifest, computedValuesXml):
             if 'Metrics' in result_json:
                 for metric in result_json['Metrics']:
                     if 'Name' in metric and 'Value' in metric and 'GMEID' in metric:
-                        key = metric['GMEID']
+                        # key = metric['GMEID']  # JK 8/19/2016  How did this ever work?
+                        key = metric['ID']
                         if key in ComputedMetricsSummary.gMetricSummary:
                             # update metric's value to the last value in
                             # time series

@@ -1,0 +1,105 @@
+CLASS vLoadcases
+
+	CLASSWIDE STRING	c_ClassName[32]
+
+	CLASSWIDE INTEGER	num_Loadcases
+	
+	CLASSWIDE INTEGER	loadcaseIDs(VIRTUAL)
+	
+	CLASSWIDE INTEGER	num_Subcases_per_LoadCase(VIRTUAL)	
+	
+	
+	CLASSWIDE LOGICAL	loadCasesRetrieved
+	
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+	
+###############################################################################	
+FUNCTION initialize()
+
+	c_ClassName = "vLoadcases"
+	
+	num_Loadcases = vConstants.get_ci_Undefined() 
+	
+	loadCasesRetrieved = FALSE
+END FUNCTION
+###############################################################################	
+FUNCTION retrieve_Loadcases()
+   
+   INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".retrieve_Loadcases"
+		
+   returnStatus = res_utl_get_loadcases(num_Loadcases, loadcaseIDs, num_Subcases_per_LoadCase)
+
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_utl_get_loadcases(num_Loadcases, loadcaseIDs, num_Subcases_per_LoadCase) returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+       RETURN returnStatus	
+    END IF		
+	
+	loadCasesRetrieved = TRUE
+	
+	RETURN returnStatus	
+END FUNCTION
+###############################################################################	
+FUNCTION get_NumLoadCases()
+
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_NumLoadCases"
+
+	IF ( !loadCasesRetrieved ) THEN
+		errorMsg = "Before calling this function retrieve_Loadcases must be invoked."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+		RETURN vConstants.get_ci_Undefined() 
+    END IF		
+	
+	RETURN 	num_Loadcases	
+END FUNCTION
+###############################################################################
+FUNCTION get_LoadCaseID( in_Index)
+
+	INTEGER in_Index
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".get_LoadCaseID"
+
+	IF ( !loadCasesRetrieved ) THEN
+		errorMsg = "Before calling this function retrieve_Loadcases must be invoked."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+		RETURN vConstants.get_ci_Undefined() 
+    END IF	
+
+	IF ( in_Index < 1 || in_Index > num_Loadcases) THEN
+		errorMsg = "Invalid load case index, index must be >= 1 and <=  num_Loadcases, Index: " // str_from_integer(in_Index) // ", num_Loadcases: " // str_from_integer(num_Loadcases)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN vConstants.get_ci_Undefined() 
+    END IF		
+	
+	RETURN 	loadcaseIDs(in_Index)	
+END FUNCTION
+###############################################################################
+FUNCTION log_LoadCaseIDs()
+
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN Load Case IDs *******")	
+	text_write_string( vLogger.getChannel(), "Number of Load Cases: " // str_from_integer(num_Loadcases))
+	text_write_string( vLogger.getChannel(), "Load Case ID")
+	text_write_string( vLogger.getChannel(), "------------")	
+	FOR ( i = 1 TO num_Loadcases )
+		text_write_string( vLogger.getChannel(), str_from_integer(loadcaseIDs(i)) )
+	END FOR
+
+	text_write_string( vLogger.getChannel(), "******* END Load Case IDs *******")	
+
+END FUNCTION
+###############################################################################
+END CLASS

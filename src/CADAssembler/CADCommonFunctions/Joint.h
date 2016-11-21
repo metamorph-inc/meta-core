@@ -64,7 +64,7 @@ class Joint {
 public:
 	//log4cpp::Category& log_cf;
 
-	static double const PI;
+	static double const isis_PI;
 
 	typedef ::boost::shared_ptr<Joint> ptr;
 	typedef std::pair<Joint, Joint> pair_t;

@@ -1,0 +1,168 @@
+###########################
+# vConstants Class
+###########################
+CLASS vConstants
+
+	CLASSWIDE STRING	c_ClassName[32]	
+	
+	CLASSWIDE INTEGER	ci_Undefined
+	CLASSWIDE REAL		cr_Undefined
+				
+	CLASSWIDE STRING 	c_ID[32],		@	
+						c_DATE[32],		@
+						c_TYPE[32]				
+	
+	CLASSWIDE STRING 	c_Element_Type[32]
+	
+	CLASSWIDE STRING 	c_ELEMENT_TYPE_TETRA4[32],				@					
+						c_ELEMENT_TYPE_TETRA10[32],				@
+						c_ELEMENT_TYPE_CQUAD4[32],				@	
+						c_ELEMENT_TYPE_CQUAD8[32]
+				
+	CLASSWIDE INTEGER	ci_ELEMENT_TYPE_TETRA4,					@					
+						ci_ELEMENT_TYPE_TETRA10,				@
+						ci_ELEMENT_TYPE_CQUAD4,					@	
+						ci_ELEMENT_TYPE_CQUAD8	
+						
+	CLASSWIDE REAL		cr_TOLERANCE
+
+	CLASSWIDE INTEGER	ci_GeometryType_Surface,				@
+						ci_GeometryType_Solid
+						
+						#########################################################
+						# Constants Defined by Patran, Normally in include files
+						#########################################################	
+	CLASSWIDE INTEGER	ci_LP_SUBLIST_SURFACE,					@
+						ci_LP_SUBLIST_SOLID,					@
+						ci_LP_EVAL_FOR_ID,						@
+						ci_LP_ATTRIBUTE_ID 					
+						
+				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vConstants"
+	
+	ci_Undefined		-1	
+	cr_Undefined = 		-9999.0	 
+	
+	c_ID = 				"ID"
+	c_DATE = 			"Date"
+	c_TYPE = 			"Type"	
+	
+	c_Element_Type =			"Element_Type"	
+	
+	c_ELEMENT_TYPE_TETRA4 =		"Tetra4"					
+	c_ELEMENT_TYPE_TETRA10 =	"Tetra10"
+	c_ELEMENT_TYPE_CQUAD4 =		"Quad4"	
+	c_ELEMENT_TYPE_CQUAD8 =		"Quad8"
+	
+	ci_ELEMENT_TYPE_TETRA4	=	1						
+	ci_ELEMENT_TYPE_TETRA10 = 	2
+	ci_ELEMENT_TYPE_CQUAD4 = 	3	
+	ci_ELEMENT_TYPE_CQUAD8 = 	4		
+	
+	
+	cr_TOLERANCE = .05	
+	
+	ci_GeometryType_Surface = 1
+	ci_GeometryType_Solid = 2	
+	
+	#############################
+	# Patran Defined Constants
+	#############################
+	ci_LP_SUBLIST_SURFACE =			16		
+	ci_LP_SUBLIST_SOLID = 			32	
+	ci_LP_EVAL_FOR_ID =				4
+	ci_LP_ATTRIBUTE_ID	=           1
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION get_ci_Undefined()
+	return ci_Undefined
+END FUNCTION
+################################################################################
+FUNCTION get_cr_Undefined()
+	return cr_Undefined
+END FUNCTION
+################################################################################
+FUNCTION get_c_ID()
+	return c_ID
+END FUNCTION
+
+FUNCTION get_c_DATE()
+	return c_DATE
+END FUNCTION
+
+FUNCTION get_c_TYPE()
+	return c_TYPE
+END FUNCTION
+################################################################################
+FUNCTION get_c_Element_Type()	
+	return c_Element_Type
+END FUNCTION
+
+FUNCTION get_c_ELEMENT_TYPE_TETRA4()	
+	return c_ELEMENT_TYPE_TETRA4
+END FUNCTION
+
+FUNCTION get_c_ELEMENT_TYPE_TETRA10()
+	return c_ELEMENT_TYPE_TETRA10
+END FUNCTION
+	
+FUNCTION get_c_ELEMENT_TYPE_CQUAD4()
+	return c_ELEMENT_TYPE_CQUAD4	
+END FUNCTION
+
+FUNCTION get_c_ELEMENT_TYPE_CQUAD8()	
+	return c_ELEMENT_TYPE_CQUAD8
+END FUNCTION
+
+FUNCTION get_ci_ELEMENT_TYPE_TETRA4()				
+	return ci_ELEMENT_TYPE_TETRA4
+END FUNCTION
+
+FUNCTION get_ci_ELEMENT_TYPE_TETRA10()	
+	return ci_ELEMENT_TYPE_TETRA10
+END FUNCTION
+
+FUNCTION get_ci_ELEMENT_TYPE_CQUAD4()	
+	return ci_ELEMENT_TYPE_CQUAD4
+END FUNCTION
+
+FUNCTION get_ci_ELEMENT_TYPE_CQUAD8()	
+	return ci_ELEMENT_TYPE_CQUAD8
+END FUNCTION	
+
+FUNCTION get_cr_TOLERANCE()	
+	return cr_TOLERANCE
+END FUNCTION
+################################################################################
+FUNCTION get_ci_GeometryType_Surface()
+	return ci_GeometryType_Surface
+END FUNCTION
+
+FUNCTION get_ci_GeometryType_Solid()
+	return ci_GeometryType_Solid
+END FUNCTION	
+################################################################################
+
+FUNCTION get_ci_LP_SUBLIST_SURFACE()	
+	return ci_LP_SUBLIST_SURFACE
+END FUNCTION						
+			
+FUNCTION get_ci_LP_SUBLIST_SOLID()	
+	return ci_LP_SUBLIST_SOLID
+END FUNCTION
+			
+FUNCTION get_ci_LP_EVAL_FOR_ID()	
+	return ci_LP_EVAL_FOR_ID
+END FUNCTION
+
+FUNCTION get_ci_LP_ATTRIBUTE_ID()	
+	return ci_LP_ATTRIBUTE_ID
+END FUNCTION
+################################################################################
+
+	
+END CLASS

@@ -595,6 +595,16 @@ namespace isis_CADCommon
 		}
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void  MultiplyMatrix_2x2_x_1x2( const double in_Matrix_1[2][2], const double in_Matrix_2[2], double out_Matrix[2] )
+	{
+		for ( int row = 0; row < 2; ++row )
+		{
+			out_Matrix[row] =	in_Matrix_1[row][0] * in_Matrix_2[0] +
+								in_Matrix_1[row][1] * in_Matrix_2[1];
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool AllMatrixValuesEqualTarget_3X3( double in_Matrix[3][3], double in_Target )
 	{
 		for ( int i = 0; i < 3; ++i )

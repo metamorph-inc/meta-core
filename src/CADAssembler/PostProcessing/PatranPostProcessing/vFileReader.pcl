@@ -1,0 +1,165 @@
+
+CLASS vFileReader
+
+	CLASSWIDE STRING	c_ClassName[32]
+	
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel	
+	
+################################################################################	
+FUNCTION initialize()
+	c_ClassName = "vFileReader"
+END FUNCTION
+################################################################################
+FUNCTION  getBufferNoComments( in_LineNum, in_out_buffer, out_ShouldContinue )
+	
+	INTEGER 	in_LineNum	
+	STRING 		in_out_buffer[]
+	LOGICAL 	out_ShouldContinue
+
+	INTEGER returnStatus = 0
+	
+	STRING  functionName[64]
+	functionName = c_ClassName // ".getBufferNoComments"	
+
+	out_ShouldContinue = FALSE
+	
+	# PCL functions str_strip_trail and str_strip_lead do not strip tabs.
+	# str_find_nomatch does not seem to work with tabs	
+	# Therefore, at the beginning of this function, replace tabs with spaces
+	returnStatus = vFileReader.replaceTabsWithSpaces(in_out_buffer)	
+	IF ( returnStatus != 0 ) THEN				
+		errorMsg = "Could not remove all tabs from line: " // str_from_integer(in_LineNum)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
+	END IF
+
+	
+	in_out_buffer = str_strip_trail (in_out_buffer ) 	
+	
+	# Skip null lines
+	IF ( str_length(in_out_buffer) == 0 ) THEN 
+		out_ShouldContinue = TRUE	
+		return in_out_buffer
+	END IF
+	
+	# Skip blank lines
+	# WRITE( " ")
+	# WRITE ("--str_find index:     " // str_from_integer(  str_find_nomatch(in_out_buffer, " " )) )	
+	# WRITE ("--str_find_nomatch--: " // in_out_buffer )	
+	# IF ( str_equal( in_out_buffer, "	") ) THEN WRITE ("**************** Found Tab ******")
+	IF ( str_find_nomatch(in_out_buffer, " " ) == 0 ) THEN
+		# All spaces
+		out_ShouldContinue = TRUE	
+		in_out_buffer = ""
+		return in_out_buffer		
+	END IF	
+	
+	
+	# remove comment,  Note - comment could be after a valid fields
+	in_out_buffer = vFileReader.removeComment(in_out_buffer)
+	
+	# Check for all blanks
+	IF ( str_find_nomatch(in_out_buffer, " " ) == 0 ) THEN
+		# All spaces
+		out_ShouldContinue = TRUE	
+		in_out_buffer = ""
+		return in_out_buffer		
+	END IF
+
+	in_out_buffer = str_strip_lead (in_out_buffer) 
+	in_out_buffer = str_strip_trail (in_out_buffer ) 	
+	
+	#IF ( !out_ShouldContinue ) THEN
+	#	WRITE ("--Should Not Cont Length: " // str_from_integer( str_length( in_out_buffer )) )
+	#	WRITE ("--Should Not Continue --: " // in_out_buffer )
+	#END IF
+	
+	return in_out_buffer
+
+END FUNCTION
+################################################################################
+FUNCTION replaceTabsWithSpaces(in_out_String )
+
+
+	STRING in_out_String[]
+	
+	INTEGER index_Tab
+	INTEGER tabCount
+	INTEGER maxAllowedNumTabs
+	
+	STRING tabString[8]
+	STRING spaceString[8]	
+	
+	tabString = "	"
+	spaceString = " "	
+	
+	tabCount = 0
+	
+	# The main purpose of the following line is to prevent an infinite loop
+	# when searching for tabs.  An input file typically would have no more than 
+	# five tabs per line.  More likely only one tab. If maxAllowedNumTabs is
+	# reached it is probably because this function was modified in a way
+	# that produced erroneous results
+	maxAllowedNumTabs = 100	
+
+	index_Tab = str_index( in_out_String, tabString)
+	
+	WHILE ( index_Tab > 0  && tabCount < maxAllowedNumTabs )
+		str_assign( in_out_String, index_Tab, 1, spaceString )
+		index_Tab = str_index( in_out_String, tabString )
+		tabCount +=1
+	END WHILE
+
+	# WRITE( "!!!!!! Tab Count!!!!!:   " // str_from_integer(tabCount) );	
+	
+	IF ( tabCount >= maxAllowedNumTabs ) THEN
+		return -1
+	else 
+		return 0
+	END IF
+	
+END FUNCTION
+################################################################################
+# Wherever a "#"  appears the rest of the line is discarded.
+FUNCTION removeComment( in_out_String)
+
+	STRING in_out_String[]
+	INTEGER indexKey
+
+
+	indexKey = str_index( in_out_String, "#")
+
+	#WRITE ("--removeComment--: " // str_from_integer( indexKey) )	
+	#WRITE ("--removeComment--: " // in_out_String )
+	IF ( indexKey > 0 ) THEN
+		IF ( indexKey == 1 ) THEN 
+			in_out_String = ""
+		ELSE
+			in_out_String = str_substr( in_out_String, 1, indexKey - 1 )
+		END IF
+	ENDIF		
+	
+	
+	/**************  
+	Don't allow // comments.  This will cause problems for the case where a 
+	directory path has double slashes.  This is allowed in directory paths
+	indexKey = str_index( in_out_String, "//")
+	
+	IF ( indexKey > 0 ) THEN
+		IF ( indexKey == 1 ) THEN 
+			in_out_String = ""
+		ELSE
+			in_out_String = str_substr( in_out_String, 1, indexKey - 1 )
+		END IF
+	ENDIF				
+	******************/
+	
+	
+	return in_out_String
+END FUNCTION	
+################################################################################
+
+
+END CLASS
+

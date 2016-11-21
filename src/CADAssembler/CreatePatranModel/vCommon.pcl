@@ -1,0 +1,167 @@
+
+
+
+###########################
+# vCommon Class
+###########################
+CLASS vCommon
+			
+			
+################################################################################
+#FUNCTION initialize()
+
+#END FUNCTION
+###############################################################################
+
+FUNCTION ID_toStr ( in_ID_integer )
+
+	INTEGER in_ID_integer
+	
+	IF ( in_ID_integer > 0 ) THEN
+		return str_from_integer(in_ID_integer)
+	ELSE
+		return ""
+	END IF
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION ID_toInt ( in_ID_string )
+
+	STRING in_ID_string[]
+	
+	INTEGER status
+	INTEGER results
+	
+	results = str_to_integer( in_ID_string, status)
+	
+	IF ( status == 0 ) THEN
+		return results
+	Else
+		return -1
+	END IF
+	
+END FUNCTION
+###############################################################################
+FUNCTION FEA_Element_Type_toStr ( in_sol_Element_Type_ID )
+
+	INTEGER in_sol_Element_Type_ID
+
+	SWITCH(in_sol_Element_Type_ID)
+		CASE(vConstants.get_ci_ELEMENT_TYPE_TETRA4())
+			return vConstants.get_c_ELEMENT_TYPE_TETRA4()
+		CASE( vConstants.get_ci_ELEMENT_TYPE_TETRA10())	
+			return vConstants.get_c_ELEMENT_TYPE_TETRA10()
+		CASE( vConstants.get_ci_ELEMENT_TYPE_CQUAD4() )		
+			vConstants.get_c_ELEMENT_TYPE_CQUAD4()
+		CASE( vConstants.get_ci_ELEMENT_TYPE_CQUAD8() )		
+			vConstants.get_c_ELEMENT_TYPE_CQUAD8()			
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION FEA_Element_Type_toInt ( in_sol_Element_Type_str )
+
+	STRING in_sol_Element_Type_str[]
+	
+	SWITCH(in_sol_Element_Type_str)
+		CASE(vConstants.get_c_ELEMENT_TYPE_TETRA4())
+			return vConstants.get_ci_ELEMENT_TYPE_TETRA4()
+		CASE( vConstants.get_c_ELEMENT_TYPE_TETRA10() )	
+			return vConstants.get_ci_ELEMENT_TYPE_TETRA10()
+		CASE( vConstants.get_c_ELEMENT_TYPE_CQUAD4() )		
+			vConstants.get_ci_ELEMENT_TYPE_CQUAD4()
+		CASE( vConstants.get_c_ELEMENT_TYPE_CQUAD8() )		
+			vConstants.get_ci_ELEMENT_TYPE_CQUAD8()	
+		DEFAULT
+			return vConstants.get_ci_Undefined()
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION FEA_Element_Type_validStrings()
+	return 	vConstants.get_c_ELEMENT_TYPE_TETRA4() // "  " // vConstants.get_c_ELEMENT_TYPE_TETRA10() // "   " // @
+			vConstants.get_c_ELEMENT_TYPE_CQUAD4() // "  " // vConstants.get_c_ELEMENT_TYPE_CQUAD8()	
+	
+END FUNCTION
+################################################################################
+FUNCTION buildNameString ( in_PrefixString, in_Number, in_PostfixString, in_MaxLength )
+
+	STRING 	in_PrefixString[]
+	INTEGER in_Number
+	STRING 	in_PostfixString[]	
+	INTEGER	in_MaxLength
+	
+	STRING tempString[1024]
+
+	tempString = in_PrefixString // str_from_integer(in_Number) // in_PostfixString
+	
+	RETURN str_substr( tempString, 1 , in_MaxLength )
+	
+END FUNCTION
+
+#############################################################################################
+
+FUNCTION iDsOccurMoreThanOnce( in_Count, in_IDs )
+
+	INTEGER in_Count
+	INTEGER in_IDs()
+
+	INTEGER temp_IDs(VIRTUAL)
+	
+	IF ( in_Count < 1 ) THEN RETURN FALSE
+	
+	sys_allocate_array ( temp_IDs, 	1, in_Count )
+	
+	INTEGER i, j
+	
+	FOR ( i = 1 to in_Count )
+			temp_IDs(i) = in_IDs(i)	
+	END FOR
+	
+	INTEGER count = 0
+	
+	Logical returnValue = FALSE
+	
+	FOR ( i = 1 to in_Count )
+		count = 0
+		FOR ( j = 1 to in_Count )
+			if ( in_IDs(i) == temp_IDs(j)) THEN count += 1			
+		END FOR
+		
+		IF ( count > 1 ) THEN 
+			returnValue =  TRUE
+			BREAK
+		END IF
+	END FOR	
+	
+	sys_free_array(temp_IDs)
+	RETURN returnValue
+	
+END FUNCTION
+#############################################################################################
+FUNCTION str_from_real_array( in_Count, in_Array )
+
+	INTEGER in_Count
+	REAL	in_Array()
+	
+	INTEGER i
+	
+	LOGICAL addSpace = FALSE
+	
+	STRING buffer[2028]
+	
+	FOR( i = 1 TO in_Count )
+		IF ( addSpace ) THEN 
+			buffer = buffer // " "
+		ELSE
+			addSpace = TRUE
+		END IF
+		buffer = buffer // str_from_real( in_Array(i) )		
+	END FOR
+	
+	RETURN buffer
+END FUNCTION
+#############################################################################################
+END CLASS

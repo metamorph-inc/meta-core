@@ -1,0 +1,365 @@
+###############################
+# Logger vModelDefinitionReader
+###############################
+CLASS vModelDefinitionReader
+
+	CLASSWIDE STRING	c_ClassName[32]
+	
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel	
+	
+################################################################################	
+FUNCTION initialize()
+	c_ClassName = "vModelDefinitionReader"
+END FUNCTION
+################################################################################
+FUNCTION readModelDefinition ( in_Working_Dir, in_FEAModelDefinitionFile )
+										
+	STRING 	in_Working_Dir[]
+	STRING 	in_FEAModelDefinitionFile[]										
+
+	INTEGER returnStatus = 0
+	
+	STRING  functionName[64]
+	functionName = c_ClassName // ".readModelDefinition"
+	
+	STRING 	fileName[1024] 
+	fileName = in_Working_Dir // "\" // in_FEAModelDefinitionFile
+	
+	text_write_string( vLogger.getChannel(), "Opening file: " // fileName)
+	
+    IF ( !file_exists(fileName,"") ) THEN		
+		errorMsg = "Could not find input file: " // fileName // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )				
+        RETURN -1
+    END IF	
+	
+	INTEGER modelFile
+    returnStatus = text_open( fileName, "OR", 0, 0, modelFile )
+
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not open input file: " // fileName // ", Return Status: " // str_from_integer(returnStatus) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )				
+        RETURN returnStatus
+    END IF		
+	
+	
+	
+	text_write_string( vLogger.getChannel(), "****************** Begin " // in_FEAModelDefinitionFile // " **********************")	
+
+	############################################
+	# Count the Number of Main Section Entities
+	############################################
+	INTEGER lineNum = 0
+	INTEGER length	
+	STRING  buffer[2028]	
+	LOGICAL shouldContinue
+	
+	
+    WHILE ( text_read_string( modelFile, buffer, length ) == 0 )
+		lineNum += 1
+		text_write_string( vLogger.getChannel(), buffer)
+		
+		shouldContinue = FALSE			
+		buffer = vModelDefinitionReader.getBufferNoComments( lineNum, buffer, shouldContinue )
+		# shouldContinue == TRUE means that the line was blank or contained only a comment
+		If ( shouldContinue ) THEN CONTINUE			
+		
+		IF ( buffer == vAnalysis.get_c_ANALYSIS() ) 				THEN 	vAnalysis.increment_Count()				
+		IF ( buffer == vFiles.get_c_FILES() ) 						THEN 	vFiles.increment_Count()	
+		IF ( buffer == vSubCase.get_c_SubCase() ) 					THEN	vSubCase.increment_Count()		
+		IF ( buffer == vMesh_Parameters.get_c_MESH_PARAMETERS() ) 	THEN 	vMesh_Parameters.increment_Count()
+		IF ( buffer == vMaterial.get_c_MATERIAL() ) 				THEN 	vMaterial.increment_Count()	
+		IF ( buffer == vSolid.get_c_SOLID() ) 						THEN 	vSolid.increment_Count()
+		IF ( buffer == vPoint.get_c_POINT() ) 						THEN 	vPoint.increment_Count()		
+		IF ( buffer == vGeometry.get_c_GEOMETRY() ) 				THEN 	vGeometry.increment_Count()
+		IF ( buffer == vDisplacement.get_c_DISPLACEMENT() ) 		THEN 	vDisplacement.increment_Count()	
+		IF ( buffer == vConstraint.get_c_CONSTRAINT() ) 			THEN 	vConstraint.increment_Count()
+		IF ( buffer == vLoad_Value.get_c_LOAD_VALUE() ) 			THEN 	vLoad_Value.increment_Count()
+		IF ( buffer == vLoad.get_c_LOAD() ) 						THEN 	vLoad.increment_Count()		
+		IF ( buffer == vMaterial_Layup_2D.get_c_Material_Layup_2D()) THEN 	vMaterial_Layup_2D.increment_Count()				
+		IF ( buffer == vLayer_2D.get_c_Layer_2D()) 					THEN 	vLayer_2D.increment_Count()
+		IF ( buffer == vSurface.get_c_Surface()) 					THEN 	vSurface.increment_Count()	
+		IF ( buffer == vSurface_Contents.get_c_Surface_Contents()) 	THEN 	vSurface_Contents.increment_Count()	
+		IF ( buffer == vPolygon.get_c_POLYGON() ) 					THEN 	vPolygon.increment_Count()
+		IF ( buffer == vExtrusion.get_c_Extrusion() ) 				THEN 	vExtrusion.increment_Count()	
+
+		#IF ( buffer == zzz.get_c_MESH_PARAMETERS() ) 	THEN 	zzz.increment_Count()	
+		
+	END WHILE
+	
+	############################################
+	# Allocate the Arrays
+	############################################	
+	
+	vAnalysis.allocateArrays()
+	vFiles.allocateArrays()	
+	vSubcase.allocateArrays()
+	vMesh_Parameters.allocateArrays()	
+	vMaterial.allocateArrays()
+	vSolid.allocateArrays()	
+	vPoint.allocateArrays()	
+	vGeometry.allocateArrays()	
+	vDisplacement.allocateArrays()	
+	vConstraint.allocateArrays()	
+	vLoad_Value.allocateArrays()
+	vLoad.allocateArrays()	
+	vMaterial_Layup_2D.allocateArrays()
+	vLayer_2D.allocateArrays()
+	vSurface.allocateArrays()
+	vSurface_Contents.allocateArrays()
+	vPolygon.allocateArrays()
+	vExtrusion.allocateArrays()	
+	
+	############################
+	# Read the name/value pairs
+	############################	
+	# Set to the beginning the model file
+	
+	returnStatus = text_set_position(modelFile, 0 )	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not reset input file to the starting position, File: " // fileName // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		return returnStatus
+	END IF
+
+	lineNum = 0
+	INTEGER loopIncrement = 0	
+	LOGICAL unknownFieldFound
+	INTEGER	maxInputFileLength = 5000
+	
+    WHILE ( text_read_string( modelFile, buffer, length ) == 0 )
+	
+		lineNum += 1
+		shouldContinue = FALSE			
+		buffer = vModelDefinitionReader.getBufferNoComments( lineNum,buffer, shouldContinue )
+		# shouldContinue == TRUE means that the line was blank or contained only a comment
+		If (shouldContinue ) THEN CONTINUE
+		
+		
+		unknownFieldFound = FALSE
+		# use loopIncrement to protect from a runaway program 
+		WHILE ( !unknownFieldFound &&  loopIncrement < maxInputFileLength && buffer != "" )
+			loopIncrement += 1	
+
+			SWITCH ( buffer )
+			   CASE( vAnalysis.get_c_ANALYSIS() )  
+					vAnalysis.readNameValuePairs( modelFile, lineNum, buffer )					
+			   CASE(  vFiles.get_c_FILES() ) 
+					vFiles.readNameValuePairs( modelFile, lineNum, buffer )							
+			   CASE( vSubCase.get_c_SUBCASE() )   
+					vSubcase.readNameValuePairs( modelFile, lineNum, buffer )		
+			   CASE(  vMesh_Parameters.get_c_MESH_PARAMETERS() ) 
+					vMesh_Parameters.readNameValuePairs( modelFile, lineNum, buffer )	
+			   CASE(  vMaterial.get_c_MATERIAL() ) 	
+					vMaterial.readNameValuePairs( modelFile, lineNum, buffer )	
+			   CASE(  vSolid.get_c_SOLID() ) 	
+					vSolid.readNameValuePairs(  modelFile, lineNum, buffer )
+			   CASE(  vPoint.get_c_POINT() ) 	
+					vPoint.readNameValuePairs(  modelFile, lineNum, buffer )
+			   CASE(  vGeometry.get_c_GEOMETRY() ) 	
+					vGeometry.readNameValuePairs(  modelFile, lineNum, buffer )							
+			   CASE(  vDisplacement.get_c_DISPLACEMENT() ) 	
+					vDisplacement.readNameValuePairs( modelFile, lineNum, buffer )
+					
+			  # not doing pin and ball now CASE(  vPin.get_c_PIN() ) 	
+			  # 		vPin.readNameValuePairs(  modelFile, lineNum, buffer )
+			  	
+			   CASE( vConstraint.get_c_CONSTRAINT() ) 	
+					vConstraint.readNameValuePairs(  modelFile, lineNum, buffer )
+
+			   CASE(  vLoad_Value.get_c_LOAD_VALUE() ) 	
+					vLoad_Value.readNameValuePairs( modelFile, lineNum, buffer )
+
+			   CASE(  vLoad.get_c_LOAD() )
+					vLoad.readNameValuePairs( modelFile, lineNum, buffer )
+					
+			   CASE(  vMaterial_Layup_2D.get_c_Material_Layup_2D() )
+					vMaterial_Layup_2D.readNameValuePairs( modelFile, lineNum, buffer )
+						
+			   CASE(  vLayer_2D.get_c_Layer_2D() )
+					vLayer_2D.readNameValuePairs( modelFile, lineNum, buffer )	
+
+			   CASE(  vSurface.get_c_Surface() )
+					vSurface.readNameValuePairs( modelFile, lineNum, buffer )	
+					
+			   CASE(  vSurface_Contents.get_c_Surface_Contents() )
+					vSurface_Contents.readNameValuePairs( modelFile, lineNum, buffer )	
+
+			   CASE(  vPolygon.get_c_POLYGON() )
+					vPolygon.readNameValuePairs( modelFile, lineNum, buffer )	
+
+			   CASE(  vExtrusion.get_c_Extrusion() )
+					vExtrusion.readNameValuePairs( modelFile, lineNum, buffer )						
+
+			   DEFAULT
+					errorMsg = "Unexpected string encountered, Line number: " // str_from_integer(lineNum) //  ", String: " // buffer 
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+										
+					unknownFieldFound = TRUE			
+					
+			END SWITCH				
+		END WHILE			
+	END WHILE		
+	
+	text_close(modelFile,"")
+		text_write_string( vLogger.getChannel(), "******************* END " // in_FEAModelDefinitionFile // " ***********************")	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION  getBufferNoComments( in_LineNum, in_out_buffer, out_ShouldContinue )
+	
+	INTEGER 	in_LineNum	
+	STRING 		in_out_buffer[]
+	LOGICAL 	out_ShouldContinue
+
+	INTEGER returnStatus = 0
+	
+	STRING  functionName[64]
+	functionName = c_ClassName // ".getBufferNoComments"	
+
+	out_ShouldContinue = FALSE
+	
+	# PCL functions str_strip_trail and str_strip_lead do not strip tabs.
+	# str_find_nomatch does not seem to work with tabs	
+	# Therefore, at the beginning of this function, replace tabs with spaces
+	returnStatus = vModelDefinitionReader.replaceTabsWithSpaces(in_out_buffer)	
+	IF ( returnStatus != 0 ) THEN				
+		errorMsg = "Could not remove all tabs from line: " // str_from_integer(in_LineNum)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
+	END IF
+
+	
+	in_out_buffer = str_strip_trail (in_out_buffer ) 	
+	
+	# Skip null lines
+	IF ( str_length(in_out_buffer) == 0 ) THEN 
+		out_ShouldContinue = TRUE	
+		return in_out_buffer
+	END IF
+	
+	# Skip blank lines
+	# WRITE( " ")
+	# WRITE ("--str_find index:     " // str_from_integer(  str_find_nomatch(in_out_buffer, " " )) )	
+	# WRITE ("--str_find_nomatch--: " // in_out_buffer )	
+	# IF ( str_equal( in_out_buffer, "	") ) THEN WRITE ("**************** Found Tab ******")
+	IF ( str_find_nomatch(in_out_buffer, " " ) == 0 ) THEN
+		# All spaces
+		out_ShouldContinue = TRUE	
+		in_out_buffer = ""
+		return in_out_buffer		
+	END IF	
+	
+	
+	# remove comment,  Note - comment could be after a valid fields
+	in_out_buffer = vModelDefinitionReader.removeComment(in_out_buffer)
+	
+	# Check for all blanks
+	IF ( str_find_nomatch(in_out_buffer, " " ) == 0 ) THEN
+		# All spaces
+		out_ShouldContinue = TRUE	
+		in_out_buffer = ""
+		return in_out_buffer		
+	END IF
+
+	in_out_buffer = str_strip_lead (in_out_buffer) 
+	in_out_buffer = str_strip_trail (in_out_buffer ) 	
+	
+	#IF ( !out_ShouldContinue ) THEN
+	#	WRITE ("--Should Not Cont Length: " // str_from_integer( str_length( in_out_buffer )) )
+	#	WRITE ("--Should Not Continue --: " // in_out_buffer )
+	#END IF
+	
+	return in_out_buffer
+
+END FUNCTION
+################################################################################
+FUNCTION replaceTabsWithSpaces(in_out_String )
+
+
+	STRING in_out_String[]
+	
+	INTEGER index_Tab
+	INTEGER tabCount
+	INTEGER maxAllowedNumTabs
+	
+	STRING tabString[8]
+	STRING spaceString[8]	
+	
+	tabString = "	"
+	spaceString = " "	
+	
+	tabCount = 0
+	
+	# The main purpose of the following line is to prevent an infinite loop
+	# when searching for tabs.  An input file typically would have no more than 
+	# five tabs per line.  More likely only one tab. If maxAllowedNumTabs is
+	# reached it is probably because this function was modified in a way
+	# that produced erroneous results
+	maxAllowedNumTabs = 100	
+
+	index_Tab = str_index( in_out_String, tabString)
+	
+	WHILE ( index_Tab > 0  && tabCount < maxAllowedNumTabs )
+		str_assign( in_out_String, index_Tab, 1, spaceString )
+		index_Tab = str_index( in_out_String, tabString )
+		tabCount +=1
+	END WHILE
+
+	# WRITE( "!!!!!! Tab Count!!!!!:   " // str_from_integer(tabCount) );	
+	
+	IF ( tabCount >= maxAllowedNumTabs ) THEN
+		return -1
+	else 
+		return 0
+	END IF
+	
+END FUNCTION
+################################################################################
+# Wherever a "#"  appears the rest of the line is discarded.
+FUNCTION removeComment( in_out_String)
+
+	STRING in_out_String[]
+	INTEGER indexKey
+
+
+	indexKey = str_index( in_out_String, "#")
+
+	#WRITE ("--removeComment--: " // str_from_integer( indexKey) )	
+	#WRITE ("--removeComment--: " // in_out_String )
+	IF ( indexKey > 0 ) THEN
+		IF ( indexKey == 1 ) THEN 
+			in_out_String = ""
+		ELSE
+			in_out_String = str_substr( in_out_String, 1, indexKey - 1 )
+		END IF
+	ENDIF		
+	
+	
+	/**************  
+	Don't allow // comments.  This will cause problems for the case where a 
+	directory path has double slashes.  This is allowed in directory paths
+	indexKey = str_index( in_out_String, "//")
+	
+	IF ( indexKey > 0 ) THEN
+		IF ( indexKey == 1 ) THEN 
+			in_out_String = ""
+		ELSE
+			in_out_String = str_substr( in_out_String, 1, indexKey - 1 )
+		END IF
+	ENDIF				
+	******************/
+	
+	
+	return in_out_String
+END FUNCTION	
+################################################################################
+END CLASS

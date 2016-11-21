@@ -1,0 +1,368 @@
+/*********************************************************************************
+Title: 			Patran Post Processing
+Last Revised: 	11/11/2016
+
+Pre-Conditions
+-------------
+1. 	The xdb/op2(Patran result DB) that this program reads must only contain one and only one 
+	of the following types of elements:
+	a)	Solid elements (normally Tetra elements)
+	b)	Shell elements with isotropic or 3D orthotropic materials
+	c)	Shell elements with Laminate elements (isotropic or 3D orthotropic materials)
+	In other words, mixing of element types is not currently supported.
+
+This program:
+-------------
+1. Reads a BDF file
+2. Attaches to a xdb or op2(for composite failure criteria) database
+3. Computes VM (VonMises), MP (Maximum Principal), and D (Displacement) for each part or
+   for the case of failure criteria (i.e. Tsai-Wu, Hill, Hoffman, Maximum Stress) compute a failure index.
+4. Stores the computed values in one of two file as described below
+	a) Input model was created from deck-based FEA (i.e. not via a Patran model) 
+	Metrics Returned - VM (VonMises), MP (Maximum Principal), and D (Displacement)
+	----------------------------------------------------------
+	typically named Nastran_mod_out.txt
+	Example contents:
+		VM,SC1:DEFAULT,P1_Solid_M1_ALUMINUM_ALLO,75.25251
+		VM,SC1:DEFAULT,P2_Solid_M1_ALUMINUM_ALLO,51.34026
+		MP,SC1:DEFAULT,P1_Solid_M1_ALUMINUM_ALLO,79.947426
+		MP,SC1:DEFAULT,P2_Solid_M1_ALUMINUM_ALLO,57.42321
+		D,SC1:DEFAULT,P1_Solid_M1_ALUMINUM_ALLO,1.7320316
+		D,SC1:DEFAULT,P2_Solid_M1_ALUMINUM_ALLO,0.011528301
+
+	b) Input model was created from a Patran Model  
+	Metrics Returned - VM (VonMises), MP (Maximum Principal), D (Displacement), and/or FailureIndex		
+	----------------------------------------------------------	
+	typically named Nastran_mod_out_v2.txt
+	Example Contents for VM/MP/D
+		VM,d44a4d66-1560-4634-9d20-c83c063be51d,21514246.
+		MP,d44a4d66-1560-4634-9d20-c83c063be51d,6972896.
+		D,d44a4d66-1560-4634-9d20-c83c063be51d,0.
+		VM,c90e413a-bbb9-46da-9251-ab2c1e129041,38952192.
+		MP,c90e413a-bbb9-46da-9251-ab2c1e129041,11387352.
+		D,c90e413a-bbb9-46da-9251-ab2c1e129041,7700873.5	
+		
+	Example Contents for Failure Index Example
+		FailureIndex,d44a4d66-1560-4634-9d20-c83c063be51d,1.2325573
+		FailureIndex,c90e413a-bbb9-46da-9251-ab2c1e129041,2.1715639	
+		
+5. Produces stress/displacement contour plots
+
+Note - 	This program supports being run multiple times in the same directory.  In other words,
+Note - 	This program supports being run multiple times in the same directory.  In other words,
+		this program does the necessary cleanup prior to running.
+
+Logging and Error Handling
+--------------------------
+This program:
+1) Deletes _SUCCEEDED_PP.TXT if it exists
+2) If no errors occur, this program creates  _SUCCEEDED_PP.TXT.  If you want to know if the program completed without
+   errors, check for the existence of _SUCCEEDED_PP.TXT.
+3) If an error occurs, error messages will be appended to _FAILED.txt.  Note - this program does
+	not delete _FAILED.txt.  It will create it if errors occur and it does not exist.  If errors
+	occur and it does exist, the errors will be appended to _FAILED.txt.
+4) Logs the status of each step of the program to a file typically named Nastran_mod_PP_Application.log
+
+
+Example Session File:
+--------------------
+see src\CADAssembler\PostProcessing\PatranPostProcessing\PatranPostProcessing.ses
+
+Example Bat File:
+------------------
+patran -b -graphics -sfp PatranPostProcessing.ses -stdout .\log\PatranPostProcessing_Session.log
+
+Revision History
+---------------
+Date   		Developer  	Description
+------		----------	-------------------------------------------------------------
+~2013		R. Wrenn	Initial Release
+6/13/2016	R. Owens	Updated with error checking, logging, and general refactoring.
+6/22/2016	R. Owens	Modified getFactorMax to call res_data_get_result_ids twice if 
+						the first call fails.  The second call changed pName and sName 
+						to be compatible with laminates.  Also modified getFactorMax to 
+						return information about layers/laminates.  Modified createPlot to 
+						handle laminates.  It produce a plot for each layer of the laminate. 
+		
+7/14/2016	R. Owens	Added the location of the log file _FAILDED.txt messages. 
+
+8/11/2016	R. Owens	Added support for Tsai-Wu, Hill, Hoffman, and Maximum Stress failure criteria.
+						Re-factored to have separate source code files per PCL class.  Previously, all the 
+						code was in one file (patran_pp.pcl).
+						
+11/11/2016	R. Owens	Added the output of TotalMass and TotalVolume for plate models to the output 
+						file (currently named Nastran_mod_out_v2.txt).  Returned -1 from
+						vPatranPostProcess.pcl if a failure occurred.  This was necessary so the calling
+						script would report the error and discontinue processing.  Deleted the PatranDB if 
+						it exists before any processing occurs.  This accommodates running the scripts over in the
+						same directory.
+
+						
+Needed Improvements
+-------------------
+1.	Elimanted the need for vSolidLegacyApproach.pcl. For deck-based and model-based (i.e.
+	created via a Patran Model) use the same code.  This would require modifying python
+	scripts in the infrastructure.
+
+ 						
+*********************************************************************************/
+
+CLASS vPatranPostProcess
+
+
+	CLASSWIDE STRING  resultsOutputTextFile[512] 
+	CLASSWIDE STRING  resultsOutputTextFile_v2[512] 	
+		
+	# Typically Nastran_mod	
+	CLASSWIDE STRING	fileName[64]		
+		
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel
+	
+
+	
+	CLASSWIDE STRING	c_ClassName[32]
+################################################################################	
+FUNCTION initialize()
+
+	c_ClassName = "vPatranPostProcess"
+	
+END FUNCTION
+################################################################################
+FUNCTION patranPostProcess(in_dir, in_filename, in_bdfPath, in_xdbPath, in_op2Path)	
+#	STRING in_installPath[]
+    STRING in_filename[]
+	STRING in_bdfPath[] 
+	STRING in_xdbPath[] 
+	STRING in_op2Path[] 	
+	STRING in_dir[]
+	
+	INTEGER returnStatus = 0	
+	INTEGER i
+	
+	vPatranPostProcess.initialize()
+		
+	fileName = 	in_filename
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".patranPostProcess"	
+		
+	vConstants.initialize()
+	vFileReader.initialize()
+	vSolidLegacyApproach.initialize()
+	vPatranUtils.initialize()
+	vSurfaceOrSolid.initialize()
+	vRegions.initialize()
+	vLoadcases.initialize()
+	vSubcases.initialize()	
+	vMetrics.initialize()
+	vPlots.initialize()	
+		
+		
+	STRING succeededFile[128]	
+	succeededFile = "_SUCCEEDED_PatranPostProcessing.txt"
+		
+		
+	# Delete _SUCCEEDED.TXT
+	IF (file_exists(succeededFile,"" )) THEN
+		file_delete(succeededFile) 
+	End IF	
+		
+	# e.g. Nastran_mod_out.txt
+	resultsOutputTextFile = in_filename // "_out.txt"
+	resultsOutputTextFile_v2 = 	in_filename // "_out_v2.txt"	
+		
+	# Delete resultsOutputTextFile if it exists  e.g. Nastran_mod_out.txt
+	IF (file_exists(resultsOutputTextFile,"" )) THEN
+		file_delete(resultsOutputTextFile) 
+	End IF	
+
+	# Delete resultsOutputTextFile_v2 if it exists  e.g. Nastran_mod_out.txt
+	IF (file_exists(resultsOutputTextFile_v2,"" )) THEN
+		file_delete(resultsOutputTextFile_v2) 
+	End IF		
+	
+	STRING log_DirAndFileName[256]
+	STRING log_FileName[256]	
+	
+	log_FileName = "PatranPostProcessing_Application.log"
+	
+	# if the following function returns 0 if the directory already exists.
+	# 511 = 7*64+7*8+7   which is full access i.e. chmod 777
+	file_create_directory ( ".\log", 511 )
+	
+	log_DirAndFileName = ".\log\" // log_FileName	
+		
+	# Delete log file if it exists, otherwise if the PCL does not compile, the old log file will still exist. 
+	IF (file_exists(log_DirAndFileName,"" )) THEN
+		file_delete(log_DirAndFileName) 
+	End IF			
+		
+	vLogger.initialize(log_DirAndFileName)
+
+	####################################
+	# Log Input File Data and Date/Time
+	####################################		
+	text_write_string( vLogger.getChannel(), "Date Time:       " // sys_date() // "  " // sys_time())
+	text_write_string( vLogger.getChannel(), "MSC Application: " // sys_product()// " " // sys_release())
+	text_write_string( vLogger.getChannel(), "" )	
+	text_write_string( vLogger.getChannel(), "in_dir:          " // in_dir)
+	text_write_string( vLogger.getChannel(), "in_filename:     " // in_filename)
+	text_write_string( vLogger.getChannel(), "in_bdfPath:      " // in_bdfPath)
+	text_write_string( vLogger.getChannel(), "in_xdbPath:      " // in_xdbPath)	
+	text_write_string( vLogger.getChannel(), "" )		
+	
+	####################################
+	# Determine bdf, xdb/op2 Source
+	####################################	
+	
+	/***************************************************************************************
+	The bdf and associated xdb/opt file could have been created by deck-based FEA,
+	or via a Patran model.  If it was created by a Patran model it could be based on a solid model 
+	or surface model.  If a surface model, then failure criteria would be the classical models such as 
+	VonMises or failure criteria such as Tsai-Wu, Hill, Hoffman, and Maximum Stress.  
+	The Tsai-Wu, Hill, Hoffman, and Maximum Stress cases are treated differently by this program than 
+	the VonMises case.  
+	*****************************************************************************************/
+		
+	LOGICAL  nonPatran_DeckBased
+	LOGICAL  patran_SolidModel 	 = FALSE	
+	LOGICAL  patran_SurfaceModel = FALSE
+	LOGICAL  patran_withFailureCriteria = FALSE	
+		
+	STRING CreatePatranModelOutput_DirFile[64]
+	CreatePatranModelOutput_DirFile = ".\CreatePatranModelOutput.txt"
+	vInputFile.initialize(CreatePatranModelOutput_DirFile)
+	
+	text_write_string( vLogger.getChannel(), "" )	
+	IF ( vInputFile.get_fileExists() ) THEN
+		nonPatran_DeckBased = FALSE
+		text_write_string( vLogger.getChannel(), "File exists: " // CreatePatranModelOutput_DirFile )	
+		returnStatus = vInputFile.parseFile()
+		IF ( returnStatus == 0 ) THEN
+			vInputFile.logData()
+			returnStatus = vInputFile.check()
+			IF ( returnStatus == 0 ) THEN
+				IF ( vInputFile.get_model_Geometry_Type() == vInputFile.get_ci_Solid() ) THEN
+					patran_SolidModel = TRUE
+				ELSE 
+					patran_SurfaceModel = TRUE
+				END IF 
+				IF ( vInputFile.get_failureCriteriaDefined() ) THEN patran_withFailureCriteria = TRUE
+				
+				returnStatus = vInputFile.map_compInstIDs_to_PropSets()
+				IF ( returnStatus == 0 ) THEN  vInputFile.log_map_compInstIDs_to_PropSets()
+			END IF
+			
+		END IF 
+	ELSE
+		nonPatran_DeckBased = TRUE
+		text_write_string( vLogger.getChannel(), "File DOES NOT exists: " // CreatePatranModelOutput_DirFile )
+	END IF
+						
+	text_write_string ( vLogger.getChannel(), "nonPatran_DeckBased:         " // str_from_logical(nonPatran_DeckBased) )
+	text_write_string ( vLogger.getChannel(), "patran_SolidModel:           " // str_from_logical(patran_SolidModel) )
+	text_write_string ( vLogger.getChannel(), "patran_SurfaceModel:         " // str_from_logical(patran_SurfaceModel) )
+	text_write_string ( vLogger.getChannel(), "patran_withFailureCriteria:  " // str_from_logical(patran_withFailureCriteria) )	
+			
+	####################################
+	# Determine bdf, xdb/op2 Source
+	####################################				
+	#createProject_ImportBDF (in_installPath, in_filename, in_dir, in_bdfPath, in_xdbPath)
+	
+	IF ( returnStatus == 0 ) THEN returnStatus = vPatranUtils.createProject(in_filename, in_dir)
+	IF ( returnStatus == 0 ) THEN returnStatus = vPatranUtils.importBDF(in_bdfPath)
+	
+	IF ( returnStatus == 0 ) THEN
+		IF ( patran_withFailureCriteria ) THEN
+			returnStatus = vPatranUtils.attachOp2(in_filename, in_dir, in_op2Path)			
+		ELSE
+			returnStatus = vPatranUtils.attachXDB(in_filename, in_dir,in_xdbPath)	
+		END IF
+	END IF
+	
+	IF ( nonPatran_DeckBased ) THEN
+		IF ( returnStatus == 0 ) THEN returnStatus = vSolidLegacyApproach.patranPostProcess(in_dir, in_filename, in_bdfPath, in_xdbPath )
+	ELSE
+		IF ( returnStatus == 0 ) THEN returnStatus = vSurfaceOrSolid.patranPostProcess( patran_SolidModel, 			@ 
+																						patran_SurfaceModel, 		@
+																						patran_withFailureCriteria )
+	END IF
+	
+	vPatranUtils.closeProject()	
+	############################
+	# Write Final Result Files
+	############################
+	# Since in some case error messages are stacked up without returning a non zero return status, we need to check if 
+	# the messages are just info/warnings or if they are actually errors
+	IF ( returnStatus == 0 && vLogger.getErrorMessages_current() > 0 ) THEN
+		# Error message could contain info, warnings, or errors.  If errors we need to set returnStatus to non zero
+		IF ( vLogger.errorMessages_containERROR() ) THEN returnStatus = -1
+	END IF 
+	
+	IF ( returnStatus == 0  ) THEN
+		INTEGER succeededFile_channel = 0
+		text_open( succeededFile, "NOWA", 0, 0, succeededFile_channel )	
+		text_write_string ( succeededFile_channel, "Processing completed successfully" )			
+		text_write_string( succeededFile_channel, "Date Time: " // sys_date() // "  " // sys_time())			
+		text_write_string( succeededFile_channel, "Patran post processing ran successfully.")
+		text_write_string( succeededFile_channel, "See the log file, " // log_DirAndFileName // ", for details about this successful run." )			
+		text_close(succeededFile_channel,"")		
+		
+		# This will write only warnings, since we checked above if the messages contained any errors.
+		text_write_string ( vLogger.getChannel(), "" )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( vLogger.getChannel(), "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR		
+		
+		text_write_string ( vLogger.getChannel(), "" )					
+		text_write_string( vLogger.getChannel(), "Patran post processing ran successfully, Date Time: " // sys_date() // "  " // sys_time())		
+	ELSE
+		INTEGER failedFile = 0
+		INTEGER failedFile_ResultsDir = 0		
+		
+		text_open( "_FAILED.TXT", "NOWA", 0, 0, failedFile )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( failedFile, "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+		text_write_string( failedFile, "See the log file, " // log_DirAndFileName // ", for details about the error condition(s).  Start by scrolling to the bottom of the log file." )		
+		text_close(failedFile,"")	
+		
+		text_open( ".\..\..\_FAILED.TXT", "NOWA", 0, 0, failedFile_ResultsDir )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( failedFile_ResultsDir, "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+		text_write_string( failedFile_ResultsDir, "See the log file, .\Analysis\Patran_Nastran\log\" // log_FileName // ", for details about the error condition(s).  Start by scrolling to the bottom of the log file." )		
+		text_close(failedFile_ResultsDir,"")				
+		
+		text_write_string ( vLogger.getChannel(), "" )		
+		FOR ( i = 1 TO vLogger.getErrorMessages_current() )
+			text_write( vLogger.getChannel(), "%A%",returnStatus,0.0,vLogger.getErrorMessage(i))
+		END FOR
+
+		text_write_string( vLogger.getChannel(), "Patran post processing FAILED, Date Time: " // sys_date() // "  " // sys_time())
+		
+		return -1
+		
+	END IF	
+	
+	vLogger.closeLogFile()
+	vLogger.destruct()	
+	
+END FUNCTION
+################################################################################
+FUNCTION get_resultsFile_name()
+	return resultsOutputTextFile 
+END FUNCTION	
+################################################################################
+FUNCTION get_resultsFile_v2_name()
+	return resultsOutputTextFile_v2 
+END FUNCTION
+################################################################################
+FUNCTION get_fileName()
+	return fileName 
+END FUNCTION
+################################################################################
+END CLASS
+
+

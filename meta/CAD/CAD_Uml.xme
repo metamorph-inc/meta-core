@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{A0A2074E-2F79-4FA1-9425-63D6FC17C78E}" cdate="Wed Apr 27 15:47:56 2016" mdate="Wed Apr 27 15:47:56 2016" version="1.2.0.11" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+<project guid="{F20F4628-6496-4466-8264-DE4C8617A5EF}" cdate="Mon Apr 25 15:46:30 2016" mdate="Mon Apr 25 15:46:30 2016" version="1.2.0.13" metaguid="{1913C77F-2986-4DA3-BD61-02F6C19FD44E}" metaversion="" metaname="UML">
+
 	<name>AssemblyInterface</name>
-	<comment>v.1.2.0.11 Added MaxElementSize attribute to FEA.
+	<comment>v.1.2.0.13 Added Direction attribute to Material_Layup class.
+
+v.1.2.0.12 Added composite concepts under CADComponent.
+
+v.1.2.0.11 Added MaxElementSize attribute to FEA.
 
 v.1.2.0.10 Added Thermal concepts to FEA.
 
@@ -25,7 +30,7 @@ v1.2.0.1 - Removed Metric object from Boundingbox/CG/PointCoordinates.
 	<author>Di Yao</author>
 	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x4" kind="RootFolder" guid="{d1683e2f-d265-4826-bcd7-20fb74151777}">
 		<name>AssemblyInterface</name>
-		<model id="id-0065-00000001" kind="Package" guid="{517ed3d7-d497-4505-b17f-b38bbb5d2fe5}" relid="0x2" childrelidcntr="0x8">
+		<model id="id-0065-00000001" kind="Package" guid="{517ed3d7-d497-4505-b17f-b38bbb5d2fe5}" relid="0x2" childrelidcntr="0x9">
 			<name>AssemblyInterface</name>
 			<attribute kind="alias" status="meta">
 				<value></value>
@@ -33,7 +38,7 @@ v1.2.0.1 - Removed Metric object from Boundingbox/CG/PointCoordinates.
 			<attribute kind="version">
 				<value>1.2.0.0</value>
 			</attribute>
-			<model id="id-0065-00000002" kind="ClassDiagram" role="ClassDiagram" guid="{d8e786ce-e035-4e24-9b99-0c6d61a70cb6}" relid="0x1" childrelidcntr="0x7c">
+			<model id="id-0065-00000002" kind="ClassDiagram" role="ClassDiagram" guid="{d8e786ce-e035-4e24-9b99-0c6d61a70cb6}" relid="0x1" childrelidcntr="0x7e">
 				<name>AssemblySpecification</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -891,7 +896,7 @@ Value: String
 						<value></value>
 					</attribute>
 				</atom>
-				<reference id="id-0067-00000001" kind="ClassCopy" role="ClassCopy" guid="{0dc1b3c8-1fb7-429c-b1fa-06030d87e647}" relid="0x37" referred="id-0066-0000001c">
+				<reference id="id-0067-00000002" kind="ClassCopy" role="ClassCopy" guid="{0dc1b3c8-1fb7-429c-b1fa-06030d87e647}" relid="0x37" referred="id-0066-0000001c">
 					<name>AnalysisInput</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -915,7 +920,7 @@ Value: String
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000002" kind="ClassCopy" role="ClassCopy" guid="{aca84055-69fb-44b1-8b9d-30e9d51b0a4a}" relid="0x45" referred="id-0066-00000056">
+				<reference id="id-0067-00000003" kind="ClassCopy" role="ClassCopy" guid="{aca84055-69fb-44b1-8b9d-30e9d51b0a4a}" relid="0x45" referred="id-0066-00000057">
 					<name>KinematicConnections</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -939,7 +944,7 @@ Value: String
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000003" kind="ClassCopy" role="ClassCopy" guid="{25417b5e-3961-472e-81c3-8fe638d277f8}" relid="0x61" referred="id-0066-0000005e">
+				<reference id="id-0067-00000004" kind="ClassCopy" role="ClassCopy" guid="{25417b5e-3961-472e-81c3-8fe638d277f8}" relid="0x61" referred="id-0066-0000005f">
 					<name>MetaLinkData</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -954,7 +959,7 @@ Value: String
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000004" kind="ClassCopy" role="ClassCopy" guid="{fd73ced9-eeac-4d02-8c4c-dad9cc169682}" relid="0x6c" referred="id-0066-00000062">
+				<reference id="id-0067-00000005" kind="ClassCopy" role="ClassCopy" guid="{fd73ced9-eeac-4d02-8c4c-dad9cc169682}" relid="0x6c" referred="id-0066-00000063">
 					<name>Joint</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -969,7 +974,7 @@ Value: String
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000005" kind="ClassCopy" role="ClassCopy" guid="{1f8b1052-86da-4fd0-b1d9-cf3fd8400354}" relid="0x79" referred="id-0066-00000054">
+				<reference id="id-0067-00000006" kind="ClassCopy" role="ClassCopy" guid="{1f8b1052-86da-4fd0-b1d9-cf3fd8400354}" relid="0x79" referred="id-0066-00000055">
 					<name>InterfaceGeometry</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -982,6 +987,21 @@ Value: String
 					</regnode>
 					<regnode name="description" isopaque="yes">
 						<value>Geometry associated with this interface - optional. Used for FEA contact information.</value>
+					</regnode>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000007" kind="ClassCopy" role="ClassCopy" guid="{26bfefd4-0f04-4230-b1fc-926a0dfc7f12}" relid="0x7d" referred="id-0066-00000068">
+					<name>Elements</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>2023,287</value>
+							</regnode>
+						</regnode>
 					</regnode>
 					<attribute kind="IsAbstract" status="meta">
 						<value>false</value>
@@ -1212,7 +1232,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-0000000c"/>
-					<connpoint role="src" target="id-0067-00000001"/>
+					<connpoint role="src" target="id-0067-00000002"/>
 				</connection>
 				<connection id="id-0068-0000000e" kind="Composition" role="Composition" guid="{6ee2749a-37cf-46a8-aeff-a8a36486527f}" relid="0x3b">
 					<name>Composition</name>
@@ -1314,7 +1334,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000004"/>
-					<connpoint role="src" target="id-0067-00000002"/>
+					<connpoint role="src" target="id-0067-00000003"/>
 				</connection>
 				<connection id="id-0068-00000014" kind="Composition" role="Composition" guid="{82d105ed-d1a5-4f76-b545-8c1b5518c33f}" relid="0x48">
 					<name>Composition</name>
@@ -1429,7 +1449,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000001"/>
-					<connpoint role="src" target="id-0067-00000003"/>
+					<connpoint role="src" target="id-0067-00000004"/>
 				</connection>
 				<connection id="id-0068-0000001c" kind="Sub" role="Sub" guid="{11d1e4c5-04c1-47ae-ae13-95c4c35bef44}" relid="0x67">
 					<name>Sub</name>
@@ -1468,7 +1488,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000005"/>
-					<connpoint role="src" target="id-0067-00000004"/>
+					<connpoint role="src" target="id-0067-00000005"/>
 				</connection>
 				<connection id="id-0068-0000001f" kind="Composition" role="Composition" guid="{f7de3e27-043d-4553-ae62-a80394efe5c1}" relid="0x6f">
 					<name>Composition</name>
@@ -1502,7 +1522,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="src" target="id-0066-00000018"/>
-					<connpoint role="dst" target="id-0067-00000004"/>
+					<connpoint role="dst" target="id-0067-00000005"/>
 				</connection>
 				<connection id="id-0068-00000021" kind="Composition" role="Composition" guid="{283b86ae-532e-4d66-96f8-9cd75e4967a2}" relid="0x76">
 					<name>Composition</name>
@@ -1550,7 +1570,7 @@ Value: String
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000005"/>
-					<connpoint role="src" target="id-0067-00000005"/>
+					<connpoint role="src" target="id-0067-00000006"/>
 				</connection>
 				<connection id="id-0068-00000024" kind="Composition" role="Composition" guid="{d38bf462-a8a4-46b5-914b-1ccfa6e7b188}" relid="0x7c">
 					<name>Composition</name>
@@ -1569,8 +1589,25 @@ Value: String
 					<connpoint role="dst" target="id-0066-00000004"/>
 					<connpoint role="src" target="id-0066-0000001b"/>
 				</connection>
+				<connection id="id-0068-00000025" kind="Composition" role="Composition" guid="{181bd1a5-88ae-4dda-9b32-9d9804090e82}" relid="0x7e">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ne</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>0..1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000004"/>
+					<connpoint role="src" target="id-0067-00000007"/>
+				</connection>
 			</model>
-			<model id="id-0065-00000003" kind="ClassDiagram" role="ClassDiagram" guid="{44c68ea9-f0f4-4361-a539-14b4514f38cc}" relid="0x3" childrelidcntr="0x77">
+			<model id="id-0065-00000003" kind="ClassDiagram" role="ClassDiagram" guid="{44c68ea9-f0f4-4361-a539-14b4514f38cc}" relid="0x3" childrelidcntr="0x79">
 				<name>AnalysisTypes</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -2656,7 +2693,37 @@ Unit: String</value>
 						</regnode>
 					</regnode>
 				</atom>
-				<reference id="id-0067-00000006" kind="ClassCopy" role="ClassCopy" guid="{7c75ef29-2b4e-408a-95e8-0ee419e58aff}" relid="0x16" referred="id-0066-00000047">
+				<atom id="id-0066-00000042" kind="Class" role="Class" guid="{5f0d2cb4-935b-4761-8f9c-670f47710c3a}" relid="0x78">
+					<name>MeshParameters</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>966,98</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>1575,441</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>Max_Global_Length: Real
+Max_Curv_Delta_Div_Edge_Len: Real
+Ratio_Min_Edge_To_Max_Edge: Real   
+Match_Face_Proximity_Tol: Real</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000008" kind="ClassCopy" role="ClassCopy" guid="{7c75ef29-2b4e-408a-95e8-0ee419e58aff}" relid="0x16" referred="id-0066-00000048">
 					<name>ConstraintType</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2680,7 +2747,7 @@ Unit: String</value>
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000007" kind="ClassCopy" role="ClassCopy" guid="{4be97cd0-9687-4903-8507-666628b6d198}" relid="0x1b" referred="id-0066-00000049">
+				<reference id="id-0067-00000009" kind="ClassCopy" role="ClassCopy" guid="{4be97cd0-9687-4903-8507-666628b6d198}" relid="0x1b" referred="id-0066-0000004a">
 					<name>LoadType</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2701,7 +2768,7 @@ Unit: String</value>
 						<value>false</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000008" kind="ClassCopy" role="ClassCopy" guid="{68263111-8876-4d23-8ee3-1dcab503c829}" relid="0x40" referred="id-0066-00000054">
+				<reference id="id-0067-0000000a" kind="ClassCopy" role="ClassCopy" guid="{68263111-8876-4d23-8ee3-1dcab503c829}" relid="0x40" referred="id-0066-00000055">
 					<name>Geometry</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -2716,7 +2783,7 @@ Unit: String</value>
 						<value>false</value>
 					</attribute>
 				</reference>
-				<connection id="id-0068-00000025" kind="Composition" role="Composition" guid="{91d177bb-ae34-4463-8bde-c3670a4822c7}" relid="0xc">
+				<connection id="id-0068-00000026" kind="Composition" role="Composition" guid="{91d177bb-ae34-4463-8bde-c3670a4822c7}" relid="0xc">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2733,7 +2800,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001e"/>
 					<connpoint role="src" target="id-0066-00000023"/>
 				</connection>
-				<connection id="id-0068-00000026" kind="Composition" role="Composition" guid="{5bd928f7-c8e8-49d6-b2c0-1873b9ecb76c}" relid="0xd">
+				<connection id="id-0068-00000027" kind="Composition" role="Composition" guid="{5bd928f7-c8e8-49d6-b2c0-1873b9ecb76c}" relid="0xd">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Nw</value>
@@ -2750,7 +2817,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-0000001e"/>
 				</connection>
-				<connection id="id-0068-00000027" kind="Composition" role="Composition" guid="{3244205c-5090-46df-a76c-8ef29b08bf8d}" relid="0xe">
+				<connection id="id-0068-00000028" kind="Composition" role="Composition" guid="{3244205c-5090-46df-a76c-8ef29b08bf8d}" relid="0xe">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2767,7 +2834,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-00000021"/>
 				</connection>
-				<connection id="id-0068-00000028" kind="Composition" role="Composition" guid="{9a379eb5-426a-46c5-bbbe-2b17bf4ad407}" relid="0x10">
+				<connection id="id-0068-00000029" kind="Composition" role="Composition" guid="{9a379eb5-426a-46c5-bbbe-2b17bf4ad407}" relid="0x10">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2784,7 +2851,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000021"/>
 					<connpoint role="src" target="id-0066-00000024"/>
 				</connection>
-				<connection id="id-0068-00000029" kind="Composition" role="Composition" guid="{42625810-8d39-4da6-96f3-dba14cc708b8}" relid="0x18">
+				<connection id="id-0068-0000002a" kind="Composition" role="Composition" guid="{42625810-8d39-4da6-96f3-dba14cc708b8}" relid="0x18">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ws</value>
@@ -2799,9 +2866,9 @@ Unit: String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000023"/>
-					<connpoint role="src" target="id-0067-00000006"/>
+					<connpoint role="src" target="id-0067-00000008"/>
 				</connection>
-				<connection id="id-0068-0000002a" kind="Composition" role="Composition" guid="{631f43cd-b27a-43aa-ad08-55ed23f0218f}" relid="0x1c">
+				<connection id="id-0068-0000002b" kind="Composition" role="Composition" guid="{631f43cd-b27a-43aa-ad08-55ed23f0218f}" relid="0x1c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2816,9 +2883,9 @@ Unit: String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000024"/>
-					<connpoint role="src" target="id-0067-00000007"/>
+					<connpoint role="src" target="id-0067-00000009"/>
 				</connection>
-				<connection id="id-0068-0000002b" kind="Composition" role="Composition" guid="{55ec29cd-8aee-4b1c-afbf-8cb0758ad792}" relid="0x1d">
+				<connection id="id-0068-0000002c" kind="Composition" role="Composition" guid="{55ec29cd-8aee-4b1c-afbf-8cb0758ad792}" relid="0x1d">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ne</value>
@@ -2835,7 +2902,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-0000001f"/>
 				</connection>
-				<connection id="id-0068-0000002c" kind="Composition" role="Composition" guid="{091abb47-298c-40d5-a71f-a050faca3f67}" relid="0x1e">
+				<connection id="id-0068-0000002d" kind="Composition" role="Composition" guid="{091abb47-298c-40d5-a71f-a050faca3f67}" relid="0x1e">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ne</value>
@@ -2852,7 +2919,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-00000022"/>
 				</connection>
-				<connection id="id-0068-0000002d" kind="Composition" role="Composition" guid="{f9cd2320-57d5-413c-b957-42b45d8c7981}" relid="0x20">
+				<connection id="id-0068-0000002e" kind="Composition" role="Composition" guid="{f9cd2320-57d5-413c-b957-42b45d8c7981}" relid="0x20">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2869,7 +2936,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001f"/>
 					<connpoint role="src" target="id-0066-00000025"/>
 				</connection>
-				<connection id="id-0068-0000002e" kind="Composition" role="Composition" guid="{4e7630ea-e145-4a72-a17e-1d939b37b887}" relid="0x22">
+				<connection id="id-0068-0000002f" kind="Composition" role="Composition" guid="{4e7630ea-e145-4a72-a17e-1d939b37b887}" relid="0x22">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>N</value>
@@ -2886,7 +2953,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000022"/>
 					<connpoint role="src" target="id-0066-00000026"/>
 				</connection>
-				<connection id="id-0068-0000002f" kind="Composition" role="Composition" guid="{7b51d696-a52c-4563-9b30-9d1cf4cebf2b}" relid="0x24">
+				<connection id="id-0068-00000030" kind="Composition" role="Composition" guid="{7b51d696-a52c-4563-9b30-9d1cf4cebf2b}" relid="0x24">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ne</value>
@@ -2903,7 +2970,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-00000027"/>
 				</connection>
-				<connection id="id-0068-00000030" kind="Composition" role="Composition" guid="{e2e3b41a-65e5-4494-812b-ef61a342e149}" relid="0x25">
+				<connection id="id-0068-00000031" kind="Composition" role="Composition" guid="{e2e3b41a-65e5-4494-812b-ef61a342e149}" relid="0x25">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2920,7 +2987,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000020"/>
 					<connpoint role="dst" target="id-0066-00000027"/>
 				</connection>
-				<connection id="id-0068-00000031" kind="Base" role="Base" guid="{7af2246d-e788-4a90-91e9-bb0c3b272610}" relid="0x28">
+				<connection id="id-0068-00000032" kind="Base" role="Base" guid="{7af2246d-e788-4a90-91e9-bb0c3b272610}" relid="0x28">
 					<name>Base</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -2928,7 +2995,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-0000001c"/>
 					<connpoint role="dst" target="id-0066-00000028"/>
 				</connection>
-				<connection id="id-0068-00000032" kind="Sub" role="Sub" guid="{68d6ee48-4d49-4903-ab11-92ad4dd4e42c}" relid="0x29">
+				<connection id="id-0068-00000033" kind="Sub" role="Sub" guid="{68d6ee48-4d49-4903-ab11-92ad4dd4e42c}" relid="0x29">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -2936,7 +3003,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-00000028"/>
 				</connection>
-				<connection id="id-0068-00000033" kind="Sub" role="Sub" guid="{e7c36dff-cf66-4094-9d6e-80456e2c4fc1}" relid="0x2c">
+				<connection id="id-0068-00000034" kind="Sub" role="Sub" guid="{e7c36dff-cf66-4094-9d6e-80456e2c4fc1}" relid="0x2c">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -2944,7 +3011,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-00000029"/>
 				</connection>
-				<connection id="id-0068-00000034" kind="Sub" role="Sub" guid="{9ad6b16b-1898-4f7d-8d12-12d73cf3484a}" relid="0x2d">
+				<connection id="id-0068-00000035" kind="Sub" role="Sub" guid="{9ad6b16b-1898-4f7d-8d12-12d73cf3484a}" relid="0x2d">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -2952,7 +3019,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-0000002a"/>
 				</connection>
-				<connection id="id-0068-00000035" kind="Composition" role="Composition" guid="{2e705059-1e6a-4c82-906d-e700cae29d31}" relid="0x32">
+				<connection id="id-0068-00000036" kind="Composition" role="Composition" guid="{2e705059-1e6a-4c82-906d-e700cae29d31}" relid="0x32">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2969,7 +3036,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-0000002b"/>
 					<connpoint role="dst" target="id-0066-0000002c"/>
 				</connection>
-				<connection id="id-0068-00000036" kind="Composition" role="Composition" guid="{971e5166-60e5-4e4f-aae6-c4e7b0e0a831}" relid="0x3b">
+				<connection id="id-0068-00000037" kind="Composition" role="Composition" guid="{971e5166-60e5-4e4f-aae6-c4e7b0e0a831}" relid="0x3b">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -2986,7 +3053,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000002d"/>
 					<connpoint role="src" target="id-0066-0000002e"/>
 				</connection>
-				<connection id="id-0068-00000037" kind="Composition" role="Composition" guid="{6f2cf800-fcde-4642-af92-348083a0db84}" relid="0x3c">
+				<connection id="id-0068-00000038" kind="Composition" role="Composition" guid="{6f2cf800-fcde-4642-af92-348083a0db84}" relid="0x3c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ne</value>
@@ -3003,7 +3070,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-0000002d"/>
 				</connection>
-				<connection id="id-0068-00000038" kind="Composition" role="Composition" guid="{b4d1c91e-6da4-4859-a668-003672898a11}" relid="0x42">
+				<connection id="id-0068-00000039" kind="Composition" role="Composition" guid="{b4d1c91e-6da4-4859-a668-003672898a11}" relid="0x42">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3018,9 +3085,9 @@ Unit: String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000023"/>
-					<connpoint role="src" target="id-0067-00000008"/>
+					<connpoint role="src" target="id-0067-0000000a"/>
 				</connection>
-				<connection id="id-0068-00000039" kind="Composition" role="Composition" guid="{8ae094ce-e69e-48ae-84d9-2789a87bf3e4}" relid="0x43">
+				<connection id="id-0068-0000003a" kind="Composition" role="Composition" guid="{8ae094ce-e69e-48ae-84d9-2789a87bf3e4}" relid="0x43">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3035,9 +3102,9 @@ Unit: String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000024"/>
-					<connpoint role="src" target="id-0067-00000008"/>
+					<connpoint role="src" target="id-0067-0000000a"/>
 				</connection>
-				<connection id="id-0068-0000003a" kind="Composition" role="Composition" guid="{c3b8bc43-e66f-464a-bcfe-9dcfc3730d8f}" relid="0x45">
+				<connection id="id-0068-0000003b" kind="Composition" role="Composition" guid="{c3b8bc43-e66f-464a-bcfe-9dcfc3730d8f}" relid="0x45">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3054,7 +3121,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-0000002f"/>
 				</connection>
-				<connection id="id-0068-0000003b" kind="Composition" role="Composition" guid="{d30bc4bc-02b2-42d1-9227-57e73ecb716a}" relid="0x47">
+				<connection id="id-0068-0000003c" kind="Composition" role="Composition" guid="{d30bc4bc-02b2-42d1-9227-57e73ecb716a}" relid="0x47">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3071,7 +3138,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000002f"/>
 					<connpoint role="src" target="id-0066-00000030"/>
 				</connection>
-				<connection id="id-0068-0000003c" kind="Composition" role="Composition" guid="{413f62de-4453-430b-9c84-03a08ee115e5}" relid="0x48">
+				<connection id="id-0068-0000003d" kind="Composition" role="Composition" guid="{413f62de-4453-430b-9c84-03a08ee115e5}" relid="0x48">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ss</value>
@@ -3086,9 +3153,9 @@ Unit: String</value>
 						<value></value>
 					</attribute>
 					<connpoint role="dst" target="id-0066-00000030"/>
-					<connpoint role="src" target="id-0067-00000008"/>
+					<connpoint role="src" target="id-0067-0000000a"/>
 				</connection>
-				<connection id="id-0068-0000003d" kind="Sub" role="Sub" guid="{6f277b27-b34e-4ff6-a8c1-488c1e166399}" relid="0x4a">
+				<connection id="id-0068-0000003e" kind="Sub" role="Sub" guid="{6f277b27-b34e-4ff6-a8c1-488c1e166399}" relid="0x4a">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -3096,7 +3163,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-00000031"/>
 				</connection>
-				<connection id="id-0068-0000003e" kind="Composition" role="Composition" guid="{c010cf0a-bff5-4571-86b7-07be04d6a872}" relid="0x4d">
+				<connection id="id-0068-0000003f" kind="Composition" role="Composition" guid="{c010cf0a-bff5-4571-86b7-07be04d6a872}" relid="0x4d">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3113,7 +3180,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000031"/>
 					<connpoint role="src" target="id-0066-00000033"/>
 				</connection>
-				<connection id="id-0068-0000003f" kind="Composition" role="Composition" guid="{5ae07a32-13ef-4db2-80e4-40a5194e09d5}" relid="0x4e">
+				<connection id="id-0068-00000040" kind="Composition" role="Composition" guid="{5ae07a32-13ef-4db2-80e4-40a5194e09d5}" relid="0x4e">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3130,7 +3197,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000031"/>
 					<connpoint role="src" target="id-0066-00000032"/>
 				</connection>
-				<connection id="id-0068-00000040" kind="Composition" role="Composition" guid="{7a3b900c-e84a-48c4-8b12-989c6a41d2e4}" relid="0x50">
+				<connection id="id-0068-00000041" kind="Composition" role="Composition" guid="{7a3b900c-e84a-48c4-8b12-989c6a41d2e4}" relid="0x50">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3147,7 +3214,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000032"/>
 					<connpoint role="src" target="id-0066-00000034"/>
 				</connection>
-				<connection id="id-0068-00000041" kind="Sub" role="Sub" guid="{a24afeac-8611-4c9c-8c82-a0f5363a83d1}" relid="0x52">
+				<connection id="id-0068-00000042" kind="Sub" role="Sub" guid="{a24afeac-8611-4c9c-8c82-a0f5363a83d1}" relid="0x52">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -3155,7 +3222,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-00000035"/>
 				</connection>
-				<connection id="id-0068-00000042" kind="Composition" role="Composition" guid="{85bfdb4a-178a-4bf0-96c3-169f21f86b49}" relid="0x54">
+				<connection id="id-0068-00000043" kind="Composition" role="Composition" guid="{85bfdb4a-178a-4bf0-96c3-169f21f86b49}" relid="0x54">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ss</value>
@@ -3172,7 +3239,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000033"/>
 					<connpoint role="dst" target="id-0066-00000036"/>
 				</connection>
-				<connection id="id-0068-00000043" kind="Sub" role="Sub" guid="{85b51b23-f8a4-4d35-92f7-55aa853d30ba}" relid="0x55">
+				<connection id="id-0068-00000044" kind="Sub" role="Sub" guid="{85b51b23-f8a4-4d35-92f7-55aa853d30ba}" relid="0x55">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -3180,7 +3247,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-00000036"/>
 				</connection>
-				<connection id="id-0068-00000044" kind="Sub" role="Sub" guid="{1194f71a-f834-42fe-a807-a3e223d2cebd}" relid="0x57">
+				<connection id="id-0068-00000045" kind="Sub" role="Sub" guid="{1194f71a-f834-42fe-a807-a3e223d2cebd}" relid="0x57">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -3188,7 +3255,7 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000028"/>
 					<connpoint role="dst" target="id-0066-00000037"/>
 				</connection>
-				<connection id="id-0068-00000045" kind="Composition" role="Composition" guid="{7168e1b9-a9eb-44a5-bc1b-cf5fb85143f8}" relid="0x58">
+				<connection id="id-0068-00000046" kind="Composition" role="Composition" guid="{7168e1b9-a9eb-44a5-bc1b-cf5fb85143f8}" relid="0x58">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ne</value>
@@ -3205,17 +3272,17 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001c"/>
 					<connpoint role="src" target="id-0066-0000002c"/>
 				</connection>
-				<connection id="id-0068-00000046" kind="Sub" role="Sub" guid="{7fd29649-3568-4bbc-b8a5-2e20cede8412}" relid="0x63">
+				<connection id="id-0068-00000047" kind="Sub" role="Sub" guid="{7fd29649-3568-4bbc-b8a5-2e20cede8412}" relid="0x63">
 					<name>Sub</name>
 					<connpoint role="src" target="id-0066-00000038"/>
 					<connpoint role="dst" target="id-0066-00000039"/>
 				</connection>
-				<connection id="id-0068-00000047" kind="Sub" role="Sub" guid="{37fe9daf-93f8-46d5-a563-7154446569b5}" relid="0x64">
+				<connection id="id-0068-00000048" kind="Sub" role="Sub" guid="{37fe9daf-93f8-46d5-a563-7154446569b5}" relid="0x64">
 					<name>Sub</name>
 					<connpoint role="src" target="id-0066-00000038"/>
 					<connpoint role="dst" target="id-0066-0000003a"/>
 				</connection>
-				<connection id="id-0068-00000048" kind="Sub" role="Sub" guid="{cc7eac4a-3aae-49e8-95d0-72b025bda150}" relid="0x65">
+				<connection id="id-0068-00000049" kind="Sub" role="Sub" guid="{cc7eac4a-3aae-49e8-95d0-72b025bda150}" relid="0x65">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>e</value>
@@ -3223,17 +3290,17 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000038"/>
 					<connpoint role="dst" target="id-0066-0000003b"/>
 				</connection>
-				<connection id="id-0068-00000049" kind="Sub" role="Sub" guid="{375f2774-1492-4d3c-ae27-e4e6be2c8e04}" relid="0x66">
+				<connection id="id-0068-0000004a" kind="Sub" role="Sub" guid="{375f2774-1492-4d3c-ae27-e4e6be2c8e04}" relid="0x66">
 					<name>Sub</name>
 					<connpoint role="src" target="id-0066-00000038"/>
 					<connpoint role="dst" target="id-0066-0000003c"/>
 				</connection>
-				<connection id="id-0068-0000004a" kind="Base" role="Base" guid="{6c3d7253-b70d-4dd8-aa91-2c50b3bd2b7c}" relid="0x68">
+				<connection id="id-0068-0000004b" kind="Base" role="Base" guid="{6c3d7253-b70d-4dd8-aa91-2c50b3bd2b7c}" relid="0x68">
 					<name>Base</name>
 					<connpoint role="dst" target="id-0066-00000038"/>
 					<connpoint role="src" target="id-0066-0000003d"/>
 				</connection>
-				<connection id="id-0068-0000004b" kind="Composition" role="Composition" guid="{70278f91-b674-470b-9b28-ce87c94362c0}" relid="0x69">
+				<connection id="id-0068-0000004c" kind="Composition" role="Composition" guid="{70278f91-b674-470b-9b28-ce87c94362c0}" relid="0x69">
 					<name>Composition</name>
 					<attribute kind="Cardinality" status="meta">
 						<value>0..*</value>
@@ -3247,7 +3314,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-00000035"/>
 					<connpoint role="src" target="id-0066-0000003d"/>
 				</connection>
-				<connection id="id-0068-0000004c" kind="Composition" role="Composition" guid="{1072d84f-1f99-406b-be0b-46d0641fea26}" relid="0x6c">
+				<connection id="id-0068-0000004d" kind="Composition" role="Composition" guid="{1072d84f-1f99-406b-be0b-46d0641fea26}" relid="0x6c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>N</value>
@@ -3264,7 +3331,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000001d"/>
 					<connpoint role="src" target="id-0066-0000003e"/>
 				</connection>
-				<connection id="id-0068-0000004d" kind="Composition" role="Composition" guid="{013b581a-c43e-44f9-8185-2c29334ba268}" relid="0x6d">
+				<connection id="id-0068-0000004e" kind="Composition" role="Composition" guid="{013b581a-c43e-44f9-8185-2c29334ba268}" relid="0x6d">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3281,7 +3348,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000003e"/>
 					<connpoint role="src" target="id-0066-0000003f"/>
 				</connection>
-				<connection id="id-0068-0000004e" kind="Composition" role="Composition" guid="{770605f6-69a6-4744-9a26-7b24c21ccda6}" relid="0x71">
+				<connection id="id-0068-0000004f" kind="Composition" role="Composition" guid="{770605f6-69a6-4744-9a26-7b24c21ccda6}" relid="0x71">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3298,7 +3365,7 @@ Unit: String</value>
 					<connpoint role="dst" target="id-0066-0000003f"/>
 					<connpoint role="src" target="id-0066-00000040"/>
 				</connection>
-				<connection id="id-0068-0000004f" kind="Base" role="Base" guid="{1035bc7c-b5a8-4b7c-9c42-6e13f93150fd}" relid="0x73">
+				<connection id="id-0068-00000050" kind="Base" role="Base" guid="{1035bc7c-b5a8-4b7c-9c42-6e13f93150fd}" relid="0x73">
 					<name>Base</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
@@ -3306,21 +3373,38 @@ Unit: String</value>
 					<connpoint role="src" target="id-0066-00000040"/>
 					<connpoint role="dst" target="id-0066-00000041"/>
 				</connection>
-				<connection id="id-0068-00000050" kind="Sub" role="Sub" guid="{8f269c5b-042c-486c-b8d4-26ef72bae0e0}" relid="0x74">
+				<connection id="id-0068-00000051" kind="Sub" role="Sub" guid="{8f269c5b-042c-486c-b8d4-26ef72bae0e0}" relid="0x74">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ss</value>
 					</regnode>
 					<connpoint role="src" target="id-0066-00000041"/>
-					<connpoint role="dst" target="id-0067-00000008"/>
+					<connpoint role="dst" target="id-0067-0000000a"/>
 				</connection>
-				<connection id="id-0068-00000051" kind="Sub" role="Sub" guid="{886ee1c1-c48d-4405-864e-b6d4bfd8b07d}" relid="0x77">
+				<connection id="id-0068-00000052" kind="Sub" role="Sub" guid="{886ee1c1-c48d-4405-864e-b6d4bfd8b07d}" relid="0x77">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ss</value>
 					</regnode>
 					<connpoint role="dst" target="id-0066-00000026"/>
 					<connpoint role="src" target="id-0066-00000041"/>
+				</connection>
+				<connection id="id-0068-00000053" kind="Composition" role="Composition" guid="{6d523881-03f7-4cba-a9de-a79b578ea4d1}" relid="0x79">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ne</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>0..1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000001d"/>
+					<connpoint role="src" target="id-0066-00000042"/>
 				</connection>
 			</model>
 			<model id="id-0065-00000004" kind="ClassDiagram" role="ClassDiagram" guid="{8a7e81ee-625c-4195-806f-267f1f97fe79}" relid="0x4" childrelidcntr="0x49">
@@ -3381,7 +3465,7 @@ SetOperation class added</value>
 						</regnode>
 					</regnode>
 				</regnode>
-				<atom id="id-0066-00000042" kind="Class" role="Class" guid="{5d6174db-73f4-4ccd-9d25-036188496cf5}" relid="0x1">
+				<atom id="id-0066-00000043" kind="Class" role="Class" guid="{5d6174db-73f4-4ccd-9d25-036188496cf5}" relid="0x1">
 					<name>Features</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3422,7 +3506,7 @@ SecondaryGeometryQualifier: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000043" kind="Class" role="Class" guid="{eeadbaef-5a2c-4615-846e-ed8b307b7606}" relid="0x2">
+				<atom id="id-0066-00000044" kind="Class" role="Class" guid="{eeadbaef-5a2c-4615-846e-ed8b307b7606}" relid="0x2">
 					<name>Feature</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3454,7 +3538,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000044" kind="Class" role="Class" guid="{3bad8231-bca2-439f-91dc-fe0f7dc15a0d}" relid="0x4">
+				<atom id="id-0066-00000045" kind="Class" role="Class" guid="{3bad8231-bca2-439f-91dc-fe0f7dc15a0d}" relid="0x4">
 					<name>Displacement</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3484,7 +3568,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000045" kind="Class" role="Class" guid="{899ff066-6267-47e6-8f21-42e774875321}" relid="0x5">
+				<atom id="id-0066-00000046" kind="Class" role="Class" guid="{899ff066-6267-47e6-8f21-42e774875321}" relid="0x5">
 					<name>Pin</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3511,7 +3595,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000046" kind="Class" role="Class" guid="{2f4ba921-2475-4a9b-a32a-f3af13fe7211}" relid="0x6">
+				<atom id="id-0066-00000047" kind="Class" role="Class" guid="{2f4ba921-2475-4a9b-a32a-f3af13fe7211}" relid="0x6">
 					<name>Ball</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3538,7 +3622,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000047" kind="Class" role="Class" guid="{261933fa-6403-445e-8f0b-4b5f2a5af05e}" relid="0x7">
+				<atom id="id-0066-00000048" kind="Class" role="Class" guid="{261933fa-6403-445e-8f0b-4b5f2a5af05e}" relid="0x7">
 					<name>ConstraintType</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3568,7 +3652,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000048" kind="Inheritance" role="Inheritance" guid="{ba18ed0c-ccac-4fab-aae9-7c4533e15ad6}" relid="0x8">
+				<atom id="id-0066-00000049" kind="Inheritance" role="Inheritance" guid="{ba18ed0c-ccac-4fab-aae9-7c4533e15ad6}" relid="0x8">
 					<name>Inheritance</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3586,7 +3670,7 @@ MetricID: String=&quot;&quot;</value>
 						</regnode>
 					</regnode>
 				</atom>
-				<atom id="id-0066-00000049" kind="Class" role="Class" guid="{922d470d-f5b0-4a8c-b35a-787cfd88fb00}" relid="0xd">
+				<atom id="id-0066-0000004a" kind="Class" role="Class" guid="{922d470d-f5b0-4a8c-b35a-787cfd88fb00}" relid="0xd">
 					<name>LoadType</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3613,7 +3697,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000004a" kind="Inheritance" role="Inheritance" guid="{766d1df4-2528-4e23-a31c-8b64f3477674}" relid="0xe">
+				<atom id="id-0066-0000004b" kind="Inheritance" role="Inheritance" guid="{766d1df4-2528-4e23-a31c-8b64f3477674}" relid="0xe">
 					<name>Inheritance</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3631,7 +3715,7 @@ MetricID: String=&quot;&quot;</value>
 						</regnode>
 					</regnode>
 				</atom>
-				<atom id="id-0066-0000004b" kind="Class" role="Class" guid="{1cbb68b9-3f65-4d66-8aa8-ca172ebffb0a}" relid="0xf">
+				<atom id="id-0066-0000004c" kind="Class" role="Class" guid="{1cbb68b9-3f65-4d66-8aa8-ca172ebffb0a}" relid="0xf">
 					<name>ForceMoment</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3658,7 +3742,7 @@ MetricID: String=&quot;&quot;</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000004c" kind="Class" role="Class" guid="{cbb697f4-2395-43e0-8dcf-ddfd8d4e9bcb}" relid="0x10">
+				<atom id="id-0066-0000004d" kind="Class" role="Class" guid="{cbb697f4-2395-43e0-8dcf-ddfd8d4e9bcb}" relid="0x10">
 					<name>Pressure</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3689,7 +3773,7 @@ Units: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000004d" kind="Class" role="Class" guid="{bcd15121-4b99-4933-b483-cf2f499e79ca}" relid="0x11">
+				<atom id="id-0066-0000004e" kind="Class" role="Class" guid="{bcd15121-4b99-4933-b483-cf2f499e79ca}" relid="0x11">
 					<name>Acceleration</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3719,7 +3803,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000004e" kind="Class" role="Class" guid="{600d3f06-2b68-4ca5-9656-53a4c4c9e42d}" relid="0x16">
+				<atom id="id-0066-0000004f" kind="Class" role="Class" guid="{600d3f06-2b68-4ca5-9656-53a4c4c9e42d}" relid="0x16">
 					<name>AxialRotation</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3746,7 +3830,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000004f" kind="Class" role="Class" guid="{97117d86-e5ea-42f4-8c71-ebd72b590e3c}" relid="0x17">
+				<atom id="id-0066-00000050" kind="Class" role="Class" guid="{97117d86-e5ea-42f4-8c71-ebd72b590e3c}" relid="0x17">
 					<name>AxialDisplacement</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3773,7 +3857,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000050" kind="Class" role="Class" guid="{38facc38-049d-4e95-89c1-b7a56c715643}" relid="0x1a">
+				<atom id="id-0066-00000051" kind="Class" role="Class" guid="{38facc38-049d-4e95-89c1-b7a56c715643}" relid="0x1a">
 					<name>Translation</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3806,7 +3890,7 @@ z: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000051" kind="Class" role="Class" guid="{2a4de155-de1e-4cb9-9569-3eb02a2b7865}" relid="0x1b">
+				<atom id="id-0066-00000052" kind="Class" role="Class" guid="{2a4de155-de1e-4cb9-9569-3eb02a2b7865}" relid="0x1b">
 					<name>Rotation</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3836,7 +3920,7 @@ z: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000052" kind="Class" role="Class" guid="{e6875a2d-8e53-4be6-a498-27da2949e974}" relid="0x1e">
+				<atom id="id-0066-00000053" kind="Class" role="Class" guid="{e6875a2d-8e53-4be6-a498-27da2949e974}" relid="0x1e">
 					<name>Force</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3866,7 +3950,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000053" kind="Class" role="Class" guid="{5598795c-7777-4106-aa33-54124c10f7c2}" relid="0x20">
+				<atom id="id-0066-00000054" kind="Class" role="Class" guid="{5598795c-7777-4106-aa33-54124c10f7c2}" relid="0x20">
 					<name>Moment</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3896,7 +3980,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000054" kind="Class" role="Class" guid="{e97d6881-10d9-4e4e-9ff6-f255591d5525}" relid="0x31">
+				<atom id="id-0066-00000055" kind="Class" role="Class" guid="{e97d6881-10d9-4e4e-9ff6-f255591d5525}" relid="0x31">
 					<name>Geometry</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3929,7 +4013,7 @@ z: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000055" kind="Class" role="Class" guid="{e0287a70-b989-46ef-8edd-9cff6dc2e7cf}" relid="0x33">
+				<atom id="id-0066-00000056" kind="Class" role="Class" guid="{e0287a70-b989-46ef-8edd-9cff6dc2e7cf}" relid="0x33">
 					<name>SetOperation</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -3966,7 +4050,7 @@ FeatureID: String[2..*]</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<connection id="id-0068-00000052" kind="Composition" role="Composition" guid="{6638ba5a-241f-466c-aef4-c4684e8d04bc}" relid="0x3">
+				<connection id="id-0068-00000054" kind="Composition" role="Composition" guid="{6638ba5a-241f-466c-aef4-c4684e8d04bc}" relid="0x3">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -3980,91 +4064,74 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000042"/>
-					<connpoint role="src" target="id-0066-00000043"/>
+					<connpoint role="dst" target="id-0066-00000043"/>
+					<connpoint role="src" target="id-0066-00000044"/>
 				</connection>
-				<connection id="id-0068-00000053" kind="Base" role="Base" guid="{947df8c1-ca2e-4432-95c3-d35b95256bce}" relid="0x9">
+				<connection id="id-0068-00000055" kind="Base" role="Base" guid="{947df8c1-ca2e-4432-95c3-d35b95256bce}" relid="0x9">
 					<name>Base</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>S</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-00000047"/>
-					<connpoint role="dst" target="id-0066-00000048"/>
-				</connection>
-				<connection id="id-0068-00000054" kind="Sub" role="Sub" guid="{9c412331-99d2-498f-a494-273379570d88}" relid="0xa">
-					<name>Sub</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Sn</value>
-					</regnode>
-					<connpoint role="dst" target="id-0066-00000044"/>
 					<connpoint role="src" target="id-0066-00000048"/>
+					<connpoint role="dst" target="id-0066-00000049"/>
 				</connection>
-				<connection id="id-0068-00000055" kind="Sub" role="Sub" guid="{1b168138-1bb4-4a21-807d-d5c451b33d5e}" relid="0xb">
+				<connection id="id-0068-00000056" kind="Sub" role="Sub" guid="{9c412331-99d2-498f-a494-273379570d88}" relid="0xa">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
 					<connpoint role="dst" target="id-0066-00000045"/>
-					<connpoint role="src" target="id-0066-00000048"/>
+					<connpoint role="src" target="id-0066-00000049"/>
 				</connection>
-				<connection id="id-0068-00000056" kind="Sub" role="Sub" guid="{c95feb16-8a3b-4440-8315-1fe09a5fe8eb}" relid="0xc">
+				<connection id="id-0068-00000057" kind="Sub" role="Sub" guid="{1b168138-1bb4-4a21-807d-d5c451b33d5e}" relid="0xb">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
 					<connpoint role="dst" target="id-0066-00000046"/>
-					<connpoint role="src" target="id-0066-00000048"/>
+					<connpoint role="src" target="id-0066-00000049"/>
 				</connection>
-				<connection id="id-0068-00000057" kind="Base" role="Base" guid="{04c89875-49c4-470e-b821-e8c40e0e1751}" relid="0x12">
+				<connection id="id-0068-00000058" kind="Sub" role="Sub" guid="{c95feb16-8a3b-4440-8315-1fe09a5fe8eb}" relid="0xc">
+					<name>Sub</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000047"/>
+					<connpoint role="src" target="id-0066-00000049"/>
+				</connection>
+				<connection id="id-0068-00000059" kind="Base" role="Base" guid="{04c89875-49c4-470e-b821-e8c40e0e1751}" relid="0x12">
 					<name>Base</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-00000049"/>
-					<connpoint role="dst" target="id-0066-0000004a"/>
-				</connection>
-				<connection id="id-0068-00000058" kind="Sub" role="Sub" guid="{7e3f965c-1313-4615-ba42-14124eac57a6}" relid="0x13">
-					<name>Sub</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Sn</value>
-					</regnode>
 					<connpoint role="src" target="id-0066-0000004a"/>
 					<connpoint role="dst" target="id-0066-0000004b"/>
 				</connection>
-				<connection id="id-0068-00000059" kind="Sub" role="Sub" guid="{0de65c5b-c706-415c-85ea-10e106ec93bf}" relid="0x14">
+				<connection id="id-0068-0000005a" kind="Sub" role="Sub" guid="{7e3f965c-1313-4615-ba42-14124eac57a6}" relid="0x13">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-0000004a"/>
+					<connpoint role="src" target="id-0066-0000004b"/>
 					<connpoint role="dst" target="id-0066-0000004c"/>
 				</connection>
-				<connection id="id-0068-0000005a" kind="Sub" role="Sub" guid="{98719d1b-3704-4c95-93cc-bc021d5f7f02}" relid="0x15">
+				<connection id="id-0068-0000005b" kind="Sub" role="Sub" guid="{0de65c5b-c706-415c-85ea-10e106ec93bf}" relid="0x14">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-0000004a"/>
+					<connpoint role="src" target="id-0066-0000004b"/>
 					<connpoint role="dst" target="id-0066-0000004d"/>
 				</connection>
-				<connection id="id-0068-0000005b" kind="Composition" role="Composition" guid="{227a4f7a-8842-40b5-a1d9-6229c8f0a3ef}" relid="0x18">
-					<name>Composition</name>
+				<connection id="id-0068-0000005c" kind="Sub" role="Sub" guid="{98719d1b-3704-4c95-93cc-bc021d5f7f02}" relid="0x15">
+					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
-						<value>Ns</value>
+						<value>Sn</value>
 					</regnode>
-					<attribute kind="Cardinality">
-						<value>1</value>
-					</attribute>
-					<attribute kind="ChildRole" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="ParentRole" status="meta">
-						<value></value>
-					</attribute>
-					<connpoint role="dst" target="id-0066-00000045"/>
-					<connpoint role="src" target="id-0066-0000004e"/>
+					<connpoint role="src" target="id-0066-0000004b"/>
+					<connpoint role="dst" target="id-0066-0000004e"/>
 				</connection>
-				<connection id="id-0068-0000005c" kind="Composition" role="Composition" guid="{082523cf-38e4-40ff-a8d9-3cc2acd4c064}" relid="0x19">
+				<connection id="id-0068-0000005d" kind="Composition" role="Composition" guid="{227a4f7a-8842-40b5-a1d9-6229c8f0a3ef}" relid="0x18">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4078,10 +4145,10 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000045"/>
+					<connpoint role="dst" target="id-0066-00000046"/>
 					<connpoint role="src" target="id-0066-0000004f"/>
 				</connection>
-				<connection id="id-0068-0000005d" kind="Composition" role="Composition" guid="{34285cf3-fb2d-4cd0-b6f6-ef6c87d93510}" relid="0x1c">
+				<connection id="id-0068-0000005e" kind="Composition" role="Composition" guid="{082523cf-38e4-40ff-a8d9-3cc2acd4c064}" relid="0x19">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4095,10 +4162,10 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000044"/>
+					<connpoint role="dst" target="id-0066-00000046"/>
 					<connpoint role="src" target="id-0066-00000050"/>
 				</connection>
-				<connection id="id-0068-0000005e" kind="Composition" role="Composition" guid="{d9840a39-ee68-4917-8b8c-2b0eaaa082f9}" relid="0x1d">
+				<connection id="id-0068-0000005f" kind="Composition" role="Composition" guid="{34285cf3-fb2d-4cd0-b6f6-ef6c87d93510}" relid="0x1c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4112,10 +4179,10 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000044"/>
+					<connpoint role="dst" target="id-0066-00000045"/>
 					<connpoint role="src" target="id-0066-00000051"/>
 				</connection>
-				<connection id="id-0068-0000005f" kind="Composition" role="Composition" guid="{d608dead-781c-413f-85c2-b721a841d6ce}" relid="0x21">
+				<connection id="id-0068-00000060" kind="Composition" role="Composition" guid="{d9840a39-ee68-4917-8b8c-2b0eaaa082f9}" relid="0x1d">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4129,10 +4196,10 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-0000004b"/>
+					<connpoint role="dst" target="id-0066-00000045"/>
 					<connpoint role="src" target="id-0066-00000052"/>
 				</connection>
-				<connection id="id-0068-00000060" kind="Composition" role="Composition" guid="{0b797eb5-cc5e-458e-9455-cf210c1b3eab}" relid="0x22">
+				<connection id="id-0068-00000061" kind="Composition" role="Composition" guid="{d608dead-781c-413f-85c2-b721a841d6ce}" relid="0x21">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4146,10 +4213,27 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-0000004b"/>
+					<connpoint role="dst" target="id-0066-0000004c"/>
 					<connpoint role="src" target="id-0066-00000053"/>
 				</connection>
-				<connection id="id-0068-00000061" kind="Composition" role="Composition" guid="{9e0bc42d-af51-40ca-9d2e-7b939fe0ecc1}" relid="0x32">
+				<connection id="id-0068-00000062" kind="Composition" role="Composition" guid="{0b797eb5-cc5e-458e-9455-cf210c1b3eab}" relid="0x22">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000004c"/>
+					<connpoint role="src" target="id-0066-00000054"/>
+				</connection>
+				<connection id="id-0068-00000063" kind="Composition" role="Composition" guid="{9e0bc42d-af51-40ca-9d2e-7b939fe0ecc1}" relid="0x32">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4163,10 +4247,10 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="src" target="id-0066-00000042"/>
-					<connpoint role="dst" target="id-0066-00000054"/>
+					<connpoint role="src" target="id-0066-00000043"/>
+					<connpoint role="dst" target="id-0066-00000055"/>
 				</connection>
-				<connection id="id-0068-00000062" kind="Composition" role="Composition" guid="{bf875bf5-42af-4056-9965-75bc6bc6d5d3}" relid="0x3c">
+				<connection id="id-0068-00000064" kind="Composition" role="Composition" guid="{bf875bf5-42af-4056-9965-75bc6bc6d5d3}" relid="0x3c">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4180,8 +4264,8 @@ FeatureID: String[2..*]</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000054"/>
-					<connpoint role="src" target="id-0066-00000055"/>
+					<connpoint role="dst" target="id-0066-00000055"/>
+					<connpoint role="src" target="id-0066-00000056"/>
 				</connection>
 			</model>
 			<model id="id-0065-00000005" kind="ClassDiagram" role="ClassDiagram" guid="{bd2cf965-c477-42c6-b970-2f812b159040}" relid="0x5" childrelidcntr="0x11">
@@ -4195,7 +4279,7 @@ FeatureID: String[2..*]</value>
 						</regnode>
 					</regnode>
 				</regnode>
-				<atom id="id-0066-00000056" kind="Class" role="Class" guid="{73d161ff-350e-4ff9-9759-56b3cd91574f}" relid="0x1">
+				<atom id="id-0066-00000057" kind="Class" role="Class" guid="{73d161ff-350e-4ff9-9759-56b3cd91574f}" relid="0x1">
 					<name>KinematicConnections</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4228,7 +4312,7 @@ FeatureID: String[2..*]</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000057" kind="Class" role="Class" guid="{12a798f6-9005-4639-b48f-8fb578573304}" relid="0x2">
+				<atom id="id-0066-00000058" kind="Class" role="Class" guid="{12a798f6-9005-4639-b48f-8fb578573304}" relid="0x2">
 					<name>KinematicBase</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4265,7 +4349,7 @@ CFM: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000058" kind="Inheritance" role="Inheritance" guid="{0c304294-3fb1-4302-9e96-f05345c0030e}" relid="0x3">
+				<atom id="id-0066-00000059" kind="Inheritance" role="Inheritance" guid="{0c304294-3fb1-4302-9e96-f05345c0030e}" relid="0x3">
 					<name>Inheritance</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4283,7 +4367,7 @@ CFM: Real</value>
 						</regnode>
 					</regnode>
 				</atom>
-				<atom id="id-0066-00000059" kind="Class" role="Class" guid="{726fad35-04c2-4498-82fb-2fe45b6d2967}" relid="0x5">
+				<atom id="id-0066-0000005a" kind="Class" role="Class" guid="{726fad35-04c2-4498-82fb-2fe45b6d2967}" relid="0x5">
 					<name>Revolute</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4316,7 +4400,7 @@ CFM: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000005a" kind="Class" role="Class" guid="{1e881eaf-119f-41d1-8886-993c24cd7e27}" relid="0x6">
+				<atom id="id-0066-0000005b" kind="Class" role="Class" guid="{1e881eaf-119f-41d1-8886-993c24cd7e27}" relid="0x6">
 					<name>Spherical</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4346,7 +4430,7 @@ CFM: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000005b" kind="Class" role="Class" guid="{ff87cdf5-7894-4d2d-9651-c6eb58cdcb59}" relid="0x7">
+				<atom id="id-0066-0000005c" kind="Class" role="Class" guid="{ff87cdf5-7894-4d2d-9651-c6eb58cdcb59}" relid="0x7">
 					<name>Prismatic</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4379,7 +4463,7 @@ CFM: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000005c" kind="Class" role="Class" guid="{9e20c07f-fcf9-4c0d-9d61-b5ff617b8546}" relid="0xc">
+				<atom id="id-0066-0000005d" kind="Class" role="Class" guid="{9e20c07f-fcf9-4c0d-9d61-b5ff617b8546}" relid="0xc">
 					<name>KinematicFeature</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4414,7 +4498,7 @@ FeatureGeometryType:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000005d" kind="Class" role="Class" guid="{188d95a9-ec20-45d3-b900-2926f78a9008}" relid="0x10">
+				<atom id="id-0066-0000005e" kind="Class" role="Class" guid="{188d95a9-ec20-45d3-b900-2926f78a9008}" relid="0x10">
 					<name>Fixed</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4444,39 +4528,39 @@ FeatureGeometryType:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<connection id="id-0068-00000063" kind="Base" role="Base" guid="{c0cf43dc-f386-4f38-9bb4-0d79b7f09f06}" relid="0x4">
+				<connection id="id-0068-00000065" kind="Base" role="Base" guid="{c0cf43dc-f386-4f38-9bb4-0d79b7f09f06}" relid="0x4">
 					<name>Base</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Sn</value>
-					</regnode>
-					<connpoint role="src" target="id-0066-00000057"/>
-					<connpoint role="dst" target="id-0066-00000058"/>
-				</connection>
-				<connection id="id-0068-00000064" kind="Sub" role="Sub" guid="{3efb7388-f73b-40e1-b2d0-bb8cf7e99dd1}" relid="0x8">
-					<name>Sub</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Sn</value>
-					</regnode>
-					<connpoint role="src" target="id-0066-00000058"/>
-					<connpoint role="dst" target="id-0066-0000005a"/>
-				</connection>
-				<connection id="id-0068-00000065" kind="Sub" role="Sub" guid="{06cc9822-7ab9-466e-9c31-674c7c28eb6f}" relid="0x9">
-					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
 					<connpoint role="src" target="id-0066-00000058"/>
 					<connpoint role="dst" target="id-0066-00000059"/>
 				</connection>
-				<connection id="id-0068-00000066" kind="Sub" role="Sub" guid="{50d41ea8-df50-4464-88fa-371df36bf724}" relid="0xa">
+				<connection id="id-0068-00000066" kind="Sub" role="Sub" guid="{3efb7388-f73b-40e1-b2d0-bb8cf7e99dd1}" relid="0x8">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-00000058"/>
+					<connpoint role="src" target="id-0066-00000059"/>
 					<connpoint role="dst" target="id-0066-0000005b"/>
 				</connection>
-				<connection id="id-0068-00000067" kind="Composition" role="Composition" guid="{76656f75-1d85-4164-a2ba-7f891993b728}" relid="0xb">
+				<connection id="id-0068-00000067" kind="Sub" role="Sub" guid="{06cc9822-7ab9-466e-9c31-674c7c28eb6f}" relid="0x9">
+					<name>Sub</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000059"/>
+					<connpoint role="dst" target="id-0066-0000005a"/>
+				</connection>
+				<connection id="id-0068-00000068" kind="Sub" role="Sub" guid="{50d41ea8-df50-4464-88fa-371df36bf724}" relid="0xa">
+					<name>Sub</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000059"/>
+					<connpoint role="dst" target="id-0066-0000005c"/>
+				</connection>
+				<connection id="id-0068-00000069" kind="Composition" role="Composition" guid="{76656f75-1d85-4164-a2ba-7f891993b728}" relid="0xb">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4490,10 +4574,10 @@ FeatureGeometryType:String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000056"/>
-					<connpoint role="src" target="id-0066-00000057"/>
+					<connpoint role="dst" target="id-0066-00000057"/>
+					<connpoint role="src" target="id-0066-00000058"/>
 				</connection>
-				<connection id="id-0068-00000068" kind="Composition" role="Composition" guid="{fcb52685-9304-4a10-9838-0e3d7c9af188}" relid="0xf">
+				<connection id="id-0068-0000006a" kind="Composition" role="Composition" guid="{fcb52685-9304-4a10-9838-0e3d7c9af188}" relid="0xf">
 					<name>Composition</name>
 					<attribute kind="Cardinality">
 						<value>0..*</value>
@@ -4504,16 +4588,16 @@ FeatureGeometryType:String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000057"/>
-					<connpoint role="src" target="id-0066-0000005c"/>
+					<connpoint role="dst" target="id-0066-00000058"/>
+					<connpoint role="src" target="id-0066-0000005d"/>
 				</connection>
-				<connection id="id-0068-00000069" kind="Sub" role="Sub" guid="{e18ae7cf-9a70-4aa0-b843-07d6a553a938}" relid="0x11">
+				<connection id="id-0068-0000006b" kind="Sub" role="Sub" guid="{e18ae7cf-9a70-4aa0-b843-07d6a553a938}" relid="0x11">
 					<name>Sub</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Sn</value>
 					</regnode>
-					<connpoint role="src" target="id-0066-00000058"/>
-					<connpoint role="dst" target="id-0066-0000005d"/>
+					<connpoint role="src" target="id-0066-00000059"/>
+					<connpoint role="dst" target="id-0066-0000005e"/>
 				</connection>
 			</model>
 			<model id="id-0065-00000006" kind="ClassDiagram" role="ClassDiagram" guid="{b9d949e6-c1f1-4fe4-877e-41305697e66c}" relid="0x7" childrelidcntr="0x9">
@@ -4527,7 +4611,7 @@ FeatureGeometryType:String</value>
 						</regnode>
 					</regnode>
 				</regnode>
-				<atom id="id-0066-0000005e" kind="Class" role="Class" guid="{fb06be78-454a-4c54-b288-74f1649f8923}" relid="0x2">
+				<atom id="id-0066-0000005f" kind="Class" role="Class" guid="{fb06be78-454a-4c54-b288-74f1649f8923}" relid="0x2">
 					<name>MetaLinkData</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4551,7 +4635,7 @@ FeatureGeometryType:String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-0000005f" kind="Class" role="Class" guid="{848d9ead-8a83-444d-bf30-79d35c763234}" relid="0x3">
+				<atom id="id-0066-00000060" kind="Class" role="Class" guid="{848d9ead-8a83-444d-bf30-79d35c763234}" relid="0x3">
 					<name>ConnectorMLData</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4574,7 +4658,7 @@ DisplayName: String
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000060" kind="Class" role="Class" guid="{643b1a81-2b7a-47dd-89f8-599203ee9278}" relid="0x4">
+				<atom id="id-0066-00000061" kind="Class" role="Class" guid="{643b1a81-2b7a-47dd-89f8-599203ee9278}" relid="0x4">
 					<name>DatumMLData</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4596,7 +4680,7 @@ DisplayName: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000061" kind="Class" role="Class" guid="{af91b9ed-47ca-472f-b0dd-314dbae2dbf7}" relid="0x7">
+				<atom id="id-0066-00000062" kind="Class" role="Class" guid="{af91b9ed-47ca-472f-b0dd-314dbae2dbf7}" relid="0x7">
 					<name>CadComponentMLData</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4618,7 +4702,7 @@ AvmID: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<connection id="id-0068-0000006a" kind="Composition" role="Composition" guid="{ce0769eb-43b2-431a-9e3f-571593fbb7cb}" relid="0x6">
+				<connection id="id-0068-0000006c" kind="Composition" role="Composition" guid="{ce0769eb-43b2-431a-9e3f-571593fbb7cb}" relid="0x6">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ew</value>
@@ -4632,10 +4716,10 @@ AvmID: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-0000005f"/>
-					<connpoint role="src" target="id-0066-00000060"/>
+					<connpoint role="dst" target="id-0066-00000060"/>
+					<connpoint role="src" target="id-0066-00000061"/>
 				</connection>
-				<connection id="id-0068-0000006b" kind="Composition" role="Composition" guid="{9a46ba42-af45-45af-8eff-b0873f639013}" relid="0x8">
+				<connection id="id-0068-0000006d" kind="Composition" role="Composition" guid="{9a46ba42-af45-45af-8eff-b0873f639013}" relid="0x8">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ee</value>
@@ -4649,10 +4733,10 @@ AvmID: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-0000005e"/>
-					<connpoint role="src" target="id-0066-00000061"/>
+					<connpoint role="dst" target="id-0066-0000005f"/>
+					<connpoint role="src" target="id-0066-00000062"/>
 				</connection>
-				<connection id="id-0068-0000006c" kind="Composition" role="Composition" guid="{b34c1d78-d7be-4952-918b-dac58eb554a1}" relid="0x9">
+				<connection id="id-0068-0000006e" kind="Composition" role="Composition" guid="{b34c1d78-d7be-4952-918b-dac58eb554a1}" relid="0x9">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ew</value>
@@ -4666,8 +4750,8 @@ AvmID: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="src" target="id-0066-0000005f"/>
-					<connpoint role="dst" target="id-0066-00000061"/>
+					<connpoint role="src" target="id-0066-00000060"/>
+					<connpoint role="dst" target="id-0066-00000062"/>
 				</connection>
 			</model>
 			<model id="id-0065-00000007" kind="ClassDiagram" role="ClassDiagram" guid="{bd65ef53-bd85-46e1-9f8f-99eef92914ef}" relid="0x8" childrelidcntr="0x13">
@@ -4698,7 +4782,7 @@ TranslationMin, TranslationMax, TranslationDefault</value>
 						</regnode>
 					</regnode>
 				</regnode>
-				<atom id="id-0066-00000062" kind="Class" role="Class" guid="{e1e2121f-f487-4718-8e90-439a168892a3}" relid="0x2">
+				<atom id="id-0066-00000063" kind="Class" role="Class" guid="{e1e2121f-f487-4718-8e90-439a168892a3}" relid="0x2">
 					<name>Joint</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4729,7 +4813,7 @@ ID: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000063" kind="Class" role="Class" guid="{3a4746ff-4690-4317-a69d-a4ad9b27ca35}" relid="0x4">
+				<atom id="id-0066-00000064" kind="Class" role="Class" guid="{3a4746ff-4690-4317-a69d-a4ad9b27ca35}" relid="0x4">
 					<name>ConstraintPairs</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4756,7 +4840,7 @@ ID: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000064" kind="Class" role="Class" guid="{d5ee5137-14c5-422c-b7ae-254e863234ff}" relid="0x8">
+				<atom id="id-0066-00000065" kind="Class" role="Class" guid="{d5ee5137-14c5-422c-b7ae-254e863234ff}" relid="0x8">
 					<name>JointPair</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4787,7 +4871,7 @@ PairID: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000065" kind="Class" role="Class" guid="{201fca26-a86f-4cf0-b9b2-720f15b636bc}" relid="0xc">
+				<atom id="id-0066-00000066" kind="Class" role="Class" guid="{201fca26-a86f-4cf0-b9b2-720f15b636bc}" relid="0xc">
 					<name>Limit</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4815,7 +4899,7 @@ Value: Real</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<atom id="id-0066-00000066" kind="Class" role="Class" guid="{ceab8826-83cc-4471-a5e5-05a644872f70}" relid="0xf">
+				<atom id="id-0066-00000067" kind="Class" role="Class" guid="{ceab8826-83cc-4471-a5e5-05a644872f70}" relid="0xf">
 					<name>LimitReference</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -4848,7 +4932,7 @@ Role: String</value>
 						<value></value>
 					</attribute>
 				</atom>
-				<connection id="id-0068-0000006d" kind="Composition" role="Composition" guid="{c0db0984-91c4-4b3e-9389-cccc4d44e394}" relid="0x7">
+				<connection id="id-0068-0000006f" kind="Composition" role="Composition" guid="{c0db0984-91c4-4b3e-9389-cccc4d44e394}" relid="0x7">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4862,10 +4946,10 @@ Role: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000062"/>
-					<connpoint role="src" target="id-0066-00000063"/>
+					<connpoint role="dst" target="id-0066-00000063"/>
+					<connpoint role="src" target="id-0066-00000064"/>
 				</connection>
-				<connection id="id-0068-0000006e" kind="Composition" role="Composition" guid="{8160112d-b9da-4696-959b-18bab8ab8223}" relid="0x9">
+				<connection id="id-0068-00000070" kind="Composition" role="Composition" guid="{8160112d-b9da-4696-959b-18bab8ab8223}" relid="0x9">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Ns</value>
@@ -4879,10 +4963,10 @@ Role: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000063"/>
-					<connpoint role="src" target="id-0066-00000064"/>
+					<connpoint role="dst" target="id-0066-00000064"/>
+					<connpoint role="src" target="id-0066-00000065"/>
 				</connection>
-				<connection id="id-0068-0000006f" kind="Composition" role="Composition" guid="{d05f8e7f-1549-4b4f-9a76-b420e44592a8}" relid="0xd">
+				<connection id="id-0068-00000071" kind="Composition" role="Composition" guid="{d05f8e7f-1549-4b4f-9a76-b420e44592a8}" relid="0xd">
 					<name>Composition</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>We</value>
@@ -4896,10 +4980,10 @@ Role: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000062"/>
-					<connpoint role="src" target="id-0066-00000065"/>
+					<connpoint role="dst" target="id-0066-00000063"/>
+					<connpoint role="src" target="id-0066-00000066"/>
 				</connection>
-				<connection id="id-0068-00000070" kind="Composition" role="Composition" guid="{7e7636c6-9eb6-4cd2-a646-b329070fe86a}" relid="0x10">
+				<connection id="id-0068-00000072" kind="Composition" role="Composition" guid="{7e7636c6-9eb6-4cd2-a646-b329070fe86a}" relid="0x10">
 					<name>Composition</name>
 					<attribute kind="Cardinality">
 						<value>0..6</value>
@@ -4910,8 +4994,380 @@ Role: String</value>
 					<attribute kind="ParentRole" status="meta">
 						<value></value>
 					</attribute>
-					<connpoint role="dst" target="id-0066-00000062"/>
-					<connpoint role="src" target="id-0066-00000066"/>
+					<connpoint role="dst" target="id-0066-00000063"/>
+					<connpoint role="src" target="id-0066-00000067"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000008" kind="ClassDiagram" role="ClassDiagram" guid="{55652839-3480-4bca-894e-a0bc0d568bf3}" relid="0x9" childrelidcntr="0x11">
+				<name>Composites</name>
+				<atom id="id-0066-00000068" kind="Class" role="Class" guid="{fd51367b-31f6-44df-8398-8689981ce04b}" relid="0x1">
+					<name>Elements</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>329,49</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>329,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000069" kind="Class" role="Class" guid="{9958feda-4437-403c-91ba-bc167391c187}" relid="0x2">
+					<name>Element</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>336,133</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>294,133</value>
+							</regnode>
+							<regnode name="preferredSize" isopaque="yes">
+								<value>129,45</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>ElementType: String</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006a" kind="Class" role="Class" guid="{e8674ff4-9b3f-4c55-8fc9-7554b47371aa}" relid="0x4">
+					<name>ElementContents</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>539,231</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>567,259</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006b" kind="Class" role="Class" guid="{bb93fd12-1d14-4b74-9a8e-aba866805c5e}" relid="0x8">
+					<name>MaterialLayup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,378</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>679,378</value>
+							</regnode>
+							<regnode name="preferredSize" isopaque="yes">
+								<value>120,73</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>Position: String
+Offset: Real
+Direction: String</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006c" kind="Class" role="Class" guid="{c3f0e5d4-47e7-4de7-9d94-7f87526771ae}" relid="0xa">
+					<name>Orientation</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>399,385</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>483,378</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006d" kind="Class" role="Class" guid="{825e2bd6-d858-4054-9901-06e1435dab17}" relid="0xd">
+					<name>SurfaceNormal</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>847,245</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>308,259</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>Direction: String</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006e" kind="Class" role="Class" guid="{1934860e-b819-417d-a91f-4a84cdfaa050}" relid="0x10">
+					<name>Layer</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Constraints" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>721,455</value>
+							</regnode>
+						</regnode>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>665,483</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Attributes">
+						<value>ID: Integer
+Material_Name:String
+Thickness:Real
+Orientation:Real  
+Drop_Order:Integer</value>
+					</attribute>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Stereotype" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000001" kind="ClassCopy" role="ClassCopy" guid="{95cbf72b-30fc-4422-ae7c-bebacd8b429f}" relid="0x6" referred="id-0066-00000055">
+					<name>Geometry</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="UML" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,259</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="IsAbstract" status="meta">
+						<value>false</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000073" kind="Composition" role="Composition" guid="{66d4cee2-e3e5-451b-a5c9-42bec9f2871e}" relid="0x3">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>N</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1..*</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000068"/>
+					<connpoint role="src" target="id-0066-00000069"/>
+				</connection>
+				<connection id="id-0068-00000074" kind="Composition" role="Composition" guid="{6531a903-66be-4aac-86c0-769033407a94}" relid="0x5">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000069"/>
+					<connpoint role="src" target="id-0066-0000006a"/>
+				</connection>
+				<connection id="id-0068-00000075" kind="Composition" role="Composition" guid="{c4403333-183d-4511-86b3-8e265a1a1e82}" relid="0x7">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000069"/>
+					<connpoint role="src" target="id-0067-00000001"/>
+				</connection>
+				<connection id="id-0068-00000076" kind="Composition" role="Composition" guid="{41cfab39-e64f-43cf-8fe0-bb9f5753b172}" relid="0x9">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000006a"/>
+					<connpoint role="src" target="id-0066-0000006b"/>
+				</connection>
+				<connection id="id-0068-00000077" kind="Composition" role="Composition" guid="{71819617-164b-4013-826a-0236f9b423b1}" relid="0xb">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000006a"/>
+					<connpoint role="src" target="id-0066-0000006c"/>
+				</connection>
+				<connection id="id-0068-00000078" kind="Composition" role="Composition" guid="{fcf6a39b-750a-48a6-9b82-b8f4436cda04}" relid="0xc">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sw</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000006c"/>
+					<connpoint role="src" target="id-0067-00000001"/>
+				</connection>
+				<connection id="id-0068-00000079" kind="Composition" role="Composition" guid="{0457b969-8421-41de-bce5-02b6a7c6f1ee}" relid="0xe">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-00000069"/>
+					<connpoint role="src" target="id-0066-0000006d"/>
+				</connection>
+				<connection id="id-0068-0000007a" kind="Composition" role="Composition" guid="{150eff7e-a723-45ef-9311-b18c2ed605fc}" relid="0xf">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ss</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000006d"/>
+					<connpoint role="src" target="id-0067-00000001"/>
+				</connection>
+				<connection id="id-0068-0000007b" kind="Composition" role="Composition" guid="{8b98ec96-d983-4c30-96c1-997bd20b123c}" relid="0x11">
+					<name>Composition</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>s</value>
+					</regnode>
+					<attribute kind="Cardinality">
+						<value>1..*</value>
+					</attribute>
+					<attribute kind="ChildRole" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ParentRole" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0066-0000006b"/>
+					<connpoint role="src" target="id-0066-0000006e"/>
 				</connection>
 			</model>
 		</model>

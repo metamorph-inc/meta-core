@@ -1,0 +1,628 @@
+/*****************  Example Input ***************************
+Displacement
+	ID = 1
+	# FIXED or FREE, at least one of the following must be FIXED. 
+	# There must be at least one of x, y, z.  A missing value is assumed to be FREE
+	# Floats are acceptable.  e.g. x = 2.22
+	x_Disp_State = FIXED    # Displacement in x direction
+	y_Disp_State = FIXED
+	z_Disp_State = FIXED
+	x_Rot_State = FIXED   # Rotation about x
+	y_Rot_State = FIXED
+	z_Rot_State = FIXED
+
+	#Note - The above could be
+	#x_Disp_Val =  0.0   # Displacement in x direction
+	#y_Disp_Val =  0.0
+	#z_Disp_Val =  0.0
+	#x_Rot_Val = 0.0 # Rotation about x
+	#y_Rot_Val = 0.0
+	#z_Rot_Val = 0.0
+
+	#Axial_Displacement = FIXED   # Displacement along an axis,  This could be a number e.g. 0.0/.1
+	#Axial_Rotation = FREE	     # Rotation about and axis,  This could be a number e.g. 0.0/.1
+
+	# Note - in the above either State (e.g. x_Disp_State) or Val (e.g. x_Disp_Val) is present or Axial_Displacement, Axial_Rotation is present
+	#	  but not both. As previously mentioned, a missing value is assumed to be FREE; however, there
+	#	  must be at least one of x,y,z,rx,ry,rz or at least one of Axial_Displacement, Axial_Rotation.
+
+# Example CADAssembly.xml for Axial_Displacement/Axial_Rotation.  Pin section.
+#            <AnalysisConstraint _id="id325">
+#            <Geometry _id="id326">
+#              <Features FeatureID="id-0065-00000490" GeometryType="CYLINDER" FeatureInterfaceType="CAD_DATUM" FeatureGeometryType="POINT" PrimaryGeometryQualifier="InteriorAndBoundary" SecondaryGeometryQualifier="IncludeEndCaps" _id="id327">
+#                <Feature Name="Chassis_Pin_2_Start" ComponentID="d9a09ee7-8f4c-46d1-a583-478f683fb76f" MetricID="d9a09ee7-8f4c-46d1-a583-478f683fb76f:Chassis_Pin_2_Start" _id="id328" />
+#                <Feature Name="Chassis_Pin_2_End" ComponentID="d9a09ee7-8f4c-46d1-a583-478f683fb76f" MetricID="d9a09ee7-8f4c-46d1-a583-478f683fb76f:Chassis_Pin_2_End" _id="id329" />
+#                <Feature Name="Chassis_Pin_2_Radius" ComponentID="d9a09ee7-8f4c-46d1-a583-478f683fb76f" MetricID="d9a09ee7-8f4c-46d1-a583-478f683fb76f:Chassis_Pin_2_Radius" _id="id330" />
+#              </Features>
+#            </Geometry>
+#            <Pin _id="id331">
+#              <AxialDisplacement Property="FIXED" _id="id332" />
+#              <AxialRotation Property="FREE" _id="id333" />
+#            </Pin>
+#          </AnalysisConstraint>
+
+
+***********************************************************/
+###########################
+# vDisplacement Class
+###########################
+CLASS vDisplacement
+
+	CLASSWIDE STRING	c_ClassName[32],			@
+						c_DISPLACEMENT[32],			@	
+						c_x_Disp_State[32],						@  
+						c_y_Disp_State[32],						@
+						c_z_Disp_State[32],						@
+						c_x_Rot_State[32],						@  
+						c_y_Rot_State[32],						@
+						c_z_Rot_State[32],						@					
+						c_x_Disp_Val[32],						@
+						c_y_Disp_Val[32],						@
+						c_z_Disp_Val[32],						@
+						c_x_Rot_Val[32],						@
+						c_y_Rot_Val[32],						@
+						c_z_Rot_Val[32],						@	
+						c_FIXED[32],							@
+						c_FREE[32]						
+	
+	CLASSWIDE INTEGER	ci_FIXED,								@
+						ci_FREE
+	
+						#################
+						# Displacement
+						#################	
+						# Displacement should always be one.  Capture count for error checking
+	CLASSWIDE INTEGER	count,									@
+						count_temp,								@
+						iD(VIRTUAL)
+													
+	CLASSWIDE INTEGER	x_Disp_State(VIRTUAL),						@  
+						y_Disp_State(VIRTUAL),						@
+						z_Disp_State(VIRTUAL),						@
+						x_Rot_State(VIRTUAL),						@  
+						y_Rot_State(VIRTUAL),						@
+						z_Rot_State(VIRTUAL)
+						
+	CLASSWIDE LOGICAL	x_Disp_State_set(VIRTUAL),					@  
+						y_Disp_State_set(VIRTUAL),					@
+						z_Disp_State_set(VIRTUAL),					@
+						x_Rot_State_set(VIRTUAL),					@  
+						y_Rot_State_set(VIRTUAL),					@
+						z_Rot_State_set(VIRTUAL)						
+						
+	# The displacement fields are mutually exclusive with the FIXED/FREE fields. One would exist but not the other
+	CLASSWIDE REAL		x_Disp_Val(VIRTUAL),						@
+						y_Disp_Val(VIRTUAL),						@
+						z_Disp_Val(VIRTUAL),						@
+						x_Rot_Val(VIRTUAL),							@
+						y_Rot_Val(VIRTUAL),							@
+						z_Rot_Val(VIRTUAL)
+						
+	CLASSWIDE LOGICAL	x_Disp_Val_set(VIRTUAL),					@
+						y_Disp_Val_set(VIRTUAL),					@
+						z_Disp_Val_set(VIRTUAL),					@
+						x_Rot_Val_set(VIRTUAL),						@
+						y_Rot_Val_set(VIRTUAL),						@
+						z_Rot_Val_set(VIRTUAL)						
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vDisplacement"
+	
+	c_DISPLACEMENT =				"Displacement"
+
+	c_x_Disp_State =				"x_Disp_State"  
+	c_y_Disp_State =				"y_Disp_State"
+	c_z_Disp_State =				"z_Disp_State"
+	c_x_Rot_State =					"x_Rot_State"
+	c_y_Rot_State =					"y_Rot_State"
+	c_z_Rot_State =					"z_Rot_State"
+	c_x_Disp_Val =					"x_Disp_Val"
+	c_y_Disp_Val =					"y_Disp_Val"
+	c_z_Disp_Val =					"z_Disp_Val"
+	c_x_Rot_Val =					"x_Rot_Val"
+	c_y_Rot_Val =					"y_Rot_Val"
+	c_z_Rot_Val =					"z_Rot_Val"		
+	
+	c_FIXED =						"FIXED"
+	c_FREE =						"FREE"	
+	
+	ci_FIXED =						1
+	ci_FREE	 =						2	
+	
+	INTEGER I
+	FOR ( I = 1 TO count )
+		x_Disp_State_set(i) = FALSE
+		y_Disp_State_set(i) = FALSE
+		z_Disp_State_set(i) = FALSE
+		x_Rot_State_set(i)  = FALSE
+		y_Rot_State_set(i)  = FALSE
+		z_Rot_State_set(i)  = FALSE						
+						
+		x_Disp_Val_set(i)   = FALSE
+		y_Disp_Val_set(i)   = FALSE
+		z_Disp_Val_set(i)   = FALSE
+		x_Rot_Val_set(i)    = FALSE
+		y_Rot_Val_set(i)    = FALSE
+		z_Rot_Val_set(i)    = FALSE						
+	END FOR	
+	
+	count = 0
+	count_temp = 0
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array (iD,   					1, 	count )									
+		sys_allocate_array (x_Disp_State,   		1, 	count )
+		sys_allocate_array (y_Disp_State,   		1, 	count )
+		sys_allocate_array (z_Disp_State,   		1, 	count )
+		sys_allocate_array (x_Rot_State,   			1, 	count ) 
+		sys_allocate_array (y_Rot_State,   			1, 	count )
+		sys_allocate_array (z_Rot_State,   			1, 	count )				
+		sys_allocate_array (x_Disp_State_set,   	1, 	count )
+		sys_allocate_array (y_Disp_State_set,   	1, 	count )
+		sys_allocate_array (z_Disp_State_set,   	1, 	count )
+		sys_allocate_array (x_Rot_State_set,   		1, 	count )  
+		sys_allocate_array (y_Rot_State_set,   		1, 	count )
+		sys_allocate_array (z_Rot_State_set,   		1, 	count )									
+		sys_allocate_array (x_Disp_Val,   			1, 	count )
+		sys_allocate_array (y_Disp_Val,   			1, 	count )
+		sys_allocate_array (z_Disp_Val,   			1, 	count )
+		sys_allocate_array (x_Rot_Val,   			1, 	count )
+		sys_allocate_array (y_Rot_Val,   			1, 	count )
+		sys_allocate_array (z_Rot_Val,   			1, 	count )	
+		sys_allocate_array (x_Disp_Val_set,   		1, 	count )
+		sys_allocate_array (y_Disp_Val_set,   		1, 	count )
+		sys_allocate_array (z_Disp_Val_set,   		1, 	count )
+		sys_allocate_array (x_Rot_Val_set,   		1, 	count )
+		sys_allocate_array (y_Rot_Val_set,   		1, 	count )
+		sys_allocate_array (z_Rot_Val_set,   		1, 	count )			
+	END IF
+END FUNCTION
+################################################################################
+FUNCTION get_c_DISPLACEMENT()
+	RETURN c_DISPLACEMENT
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( 	modelFile,					@
+								in_out_LineNum,					@
+								in_out_Buffer)						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"	
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	INTEGER realStatus
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )				
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )					
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )							
+					  END IF  
+					
+					CASE (c_x_Disp_State)  
+					  x_Disp_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  x_Disp_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						x_Disp_State_set(count_temp) = TRUE
+					  END IF				
+
+					  
+					CASE (c_y_Disp_State)  
+					  y_Disp_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  y_Disp_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						y_Disp_State_set(count_temp) = TRUE									
+					  END IF			  
+								  
+					CASE (c_z_Disp_State)  
+					  z_Disp_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  z_Disp_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						z_Disp_State_set(count_temp) = TRUE
+					  END IF							  
+					  
+					CASE (c_x_Rot_State)  
+					  x_Rot_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  x_Rot_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						x_Rot_State_set(count_temp) = TRUE				
+					  END IF				
+					  
+					CASE (c_y_Rot_State)  
+					  y_Rot_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  y_Rot_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						y_Rot_State_set(count_temp) = TRUE										
+					  END IF									  
+					  
+					CASE (c_z_Rot_State)  
+					  z_Rot_State(count_temp) =  vDisplacement.Fixed_Free_toInt(valueField)
+					  IF (  z_Rot_State(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vDisplacement.Fixed_Free_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						z_Rot_State_set(count_temp) = TRUE	
+					  END IF						  
+			  		  		
+					#---------------------------------------------------------------------------------------- 
+
+					CASE (c_x_Disp_Val)  
+					  x_Disp_Val(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						x_Disp_Val_set(count_temp) = TRUE
+					  END IF				
+
+					  
+					CASE (c_y_Disp_Val)  
+					  y_Disp_Val(count_temp) =  str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						y_Disp_Val_set(count_temp) = TRUE									
+					  END IF			  
+								  
+					CASE (c_z_Disp_Val)  
+					  z_Disp_Val(count_temp) =  str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						z_Disp_Val_set(count_temp) = TRUE
+					  END IF							  
+					  
+					CASE (c_x_Rot_Val)  
+					  x_Rot_Val(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						x_Rot_Val_set(count_temp) = TRUE				
+					  END IF				
+					  
+					CASE (c_y_Rot_Val)  
+					  y_Rot_Val(count_temp) =  str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						y_Rot_Val_set(count_temp) = TRUE										
+					  END IF									  
+					  
+					CASE (c_z_Rot_Val)  
+					  z_Rot_Val(count_temp) =  str_to_real(valueField, realStatus)
+					   IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR() 
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						z_Rot_Val_set(count_temp) = TRUE	
+					  END IF						
+						
+					DEFAULT
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR() 
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				END SWITCH	
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )		
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_DISPLACEMENT // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+		
+	FOR ( i = 1 TO count )
+				
+		text_write_string( vLogger.getChannel(), "")	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID() 		// " = " // vCommon.ID_toStr(iD(i)) )
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Disp_State 				// " = " // vDisplacement.Fixed_Free_toStr (x_Disp_State(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Disp_State 				// " = " // vDisplacement.Fixed_Free_toStr (y_Disp_State(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Disp_State 				// " = " // vDisplacement.Fixed_Free_toStr (z_Disp_State(i)) )
+
+		text_write_string( vLogger.getChannel(), "   " // c_x_Rot_State 				// " = " // vDisplacement.Fixed_Free_toStr (x_Rot_State(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Rot_State 				// " = " // vDisplacement.Fixed_Free_toStr (y_Rot_State(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Rot_State 				// " = " // vDisplacement.Fixed_Free_toStr (z_Rot_State(i)) )		
+
+		text_write_string(vLogger.getChannel(),"" )
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Disp_State 				// "_set = " // str_from_logical (x_Disp_State_set(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Disp_State 				// "_set = " // str_from_logical (y_Disp_State_set(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Disp_State 				// "_set = " // str_from_logical (z_Disp_State_set(i)) )
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Rot_State 				// "_set = " // str_from_logical (x_Rot_State_set(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Rot_State 				// "_set = " // str_from_logical (y_Rot_State_set(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Rot_State 				// "_set = " // str_from_logical (z_Rot_State_set(i)) )				
+		
+		text_write_string(vLogger.getChannel(),"" )		
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Disp_Val 					// " = " // str_from_real (x_Disp_Val(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Disp_Val 					// " = " // str_from_real (y_Disp_Val(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Disp_Val 					// " = " // str_from_real(z_Disp_Val(i)) )
+
+		text_write_string( vLogger.getChannel(), "   " // c_x_Rot_Val 					// " = " // str_from_real (x_Rot_Val(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Rot_Val 					// " = " // str_from_real (y_Rot_Val(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Rot_Val 					// " = " // str_from_real (z_Rot_Val(i)) )		
+
+		text_write_string(vLogger.getChannel(),"" )
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Disp_Val 				// "_set = " // str_from_logical (x_Disp_Val_set(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Disp_Val 				// "_set = " // str_from_logical (y_Disp_Val_set(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Disp_Val 				// "_set = " // str_from_logical (z_Disp_Val_set(i)) )
+		
+		text_write_string( vLogger.getChannel(), "   " // c_x_Rot_Val 				// "_set = " // str_from_logical (x_Rot_Val_set(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_y_Rot_Val 				// "_set = " // str_from_logical (y_Rot_Val_set(i)) )			
+		text_write_string( vLogger.getChannel(), "   " // c_z_Rot_Val 				// "_set = " // str_from_logical (z_Rot_Val_set(i)) )			
+		
+		
+	END FOR		
+
+	text_write_string( vLogger.getChannel(), "-------- END " // c_DISPLACEMENT // " --------")			
+END FUNCTION
+################################################################################
+##############################################################################
+FUNCTION Fixed_Free_toStr ( in_Fixed_Free_ID )
+
+	INTEGER in_Fixed_Free_ID
+
+	SWITCH(in_Fixed_Free_ID)
+		CASE(ci_FIXED )
+			return c_FIXED
+		CASE(ci_FREE )
+			return c_FREE			
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION Fixed_Free_toInt ( in_Fixed_Free_str )
+
+	STRING in_Fixed_Free_str[]
+	
+	SWITCH(in_Fixed_Free_str)
+		CASE(c_FIXED )
+			return ci_FIXED
+		CASE(c_FREE )
+			return ci_FREE
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION Fixed_Free_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_FIXED // "  " // c_FREE	
+END FUNCTION
+
+##############################################################################
+FUNCTION getIndex ( in_ID )
+
+	INTEGER in_ID
+	INTEGER i
+	FOR ( i = 1 TO count )
+		IF ( in_ID == id(i)) THEN Return i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()
+END FUNCTION
+#################################################################################
+# Warning - Caller must make sure in_Index is valid
+FUNCTION build_x_Disp_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( x_Disp_State_set(in_Index) || x_Disp_Val_set(in_Index) ) THEN
+		IF (  x_Disp_State_set(in_Index) ) THEN
+			IF (  x_Disp_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(x_Disp_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#--------------------------------------------------------------
+FUNCTION build_y_Disp_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( y_Disp_State_set(in_Index) || y_Disp_Val_set(in_Index) ) THEN
+		IF (  y_Disp_State_set(in_Index) ) THEN
+			IF (  y_Disp_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(y_Disp_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#--------------------------------------------------------------
+FUNCTION build_z_Disp_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( z_Disp_State_set(in_Index) || z_Disp_Val_set(in_Index) ) THEN
+		IF (  z_Disp_State_set(in_Index) ) THEN
+			IF (  z_Disp_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(z_Disp_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#################################################################################
+# Warning - Caller must make sure in_Index is valid
+FUNCTION build_x_Rot_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( x_Rot_State_set(in_Index) || x_Rot_Val_set(in_Index) ) THEN
+		IF (  x_Rot_State_set(in_Index) ) THEN
+			IF (  x_Rot_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(x_Rot_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#--------------------------------------------------------------
+FUNCTION build_y_Rot_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( y_Rot_State_set(in_Index) || y_Rot_Val_set(in_Index) ) THEN
+		IF (  y_Rot_State_set(in_Index) ) THEN
+			IF (  y_Rot_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(y_Rot_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#--------------------------------------------------------------
+FUNCTION build_z_Rot_ConstraintString( in_Index )
+
+	INTEGER 	in_Index
+	STRING 		tempString[31]
+	
+	tempString = ""
+	
+	if ( z_Rot_State_set(in_Index) || z_Rot_Val_set(in_Index) ) THEN
+		IF (  z_Rot_State_set(in_Index) ) THEN
+			IF (  z_Rot_State(in_Index) == ci_FIXED ) THEN
+				tempString = "0.0"
+			END IF
+		ELSE
+			tempString = str_from_real(z_Rot_Val(in_Index))	
+		END IF
+	END IF
+
+	RETURN tempString
+END FUNCTION
+#################################################################################
+END CLASS

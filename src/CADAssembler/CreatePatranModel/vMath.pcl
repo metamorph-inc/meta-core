@@ -1,0 +1,535 @@
+
+###########################
+# vMath Class
+###########################
+CLASS vMath
+				
+	CLASSWIDE STRING	c_ClassName[32], 				@		
+						c_INTERIOR_ONLY[32],			@
+						c_INTERIOR_AND_BOUNDARY[32],	@
+						c_BOUNDARY_ONLY[32]	
+						
+	CLASSWIDE INTEGER	ci_INTERIOR_ONLY,				@
+						ci_INTERIOR_AND_BOUNDARY,		@
+						ci_BOUNDARY_ONLY							
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+#############################################################################################	
+FUNCTION initialize()
+	c_ClassName = "vMath"
+	
+	c_INTERIOR_ONLY =			"INTERIOR_ONLY"
+	c_INTERIOR_AND_BOUNDARY =	"INTERIOR_AND_BOUNDARY"
+	c_BOUNDARY_ONLY =			"BOUNDARY_ONLY"		
+	
+	ci_INTERIOR_ONLY =				1
+	ci_INTERIOR_AND_BOUNDARY =		2
+	ci_BOUNDARY_ONLY =				3	
+	
+END FUNCTION
+#############################################################################################
+FUNCTION get_ci_INTERIOR_ONLY()
+	return ci_INTERIOR_ONLY
+END FUNCTION
+
+FUNCTION get_ci_INTERIOR_AND_BOUNDARY()
+	return ci_INTERIOR_AND_BOUNDARY
+END FUNCTION
+
+FUNCTION get_ci_BOUNDARY_ONLY()
+	return ci_BOUNDARY_ONLY
+END FUNCTION
+
+FUNCTION get_c_INTERIOR_ONLY()
+	return c_INTERIOR_ONLY
+END FUNCTION
+
+FUNCTION get_c_INTERIOR_AND_BOUNDARY()
+	return c_INTERIOR_AND_BOUNDARY
+END FUNCTION
+
+FUNCTION get_c_BOUNDARY_ONLY()
+	return c_BOUNDARY_ONLY
+END FUNCTION
+
+#############################################################################################
+FUNCTION boundary_Qualifier_toStr ( in_boundary_Qualifier_ID )
+
+	INTEGER in_boundary_Qualifier_ID
+
+	SWITCH(in_boundary_Qualifier_ID)
+		CASE(ci_INTERIOR_ONLY)
+			return c_INTERIOR_ONLY
+		CASE(ci_INTERIOR_AND_BOUNDARY )
+			return c_INTERIOR_AND_BOUNDARY 
+		CASE(ci_BOUNDARY_ONLY )
+			return c_BOUNDARY_ONLY 				
+		DEFAULT
+			return ""
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION boundary_Qualifier_toInt ( in_boundary_Qualifier_str )
+
+	STRING in_boundary_Qualifier_str[]
+	
+	SWITCH(in_boundary_Qualifier_str)
+		CASE(c_INTERIOR_ONLY)
+			return ci_INTERIOR_ONLY
+		CASE(c_INTERIOR_AND_BOUNDARY )
+			return ci_INTERIOR_AND_BOUNDARY 
+		CASE(c_BOUNDARY_ONLY )
+			return ci_BOUNDARY_ONLY 			
+		DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION boundary_Qualifier_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_INTERIOR_ONLY // "  " // c_INTERIOR_AND_BOUNDARY // "  "  // c_BOUNDARY_ONLY
+END FUNCTION
+################################################################################
+FUNCTION pointsAreEqual_3D( in_Point_1, in_Point_2, in_Tolerance )
+
+	REAL	in_Point_1()
+	REAL	in_Point_2()
+	REAL	in_Tolerance
+
+	If ( ( ABS(in_Point_1(1) - in_Point_2(1)) <  in_Tolerance ) &&  @
+		 ( ABS(in_Point_1(2) - in_Point_2(2)) < in_Tolerance )  &&  @
+		 ( ABS(in_Point_1(3) - in_Point_2(3)) < in_Tolerance )) THEN
+		 return TRUE
+	ELSE
+		return FALSE
+	END IF
+	
+END FUNCTION
+#############################################################################################	
+FUNCTION vectorsEqual_3D( in_Vector_1, in_Vector_2, in_Tolerance )
+
+	REAL	in_Vector_1()
+	REAL	in_Vector_2()
+	REAL	in_Tolerance
+
+	return  vMath.pointsAreEqual_3D( in_Vector_1, in_Vector_2, in_Tolerance ) 
+	
+END FUNCTION
+
+#############################################################################################
+
+FUNCTION vectorMagnitude_3D( in_Vector ) 
+
+	REAL in_Vector()
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".vectorMagnitude_3D"		
+	
+	IF ( SYS_ARRAY_HBOUND(in_Vector,1 ) != 3 ) THEN
+		errorMsg = "in_Vector array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# no return status, this will get trapped at the end of this program because the count of error message will be > 0
+		RETURN 0
+	END IF
+
+	RETURN mth_sqrt( vMath.vSqr(in_Vector(1)) +  vMath.vSqr(in_Vector(2)) + vMath.vSqr(in_Vector(3)) )
+		
+END FUNCTION
+#############################################################################################	
+FUNCTION unitVector_3D( in_Vector, out_Vector ) 
+
+	REAL in_Vector()
+	REAL out_Vector()	
+
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".unitVector_3D"		
+	
+	IF ( SYS_ARRAY_HBOUND(in_Vector,1 ) != 3 ) THEN
+		errorMsg = "in_Vector array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF
+
+	REAL magnitude
+	
+	magnitude = vMath.vectorMagnitude_3D( in_Vector ) 
+	
+	IF ( magnitude == 0 ) THEN
+		errorMsg = "Erroneous vector, in_Vector magnitude == 0"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 	
+	END IF 
+	
+	out_Vector(1) = in_Vector(1) / magnitude
+	out_Vector(2) = in_Vector(2) / magnitude
+	out_Vector(3) = in_Vector(3) / magnitude	
+
+	RETURN returnStatus
+END FUNCTION
+#############################################################################################
+FUNCTION crossProduct_3D( in_Vector_1, in_Vector_2 , out_Vector_crossed ) 
+
+	REAL	in_Vector_1()
+	REAL	in_Vector_2()	
+	REAL	out_Vector_crossed()
+
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".crossProduct_3D"		
+	
+	
+	IF ( SYS_ARRAY_HBOUND(in_Vector_1,1 ) != 3 ) THEN
+		errorMsg = "in_Vector array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF
+
+	IF ( SYS_ARRAY_HBOUND(in_Vector_2,1 ) != 3 ) THEN
+		errorMsg = "in_Vector_2 array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF
+
+	IF ( SYS_ARRAY_HBOUND(out_Vector_crossed,1 ) != 3 ) THEN
+		errorMsg = "out_Vector_crossed array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF	
+	
+	out_Vector_crossed(1) =   in_Vector_1(2) * in_Vector_2(3) - in_Vector_1(3) * in_Vector_2(2)
+	out_Vector_crossed(2) = -(in_Vector_1(1) * in_Vector_2(3) - in_Vector_1(3) * in_Vector_2(1))
+	out_Vector_crossed(3) =   in_Vector_1(1) * in_Vector_2(2) - in_Vector_1(2) * in_Vector_2(1) 
+
+	RETURN returnStatus
+
+END FUNCTION
+#############################################################################################	
+FUNCTION multiplyMatrix_4x4_x_1x4 ( in_Matrix_1,  in_Matrix_2, out_Matrix )
+
+	REAL in_Matrix_1()
+	REAL in_Matrix_2()
+	REAL out_Matrix()	
+	
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".multiplyMatrix_4x4_x_1x4"
+	
+	IF ( SYS_ARRAY_HBOUND(in_Matrix_1,1 ) != 4 ) THEN
+		errorMsg = "in_Matrix_1 array size != 4 X 4"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF	
+	
+	IF ( SYS_ARRAY_HBOUND(in_Matrix_1,2 ) != 4 ) THEN
+		errorMsg = "in_Matrix_1 array size != 4 X 4"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF		
+	
+	IF ( SYS_ARRAY_HBOUND(in_Matrix_2,1 ) != 4 ) THEN
+		errorMsg = "in_Matrix_2 array size != 1 X 4"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF		
+	
+	IF ( SYS_ARRAY_HBOUND(out_Matrix,1 ) != 4 ) THEN
+		errorMsg = "out_Matrix array size != 1 X 4"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return -1 
+	END IF			
+	
+	INTEGER row
+
+	FOR ( row = 1 to 4 )
+		out_Matrix(row) =	in_Matrix_1(row,1) * in_Matrix_2(1) +	@
+							in_Matrix_1(row,2) * in_Matrix_2(2) +	@
+							in_Matrix_1(row,3) * in_Matrix_2(3) + 	@
+							in_Matrix_1(row,4) * in_Matrix_2(4)
+	END FOR
+	
+
+	RETURN returnStatus
+	
+END FUNCTION
+#############################################################################################
+FUNCTION getAngle_3D( in_UnitVector_1, in_UnitVector_2 )
+
+	# WARNING WARNING WARNING - in_UnitVector_1 and in_UnitVector_2  MUST be unit vectors
+    
+    REAL    in_UnitVector_1()
+    REAL    in_UnitVector_2()
+    
+    REAL    angle
+    REAL dot
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getAngle_3D"		
+	
+	IF ( SYS_ARRAY_HBOUND(in_UnitVector_1,1 ) != 3 ) THEN
+		errorMsg = "in_UnitVector_1 array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# no return status, this will get trapped at the end of this program because the count of error message will be > 0
+		RETURN 0
+	END IF	
+	
+	IF ( SYS_ARRAY_HBOUND(in_UnitVector_2,1 ) != 3 ) THEN
+		errorMsg = "in_UnitVector_2 array size != 3"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# no return status, this will get trapped at the end of this program because the count of error message will be > 0
+		RETURN 0
+	END IF		
+	
+	
+    dot = mth_vec_dot_prod (in_UnitVector_1, in_UnitVector_2)
+
+    /* Make sure the fuzz doesn't put us out of the valid range */
+    IF ( dot < -1.0) THEN
+       dot = -1.0
+    ELSE IF (dot > 1.0) THEN
+       dot = 1.0
+    END IF
+
+    angle = mth_abs ( mth_acosd(dot) )
+
+    RETURN angle
+
+END FUNCTION
+#############################################################################################
+FUNCTION vSqr( in_Value )
+	REAL in_Value
+	RETURN in_Value * in_Value
+END FUNCTION
+#############################################################################################
+# in_Line_Point_1 and in_Line_Point_2 must be array sizes of 2
+FUNCTION lineLength_2D( in_Line_Point_1, in_Line_Point_2 )
+
+	REAL in_Line_Point_1()
+	REAL in_Line_Point_2()
+
+	return mth_sqrt( vMath.vSqr(in_Line_Point_2(1) - in_Line_Point_1(1)) +  @
+					 vMath.vSqr(in_Line_Point_2(2) - in_Line_Point_1(2)) )
+END FUNCTION
+#############################################################################################
+FUNCTION coordinateWithinRange( in_Range_1, in_Range_2, in_Cord, in_IncludeValuesOnBoundary, in_Tolerance )
+								
+	REAL 		in_Range_1 
+	REAL 		in_Range_2 
+	REAL 		in_Cord 
+	LOGICAL   	in_IncludeValuesOnBoundary
+	REAL 		in_Tolerance							
+								
+	IF ( in_IncludeValuesOnBoundary ) THEN
+		IF ( in_Range_1 < in_Range_2 ) THEN
+			return (( in_Cord >= ( in_Range_1 - in_Tolerance ) ) &&  ( in_Cord <= ( in_Range_2 + in_Tolerance)))
+		ELSE
+			return (( in_Cord >= ( in_Range_2 - in_Tolerance ) ) &&  ( in_Cord <= ( in_Range_1 + in_Tolerance)))
+		END IF
+	ELSE
+		IF ( in_Range_1 < in_Range_2 ) THEN
+			return (( in_Cord > ( in_Range_1 + in_Tolerance ) ) &&  ( in_Cord < ( in_Range_2 - in_Tolerance)))
+		ELSE
+			return (( in_Cord > ( in_Range_2 + in_Tolerance ) ) &&  ( in_Cord < ( in_Range_1 - in_Tolerance)))
+		END IF	
+	END IF
+		
+END FUNCTION
+#############################################################################################
+# in_Point, in_Line_Point_1, and in_Line_Point_2 must be array sizes of 2
+FUNCTION pointOnLine_2D( in_Point, in_Line_Point_1,in_Line_Point_2, in_Tolerance )
+
+	REAL in_Point()
+	REAL in_Line_Point_1()
+	REAL in_Line_Point_2()
+	REAL in_Tolerance	
+
+	LOGICAL onLine
+	onLine = FALSE
+	
+	# Make sure point is in range of the line.
+	IF (  vMath.coordinateWithinRange(in_Line_Point_1(1), in_Line_Point_2(1),  in_Point(1), true, in_Tolerance ) && @
+		  vMath.coordinateWithinRange(in_Line_Point_1(2), in_Line_Point_2(2),  in_Point(2), true, in_Tolerance ) )  THEN
+		IF ( mth_abs( vMath.LineLength_2D(in_Line_Point_1, in_Line_Point_2 ) - @
+					( vMath.LineLength_2D(in_Line_Point_1, in_Point) + vMath.LineLength_2D(in_Point, in_Line_Point_2))) <  in_Tolerance ) THEN onLine = TRUE
+	END IF
+	
+	RETURN onLine
+END FUNCTION
+#############################################################################################
+# This function will return TRUE, in some cases, if the point is on a polygon line.  Should first determine if point is on 
+# a polygon line before calling this function.
+# The function does work for the case where the point is in-line (see example below) with a horizontal line. 
+#			-----------------
+#			|				|
+#		-----    *			|
+#		|					|
+#		---------------------
+FUNCTION point2D_WithinPolygon_2D( in_Point, in_NumPolygonPoints, in_Polygon)
+
+	# in_Point must be a 1 dimensional array of 2 
+	REAL   in_Point() 
+
+	INTEGER in_NumPolygonPoints 	
+
+	# in_Polygon must be a 2 dimensional array of size  in_NumPolygonPoints X 2 
+	REAL   in_Polygon()
+	
+	INTEGER i, j
+	
+	text_write_string(vLogger.getChannel(), "*** BEGIN Input point2D_WithinPolygon_2D ***" )
+	text_write_string(vLogger.getChannel(), "  in_Point:  " // vCommon.str_from_real_array(2,in_Point ))
+	text_write_string(vLogger.getChannel(), "     Polygon Points:              " )
+	FOR ( i = 1 TO in_NumPolygonPoints )
+		text_write_string(vLogger.getChannel(), "      " //  vCommon.str_from_real_array(2,in_Polygon(i,1:2)))	
+	END FOR	
+
+	
+	LOGICAL within = false;
+
+	# from http://alienryderflex.com/polygon/
+
+	j = in_NumPolygonPoints
+	
+	REAL temp_real
+	
+	FOR (i = 1 to in_NumPolygonPoints ) 
+		IF ( (in_Polygon(i,2) < in_Point(2) && in_Polygon(j,2) >= in_Point(2) ) || @
+			 (in_Polygon(j,2) < in_Point(2) && in_Polygon(i,2) >= in_Point(2))) THEN	
+
+			temp_real = in_Polygon(i,1) + (in_Point(2)-in_Polygon(i,2))/(in_Polygon(j,2) - in_Polygon(i,2) ) * (in_Polygon(j,1) - in_Polygon(i,1) )
+			
+			#text_write_string(vLogger.getChannel(), "     temp_real: " //  str_from_real(temp_real))
+			IF (temp_real < in_Point(1)) THEN	
+				#text_write_string(vLogger.getChannel(), "     Within Before: " //  str_from_logical(within))
+				within = !within
+				#text_write_string(vLogger.getChannel(), "     Within After: " //  str_from_logical(within))				
+			END IF
+		END IF
+		j = i 
+	END FOR
+	
+	text_write_string(vLogger.getChannel(), "   Point within: " // str_from_logical(within) )
+
+	text_write_string(vLogger.getChannel(), "*** END point2D_WithinPolygon_2D ***" )		
+	
+	RETURN within
+END FUNCTION
+#############################################################################################
+# in_Point must be a 1 dimensional array of size 2 
+# in_Polygon must be a 2 dimensional array of size in_NumPolygonPoints X 2
+FUNCTION point2D_InOn_Polygon_2D( in_Point, in_Boundary_Qualifier, in_NumPolygonPoints, in_Polygon, in_Tolerance )
+
+	# in_Point must be a 1 dimensional array of size 2 
+	REAL   in_Point() 
+
+	# 	ci_INTERIOR_ONLY / ci_INTERIOR_AND_BOUNDARY / ci_BOUNDARY_ONLY =
+	INTEGER in_Boundary_Qualifier
+	INTEGER in_NumPolygonPoints 	
+
+	# in_Polygon must be a 2 dimensional array of size  in_NumPolygonPoints X 2 
+	REAL   	in_Polygon()
+
+	REAL 	in_Tolerance
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".point2D_InOn_Polygon_2D"		
+	
+	##########################
+	# Check Input Arguments
+	##########################	
+	
+	IF ( in_Boundary_Qualifier != ci_INTERIOR_ONLY && in_Boundary_Qualifier != ci_INTERIOR_AND_BOUNDARY && in_Boundary_Qualifier !=  ci_BOUNDARY_ONLY ) THEN
+		errorMsg = "Invalid in_Boundary_Qualifier, valid values: " // vMath.boundary_Qualifier_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# since no return status, this will get trapped at the end of this program because the count of error message will be > 0
+		RETURN FALSE
+	END IF		
+	
+	IF ( SYS_ARRAY_HBOUND(in_Point,1 ) != 2 ) THEN
+		errorMsg = "in_Point array size != 2"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		return FALSE
+	END IF	
+	
+	IF ( SYS_ARRAY_HBOUND(in_Polygon, 1 ) <  in_NumPolygonPoints) THEN
+		errorMsg = "SYS_ARRAY_HBOUND(in_Polygon, 1 ) <  in_NumPolygonPoints"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# since no return status, this will get trapped at the end of this program because the count of error message will be > 0		
+		return FALSE
+	END IF		
+	
+	IF ( SYS_ARRAY_HBOUND(in_Polygon, 2 ) != 2) THEN
+		errorMsg = "SYS_ARRAY_HBOUND(in_Polygon, 2 ) != 2"
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage( errorLevel, functionName, errorMsg )
+		# since no return status, this will get trapped at the end of this program because the count of error message will be > 0		
+		return FALSE
+	END IF	
+	
+	INTEGER i, j
+	##########################
+	# Find Out if on Boundary
+	##########################
+	
+	Logical onBoundary = FALSE
+	
+	j = in_NumPolygonPoints
+	FOR ( i = 1 to in_NumPolygonPoints - 1 )
+		IF ( vMath.pointOnLine_2D( in_Point, in_Polygon(j,1:2), in_Polygon(i,1:2), in_Tolerance ) ) THEN
+			onBoundary = TRUE
+			BREAK
+		END IF
+		j = i
+	END FOR
+	
+	######################
+	# ci_BOUNDARY_ONLY
+	######################
+	IF ( in_Boundary_Qualifier == ci_BOUNDARY_ONLY ) THEN
+		IF ( onBoundary ) THEN
+			RETURN TRUE
+		ELSE
+			RETURN FALSE
+		END IF
+	END IF 
+	
+	###########################
+	# ci_INTERIOR_AND_BOUNDARY
+	###########################	
+	IF ( in_Boundary_Qualifier == ci_INTERIOR_AND_BOUNDARY ) THEN
+		IF ( onBoundary ) THEN RETURN TRUE
+	END IF 	
+	
+	##############################
+	# Check for Point in Interior
+	##############################
+	IF ( vMath.point2D_WithinPolygon_2D( in_Point, in_NumPolygonPoints, in_Polygon) ) THEN 
+		RETURN TRUE
+	ELSE
+		RETURN FALSE
+	END IF
+	
+END FUNCTION
+#############################################################################################
+END CLASS

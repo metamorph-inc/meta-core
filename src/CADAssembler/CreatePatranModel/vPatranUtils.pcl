@@ -1,0 +1,1148 @@
+
+###########################
+# vPatranUtils Class
+###########################
+CLASS vPatranUtils
+				
+	CLASSWIDE STRING	c_ClassName[32]			
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vPatranUtils"
+	
+END FUNCTION
+################################################################################
+FUNCTION createPatranDB(	in_File_Patran_Model_Name, 	in_File_Patran_Model_Dir )
+				
+				
+	# If the Patran DB exists, this function will not overwrite it
+    STRING 	in_File_Patran_Model_Name[]
+    STRING 	in_File_Patran_Model_Dir[]
+
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createPatranDB"		
+	
+	# If DB open, close it.  No DBs should be open.  Put this here in case this function is reused elsewhere.
+    uil_file_close.go(  )		
+	
+	returnStatus = uil_file_new.go( "", in_File_Patran_Model_Dir // "\" // in_File_Patran_Model_Name )
+	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not create DB (uil_file_new.go), DB: " // in_File_Patran_Model_Dir // "\" // in_File_Patran_Model_Name// ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus	
+    END IF		
+	
+	text_write_string( vLogger.getChannel(), "Created Patran DB: " // in_File_Patran_Model_Dir // "\" // in_File_Patran_Model_Name)	
+	
+    RETURN returnStatus
+
+END FUNCTION	
+###############################################################################	
+FUNCTION setPatranWorkingDir (	in_File_Patran_Model_Dir )
+												
+    STRING 	in_File_Patran_Model_Dir[]
+	
+	INTEGER returnStatus = 0;
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".setPatranWorkingDir"		
+	
+    returnStatus = set_current_dir( in_File_Patran_Model_Dir )	
+ 	
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not set Patran working directory, Dir: " // in_File_Patran_Model_Dir // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+        RETURN returnStatus	
+    END IF		
+	
+	text_write_string( vLogger.getChannel(), "Set Patran working directory: " // in_File_Patran_Model_Dir) 		
+	
+    RETURN returnStatus
+
+END FUNCTION	
+
+###############################################################################	
+FUNCTION importParasolidFile (	in_File_Parasolid_Model_Name, 			@
+								in_File_Parasolid_Model_Dir, 			@
+								in_Unit_Conversion_Factor )				
+
+#   Parasolid Models are always in meters
+#   in_Unit_Conversion_Factor = 1000, mm
+#   in_Unit_Conversion_Factor = 1, m
+#   in_Unit_Conversion_Factor = 39.370079, inch
+														
+    STRING 	in_File_Parasolid_Model_Name[]
+    STRING 	in_File_Parasolid_Model_Dir[]	
+	REAL	in_Unit_Conversion_Factor
+						
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".importParasolidFile"			
+			
+	STRING parasolidFile_DirAndFileName[1024] 	
+	
+	parasolidFile_DirAndFileName = in_File_Parasolid_Model_Dir // "\" // in_File_Parasolid_Model_Name
+	
+	
+	# The following arrays and array sizes were taken from a session file.
+	# Tried using VIRTUAL but VIRTUAL did not work
+	INTEGER uil_file_import_ps_tr_xmt_count(5)
+	INTEGER uil_file_import_ps_patran_count(4)
+	INTEGER uil_file_import_ps_tra_n_layers
+	INTEGER uil_file_import_ps_tr_layer_ids(5,256)
+	REAL uil_file_import_ps_tr_model_tol(2)
+	
+	INTEGER returnStatus 
+ 
+	REAL transformation(12) = [ 1000.0, 0., 0., 0., 1000.0, 0., 0., 0.,1000.0, 0., 0., 0. ]
+	
+	transformation(1) = in_Unit_Conversion_Factor
+	transformation(5) = in_Unit_Conversion_Factor
+	transformation(9) = in_Unit_Conversion_Factor
+	
+	
+	p3_express_options_file( "express.opt", FALSE, 3, 1, 52054, TRUE, transformation, 0, ["0"], [[-1]], [[-1]], [[-1] @
+	], TRUE, [0], TRUE, [0], TRUE, [0], 3, 1, 1 )						 
+					
+			 
+					 
+		
+	/************** Example with a call to sew edges and equivelance edge vertices,  Note the 42 entry is the sew_edges
+	INTEGER sew_edges This value specifies sewing, verification, and
+	cleanup options. The option values can be anded
+	together to specify more than one option. The
+	following option values are allowed: 2 to sew Patran
+	edges, 4 to verify edges, 8 to remove degenerate
+	faces, 16 to comvert trimmed to untrimmed
+	surfaces, 32 to equivelance edge vertices.
+	
+	Simply Trimmed 62
+	General Trimmed 42
+	p3_ug_xmt_import_v2( "C:\Users\rowens\My_SVN\META_Sandbox\Blade_Wind_Turbi" // @
+	"ne\CyPhyModels\components\5hkl0i2p\CAD\blade_outer_surface.x_t", "",  @
+	"express.opt", TRUE, 42, uil_file_import_ps_tr_xmt_count,  @
+	uil_file_import_ps_patran_count, uil_file_import_ps_tra_n_layers,  @
+	uil_file_import_ps_tr_layer_ids, uil_file_import_ps_tr_model_tol, TRUE, "",  @
+	FALSE )					 
+	****************************************************************************************/
+		
+	# No to the question of "Unable to close ? gaps with a maximum deviation of ???. Do you want to try to force those gaps to close?"
+	# There should be no large gaps and if so, the user should detect those by reviewing the stress contour plots.  The user should
+	# correct any large gaps.
+	ui_answer_message(38001118, "NO")
+			
+	# Previously, the 62 entry was 42				
+	returnStatus = p3_ug_xmt_import_v2( parasolidFile_DirAndFileName, "", "express.opt", TRUE, 32,  @
+							uil_file_import_ps_tr_xmt_count, uil_file_import_ps_patran_count,  @
+							uil_file_import_ps_tra_n_layers, uil_file_import_ps_tr_layer_ids,  @
+							uil_file_import_ps_tr_model_tol, TRUE, "", FALSE )		 
+						 
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not import Parasolid file (p3_ug_xmt_import_v2), File: " // parasolidFile_DirAndFileName // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus	
+    END IF	
+		
+	INTEGER i
+	
+	text_write_string ( vLogger.getChannel(), "" )		
+	text_write_string ( vLogger.getChannel(), "Imported Parasolid File:" )	
+	text_write( vLogger.getChannel(), "    Parasolid File:     %A%",0,0.0, parasolidFile_DirAndFileName)	
+	text_write_string ( vLogger.getChannel(), "    uil_file_import_ps_tr_xmt_count:" )	
+	FOR ( i = 1 TO 5 BY 1 )
+		text_write( vLogger.getChannel(), "        %I%",uil_file_import_ps_tr_xmt_count(i),0.0,"")
+	END FOR
+	text_write_string ( vLogger.getChannel(), "    uil_file_import_ps_patran_count:" )	
+	FOR ( i = 1 TO 4 BY 1 )
+		text_write( vLogger.getChannel(), "        %I%",uil_file_import_ps_patran_count(i),0.0,"")
+	END FOR	
+
+	RETURN returnStatus
+	
+END FUNCTION
+###############################################################################	
+FUNCTION determineIf_PointOnSurface( 	in_Point, 							@
+										in_Mdl_SurfaceID_internal,			@
+										out_PointOnSurface, 				@
+										out_NearestPoint,					@
+										out_u,								@
+										out_v,)							
+						
+	REAL	in_Point()
+	Integer	in_Mdl_SurfaceID_internal
+	LOGICAL out_PointOnSurface	
+	REAL out_NearestPoint()
+
+	REAL out_u
+	REAL out_v
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".determineIf_PointOnSurface"	
+	
+	INTEGER returnStatus = 0		
+	
+	#REAL u
+	#REAL v
+	INTEGER i_blob_size	
+	REAL rv_surface(VIRTUAL)				
+	##############################
+	# Determine Surface Blob Size
+	##############################
+		
+	# Getting the blob size for surface(entity type = 3) and allocating
+	sgm_db_get_blob_size(3, in_Mdl_SurfaceID_internal, i_blob_size, returnStatus) 
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_db_get_blob_size returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF		
+
+	#########################
+	# Allocate Surface Blob
+	#########################	
+	sys_allocate_array(rv_surface,1,i_blob_size)				
+	
+	#########################
+	# Get Surface
+	#########################
+	INTEGER surf_IntArray(1)
+	surf_IntArray(1) = in_Mdl_SurfaceID_internal
+	
+	sgm_db_get_surface(in_Mdl_SurfaceID_internal,i_blob_size,rv_surface, returnStatus)	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "sgm_db_get_surface returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+        RETURN returnStatus		
+	END IF			
+
+	################################
+	# Get Nearest Point on Surface
+	#################################
+	REAL xyz_vectors_direction(4,3)		
+	sgm_nearest_point_on_surface( in_Point, rv_surface, out_u, out_v, xyz_vectors_direction)
+	
+	# dump (in_Point)
+	# dump (in_Mdl_SurfaceID_internal)
+	# dump u
+	# dump v
+	# dump ( xyz_vectors_direction )
+	
+	################################
+	# Free Meomory
+	#################################	
+	sys_free_array(rv_surface)
+		
+
+	out_NearestPoint(1) = 	xyz_vectors_direction(1,1)
+	out_NearestPoint(2) = 	xyz_vectors_direction(1,2)
+	out_NearestPoint(3) = 	xyz_vectors_direction(1,3)	
+		
+	out_PointOnSurface = vMath.pointsAreEqual_3D( in_Point, out_NearestPoint, .05 )
+	
+		
+	# dump out_PointOnSurface	
+	RETURN returnStatus	
+	
+END FUNCTION
+#############################################################################################
+FUNCTION applyConstraint_Displacement(	in_Constraint_ID,		@
+										in_Disp_ID,				@		
+										in_Mdl_SurfaceID_string, @
+										in_lbc_name)							
+	INTEGER		in_Constraint_ID													
+	INTEGER		in_Disp_ID		
+	STRING    	in_Mdl_SurfaceID_string[]	
+	STRING 		in_lbc_name[]	
+											
+	INTEGER returnStatus = 0			
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".applyConstraint_Displacement"	
+	
+	/**** From Session File	  SOLID
+	loadsbcs_create2( "Disp_Set_Name", "Displacement", "Nodal", "", "Static", [ @
+	"Solid 1.2"], "Geometry", "Coord 0", "1.", ["< 0 0 0    >", "< 0 0 0    >",  @
+	"<     >", "<     >"], ["", "", "", ""] )	
+
+	loadsbcs_create2( "Constraint_Set", "Displacement", "Nodal", "", "Static", [ @
+	"Solid 1.5"], "Geometry", "Coord 0", "1.", ["< ,,9     >", "< 1,,2    >",  @
+	"<     >", "<     >"], ["", "", "", ""] )	
+	******/
+		
+	#STRING lbc_name[32]
+	
+	#lbc_name = "C" // str_from_integer(in_Constraint_ID) // "_Constraint"
+	
+	#####################
+	# Constraint Surface
+	#####################
+	# ap_list  e.g. "Solid 1.2"
+	STRING ap_list[31](1)	
+	ap_list(1) = in_Mdl_SurfaceID_string
+	
+	dump ap_list(1)
+	
+	dump in_Mdl_SurfaceID_string
+	###################################
+	# Translation/Rotation Constraints
+	###################################	
+
+	STRING disp_x_string[31]
+	STRING disp_y_string[31]
+	STRING disp_z_string[31]	
+	STRING rot_x_string[31]
+	STRING rot_y_string[31]
+	STRING rot_z_string[31]
+	
+	INTEGER disp_Index
+	disp_Index = vDisplacement.getIndex(in_Disp_ID )		
+
+	IF ( disp_Index == vConstants.get_ci_Undefined() ) THEN
+		errorMsg = "Displacement not found, Displacement ID: " // str_from_integer(in_Disp_ID) // ", Surface Name: " // in_Mdl_SurfaceID_string
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		returnStatus = -1
+	ENDIF
+	
+	disp_x_string = vDisplacement.build_x_Disp_ConstraintString( disp_Index )
+	disp_y_string = vDisplacement.build_y_Disp_ConstraintString( disp_Index )
+	disp_z_string = vDisplacement.build_z_Disp_ConstraintString( disp_Index )
+	
+	rot_x_string = vDisplacement.build_x_Rot_ConstraintString( disp_Index )
+	rot_y_string = vDisplacement.build_x_Rot_ConstraintString( disp_Index )
+	rot_z_string = vDisplacement.build_x_Rot_ConstraintString( disp_Index )	
+	
+	STRING static_data[100](4)	
+	
+	static_data(1) = "<" // disp_x_string // "," // disp_y_string // "," // disp_z_string // ">"
+	static_data(2) = "<" // rot_x_string  // "," //  rot_y_string // "," // rot_z_string  //  ">"	
+	
+	static_data(3) = "<>"
+	static_data(4) = "<>"
+	
+	dump static_data(1)
+	dump static_data(2)
+	dump static_data(3)	
+	dump static_data(4)	
+	
+	
+	returnStatus = loadsbcs_create2( in_lbc_name, "Displacement", "Nodal", "", "Static", ap_list, @
+	"Geometry", "Coord 0", "1.", static_data, ["", "", "", ""] )
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "loadsbcs_create2 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
+        RETURN returnStatus		
+	END IF		
+	
+#	loadsbcs_create2( "Constraint_Set", "Displacement", "Nodal", "", "Static", [ @
+#	"Solid 1.5"], "Geometry", "Coord 0", "1.", ["< ,,9     >", "< 1,,2    >",  @
+#	"<     >", "<     >"], ["", "", "", ""] )
+
+	RETURN returnStatus
+
+END FUNCTION
+#############################################################################################
+FUNCTION applyLoad_Pressure(	in_Load_ID,						@	
+								in_Load_value_Scalar,			@
+								in_Mdl_SurfaceID_string, 		@
+								in_lbc_name)				
+										
+				
+	INTEGER		in_Load_ID
+	STRING    	in_Mdl_SurfaceID_string[]	
+	
+	REAL		in_Load_value_Scalar
+	STRING 		in_lbc_name[]	
+
+	INTEGER returnStatus = 0			
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".applyLoad_Pressure"			
+	
+	
+	#################
+	# Load Surface
+	#################
+	# ap_list  e.g. "Solid 1.2"
+	STRING ap_list[31](1)	
+	ap_list(1) = in_Mdl_SurfaceID_string
+	
+
+	
+	IF ( in_Load_value_Scalar == 0.0 ) THEN
+		errorMsg = "Zero load value. Load must be != 0, Load ID: " //  str_from_integer(in_Load_ID) 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )					
+		return -1
+	END IF
+	
+	#######################################################
+	# Determine If Load on a Solid Model or Surface Model
+	######################################################
+	
+	LOGICAL loadOnSolid = TRUE
+	
+	IF ( str_index(in_Mdl_SurfaceID_string, "Solid" ) == 0 ) THEN
+		loadOnSolid = FALSE
+	END IF 
+
+	#STRING lbc_name[32]	
+	#lbc_name = "L" // str_from_integer(in_Load_ID) // "_Pressure"
+	
+	/**** From Session File for Solid	
+	loadsbcs_create2( "Load_Set", "Pressure", "Element Uniform", "3D", "Static", [ @
+	"Solid 5.1"], "Geometry", "", "1.", [" 3203"], [""] )	
+	******/	
+	
+	/**** From Session File	  Surface
+	loadsbcs_create2( "Pressure_1", "Pressure", "Element Uniform", "2D", "Static", @
+	["Surface 2"], "Geometry", "", "1.", ["8888", " ", " "], ["", "", ""] )	
+	****/	
+	
+	
+	# STRING static_data[100](20)	
+	# INTEGER i
+	# FOR ( i = 1 to 20 ) 
+	#	static_data(i) = ""
+	# END FOR
+	
+	STRING static_data[100](Virtual)		
+	
+	IF ( loadOnSolid ) THEN
+		sys_allocate_array (static_data,   		1, 	1 )
+		static_data(1) = str_from_real(in_Load_value_Scalar)	
+		returnStatus = loadsbcs_create2( in_lbc_name, "Pressure", "Element Uniform", "3D", "Static", ap_list, @
+		"Geometry", "", "1.", static_data, [""] )	
+	ELSE
+		#loadsbcs_create2( "LBC_Set_Name", "Pressure", "Element Uniform", "2D",  @
+		#"Static", ["Surface 1"], "Geometry", "", "1.", [" 99.9", " ", " "], ["", "",  @
+		#""] )	
+		
+		sys_allocate_array (static_data,   		1, 	3 )		
+		static_data(1) = str_from_real(in_Load_value_Scalar)	
+		static_data(2) = ""
+		static_data(3) = ""				
+		returnStatus = loadsbcs_create2( in_lbc_name, "Pressure", "Element Uniform", "2D", "Static", ap_list, @
+		 "Geometry", "", "1.", static_data, ["", "", ""] )		
+	END IF
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "loadsbcs_create2 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN returnStatus		
+	END IF		
+	
+	sys_free_array(static_data)
+	
+	RETURN returnStatus
+
+END FUNCTION			
+#############################################################################################
+FUNCTION writeImageFile( in_Filename, 	@
+						in_ViewOrientation )
+
+	STRING  	in_Filename[]
+	REAL 		in_ViewOrientation()
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".writeImageFile"		
+
+	INTEGER returnStatus = 0
+	
+	ga_view_aa_set( in_ViewOrientation(1), in_ViewOrientation(2), in_ViewOrientation(3) )
+	gu_fit_view(  )
+	mesh_seed_display_mgr.refresh(  )
+	
+	returnStatus = gm_write_image( "JPEG", in_Filename, "Overwrite", 0., 0., 1., 1., 75, "Viewport" )
+	
+	# 1 seems to be a legitimate return code from gm_write_image
+	IF ( returnStatus != 0 &&  returnStatus != 1 ) THEN	
+		errorMsg =  "Could not create file.  File Name: " // in_Filename	
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		RETURN returnStatus
+	END IF	
+
+	text_write( vLogger.getChannel(), "    Image File: %A%",0,0.0, in_Filename)	
+	
+	RETURN 0 
+	
+END FUNCTION
+#############################################################################################
+FUNCTION displayLoadsConstraints()
+
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".displayLoadsConstraints"	
+
+	/***********************************************************************
+	loadsbcs_plot_markers_v2( ["C1_Constraint", "C2_Constraint", "C3_Constraint",  @
+	"L1_Pressure", "L2_Pressure"], ["default_group"], FALSE, 0. )
+	***********************************************************************/
+
+	STRING constraintNames[31](VIRTUAL)	
+	STRING loadNames[31](VIRTUAL)	
+	STRING lbc_name[31](VIRTUAL)		
+	
+	INTEGER count_Constraints
+	INTEGER count_Loads
+	INTEGER total_Loads_Constraints
+	
+	count_Constraints = vConstraint.get_Count()
+	count_Loads = vLoad.get_Count()
+	
+	total_Loads_Constraints = count_Constraints + count_Loads
+	
+	sys_allocate_array (constraintNames, 1, count_Constraints )	
+	sys_allocate_array (loadNames,       1, count_Loads )		
+	sys_allocate_array (lbc_name,       1, total_Loads_Constraints )
+	
+	vConstraint.get_Constraint_InPatMdl_Names( constraintNames )
+	vLoad.get_Load_InPatMdl_Names( loadNames )	
+	
+	
+	INTEGER i
+	INTEGER j
+	j = 0
+	
+	FOR ( i = 1 to count_Constraints )
+		j += 1
+		lbc_name(j) = constraintNames(i)
+	END FOR 
+	
+	FOR ( i = 1 to count_Loads )
+		j += 1
+		lbc_name(j) = loadNames(i)
+	END FOR 	
+	
+	dump lbc_name
+	
+	returnStatus = loadsbcs_plot_markers_v2( lbc_name, ["default_group"], FALSE, 0. )
+	#returnStatus = loadsbcs_plot_markers( lbc_name, ["default_group"])
+	#repaint_graphics( )
+	
+	dump returnStatus
+	
+	sys_free_array (constraintNames )	
+	sys_free_array (loadNames )		
+	sys_free_array (lbc_name)	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#############################################################################################
+FUNCTION writeMeshImagesAndVRML( )
+
+	REAL viewOrientation(3)
+	
+	INTEGER returnStatus_temp = 0
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".writeMeshImagesAndVRML"		
+	
+	# Calling the following function has no affect
+	# Will need to figure out how to display and save the load/constraint images
+	# vPatranUtils.displayLoadsConstraints()
+	
+	STRING fileName[64]
+
+	text_write_string (  vLogger.getChannel(), "" )			
+	text_write_string (  vLogger.getChannel(), "Created Image Files:" )	
+	
+	# Front View
+	fileName = "PatranMesh_front.jpg"
+	viewOrientation(1) = 0.0
+	viewOrientation(2) = 0.0
+	viewOrientation(3) = 0.0	
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation )
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF
+	
+	# Top View
+	fileName = "PatranMesh_top.jpg"	
+	viewOrientation(1) = 90.0
+	viewOrientation(2) = 0.0
+	viewOrientation(3) = 0.0	
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation )
+
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF	
+	
+	# Right View
+	fileName = "PatranMesh_right.jpg"
+	viewOrientation(1) = 180.0
+	viewOrientation(2) = -90.0
+	viewOrientation(3) = 180.0	
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation)
+	
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF	
+	
+	# ISO 1
+	fileName = "PatranMesh_iso_1.jpg"	
+	viewOrientation(1) = 23.0
+	viewOrientation(2) = -34.0
+	viewOrientation(3) = 0.0	
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation)
+		
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF
+
+	# ISO 2
+	fileName = "PatranMesh_iso_2.jpg"	
+	viewOrientation(1) = 23.0
+	viewOrientation(2) = 56.0
+	viewOrientation(3) = 0.0	
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation)
+	
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF
+	
+	# ISO 3
+	fileName = "PatranMesh_iso_3.jpg"	
+	viewOrientation(1) = -67.0
+	viewOrientation(2) = 0.0
+	viewOrientation(3) = -34.0
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation)
+		
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF	
+
+	# ISO 4
+	fileName = "PatranMesh_iso_4.jpg"	
+	viewOrientation(1) = 157.0
+	viewOrientation(2) = 34.0
+	viewOrientation(3) = -180.0
+	returnStatus_temp = vPatranUtils.writeImageFile( fileName, viewOrientation)
+
+	IF ( returnStatus_temp != 0 ) THEN
+		returnStatus = returnStatus_temp
+	END IF		
+	
+	# VMRL, Fix this later
+	#fileName = "PatranMesh.wrl"	
+	#IF ( returnStatus == 0 ) THEN returnStatus = gm_write_vrml(fileName,"Overwrite")
+
+	#IF ( returnStatus != 0 &&  returnStatus != 1 ) THEN
+	#	out_ErrorString = "Function: " // functionName // ", ERROR - Could not create file.  File Name: " // fileName	
+	#	RETURN returnStatus
+	#END IF	
+	
+	#text_write( vLogger.getChannel(), "    VRML File:  %A%",0,0.0, fileName)
+		
+	RETURN returnStatus
+	
+END FUNCTION
+#############################################################################################
+FUNCTION submitSolution101(	in_JobName ) 
+							
+	STRING		in_JobName[]
+													
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".submitSolution101"		
+	
+	STRING date_time_array[32](2)
+	date_time_array(1) = sys_date()
+	date_time_array(2) = sys_time()		
+	
+	msc_delete_old_files( in_JobName, ".bdf", ".op2" )	
+	jobfile.open( in_JobName, "ANALYZE NO JOBFILE" )
+	
+	jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", date_time_array )
+	
+	#jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", ["06-May-16" @
+	#, "14:32:06"] )	
+	
+	jobfile.writec( "", "TRANSLATOR = pat3nas" )
+	jobfile.writec( "DATABASE", "C:\Users\rowens\My_SVN\META_Sandbox\Blade_Win" // @
+	"d_Turbine\PatranModels\PCL_Programs\SpecificFunctionalityExamples\01_Star" // @
+	"t_PCL_DB\suppo" )
+	jobfile.writec( "JOBNAME", in_JobName )
+	jobfile.writec( "ANALYSIS TITLE", "MSC.Nastran job created on 06-May-16 at" // @
+	" 14:30:53" )
+	jobfile.writec( "ANALYSIS SUBTITLE", "" )
+	jobfile.writec( "ANALYSIS LABEL", "" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "OBJECT", "Entire Model" )
+	jobfile.writec( "METHOD", "Full Run" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "MODEL SUFFIX", ".bdf" )
+	jobfile.writec( "RESULTS SUFFIX", ".op2" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * File Search Path Declaration" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "File Search Path", "C:\Users\rowens" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\help" // @
+	"files" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\alters" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icon" // @
+	"s\RibbonIcons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin\exe" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\msce" // @
+	"xplore_files\" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\dmap" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\lib" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\extra_files" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Translation Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	
+	IF ( vAnalysis.get_failure_Criteria() == vConstants.get_ci_Undefined() ) THEN
+		# If the .xdb file exists, post processing will compute (if requested) the values of 
+		# VonMises stress, Principal stress, Bearing Stress, Shear Stress, Factor-of-Safety 
+		jobfile.writec( "DATA OUTPUT", "XDB+PRINT" )
+	Else
+		# Create a .op2 file for the case where of TSAI_WU, HOFFMAN, HILL, or MAXIMUM_STRESS
+		# If the .op2 files exists, post processing will retrieve "Failure Index for Bonding, Interlaminar Stress"
+		# and "Failure Index for Ply, Direct Stress/Strain" form the .op2 file.  These will be the failure criteria. 
+		jobfile.writec( "DATA OUTPUT", "OP2+PRINT" )
+	END IF
+
+	jobfile.writec( "OUTPUT2 REQUESTS", "P3 Built In" )
+	jobfile.writec( "OUTPUT2 FORMAT", "Binary" )
+	jobfile.writec( "DIVISION TOLERANCE", "1.0e-08" )
+	jobfile.writec( "NUMERICAL TOLERANCE", "1.0e-04" )
+	jobfile.writec( "WRITING TOLERANCE", "1.0e-21" )
+	jobfile.writec( "GEOM CHECK", "INFORM" )
+	jobfile.writec( "SORTED BULK", "NO" )
+	jobfile.writec( "CARD FORMAT", "either" )
+	jobfile.writec( "NODE COORDINATES", "reference frame" )
+	jobfile.writec( "COORD COORDINATES", "global" )
+	jobfile.writec( "MSC.Nastran VERSION", "2014." )
+	jobfile.writec( "WRITE STORED PRECISION", "TRUE" )
+	jobfile.writec( "PROPS ON ELEM ENTRY", "FALSE" )
+	jobfile.writec( "CONTINUATION ENTRY", "FALSE" )
+	jobfile.writec( "PCOMPG ENTRY", "TRUE" )
+	jobfile.writec( "CONVERT CBAR CBEAM", "FALSE" )
+	jobfile.writec( "ITERATIVE SOLVER", "FALSE" )
+	jobfile.writei( "SUPER ELEMENT 0", 0 )
+	jobfile.writec( "SEALL WRITE", "FALSE" )
+	jobfile.writec( "PART SUPERELEMENT CREATE", "TRUE" )
+	jobfile.writec( "AUTOQSET", "FALSE" )
+	jobfile.writec( "FIXEDB", "FALSE" )
+	jobfile.writei( "SUPER TREE COUNT", 0 )
+	jobfile.writec( "MODEL TOLERANCE", "0.0049999999" )
+	jobfile.writec( "ELEMENT PROPERTY OFFSET", "0" )
+	jobfile.writec( "MATERIAL PROPERTY OFFSET", "0" )
+	jobfile.writec( "TABLE OFFSET", "0" )
+	jobfile.writec( "LOAD SET OFFSET", "0" )
+	jobfile.writec( "LOAD CASE OFFSET", "0" )
+	jobfile.writec( "CONTROL SET OFFSET", "0" )
+	jobfile.writec( "RIGID ELEMENT OFFSET", "0" )
+	jobfile.writec( "SCALAR POINT OFFSET", "0" )
+	jobfile.writec( "BEGINNING CONTINUATION MARKER", "+      A" )
+	jobfile.writec( "NUMBER ONLY", "ON" )
+	jobfile.writec( "BEGINNING NUMBER", "OFF" )
+	jobfile.writec( "TRAILING NUMBER", "OFF" )
+	jobfile.writec( "SYNTAX NUMBER", "ON" )
+	jobfile.writec( "SYNTAX MARKER", "." )
+	jobfile.writec( "EXTERNAL SUPERELEMENT METHOD", "NONE" )
+	jobfile.writec( "GRID COORDINATES ROUNDING", "15" )
+	jobfile.writec( "COORD DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "MPC DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "LBC DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "MAT DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "PROP DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Solution Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "SOLUTION TYPE", "LINEAR STATIC" )
+	jobfile.writei( "SOLUTION SEQUENCE", 101 )
+	jobfile.writec( "DATABASE RUN", "ON" )
+	jobfile.writec( "CYCLIC SYMMETRY", "OFF" )
+	jobfile.writec( "AUTOMATIC CONSTRAINTS", "ON" )
+	jobfile.writec( "INERTIA RELIEF", "OFF" )
+	jobfile.writec( "ALTERNATE REDUCTION", "OFF" )
+	jobfile.writec( "SHELL NORMAL TOLERANCE", "" )
+	jobfile.writec( "MASS CALCULATION", "Lumped" )
+	jobfile.writec( "DATA DECK ECHO", "None" )
+	jobfile.writec( "PLATE RZ STIFFNESS FACTOR", "100.0" )
+	jobfile.writec( "MAXIMUM PRINTED LINES", "" )
+	jobfile.writec( "MAXIMUM RUN TIME", "" )
+	jobfile.writec( "WT-MASS CONVERSION", "1.0" )
+	jobfile.writec( "NODE ID FOR WT-GENER", "" )
+	jobfile.writec( "RIGID ELEMENT TYPE", "LINEAR" )
+	jobfile.writec( "USE SOL600", "OFF" )
+	jobfile.writei( "CONTACT-SEGMENT-CONTROL METHOD", 0 )
+	jobfile.writei( "CONTACT-DEFORMABLE-DEFORMABLE METHOD", 0 )
+	jobfile.writei( "CONTACT-CRITERION", 0 )
+	jobfile.writei( "CONTACT-DERIVATION", 0 )
+	jobfile.writei( "CONTACT-REL_ABS", 0 )
+	jobfile.writec( "USE SOL700", "OFF" )
+	jobfile.writec( "SN MEAN STRESS CORRECTION", "NONE" )
+	jobfile.writec( "NEF STRESS UNITS", "MPA" )
+	jobfile.writec( "NEF STRESS COMBINATION", "ABSMAXPR" )
+	jobfile.writec( "NEF RESULT LOCATION", "NODE" )
+	jobfile.writec( "NEF INTERPOLATION LIMIT", "0" )
+	jobfile.writec( "NEF LEVEL OF MESSAGE", "0" )
+	jobfile.writec( "NEF NUMBER OF THREADS", "1" )
+	jobfile.writer( "NEF CERTAINTY OF SURVIVAL", 50. )
+	jobfile.writer( "NEF OVERALL SCALE FACTOR", 1. )
+	jobfile.writer( "NEF TOP STRESS PERCENTAGE FILTER", 100. )
+	jobfile.writer( "NEF TOP DAMAGE PERCENTAGE FILTER", 100. )
+	jobfile.writec( "NEF TIME HISTORY DIRECTORY", "C:\Users\rowens" )
+	jobfile.writei( "NEF MAX LOAD PER EVENT", 1 )
+	jobfile.writec( "NEF EVENT DATA", "0" )
+	jobfile.writec( "NEF LOAD SEQUENCE DATA", "0" )
+	jobfile.writec( "USE CONTACT TABLE", "OFF" )
+	jobfile.writec( "INITIAL CONTACTPAIR LOADCASE NAME", "" )
+	jobfile.writei( "MDOF DATA", 0 )
+	jobfile.writec( "CELL WRITE", "ON" )
+	jobfile.writei( "CELL INPUT 0", 0 )
+	jobfile.writec( "FMS WRITE", "ON" )
+	jobfile.writei( "FMS INPUT 0", 0 )
+	jobfile.writec( "EXEC WRITE", "ON" )
+	jobfile.writei( "EXEC INPUT 0", 0 )
+	jobfile.writec( "CASE WRITE", "ON" )
+	jobfile.writei( "CASE INPUT 0", 0 )
+	jobfile.writec( "BULK WRITE", "ON" )
+	jobfile.writei( "BULK INPUT 0", 0 )
+	jobfile.writec( "CELL DTI POSITION", "START" )
+	jobfile.writec( "FMS DTI POSITION", "START" )
+	jobfile.writec( "EXEC DTI POSITION", "START" )
+	jobfile.writec( "CASE DTI POSITION", "START" )
+	jobfile.writec( "BULK DTI POSITION", "START" )
+	jobfile.writec( "", "END" )
+	jobfile.close(  )
+	returnStatus = mscnastran_job.associate_subcases( "101", in_JobName, 1, ["Default"] )	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "mscnastran_job.associate_subcases returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
+        RETURN returnStatus		
+	END IF			
+	
+	analysis_submit_2( "MSC.Nastran", in_JobName )
+	
+	
+	# analysis_submit_2 does not return a returnStatus
+	#IF ( returnStatus != 0 ) THEN
+	#	addErrorMessage( @
+	#					errorMsg = " analysis_submit_2c returned an error, Return Status: " // str_from_integer(returnStatus)), @
+	#		in_ErrorMessages_maxCount, in_out_ErrorMessages_current, in_out_errorMessages) 
+    #   RETURN returnStatus		
+	#END IF		
+	
+	text_write_string ( vLogger.getChannel(), "" )	
+	
+	text_write_string ( vLogger.getChannel(), "Submitted job " // in_JobName // " to Nastran." )	
+
+	text_write_string ( vLogger.getChannel(), "" )		
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+#############################################################################################
+FUNCTION submitSolution400(	in_JobName ) 
+							
+	STRING		in_JobName[]
+	
+	INTEGER returnStatus = 0
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".submitSolution400"	
+
+	STRING date_time_array[32](2)
+	date_time_array(1) = sys_date()
+	date_time_array(2) = sys_time()	
+	
+	msc_delete_old_files( in_JobName, ".bdf", ".op2" )
+	jobfile.open( in_JobName, "ANALYZE NO JOBFILE" )
+	
+	jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", date_time_array )
+	
+	#jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", ["21-Jul-16" @
+	#, "13:11:48"] )
+	
+	jobfile.writec( "", "TRANSLATOR = pat3nas" )
+	jobfile.writec( "DATABASE", "C:\Users\rowens\My_SVN\META_Sandbox\Blade_Win" // @
+	"d_Turbine\CyPhyModels\Bracket\Bracket_Surace_Model\Example_CreatePatranMo" // @
+	"delInput_Tsa_W" )
+	jobfile.writec( "JOBNAME", in_JobName )
+	jobfile.writec( "ANALYSIS TITLE", "MSC.Nastran job created on 06-May-16 at" // @
+	" 14:30:53" )
+	jobfile.writec( "ANALYSIS SUBTITLE", "" )
+	jobfile.writec( "ANALYSIS LABEL", "" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "OBJECT", "Entire Model" )
+	jobfile.writec( "METHOD", "Full Run" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "MODEL SUFFIX", ".bdf" )
+	jobfile.writec( "RESULTS SUFFIX", ".op2" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * File Search Path Declaration" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "File Search Path", "C:\Users\rowens" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\help" // @
+	"files" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\alters" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icon" // @
+	"s\RibbonIcons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin\exe" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\msce" // @
+	"xplore_files\" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\dmap" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\lib" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\extra_files" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Translation Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "DATA OUTPUT", "DBALL+PRINT" )
+	jobfile.writec( "OUTPUT2 REQUESTS", "P3 Built In" )
+	jobfile.writec( "OUTPUT2 FORMAT", "Binary" )
+	jobfile.writec( "DIVISION TOLERANCE", "1.0e-08" )
+	jobfile.writec( "NUMERICAL TOLERANCE", "1.0e-04" )
+	jobfile.writec( "WRITING TOLERANCE", "1.0e-21" )
+	jobfile.writec( "GEOM CHECK", "INFORM" )
+	jobfile.writec( "SORTED BULK", "NO" )
+	jobfile.writec( "CARD FORMAT", "either" )
+	jobfile.writec( "NODE COORDINATES", "reference frame" )
+	jobfile.writec( "COORD COORDINATES", "global" )
+	jobfile.writec( "MSC.Nastran VERSION", "2014." )
+	jobfile.writec( "WRITE STORED PRECISION", "TRUE" )
+	jobfile.writec( "PROPS ON ELEM ENTRY", "FALSE" )
+	jobfile.writec( "CONTINUATION ENTRY", "FALSE" )
+	jobfile.writec( "PCOMPG ENTRY", "TRUE" )
+	jobfile.writec( "CONVERT CBAR CBEAM", "FALSE" )
+	jobfile.writec( "ITERATIVE SOLVER", "FALSE" )
+	jobfile.writec( "MODEL TOLERANCE", "0.0049999999" )
+	jobfile.writec( "ELEMENT PROPERTY OFFSET", "0" )
+	jobfile.writec( "MATERIAL PROPERTY OFFSET", "0" )
+	jobfile.writec( "TABLE OFFSET", "0" )
+	jobfile.writec( "LOAD SET OFFSET", "0" )
+	jobfile.writec( "LOAD CASE OFFSET", "0" )
+	jobfile.writec( "CONTROL SET OFFSET", "0" )
+	jobfile.writec( "RIGID ELEMENT OFFSET", "0" )
+	jobfile.writec( "SCALAR POINT OFFSET", "0" )
+	jobfile.writec( "BEGINNING CONTINUATION MARKER", "+      A" )
+	jobfile.writec( "NUMBER ONLY", "ON" )
+	jobfile.writec( "BEGINNING NUMBER", "OFF" )
+	jobfile.writec( "TRAILING NUMBER", "OFF" )
+	jobfile.writec( "SYNTAX NUMBER", "ON" )
+	jobfile.writec( "SYNTAX MARKER", "." )
+	jobfile.writec( "EXTERNAL SUPERELEMENT METHOD", "NONE" )
+	jobfile.writec( "GRID COORDINATES ROUNDING", "15" )
+	jobfile.writec( "COORD DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "MPC DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "LBC DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "MAT DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "PROP DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Solution Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "SOLUTION TYPE", "IMPLICIT NONLINEAR" )
+	jobfile.writei( "SOLUTION SEQUENCE", 600 )
+	jobfile.writec( "MASS CALCULATION", "" )
+	jobfile.writec( "DATA DECK ECHO", "" )
+	jobfile.writec( "PLATE RZ STIFFNESS FACTOR", "" )
+	jobfile.writec( "MAXIMUM PRINTED LINES", "" )
+	jobfile.writec( "MAXIMUM RUN TIME", "" )
+	jobfile.writec( "WT-MASS CONVERSION", "" )
+	jobfile.writec( "NODE ID FOR WT-GENER", "" )
+	jobfile.writec( "RIGID ELEMENT TYPE", "" )
+	jobfile.writec( "CONSTANT", "OFF" )
+	jobfile.writec( "USE XDB OP2", "ON" )
+	jobfile.writec( "USE SOL400", "ON" )
+	jobfile.writec( "OPTIMIZATION METHOD", "Metis" )
+	jobfile.writei( "CONTACT-SEGMENT-CONTROL METHOD", 0 )
+	jobfile.writei( "CONTACT-DEFORMABLE-DEFORMABLE METHOD", 0 )
+	jobfile.writei( "CONTACT-CRITERION", 0 )
+	jobfile.writei( "CONTACT-DERIVATION", 0 )
+	jobfile.writei( "CONTACT-REL_ABS", 0 )
+	jobfile.writec( "RESTART TYPE", "None" )
+	jobfile.writec( "SUBCASE START STEP", "1" )
+	jobfile.writec( "DOMAIN DECOMPOSE", "Automatic" )
+	jobfile.writei( "DOMAIN 0", 1 )
+	jobfile.writec( "SINGLE POST FILE", "" )
+	jobfile.writec( "DOMAIN OBJECT", "Entire Model" )
+	jobfile.writec( "METIS METHOD", "Best" )
+	jobfile.writec( "DOMAIN ISLAND REMOVAL", "" )
+	jobfile.writec( "COARSE GRAPH", "" )
+	jobfile.writei( "NO. OF UDS MAP", 0 )
+	jobfile.writec( "USE CONTACT TABLE", "OFF" )
+	jobfile.writec( "INITIAL CONTACTPAIR LOADCASE NAME", "" )
+	jobfile.writei( "MDOF DATA", 0 )
+	jobfile.writec( "CELL WRITE", "ON" )
+	jobfile.writei( "CELL INPUT 0", 0 )
+	jobfile.writec( "FMS WRITE", "ON" )
+	jobfile.writei( "FMS INPUT 0", 0 )
+	jobfile.writec( "EXEC WRITE", "ON" )
+	jobfile.writei( "EXEC INPUT 0", 0 )
+	jobfile.writec( "CASE WRITE", "ON" )
+	jobfile.writei( "CASE INPUT 0", 0 )
+	jobfile.writec( "BULK WRITE", "ON" )
+	jobfile.writei( "BULK INPUT 0", 0 )
+	jobfile.writec( "CELL DTI POSITION", "START" )
+	jobfile.writec( "FMS DTI POSITION", "START" )
+	jobfile.writec( "EXEC DTI POSITION", "START" )
+	jobfile.writec( "CASE DTI POSITION", "START" )
+	jobfile.writec( "BULK DTI POSITION", "START" )
+	jobfile.writec( "", "END" )
+	jobfile.close(  )
+	returnStatus = mscnastran_job.associate_subcases( "600", in_JobName, 1, ["Default"] )
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "mscnastran_job.associate_subcases returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
+        RETURN returnStatus		
+	END IF			
+	
+	analysis_submit_2( "MSC.Nastran", in_JobName )
+	
+	RETURN returnStatus
+
+	
+END FUNCTION
+#############################################################################################	
+# in_Output_DirAndFileName should not exist before calling this function
+FUNCTION createAndPopulateOutputFile( in_Output_DirAndFileName ) 
+							
+	STRING		in_Output_DirAndFileName[]
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createAndPopulateOutputFile"	
+	
+	INTEGER 	returnStatus = 0
+	INTEGER 	channel
+	
+	returnStatus = text_open( in_Output_DirAndFileName, "NOW", 0, 0, channel )		
+	IF ( returnStatus != 0 ) THEN 
+		errorMsg = "Could not open output file: " // in_Output_DirAndFileName 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus -1  
+	END IF
+			
+	text_write_string (channel, "# Comments are signified by the # sign. Blank lines should be ignored." )	
+	text_write_string (channel,"" )	
+	text_write_string( channel, "Date = " // sys_date() )
+	text_write_string(channel, "Time = " // sys_time() )	
+	text_write_string (channel,"" )		
+	
+	######################
+	# Model_Geometry_Type
+	######################
+	text_write_string (channel, "# Model_Geometry_Type = Surface/Solid" )	
+	text_write_string (channel, "#                       Only surface or solid (but not both) is supported at any one time." )	
+	# Do not support mixing solids and surfaces
+	IF ( vSolid.get_Count() > 0) THEN
+		text_write_string( channel, "Model_Geometry_Type = Solid" )
+	ELSE
+	    text_write_string( channel, "Model_Geometry_Type = Surface" )
+	END IF	
+	text_write_string (channel,"" )			
+		
+	######################
+	# Failure_Criteria
+	######################		
+	STRING failureCriteria_options[128]
+	
+	failureCriteria_options = vAnalysis.failure_Criteria_Tsai_Wu() // "/" // @
+							  vAnalysis.failure_Criteria_Hoffman() // "/" // @	
+							  vAnalysis.failure_Criteria_Hill() // "/" // @	
+							  vAnalysis.failure_Maximum_stress()
+	
+	text_write_string (channel, "# Failure_Criteria = 'N/A'/" // failureCriteria_options)
+	text_write_string (channel, "# Failure_Criteria = N/A means that the laminate invariant criteria are not being used.")
+	text_write_string (channel, "#                    For N/A, post processing will compute the standard set of invariants (e.g. VM, MP, D).")
+	text_write_string (channel, "#                    For " // failureCriteria_options // " post processing will compute a single failure index per component.")	
+				
+
+	INTEGER failure_Criteria_int
+	STRING  failure_Criteria_string[32]
+	
+	failure_Criteria_int = vAnalysis.get_failure_Criteria()
+	failure_Criteria_string = vAnalysis.failure_Criteria_toStr (failure_Criteria_int )
+	
+	IF ( str_length(failure_Criteria_string) == 0 ) THEN
+		text_write_string (channel, "Failure_Criteria = N/A" )
+	ELSE 
+		text_write_string (channel, "Failure_Criteria = " //  failure_Criteria_string )
+	END IF
+	
+	##################################
+	# ComponentInstanceID_PropertySet 
+	##################################	
+	text_write_string (channel,"" )		
+	text_write_string (channel, "# ComponentInstanceID_PropertySet - Solids should have one and only one PropertySet per ComponentInstanceID." )
+	text_write_string (channel, "#                                   Surfaces should have one to many PropertySet(s) per ComponentInstanceID." )	
+	
+	IF ( vSolid.get_Count() > 0 ) THEN
+		 vSolid.writeCompInstanceID_to_PropSet( channel )	
+	END IF		
+	
+	IF ( vSurface.get_Count() > 0 ) THEN
+		vSurface_Contents.writeCompInstanceID_to_PropSet( channel )	
+	END IF
+		
+	RETURN returnStatus		
+		
+END FUNCTION	
+
+#############################################################################################
+
+END CLASS

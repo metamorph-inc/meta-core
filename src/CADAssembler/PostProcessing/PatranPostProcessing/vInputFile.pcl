@@ -1,0 +1,744 @@
+CLASS vInputFile
+
+	CLASSWIDE STRING	c_ClassName[32]
+
+	CLASSWIDE STRING	c_Model_Geometry_Type[32],		  	@
+						c_Failure_Criteria[32],			  	@
+						c_CompInstanceID_PropertySet[64], 	@
+						c_CompInstanceID[64], 				@
+						c_PropertySet[64], 				    @
+						c_Date[32], 						@
+						c_Time[32], 						@
+						c_N_A[32]						
+
+	CLASSWIDE INTEGER   model_Geometry_Type_cnt,		  	@	
+						failure_Criteria_cnt,		  		@
+						compInstanceID_PropertySet_cnt,		@
+						date_cnt,		  					@
+						time_cnt,		  					@
+						model_Geometry_Type_tcnt,		  	@	
+						failure_Criteria_tcnt,		  		@
+						compInstanceID_PropertySet_tcnt,	@
+						date_tcnt,		  					@
+						time_tcnt						
+						
+						
+	CLASSWIDE INTEGER	ci_TSAI_WU
+	CLASSWIDE INTEGER	ci_HOFFMAN	
+	CLASSWIDE INTEGER	ci_HILL
+	CLASSWIDE INTEGER	ci_MAXIMUM_STRESS
+	CLASSWIDE INTEGER	ci_SOLID
+	CLASSWIDE INTEGER	ci_SURFACE
+	CLASSWIDE INTEGER	ci_N_A	
+	
+						
+	CLASSWIDE STRING 	c_TSAI_WU[32],			@
+						c_HOFFMAN[32],			@
+						c_HILL[32],				@						
+						c_MAXIMUM_STRESS[32], 	@
+						c_SOLID[32],			@						
+						c_SURFACE[32]						
+	
+	
+	CLASSWIDE STRING	fileName[256]
+	CLASSWIDE LOGICAL	fileExists
+	
+	########################
+	#  Data Read from File
+	########################
+	CLASSWIDE STRING 	date[32](VIRTUAL),							@
+						time[32](VIRTUAL),							@
+						componentInstanceID[128](VIRTUAL),			@	
+						propertySet[64](VIRTUAL)						
+			
+	CLASSWIDE INTEGER	model_Geometry_Type(VIRTUAL),				@
+						failure_Criteria(VIRTUAL)
+											
+	CLASSWIDE INTEGER	num_UniqueCompInstIDs							
+	CLASSWIDE INTEGER	compInstID_Offset_to_PropSets(VIRTUAL)
+			
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel	
+	
+###############################################################################	
+FUNCTION initialize( in_DirFileName)
+
+	STRING in_DirFileName[]
+			
+	fileName = in_DirFileName		
+	IF (file_exists(in_DirFileName,"" )) THEN 
+		fileExists = TRUE
+	ELSE
+		fileExists = FALSE
+	END IF
+
+	c_ClassName = "vInputFile"
+	
+	c_Model_Geometry_Type = "Model_Geometry_Type"
+	c_Failure_Criteria = 	"Failure_Criteria"
+	c_CompInstanceID_PropertySet = "ComponentInstanceID_PropertySet"
+	c_CompInstanceID = "ComponentInstanceID"
+	c_PropertySet = "PropertySet"	
+	c_Date = "Date"
+	c_Time = "Time"
+	
+	model_Geometry_Type_cnt = 0	
+	failure_Criteria_cnt =	0
+	compInstanceID_PropertySet_cnt = 0 	
+	date_cnt = 0
+	time_cnt = 0
+	
+	model_Geometry_Type_tcnt = 0	
+	failure_Criteria_tcnt =	0
+	compInstanceID_PropertySet_tcnt = 0 	
+	date_tcnt = 0
+	time_tcnt = 0	
+	
+
+	
+	c_TSAI_WU =				"Tsai_Wu"
+	c_HOFFMAN =				"Hoffman"
+	c_HILL =				"Hill"						
+	c_MAXIMUM_STRESS =		"Maximum_Stress"
+	c_N_A = 				"N/A"	
+	
+	c_SURFACE =				"Surface"
+	c_SOLID =				"Solid"	
+
+	ci_TSAI_WU =			1
+	ci_HOFFMAN =			2
+	ci_HILL =				3
+	ci_MAXIMUM_STRESS =		4
+	# ci_N_A must be positive, negative constants are considered invalid  
+	ci_N_A = 				9999		
+	
+	ci_SOLID =				1
+	ci_SURFACE =			2	
+		
+		
+END FUNCTION
+###############################################################################	
+FUNCTION get_fileExists()
+	return  fileExists
+END FUNCTION
+###############################################################################	
+FUNCTION get_fileName()
+	return  fileName
+END FUNCTION
+###############################################################################	
+FUNCTION get_c_CompInstID_PropertySet()
+	return  c_CompInstanceID_PropertySet
+END FUNCTION
+###############################################################################	
+FUNCTION get_TotalNumCompInstIDEntries()
+
+	RETURN compInstanceID_PropertySet_cnt
+
+END FUNCTION
+###############################################################################	
+FUNCTION get_NumUniqueCompInstIDs()
+
+	RETURN num_UniqueCompInstIDs
+
+END FUNCTION
+###############################################################################	
+FUNCTION get_UniqueCompInstIDs( out_UniqueCompInstIDs )
+	
+	STRING out_UniqueCompInstIDs[]()
+
+	INTEGER i
+	
+	FOR ( i = 1 to num_UniqueCompInstIDs )
+		out_UniqueCompInstIDs(i) = componentInstanceID(i)
+	END FOR
+
+END FUNCTION
+###############################################################################
+# must call map_compInstIDs_to_PropSets before calling this function
+FUNCTION get_PropertSetNames_per_CompID( in_ComponentInstanceID, out_NumFoundPropertySetNames, out_PropertySetNames ) 
+	
+	STRING 	in_ComponentInstanceID[]
+	INTEGER out_NumFoundPropertySetNames
+	STRING  out_PropertySetNames[]()
+	
+	out_NumFoundPropertySetNames = 0
+	
+	LOGICAL foundFirstCompInstID = FALSE
+	
+	INTEGER i
+	INTEGER j	
+	
+	#dump compInstanceID_PropertySet_cnt
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )	
+		IF ( !foundFirstCompInstID && componentInstanceID(i) == in_ComponentInstanceID ) THEN
+
+			foundFirstCompInstID = TRUE
+
+			#dump compInstanceID_PropertySet_cnt
+			FOR ( j = 1 TO compInstanceID_PropertySet_cnt )
+
+				IF ( compInstID_Offset_to_PropSets(i,j) != vConstants.get_ci_Undefined() ) THEN
+					#dump i, j
+					INTEGER upper_bound
+					upper_bound =  SYS_ARRAY_HBOUND(out_PropertySetNames, 1)
+					#dump upper_bound
+					out_PropertySetNames(j) = propertySet(compInstID_Offset_to_PropSets(i,j))
+					out_NumFoundPropertySetNames += 1
+				ELSE
+					BREAK
+				END IF
+			END FOR
+			BREAK
+		END IF
+	END FOR							
+END FUNCTION
+###############################################################################	
+FUNCTION get_failureCriteriaDefined()
+	IF ( failure_Criteria_cnt > 0 && 			@
+		 failure_Criteria(1) != ci_N_A && 		@
+		 failure_Criteria(1) !=  vConstants.get_ci_Undefined() ) THEN
+		RETURN TRUE
+	ELSE
+		RETURN FALSE
+	END IF
+END FUNCTION
+###############################################################################	
+FUNCTION parseFile()
+
+	INTEGER returnStatus = 0
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".parseFile"
+
+	INTEGER fileChannel
+    returnStatus = text_open( fileName, "OR", 0, 0, fileChannel )
+
+    IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not open input file: " // fileName // ", Return Status: " // str_from_integer(returnStatus) 
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )				
+        RETURN returnStatus
+    END IF	
+	
+	
+	text_write_string( vLogger.getChannel(), "****************** Begin " // fileName // " **********************")	
+
+	############################################
+	# Count the Number of Main Section Entities
+	############################################
+	INTEGER lineNum = 0
+	INTEGER length	
+	STRING  buffer[2028]	
+	LOGICAL shouldContinue
+	
+	
+    WHILE ( text_read_string( fileChannel, buffer, length ) == 0 )
+		lineNum += 1
+		text_write_string( vLogger.getChannel(), buffer)
+		
+		shouldContinue = FALSE			
+		buffer = vFileReader.getBufferNoComments( lineNum, buffer, shouldContinue )
+		# shouldContinue == TRUE means that the line was blank or contained only a comment
+		If ( shouldContinue ) THEN CONTINUE			
+		
+		IF ( str_index( buffer, c_Model_Geometry_Type ) > 0 ) 			THEN model_Geometry_Type_cnt += 1
+		IF ( str_index( buffer, c_Failure_Criteria ) > 0 ) 				THEN failure_Criteria_cnt += 1	
+		IF ( str_index( buffer, c_CompInstanceID_PropertySet ) > 0 ) 	THEN compInstanceID_PropertySet_cnt += 1	
+		IF ( str_index( buffer, c_Date ) > 0 ) 							THEN date_cnt += 1 
+		IF ( str_index( buffer, c_Time ) > 0 ) 							THEN time_cnt += 1 
+			
+
+	END WHILE
+	
+	IF ( model_Geometry_Type_cnt == 0 ) THEN
+		errorMsg = c_Model_Geometry_Type // " not found in file: " // fileName // ". This must appear one and only one time in the file."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus = -1	
+	END IF
+	
+	IF ( failure_Criteria_cnt == 0 ) THEN
+		errorMsg = c_Failure_Criteria // " not found in file: " // fileName  // ". This must appear one and only one time in the file."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus = -1	
+	END IF	
+	
+	IF ( compInstanceID_PropertySet_cnt == 0 ) THEN
+		errorMsg = c_CompInstanceID_PropertySet // " not found in file: " // fileName  // ". This must appear at least one time in the file."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus = -1	
+	END IF		
+	
+	IF ( date_cnt == 0 ) THEN
+		errorMsg = c_Date // " not found in file: " // fileName  // ". This must appear one and only one time in the file."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus = -1	
+	END IF		
+	
+	IF ( time_cnt == 0 ) THEN
+		errorMsg = c_Time // " not found in file:" // fileName  // ". This must appear one and only one time in the file."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		returnStatus = -1	
+	END IF		
+	
+
+	IF ( returnStatus != 0 ) THEN RETURN returnStatus
+	
+	############################################
+	# Allocate the Arrays
+	############################################	
+
+	#DUMP model_Geometry_Type_cnt
+	#DUMP failure_Criteria_cnt
+	#DUMP compInstanceID_PropertySet_cnt
+	#DUMP date_cnt
+	#DUMP time_cnt
+	
+	sys_allocate_array ( model_Geometry_Type, 	1, model_Geometry_Type_cnt )
+	sys_allocate_array ( failure_Criteria, 		1, failure_Criteria_cnt )
+	sys_allocate_array ( componentInstanceID, 	1, compInstanceID_PropertySet_cnt )
+	sys_allocate_array ( propertySet, 			1, compInstanceID_PropertySet_cnt )	
+	sys_allocate_array ( date, 					1, date_cnt )
+	sys_allocate_array ( time, 					1, time_cnt )	
+	
+	INTEGER upper_bound
+	upper_bound = compInstanceID_PropertySet_cnt + 1
+	sys_allocate_array ( compInstID_Offset_to_PropSets	, 1, upper_bound, 1, upper_bound )
+	
+	
+	INTEGER i
+	FOR ( i = 1 TO failure_Criteria_cnt )
+		failure_Criteria(i) = vConstants.get_ci_Undefined()
+	END FOR
+	
+
+	
+	############################
+	# Read the name/value pairs
+	############################	
+	# Set to the beginning the model file
+	
+	returnStatus = text_set_position(fileChannel, 0 )	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "Could not reset input file to the starting position, File: " // fileName // ", Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+		return returnStatus
+	END IF
+
+	lineNum = 0
+	INTEGER loopIncrement = 0	
+	LOGICAL unknownFieldFound
+	INTEGER	maxInputFileLength = 2000
+	
+	STRING nameField[128]
+	STRING valueField[128]		
+	
+	# use loopIncrement to protect from a runaway program 
+    WHILE ( text_read_string( fileChannel, buffer, length ) == 0 && !unknownFieldFound &&  loopIncrement < maxInputFileLength  )
+	# WHILE ( text_read_string( fileChannel, buffer, length ) == 0 )	
+	
+		lineNum += 1
+		shouldContinue = FALSE			
+		buffer = vFileReader.getBufferNoComments( lineNum,buffer, shouldContinue )
+		# shouldContinue == TRUE means that the line was blank or contained only a comment
+		If (shouldContinue ) THEN CONTINUE
+		
+		
+		unknownFieldFound = FALSE
+		# use loopIncrement to protect from a runaway program 
+		# WHILE ( !unknownFieldFound &&  loopIncrement < maxInputFileLength && buffer != "" )
+			loopIncrement += 1	
+
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				errorMsg = "Unexpected string encountered, Line number: " // str_from_integer(lineNum) //  ", String: " // buffer 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )				
+				unknownFieldFound = TRUE						
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+			
+				SWITCH ( nameField )
+				   CASE( c_Model_Geometry_Type )  
+						model_Geometry_Type_tcnt += 1							
+						model_Geometry_Type(model_Geometry_Type_tcnt) = vInputFile.model_Geometry_Type_toInt(valueField)
+						 IF ( model_Geometry_Type(model_Geometry_Type_tcnt) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vInputFile.failure_Criteria_validStrings()  // ", Line number: " // str_from_integer(lineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						END IF							
+						
+						
+				   CASE( c_Failure_Criteria )  
+						failure_Criteria_tcnt  += 1	
+						#dump valueField
+						failure_Criteria(failure_Criteria_tcnt) = vInputFile.failure_Criteria_toInt(valueField)
+						 IF ( failure_Criteria(failure_Criteria_tcnt) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vInputFile.failure_Criteria_validStrings()  // ", Line number: " // str_from_integer(lineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						END IF									
+						
+				   CASE( c_CompInstanceID_PropertySet )  
+						compInstanceID_PropertySet_tcnt  += 1						
+						IF ( str_index( valueField, "," ) != 0 ) THEN			
+							componentInstanceID(compInstanceID_PropertySet_tcnt) = str_token( valueField,",", 1, TRUE )
+							propertySet(compInstanceID_PropertySet_tcnt) = str_token( valueField,",", 2, TRUE )
+						ELSE
+							errorMsg = c_CompInstanceID_PropertySet // " value field does not contain a comma.  Name-Value: " // buffer
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+							returnStatus = -1
+						END IF
+						
+				   CASE( c_Date )  
+						date_tcnt  += 1	
+						# DUMP date_tcnt
+						date(date_tcnt) = valueField
+						
+				   CASE( c_Time )  
+						time_tcnt += 1
+						time(time_tcnt) = valueField
+						
+				   DEFAULT
+						errorMsg = "Unexpected string encountered, Line number: " // str_from_integer(lineNum) //  ", String: " // buffer 
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )				
+						unknownFieldFound = TRUE			
+						
+				END SWITCH	
+			END IF
+		# END WHILE			
+	END WHILE		
+	
+	text_close(fileChannel,"")	
+	
+	text_write_string( vLogger.getChannel(), "******************* End " // fileName // " ***********************")
+	
+	RETURN returnStatus
+	
+END FUNCTION
+###############################################################################
+FUNCTION check()
+
+	INTEGER returnStatus = 0
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".check"
+
+	INTEGER i
+
+	IF ( date_cnt == 0 ) THEN
+		errorMsg = c_Date // " undefined."
+		errorLevel = vLogger.get_ci_WARNING()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	END IF	
+
+	IF ( time_cnt == 0 ) THEN
+		errorMsg = c_Time // " undefined."
+		errorLevel = vLogger.get_ci_WARNING()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	END IF
+
+	IF ( model_Geometry_Type_cnt != 1 ) THEN
+		errorMsg = "There must be one and only one of " // c_Model_Geometry_Type // "."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF	
+	
+	IF ( failure_Criteria_cnt != 1 ) THEN
+		errorMsg = "There must be one and only one of " // c_Failure_Criteria // "."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF		
+	
+	IF ( compInstanceID_PropertySet_cnt == 0 ) THEN
+		errorMsg = c_CompInstanceID_PropertySet // " undefined."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		returnStatus = -1
+	END IF		
+	
+	IF ( vInputFile.get_failureCriteriaDefined() ) THEN
+		IF ( vInputFile.get_model_Geometry_Type() != ci_Surface ) THEN
+			errorMsg = "If a failure criteria (i.e " // vInputFile.failure_Criteria_validCriteria() // ") is specified, then " // c_Model_Geometry_Type // " must be set to " // c_SURFACE
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1			
+		END IF
+	END IF
+	
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )
+	
+		IF ( str_length(componentInstanceID(i)) == 0 ) THEN
+			errorMsg = c_CompInstanceID // " undefined."
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1		
+		END IF
+		
+		IF ( str_length(propertySet(i)) == 0 ) THEN
+			errorMsg = c_PropertySet // " undefined."
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			returnStatus = -1		
+		END IF		
+		
+	END FOR 
+
+	
+	
+	RETURN returnStatus
+	
+END FUNCTION
+###############################################################################
+FUNCTION logData( )
+
+	INTEGER i
+	
+	
+	text_write_string( vLogger.getChannel(), "************************ BEGIN Input File Data *************************")
+	IF ( date_cnt > 0 ) 				THEN text_write_string( vLogger.getChannel(), "   " // c_Date 					// " = " // date(1) )
+	IF ( time_cnt > 0 ) 				THEN text_write_string( vLogger.getChannel(), "   " // c_Time 					// " = " // time(1) )
+	IF ( model_Geometry_Type_cnt > 0 ) 	THEN text_write_string( vLogger.getChannel(), "   " // c_Model_Geometry_Type 	// " = " // vInputFile.model_Geometry_Type_toStr(model_Geometry_Type(1)) )
+	IF ( failure_Criteria_cnt > 0 ) 	THEN text_write_string( vLogger.getChannel(), "   " // c_Failure_Criteria 		// " = " // vInputFile.failure_Criteria_toStr(failure_Criteria(1)) )	
+
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )
+		text_write_string( vLogger.getChannel(), "   " // c_CompInstanceID // " = " // componentInstanceID(i) //  @
+												 "  "  // c_PropertySet // " = " // propertySet(i) )
+	END FOR 
+	text_write_string( vLogger.getChannel(), "************************* END Input File Data ***************************")
+	
+END FUNCTION
+###############################################################################	
+FUNCTION earliest_CompID_Appears( in_CompID_string)
+	STRING in_CompID_string[]
+	INTEGER i
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )
+		IF ( componentInstanceID(i) == in_CompID_string ) THEN RETURN i
+	END FOR
+	
+	return vConstants.get_ci_Undefined()	
+
+END FUNCTION
+###############################################################################		
+FUNCTION map_compInstIDs_to_PropSets()
+
+	# Reached here an error occurred.
+	INTEGER returnStatus = 0
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".map_compInstIDs_to_PropSets"
+
+	num_UniqueCompInstIDs = 0
+	
+	INTEGER i
+	INTEGER j
+	
+	INTEGER upper_bound
+	upper_bound = compInstanceID_PropertySet_cnt + 1	
+	
+	FOR ( i = 1 TO upper_bound )
+		FOR ( j = 1 TO upper_bound )
+			compInstID_Offset_to_PropSets(i,j) = vConstants.get_ci_Undefined()
+		END FOR
+	END FOR		
+
+	INTEGER row
+	INTEGER column	
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )
+		row = vInputFile.earliest_CompID_Appears(componentInstanceID(i))
+		if ( num_UniqueCompInstIDs < row ) THEN num_UniqueCompInstIDs = row
+		
+		IF ( row != vConstants.get_ci_Undefined() ) THEN
+			FOR ( j = 1 TO compInstanceID_PropertySet_cnt )
+				IF ( compInstID_Offset_to_PropSets (row, j ) ==  vConstants.get_ci_Undefined() ) THEN 
+					column = j
+					BREAK
+				END IF
+			END FOR
+			compInstID_Offset_to_PropSets(row, column) = i
+		ELSE
+			errorMsg = "Function earliest_CompID_Appears failed to find the componentInstanceID.  This would be caused by a error in this program.  Please report error."
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			RETURN -1	
+		END IF
+	END FOR
+	
+	
+	RETURN returnStatus
+END FUNCTION
+###############################################################################	
+FUNCTION log_map_compInstIDs_to_PropSets()
+
+	INTEGER i
+	INTEGER j
+	
+	STRING buffer[256]
+	
+	text_write_string( vLogger.getChannel(), "****************** BEGIN log map_compInstIDs_to_PropSets **********************")	
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )	
+		buffer = ""
+		FOR ( j = 1 TO compInstanceID_PropertySet_cnt )
+			IF ( compInstID_Offset_to_PropSets(i,j) != vConstants.get_ci_Undefined() ) THEN
+				buffer = buffer // str_from_integer( compInstID_Offset_to_PropSets(i,j)) // " "
+			ELSE
+				BREAK
+			END IF
+		END FOR
+		IF ( str_length(buffer) > 0 ) THEN
+			text_write_string( vLogger.getChannel(), "Component ID Index: " // str_from_integer(i) // ", PropertySet Index: " // buffer )
+		END IF
+	END FOR
+	
+	text_write_string( vLogger.getChannel(), "*** Index to ComponentInstIDs ***")
+	FOR ( i = 1 TO num_UniqueCompInstIDs )
+		text_write_string( vLogger.getChannel(), "Component Instance Index: " // str_from_integer(i) // ", componentInstanceID: " // componentInstanceID(i))
+	END FOR
+			
+	text_write_string( vLogger.getChannel(), "*** Index to propertySet ***")
+	FOR ( i = 1 TO compInstanceID_PropertySet_cnt )
+		text_write_string( vLogger.getChannel(), "Property Set Index: " // str_from_integer(i) // ", propertySet: " // propertySet(i))
+	END FOR			
+			
+	
+	text_write_string( vLogger.getChannel(), "******************* END log map_compInstIDs_to_PropSets ************************")
+END FUNCTION	
+
+###############################################################################
+FUNCTION failure_Criteria_toStr ( in_failure_Criteria_ID )
+
+	INTEGER in_failure_Criteria_ID
+	
+	SWITCH ( in_failure_Criteria_ID )
+	   CASE( ci_TSAI_WU  )  
+			return 	c_TSAI_WU 				
+	   CASE( ci_HOFFMAN   )  
+			return 	c_HOFFMAN  	
+	   CASE( ci_HILL   )  
+			return 	c_HILL  
+	   CASE( ci_MAXIMUM_STRESS )  
+			return 	c_MAXIMUM_STRESS  	
+	   CASE( ci_N_A )  
+			return 	c_N_A 				
+	   DEFAULT
+			return "" 
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION failure_Criteria_toInt ( in_failure_Criteria_string )
+
+	STRING in_failure_Criteria_string[]
+	
+	SWITCH ( in_failure_Criteria_string )
+	   CASE( c_TSAI_WU  )  
+			return 	ci_TSAI_WU 				
+	   CASE( c_HOFFMAN   )  
+			return 	ci_HOFFMAN  	
+	   CASE( c_HILL )  
+			return 	ci_HILL  
+	   CASE( c_MAXIMUM_STRESS )  
+			return 	ci_MAXIMUM_STRESS  
+	   CASE( c_N_A )  
+			return 	ci_N_A 						
+	   DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION failure_Criteria_validStrings()
+	return c_TSAI_WU // " " // c_HOFFMAN // " " // c_HILL // " " // c_MAXIMUM_STRESS // " " // c_N_A	
+END FUNCTION
+FUNCTION failure_Criteria_validCriteria()
+	return c_TSAI_WU // " " // c_HOFFMAN // " " // c_HILL // " " // c_MAXIMUM_STRESS	
+END FUNCTION
+
+FUNCTION failure_Criteria_Tsai_Hoff_Hill()
+	return c_TSAI_WU // " " // c_HOFFMAN // " " // c_HILL 
+	
+END FUNCTION
+
+FUNCTION get_Failure_Criteria()
+	# There must be one and only one failure_Criteria.  Verified by the check()
+	return failure_Criteria(1) 
+END FUNCTION
+
+FUNCTION failure_Criteria_Tsai_Wu()
+	return ci_TSAI_WU 
+END FUNCTION
+
+FUNCTION failure_Criteria_Hoffman()
+	return ci_HOFFMAN 
+END FUNCTION
+
+FUNCTION failure_Criteria_Hill()
+	return ci_HILL 
+END FUNCTION
+
+FUNCTION failure_Maximum_stress()
+	return ci_MAXIMUM_STRESS 
+END FUNCTION
+
+###############################################################################
+FUNCTION model_Geometry_Type_toStr ( in_model_Geometry_Type_ID )
+
+	INTEGER in_model_Geometry_Type_ID
+	
+	SWITCH ( in_model_Geometry_Type_ID )
+	   CASE( ci_SOLID  )  
+			return 	c_SOLID				
+	   CASE( ci_SURFACE   )  
+			return 	c_SURFACE  			
+	   DEFAULT
+			return "" 
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION model_Geometry_Type_toInt ( in_model_Geometry_Type_string )
+
+	STRING in_model_Geometry_Type_string[]
+	
+	SWITCH ( in_model_Geometry_Type_string )
+	   CASE( c_SOLID  )  
+			return 	ci_SOLID 				
+	   CASE( c_SURFACE   )  
+			return 	ci_SURFACE  		
+	   DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION model_Geometry_Type_validStrings()
+	return c_SOLID // " " // c_SURFACE
+	
+END FUNCTION
+
+FUNCTION get_model_Geometry_Type()
+	# There must be one and only one model_Geometry_Type.  Verified by the check()
+	return model_Geometry_Type(1)
+END FUNCTION
+
+FUNCTION get_ci_Solid()
+	return ci_Solid
+END FUNCTION
+
+FUNCTION get_ci_Surface()
+	return ci_Surface 
+END FUNCTION
+
+###############################################################################
+
+END CLASS

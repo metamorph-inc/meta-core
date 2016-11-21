@@ -823,7 +823,23 @@ void	RegenerateModel( ProSolid in_p_asm,
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void AddSortOrderToMap(	const std::list<std::string>				&in_SortedComponents, 
+						std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map) 
+{
+	int partOrdinal_temp = 0;
+	int partAssemblyOrdinal_temp = 0;
 
+	for each ( std::string i in in_SortedComponents )
+	{
+		partAssemblyOrdinal_temp++;
+		if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_PART ) partOrdinal_temp++;
+
+		in_out_CADComponentData_map[i].partAssemblyOrdinal = partAssemblyOrdinal_temp;
+		in_out_CADComponentData_map[i].partOrdinal = partOrdinal_temp;
+	}
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssembleCADComponent( 	
 							cad::CadFactoryAbstract						&in_factory,
 							const std::string							&in_AssemblyComponentID,
@@ -831,7 +847,7 @@ void AssembleCADComponent(
 							bool										in_SaveAssembly,
 							bool										in_AllowUnconstrainedModels,
 							//isis::ComponentData_struct					&in_ParentComponentData,
-							std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+							std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
 							std::list<std::string>						&in_out_SIZE_TO_FIT_Components,
 							int											&in_out_addedToAssemblyOrdinal,
 							bool										&out_RegenerationSucceeded,
@@ -848,13 +864,13 @@ void AssembleCADComponent(
 	// Build Sub-assemblies
 	// **************************************
 //	for ( AssemblyType::CADComponent_type::CADComponent_const_iterator i(in_Begin); i != in_End; ++i )
-	for ( std::list<string>::const_iterator i (in_CADComponentData_map[in_AssemblyComponentID].children.begin());
-		  i != in_CADComponentData_map[in_AssemblyComponentID].children.end();
+	for ( std::list<string>::const_iterator i (in_out_CADComponentData_map[in_AssemblyComponentID].children.begin());
+		  i != in_out_CADComponentData_map[in_AssemblyComponentID].children.end();
 		  ++i )
 	{
 			//ProMdlType pro_model_type = isis::ProMdlType_enum( i->Type());
 			//if ( pro_model_type == PRO_MDL_ASSEMBLY  && i->CADComponent().size() > 0) // Note - an existing assmbly would have no children. 
-			if ( in_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_CADComponentData_map[*i].children.size() > 0) // Note - an existing assembly would have no children. 
+			if ( in_out_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assembly would have no children. 
 			{
 				//isis::C8omponentData_struct ParentComponentData_temp( i->ComponentID(), i->Name() );
 
@@ -864,7 +880,7 @@ void AssembleCADComponent(
 									  //ParentComponentData_temp,
 									  in_SaveAssembly,
 									  in_AllowUnconstrainedModels,
-									  in_CADComponentData_map,
+									  in_out_CADComponentData_map,
 									  in_out_SIZE_TO_FIT_Components, 
 									  in_out_addedToAssemblyOrdinal,
 									  out_RegenerationSucceeded,
@@ -885,19 +901,19 @@ void AssembleCADComponent(
 	//wchar_t  AssemblyName[ISIS_CHAR_BUFFER_LENGTH];
 	
 	void* handle = in_factory.get_assembler().get_assembly_component
-		(in_WORKING_DIR, in_AssemblyComponentID, in_CADComponentData_map);
+		(in_WORKING_DIR, in_AssemblyComponentID, in_out_CADComponentData_map);
 
 	ProMdl p_asm = *(reinterpret_cast<ProMdl*>(handle));
 
 	//if (p_asm)
 
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
-	isis_LOG(lg, isis_FILE, isis_INFO) << "######################### Begin Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " ########################";
+	isis_LOG(lg, isis_FILE, isis_INFO) << "######################### Begin Assembly " << in_out_CADComponentData_map[in_AssemblyComponentID].name << " ########################";
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
-	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Created Assembly: " << in_CADComponentData_map[in_AssemblyComponentID].name;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Created Assembly: " << in_out_CADComponentData_map[in_AssemblyComponentID].name;
 
-	in_CADComponentData_map[in_AssemblyComponentID].modelHandle = (ProSolid)p_asm;
-	in_CADComponentData_map[in_AssemblyComponentID].addedToAssemblyOrdinal = in_out_addedToAssemblyOrdinal++;
+	in_out_CADComponentData_map[in_AssemblyComponentID].modelHandle = (ProSolid)p_asm;
+	in_out_CADComponentData_map[in_AssemblyComponentID].addedToAssemblyOrdinal = in_out_addedToAssemblyOrdinal++;
 
 	// *************************************
 	// Add all detail parts / sub-assemblies 
@@ -911,12 +927,12 @@ void AssembleCADComponent(
 
 	
 	BuildFiltereListOfComponents(	in_AssemblyComponentID, 
-									in_CADComponentData_map, 
+									in_out_CADComponentData_map, 
 									INCLUDE_ALL_COMPONENTS_EXCEPT_SIZE_TO_FIT, 
 									UnsortedComponents);
 
 	BuildFiltereListOfComponents(	in_AssemblyComponentID, 
-									in_CADComponentData_map, 
+									in_out_CADComponentData_map, 
 									INCLUDE_ONLY_SIZE_TO_FIT, 
 									SIZE_TO_FIT_Components);
 
@@ -928,19 +944,19 @@ void AssembleCADComponent(
 
 	std::list<std::string> SortedComponents;
 
-	SortCADComponents(	in_CADComponentData_map[in_AssemblyComponentID].name, 
-						in_CADComponentData_map[in_AssemblyComponentID].componentID,
+	SortCADComponents(	in_out_CADComponentData_map[in_AssemblyComponentID].name, 
+						in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 						UnsortedComponents,
-						in_CADComponentData_map,
+						in_out_CADComponentData_map,
 						SortedComponents );
 
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
 	isis_LOG(lg, isis_FILE, isis_INFO)  << "BEGIN ----------   Unsorted List   ------------";
 	LogSortingList(	"   ", 
 					"UnsortedComponents, Components",
-					in_CADComponentData_map[in_AssemblyComponentID].name,
-					in_CADComponentData_map[in_AssemblyComponentID].componentID,
-					in_CADComponentData_map,
+					in_out_CADComponentData_map[in_AssemblyComponentID].name,
+					in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
+					in_out_CADComponentData_map,
 					UnsortedComponents );
 	isis_LOG(lg, isis_FILE, isis_INFO) << "END ------------   Unsorted List   ------------";
 
@@ -948,11 +964,13 @@ void AssembleCADComponent(
 	isis_LOG(lg, isis_FILE, isis_INFO)  << "BEGIN ----------   Sorted List   --------------";
 	LogSortingList(	"", 
 					"SortedComponents, Components",
-					in_CADComponentData_map[in_AssemblyComponentID].name,
-					in_CADComponentData_map[in_AssemblyComponentID].componentID,
-					in_CADComponentData_map,
+					in_out_CADComponentData_map[in_AssemblyComponentID].name,
+					in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
+					in_out_CADComponentData_map,
 					SortedComponents );
 	isis_LOG(lg, isis_FILE, isis_INFO) << "END ------------   Sorted List   --------------";
+
+	AddSortOrderToMap(SortedComponents, in_out_CADComponentData_map);
 
 	bool constraintdata = false;
 
@@ -966,12 +984,12 @@ void AssembleCADComponent(
 	////////////////////////////////////////
 	Add_Subassemblies_and_Parts( in_factory,
 								p_asm, 
-								 in_CADComponentData_map[in_AssemblyComponentID].name, 
+								 in_out_CADComponentData_map[in_AssemblyComponentID].name, 
 								 SortedComponents, 
-								 in_CADComponentData_map,
+								 in_out_CADComponentData_map,
 								 in_out_addedToAssemblyOrdinal);
 
-	//stream_CADComponentData_map( in_CADComponentData_map, clog );
+	//stream_CADComponentData_map( in_out_CADComponentData_map, clog );
 
 	/////////////////////////////////////////////////////////////////////
 	// For each added assembly update the path to its sub-assemblies/parts 
@@ -983,17 +1001,17 @@ void AssembleCADComponent(
 	// they are added, the path information must be maintained.
 	//for ( AssemblyType::CADComponent_type::CADComponent_const_iterator t(in_Begin); t != in_End; ++t )
 	//{
-	for ( std::list<string>::const_iterator t (in_CADComponentData_map[in_AssemblyComponentID].children.begin());
-	  t != in_CADComponentData_map[in_AssemblyComponentID].children.end();
+	for ( std::list<string>::const_iterator t (in_out_CADComponentData_map[in_AssemblyComponentID].children.begin());
+	  t != in_out_CADComponentData_map[in_AssemblyComponentID].children.end();
 	  ++t )
 	{
-		//ProMdlType pro_model_type = isis::ProMdlType_enum( in_CADComponentData_map[t->ComponentID()].type_string);
-		if (  in_CADComponentData_map[*t].modelType == PRO_MDL_ASSEMBLY  ) 
+		//ProMdlType pro_model_type = isis::ProMdlType_enum( in_out_CADComponentData_map[t->ComponentID()].type_string);
+		if (  in_out_CADComponentData_map[*t].modelType == PRO_MDL_ASSEMBLY  ) 
 		{
 			UpdateAllSubassemblyComponentsToIncludeParentAssemblyPath( 
 											*t,
-											in_CADComponentData_map,
-											in_CADComponentData_map[*t].assembledFeature.id );
+											in_out_CADComponentData_map,
+											in_out_CADComponentData_map[*t].assembledFeature.id );
 		}
 	}
 
@@ -1001,7 +1019,7 @@ void AssembleCADComponent(
 	// Set Parametric Values
 	///////////////////////////////////
 	if (!AssemblyOptions::GetInstance().ApplyParamsAfter)
-		ApplyParametricParameters(SortedComponents, in_CADComponentData_map, out_ErrorList);
+		ApplyParametricParameters(SortedComponents, in_out_CADComponentData_map, out_ErrorList);
 
 	///////////////////////////////////
 	// Log tree contents at this level
@@ -1015,11 +1033,11 @@ void AssembleCADComponent(
 	//clog << std::endl << "************ End Sub-Tree (Detailed Info) ***************";
 
 	//////////////////////////////////////////////////
-	// Log in_CADComponentData_map contents
+	// Log in_out_CADComponentData_map contents
 	//////////////////////////////////////////////////
 	isis_LOG(lg, isis_FILE, isis_INFO) <<  "\n************** Begin map CADComponent in BuildAssembly Function **************"; 
 	std::stringstream str;
-	stream_CADComponentData_map( in_CADComponentData_map, str );
+	stream_CADComponentData_map( in_out_CADComponentData_map, str );
 	isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
 	isis_LOG(lg, isis_FILE, isis_INFO) << "\n************** End map CADComponent in BuildAssembly Function ***************";
 
@@ -1029,7 +1047,7 @@ void AssembleCADComponent(
 									in_AssemblyComponentID,
 									SortedComponents,
 									in_AllowUnconstrainedModels,
-									in_CADComponentData_map,
+									in_out_CADComponentData_map,
 									constraintdata,
 									true);
 		
@@ -1037,7 +1055,7 @@ void AssembleCADComponent(
 	if (!fail)
 	{
 		if (AssemblyOptions::GetInstance().ApplyParamsAfter)
-			ApplyParametricParameters(SortedComponents, in_CADComponentData_map, out_ErrorList);
+			ApplyParametricParameters(SortedComponents, in_out_CADComponentData_map, out_ErrorList);
 		////////////////////////////////////////////////////////////////////////////
 		// Determine if SIZE_TO_FIT Componenets can be added and set constrained
 		///////////////////////////////////////////////////////////////////////////
@@ -1046,7 +1064,7 @@ void AssembleCADComponent(
 										in_factory,
 										in_AssemblyComponentID,
 										in_AllowUnconstrainedModels,
-										in_CADComponentData_map,
+										in_out_CADComponentData_map,
 										SortedComponents,
 										in_out_SIZE_TO_FIT_Components,
 										in_out_addedToAssemblyOrdinal);
@@ -1058,16 +1076,16 @@ void AssembleCADComponent(
 		// succeed.  Therefore, if the first regenerate fails, try regnerate a second time. 
 	
 		RegenerateModel(	(ProSolid)p_asm,
-							in_CADComponentData_map[in_AssemblyComponentID].name,
-							in_CADComponentData_map[in_AssemblyComponentID].componentID,
+							in_out_CADComponentData_map[in_AssemblyComponentID].name,
+							in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 							out_RegenerationSucceeded);
 
 		if ( !out_RegenerationSucceeded )  // try to regenerate a second time
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,
-								in_CADComponentData_map[in_AssemblyComponentID].name,
-								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								in_out_CADComponentData_map[in_AssemblyComponentID].name,
+								in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 								out_RegenerationSucceeded);
 		}
 
@@ -1075,8 +1093,8 @@ void AssembleCADComponent(
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,
-								in_CADComponentData_map[in_AssemblyComponentID].name,
-								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								in_out_CADComponentData_map[in_AssemblyComponentID].name,
+								in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 								out_RegenerationSucceeded);
 		}
 
@@ -1084,8 +1102,8 @@ void AssembleCADComponent(
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,
-								in_CADComponentData_map[in_AssemblyComponentID].name,
-								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								in_out_CADComponentData_map[in_AssemblyComponentID].name,
+								in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 								out_RegenerationSucceeded);
 		}
 
@@ -1093,8 +1111,8 @@ void AssembleCADComponent(
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,
-								in_CADComponentData_map[in_AssemblyComponentID].name,
-								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								in_out_CADComponentData_map[in_AssemblyComponentID].name,
+								in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 								out_RegenerationSucceeded);
 		}
 
@@ -1102,8 +1120,8 @@ void AssembleCADComponent(
 		{
 			out_RegenerationSucceeded = true;
 			RegenerateModel(	(ProSolid)p_asm,
-								in_CADComponentData_map[in_AssemblyComponentID].name,
-								in_CADComponentData_map[in_AssemblyComponentID].componentID,
+								in_out_CADComponentData_map[in_AssemblyComponentID].name,
+								in_out_CADComponentData_map[in_AssemblyComponentID].componentID,
 								out_RegenerationSucceeded, true);
 		}
 
@@ -1114,14 +1132,14 @@ void AssembleCADComponent(
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO)  << "Regenerating parts/sub-assemblies. This will help indicate which part/sub-assembly would not generate."; 
 			bool local_RegenerationSucceeded;
-			for ( std::list<string>::const_iterator i_regen (in_CADComponentData_map[in_AssemblyComponentID].children.begin());
-			  i_regen != in_CADComponentData_map[in_AssemblyComponentID].children.end();
+			for ( std::list<string>::const_iterator i_regen (in_out_CADComponentData_map[in_AssemblyComponentID].children.begin());
+			  i_regen != in_out_CADComponentData_map[in_AssemblyComponentID].children.end();
 			  ++i_regen )
 			{
 				local_RegenerationSucceeded = true;
-				RegenerateModel( in_CADComponentData_map[*i_regen].modelHandle,
-								 in_CADComponentData_map[*i_regen].name,
-								 in_CADComponentData_map[*i_regen].componentID,
+				RegenerateModel( in_out_CADComponentData_map[*i_regen].modelHandle,
+								 in_out_CADComponentData_map[*i_regen].name,
+								 in_out_CADComponentData_map[*i_regen].componentID,
 								 local_RegenerationSucceeded, false);
 
 			}
@@ -1170,14 +1188,14 @@ void AssembleCADComponent(
 	if ( in_SaveAssembly ) isis::isis_ProMdlSave(p_asm);
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
-	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)  << "Saved Assembly:   " <<  (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].name + "  " + (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].componentID;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)  << "Saved Assembly:   " <<  (const std::string&)in_out_CADComponentData_map[in_AssemblyComponentID].name + "  " + (const std::string&)in_out_CADComponentData_map[in_AssemblyComponentID].componentID;
 
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
-	isis_LOG(lg, isis_FILE, isis_INFO)  << "########################## End Assembly " << in_CADComponentData_map[in_AssemblyComponentID].name << " #########################";
+	isis_LOG(lg, isis_FILE, isis_INFO)  << "########################## End Assembly " << in_out_CADComponentData_map[in_AssemblyComponentID].name << " #########################";
 
 	// Delete the version 1 of the assembly file.  It was just a temporary file that was copied from the 
 	// template file.
-	isis::isis_DeleteFile(in_WORKING_DIR + "\\" + (const std::string&)in_CADComponentData_map[in_AssemblyComponentID].name + ".asm.1" );
+	isis::isis_DeleteFile(in_WORKING_DIR + "\\" + (const std::string&)in_out_CADComponentData_map[in_AssemblyComponentID].name + ".asm.1" );
 
 }
 
@@ -1186,7 +1204,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 					const std::string					&in_AssemblyComponentID, 
 					const std::string					&in_WORKING_DIR,
 					bool								in_SaveAssembly,
-					std::map<string, isis::CADComponentData>			&in_CADComponentData_map,
+					std::map<string, isis::CADComponentData>			&in_out_CADComponentData_map,
 					bool								&out_RegenerationSucceeded,
 					std::vector<isis::CADCreateAssemblyError>			&out_ErrorList,
 					bool								in_AllowUnconstrainedModels )
@@ -1197,9 +1215,9 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 	int addedToAssemblyOrdinal =  0;
 
 	//clog << endl;
-	//clog << endl << "Component Name: "  << in_CADComponentData_map[in_AssemblyComponentID].name;
-	//clog << endl<<	"Component Instance ID:   "  << in_CADComponentData_map[in_AssemblyComponentID].componentID;
-	//clog << endl << "Component Type: "  << ProMdlType_string( in_CADComponentData_map[in_AssemblyComponentID].modelType );
+	//clog << endl << "Component Name: "  << in_out_CADComponentData_map[in_AssemblyComponentID].name;
+	//clog << endl<<	"Component Instance ID:   "  << in_out_CADComponentData_map[in_AssemblyComponentID].componentID;
+	//clog << endl << "Component Type: "  << ProMdlType_string( in_out_CADComponentData_map[in_AssemblyComponentID].modelType );
 	//clog << endl;
 
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
@@ -1213,7 +1231,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 							in_WORKING_DIR,
 							in_SaveAssembly,
 							in_AllowUnconstrainedModels,
-							in_CADComponentData_map,
+							in_out_CADComponentData_map,
 							SIZE_TO_FIT_Components,
 							addedToAssemblyOrdinal,
 							out_RegenerationSucceeded,
@@ -1233,7 +1251,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 			  i !=  SIZE_TO_FIT_Components.end();
 			  ++i )
 		{
-			err_str += comman_or_blank + in_CADComponentData_map[*i].componentID + " " + in_CADComponentData_map[*i].componentID;
+			err_str += comman_or_blank + in_out_CADComponentData_map[*i].componentID + " " + in_out_CADComponentData_map[*i].componentID;
 			comman_or_blank = ", ";
 		}
 		err_str += ".";										

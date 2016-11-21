@@ -11,7 +11,7 @@ namespace isis {
 namespace cad {
 
 const double TAU = 2.0 * M_PI;
-const double Joint::PI = M_PI;
+const double Joint::isis_PI = M_PI;
 
 std::map<JointType, std::string> joint_type_code_map
 	= boost::assign::map_list_of
@@ -667,7 +667,7 @@ Joint meld_ooi_oof(const Joint& pin, const Joint& axis, const bool flip = false)
 		// axes *not* parallel
 		// The rotation angle will be the angle between the two axes.
 		Joint result(FIXED, 
-			pin.location, pin.orientation, cos(b1b2)/Joint::PI,
+			pin.location, pin.orientation, cos(b1b2)/Joint::isis_PI,
 			pin, axis);
 		return result;
 	}

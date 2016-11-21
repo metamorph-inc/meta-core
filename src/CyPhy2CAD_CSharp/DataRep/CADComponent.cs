@@ -7,7 +7,14 @@ using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using GmeCommon = ISIS.GME.Common;
 using META;
+//using GME.CSharp;
+//using GME.MGA;
+
+
+using GME.MGA;
 using GME.CSharp;
+using GME;
+using GME.MGA.Meta;
 
 namespace CyPhy2CAD_CSharp.DataRep
 {
@@ -64,6 +71,16 @@ namespace CyPhy2CAD_CSharp.DataRep
         public static readonly string MakeOrBuyParamStr = "procurement__make_or_buy";
         public static readonly string SpecialInstrParamStr = "SPECIALINSTRUCTIONS";
 
+        protected List<CAD.ElementType> CadElementsList;
+        protected List<TestBenchModel.TBComputation> pointCoordinatesList;
+        public List<TestBenchModel.TBComputation> PointCoordinatesList
+        {
+            get
+            {
+                return pointCoordinatesList;
+            }
+        }
+
         public CADComponent(CyPhy.Component cyphycomp, string ProjectDirectory, bool size2fit = false, string format = "Creo")
         {
             Type = CADDataType.Component;
@@ -83,6 +100,8 @@ namespace CyPhy2CAD_CSharp.DataRep
             CyPhyModelPath = cyphycomp.GetDirectoryPath(ProjectDirectory: ProjectDirectory);
             Classification = cyphycomp.Attributes.Classifications;
             HyperLink = cyphycomp.ToHyperLink();
+            CadElementsList = new List<CAD.ElementType>();
+            pointCoordinatesList = new List<TestBenchModel.TBComputation>();
 
             CreateStructuralInterfaceEquivalent(cyphycomp);
 
@@ -113,6 +132,9 @@ namespace CyPhy2CAD_CSharp.DataRep
                     MetaData.Add(prop.Name.Substring(9), prop.Attributes.Value);
                 }
             }
+
+            TraverseComposites(cyphycomp);
+            CreatePointCoordinatesList(cyphycomp);
         }
 
         public string MakeOrBuyParam
@@ -469,6 +491,16 @@ namespace CyPhy2CAD_CSharp.DataRep
             }
 
             cadoutput.Representation = representation;
+            if (this.CadElementsList.Count > 0)
+            {
+                cadoutput.Elements = new CAD.ElementsType()
+                {
+                    _id = UtilityHelpers.MakeUdmID()
+                };
+
+                cadoutput.Elements.Element = this.CadElementsList.ToArray();
+
+            }
 
             return cadoutput;
         }
@@ -500,6 +532,409 @@ namespace CyPhy2CAD_CSharp.DataRep
             return sbuilder.ToString();
         }
 
+        private void TraverseComposites(CyPhy.Component component)
+        {
+
+            foreach (var material in component.Children.MaterialContentsCollection)
+            {
+                CAD.ElementType cadElement = new CAD.ElementType()
+                {
+                    _id = UtilityHelpers.MakeUdmID(),
+                    ElementType1 = "SURFACE"
+                };
+
+                MgaModel materialMga = material.Impl as MgaModel;
+                List<MgaFCO> startDirPts = new List<MgaFCO>();
+                List<MgaFCO> endDirPts = new List<MgaFCO>();
+
+                startDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(materialMga, "Start_Direction");
+                endDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(materialMga, "End_Direction");
+
+                if (startDirPts.Count != 1 && endDirPts.Count != 1)
+                {
+                    Logger.Instance.AddLogMessage("Material Content must contain one Start_Direction and one End_Direction point.", Severity.Warning); 
+                    continue;
+                }
+
+
+                CyPhy.Point startDirPt = CyPhyClasses.Point.Cast(startDirPts[0]);
+                string startDirPtDatumName= GetFeatureName(startDirPt);
+
+                CyPhy.Point endDirPt = CyPhyClasses.Point.Cast(endDirPts[0]);
+                string endDirPtDatumName= GetFeatureName(endDirPt);
+
+                CAD.OrientationType cadOrientation = new CAD.OrientationType()
+                {
+                    _id = UtilityHelpers.MakeUdmID()
+                };
+                CAD.GeometryType cadGeometry = new CAD.GeometryType()
+                {
+                    _id = UtilityHelpers.MakeUdmID()
+                };
+
+
+                CAD.FeatureType cadStartFeature = new CAD.FeatureType()
+                {
+                    _id = UtilityHelpers.MakeUdmID(),
+                    ComponentID = DisplayID,
+                    Name = startDirPtDatumName,
+                    MetricID = DisplayID + ":" + startDirPtDatumName
+                };
+                TestBenchModel.TBComputation startFeatureComputation = new TestBenchModel.TBComputation()
+                {
+                    ComponentID = DisplayID,
+                    ComputationType = TestBenchModel.TBComputation.Type.POINTCOORDINATES,
+                    Details = startDirPtDatumName,
+                    FeatureDatumName = startDirPtDatumName,
+                    MetricID = DisplayID + ":" + startDirPtDatumName,
+                    RequestedValueType = "Vector"
+                }; 
+                pointCoordinatesList.Add(startFeatureComputation);
+                if (String.IsNullOrEmpty(startDirPtDatumName))
+                    Logger.Instance.AddLogMessage("Empty point datum name [" + startDirPt.Path + "]", Severity.Warning);
+
+                CAD.FeatureType cadEndFeature = new CAD.FeatureType()
+                {
+                    _id = UtilityHelpers.MakeUdmID(),
+                    ComponentID = DisplayID,
+                    Name = endDirPtDatumName,
+                    MetricID = DisplayID + ":" + endDirPtDatumName
+                };
+                TestBenchModel.TBComputation endFeatureComputation = new TestBenchModel.TBComputation()
+                {
+                    ComponentID = DisplayID,
+                    ComputationType = TestBenchModel.TBComputation.Type.POINTCOORDINATES,
+                    Details = endDirPtDatumName,
+                    FeatureDatumName = endDirPtDatumName,
+                    MetricID = DisplayID + ":" + endDirPtDatumName,
+                    RequestedValueType = "Vector"
+                };
+                pointCoordinatesList.Add(endFeatureComputation);
+                if (String.IsNullOrEmpty(endDirPtDatumName))
+                    Logger.Instance.AddLogMessage("Empty point datum name [" + endDirPt.Path + "]", Severity.Warning);
+
+                CAD.FeaturesType cadFeatures = new CAD.FeaturesType()
+                {
+                    _id = UtilityHelpers.MakeUdmID(),
+                    FeatureID = material.ID,
+                    GeometryType = "Vector",
+                    FeatureInterfaceType = "CAD_DATUM",
+                    FeatureGeometryType = "POINT",
+                    PrimaryGeometryQualifier = "",
+                    SecondaryGeometryQualifier = ""
+                };
+
+                cadFeatures.Feature= new CAD.FeatureType[2];
+                cadFeatures.Feature[0] = cadStartFeature;
+                cadFeatures.Feature[1] = cadEndFeature;
+                cadGeometry.Features = new CAD.FeaturesType[1];
+                cadGeometry.Features[0] = cadFeatures;
+                cadOrientation.Geometry = cadGeometry;
+
+
+                // Material Layups
+                CAD.MaterialLayupType cadLayers = new CAD.MaterialLayupType()
+                {
+                    _id = UtilityHelpers.MakeUdmID(),
+                    Position = material.Attributes.Position.ToString().ToUpper(),
+                    Offset = (material.Attributes.Position.ToString().ToUpper() != "OFFSET_BY_VALUE") ? 0 : (material.Attributes.PositionOffset),
+                    Direction = material.Attributes.MaterialLayupDirection.ToString().ToUpper() 
+                };
+
+                int layerCnt = material.Children.MaterialLayerCollection.Count();
+                if (layerCnt > 0)
+                {
+                    cadLayers.Layer = new CAD.LayerType[layerCnt];
+
+                    int k = 0;
+                    foreach (var layer in material.Children.MaterialLayerCollection.OrderBy(i => i.Attributes.LayerID))
+                    {                        
+                        CAD.LayerType cadLayer = new CAD.LayerType()
+                        {
+                            _id = UtilityHelpers.MakeUdmID(),
+                            ID = layer.Attributes.LayerID,
+                            Drop_Order = layer.Attributes.DropOrder,
+                            Material_Name = layer.Attributes.LayerMaterial,
+                            Orientation = layer.Attributes.LayerOrientation,
+                            Thickness = layer.Attributes.LayerThickness
+                        };
+
+                        cadLayers.Layer[k] = cadLayer;
+                        k++;
+                    }
+                }
+
+                CAD.ElementContentsType cadElementContents = new CAD.ElementContentsType();
+                cadElementContents._id = UtilityHelpers.MakeUdmID();
+                cadElementContents.Orientation = cadOrientation;
+                cadElementContents.MaterialLayup = cadLayers;
+                cadElement.ElementContents = cadElementContents;
+
+
+                if (material.DstConnections.ContentsToGeometryCollection.Count() < 1 || material.DstConnections.ContentsToGeometryCollection.Count() > 1)
+                {
+                    Logger.Instance.AddLogMessage("Material Content need to connect to one Face geometry.", Severity.Warning); 
+                    continue;
+                }
+
+
+                // Face, Polygon, or Extrusion Geometry
+                CyPhy.ContentsToGeometry conn = material.DstConnections.ContentsToGeometryCollection.FirstOrDefault();
+                if (conn != null)
+                {
+                    CyPhy.Face faceGeometry = conn.DstEnds.Face;
+                    CyPhy.Polygon polgonGeometry = conn.DstEnds.Polygon;
+                    CyPhy.Extrusion extrusionGeometry = conn.DstEnds.Extrusion;
+
+
+                    int countGeometryTypes = 0;
+
+                    if (faceGeometry != null ) ++countGeometryTypes;
+                    if (polgonGeometry != null ) ++countGeometryTypes;
+                    if (extrusionGeometry != null ) ++countGeometryTypes;
+
+                    if (countGeometryTypes != 1)
+                    {
+                        Logger.Instance.AddLogMessage("MaterialContents must be connected to one and only one geometry type (i.e. FACE, POLOGON, or EXTRUSION).", Severity.Warning);
+                        continue;
+                    }
+
+
+                    // Approach when only FACE was supported
+                    //String primBoundaryQ = faceGeometry.Attributes.BoundaryQualifier.ToString().Replace("_", string.Empty);
+                    //MgaModel faceMga = faceGeometry.Impl as MgaModel;
+                    //List<MgaFCO> normalDirPts = new List<MgaFCO>();
+                    //normalDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(faceMga, "Direction_Reference_Point");
+
+                    String primBoundaryQ = "";
+                    MgaModel faceMga;
+                    List<MgaFCO> normalDirPts = new List<MgaFCO>();
+
+                    if (faceGeometry != null)
+                    {
+                        primBoundaryQ = faceGeometry.Attributes.BoundaryQualifier.ToString().Replace("_", string.Empty);
+                        faceMga = faceGeometry.Impl as MgaModel;
+                        normalDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(faceMga, "Direction_Reference_Point");
+                    }
+                    else if (polgonGeometry != null)
+                    {
+                        primBoundaryQ = polgonGeometry.Attributes.BoundaryQualifier.ToString().Replace("_", string.Empty);
+                        faceMga = polgonGeometry.Impl as MgaModel;
+                        normalDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(faceMga, "Direction_Reference_Point");
+                    } else if ( extrusionGeometry != null )
+                    {
+                        primBoundaryQ = extrusionGeometry.Attributes.BoundaryQualifier.ToString().Replace("_", string.Empty);
+                        faceMga = extrusionGeometry.Impl as MgaModel;
+                        normalDirPts = CyPhy2CAD_CSharp.DataRep.CADGeometry.FindByRole(faceMga, "Direction_Reference_Point");
+                    }
+
+                    if (normalDirPts.Count != 1)
+                    {
+                        Logger.Instance.AddLogMessage("Geometry (FACE, POLYGON, or EXTRUSION) can contain only one Direction_Reference_Point point.", Severity.Warning); 
+                        continue;
+                    }
+
+                    CyPhy.Point normalDirPt = CyPhyClasses.Point.Cast(normalDirPts.FirstOrDefault());
+                    string normalPtFeatureName = GetFeatureName(normalDirPt);
+                    if (String.IsNullOrEmpty(normalPtFeatureName))
+                    {
+                        Logger.Instance.AddLogMessage("Direction_Reference_Point point of the Face/Ploygon/Extrusion geometry doesn't have a datum name. Make sure it is connected to a valid point inside a CADModel.", Severity.Warning);
+                        continue;
+                    }
+
+                    CyPhy2CAD_CSharp.DataRep.CADGeometry faceOrExtruOrPolyGeometryRep = null;
+                    if (faceGeometry != null)
+                    {
+                        faceOrExtruOrPolyGeometryRep = CyPhy2CAD_CSharp.DataRep.CADGeometry.CreateGeometry(faceGeometry);
+                        if (faceOrExtruOrPolyGeometryRep == null)
+                        {
+                            Logger.Instance.AddLogMessage("Unsuccessfully created a representation of a Face Geometry.", Severity.Warning);
+                            continue;
+                        }
+                    }
+                    else if (polgonGeometry != null)
+                    {
+                        faceOrExtruOrPolyGeometryRep = CyPhy2CAD_CSharp.DataRep.CADGeometry.CreateGeometry(polgonGeometry);
+                        if (faceOrExtruOrPolyGeometryRep == null)
+                        {
+                            Logger.Instance.AddLogMessage("Unsuccessfully created a representation of a Polygon Geometry.", Severity.Warning);
+                            continue;
+                        }
+                    }
+                    else if (extrusionGeometry != null)
+                    {
+                        faceOrExtruOrPolyGeometryRep = CyPhy2CAD_CSharp.DataRep.CADGeometry.CreateGeometry(extrusionGeometry);
+                        if (faceOrExtruOrPolyGeometryRep == null)
+                        {
+                            Logger.Instance.AddLogMessage("Unsuccessfully created a representation of a Extrusion Geometry.", Severity.Warning);
+                            continue;
+                        }
+                    }
+
+                    // Element/Geometry
+                    CAD.GeometryType cadFaceOrExtruOrPolyGeometryOut = faceOrExtruOrPolyGeometryRep.ToCADXMLOutput();
+                    if (cadFaceOrExtruOrPolyGeometryOut == null)
+                    {
+                        Logger.Instance.AddLogMessage("Unsuccessfully converted a representation of a Face/Ploygon/Extrusion Geometry to CAD xml.", Severity.Warning);
+                        continue;
+                    }
+
+
+                    cadElement.Geometry = cadFaceOrExtruOrPolyGeometryOut;
+                    foreach (var faceOrExtruOrPolyGeomFeatures in cadFaceOrExtruOrPolyGeometryOut.Features)
+                    {
+                        foreach (var feature_temp in faceOrExtruOrPolyGeomFeatures.Feature)
+                        {
+                            TestBenchModel.TBComputation faceGeometryComputation = new TestBenchModel.TBComputation()
+                            {
+                                ComponentID = DisplayID,
+                                ComputationType = TestBenchModel.TBComputation.Type.POINTCOORDINATES,
+                                Details = feature_temp.Name,
+                                FeatureDatumName = feature_temp.Name,
+                                MetricID = feature_temp.MetricID,
+                                RequestedValueType = "Vector"
+                            };
+                            pointCoordinatesList.Add(faceGeometryComputation);
+                        }
+                    }
+
+                    // Element/Geometry
+
+                    string direction_temp = "";
+
+                    if (faceGeometry != null) direction_temp = (faceGeometry.Attributes.NormalDirection == CyPhyClasses.Face.AttributesClass.NormalDirection_enum.Toward_Reference_Point) ? "TOWARD" : "AWAY";
+                    else if (polgonGeometry != null) direction_temp = (polgonGeometry.Attributes.NormalDirection == CyPhyClasses.Polygon.AttributesClass.NormalDirection_enum.Toward_Reference_Point) ? "TOWARD" : "AWAY";
+                    else if (extrusionGeometry != null) direction_temp = (extrusionGeometry.Attributes.NormalDirection == CyPhyClasses.Extrusion.AttributesClass.NormalDirection_enum.Toward_Reference_Point) ? "TOWARD" : "AWAY";
+
+                    CAD.SurfaceNormalType cadSurfaceNormal = new CAD.SurfaceNormalType()
+                    {
+                        _id = UtilityHelpers.MakeUdmID(),
+                        Direction = direction_temp
+                    };
+
+                    CAD.FeaturesType cadSurfaceNormFeatures = new CAD.FeaturesType()
+                    {
+                        _id = UtilityHelpers.MakeUdmID(),
+                        FeatureID = normalDirPt.ID,
+                        GeometryType = "POINT",
+                        FeatureInterfaceType = "CAD_DATUM",
+                        FeatureGeometryType = "POINT",
+                        Feature = new CAD.FeatureType[1],
+                        PrimaryGeometryQualifier = primBoundaryQ,
+                        SecondaryGeometryQualifier = ""
+                    };
+
+                    cadSurfaceNormFeatures.Feature[0] = new CAD.FeatureType()
+                    {
+                        _id = UtilityHelpers.MakeUdmID(),
+                        Name = normalPtFeatureName,
+                        ComponentID = DisplayID,
+                        MetricID = DisplayID + ":" + normalPtFeatureName
+                    };
+                    TestBenchModel.TBComputation surfNormalComputation = new TestBenchModel.TBComputation()
+                    {
+                        ComponentID = DisplayID,
+                        ComputationType = TestBenchModel.TBComputation.Type.POINTCOORDINATES,
+                        Details = normalPtFeatureName,
+                        FeatureDatumName = normalPtFeatureName,
+                        MetricID = DisplayID + ":" + normalPtFeatureName,
+                        RequestedValueType = "Vector"
+                    };
+                    pointCoordinatesList.Add(surfNormalComputation);
+                    if (String.IsNullOrEmpty(normalPtFeatureName))
+                        Logger.Instance.AddLogMessage("Empty point datum name [" + normalDirPt.Path + "]", Severity.Warning);
+
+                    CAD.GeometryType cadSurfaceNormGeom = new CAD.GeometryType()
+                    {
+                        _id = UtilityHelpers.MakeUdmID(),
+                        Features = new CAD.FeaturesType[1],                    
+                    };
+
+                    cadSurfaceNormGeom.Features[0] = cadSurfaceNormFeatures;
+                    cadSurfaceNormal.Geometry = cadSurfaceNormGeom;
+                    cadElement.SurfaceNormal = cadSurfaceNormal;
+
+                }
+
+                this.CadElementsList.Add(cadElement);                
+            }
+
+        }
+
+        private string GetFeatureName(CyPhy.Port port)
+        {
+            string datumName = "";
+            PointMetricTraversal traverser = new PointMetricTraversal(port);
+            if (traverser.portsFound.Count() == 1)
+            {
+                CyPhy.Port foundPort = traverser.portsFound.First();
+
+                if (foundPort.Kind == "Surface")
+                {
+                    datumName = (foundPort as CyPhy.Surface).Attributes.DatumName;
+                }
+                else if (foundPort.Kind == "Point")
+                {
+                    datumName = (foundPort as CyPhy.Point).Attributes.DatumName;
+                }
+                else if (foundPort.Kind == "Axis")
+                {
+                    datumName = (foundPort as CyPhy.Axis).Attributes.DatumName;
+                }
+
+            }
+
+            return datumName;
+        }
+
+        private void CreatePointCoordinatesList(CyPhy.Component component)
+        {
+            CyPhy.CADModel cadmodel = component.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat.ToString() == "Creo");
+            if (cadmodel == null)
+            {
+                return;
+            }
+
+            string componentID = component.ID;
+            string cadmodelID = cadmodel.ID;
+
+            /*
+            var conns = component.Children.PortCompositionCollection
+                .Where(x => x.SrcEnd.Kind == "Point" && x.DstEnd.Kind == "Point")
+                .Cast<IMgaSimpleConnection>()
+                .Where(x => (x.Src.ParentModel.ID == componentID || x.Src.ParentModel.ID == cadmodelID) && (x.Dst.ParentModel.ID == componentID || x.Dst.ParentModel.ID == cadmodelID));
+            */
+
+            foreach (var p in cadmodel.Children.PointCollection)
+            {
+                MgaFCO pointFCO = p.Impl as MgaFCO;
+                var connPt = pointFCO.PartOfConns
+                .Cast<IMgaConnPoint>()
+                .Select(x => x.Owner)
+                .Cast<IMgaSimpleConnection>()
+                .Where(x => ((x.Src.ID == pointFCO.ID) && (x.Dst.ParentModel.ID == componentID)) || ((x.Dst.ID == pointFCO.ID) && (x.Src.ParentModel.ID == componentID)));
+
+                if (connPt.Count() > 0)
+                {
+                    CyPhy.Point point = CyPhyClasses.Point.Cast(pointFCO);
+                    if (point != null)
+                    {
+                        TestBenchModel.TBComputation computation = new TestBenchModel.TBComputation()
+                        {
+                            ComponentID = DisplayID,
+                            ComputationType = TestBenchModel.TBComputation.Type.POINTCOORDINATES,
+                            Details = point.Attributes.DatumName,
+                            MetricID = DisplayID + ":" + point.Attributes.DatumName,
+                            RequestedValueType = "Vector"
+                        };
+
+                        this.PointCoordinatesList.Add(computation);
+                    }
+                }
+            }
+
+            
+        }
 
         #region Deprecated
         /*

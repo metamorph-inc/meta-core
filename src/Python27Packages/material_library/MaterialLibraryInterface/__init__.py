@@ -10,7 +10,7 @@ __author__ = __authors__[0]
 
 __credits__ = __authors__
 
-__version__ = "14.13"
+__version__ = "14.14"
 
 __maintainer__ = __author__
 __contact__ = __author__
@@ -19,6 +19,15 @@ __email__ = "kzeillmann@isis.vanderbilt.edu"
 __copyright__ = "Copyright (C) 2012-2013, Vanderbilt University"
 __url__ = 'https://svn.isis.vanderbilt.edu/META/trunk/src/Python27Packages/' + __name__
 #__license__ = "MIT"
+
+###################################################################
+# CHANGELOG
+#
+# 07/05/2016 v14.14
+# Di Yao: _parseJSON() convert keys to lowercase
+#         materialData() convert query material name to lowercase
+# Changes made so user can pass in upper and lower case query names
+###################################################################
 
 class LibraryManager:
     """
@@ -66,7 +75,9 @@ class LibraryManager:
         #print self.filename + "\n"
         tempMap = json.load(open(self.filename))
         self.version = tempMap["version"]
-        self.data = tempMap["Material library"]
+        self.data = {}
+        for k, v in tempMap["Material library"].iteritems():
+            self.data[k.lower()] = v
 
     def materialData(self, in_material):    
         """
@@ -75,7 +86,8 @@ class LibraryManager:
         return value is the dictionary of the property names and
         their values.
         """
-        return self.data[in_material]
+        material_name_lower = in_material.lower()
+        return self.data[material_name_lower]
 
     def listAllProperties(self):
         """

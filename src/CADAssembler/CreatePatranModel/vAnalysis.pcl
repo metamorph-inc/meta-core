@@ -1,0 +1,499 @@
+
+/*****************  Example Input ***************************
+Analysis
+	ID = 1
+	# Get Configuration_ID from CADAssembly.xml <Assembly ConfigurationID="78e...
+	Configuration_ID = fb717e39-2e87-471d-b5f0-add5e25ce04f|1  
+	Date = 5/12/2012
+	Source_Model = Bracket_Solid_Model.mga
+	Type = 101   # 101 - Structural, 103 Modal
+	# The following should be NASTRAN not PATRAN_NASTRAN
+	Solver = NASTRAN
+	# MESH_AND_SOLVE  MESH_ONLY
+	Instructions = MESH_AND_SOLVE  
+***********************************************************/
+
+###########################
+# vAnalysis Class
+###########################
+CLASS vAnalysis
+
+	CLASSWIDE STRING	c_ClassName[32]	
+
+	# Input File Section Name (i.e. Analysis)
+	CLASSWIDE STRING 	c_ANALYSIS[32]
+
+	# Names for Name-Value Pairs
+	CLASSWIDE STRING	c_CONFIGURATION_ID[32],		@
+						c_SOURCE_MODEL[31],			@
+						c_SOLVER[32],				@
+						c_INSTRUCTIONS[32]
+
+	CLASSWIDE STRING 	c_NASTRAN[32]
+	CLASSWIDE INTEGER	ci_NASTRAN	
+	CLASSWIDE INTEGER	ci_MESH_AND_SOLVE
+	CLASSWIDE INTEGER	ci_MESH_ONLY
+	CLASSWIDE INTEGER	ci_TSAI_WU
+	CLASSWIDE INTEGER	ci_HOFFMAN	
+	CLASSWIDE INTEGER	ci_HILL
+	CLASSWIDE INTEGER	ci_MAXIMUM_STRESS	
+	
+	CLASSWIDE STRING 	c_MESH_AND_SOLVE[32],		@
+						c_MESH_ONLY[32],			@
+						c_FAILURE_CRITERIA[32]
+						
+	CLASSWIDE STRING 	c_TSAI_WU[32],		@
+						c_HOFFMAN[32],		@
+						c_HILL[32],			@						
+						c_MAXIMUM_STRESS[32]
+						
+					
+	# count should always be one.  Capture the value for error checking
+	CLASSWIDE INTEGER	count,			@
+						count_temp
+	CLASSWIDE INTEGER	iD(VIRTUAL)
+	CLASSWIDE STRING 	date[64](VIRTUAL), 				@
+						source_Model[128](VIRTUAL), 	@					
+						configuration_ID[256](VIRTUAL)
+						# type = 101, 103, 400
+	CLASSWIDE INTEGER	type(VIRTUAL)
+						# solver = ci_NASTRAN, No other solvers currently supported
+	CLASSWIDE INTEGER 	solver(VIRTUAL)
+						# instructions = ci_MESH_AND_SOLVE or ci_MESH_ONLY
+	CLASSWIDE INTEGER	instructions(VIRTUAL)
+	
+	CLASSWIDE INTEGER	failure_Criteria(VIRTUAL)	
+				
+				
+	CLASSWIDE STRING  errorMsg[1024] 
+	CLASSWIDE INTEGER errorLevel				
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vAnalysis"
+	
+	c_ANALYSIS = "Analysis"
+	
+	c_CONFIGURATION_ID = 	"Configuration_ID"
+	c_SOURCE_MODEL = 		"Source_Model"		
+	c_SOLVER =				"Solver"	
+	c_INSTRUCTIONS = 		"Instructions"
+	
+	c_NASTRAN = 			"NASTRAN"
+	
+	c_MESH_AND_SOLVE = 		"MESH_AND_SOLVE"
+	c_MESH_ONLY = 			"MESH_ONLY"		
+	
+	c_FAILURE_CRITERIA = 	"Failure_Criteria"
+	
+	c_TSAI_WU =				"Tsai_Wu"
+	c_HOFFMAN =				"Hoffman"
+	c_HILL =				"Hill"						
+	c_MAXIMUM_STRESS =		"Maximum_Stress"
+	
+	ci_NASTRAN = 			1
+		
+	ci_MESH_AND_SOLVE =		1
+	ci_MESH_ONLY =			2	
+	
+	ci_TSAI_WU =			1
+	ci_HOFFMAN =			2
+	ci_HILL =				3
+	ci_MAXIMUM_STRESS =		4	
+		
+	count = 0
+	count_temp = 0
+	
+END FUNCTION
+################################################################################
+FUNCTION allocateArrays()
+	IF ( count > 0 ) THEN
+		sys_allocate_array ( iD, 				1, count )
+		sys_allocate_array ( date, 				1, count )
+		sys_allocate_array ( configuration_ID,	1, count )		
+		sys_allocate_array ( source_Model, 		1, count )		
+		sys_allocate_array ( type, 				1, count )
+		sys_allocate_array ( solver, 			1, count )
+		sys_allocate_array ( instructions, 		1, count )
+		sys_allocate_array ( failure_Criteria, 	1, count )				
+	END IF
+	
+	INTEGER i
+	FOR ( i = 1 TO count )	
+			failure_Criteria(i) =  vConstants.get_ci_Undefined()
+	END FOR
+	
+END FUNCTION
+################################################################################
+FUNCTION get_c_ANALYSIS()
+	RETURN c_ANALYSIS
+END FUNCTION
+################################################################################
+FUNCTION increment_Count()
+	count += 1
+END FUNCTION
+################################################################################
+FUNCTION get_Count()
+	RETURN count
+END FUNCTION
+################################################################################
+#FUNCTION count_temp()
+#	count_temp += 1
+#END FUNCTION
+################################################################################
+FUNCTION  get_ci_MESH_AND_SOLVE()
+	return ci_MESH_AND_SOLVE
+END FUNCTION
+################################################################################
+# Can be one and only one vAnalysis
+FUNCTION  get_instruction()
+	return instructions(1)
+END FUNCTION
+################################################################################
+# Can be one and only one vAnalysis
+FUNCTION  get_failure_Criteria()
+	return failure_Criteria(1)
+END FUNCTION
+################################################################################
+#	ci_TSAI_WU =			1
+#	ci_HOFFMAN =			2
+#	ci_HILL =				3
+#	ci_MAXIMUM_STRESS =		4
+FUNCTION  get_ci_TSAI_WU()
+	return ci_TSAI_WU
+END FUNCTION
+FUNCTION  get_ci_HOFFMAN()
+	return ci_HOFFMAN
+END FUNCTION
+FUNCTION  get_ci_HILL()
+	return ci_HILL
+END FUNCTION
+FUNCTION  get_ci_MAXIMUM_STRESS()
+	return ci_MAXIMUM_STRESS
+END FUNCTION
+################################################################################
+FUNCTION readNameValuePairs( modelFile,					@
+							 in_out_LineNum,			@
+							 in_out_Buffer )						
+	INTEGER modelFile
+
+	INTEGER in_out_LineNum
+	STRING	in_out_Buffer[]
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".readNameValuePairs"		
+
+	LOGICAL equalsSignFound = TRUE
+	LOGICAL	shouldContinue
+	STRING  buffer[2028]	
+	
+	INTEGER length	
+
+	STRING nameField[128]
+	STRING valueField[128]	
+	
+	count_temp += 1	
+	
+	buffer = ""
+	WHILE ( equalsSignFound )	
+		INTEGER textReadStatus
+		textReadStatus = text_read_string( modelFile, buffer, length )
+		IF ( textReadStatus != 0 ) THEN
+			buffer = ""
+			IF ( textReadStatus == -1 ) THEN
+				equalsSignFound = FALSE
+			ENDIF
+		ELSE
+			in_out_LineNum += 1
+			shouldContinue = FALSE			
+			
+			buffer = vModelDefinitionReader.getBufferNoComments( in_out_LineNum, buffer, shouldContinue )					
+			# shouldContinue == TRUE means that the line was blank or contained only a comment
+			If (shouldContinue ) THEN CONTINUE 
+			
+			IF ( str_index( buffer, "=" ) == 0 ) THEN
+				equalsSignFound = FALSE					
+			ELSE
+				nameField = str_token( buffer,"=", 1, TRUE )		
+				valueField = str_token( buffer,"=", 2, TRUE )
+
+				SWITCH ( nameField )
+					CASE (vConstants.get_c_ID())
+					  iD(count_temp) =  vCommon.ID_toInt(valueField)
+					  IF (  iD(count_temp) < 0 ) THEN
+							errorMsg = "Could not convert to a positive non-zero integer, String: " // valueField // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF
+					CASE (vConstants.get_c_DATE())
+						dATE(count_temp) = 	valueField	
+					CASE (c_Configuration_ID)
+						WRITE ( "                         Found: " //  vConstants.get_c_DATE()) 
+						configuration_ID(count_temp) = 	valueField						
+					CASE (c_SOURCE_MODEL)
+						source_Model(count_temp) = 	valueField	
+					CASE (vConstants.get_c_TYPE())
+					  type(count_temp) = vAnalysis.anaType_toInt (valueField)
+					  IF ( type(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): " // vAnalysis.anaType_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+					  END IF
+					   
+					CASE (c_SOLVER)	
+						solver(count_temp) = vAnalysis.solver_toInt (valueField)
+						 IF ( solver(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vAnalysis.solver_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						END IF
+				  
+					CASE (c_INSTRUCTIONS)			
+					  instructions(count_temp) = vAnalysis.anaInstructions_toInt(valueField)
+					  IF (  instructions(count_temp) < 0  ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): " // @
+							vAnalysis.anaInstructions_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  END IF		
+					CASE (c_FAILURE_CRITERIA)	
+						failure_Criteria(count_temp) = vAnalysis.failure_Criteria_toInt (valueField)
+						 IF ( failure_Criteria(count_temp) < 0 ) THEN
+							errorMsg = "Invalid value in name-value pair: " // buffer // ", Valid value(s): "  // vAnalysis.failure_Criteria_validStrings()  // ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+						END IF					  
+					  
+					DEFAULT	
+						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )								
+				END SWITCH
+				
+				#WRITE ( "                         in_out_ErrorMessages_current" // str_from_integer(in_out_ErrorMessages_current) )
+				
+			END IF
+		END IF
+	END WHILE
+		
+	in_out_Buffer = buffer
+	
+	#WRITE ( "Function: " // functionName  // ", Returned Buffer: " // buffer )	
+	
+END FUNCTION
+################################################################################
+FUNCTION logData()
+
+	text_write_string( vLogger.getChannel(), "")
+	text_write_string( vLogger.getChannel(), "-------- Begin " // c_Analysis // " --------")	
+	text_write_string( vLogger.getChannel(), "   Count: " // str_from_integer(count))
+	INTEGER i
+	FOR ( i = 1 TO count )
+		text_write_string( vLogger.getChannel(), "")
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_ID()		// " = " // vCommon.ID_toStr (iD(i)) )
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_DATE() 	// " = " // date(i) )	
+		text_write_string( vLogger.getChannel(), "   " // c_CONFIGURATION_ID 		// " = " // configuration_ID(i) )
+		text_write_string( vLogger.getChannel(), "   " // c_SOURCE_MODEL 			// " = " // source_Model(i) )	
+		text_write_string( vLogger.getChannel(), "   " // vConstants.get_c_TYPE() 	// " = " // vAnalysis.anaType_toStr(type(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_SOLVER 					// " = " // vAnalysis.solver_toStr (solver(i)) )
+		text_write_string( vLogger.getChannel(), "   " // c_INSTRUCTIONS 			// " = " // vAnalysis.anaInstructions_toStr(instructions(i)) )	
+	END FOR
+	text_write_string( vLogger.getChannel(), "-------- End " // c_Analysis // " --------")		
+END FUNCTION
+################################################################################
+FUNCTION check()
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".check"
+
+	INTEGER returnStatus = 0		
+	
+	IF (count != 1 ) THEN
+		errorMsg = "There must be one and only one Analysis entry in the input file, Analysis entries found: " // str_from_integer(count)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+		return returnStatus
+	END IF
+
+	IF ( solver(1) != ci_NASTRAN) THEN
+		errorMsg = "Non supported solver type, only supported solvers: " // vAnalysis.solver_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF
+	
+	IF ( instructions(1) != ci_MESH_AND_SOLVE && instructions(1) != ci_MESH_ONLY   ) THEN
+		errorMsg = "Incorrect instructions, valid instructions: "// vAnalysis.anaInstructions_validStrings()
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+		returnStatus = -1	
+	END IF	
+	
+
+	return returnStatus	
+
+END FUNCTION
+################################################################################
+FUNCTION solver_toStr ( in_Solver_ID )
+
+	INTEGER in_Solver_ID
+	
+	IF ( in_Solver_ID == ci_NASTRAN ) THEN
+		return c_NASTRAN
+	ELSE
+		return ""
+	END IF
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION solver_toInt ( in_Solver_string )
+
+	STRING in_Solver_string[]
+	
+	IF ( in_Solver_string == c_NASTRAN ) THEN
+		return ci_NASTRAN
+	ELSE
+		return -1
+	END IF
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION solver_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return c_NASTRAN
+	
+END FUNCTION
+
+###############################################################################
+FUNCTION anaType_toStr ( in_anaType_ID )
+
+	INTEGER in_anaType_ID
+	
+	IF ( in_anaType_ID == 101 ) THEN
+		return "101"
+	ELSE
+		return ""
+	END IF
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION anaType_toInt ( in_anaType_string )
+
+	STRING in_anaType_string[]
+	
+	IF ( in_anaType_string == "101" ) THEN
+		return 101
+	ELSE
+		return -1
+	END IF
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION anaType_validStrings()
+	# if more are added, the strings would be separated by spaces
+	return "101"
+	
+END FUNCTION
+
+
+
+##############################################################################
+FUNCTION anaInstructions_toStr ( in_anaInstructions_ID )
+
+	INTEGER in_anaInstructions_ID
+	
+	IF ( in_anaInstructions_ID == ci_MESH_AND_SOLVE ) THEN
+		return c_MESH_AND_SOLVE
+	ELSE IF ( in_anaInstructions_ID == ci_MESH_ONLY ) THEN
+		return c_MESH_ONLY
+	ELSE
+		return ""
+	END IF
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION anaInstructions_toInt ( in_anaInstructions_string )
+
+	STRING in_anaInstructions_string[]
+	
+	IF ( in_anaInstructions_string == c_MESH_AND_SOLVE ) THEN
+		return ci_MESH_AND_SOLVE
+	ELSE IF ( in_anaInstructions_string == c_MESH_ONLY ) THEN
+		return ci_MESH_ONLY
+	ELSE
+		return -1
+	END IF
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION anaInstructions_validStrings()
+	return c_MESH_AND_SOLVE // " " // c_MESH_ONLY
+	
+END FUNCTION
+
+##############################################################################
+FUNCTION failure_Criteria_toStr ( in_failure_Criteria_ID )
+
+	INTEGER in_failure_Criteria_ID
+	
+	SWITCH ( in_failure_Criteria_ID )
+	   CASE( ci_TSAI_WU  )  
+			return 	c_TSAI_WU 				
+	   CASE( ci_HOFFMAN   )  
+			return 	c_HOFFMAN  	
+	   CASE( ci_HILL   )  
+			return 	c_HILL  
+	   CASE( ci_MAXIMUM_STRESS )  
+			return 	c_MAXIMUM_STRESS  			
+	   DEFAULT
+			return "" 
+	END SWITCH
+
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION failure_Criteria_toInt ( in_failure_Criteria_string )
+
+	STRING in_failure_Criteria_string[]
+	
+	SWITCH ( in_failure_Criteria_string )
+	   CASE( c_TSAI_WU  )  
+			return 	ci_TSAI_WU 				
+	   CASE( c_HOFFMAN   )  
+			return 	ci_HOFFMAN  	
+	   CASE( c_HILL )  
+			return 	ci_HILL  
+	   CASE( c_MAXIMUM_STRESS )  
+			return 	ci_MAXIMUM_STRESS  			
+	   DEFAULT
+			return -1
+	END SWITCH
+	
+END FUNCTION
+#------------------------------------------------------------------------------
+FUNCTION failure_Criteria_validStrings()
+	return c_TSAI_WU // " " // c_HOFFMAN // " " // c_HILL // " " // c_MAXIMUM_STRESS
+	
+END FUNCTION
+FUNCTION failure_Criteria_Tsai_Hoff_Hill()
+	return c_TSAI_WU // " " // c_HOFFMAN // " " // c_HILL 
+	
+END FUNCTION
+
+FUNCTION failure_Criteria_Tsai_Wu()
+	return c_TSAI_WU 
+END FUNCTION
+
+FUNCTION failure_Criteria_Hoffman()
+	return c_HOFFMAN 
+END FUNCTION
+
+FUNCTION failure_Criteria_Hill()
+	return c_HILL 
+END FUNCTION
+
+FUNCTION failure_Maximum_stress()
+	return c_MAXIMUM_STRESS 
+END FUNCTION
+
+###############################################################################
+
+END CLASS

@@ -1,0 +1,162 @@
+###########################
+# vTraversal_Utils Class
+###########################
+CLASS vTraversal_Utils
+				
+	CLASSWIDE STRING	c_ClassName[32]			
+				
+	CLASSWIDE STRING  	errorMsg[1024] 
+	CLASSWIDE INTEGER 	errorLevel	
+
+	CLASSWIDE REAL		matrix(4,4)
+	
+	CLASSWIDE LOGICAL   matrixSet		
+	
+	
+################################################################################
+FUNCTION initialize()
+	c_ClassName = "vTraversal_Utils"
+	
+	
+	
+END FUNCTION
+################################################################################
+FUNCTION Surface_Contents_to_Surface( in_SurfaceContents_ID, out_Surface_ID)
+	INTEGER in_SurfaceContents_ID
+	INTEGER out_Surface_ID
+
+	STRING  inputArgument[32]
+	STRING  outputArgument[32]	
+	
+	inputArgument = "in_SurfaceContents_ID"
+	outputArgument = "out_Surface_ID"	
+
+	# Key Classes: vSurface_Contents  vSurface
+	INTEGER returnStatus = 0	
+	
+	INTEGER index_1, index_2
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".Surface_Contents_to_Surface"		
+	
+	index_1 = vSurface_Contents.getIndex(in_SurfaceContents_ID)
+	
+	IF ( index_1 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = inputArgument // " not found, " // inputArgument // ": " //  str_from_integer(in_SurfaceContents_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1						
+	END IF	
+	
+	out_Surface_ID = vSurface_Contents.get_Surface_ID( index_1 )
+	
+	####################################
+	# Make sure out_Surface_ID is Valid
+	####################################
+	
+	index_2 = vSurface.getIndex( out_Surface_ID )
+	
+	IF ( index_2 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = outputArgument // " not found, " // outputArgument // ": " //  str_from_integer(out_Surface_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1							
+	END IF		
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################
+FUNCTION Surface_to_Geometry( in_Surface_ID, out_Geometry_ID)
+	INTEGER in_Surface_ID
+	INTEGER out_Geometry_ID
+
+	STRING  inputArgument[32]
+	STRING  outputArgument[32]	
+	
+	inputArgument = "in_Surface_ID"
+	outputArgument = "out_Geometry_ID"	
+
+	# Key Classes: vSurface  vGeometry
+	INTEGER returnStatus = 0	
+	
+	INTEGER index_1, index_2
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".Surface_to_Geometry"		
+	
+	index_1 = vSurface.getIndex(in_Surface_ID)
+	
+	IF ( index_1 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = inputArgument // " not found, " // inputArgument // ": " //  str_from_integer(in_Surface_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1						
+	END IF	
+	
+	out_Geometry_ID = vSurface.get_geometry_ID( index_1 )
+	
+	####################################
+	# Make sure out_Geometry_ID is Valid
+	####################################
+	
+	index_2 = vGeometry.getIndex( out_Geometry_ID )
+	
+	IF ( index_2 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = outputArgument // " not found, " // outputArgument // ": " //  str_from_integer(out_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1							
+	END IF		
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################	
+FUNCTION Geometry_to_Point( in_Geometry_ID, out_Point_ID)
+	INTEGER in_Geometry_ID
+	INTEGER out_Point_ID
+
+	STRING  inputArgument[32]
+	STRING  outputArgument[32]	
+	
+	inputArgument = "in_Geometry_ID"
+	outputArgument = "out_Point_ID"	
+
+	# Key Classes: vGeometry  vPoint
+	INTEGER returnStatus = 0	
+	
+	INTEGER index_1, index_2
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".Geometry_to_Point"		
+	
+	index_1 = vGeometry.getIndex(in_Geometry_ID)
+	
+	IF ( index_1 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = inputArgument // " not found, " // inputArgument // ": " //  str_from_integer(in_Geometry_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1						
+	END IF	
+	
+	out_Point_ID = vGeometry.get_geometry_Point_ID( index_1 )
+	
+	####################################
+	# Make sure out_Point_ID is Valid
+	####################################
+	
+	index_2 = vPoint.getIndex( out_Point_ID )
+	
+	IF ( index_2 == vConstants.get_ci_Undefined() ) THEN
+			errorMsg = outputArgument // " not found, " // outputArgument // ": " //  str_from_integer(out_Point_ID)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			RETURN -1							
+	END IF		
+	
+	RETURN returnStatus
+	
+END FUNCTION
+################################################################################							
+END CLASS
