@@ -7,6 +7,7 @@ def exitwitherror(msg, code, program=''):
     logger.error(msg)
     with open('_FAILED.txt', 'a') as f:
         f.write(program + ': ' + msg + '\n')  # python will convert \n to os.linesep
+    print(program + ': ' + msg)
     exit(code)
 
 

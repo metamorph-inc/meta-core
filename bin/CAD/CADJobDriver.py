@@ -104,6 +104,7 @@ def runCalculix():
 
 
 def main():
+    cad_library.setuplogger('CADJobDriver')
     global args
     parser = argparse.ArgumentParser(description='Executes a CAD or FEA job. Invokes the specified assembler, mesher and analyzer in this sequence.')
     parser.add_argument('-assembler', choices=['CREO'])

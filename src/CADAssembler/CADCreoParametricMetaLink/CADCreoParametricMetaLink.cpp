@@ -132,7 +132,7 @@ void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis:
             if(! ::boost::filesystem::is_regular_file(protkPath))
             {
                 std::stringstream msg;
-                msg << "the \"protk.dat\" file has a problem (existance?): "
+                msg << "the \"protk_hudat.dat\" file does not exist or is not a regular file: "
                     << protkPath.string();
                 throw isis::application_exception(msg);
             }
