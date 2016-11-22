@@ -276,12 +276,19 @@ namespace CyPhyMetaLink
             return;
         }
 
-        private string GetJavaInstallationPath()
+        public static string GetJavaInstallationPath()
         {
-            String javaKey = "SOFTWARE\\JavaSoft\\Java Runtime Environment";
+
+            foreach (var javaKey in new[] {
+                new { key = "SOFTWARE\\JavaSoft\\Java Runtime Environment", view = RegistryView.Registry64 },
+                new { key = "SOFTWARE\\JavaSoft\\Java Runtime Environment", view = RegistryView.Registry32 },
+                new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry64 },
+                new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry32 },
+            })
+            {
             try
             {
-                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(javaKey))
+                    using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, javaKey.view).OpenSubKey(javaKey.key))
                 {
                     String currentVersion = baseKey.GetValue("CurrentVersion").ToString();
                     using (var homeKey = baseKey.OpenSubKey(currentVersion))
@@ -292,19 +299,8 @@ namespace CyPhyMetaLink
             {
                 // no 64-bit Java was found. Will try 64-bit
             }
-            try
-            {
-                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(javaKey))
-                {
-                    String currentVersion = baseKey.GetValue("CurrentVersion").ToString();
-                    using (var homeKey = baseKey.OpenSubKey(currentVersion))
-                        return homeKey.GetValue("JavaHome").ToString();
-                }
             }
-            catch (Exception)
-            {
-                // no success with 32-bit version either, will return null
-            }
+
             return null;
         }
 
