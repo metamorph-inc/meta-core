@@ -154,9 +154,9 @@ void CDesertConfigDialog::FillCfgList()
 	m_cfglist.InsertColumn(0, _T (""), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T(" "))),0);
 	m_cfglist.InsertColumn(1, _T("Cfg.No."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T("Cfg.No."))),1);
 	m_cfglist.InsertColumn(2, _T("Cfg.Id."), LVCFMT_LEFT, (int)(WTIMES*m_cfglist.GetStringWidth(_T("Cfg.Id."))),2);
-	ListView_SetExtendedListViewStyle(m_cfglist.m_hWnd, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
-	// disable label editing
-	SetWindowLong(m_cfglist.GetSafeHwnd(), GWL_STYLE, GetWindowLong(m_cfglist.GetSafeHwnd(), GWL_STYLE) & (~LVS_EDITLABELS));
+	//ListView_SetExtendedListViewStyle(m_cfglist.m_hWnd, LVS_EX_CHECKBOXES|LVS_EDITLABELS);
+	//m_cfglist.SetExtendedStyle(LVS_EX_CHECKBOXES|LVS_EDITLABELS|LVS_EX_FULLROWSELECT );
+	ListView_SetExtendedListViewStyle(m_cfglist.m_hWnd,LVS_EX_CHECKBOXES | LVS_EDITLABELS | LVS_EX_FULLROWSELECT);
 
 	m_cfglist.SetColumnNum(3);
 	m_cfglist.initHeadListCtr();
