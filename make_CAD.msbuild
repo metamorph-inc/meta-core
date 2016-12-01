@@ -6,7 +6,6 @@
   <PropertyGroup>
     <!-- Some General Paths -->
     <CREO_PARAMETRIC_TOOLKIT_PARENT_DIR Condition="'$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)'==''">C:\Program Files\PTC\Creo 3.0\M060\Common Files</CREO_PARAMETRIC_TOOLKIT_PARENT_DIR>
-    <PROE_INSTALL_PATH Condition="'$(PROE_INSTALL_PATH)'==''">c:\Program Files\PTC\Creo 2.0\Common Files\M110</PROE_INSTALL_PATH>
     <PROE_ISIS_EXTENSIONS Condition="'$(PROE_ISIS_EXTENSIONS)'==''">$(MSBuildThisFileDirectory)deploy\CAD_Installs\Proe ISIS Extensions\</PROE_ISIS_EXTENSIONS>
 	<CREO_PARAMETRIC_DIR Condition="Exists('C:\Program Files\PTC\Creo 2.0\Parametric')">C:\Program Files\PTC\Creo 2.0\Parametric</CREO_PARAMETRIC_DIR>
 	<CREO_PARAMETRIC_DIR Condition="Exists('C:\Program Files\PTC\Creo 3.0\M060\Parametric')">C:\Program Files\PTC\Creo 3.0\M060\Parametric</CREO_PARAMETRIC_DIR>

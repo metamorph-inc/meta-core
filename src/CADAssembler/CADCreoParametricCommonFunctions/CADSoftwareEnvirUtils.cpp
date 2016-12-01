@@ -389,8 +389,7 @@ namespace isis
 				}
 			}	
 			****/
-			//_putenv_s( "PROE_INSTALL_PATH", creoParametricInstallPath.c_str() ); // PROE_INSTALL_PATH does not needed to run Creo
-			_putenv_s( "PRO_COMM_MSG_EXE", creoParametricCommMsgExe.c_str() );				
+			_putenv_s( "PRO_COMM_MSG_EXE", creoParametricCommMsgExe.c_str() );
 			char *EnvVariableCOMM_MSG_EXE  = getenv ("PRO_COMM_MSG_EXE");
 			//std::cout << std::endl << "************* PRO_COMM_MSG_EXE: " << creoParametricCommMsgExe;
 			//std::cout << std::endl << "************* getenv (\"PRO_COMM_MSG_EXE\"): " << EnvVariableCOMM_MSG_EXE;
@@ -414,7 +413,6 @@ namespace isis
 					std::string("This file is typically located at \"C:\\Program Files\\META\\Proe ISIS Extensions\".  Alternately, if the system environment variable PROE_ISIS_EXTENSIONS is set, at a cmd prompt enter \"echo %PROE_ISIS_EXTENSIONS%\" to view the file location.");
 				throw isis::application_exception(TempError.c_str());
 			}
-			//_putenv_s( "PROE_INSTALL_PATH", EnvVariable_INSTALL_PATH );  // PROE_INSTALL_PATH does not needed to run Creo
 			_putenv_s( "PRO_COMM_MSG_EXE",  EnvVariableCOMM_MSG_EXE );
 
 			//out_CreoStartCommand = EnvVariable_INSTALL_PATH + creoStartCommandSuffix;
