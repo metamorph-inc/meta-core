@@ -523,6 +523,14 @@ namespace CyPhyMetaLink
                     CollectComponents(complist, compref.AllReferred as CyPhyML.ComponentAssembly);
                 }
             }
+            foreach (var comp in assembly.Children.ComponentCollection)
+            {
+                complist.Add(comp);
+            }
+            foreach (var ca in assembly.Children.ComponentAssemblyCollection)
+            {
+                CollectComponents(complist, ca);
+            }
         }
 
         // Collects all the components this assembly contains, including multi-level hierarchies
