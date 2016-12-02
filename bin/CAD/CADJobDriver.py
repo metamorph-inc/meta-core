@@ -224,7 +224,7 @@ class CADJobDriver():
         patran_pp_path = os.path.join(self.meta_bin_cad, patran_pp_name)
         if not os.path.isfile(patran_pp_path):
             cad_library.exitwitherror(
-                'Can\'t find {}. Do you have the META toolchain installed properly?', format(patran_pp_name), -1)
+                'Can\'t find {}. Do you have the META toolchain installed properly?', -1, format(patran_pp_name))
 
         post_processing_args = "{} {} {}".format(
             "..\\AnalysisMetaData.xml",
@@ -397,7 +397,9 @@ def main():
     #             entry (i.e. each run).
 
     if os.path.exists("Analysis"):
-        shutil.rmtree("Analysis")
+        for root, dirs, files in os.walk("Analysis", topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
 
     # R.O. 10/10/2016, When running a PET, it is desirable to delete the old versions of the Creo models/trail-file; otherwise,
     # the models will accumulate and waste disk space.

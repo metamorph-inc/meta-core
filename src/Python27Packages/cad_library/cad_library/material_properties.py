@@ -9,7 +9,7 @@ __author__ = 'rowens'
 #    See material_properties_test.py for an exampled of how to invoke this module.
 #    Also, see the contract (shown below in this module) on get_props_from_material_library.
 #
-#    See ..\..\..\CADAssembler\Python\Test\cad_library\material_properties_test.py for an example of how to invoke this module.
+#    See \bin\CAD\Test\cad_library\material_properties_test.py for an example of how to invoke this module.
 
 import cad_exception_classes as CADExcep
 import _winreg
@@ -816,10 +816,15 @@ def get_material_library_manager():
 
         from MaterialLibraryInterface import LibraryManager
 
-        path = ctypes.c_wchar_p(chr(0x00) * 256)
-        FOLDERID_Documents = ctypes.c_char_p(uuid.UUID("ED4824AF-DCE4-45A8-81E2-FC7965083634").bytes_le)
-        ctypes.windll.shell32.SHGetKnownFolderPath(FOLDERID_Documents, 0, None, ctypes.byref(path))
-        materialLibPath = os.path.join(path.value, "META Documents", "MaterialLibrary", "material_library.json")
+        dev_path = os.path.join(META_PATH, r"models\MaterialLibrary\material_library.json")
+        if os.path.isfile(dev_path):
+            materialLibPath = dev_path
+        else:
+            path = ctypes.c_wchar_p()
+            FOLDERID_Documents = ctypes.c_char_p(uuid.UUID("ED4824AF-DCE4-45A8-81E2-FC7965083634").bytes_le)
+            ctypes.windll.shell32.SHGetKnownFolderPath(FOLDERID_Documents, 0, None, ctypes.byref(path))
+            materialLibPath = os.path.join(path.value, "META Documents", "MaterialLibrary", "material_library.json")
+            ctypes.windll.Ole32.CoTaskMemFree(path)
 
         library_manager = LibraryManager(materialLibPath)
         return library_manager

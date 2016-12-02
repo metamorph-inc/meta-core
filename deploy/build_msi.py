@@ -107,9 +107,6 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\CADAssembler\Python", id="CADPython")
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\CADAssembler\CreatePatranModel", id="CADCreatePatran")
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\CADAssembler\PostProcessing\PatranPostProcessing", id="CADPatranPostProcess")
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
     def get_svnversion():

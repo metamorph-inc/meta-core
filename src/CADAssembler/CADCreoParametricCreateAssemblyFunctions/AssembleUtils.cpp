@@ -19,6 +19,7 @@
 #include <e3ga.h>
 #include <WindowsFunctions.h>
 #include <JointCreo.h>
+#include <Windows.h>
 
 namespace isis
 {
@@ -1355,9 +1356,34 @@ void CreateModelNameWithUniqueSuffix(
 		return (std::string)publicDocuments_multiformat + std::string("\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL");		;
 	}
 
+	std::string META_PATH()
+	{
+		std::string metapath;
+		HKEY software_meta;
+		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
+		{
+			BYTE data[MAX_PATH];
+			DWORD type, size = sizeof(data) / sizeof(data[0]);
+			if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
+			{
+				metapath = std::string(data, data + strnlen((const char*)data, size));
+			}
+			RegCloseKey(software_meta);
+		}
+		return metapath;
+	}
+
 	// e.g "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
 	std::string MaterialsLibrary_PathAndFileName()
 	{
+		auto dev_path = boost::filesystem::path(META_PATH()) / "models" / "MaterialLibrary" / "material_library.json";
+		OutputDebugStringA(dev_path.string().c_str());
+		OutputDebugStringA("\n");
+		if (boost::filesystem::is_regular_file(dev_path))
+		{
+			return dev_path.string();
+		}
+
 		std::wstring publicDocuments_wide;
 
 		// Public Documents e.g. "C:\\Users\\Public\\Documents\\META Documents"
