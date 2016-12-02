@@ -542,7 +542,8 @@ namespace CyPhyMetaLink
             string path = Path.GetDirectoryName(GetCadModelPath(component));
             if (path == null)
             {
-                GMEConsole.Warning.WriteLine(String.Format("MetaLink warning: component '{0}' has no modelpath in the manifest.project.json", component.Name));
+                // not everything needs a CAD model
+                // GMEConsole.Warning.WriteLine(String.Format("MetaLink warning: component '{0}' has no CAD model", component.Name));
             }
             else
             {
