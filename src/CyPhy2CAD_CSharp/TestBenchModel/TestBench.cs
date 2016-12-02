@@ -144,7 +144,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         public override bool HasErrors()
         {
-            int assemblyCnt = cadDataContainer.assemblies.Count(), orphanCnt = cadDataContainer.orphans.Count();
+            int assemblyCnt = cadDataContainer.assemblies.Count();
+            int orphanCnt = cadDataContainer.orphans.Count();
             if (assemblyCnt == 0 && orphanCnt == 0)
             {
                 Logger.Instance.AddLogMessage("TestBench has no connected components and no components with valid cadmodel links. Nothing will be generated.", Severity.Error);
@@ -153,6 +154,15 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             if ((assemblyCnt > 1 || orphanCnt > 0) && this.StaticAnalysisMetrics.Any())
             {
+                foreach (var assembly in cadDataContainer.assemblies)
+                {
+                    Logger.Instance.AddLogMessage(String.Format("Assembly {0}", assembly.Key), Severity.Warning);
+                }
+                foreach (var orphan in cadDataContainer.orphans)
+                {
+                    Logger.Instance.AddLogMessage(String.Format("Orphan {0}", orphan.Name), Severity.Warning);
+                }
+
                 Logger.Instance.AddLogMessage("Test Bench has islands of connected components and/or orphan components, metrics can not be computed. Please remove the metrics or orphan components from test bench and try again.", Severity.Error);
                 return true;
             }
