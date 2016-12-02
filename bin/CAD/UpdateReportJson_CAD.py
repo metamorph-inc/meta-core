@@ -48,6 +48,8 @@ def update_manifest(tbmanifest, computedValuesXml):
                     if 'Name' in metric and 'Value' in metric and 'GMEID' in metric:
                         # key = metric['GMEID']  # JK 8/19/2016  How did this ever work?
                         key = metric['ID']
+                        if key not in ComputedMetricsSummary.gMetricSummary:
+                            key = metric['GMEID']
                         if key in ComputedMetricsSummary.gMetricSummary:
                             # update metric's value to the last value in
                             # time series
@@ -236,7 +238,9 @@ def update_manifest_per_interference_check(in_tbmanifest, in_interference_file):
 
 
 if __name__ == '__main__':
-    # logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+    import sys
+    import logging
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
     manifest = os.path.join(os.getcwd(), 'testbench_manifest.json')
     update_manifest(manifest, 'ComputedValues.xml')
     interference_check_file = os.path.join(os.getcwd(), 'CADAssembly_interference.txt')
