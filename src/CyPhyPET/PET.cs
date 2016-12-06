@@ -25,6 +25,15 @@ namespace CyPhyPET
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string[] source;
         }
+        public class Constraint
+        {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string[] source;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double? RangeMin;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public double? RangeMax;
+        }
         public class Component
         {
             public Dictionary<string, Parameter> parameters;
@@ -49,6 +58,8 @@ namespace CyPhyPET
             public string type;
             public Dictionary<string, DesignVariable> designVariables;
             public Dictionary<string, Parameter> objectives;
+            public Dictionary<string, Constraint> constraints;
+            public Dictionary<string, Parameter> intermediateVariables;
             public Dictionary<string, object> details;
         }
         public Dictionary<string, Component> components;
@@ -99,9 +110,67 @@ namespace CyPhyPET
                 var config = AddConfigurationForMDAODriver(optimizer);
                 config.type = "optimizer";
 
+                foreach (var intermediateVar in optimizer.Children.IntermediateVariableCollection)
+                {
+                    var sourcePath = GetSourcePath(null, (MgaFCO) intermediateVar.Impl);
+                    if (sourcePath != null)
+                    {
+                        var intermVar = new PETConfig.Parameter();
+                        intermVar.source = sourcePath;
+
+                        config.intermediateVariables.Add(intermediateVar.Name, intermVar);
+                    }
+                }
+
                 foreach (var constraint in optimizer.Children.OptimizerConstraintCollection)
                 {
-                    // TODO
+                    var sourcePath = GetSourcePath(null, (MgaFCO)constraint.Impl);
+                    if (sourcePath != null)
+                    {
+                        var cons = new PETConfig.Constraint();
+                        cons.source = sourcePath;
+
+                        if (!string.IsNullOrWhiteSpace(constraint.Attributes.MinValue))
+                        {
+                            double minValue;
+                            if (double.TryParse(constraint.Attributes.MinValue,
+                                NumberStyles.Float | NumberStyles.AllowThousands,
+                                CultureInfo.InvariantCulture, out minValue))
+                            {
+                                cons.RangeMin = minValue;
+                            }
+                            else
+                            {
+                                throw new ApplicationException(String.Format("Cannot parse Constraint MinValue '{0}'",
+                                    constraint.Attributes.MinValue));
+                            }
+                        }
+                        else
+                        {
+                            cons.RangeMin = null;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(constraint.Attributes.MaxValue))
+                        {
+                            double maxValue;
+                            if (double.TryParse(constraint.Attributes.MaxValue,
+                                NumberStyles.Float | NumberStyles.AllowThousands,
+                                CultureInfo.InvariantCulture, out maxValue))
+                            {
+                                cons.RangeMax = maxValue;
+                            }
+                            else
+                            {
+                                throw new ApplicationException(String.Format("Cannot parse Constraint MaxValue '{0}'",
+                                    constraint.Attributes.MaxValue));
+                            }
+                        }
+                        else
+                        {
+                            cons.RangeMax = null;
+                        }
+                        config.constraints.Add(constraint.Name, cons);
+                    }
                 }
 
             }
@@ -124,6 +193,8 @@ namespace CyPhyPET
             {
                 designVariables = new Dictionary<string, PETConfig.DesignVariable>(),
                 objectives = new Dictionary<string, PETConfig.Parameter>(),
+                constraints = new Dictionary<string, PETConfig.Constraint>(),
+                intermediateVariables = new Dictionary<string, PETConfig.Parameter>(),
                 details = new Dictionary<string, object>()
             };
             this.config.drivers.Add(driver.Name, config);

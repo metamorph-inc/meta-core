@@ -160,6 +160,12 @@ def with_problem(mdao_config, original_dir, override_driver=None):
     if driver['type'] == 'optimizer':
         top.driver = ScipyOptimizer()
         top.driver.options['optimizer'] = str(driver.get('details', {}).get('OptimizationFunction', 'SLSQP'))
+
+        for key, value in six.iteritems(driver_params):
+            try:
+                top.driver.options[key] = value
+            except KeyError:
+                pass # Ignore options that aren't valid for driver
     elif driver['type'] == 'parameterStudy':
         drivers = {
             "Uniform": UniformDriver,
@@ -188,13 +194,18 @@ def with_problem(mdao_config, original_dir, override_driver=None):
         recorders = []
         design_var_map = {get_desvar_path(designVariable): designVariable for designVariable in driver['designVariables']}
         objective_map = {'{}.{}'.format(objective['source'][0], objective['source'][1]): objective_name for objective_name, objective in six.iteritems(driver['objectives'])}
+        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver['intermediateVariables'])}
         constants_map = {}
         for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
             constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
 
+        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver['constraints']) if constraint['source'][0] not in mdao_config['drivers']} # All constraints that don't point back to design variables
+
         unknowns_map = design_var_map
         unknowns_map.update(objective_map)
+        unknowns_map.update(intermediate_var_map)
         unknowns_map.update(constants_map)
+        unknowns_map.update(constraints_map)
         for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
             if recorder['type'] == 'DriverCsvRecorder':
                 mode = 'wb'
@@ -306,6 +317,24 @@ def with_problem(mdao_config, original_dir, override_driver=None):
         if driver['type'] == 'optimizer':
             for objective in six.itervalues(driver['objectives']):
                 top.driver.add_objective(str('.'.join(objective['source'])))
+
+            for constraint in six.itervalues(driver['constraints']):
+                if constraint['source'][0] in mdao_config['drivers']:
+                    # References the driver; need to get the path to the design var
+                    constraintPath = get_desvar_path(constraint['source'][1])
+                else:
+                    constraintPath = str('.'.join(constraint['source']))
+
+                if 'RangeMin' in constraint and 'RangeMax' in constraint:
+                    top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'], upper=constraint['RangeMax'])
+                elif 'RangeMin' in constraint and 'RangeMax' not in constraint:
+                    top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'])
+                elif 'RangeMin' not in constraint and 'RangeMax' in constraint:
+                    top.driver.add_constraint(constraintPath, upper=constraint['RangeMax'])
+                else:
+                    pass # TODO: No min or max provided with constraint; warn or fail here?
+
+
 
         top.setup()
         # from openmdao.devtools.debug import dump_meta

@@ -18198,7 +18198,7 @@ maxiter = 100
 </value>
 						</attribute>
 						<attribute kind="OptimizationFunction" status="meta">
-							<value>CONMIN</value>
+							<value>COBYLA</value>
 						</attribute>
 						<reference id="id-0067-0000007c" kind="DesignVariable" role="DesignVariable" guid="{42e92147-ebb9-4c0b-9e71-76c467b8014a}" relid="0x1">
 							<name>mass</name>
@@ -18508,7 +18508,7 @@ itmax = 30
 </value>
 						</attribute>
 						<attribute kind="OptimizationFunction">
-							<value>NEWSUMT</value>
+							<value>COBYLA</value>
 						</attribute>
 						<reference id="id-0067-00000084" kind="DesignVariable" role="DesignVariable" guid="{49731822-dd94-4734-9fef-5d5dd3576eda}" relid="0x1">
 							<name>mass</name>
