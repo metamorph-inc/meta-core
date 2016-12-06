@@ -194,12 +194,12 @@ def with_problem(mdao_config, original_dir, override_driver=None):
         recorders = []
         design_var_map = {get_desvar_path(designVariable): designVariable for designVariable in driver['designVariables']}
         objective_map = {'{}.{}'.format(objective['source'][0], objective['source'][1]): objective_name for objective_name, objective in six.iteritems(driver['objectives'])}
-        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver['intermediateVariables'])}
+        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver.get('intermediateVariables', {}))}
         constants_map = {}
         for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
             constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
 
-        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver['constraints']) if constraint['source'][0] not in mdao_config['drivers']} # All constraints that don't point back to design variables
+        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']} # All constraints that don't point back to design variables
 
         unknowns_map = design_var_map
         unknowns_map.update(objective_map)
