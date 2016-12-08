@@ -122,27 +122,39 @@ FUNCTION computeMetrics( in_CompInstID_index, in_ComponentInstanceID, in_Nodes, 
 			
 				metricQualifier = ""
 				###### VM ######
+				#dump isLaminate_temp				
 				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "VM", metricQualifier,  maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				#dump "-----1"
+				#dump isLaminate_temp
 				IF ( maxMetricValue_temp > vonMises(in_CompInstID_index) ) 	THEN vonMises(in_CompInstID_index) = maxMetricValue_temp
 				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )
 				
 				###### MP ######
 				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "MP", metricQualifier, maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				#dump isLaminate_temp
+				#dump "-----2"				
 				IF ( maxMetricValue_temp > principalStress(in_CompInstID_index) ) 	THEN principalStress(in_CompInstID_index) = maxMetricValue_temp
 				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )				
 				
 				###### D ######
 				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "D",  metricQualifier, maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				#dump isLaminate_temp
+				#dump "-----3"				
 				IF ( maxMetricValue_temp > displacement(in_CompInstID_index) ) 	THEN displacement(in_CompInstID_index) = maxMetricValue_temp
 				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )						
 			ELSE
 				###### FailureIndex ######
 				# This applies only to surfaces
 				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "FailureIndex",  "Bonding", maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				#dump isLaminate_temp				
+				#dump "-----4"				
 				IF ( maxMetricValue_temp > failureIndex(in_CompInstID_index) ) 	THEN failureIndex(in_CompInstID_index) = maxMetricValue_temp
 				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )					
 				
 				vMetrics.computeMetricsAllLayers( in_Nodes, loadCaseID, subCaseID, "FailureIndex",  "Ply", maxMetricValue_temp, isLaminate_temp, numLayers_temp  )
+				
+				#dump isLaminate_temp				
+				#dump "-----5"				
 				IF ( maxMetricValue_temp > failureIndex(in_CompInstID_index) ) 	THEN failureIndex(in_CompInstID_index) = maxMetricValue_temp
 				vMetrics.setLayerLaminateVariables( in_CompInstID_index, isLaminate_temp, numLayers_temp )					
 				
@@ -304,10 +316,13 @@ FUNCTION computeMetricsAllLayers( in_Nodes, in_LoadCaseID, in_SubCaseID, in_Metr
 	text_write_string( vLogger.getChannel(), "out_NumLayers:    " // str_from_integer(out_NumLayers))
 	INTEGER i
 	
+	STRING layer_name_temp[80]
+	
 	text_write_string( vLogger.getChannel(), "layer ID      layer label")
 	text_write_string( vLogger.getChannel(), "---------     -----------")		
 	FOR (i = 1 TO out_NumLayers )
-		text_write_string( vLogger.getChannel(), str_from_integer(layerids(i)) // "             " // layerlabels(i))
+		res_data_get_layerpos_name( layerids(i), layer_name_temp )
+		text_write_string( vLogger.getChannel(), str_from_integer(layerids(i)) // "             " // layerlabels(i) // "     " // layer_name_temp )
 	END FOR 	
 	
 	IF ( !out_IsLaminate && out_NumLayers == 1 ) THEN
@@ -319,6 +334,9 @@ FUNCTION computeMetricsAllLayers( in_Nodes, in_LoadCaseID, in_SubCaseID, in_Metr
 	text_write_string( vLogger.getChannel(), "******* END result_ids, layers *******")		
 	
 	
+	## TEMP zzz Test
+	out_IsLaminate = FALSE
+	
 	text_write_string( vLogger.getChannel(), "")
 	
 	IF ( returnStatus != 0 ) THEN		
@@ -327,7 +345,9 @@ FUNCTION computeMetricsAllLayers( in_Nodes, in_LoadCaseID, in_SubCaseID, in_Metr
 		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
 		RETURN returnStatus	
 	END IF
-			   
+			  
+	STRING sv_id_list[VIRTUAL]
+			  
 	FOR (i = 1 TO SYS_ARRAY_HBOUND(layerids, 1))
 		resultids(1) = result_ids(1)
 		resultids(2) = result_ids(2)
@@ -335,7 +355,16 @@ FUNCTION computeMetricsAllLayers( in_Nodes, in_LoadCaseID, in_SubCaseID, in_Metr
 		resultids(4) = result_ids(4)		
 		resultids(5) = layerids(i)
 		 
+		# The following returns the result Elements (e.g. Element 1:495) and Nodes (e.g. Node 1:817 819:830 841:1114 1125:1628).
+		# This can be useful for debugging purposes 
+		# res_utl_get_result_entities ( resultids, sv_id_list ) 
+		# dump sv_id_list
+		 
+		 #dump "Before vMetrics.getMaxFactor"
+		 #dump out_IsLaminate
 		returnStatus = vMetrics.getMaxFactor(in_Metric, in_Nodes, out_IsLaminate, resultids, layerlabels, maxFactor)
+		 #dump "After vMetrics.getMaxFactor"	
+		 #dump out_IsLaminate		 
 		IF ( returnStatus != 0 ) THEN
 		   RETURN returnStatus	
 		END IF					
@@ -662,5 +691,126 @@ FUNCTION writeMetricsToOutputFile(  )
 	text_close(channel,"")
 	
 END FUNCTION
-################################################################################
+###############################################################################################
+FUNCTION getLayer_IDs_Labels( 	in_LoadCaseID, in_SubCaseID, in_Metric, in_MetricQualifier, @
+								out_NumLayers, out_LayerIDs, out_LayerLabels )
+
+	INTEGER 	in_LoadCaseID
+	INTEGER 	in_SubCaseID
+    STRING 		in_Metric[]
+	STRING 		in_MetricQualifier[]
+
+	INTEGER		out_NumLayers
+	INTEGER		out_LayerIDs()	
+    STRING    	out_LayerLabels[]()	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getLayer_IDs_Labels"	
+	
+	INTEGER returnStatus = 0	
+	
+	out_NumLayers = 0	
+	
+    STRING pName[32]
+    STRING sName[32]
+    INTEGER pID
+    INTEGER sID
+          
+	pName = ""	  
+	sName = ""
+		 
+	SWITCH ( in_Metric )
+		CASE ("VM")
+			pName = "Stress Invariants"
+			sName = "Von Mises"		
+		CASE ("MP")
+			pName = "Stress Invariants"
+			sName = "Major Principal"		
+		CASE ("D")
+			pName = "Displacements"
+			sName = "Translational"
+		CASE ("FailureIndex")		
+			IF ( in_MetricQualifier == "BONDING" ) THEN
+				pName = "Failure Index for Bonding"
+				sName = "Interlaminar Stress"
+			END IF
+			IF ( in_MetricQualifier == "PLY" ) THEN
+				pName = "Failure Index for Ply"
+				sName = "Direct Stress/Strain"
+			END IF				
+		DEFAULT 
+			errorMsg = "Incorrect stress metric, allowed metrics VM, MP, D, and FailureIndex.  Encountered Value: " // in_Metric
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+			RETURN -1	
+	END SWITCH	
+	
+	IF ( str_length(pName) == 0 || str_length(sName) == 0 ) THEN
+		errorMsg = "Erroneous entry for in_Metric/in_MetricQualifier,  in_Metric: " // in_Metric // ", in_MetricQualifier: " // in_MetricQualifier
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN -1		
+	END IF
+	
+	text_write_string( vLogger.getChannel(), "")				
+	text_write_string( vLogger.getChannel(), "Before res_data_get_result_ids in function: " // functionName // ", pname: " // 	pName // ", sName: " // sName )	
+	text_write_string( vLogger.getChannel(), "")				
+	
+	returnStatus = 	res_data_get_result_ids(pName, sName, pID, sID)
+
+	# The above call could have failed because the material is a laminate. VM for a laminate would be VM for each layer,  different pName, sName
+	# Try again with laminate settings
+	IF ( returnStatus != 0 ) THEN		
+		IF ( in_Metric == "VM" ) THEN
+			# try setting for laminate
+			pName = "Stress Tensor"
+			sName = ""		
+			returnStatus = 	res_data_get_result_ids(pName, sName, pID, sID)
+		END IF
+	END IF
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_get_result_ids() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF
+	
+	# Gets the layer positions associated with the results
+	INTEGER   	result_ids(4)
+	result_ids(1) = in_LoadcaseID
+	result_ids(2) = in_SubCaseID
+	result_ids(3) = pID
+	result_ids(4) = sID
+
+	returnStatus = res_utl_get_result_layers(result_ids, out_NumLayers, out_LayerIDs, out_LayerLabels)		
+	IF ( returnStatus != 0 ) THEN		
+		errorMsg = "res_utl_get_result_layers() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		RETURN returnStatus	
+	END IF	
+	
+	text_write_string( vLogger.getChannel(), "******* BEGIN result_ids, layers *******")		
+	text_write_string( vLogger.getChannel(), "in_LoadcaseID: " // str_from_integer(in_LoadcaseID))
+	text_write_string( vLogger.getChannel(), "subid:      " // str_from_integer(in_SubCaseID))
+	text_write_string( vLogger.getChannel(), "pID:        " // str_from_integer(pID))
+	text_write_string( vLogger.getChannel(), "sID:        " // str_from_integer(sID))
+	text_write_string( vLogger.getChannel(), "Metric:     " // in_Metric)	
+	
+	text_write_string( vLogger.getChannel(), "out_NumLayers:    " // str_from_integer(out_NumLayers))
+	INTEGER i
+	
+	text_write_string( vLogger.getChannel(), "layer ID      layer label")
+	text_write_string( vLogger.getChannel(), "---------     -----------")		
+	FOR (i = 1 TO out_NumLayers )
+		text_write_string( vLogger.getChannel(), str_from_integer(out_LayerIDs(i)) // "             " // out_LayerLabels(i))
+	END FOR 		
+	
+	
+	RETURN returnStatus	
+	
+END FUNCTION 
+###############################################################################################
+
 END CLASS

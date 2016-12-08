@@ -97,6 +97,9 @@ Date   		Developer  	Description
 						it exists before any processing occurs.  This accommodates running the scripts over in the
 						same directory.
 
+12/7/2016	R. Owens	Corrected an error in post-processing that was resulting in erroneous Tsai-Wu bond-index plots.  
+						Also, made corrections so that a surface model with a single material layer would plot properly. 
+
 						
 Needed Improvements
 -------------------
