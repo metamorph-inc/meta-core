@@ -2,7 +2,6 @@ CLASS vPlots
 
 	CLASSWIDE STRING	c_ClassName[32]
 	
-	
 	CLASSWIDE STRING  	errorMsg[1024] 
 	CLASSWIDE INTEGER 	errorLevel	
 	
@@ -13,138 +12,9 @@ FUNCTION initialize()
 
 END FUNCTION	
 ################################################################################
-FUNCTION createAllPlots( filename, in_IsLaminate, in_NumLayers )
-
-	INTEGER frames = 10, playTimes = 3, delay = 10	
-	INTEGER a,b
-	STRING 	f[32]
-	STRING 	filename[]
-	LOGICAL in_IsLaminate
-	INTEGER in_NumLayers	
-		
-	INTEGER   nrc, lcids(virtual), nsub(virtual)
-	STRING   l_title[64]
-	STRING   sub_title[64]
-
-	STRING  functionName[64] 
-	functionName = c_ClassName // ".CreateAllPlots"	
-	
-	INTEGER returnStatus = 0	
-	
-	
-	returnStatus = res_utl_get_loadcases(nrc, lcids, nsub)
-	
-	IF ( returnStatus != 0 ) THEN
-		errorMsg = "res_utl_get_loadcases() returned an error, Return Status: " // str_from_integer(returnStatus)
-		errorLevel = vLogger.get_ci_ERROR()
-		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-	   RETURN returnStatus	
-	END IF			
-	
-	LOGICAL failureCriteriaDefined
-	failureCriteriaDefined = vInputFile.get_failureCriteriaDefined()
-	
-	STRING temp_fileName[64]	
-	INTEGER ii	
-	
-	FOR (a = 1 TO nrc)
-		FOR (b = 1 TO nsub(a))
-			returnStatus = db_get_load_case_title(lcids(a), l_title)
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "db_get_load_case_title() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF			
-			
-			returnStatus = db_get_sub_case_title(lcids(a), b, sub_title)
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "db_get_sub_case_title() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF					
-
-			IF ( failureCriteriaDefined ) THEN
-				IF ( in_IsLaminate ) THEN
-
-					#  11/8/2016 Old approach, it was taking too much time to print plots for each layer in every zone
-					#FOR ( ii = 1 TO in_NumLayers )
-					#	vPlots.createPlot(l_title, sub_title, "FailureIndexForBonding", "", in_IsLaminate, ii )			
-					#	temp_fileName = filename // "_L" // str_from_integer(ii) // "_" // "FailIndexBond"
-					#	vPlots.saveImage(temp_fileName)
-					#	
-					#	vPlots.createPlot(l_title, sub_title, "FailureIndexForPly", "", in_IsLaminate, ii )			
-					#	temp_fileName = filename // "_L" // str_from_integer(ii) // "_" // "FailIndexPly"
-					#	vPlots.saveImage(temp_fileName)
-					#END FOR 
-					
-					# New approach, make one plot for all the layers. This will result in the maximum value
-					# being displayed for Tsai-Wu
-					vPlots.createPlot(l_title, sub_title, "FailureIndexForBonding_AllLayers", "", in_IsLaminate, in_NumLayers )
-					temp_fileName = filename // "_FailIndexBond"
-					vPlots.saveImage(temp_fileName)
-					
-					vPlots.createPlot(l_title, sub_title, "FailureIndexForPly_AllLayers", "", in_IsLaminate, in_NumLayers )			
-					temp_fileName = filename // "_FailIndexPly"
-					vPlots.saveImage(temp_fileName)	
-
-					# Displacement
-					vPlots.createPlot(l_title, sub_title, "D", "", in_IsLaminate, in_NumLayers )	
-					temp_fileName =  filename // "_D"
-					vPlots.saveImage(temp_fileName)				
-					
-				ELSE
-					vPlots.createPlot(l_title, sub_title, "FailureIndexForBonding", "", in_IsLaminate, in_NumLayers )			
-					temp_fileName = filename // "_FailIndexBond"
-					vPlots.saveImage(temp_fileName)
-					
-					vPlots.createPlot(l_title, sub_title, "FailureIndexForPly", "", in_IsLaminate, in_NumLayers )			
-					temp_fileName = filename // "_FailIndexPly"
-					vPlots.saveImage(temp_fileName)
-				END IF
-			ELSE
-				LIST (f = "VM", "D")
-
-					IF ( in_IsLaminate ) THEN
-						#FOR ( ii = 1 TO in_NumLayers )
-						#	vPlots.createPlot(l_title, sub_title, f, "", in_IsLaminate, ii )			
-						#	temp_fileName = filename // "_L" // str_from_integer(ii) // "_" // f
-						#	vPlots.saveImage(temp_fileName)
-							
-						#	IF (f == "D") THEN
-						#		vPlots.createPlot(l_title, sub_title, f, "D", in_IsLaminate, in_NumLayers )	
-						#		temp_fileName =  filename // "_L" // str_from_integer(ii) // "_" // f // "_" // "D"
-						#		vPlots.saveImage(temp_fileName)
-						#	END IF	
-						#END FOR 						
-						errorMsg = "VonMises plots are not supported for laminates." 
-						errorLevel = vLogger.get_ci_WARNING()
-						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-					ELSE
-						vPlots.createPlot(l_title, sub_title, f, "", in_IsLaminate, in_NumLayers )			
-						vPlots.saveImage(filename // "_" // f)
-						# createAnimation(filename // "_" // f, frames, playTimes, delay)
-						
-						IF (f == "D") THEN
-							vPlots.createPlot(l_title, sub_title, f, "D", in_IsLaminate, in_NumLayers )	
-							vPlots.saveImage(filename // "_" // f // "_" // "D")
-							# createAnimation(filename // "_" // f //  "_" // "D", frames, playTimes, delay)
-						END IF
-					END IF
-					
-				END LIST
-			END IF
-		END FOR		
-	END FOR
-
-	RETURN returnStatus
-	
-END FUNCTION
-################################################################################
 FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in_Pimary_Result,    @
-										in_Secondary_Result, in_Start_Layer_ID, in_End_Layer_ID )
-										
+										in_Secondary_Result, in_Start_Layer_ID, in_End_Layer_ID, in_LayerLabels )
+										 				   
 	INTEGER in_Register
 	STRING 	in_Loadcase[]
 	STRING 	in_Subcase[]	
@@ -152,6 +22,7 @@ FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in
 	STRING 	in_Secondary_Result[]
 	INTEGER in_Start_Layer_ID
 	INTEGER in_End_Layer_ID
+	STRING 	in_LayerLabels[]()	
 
 	STRING  functionName[64] 
 	functionName = c_ClassName // ".addLayersToResultDataRegister"	
@@ -159,7 +30,7 @@ FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in
 	INTEGER returnStatus = 0		
 		
 	/*****************
-	res_data_dbres_list( 0, "Nodal", "Scalar", 27, ["SC1:DEFAULT", "SC1:DEFAULT",  @
+	res_data_dbres_list( in_Register, "Nodal", "Scalar", 27, ["SC1:DEFAULT", "SC1:DEFAULT",  @
 	"SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT",  @
 	"SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT",  @
 	"SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT", "SC1:DEFAULT",  @
@@ -209,9 +80,9 @@ FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in
 	STRING  secondary_Result_array[31](VIRTUAL)
 	STRING  layer_array[31](VIRTUAL)
 	
-	INTEGER i
+
 	INTEGER layer_count
-	layer_count = in_End_Layer_ID - in_Start_Layer_ID
+	layer_count = in_End_Layer_ID - in_Start_Layer_ID + 1
 	
 	sys_allocate_array( loadcase_array, 		1, layer_count )
 	sys_allocate_array( subcase_array, 			1, layer_count )
@@ -219,18 +90,37 @@ FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in
 	sys_allocate_array( secondary_Result_array, 1, layer_count )	
 	sys_allocate_array( layer_array, 			1, layer_count )
 	
-	
-	FOR ( i = 1 TO layer_count )
-		loadcase_array(i) = in_Loadcase
-		subcase_array(i) = in_Subcase
-		pimary_Result_array(i) = in_Pimary_Result
-		secondary_Result_array(i) = in_Secondary_Result	
-		layer_array(i) = "Layer " // str_from_integer(i) // " At Middle"
-		
+	INTEGER i	
+	INTEGER j
+	j = 0
+	FOR ( i = in_Start_Layer_ID TO in_End_Layer_ID )
+		j += 1
+		loadcase_array(j) = in_Loadcase
+		subcase_array(j) = in_Subcase
+		pimary_Result_array(j) = in_Pimary_Result
+		secondary_Result_array(j) = in_Secondary_Result	
+		layer_array(j) = in_LayerLabels(i)
 	END FOR
 
-	res_data_dbres_list( 	0, "Nodal", "Scalar", layer_count, loadcase_array,  @
-							subcase_array, pimary_Result_array, secondary_Result_array, layer_array )	
+	#dump in_Register
+	#dump layer_count
+	#dump loadcase_array
+	#dump subcase_array
+	#dump pimary_Result_array
+	#dump secondary_Result_array
+	#dump layer_array
+
+	returnStatus = res_data_dbres_list( in_Register, "Nodal", "Scalar", layer_count, loadcase_array,  @
+						subcase_array, pimary_Result_array, secondary_Result_array, layer_array )	
+	
+		
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_dbres_list() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF	
+	
 		
 	sys_free_array( loadcase_array )
 	sys_free_array( subcase_array )
@@ -243,356 +133,200 @@ FUNCTION addLayersToResultDataRegister( in_Register, in_Loadcase, in_Subcase, in
 	
 END FUNCTION
 ################################################################################
-$ fringe = "VM" (for von Mises), "MP" (for max principal), "D" (for displacement, translation), or "" (for no fringe plot)
-$ deform = "D" (for displacement, translation), or "" (for no displacement plot)
-FUNCTION createPlot(loadcase, subcase, fringe, deform, in_IsLaminate, in_Layer_ID)
-    STRING fringe[]
-    STRING deform[]
-    STRING loadcase[]
-    STRING subcase[]
-	
+FUNCTION populateFirstFourResultIDs( in_LoadcaseID, in_SubcaseID, in_PrimaryResultIdentifier, @ 
+									 in_SecondaryResultIdentifier, out_ResultIDs )
+
+	INTEGER 	in_LoadcaseID
+    INTEGER 	in_SubcaseID
+	STRING 	in_PrimaryResultIdentifier[]
+	STRING 	in_SecondaryResultIdentifier[]
+	INTEGER out_ResultIDs()
+	INTEGER out_NumberResults
+
 	STRING  functionName[64]
-	functionName = c_ClassName // ".createPlot"
+	functionName = c_ClassName // ".populateFirstFourResultIDs"	
 	
-	LOGICAL in_IsLaminate
-	INTEGER in_Layer_ID	
-	STRING  layer_Name[31]
+	INTEGER returnStatus
+	returnStatus = 0
 	
-	IF ( in_IsLaminate ) THEN layer_Name = "Layer " // str_from_integer(in_Layer_ID)
+	# INTEGER result_ids(5) This value specifies the load case identifier, subcase identifier,
+	# primary result identifier, secondary result identifier, and layer
+	# identifier.	
 	
-	INTEGER returnStatus = 0
-    
-    $ deleting plots
-    returnStatus = res_display_anim_clear()
+	#############
+	# Get IDs
+	#############
+	
 
-	IF ( returnStatus != 0 ) THEN
-		errorMsg = "res_display_anim_clear() returned an error, Return Status: " // str_from_integer(returnStatus)
-		errorLevel = vLogger.get_ci_ERROR()
-		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-	   RETURN returnStatus	
-	END IF		
-
-    returnStatus = res_display_tool_delete( "Fringe", "default_Fringe" )
-	IF ( returnStatus == vConstants.get_ci_Display_Tool_Not_Exist() ) THEN returnStatus = 0
+	INTEGER primaryResultsId
+	INTEGER secondaryResultsId		
 	
+
+	returnStatus = db_get_primary_res_id (in_PrimaryResultIdentifier, primaryResultsId)
 	IF ( returnStatus != 0 ) THEN
-		errorMsg = "res_display_tool_delete() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorMsg = "db_get_primary_res_id() returned an error, Return Status: " // str_from_integer(returnStatus)
 		errorLevel = vLogger.get_ci_ERROR()
 		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
 	   RETURN returnStatus	
 	END IF			
 	
-    returnStatus = res_display_tool_delete( "Deformation", "default_Deformation" )
-	IF ( returnStatus == vConstants.get_ci_Display_Tool_Not_Exist() ) THEN returnStatus = 0	
-	
+	returnStatus = db_get_secondary_res_id(primaryResultsId, in_SecondaryResultIdentifier, secondaryResultsId)
 	IF ( returnStatus != 0 ) THEN
-		errorMsg = "res_display_tool_delete() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorMsg = "db_get_secondary_res_id() returned an error, Return Status: " // str_from_integer(returnStatus)
 		errorLevel = vLogger.get_ci_ERROR()
 		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
 	   RETURN returnStatus	
-	END IF	
-    
-    # fringe == "VM" || fringe == "MP" || fringe == "D" || "FailureIndexForBonding" ||  FailureIndexForPly)
-	SWITCH ( fringe )
-        CASE("VM") 			
+	END IF			
+	
+	
+	out_ResultIDs(1) = in_LoadcaseID	
+	out_ResultIDs(2) = in_SubcaseID	
+	out_ResultIDs(3) = primaryResultsId
+	out_ResultIDs(4) = secondaryResultsId	
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+################################################################################
+FUNCTION get_NumberResults( in_LayerID, in_out_ResultIDs, out_NumberResults )
 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF			
-			
-			IF ( in_IsLaminate ) THEN 
-				returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-					"Stress Tensor", "", layer_Name, "VONM", "Default", "DeriveAverage" @
-					, "All", "ShapeFunc")			
-			ELSE
-				returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-					"Stress Invariants", "Von Mises", "(NON-LAYERED)", "", "AsIs", "DeriveAverage" @
-					, "All", "ShapeFunc")
-			END IF
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-				
-        $ major principal
-        CASE("MP") 		
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-			IF ( in_IsLaminate ) THEN 
-				returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-					"Stress Invariants", "Major Principal", layer_Name, "", "AsIs",  @
-					"DeriveAverage", "All", "ShapeFunc")	
-			ELSE			
-				returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-					"Stress Invariants", "Major Principal", "(NON-LAYERED)", "", "AsIs",  @
-					"DeriveAverage", "All", "ShapeFunc")
-			END IF
-				
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF					
-				
-        $ fringe displacements
-        CASE("D") 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-            returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-                "Displacements", "Translational", "(NON-LAYERED)", "MAG", "AsIs", "", "", "",  @
-                "", 0. )
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-				
-        # Fringe FailureIndex
-        CASE("FailureIndexForBonding") 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-			/******************************* Example **************************************
-			res_data_load_dbresult( 0, "Nodal", "Scalar", "SC1:DEFAULT",  @
-			"A1:Static Subcase", "Failure Index for Bonding", "Interlaminar Stress",  @
-			"Layer 1 At Middle", "", "AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )			
-			*******************************************************************************/
-			
-			STRING layer_position[32]
-			
-			layer_position = "Layer " // str_from_integer(in_Layer_ID) // " At Middle"
-			
-            returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-                "Failure Index for Bonding", "Interlaminar Stress", layer_position, "", @
-				"AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )
-				
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF									
-			
-        CASE("FailureIndexForPly") 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-			
-			layer_position = "Layer " // str_from_integer(in_Layer_ID) // " At Middle"
-			
-            returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-                "Failure Index for Ply", "Direct Stress/Strain", layer_position, "", @
-				"AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )
-				
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF							
-			
-        # Fringe FailureIndex
-        CASE("FailureIndexForBonding_AllLayers") 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-			/******************************* Example **************************************
-			res_data_load_dbresult( 0, "Nodal", "Scalar", "SC1:DEFAULT",  @
-			"A1:Static Subcase", "Failure Index for Bonding", "Interlaminar Stress",  @
-			"Layer 1 At Middle", "", "AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )			
-			*******************************************************************************/
-						
-			# This case in_Layer_ID is the highest layer ID (e.g. 5 layers, in_Layer_ID == 5)
-			
-			#layer_position = "Layer " // str_from_integer(in_Layer_ID) // " At Middle"
-			layer_position = "Layer " // "1" // " At Middle"
-			
-            returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-                "Failure Index for Bonding", "Interlaminar Stress", layer_position, "", @
-				"AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )
-				
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF			
+	INTEGER in_LayerID
+	INTEGER in_out_ResultIDs()
+	INTEGER out_NumberResults
 
-			# Need to call res_data_dbres_list to add the other layers to res_data_load_dbresult. res_data_load_dbresult
-			# would have added one layer to the results DB.  We want to add all the layers so that one plot covers
-			# all the layers.  Previously, a separate plot was made for each layer.  This was taking too long to make the plots 
-			# and with so many plots, it was difficult to locate the high stress areas.  One plot with all the layers will
-			# remedy this problem.
-			returnStatus = vPlots.addLayersToResultDataRegister( 	0, loadcase, subcase, @
-															"Failure Index for Bonding", "Interlaminar Stress", @
-															2, in_Layer_ID )
-															
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "addLayersToResultDataRegister() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF																
-								
-        CASE("FailureIndexForPly_AllLayers") 
-			returnStatus = res_utl_clear_result()
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-			
-			#layer_position = "Layer " // str_from_integer(in_Layer_ID) // " At Middle"
-			layer_position = "Layer " // "1" // " At Middle"			
-			
-            returnStatus = res_data_load_dbresult( 0, "Nodal", "Scalar", loadcase, subcase,  @
-                "Failure Index for Ply", "Direct Stress/Strain", layer_position, "", @
-				"AsIs", "DeriveAverage", "All", "ShapeFunc", "", 0. )
-				
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF					
-			
-			# Need to call res_data_dbres_list to add the other layers to res_data_load_dbresult. res_data_load_dbresult
-			# would have added one layer to the results DB.  We want to add all the layers so that one plot covers
-			# all the layers.  Previously, a separate plot was made for each layer.  This was taking too long to make the plots 
-			# and with so many plots, it was difficult to locate the high stress areas.  One plot with all the layers will
-			# remedy this problem.
-			returnStatus = vPlots.addLayersToResultDataRegister( 	0, loadcase, subcase, @
-															"Failure Index for Ply", "Direct Stress/Strain", @
-															2, in_Layer_ID )
-															
-			IF ( returnStatus != 0 ) THEN
-				errorMsg = "addLayersToResultDataRegister() returned an error, Return Status: " // str_from_integer(returnStatus)
-				errorLevel = vLogger.get_ci_ERROR()
-				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN returnStatus	
-			END IF				
-			
-        END SWITCH
-		
-        returnStatus = res_data_title( 0, "Nodal", "Scalar", 1, [ @
-            "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"] )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_data_title() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF				
-			
-        returnStatus = res_display_fringe_create( "", "FreeFaces", 0, [""], 12, [ @
-            "Range:Fri_default_Fringe", "RangeOverwrite:ON", "FringeStyle:Discrete/Smooth" @
-            , "Shade:None", "ElemEdge:FreeEdge,Blue,Solid,1", "Shrink:0",  @
-            "TitleDisplay:ON", "MinMaxDisplay:ON", "ValueDisplay:OFF", "Filter:None",  @
-            "ScaleFactor:1.", "LabelStyle:Exponential, 12, White, 3"], TRUE )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_display_fringe_create() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF				
-			
-        returnStatus = res_display_fringe_post( "", 0, "Nodal", TRUE, TRUE )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_display_fringe_post() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF			
+	STRING  functionName[64]
+	functionName = c_ClassName // ".get_NumberResults"	
+	
+	INTEGER returnStatus
+	returnStatus = 0
+	
+	INTEGER result_ids(5)
+	
+	
+	# INTEGER result_ids(5) This value specifies the load case identifier, subcase identifier,
+	# primary result identifier, secondary result identifier, and layer
+	# identifier.
+	
+	in_out_ResultIDs(5) = in_LayerID
+	
+	##############################
+	# Extract Results Information 
+	##############################	
+	STRING sa_title[80](3)
 
-    
-    $ displacement, along with previous fringe
-    IF (deform == "D") THEN
-		returnStatus = res_utl_clear_result()
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_utl_clear_result() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF			
-		
-        returnStatus = res_data_load_dbresult( 0, "Nodal", "Vector", loadcase, subcase,  @
-            "Displacements", "Translational", "(NON-LAYERED)", "", "AsIs", "", "", "", "", @
-            0. )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF	
-		
-        returnStatus = res_data_title( 0, "Nodal", "Vector", 1, [ @
-            "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"] )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_data_title() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF				
+	INTEGER i_datatype
+	INTEGER i_assoc
+	INTEGER i_resloc
+	LOGICAL l_cidflag
+	INTEGER iaa_minloc(2,6)
+	INTEGER iaa_maxloc(2,6)
+
+	# dump in_out_ResultIDs
+	
+	returnStatus = res_utl_get_result_info ( 	in_out_ResultIDs, 		@
+												sa_title, 				@
+												out_NumberResults, 		@
+												i_datatype, 			@
+												i_assoc, 				@	
+												i_resloc, 				@
+												l_cidflag, 				@
+												iaa_minloc, 			@
+												iaa_maxloc )	
+	
+	# 4012029 means the data does not exists
+	# Do not treat this as a warning because the purpose of this function is to see if the data does/does-not exist
+	IF ( returnStatus == 4012029 ) THEN
+		# Metric is not available, typical for a particular layer
+		out_NumberResults = 0
+	    RETURN 0	
+	END IF		
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_utl_get_result_info() returned an error, Return Status: " // str_from_integer(returnStatus) // ". LayerInternalID = " // str_from_integer(in_LayerID)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+	RETURN returnStatus
+	
+END FUNCTION				
+################################################################################	
+FUNCTION createFringeAndPost( in_Register)
+
+	INTEGER in_Register
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".createFringeAndPost"
+	
+	
+	INTEGER returnStatus = 0
+
+	returnStatus = 	res_display_fringe_create( "", "FreeFaces", 0, [""], 12, [ @
+			"Range:Fri_default_Fringe", "RangeOverwrite:ON", "FringeStyle:Discrete/Smooth" @
+			, "Shade:None", "ElemEdge:FreeEdge,Blue,Solid,1", "Shrink:0",  @
+			"TitleDisplay:ON", "MinMaxDisplay:ON", "ValueDisplay:OFF", "Filter:None",  @
+			"ScaleFactor:1.", "LabelStyle:Exponential, 12, White, 3"], TRUE )	
+ 	
 			
-        returnStatus = res_display_deformation_create( "", "Elements", 0, [""], 9, [ @
-            "DeformedStyle:White,Solid,1,Wireframe", "DeformedScale:Model=0.1",  @
-            "UndeformedStyle:OFF,Blue,Solid,1,Wireframe", "TitleDisplay:ON",  @
-            "MinMaxDisplay:ON", "ScaleFactor:1.", "LabelStyle:Exponential, 12, White, 3",  @
-            "DeformDisplay:Resultant", "DeformComps:OFF,OFF,OFF"] )
-			
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_display_deformation_create() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF		
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_fringe_create() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF							
 		
-        returnStatus = res_display_deformation_post( "", 0 )
-		IF ( returnStatus != 0 ) THEN
-			errorMsg = "res_display_deformation_post() returned an error, Return Status: " // str_from_integer(returnStatus)
-			errorLevel = vLogger.get_ci_ERROR()
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-		   RETURN returnStatus	
-		END IF			
-		
-    END IF
+	returnStatus = 	res_display_fringe_post( "", in_Register, "Nodal", TRUE, TRUE )	
+
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_fringe_post() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF					
+
+	return returnStatus
+	
 END FUNCTION
+################################################################################	
+FUNCTION createDisplacementAndPost( in_Register)
+
+	INTEGER in_Register
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".createDisplacementAndPost"
+	
+	
+	INTEGER returnStatus = 0
+
+	returnStatus = 	res_display_deformation_create( "", "Elements", 0, [""], 9, [ @
+							"DeformedStyle:White,Solid,1,Wireframe", "DeformedScale:Model=0.1",  @
+							"UndeformedStyle:ON,Blue,Solid,1,Wireframe", "TitleDisplay:ON",  @
+							"MinMaxDisplay:ON", "ScaleFactor:1.", "LabelStyle:Exponential, 12, White, 3",  @
+							"DeformDisplay:Resultant", "DeformComps:OFF,OFF,OFF"] )	
+ 
+			
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_deformation_create() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF							
+		
+	returnStatus = 	res_display_deformation_post( "", in_Register )
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_deformation_post() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF					
+
+	return returnStatus
+	
+END FUNCTION
+				
 ################################################################################
 FUNCTION saveSpecificPNG( in_FileName, angle_x, angle_y, angle_z )
 
@@ -602,7 +336,7 @@ FUNCTION saveSpecificPNG( in_FileName, angle_x, angle_y, angle_z )
 	REAL	angle_z	
 	
 	STRING  functionName[64] 
-	functionName = c_ClassName // ".saveImage"	
+	functionName = c_ClassName // ".saveSpecificPNG"	
 	
 	INTEGER returnStatus = 0	
 
@@ -694,4 +428,737 @@ FUNCTION saveImage(fname)
 	
 END FUNCTION
 ################################################################################
+FUNCTION ClearCurrentlyDisplayedPlots()
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".ClearCurrentlyDisplayedPlots"	
+	
+	INTEGER returnStatus = 0	
+	
+    returnStatus = res_display_anim_clear()
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_anim_clear() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+
+   returnStatus = res_display_tool_delete( "Fringe", "default_Fringe" )
+	IF ( returnStatus == vConstants.get_ci_Display_Tool_Not_Exist() ) THEN returnStatus = 0
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_tool_delete() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+    returnStatus = res_display_tool_delete( "Deformation", "default_Deformation" )
+	IF ( returnStatus == vConstants.get_ci_Display_Tool_Not_Exist() ) THEN returnStatus = 0	
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_display_tool_delete() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF	
+
+	RETURN returnStatus	
+END FUNCTION	
+################################################################################	
+FUNCTION createAllPlots( in_Filename)
+	# The general approach is to try to produce all applicable plots.  If a plot cannot be produced a warning will be logged.
+	# The user will see plots missing and should consult the log file for further information.
+
+	STRING 	in_Filename[]
+
+	INTEGER 	loadCaseID
+	INTEGER 	subCaseID		
+
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".createAllPlots"	
+	
+	INTEGER returnStatus = 0		
+	
+	STRING metricQualifier[32]	
+	
+	INTEGER register = 0
+	
+	
+	INTEGER numLayers
+	INTEGER layerIDs(VIRTUAL)
+	STRING  layerLabels[80](VIRTUAL)
+	
+	INTEGER numLayers_temp
+	INTEGER layerIDs_temp(VIRTUAL)
+	STRING  layerLabels_temp[80](VIRTUAL)	
+
+	INTEGER numPlotTitles
+	numPlotTitles = 1	
+	STRING 	plotTitles[128](1)	
+	
+	INTEGER i, j
+	
+	STRING filename_temp[64]	
+	STRING numLayersString_temp[32]
+	STRING numLayersString_temp_2[32]	
+	
+	LOGICAL clearCurrentlyDisplayedPlots
+	LOGICAL invoke_res_data_list_max
+	
+	FOR ( i = 1 to vLoadcases.get_NumLoadCases() )
+		loadCaseID = vLoadcases.get_LoadCaseID( i)
+		vSubcases.retrieve_Subcases( loadCaseID )
+
+		FOR ( j = 1 to vSubcases.get_NumSubcases() )
+			subCaseID = vSubcases.get_SubcaseID(j) 	
+			
+			# All solid models must NOT have a failure criteria defined. A surface can/cannot have a failure criteria.  If  failure criteria not
+			# defined, then the following plots should be computed for surfaces and solids.
+			IF ( vInputFile.get_model_Geometry_Type() ==  vInputFile.get_ci_Solid() ||  !vInputFile.get_failureCriteriaDefined()) THEN
+				###########################
+				###### VM (vonMises) ######
+				###########################
+				returnStatus = vMetrics.getLayer_IDs_Labels( loadCaseID, subCaseID, "VM", metricQualifier,	numLayers, layerIDs, layerLabels )
+				
+				#dump "---------------- vonMises ------------"
+				#dump numLayers
+				#dump layerIDs
+				#dump layerLabels				
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vMetrics.getLayer_IDs_Labels() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF
+				
+				IF ( numLayers > 1 ) THEN
+					numLayersString_temp = str_from_integer(numLayers)
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@Maximum," // @
+									 numLayersString_temp // " of " // numLayersString_temp  // " layers"				
+				ELSE
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"
+				END IF    
+
+				clearCurrentlyDisplayedPlots = TRUE
+				IF ( vInputFile.get_model_Geometry_Type() ==  vInputFile.get_ci_Solid() ) THEN
+					invoke_res_data_list_max = FALSE
+				ELSE
+					invoke_res_data_list_max = TRUE
+				END IF
+				returnStatus = vPlots.createFringePlot(	register, loadCaseID, subCaseID, "Stress Invariants", "Von Mises", numPlotTitles, plotTitles, @
+														numLayers, layerIDs, layerLabels, clearCurrentlyDisplayedPlots, invoke_res_data_list_max )
+	
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.createFringePlot() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF	
+	
+				filename_temp = in_Filename // "_" // str_from_integer(loadCaseID) // "_" // str_from_integer(subCaseID) // "_" // "VM"
+				returnStatus = vPlots.saveImage(filename_temp)
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.saveImage() returned an error, Return Status: " // str_from_integer(returnStatus) // ". FileName: " // filename_temp
+						errorLevel = vLogger.get_ci_WARNING()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						# Keep processing
+					   returnStatus = 0	
+				END IF					
+	
+				SYS_FREE_ARRAY (layerIDs)
+				SYS_FREE_ARRAY (layerLabels)
+
+				###########################
+				###### Displacement #######
+				###########################
+				returnStatus = vMetrics.getLayer_IDs_Labels( loadCaseID, subCaseID, "D", metricQualifier,	numLayers, layerIDs, layerLabels )
+				
+				#dump "---------------- Displacements ------------"
+				#dump numLayers
+				#dump layerIDs
+				#dump layerLabels
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vMetrics.getLayer_IDs_Labels() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF
+				
+				IF ( numLayers > 1 ) THEN
+					numLayersString_temp = str_from_integer(numLayers)
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@Maximum," // @
+									 numLayersString_temp // " of " // numLayersString_temp  // " layers"				
+				ELSE
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"
+				END IF    
+
+				clearCurrentlyDisplayedPlots = FALSE
+				returnStatus = vPlots.createDisplacementPlot( register, loadCaseID, subCaseID, "Displacements", "Translational", numPlotTitles, plotTitles, @
+															  numLayers, layerIDs, layerLabels, clearCurrentlyDisplayedPlots)
+	
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.createDisplacementPlot() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF	
+	
+				filename_temp = in_Filename // "_" // str_from_integer(loadCaseID) // "_" // str_from_integer(subCaseID) // "_" // "VM_D"
+				returnStatus = vPlots.saveImage(filename_temp)
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.saveImage() returned an error, Return Status: " // str_from_integer(returnStatus) // ". FileName: " // filename_temp
+						errorLevel = vLogger.get_ci_WARNING()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						# Keep processing
+					   returnStatus = 0	
+				END IF					
+	
+				SYS_FREE_ARRAY (layerIDs)
+				SYS_FREE_ARRAY (layerLabels)					
+	
+			ELSE
+				#################################################################
+				# Failure Criteria Defined.  This should only apply to laminates
+				#################################################################
+	
+				##############
+				# Bond Index
+				##############	
+				
+				returnStatus = vMetrics.getLayer_IDs_Labels( loadCaseID, subCaseID, "FailureIndex", "BONDING",	numLayers, layerIDs, layerLabels )
+				
+				#dump "---------------- FailureIndexFor-----------"
+				#dump numLayers
+				#dump layerIDs
+				#dump layerLabels				
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vMetrics.getLayer_IDs_Labels() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF
+				
+				sys_allocate_array( layerIDs_temp, 			1, numLayers )
+				sys_allocate_array( layerLabels_temp, 		1, numLayers )				
+				
+				# For "Failure Index for Bonding" the failure criteria only exists between layers.  For layer ID = 1 the criteria
+				# is really between layers 1 and 2.  This means that for the final layer in a laminate stack-up there is
+				# not a failure criteria for bonding.  We must filter out the final layers; otherwise, the display of the plot
+				# will fail because the bonding information is not available for some of the layers.
+				INTEGER resultIDs(5)
+				returnStatus = vPlots.populateFirstFourResultIDs( loadCaseID, subCaseID, "Failure Index for Bonding", @ 
+																	"Interlaminar Stress", resultIDs )		
+
+				IF ( returnStatus != 0 ) THEN
+					errorMsg = "vPlot.populateFirstFourResultIDs() returned an error, Return Status: " // str_from_integer(returnStatus)
+					errorLevel = vLogger.get_ci_ERROR()
+					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+				   RETURN returnStatus	
+				END IF																				
+				
+				numLayers_temp = 0
+
+				INTEGER numResults
+				INTEGER ii
+				STRING layer_name_temp[80]
+
+				FOR ( ii = 1 TO numLayers)
+					numResults = 0
+					vPlots.get_NumberResults(layerIDs(ii), resultIDs, numResults )
+					
+					IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlot.get_NumberResults() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+					END IF								
+					
+					#dump ii
+					#dump numResults
+					IF ( numResults > 0 ) THEN
+							numLayers_temp +=1
+							layerIDs_temp(numLayers_temp) = layerIDs(ii)
+							layerLabels_temp(numLayers_temp) = layerLabels(ii)	
+					END IF
+					
+				END FOR 
+				#dump "------------- FailureIndex, BONDING -------------------"
+				#dump numLayers_temp
+				#dump layerIDs_temp
+				#dump layerLabels_temp
+				
+				IF ( numLayers_temp > 1 ) THEN
+					numLayersString_temp = str_from_integer(numLayers)
+					numLayersString_temp_2 = str_from_integer(numLayers_temp)
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, " // numLayersString_temp_2 // " of " // numLayersString_temp // @
+						" layers (Maximum)"					
+				ELSE
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"
+				END IF    
+
+								
+				clearCurrentlyDisplayedPlots = TRUE
+				invoke_res_data_list_max = TRUE
+				returnStatus = vPlots.createFringePlot(	register, loadCaseID, subCaseID, "Failure Index for Bonding", "Interlaminar Stress", numPlotTitles, plotTitles, @ 
+														numLayers_temp, layerIDs_temp, layerLabels_temp, clearCurrentlyDisplayedPlots, invoke_res_data_list_max )
+	
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.createFringePlot() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF	
+	
+				filename_temp = in_Filename // "_" // str_from_integer(loadCaseID) // "_" // str_from_integer(subCaseID) // "_" // "FailIndexBond"
+				returnStatus = vPlots.saveImage(filename_temp)
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.saveImage() returned an error, Return Status: " // str_from_integer(returnStatus) // ". FileName: " // filename_temp
+						errorLevel = vLogger.get_ci_WARNING()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						# Keep processing
+					   returnStatus = 0	
+				END IF					
+	
+				SYS_FREE_ARRAY (layerIDs)
+				SYS_FREE_ARRAY (layerLabels)
+				SYS_FREE_ARRAY (layerIDs_temp)
+				SYS_FREE_ARRAY (layerLabels_temp)				
+				
+				##############
+				# Ply Index
+				##############
+	
+				returnStatus = vMetrics.getLayer_IDs_Labels( loadCaseID, subCaseID, "FailureIndex", "PLY",	numLayers, layerIDs, layerLabels )
+				
+				#dump "---------------- FailureIndexFor Ply-----------"
+				#dump numLayers
+				#dump layerIDs
+				#dump layerLabels				
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vMetrics.getLayer_IDs_Labels() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF
+				
+				IF ( numLayers > 1 ) THEN
+					numLayersString_temp = str_from_integer(numLayers)
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@Maximum," // @
+									 numLayersString_temp // " of " // numLayersString_temp  // " layers"				
+				ELSE
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"
+				END IF    
+
+				clearCurrentlyDisplayedPlots = TRUE
+				invoke_res_data_list_max = TRUE
+				returnStatus = vPlots.createFringePlot(	register, loadCaseID, subCaseID, "Failure Index for Ply", "Direct Stress/Strain", numPlotTitles, plotTitles, @ 
+														numLayers, layerIDs, layerLabels, clearCurrentlyDisplayedPlots, invoke_res_data_list_max )
+	
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.createFringePlot() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF	
+	
+				filename_temp = in_Filename // "_" // str_from_integer(loadCaseID) // "_" // str_from_integer(subCaseID) // "_" // "FailIndexPly"
+				returnStatus = vPlots.saveImage(filename_temp)
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.saveImage() returned an error, Return Status: " // str_from_integer(returnStatus) // ". FileName: " // filename_temp
+						errorLevel = vLogger.get_ci_WARNING()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						# Keep processing
+					   returnStatus = 0	
+				END IF					
+	
+				SYS_FREE_ARRAY (layerIDs)
+				SYS_FREE_ARRAY (layerLabels)				
+				
+				########################################
+				###### Displacement Added to Ply #######
+				########################################
+
+				returnStatus = vMetrics.getLayer_IDs_Labels( loadCaseID, subCaseID, "D", metricQualifier,	numLayers, layerIDs, layerLabels )
+				
+				#dump "---------------- Displacements ------------"
+				#dump numLayers
+				#dump layerIDs
+				#dump layerLabels
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vMetrics.getLayer_IDs_Labels() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF
+				
+				IF ( numLayers > 1 ) THEN
+					numLayersString_temp = str_from_integer(numLayers)
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@Maximum," // @
+									 numLayersString_temp // " of " // numLayersString_temp  // " layers"				
+				ELSE
+					plotTitles(1) = "$POFF@@@$PT: @@@$LCN, @@@$SCN, @@@$PRN, @@@$SRN, @@@$DRVL, @@@$LN"
+				END IF    
+
+				clearCurrentlyDisplayedPlots = FALSE
+				returnStatus = vPlots.createDisplacementPlot( register, loadCaseID, subCaseID, "Displacements", "Translational", numPlotTitles, plotTitles, @
+															  numLayers, layerIDs, layerLabels, clearCurrentlyDisplayedPlots)
+	
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.createDisplacementPlot() returned an error, Return Status: " // str_from_integer(returnStatus)
+						errorLevel = vLogger.get_ci_ERROR()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+					   RETURN returnStatus	
+				END IF	
+	
+				filename_temp = in_Filename // "_" // str_from_integer(loadCaseID) // "_" // str_from_integer(subCaseID) // "_" // "FailIndexPly_D"
+				returnStatus = vPlots.saveImage(filename_temp)
+				
+				IF ( returnStatus != 0 ) THEN
+						errorMsg = "vPlots.saveImage() returned an error, Return Status: " // str_from_integer(returnStatus) // ". FileName: " // filename_temp
+						errorLevel = vLogger.get_ci_WARNING()
+						vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+						# Keep processing
+					   returnStatus = 0	
+				END IF					
+	
+				SYS_FREE_ARRAY (layerIDs)
+				SYS_FREE_ARRAY (layerLabels)	
+	
+	
+			END IF		
+		END FOR
+	END FOR
+	
+	RETURN returnStatus
+	
+END FUNCTION
+#########################################################################################################
+# Valid Pairs:
+#	in_primary_result = "Stress Invariants"
+#	in_secondary_result = "Von Mises"
+FUNCTION createFringePlot(	in_Register, in_LoadCaseID, in_SubCaseID, in_primary_result, in_secondary_result, in_NumPlotTitles,@
+							in_PlotTitles, in_NumLayers, in_LayerIDs, in_LayerLabels, in_ClearCurrentlyDisplayedPlots, in_Invoke_res_data_list_max )
+						
+	INTEGER in_Register
+	INTEGER in_LoadCaseID
+	INTEGER in_SubCaseID
+    STRING 	in_primary_result[]
+    STRING 	in_secondary_result[]
+	INTEGER in_NumPlotTitles
+	STRING 	in_PlotTitles[]()
+	INTEGER in_NumLayers	
+	INTEGER in_LayerIDs()
+	STRING 	in_LayerLabels[]()
+	LOGICAL in_ClearCurrentlyDisplayedPlots
+	LOGICAL in_Invoke_res_data_list_max
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".createFringePlot"
+		
+	INTEGER returnStatus = 0
+    		
+	STRING errorMessage_temp[128]		
+	
+	errorMessage_temp = " LoadCaseID: " // str_from_integer(in_LoadCaseID) // ", SubCaseID: " // str_from_integer(in_SubCaseID) // @
+						", PrimaryResult: " // in_primary_result // ", SecondaryResult: " // in_secondary_result
+			
+	IF ( in_NumLayers == 0 ) THEN
+			errorMsg = "Function called with zero layers." //  errorMessage_temp
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+	END IF				
+	
+	##################################
+    # Delete Existing Plots In_Memory
+	##################################
+	IF ( in_ClearCurrentlyDisplayedPlots ) THEN
+		returnStatus = vPlots.ClearCurrentlyDisplayedPlots()
+		
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "vPlots.ClearCurrentlyDisplayedPlots() returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF			
+	END IF
+	
+	###########################
+    # Get Load/Sub-Case Titles
+	###########################		
+
+	STRING   loadcase_title[64]
+	STRING   subcase_title[64]	
+	
+	returnStatus = db_get_load_case_title(in_LoadCaseID, loadcase_title)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "db_get_load_case_title() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	returnStatus = db_get_sub_case_title(in_LoadCaseID, in_SubCaseID, subcase_title)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "db_get_sub_case_title() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	
+	##################
+    # Load Plot Data
+	##################	
+	/************************************** Examples ******************************************************
+	returnStatus = res_data_load_dbresult( in_Register, "Nodal", "Scalar", loadcase_title, subcase_title,  @
+					"Stress Invariants", "Von Mises", "(NON-LAYERED)", "", "AsIs", "DeriveAverage" @
+					, "All", "ShapeFunc")	
+	*****************************************************************************************************/
+	#dump in_Register
+	#dump loadcase_title
+	#dump subcase_title
+	#dump in_primary_result
+	#dump in_secondary_result
+	#dump in_LayerLabels(1)
+
+	returnStatus = res_data_load_dbresult( in_Register, "Nodal", "Scalar", loadcase_title, subcase_title,  @
+					in_primary_result, in_secondary_result, in_LayerLabels(1), "", "AsIs", "DeriveAverage" @
+					, "All", "ShapeFunc", "", 0. )	
+	# note added "", 0. )	above
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus) // @ 
+					". This could be because the requested metric (e.g. VonMises,Factor-of-Safety, Tsai-Wu, Hoffman... ) " // @
+					"is incompatible with geometry/model.  " // @
+					"For Example, requesting VonMises or Factor-of-Safety for a composite model is incompatible."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	##################
+    # Add Other Layers
+	##################	
+	
+	IF ( in_NumLayers > 1 ) THEN		
+		# Need to call res_data_dbres_list to add the other layers to res_data_load_dbresult. res_data_load_dbresult
+		# would have added one layer to the results DB.  We want to add all the layers so that one plot covers
+		# all the layers. 
+		#dump in_LayerLabels
+		returnStatus = vPlots.addLayersToResultDataRegister( in_Register, loadcase_title, subcase_title, @
+															 in_primary_result, in_secondary_result, @
+															 2, in_NumLayers, in_LayerLabels )	
+
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "addLayersToResultDataRegister() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF						
+	
+	END IF
+	
+	##################
+    # Set Title
+	##################		
+	
+	returnStatus = res_data_title( in_Register, "Nodal", "Scalar", in_NumPlotTitles, in_PlotTitles )
+				
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_title() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+	#########################
+    # Create Fringe and Post
+	#########################	
+	
+	
+	#Note - The following works for a surface model with single layer, but fails for a solid model.  Need to investigate why it fails for a solid model.
+	IF ( in_Invoke_res_data_list_max ) THEN
+		returnStatus = res_data_list_max( in_Register, "Nodal", "Scalar", "Algebraic", "" )
+		
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "res_data_list_max() returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF			
+
+	END IF
+		
+	returnStatus =  vPlots.createFringeAndPost(in_Register)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "vPlots.createFringeAndPost() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+
+	RETURN returnStatus	
+	
+END FUNCTION
+#########################################################################################################
+# Valid Pairs:
+#	in_primary_result = "Displacements"
+#	in_secondary_result = "Translational"
+FUNCTION createDisplacementPlot(	in_Register, in_LoadCaseID, in_SubCaseID, in_primary_result, in_secondary_result, @
+						in_NumPlotTitles, in_PlotTitles, in_NumLayers, in_LayerIDs, in_LayerLabels, in_ClearCurrentlyDisplayedPlots )
+						
+	INTEGER in_Register
+	INTEGER in_LoadCaseID
+	INTEGER in_SubCaseID
+    STRING 	in_primary_result[]
+    STRING 	in_secondary_result[]
+	INTEGER in_NumPlotTitles
+	STRING 	in_PlotTitles[]()
+	INTEGER in_NumLayers	
+	INTEGER in_LayerIDs()
+	STRING 	in_LayerLabels[]()
+	LOGICAL in_ClearCurrentlyDisplayedPlots
+
+	STRING  functionName[64]
+	functionName = c_ClassName // ".createDisplacementPlot"
+		
+	INTEGER returnStatus = 0
+    		
+	STRING errorMessage_temp[128]		
+	
+	errorMessage_temp = " LoadCaseID: " // str_from_integer(in_LoadCaseID) // ", SubCaseID: " // str_from_integer(in_SubCaseID) // @
+						", PrimaryResult: " // in_primary_result // ", SecondaryResult: " // in_secondary_result
+			
+	IF ( in_NumLayers == 0 ) THEN
+			errorMsg = "Function called with zero layers." //  errorMessage_temp
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+	END IF				
+	
+	##################################
+    # Delete Existing Plots In_Memory
+	##################################
+	IF ( in_ClearCurrentlyDisplayedPlots ) THEN
+		returnStatus = vPlots.ClearCurrentlyDisplayedPlots()
+		
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "vPlots.ClearCurrentlyDisplayedPlots() returned an error, Return Status: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF			
+	END IF
+	
+	###########################
+    # Get Load/Sub-Case Titles
+	###########################		
+
+	STRING   loadcase_title[64]
+	STRING   subcase_title[64]	
+	
+	returnStatus = db_get_load_case_title(in_LoadCaseID, loadcase_title)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "db_get_load_case_title() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	returnStatus = db_get_sub_case_title(in_LoadCaseID, in_SubCaseID, subcase_title)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "db_get_sub_case_title() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	
+	##################
+    # Load Plot Data
+	##################	
+	/************************************** Examples ******************************************************
+	returnStatus = res_data_load_dbresult( 0, "Nodal", "Vector", "SC1:DEFAULT",  @
+								"A1:Static Subcase", "Displacements", "Translational", "(NON-LAYERED)", "",  @
+								"AsIs", "", "", "", "", 0. )	
+	*****************************************************************************************************/
+	
+					
+	returnStatus = res_data_load_dbresult( 	in_Register, "Nodal", "Vector", loadcase_title, subcase_title,  @
+											in_primary_result, in_secondary_result, in_LayerLabels(1), "",  @
+											"AsIs", "", "", "", "", 0. )						
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_load_dbresult() returned an error, Return Status: " // str_from_integer(returnStatus) // @ 
+					". This could be because the requested metric (e.g. VonMises,Factor-of-Safety, Tsai-Wu, Hoffman... ) " // @
+					"is incompatible with geometry/model.  " // @
+					"For Example, requesting VonMises or Factor-of-Safety for a composite model is incompatible."
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF		
+	
+	##################
+    # Add Other Layers
+	##################	
+	
+	IF ( in_NumLayers > 1 ) THEN		
+		# Need to call res_data_dbres_list to add the other layers to res_data_load_dbresult. res_data_load_dbresult
+		# would have added one layer to the results DB.  We want to add all the layers so that one plot covers
+		# all the layers. 
+		returnStatus = vPlots.addLayersToResultDataRegister( in_Register, loadcase_title, subcase_title, @
+															 in_primary_result, in_secondary_result, @
+															 2, in_NumLayers, in_LayerLabels )	
+
+		IF ( returnStatus != 0 ) THEN
+			errorMsg = "addLayersToResultDataRegister() returned an error, Return Status: " // str_from_integer(returnStatus) //  errorMessage_temp
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+		   RETURN returnStatus	
+		END IF						
+	
+	END IF
+	
+	##################
+    # Set Title
+	##################		
+	
+	returnStatus = res_data_title( in_Register, "Nodal", "Scalar", in_NumPlotTitles, in_PlotTitles )
+				
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "res_data_title() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+	###############################
+    # Create Displacement and Post
+	###############################			
+	
+	returnStatus =  vPlots.createDisplacementAndPost(in_Register)
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "vPlots.createDisplacementAndPost() returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
+	   RETURN returnStatus	
+	END IF			
+	
+	RETURN returnStatus	
+	
+END FUNCTION
+################################################################################					
 END CLASS

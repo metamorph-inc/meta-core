@@ -84,6 +84,8 @@ FUNCTION patranPostProcess(	in_Patran_SolidModel, 			@
 	
 	vMetrics.allocateMetricsVariables( numUniqueCompInstIDs )
 	
+	dump numUniqueCompInstIDs
+	
 	FOR ( i = 1 to numUniqueCompInstIDs )
 	
 		STRING nodes[VIRTUAL]
@@ -136,7 +138,12 @@ FUNCTION patranPostProcess(	in_Patran_SolidModel, 			@
 		#################################################			
 		# Failure Criteria specified, just get that criteria; otherwise get VM, MP, D
 			
+		dump "----------- Before vMetrics.computeMetrics"
+		dump laminatesFound		
 		vMetrics.computeMetrics( i, uniqueCompInstIDs(i), nodes, laminatesFound, maxNumLayersFound ) 		
+		dump "------------After vMetrics.computeMetrics"		
+		
+		dump laminatesFound
 		
 		text_write_string( vLogger.getChannel(), "******* END Processing Component Instance ID *******")	
 	
@@ -156,7 +163,10 @@ FUNCTION patranPostProcess(	in_Patran_SolidModel, 			@
 	
 	filename = vPatranPostProcess.get_fileName()
 		
-	vPlots.createAllPlots( filename, laminatesFound, maxNumLayersFound )
+	#dump laminatesFound
+	#dump maxNumLayersFound
+
+	vPlots.createAllPlots(filename)
 	
 	RETURN returnStatus
 	

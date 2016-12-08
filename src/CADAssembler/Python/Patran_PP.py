@@ -229,9 +229,9 @@ class PatranPostProcess:
                     break
                 
             if component.CadType == "PART":
-                self.logger.error(str(len(component.FEAResults)))
+                self.logger.info(str(len(component.FEAResults)))
                 for name in component.FEAResults.keys():
-                    self.logger.error("the key name is " + name)
+                    self.logger.info("the key name is " + name)
                 fos = float(component.Allowables.mechanical__strength_tensile) / component.FEAResults["VM"]
                 #fos = float(component.MaterialProperty['Mises'])  / component.FEAResults["VM"]
                 component.FEAResults['FOS'] = fos
@@ -402,9 +402,9 @@ class PatranPostProcess:
                         break
 
                 if component.CadType == "PART":
-                    self.logger.error(str(len(component.FEAResults)))
+                    self.logger.info(str(len(component.FEAResults)))
                     for name in component.FEAResults.keys():
-                        self.logger.error("the key name is " + name)
+                        self.logger.info("the key name is " + name)
                     fos = float(component.Allowables.mechanical__strength_tensile) / component.FEAResults["VM"]
                     #fos = float(component.MaterialProperty['Mises'])  / component.FEAResults["VM"]
                     component.FEAResults['FOS'] = fos
