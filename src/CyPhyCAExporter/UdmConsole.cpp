@@ -63,8 +63,6 @@ namespace GMEConsole
                 HRESULT s3 = pDispatch->QueryInterface(&gmeoleapp);
                 if ((SUCCEEDED(s3)) && (gmeoleapp != 0))
                 {
-                    // gmeoleapp->ConsoleClear();
-                    gmeoleapp->put_ConsoleContents(NULL);
                 }
                 else
                 {
