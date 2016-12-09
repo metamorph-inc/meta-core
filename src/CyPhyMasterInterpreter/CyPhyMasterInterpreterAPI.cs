@@ -452,14 +452,16 @@
                 {
                     this.ExecuteInTransaction(context, () =>
                     {
-                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels);
+                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels: true,
+                            passTraceability: false);
                     }, abort: false);
                 }
                 else
                 {
                     this.ExecuteInTransaction(context, () =>
                     {
-                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, true /* dont bother deleting tmp models */);
+                        thisResult = this.RunAnalysisModelProcessors(context, configuration, postToJobManager, keepTempModels: true /* dont bother deleting tmp models; we are aborting tx */,
+                            passTraceability: true);
                     }, abort: true);
                 }
 
@@ -1113,7 +1115,8 @@
             IMgaModel context,
             IMgaFCO configuration,
             bool postToJobManager = false,
-            bool keepTempModels = false)
+            bool keepTempModels = false,
+            bool passTraceability = true)
         {
             if (context == null ||
                 configuration == null)
@@ -1298,7 +1301,7 @@
 
                 bool isVerbose = this.Logger.GMEConsoleLoggingLevel == CyPhyGUIs.SmartLogger.MessageType_enum.Debug;
 
-                analysisModelProcessor.RunInterpreters(keepTempModels == false, isVerbose);
+                analysisModelProcessor.RunInterpreters(passTraceability, isVerbose);
                 result.OutputDirectory = analysisModelProcessor.OutputDirectory;
 
                 this.Logger.WriteDebug("Interpreters finished.");
