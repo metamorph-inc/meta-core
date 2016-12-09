@@ -146,6 +146,10 @@ namespace CyPhyDecoratorAddon
 
 					if (subject.MetaBase.Name == "Task" || subject.MetaBase.Name == "ExecutionTask")
 					{
+                        if (string.IsNullOrEmpty((subject as MgaFCO).StrAttrByName["COMName"]) == false)
+                        {
+                            return;
+                        }
                         using (InterpreterSelectionForm form = new InterpreterSelectionForm())
                         {
                             form.addon = this;
