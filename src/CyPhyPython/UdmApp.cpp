@@ -525,20 +525,27 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		{
 			throw *invokeError.get();
 		}
-		char* params[] = { "runCommand", "labels", NULL };
-		for (char** param = params; *param; param++)
-		{
-			PyObject* pyParam = PyDict_GetItemString(parameters, *param);
-			if (pyParam)
+		PyObject *key, *value;
+		Py_ssize_t pos = 0;
+
+		while (PyDict_Next(parameters, &pos, &key, &value)) {
+			_bstr_t paramName;
+			if (PyString_Check(key)) {
+				paramName = _bstr_t(PyString_AsString(key));
+			}
+			else if (PyUnicode_Check(key)) {
+				paramName = _bstr_t(PyUnicode_AsUnicode(key));
+			}
+			else {
+				continue;
+			}
+			if (PyString_Check(value))
 			{
-				if (PyString_Check(pyParam))
-				{
-					componentParameters[_bstr_t(*param)] = _bstr_t(PyString_AsString(pyParam));
-				}
-				if (PyUnicode_Check(pyParam))
-				{
-					componentParameters[_bstr_t(*param)] = _bstr_t(PyUnicode_AsUnicode(pyParam));
-				}
+				componentParameters[paramName] = _bstr_t(PyString_AsString(value));
+			}
+			if (PyUnicode_Check(value))
+			{
+				componentParameters[paramName] = _bstr_t(PyUnicode_AsUnicode(value));
 			}
 		}
 	}
