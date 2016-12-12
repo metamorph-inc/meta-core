@@ -56,14 +56,21 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 		PyObject_RAII str_value = PyObject_Str(message);
 		error += PyString_AsString(str_value);
 	}
-	else if (type && value && value.p->ob_type->tp_str)
-	{
-		PyObject_RAII str = value.p->ob_type->tp_str(value);
-		if (PyString_Check(str))
-			error += PyString_AsString(str);
-	}
 	else
-		error += "Unknown exception";
+	{
+		// seems PyObject_GetAttrString sets error indicator on failure
+		PyErr_Clear();
+		if (type && value && value.p->ob_type->tp_str)
+		{
+			PyObject_RAII str = value.p->ob_type->tp_str(value);
+			if (PyString_Check(str))
+				error += PyString_AsString(str);
+		}
+		else
+		{
+			error += "Unknown exception";
+		}
+	}
 
 	if (isErrorMessageException == false) {
 		error += ": ";
