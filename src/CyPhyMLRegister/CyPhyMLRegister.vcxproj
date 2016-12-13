@@ -86,12 +86,12 @@
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd $(META_PATH)\meta\CyPhyML
 set PYTHONPATH=$(META_PATH)\meta\CyPhyML
-"$(META_PATH)\externals\common-scripts\gmepy.exe" run_module add_folder_treeIcons "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
+"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Adding treeIcon registry nodes to CyPhyML</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\treeIconsMarker</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cd $(META_PATH)\meta\CyPhyML
 set PYTHONPATH=$(META_PATH)\meta\CyPhyML
-"$(META_PATH)\externals\common-scripts\gmepy.exe" run_module add_folder_treeIcons "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
+"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Adding treeIcon registry nodes to CyPhyML</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\treeIconsMarker</Outputs>
     </CustomBuild>
