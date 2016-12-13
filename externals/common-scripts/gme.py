@@ -14,6 +14,7 @@ import itertools
 import posixpath
 import urllib
 from urlparse import urlparse
+import uuid
 
 
 # Disable early binding: full of race conditions writing the cache files,
@@ -288,9 +289,11 @@ def meta2uml(mgafile, umlfile=None, refresh_str=None):
     
     # n.b. this uses the SxS config in gmepy-setup.py under gmepy.exe (but not gme.py)
     with Project.open(mgafile, refresh=refresh) as project:
+        guid = project.project.GUID
         project.run_interpreter("MGA.Interpreter.MetaGME2Uml", None, None, 128)
         output_path = os.path.join(os.path.dirname(mgafile), project.project.RootFolder.Name + "_uml.mga")
         # project.project.Save("MGA=" + os.path.splitext(mgafile)[0] + "_after_MetaGME2Uml.mga")
+        project.project.GUID = guid
         project.commit_transaction()
         project.project.Save("", True)
         project.project.Close(True)
@@ -486,13 +489,23 @@ class Project():
             mga.Open("MGA=" + file)
             if refresh:
                 mga.BeginTransactionInNewTerr()
+                guid = uuid.UUID(bytes_le=mga.GUID)
                 current = mga.RootFolder
                 libs = filter(is_library, current.ChildFolders)
-                for l in libs:
-                    l.RefreshLibrary(l.LibraryName)
+                for lib in libs:
+                    lib_name = lib.LibraryName
+                    lib.RefreshLibrary(lib_name)
+                    with Project.open(os.path.join(os.path.dirname(os.path.abspath(file)), lib_name)) as lib_mga:
+                        library_guid = lib_mga.project.GUID
+
+                    guid = uuid.UUID(bytes_le=''.join((chr(ord(a) ^ ord(b)) for a,b in zip(guid.bytes_le, uuid.UUID(bytes_le=library_guid).bytes_le))))
+                mga.GUID = buffer(guid.bytes_le)
+                # print uuid.UUID(bytes_le=mga.GUID)
                 mga.CommitTransaction()
             mga_to_save = file
         elif extension == ".xme":
+            if refresh:
+                raise ValueError("refresh parameter unsupported for xmes")
             xme = win32com.client.DispatchEx("Mga.MgaParser")
             (paradigm, parversion, parguid, basename, ver) = xme.GetXMLInfo(file)
 
