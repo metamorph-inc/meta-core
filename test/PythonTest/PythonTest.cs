@@ -66,6 +66,8 @@ namespace PythonTest
                     "py_modelica_exporter",
                     "run_mdao",
                     "testbenchexecutor",
+                    "excel_wrapper",
+                    "matlab_wrapper",
             };
 
             foreach (var test in module_names.Select(moduleName =>
