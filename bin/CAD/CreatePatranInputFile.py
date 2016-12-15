@@ -980,7 +980,7 @@ def output_Surface_constructs(in_OutputModelFile_obj,
 
     fEA_ElementType_Nastran_notation = ""
 
-    if in_FEA_ElementType.lower() != 'plate4':
+    if in_FEA_ElementType.lower() == 'plate4':
         fEA_ElementType_Nastran_notation = 'QUAD4'
     else:
         fEA_ElementType_Nastran_notation = 'QUAD8'
