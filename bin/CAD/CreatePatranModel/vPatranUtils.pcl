@@ -137,8 +137,16 @@ FUNCTION importParasolidFile (	in_File_Parasolid_Model_Name, 			@
 	# correct any large gaps.
 	ui_answer_message(38001118, "NO")
 			
-	# Previously, the 62 entry was 42				
-	returnStatus = p3_ug_xmt_import_v2( parasolidFile_DirAndFileName, "", "express.opt", TRUE, 32,  @
+
+	# Sew Patran Edges						2
+	# verify edges							4
+	# Remove degenerate faces				8
+	# Convert trimmed to untrimmed	 		Skip This
+	# Equivalence Vertices					32
+	#
+	# Total -------------------------------> 46			
+			
+	returnStatus = p3_ug_xmt_import_v2( parasolidFile_DirAndFileName, "", "express.opt", TRUE, 46,  @
 							uil_file_import_ps_tr_xmt_count, uil_file_import_ps_patran_count,  @
 							uil_file_import_ps_tra_n_layers, uil_file_import_ps_tr_layer_ids,  @
 							uil_file_import_ps_tr_model_tol, TRUE, "", FALSE )		 
@@ -855,6 +863,18 @@ FUNCTION submitSolution101(	in_JobName )
         RETURN returnStatus		
 	END IF			
 	
+	text_write_string( vLogger.getChannel(), "")	
+
+	text_write_string( vLogger.getChannel(), "Submit to Solver( analysis_submit_2 )")	
+	text_write_string( vLogger.getChannel(), "*** IMPORTANT MESSAGE FOR SURFACE MODELS ***")		
+	text_write_string( vLogger.getChannel(), "   If this message is the last message in this log file, then the analysis_submit_2 failed." )				
+	text_write_string( vLogger.getChannel(), "   For surface models:" )
+	text_write_string( vLogger.getChannel(), "      this usually means that a surface in the Patran model has no assigned property set." )		
+	text_write_string( vLogger.getChannel(), "      Using Patran, open the Patran_Model.db (directory above the log file directory) and follow the instructions at." )		
+	text_write_string( vLogger.getChannel(), "         http://mscnastrannovice.blogspot.com/2014/02/how-to-find-elements-with-no-properties.html" )		
+	text_write_string( vLogger.getChannel(), "         Double click on props_NO_Properties to see the surface names that have no property sets." )		
+	text_write_string( vLogger.getChannel(), "         Edit the CyPhy model to assure that all surfaces have a MaterialContents (results in a property set in then Patran model)." )	
+	
 	analysis_submit_2( "MSC.Nastran", in_JobName )
 	
 	
@@ -868,7 +888,7 @@ FUNCTION submitSolution101(	in_JobName )
 	
 	text_write_string ( vLogger.getChannel(), "" )	
 	
-	text_write_string ( vLogger.getChannel(), "Submitted job " // in_JobName // " to Nastran." )	
+	text_write_string ( vLogger.getChannel(), "Successfully submitted job " // in_JobName // " to Nastran." )	
 
 	text_write_string ( vLogger.getChannel(), "" )		
 	

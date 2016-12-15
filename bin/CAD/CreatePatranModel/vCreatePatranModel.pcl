@@ -58,6 +58,18 @@ Revision History
 					layups) and for applying loads/constraints. Re-factored such that surfaces are
 					treated generically for both solid surfaces and surface surfaces.  This was 
 					accommodated by adding vSurface_Database.pcl.
+					
+12/15/2016 R.O.		Modified vPatranUtils.pcl to input 46 to ug_xmt_import_v2. 
+
+						Sew Patran Edges						2
+						verify edges							4
+						Remove degenerate faces				8
+						convert trimmed to untrimmed	 		Skip This
+						Equivalence Vertices					32
+	
+						Total --------------------------------> 46
+
+	
 *****/
 CLASS vCreatePatranModel
 

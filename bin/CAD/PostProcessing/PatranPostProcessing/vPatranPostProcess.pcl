@@ -100,6 +100,8 @@ Date   		Developer  	Description
 12/7/2016	R. Owens	Corrected an error in post-processing that was resulting in erroneous Tsai-Wu bond-index plots.  
 						Also, made corrections so that a surface model with a single material layer would plot properly. 
 
+12/15/2017	R. Owens	In vSurfaceOrSolid.pcl function patranPostProcess(), added better error messages for the case where
+						regionID == vConstants.get_ci_Undefined().
 						
 Needed Improvements
 -------------------

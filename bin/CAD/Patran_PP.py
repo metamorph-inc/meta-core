@@ -146,7 +146,7 @@ class PatranPostProcess:
         """This method added 8/11/16 by James Klingler. Uses the refactored PCL Post-Processing scripts from
         https://github.com/metamorph-inc/meta-blademda/commit/c07cfb1977f76d2b7367aa4daffc893e92eef269"""
 
-        ppp_dir_name = 'PatranPostProcessing'
+        ppp_dir_name = 'PostProcessing\PatranPostProcessing'
         pp_ses_name = 'PatranPostProcessing.ses'
 
         self.logger.info("Creating {}...".format(pp_ses_name))

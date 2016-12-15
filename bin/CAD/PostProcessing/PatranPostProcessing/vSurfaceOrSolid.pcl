@@ -95,22 +95,57 @@ FUNCTION patranPostProcess(	in_Patran_SolidModel, 			@
 		text_write_string( vLogger.getChannel(), "******* Begin Processing Component Instance ID *******")	
 		text_write_string( vLogger.getChannel(), "	Component Instance ID: " // uniqueCompInstIDs(i) // @
 								",     Number Property Sets: " // str_from_integer(numFoundPropertySetNames) )
+								
+		INTEGER returnStatus_temp
+		returnStatus_temp = 0
 		FOR ( j = 1 to numFoundPropertySetNames )
 			regionID = vRegions.get_RegionID(  propertySetNames(j))
 			
 			# Make sure the property set in the input file is a property set in the output (xdb/op2) files of the Patran/Nastran run
-			IF ( regionID == vConstants.get_ci_Undefined() ) THEN
-				errorMsg = "No property sets found for Component Instance ID: " //  uniqueCompInstIDs(i) // @
-							", check the input file to verify that the " // vInputFile.get_c_CompInstID_PropertySet() // @
-							" field is set properly, File name: " // vInputFile.get_fileName()
+			IF ( regionID == vConstants.get_ci_Undefined() ) THEN		
+				# Must break this up into more than one message because a single messge would exceed 256 characters
 				errorLevel = vLogger.get_ci_ERROR()
+				errorMsg = "No property sets found for Component Instance ID: " //  uniqueCompInstIDs(i) 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				
+				errorMsg = "   Property Set Name: " // propertySetNames(j) // ", Region ID: " // str_from_integer(regionID)
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				
+				errorMsg = 	"   Check the input file to verify that the " // vInputFile.get_c_CompInstID_PropertySet() // @
+							" field is set properly, File name: " // vInputFile.get_fileName()
 				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 
-			   RETURN -1
+				
+				errorMsg = 	"   Another cause could be that a property set contains no surfaces." 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+
+				errorMsg = 	"   This is usually caused by zones (CyPhy MaterialContents refers to geometry which represents a zone)" 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+
+				errorMsg = 	"   overlapping in the CyPhy model." 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+
+				errorMsg = 	"   To check this, using Patran, open Patran_Model.db, select Properties tab, Action: Show (right dialogue box)," 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+
+				errorMsg = 	"   Property Set Name, Scalar Plot, Apply.  Each zone should have a different color.  Make sure no color" 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+				
+				errorMsg = 	"   appears in multiple areas that are not in-line with the model you intended in CyPhy.  If your CyPhy zones" 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+
+				errorMsg = 	"   overlap, then a surface will appear in an unintended zone and leave the intended zone empty." 
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 				
+				
+				
+			   returnStatus_temp = -1
 			END IF 
 			
 			text_write_string( vLogger.getChannel(), "    Property Set Name:     " // propertySetNames(j) // @
 													 "    Region ID: " // str_from_integer(regionID))			
 		END FOR
+		
+		IF ( returnStatus_temp != 0 ) THEN RETURN returnStatus_temp
+		
 		
 		#dump propertySetNames
 
