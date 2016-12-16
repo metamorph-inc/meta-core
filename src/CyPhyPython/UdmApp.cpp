@@ -483,6 +483,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		PyObject_RAII args = PyDict_New();
 		PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObj"));
 		PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObj"));
+		PyDict_SetItemString(args, "udmProject", PyDict_GetItemString(main_namespace, "udm_project"));
 
 		PyObject_RAII parameters = PyDict_New();
 		for (auto it = componentParameters.begin(); it != componentParameters.end(); it++)
