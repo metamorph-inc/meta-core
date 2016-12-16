@@ -54,6 +54,8 @@
         /// </summary>
         public event EventHandler<InterpreterProgressEventArgs> InterpreterProgress;
 
+        protected string OriginalCurrentFCOName;
+
         /// <summary>
         /// Gets the interpreters which will be called on the expanded context.
         /// </summary>
@@ -81,6 +83,8 @@
         /// <remarks>Original top level system under test will be redirected to this object.</remarks>
         public CyPhy.ComponentAssembly Configuration { get; protected set; }
         
+        public CyPhy.CWC DesignConfiguration { get; protected set; }
+
         /// <summary>
         /// Gets a traceability map for the analysis interpreters between original context and temporary objects
         /// that might be deleted at the end of the execution. Helps to provide valid hyperlinks to the user to 
@@ -222,6 +226,7 @@
                 throw new AnalysisModelContextNotSupportedException(string.Format("{0} does not supported", context.MetaBase.Name));
             }
 
+            analysisModelProcessor.OriginalCurrentFCOName = context.Name;
             return analysisModelProcessor;
         }
 
@@ -333,6 +338,7 @@
             {
                 throw new ArgumentNullException("configuration");
             }
+            this.DesignConfiguration = configuration;
 
             if (configuration.DstConnections.Config2CACollection.Any())
             {
@@ -611,6 +617,12 @@
                 interpreter.MainParameters.ProjectDirectory = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetExpandedObject().Project);
                 interpreter.MainParameters.OutputDirectory = this.OutputDirectory;
                 interpreter.MainParameters.VerboseConsole = verboseConsole;
+                interpreter.MainParameters.OriginalCurrentFCOName = OriginalCurrentFCOName;
+                if (this.DesignConfiguration != null)
+                {
+                    interpreter.MainParameters.GeneratedConfigurationModel = this.DesignConfiguration.ParentContainer.Name;
+                    interpreter.MainParameters.SelectedConfig = this.DesignConfiguration.Name;
+                }
 
                 if (passTraceability)
                 {

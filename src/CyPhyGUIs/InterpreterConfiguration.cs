@@ -170,6 +170,24 @@ namespace CyPhyGUIs
             get;
             set;
         }
+
+        public string GeneratedConfigurationModel
+        {
+            get;
+            set;
+        }
+
+        public string SelectedConfig
+        {
+            get;
+            set;
+        }
+
+        public string OriginalCurrentFCOName
+        {
+            get;
+            set;
+        }
     }
 
     [Guid("846F6E5E-16B3-46FE-A3D9-16C6A2DA9CC6")]
