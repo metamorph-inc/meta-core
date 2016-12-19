@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{600EEC42-7CB8-4720-9D19-F59631777E75}" cdate="Thu Mar 26 09:51:25 2015" mdate="Thu Mar 26 09:51:25 2015" version="" metaguid="{7F8E9110-B503-4F59-9581-7D879810B059}" metaversion="" metaname="CyPhyML">
+<project guid="{3C255186-6669-4F33-92E0-7A04236ECE7C}" cdate="Mon Dec 19 11:09:04 2016" mdate="Mon Dec 19 11:09:04 2016" version="" metaguid="{BF1B3016-FF22-0E74-002B-CBF255713A2F}" metaversion="$Rev: 29629 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -44,7 +44,7 @@
 						<value>Joule per Kilogram Kelvin per Pascal</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>J/(km-K-Pa)</value>
+						<value>J/(kg-K-Pa)</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -1406,13 +1406,13 @@
 				<model id="id-0065-0000003b" kind="conversion_based_unit" guid="{41b2469d-8834-4f2f-a4bd-9bea60a5aa0d}" relid="0x3b" childrelidcntr="0x1">
 					<name>Kelvin per Hour</name>
 					<attribute kind="Abbreviation">
-						<value>K / h</value>
+						<value>K/h</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Kelvin per Hour</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>K / h</value>
+						<value>K/h</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -1430,13 +1430,13 @@
 				<model id="id-0065-0000003c" kind="conversion_based_unit" guid="{c231dabb-acf8-489c-b1bb-ee4dd0552b32}" relid="0x3c" childrelidcntr="0x1">
 					<name>Kelvin per Second</name>
 					<attribute kind="Abbreviation">
-						<value>K / s</value>
+						<value>K/s</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Kelvin per Second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>K / s</value>
+						<value>K/s</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -1454,13 +1454,13 @@
 				<model id="id-0065-0000003d" kind="conversion_based_unit" guid="{04e6fb3e-81e3-48f1-aa27-400055d9734f}" relid="0x3d" childrelidcntr="0x1">
 					<name>Kelvin per Minute</name>
 					<attribute kind="Abbreviation">
-						<value>K / m</value>
+						<value>K/m</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Kelvin per Minute</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>K / m</value>
+						<value>K/m</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -2822,13 +2822,13 @@
 				<model id="id-0065-00000076" kind="conversion_based_unit" guid="{928c8ed3-7258-4fa2-a2af-1ad413b22877}" relid="0x76" childrelidcntr="0x1">
 					<name>Volt per second</name>
 					<attribute kind="Abbreviation">
-						<value>V / sec</value>
+						<value>V/sec</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Volt per second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>V / sec</value>
+						<value>V/sec</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -3614,13 +3614,13 @@
 				<model id="id-0065-00000097" kind="conversion_based_unit" guid="{16d91186-0bdd-4524-b54b-8748c461468a}" relid="0xaa" childrelidcntr="0x1">
 					<name>MicroTorr</name>
 					<attribute kind="Abbreviation">
-						<value>Âµtorr</value>
+						<value>µtorr</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>MicroTorr</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>Âµtorr</value>
+						<value>µtorr</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -4852,7 +4852,7 @@
 					<reference id="id-0067-000000de" kind="reference_unit" role="reference_unit" guid="{253cb134-dc8d-4982-90b9-521cd508f1b6}" relid="0x1" referred="id-0065-000001ca">
 						<name>Stere</name>
 						<attribute kind="conversion_factor">
-							<value>4.9289218699999999e-005</value>
+							<value>4.9289215937499996e-006</value>
 						</attribute>
 						<attribute kind="conversion_offset">
 							<value>0</value>
@@ -4900,7 +4900,7 @@
 					<reference id="id-0067-000000e0" kind="reference_unit" role="reference_unit" guid="{c9bc7984-b08d-4cb0-b75a-0b5aa8521c85}" relid="0x1" referred="id-0065-000001ca">
 						<name>Stere</name>
 						<attribute kind="conversion_factor">
-							<value>0.00014786765599999999</value>
+							<value>1.4786764781249999e-005</value>
 						</attribute>
 						<attribute kind="conversion_offset">
 							<value>0</value>
@@ -5606,13 +5606,13 @@
 				<model id="id-0065-000000ea" kind="conversion_based_unit" guid="{c67f687a-99f5-4c23-8995-da3ab2e6c974}" relid="0xfd" childrelidcntr="0x1">
 					<name>Square Meter Kelvin per Watt</name>
 					<attribute kind="Abbreviation">
-						<value>(K^2)m/W</value>
+						<value>K-m^2/W</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Square Meter Kelvin per Watt</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>(K^2)m/W</value>
+						<value>K-m^2/W</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -6380,7 +6380,7 @@
 						<value>Relative Permeability</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>Î¼r</value>
+						<value>µr</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -8006,13 +8006,13 @@
 				<model id="id-0065-0000014e" kind="conversion_based_unit" guid="{a6ca7c46-6cce-46fc-bff1-7116a02210b3}" relid="0x161" childrelidcntr="0x1">
 					<name>Angstrom</name>
 					<attribute kind="Abbreviation">
-						<value>Ã…</value>
+						<value>Å</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Angstrom</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>Ã…</value>
+						<value>Å</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -8150,13 +8150,13 @@
 				<model id="id-0065-00000154" kind="conversion_based_unit" guid="{12977c4a-ac95-41df-acca-b76fc8c122f4}" relid="0x167" childrelidcntr="0x1">
 					<name>Micrometer</name>
 					<attribute kind="Abbreviation">
-						<value>Âµm</value>
+						<value>µm</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Micrometer</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>Âµm</value>
+						<value>µm</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -9110,13 +9110,13 @@
 				<model id="id-0065-0000017c" kind="conversion_based_unit" guid="{2f9095ab-703b-4d8f-b251-540ce62ef65b}" relid="0x18f" childrelidcntr="0x1">
 					<name>Pascal per Second</name>
 					<attribute kind="Abbreviation">
-						<value>P / s</value>
+						<value>Pa/s</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Pascal per Second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>P / s</value>
+						<value>Pa/s</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -9134,13 +9134,13 @@
 				<model id="id-0065-0000017d" kind="conversion_based_unit" guid="{150579cf-5f2f-42d1-9f3f-42e582c11063}" relid="0x190" childrelidcntr="0x1">
 					<name>Pascal per Minute</name>
 					<attribute kind="Abbreviation">
-						<value>P / min</value>
+						<value>Pa/min</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Pascal per Minute</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value></value>
+						<value>Pa/min</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -9158,13 +9158,13 @@
 				<model id="id-0065-0000017e" kind="conversion_based_unit" guid="{791df7d0-d94c-4200-8864-947167268a4e}" relid="0x191" childrelidcntr="0x1">
 					<name>Pascal per Hour</name>
 					<attribute kind="Abbreviation">
-						<value>P / hr</value>
+						<value>Pa/hr</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Pascal per Hour</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>P / hr</value>
+						<value>Pa/hr</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -9260,7 +9260,7 @@
 						<value>Relative Permittivity</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>Îµr</value>
+						<value>εr</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -9335,7 +9335,7 @@
 						<value>Joule per Kilogram Kelvin per Pascal</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>J/(km-K-Pa)</value>
+						<value>J/(kg-K-Pa)</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -10037,13 +10037,13 @@
 				<model id="id-0065-0000019b" kind="derived_unit" guid="{c21844b7-c797-427e-8e65-15a3e7f03e79}" relid="0x1ae" childrelidcntr="0x2">
 					<name>Kelvin per Second</name>
 					<attribute kind="Abbreviation">
-						<value>K / s</value>
+						<value>K/s</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Kelvin per Second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>K / s</value>
+						<value>K/s</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -10565,13 +10565,13 @@
 				<model id="id-0065-000001ab" kind="derived_unit" guid="{78e9721f-0ee2-42fa-a468-c5cda171c367}" relid="0x1be" childrelidcntr="0x4">
 					<name>Volt per second</name>
 					<attribute kind="Abbreviation">
-						<value>V / sec</value>
+						<value>V/sec</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Volt per second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>V / sec</value>
+						<value>V/sec</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -10723,7 +10723,7 @@
 					<reference id="id-0067-00000217" kind="derived_unit_element" role="derived_unit_element" guid="{d7a05ba1-5205-4bec-b841-68e2c257ace9}" relid="0x4" referred="id-0066-00000005">
 						<name>Second</name>
 						<attribute kind="exponent">
-							<value>3</value>
+							<value>2</value>
 						</attribute>
 					</reference>
 				</model>
@@ -11705,13 +11705,13 @@
 				<model id="id-0065-000001cf" kind="derived_unit" guid="{31155d89-7661-47d9-a6aa-c3f32008fa52}" relid="0x1e2" childrelidcntr="0x3">
 					<name>Square Meter Kelvin per Watt</name>
 					<attribute kind="Abbreviation">
-						<value>(K^2)m/W</value>
+						<value>K-m^2/W</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Square Meter Kelvin per Watt</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>(K^2)m/W</value>
+						<value>K-m^2/W</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -12806,13 +12806,13 @@
 				<model id="id-0065-000001f2" kind="derived_unit" guid="{8c08be85-841c-495e-80d3-4b81e393844d}" relid="0x205" childrelidcntr="0x3">
 					<name>Pascal per Second</name>
 					<attribute kind="Abbreviation">
-						<value>P / s</value>
+						<value>Pa/s</value>
 					</attribute>
 					<attribute kind="FullName">
 						<value>Pascal per Second</value>
 					</attribute>
 					<attribute kind="Symbol">
-						<value>P / s</value>
+						<value>Pa/s</value>
 					</attribute>
 					<attribute kind="URI" status="meta">
 						<value></value>
@@ -12961,7 +12961,7 @@
 							</regnode>
 						</regnode>
 						<attribute kind="conversion_factor">
-							<value>0.017453292499999998</value>
+							<value>0.017453292519943295</value>
 						</attribute>
 						<attribute kind="conversion_offset" status="meta">
 							<value>0</value>
@@ -13459,7 +13459,7 @@
 							</regnode>
 						</regnode>
 						<attribute kind="exponent">
-							<value>1</value>
+							<value>-1</value>
 						</attribute>
 					</reference>
 					<reference id="id-0067-0000000f" kind="derived_unit_element" role="derived_unit_element" guid="{454145b2-fb37-45bf-9b18-76c0c2518887}" relid="0x4" referred="id-0065-000000e0">
@@ -13492,8 +13492,17 @@
 					<attribute kind="URI" status="meta">
 						<value></value>
 					</attribute>
-					<reference id="id-0067-000002df" kind="derived_unit_element" role="derived_unit_element" guid="{a131b84d-df84-4a3d-aa5e-054655e19bdd}" relid="0x1" referred="id-0066-00000004">
-						<name>Meter</name>
+					<reference id="id-0067-000002df" kind="derived_unit_element" role="derived_unit_element" guid="{a131b84d-df84-4a3d-aa5e-054655e19bdd}" relid="0x1" referred="id-0065-000001fe">
+						<name>Millimeter</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="UnitAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>126,119</value>
+								</regnode>
+							</regnode>
+						</regnode>
 						<attribute kind="exponent">
 							<value>-1</value>
 						</attribute>
@@ -13567,7 +13576,7 @@
 					<reference id="id-0067-00000010" kind="reference_unit" role="reference_unit" guid="{2363dad2-d5f9-4251-9674-de1741ff459a}" relid="0x1" referred="id-0065-000001ca">
 						<name>Stere</name>
 						<attribute kind="conversion_factor">
-							<value>1</value>
+							<value>1.0000000000000001e-009</value>
 						</attribute>
 						<attribute kind="conversion_offset">
 							<value>0</value>
