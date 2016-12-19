@@ -484,6 +484,8 @@ namespace CyPhyPET
                 type = "PCCDriver",
                 details = new Dictionary<string, object>(),
                 designVariables = new Dictionary<string, PETConfig.DesignVariable>(),
+                constraints = new Dictionary<string, PETConfig.Constraint>(),
+                intermediateVariables = new Dictionary<string, PETConfig.Parameter>(),
                 objectives = new Dictionary<string, PETConfig.Parameter>(),
             };
             this.config.drivers.Add(PCCDriver.Name, driver);

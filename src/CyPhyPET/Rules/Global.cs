@@ -326,14 +326,14 @@ namespace CyPhyPET.Rules
                         if (tbParamParent != null &&
                             (tbParamParent is CyPhy.TestBenchType) == false)
                         {
-                            var feedback = new GenericRuleFeedback()
+                            /*var feedback = new GenericRuleFeedback()
                             {
                                 FeedbackType = FeedbackTypes.Error,
                                 Message = string.Format("Driver Parameter ({0}) must have a connection to a Testbench Parameter/Property", param.Name)
                             };
 
                             feedback.InvolvedObjectsByRole.Add(param.Impl as IMgaFCO);
-                            checkResults.Add(feedback);
+                            checkResults.Add(feedback);*/
                         }
                         else
                         {
@@ -367,14 +367,14 @@ namespace CyPhyPET.Rules
                         if (tbParamsWithConnections.Add(
                             new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
                         {
-                            var feedback = new GenericRuleFeedback()
+                            /*var feedback = new GenericRuleFeedback()
                             {
                                 FeedbackType = FeedbackTypes.Error,
                                 Message = string.Format("TestBench Parameter ({0}) must have only 1 connection from a PCCDriverParameter", tbParam.Name)
                             };
 
                             feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                            checkResults.Add(feedback);
+                            checkResults.Add(feedback);*/
                         }
                     }
 
@@ -382,14 +382,14 @@ namespace CyPhyPET.Rules
                 else if (driveParamCollection != null &&
                     driveParamCollection.Count() != 1)
                 {
-                    var feedback = new GenericRuleFeedback()
+                    /*var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
                         Message = string.Format("Driver Parameter ({0}) must have (only) 1 connection to a Testbench Parameter/Property", param.Name)
                     };
 
                     feedback.InvolvedObjectsByRole.Add(param.Impl as IMgaFCO);
-                    checkResults.Add(feedback);
+                    checkResults.Add(feedback);*/
                 }
             }
 
