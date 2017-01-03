@@ -15,6 +15,7 @@
 #  python -m pip install %userprofile%\Downloads\matplotlib-1.5.2-cp27-cp27m-win32.whl # Ricardo tool
 #  python -m pip install %userprofile%\Downloads\pyparsing-2.1.6-py2.py3-none-any.whl # simviz tool
 #  python -m pip install --egg -r Python27\requirements
+# apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
 #  git checkout HEAD -- ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib/site-packages/sitecustomize.py
 #  bash: cd $(git rev-parse --show-toplevel) && git status --porcelain bin/Python27/Scripts | grep '^ D ' | grep -E '(\.pyd|dll)' | sed 's/^...//' | xargs git checkout HEAD -- bin/Python27/Scripts/{activate.bat,Python27.zip} bin/Python27/libs/python27.lib
 #  git add -f --all Python27
