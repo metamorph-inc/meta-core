@@ -622,8 +622,12 @@ namespace CyPhyPET
 
                 var pccMetric = new PCC.PCCMetric();
                 pccMetric.ID = item.ID;
-                pccMetric.TestBenchMetricName = item.SrcConnections.PCCOutputMappingCollection.FirstOrDefault().SrcEnd.Name;
-                pccMetric.Name = item.SrcConnections.PCCOutputMappingCollection.First().SrcEnd.ParentContainer.Name + "." + pccMetric.TestBenchMetricName;
+
+                var sourcePath = GetSourcePath(null, (MgaFCO) item.Impl);
+
+                pccMetric.TestBenchMetricName = sourcePath[1];
+                pccMetric.Name = sourcePath[0] + "." + pccMetric.TestBenchMetricName;
+
                 pccMetric.PCC_Spec = item.Attributes.TargetPCCValue;  // Could this ever present a problem?
 
                 var metricLimits = new PCC.Limits();
