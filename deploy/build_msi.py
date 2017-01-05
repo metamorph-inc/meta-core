@@ -63,9 +63,11 @@ def get_nuget_packages():
 def generate_license_rtf():
     with open('../license.rtf', 'wb') as rtf:
         txt = open('../license.txt').read()
-        txt = re.sub('\\n(?!\\n)', '', txt.replace('\r', ''))
+        txt = txt.replace('\r', '')
+        txt = re.sub('([^\\n])\\n(?!\\n)', '\\1 ', txt)
+        txt = re.sub(r'([\\{}])', r'\\\1', txt)
         rtf.write('{\\rtf1\n')
-        rtf.write(txt.replace('\r', '').replace('\n', '\\par\n'))
+        rtf.write(txt.replace('\n\n', '\\par\n'))
         rtf.write('\n}')
 
 
