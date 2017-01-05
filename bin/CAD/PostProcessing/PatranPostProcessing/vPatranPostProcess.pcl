@@ -103,6 +103,9 @@ Date   		Developer  	Description
 12/15/2017	R. Owens	In vSurfaceOrSolid.pcl function patranPostProcess(), added better error messages for the case where
 						regionID == vConstants.get_ci_Undefined().
 						
+1/5/2017	R. Owens	Modified logging (vLogger) to restrict message size to 256 characters.  Before this change
+						longer messages were resulting in behaviour similar to an address violation.
+						
 Needed Improvements
 -------------------
 1.	Elimanted the need for vSolidLegacyApproach.pcl. For deck-based and model-based (i.e.

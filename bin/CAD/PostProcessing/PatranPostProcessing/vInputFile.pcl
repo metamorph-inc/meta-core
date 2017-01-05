@@ -631,7 +631,7 @@ FUNCTION failure_Criteria_toStr ( in_failure_Criteria_ID )
 	   CASE( ci_N_A )  
 			return 	c_N_A 				
 	   DEFAULT
-			return "" 
+			return "ERROR" 
 	END SWITCH
 
 END FUNCTION

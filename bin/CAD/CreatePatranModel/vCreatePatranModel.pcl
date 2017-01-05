@@ -63,12 +63,16 @@ Revision History
 
 						Sew Patran Edges						2
 						verify edges							4
-						Remove degenerate faces				8
+						Remove degenerate faces					8
 						convert trimmed to untrimmed	 		Skip This
 						Equivalence Vertices					32
 	
 						Total --------------------------------> 46
 
+1/5/2017			Added support for Force_Moment load.  Modified logging (vLogger) to restrict message size to 
+					256 characters.  Before this change longer messages were resulting in behaviour similar to an 
+					address violation.
+	
 	
 *****/
 CLASS vCreatePatranModel

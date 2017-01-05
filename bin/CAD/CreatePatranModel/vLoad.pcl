@@ -17,11 +17,11 @@ CLASS vLoad
 						c_GEOMETRY_ID[32],			@
 						c_LOAD_VALUE_ID[32],		@
 						c_PRESSURE_type[32],		@	
-						c_FORCE_type[32]					
+						c_FORCE_MOMENT_type[32]					
 						
 						
 	CLASSWIDE INTEGER	ci_LOAD_PRESSURE,			@
-						ci_LOAD_FORCE
+						ci_LOAD_FORCE_MOMENT
 													
 						
 						#################
@@ -46,13 +46,13 @@ FUNCTION initialize()
 	c_SubCase_ID	= 				"SubCase_ID"
 	c_GEOMETRY_ID =					"Geometry_ID"
 	c_LOAD_VALUE_ID =				"Load_Value_ID"
-	# Use lower case for Pressure and Force because these string will appear in the Patran Model
+	# Use lower case for Pressure and Force_Moment because these string will appear in the Patran Model
 	# See vLoad.get_Load_InPatMdl_Name
 	c_PRESSURE_type =				"Pressure"	
-	c_FORCE_type =					"Force"	
+	c_FORCE_MOMENT_type =			"Force_Moment"	
 
 	ci_LOAD_PRESSURE =				1
-	ci_LOAD_FORCE =					2		
+	ci_LOAD_FORCE_MOMENT =			2		
 	
 	count = 0
 	count_temp = 0
@@ -265,10 +265,10 @@ FUNCTION load_Type_toStr ( in_load_Type_ID )
 	SWITCH(in_load_Type_ID)
 		CASE(ci_LOAD_PRESSURE)
 			return c_PRESSURE_type
-		#CASE (ci_LOAD_FORCE)      Support Force later
-		#	return c_FORCE_type
+		CASE (ci_LOAD_FORCE_MOMENT) 
+			return c_FORCE_MOMENT_type
 		DEFAULT
-			return -1
+			return "ERROR"
 	END SWITCH
 
 
@@ -281,8 +281,8 @@ FUNCTION load_Type_toInt ( in_load_Type_str )
 	SWITCH(in_load_Type_str)
 		CASE(c_PRESSURE_type )
 			return ci_LOAD_PRESSURE
-		#CASE(c_FORCE_type )     Support Force late
-		#	return ci_LOAD_FORCE	
+		CASE(c_FORCE_MOMENT_type )  
+			return ci_LOAD_FORCE_MOMENT	
 
 		DEFAULT
 			return -1
@@ -292,7 +292,7 @@ END FUNCTION
 #------------------------------------------------------------------------------
 FUNCTION load_Type_validStrings()
 	# if more are added, the strings would be separated by spaces
-	return c_PRESSURE_type 	
+	return c_PRESSURE_type 	// "  " // c_FORCE_MOMENT_type
 END FUNCTION
 ################################################################################
 FUNCTION getIndex ( in_ID )
@@ -339,7 +339,7 @@ FUNCTION createLoads()
 	STRING headingName[64]
 	headingName = c_Load	
 	
-	STRING mdl_SurfaceID_string[2048]
+	STRING mdl_SurfaceID_string[1024]
 
 	mdl_SurfaceID_string = ""
 	
@@ -348,54 +348,117 @@ FUNCTION createLoads()
 	STRING lbc_name[31]	
 	
 	FOR ( i = 1 TO count )	
-		IF ( load_Type(i) == ci_LOAD_PRESSURE ) THEN
 	
-			returnStatus =  vGeometry.getGeometrySurfaceName( load_Geometry_ID(i), mdl_SurfaceID_string )
-						
-			IF ( str_length( mdl_SurfaceID_string ) == 0 ) THEN
-				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", could not retrieve Patran model surface name." 
+		IF ( load_Type(i) != ci_LOAD_PRESSURE && load_Type(i) != ci_LOAD_FORCE_MOMENT ) THEN	
+			errorMsg = "Unsupported load type, only " // vLoad.load_Type_validStrings() // " supported.  Load ID: " // str_from_integer(iD(i))
+			errorLevel = vLogger.get_ci_ERROR()	
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus_temp = -1
+		END IF
+	
+		returnStatus =  vGeometry.getGeometrySurfaceName( load_Geometry_ID(i), mdl_SurfaceID_string )
+		
+		IF  (returnStatus != 0 ) THEN	
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", could not retrieve Patran model surface name(s).  ReturnStatus: " // str_from_integer(returnStatus)
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus_temp = -1											
+			CONTINUE
+		END IF						
+					
+		IF ( str_length( mdl_SurfaceID_string ) == 0 ) THEN
+			errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", could not retrieve Patran model surface name(s)." 
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+			returnStatus_temp = -1											
+			CONTINUE
+		END IF				
+	
+		###############
+		# Pressure
+		###############		
+	
+		IF ( load_Type(i) == ci_LOAD_PRESSURE ) THEN
+								
+			returnStatus = vLoad_Value.getLoadScalar( load_Load_Value_ID(i), scalarValue )	
+
+			IF ( returnStatus != 0 ) THEN	
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", vLoad_Value.getLoadScalar failed.  ReturnStatus: " // str_from_integer(returnStatus)
 				errorLevel = vLogger.get_ci_ERROR()
 				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
 				returnStatus_temp = -1											
 				CONTINUE
-			END IF							
-						
-			IF ( returnStatus == 0 ) THEN			
-				returnStatus = vLoad_Value.getLoadScalar( load_Load_Value_ID(i), scalarValue )	
-			ELSE
-				returnStatus_temp = -1
 			END IF		
 								
 			IF ( scalarValue == 0.0 ) THEN
 				errorMsg = "Zero load value. Load must be != 0, Load ID: " //  str_from_integer(iD(i)) // ", Load Value ID: " // str_from_integer(load_Load_Value_ID(i))
 				errorLevel = vLogger.get_ci_ERROR()	
 				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
-				returnStatus = -1
 				returnStatus_temp = -1
+				CONTINUE				
 			END IF					
 						
-			IF ( returnStatus == 0 ) THEN
-				lbc_name = vLoad.get_Load_InPatMdl_Name(i)
-				returnStatus = vPatranUtils.applyLoad_Pressure( iD(i), scalarValue, mdl_SurfaceID_string, lbc_name )	
-				
-				IF ( returnStatus != 0 ) THEN
-					errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", vPatranUtils.applyLoad_Pressure returned an error." 
-					errorLevel = vLogger.get_ci_ERROR()
-					vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
-					returnStatus_temp = -1											
-					CONTINUE
-				END IF					
-			ELSE
-				returnStatus_temp = -1
-			END IF			
+			lbc_name = vLoad.get_Load_InPatMdl_Name(i)
+			returnStatus = vPatranUtils.applyLoad_Pressure( iD(i), scalarValue, mdl_SurfaceID_string, lbc_name )	
 			
-		ELSE
-			errorMsg = "Unsupported load type, only " // load_Type_validStrings() // " supported.  Load ID: " // str_from_integer(iD(i))
-			errorLevel = vLogger.get_ci_ERROR()	
-			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
-			returnStatus_temp = -1
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", vPatranUtils.applyLoad_Pressure returned an error." 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus_temp = -1											
+				CONTINUE
+			END IF					
+			
 		END IF	
-	
+		
+		###############
+		# Force Moment
+		###############					
+		IF ( load_Type(i) == ci_LOAD_FORCE_MOMENT ) THEN
+		
+			REAL	value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33
+			Logical value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set		
+		
+		
+			returnStatus = vLoad_Value.getLoadValues( load_Load_Value_ID(i), @
+									value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33, @
+									value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set	)
+										
+			IF ( returnStatus != 0 ) THEN	
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ",  vLoad_Value.getLoadValues failed.  ReturnStatus: " // str_from_integer(returnStatus)
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus_temp = -1											
+				CONTINUE
+			END IF		
+									
+			IF ( !value_x_set && !value_y_set && !value_z_set && !value_x11_set && !value_y22_set && !value_z33_set ) THEN	
+				errorMsg = headingName // "No Force/Moment values set, Load ID: " //  str_from_integer(iD(i)) // ", Load Value ID: " // str_from_integer(load_Load_Value_ID(i))
+				errorLevel = vLogger.get_ci_ERROR()	
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
+				returnStatus_temp = -1
+				CONTINUE
+			END IF
+
+			lbc_name = vLoad.get_Load_InPatMdl_Name(i)
+			
+			
+			returnStatus = vPatranUtils.applyLoad_Force_Moment( iD(i), 														@
+									value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33, 		@
+									value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set,		@
+									mdl_SurfaceID_string, lbc_name )	
+									
+			
+			IF ( returnStatus != 0 ) THEN
+				errorMsg = headingName // ", ID: "  // str_from_integer(iD(i)) // ", vPatranUtils.applyLoad_Force_Moment returned an error." 
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+				returnStatus_temp = -1											
+				CONTINUE
+			END IF										
+			
+		END IF
+		
 	END FOR
 	
 	RETURN returnStatus_temp

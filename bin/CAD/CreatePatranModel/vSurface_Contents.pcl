@@ -417,7 +417,7 @@ FUNCTION layup_Position_toStr ( in_layup_Position_ID )
 		CASE ( ci_FLUSH_BELOW_NORMAL_SIDE)
 			return c_FLUSH_BELOW_NORMAL_SIDE						
 		DEFAULT
-			return ""	
+			return "ERROR"	
 	END SWITCH
 	
 	END FUNCTION
@@ -459,7 +459,7 @@ FUNCTION normal_direction_toStr ( in_normal_direction_ID )
 		CASE ( ci_OPPOSITE_Surface_NORMAL)
 			return c_OPPOSITE_SURFACE_NORMAL
 		DEFAULT
-			return ""	
+			return "ERROR"	
 	END SWITCH
 	
 	END FUNCTION

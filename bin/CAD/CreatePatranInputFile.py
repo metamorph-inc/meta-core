@@ -1,3 +1,7 @@
+#Revision History
+#-------------------------------------------------------
+#1/4/2017			Added support for Force_Moment load.
+#
 import os
 import sys
 from lxml import etree as letree
@@ -1288,11 +1292,24 @@ def output_Loads_constructs(in_OutputModelFile_obj,
                                    geometry_features,
                                    in_MetricID_ComputedValues,
                                    "")
+
+
+
         ###########
         # Pressure
         ###########
         pressure_string = ".Pressure"
         pressure = analysis_load_node.find(pressure_string)
+
+        forceMoment_string = ".ForceMoment"
+        forceMoment = analysis_load_node.find(forceMoment_string)
+
+        if pressure is None and forceMoment is None:
+            raise CADExcep("Error, Function: " + function_name +
+                           ", Message: only Pressure and Force loads are currently supported.  " +
+                           "CADAssembly.xml Assembly/Analyses/FEA/Loads")
+
+        loadtype = ""
 
         if pressure is not None:
             in_out_ID_Counters.Load_Value_ID += 1
@@ -1300,15 +1317,57 @@ def output_Loads_constructs(in_OutputModelFile_obj,
             in_OutputModelFile_obj.write("\n    ID =           " + str(in_out_ID_Counters.Load_Value_ID))
             pressure_value = pressure.attrib.get('Value')
             in_OutputModelFile_obj.write("\n    Scalar_Value = " + str(pressure_value))
+            loadtype = "PRESSURE"
+
         else:
-            raise CADExcep("Error, Function: " + function_name +
-                           ", Message: only Pressure loads are currently supported.  " +
-                           "CADAssembly.xml Assembly/Analyses/FEA/Loads")
+            # Must be force
+            in_out_ID_Counters.Load_Value_ID += 1
+            in_OutputModelFile_obj.write("\n\nLoad_Value")
+            in_OutputModelFile_obj.write("\n    ID =           " + str(in_out_ID_Counters.Load_Value_ID))
+
+            force_string = ".Force"
+            force = forceMoment.find(force_string)
+
+            moment_string = ".Moment"
+            moment = forceMoment.find(moment_string)
+
+            if force is None and moment is None:
+                raise CADExcep("Error, Function: " + function_name +
+                               ", Message: There must be a Force or Moment tag under ForceMoment.  " +
+                               "CADAssembly.xml Assembly/Analyses/FEA/Loads")
+
+            if force is None:
+                x_Force_Value = 0.0
+                y_Force_Value = 0.0
+                z_Force_Value = 0.0
+            else:
+                x_Force_Value = force.attrib.get('x')
+                y_Force_Value = force.attrib.get('y')
+                z_Force_Value = force.attrib.get('z')
+
+            if moment is None:
+                x_Moment_Value = 0.0
+                y_Moment_Value = 0.0
+                z_Moment_Value = 0.0
+            else:
+                x_Moment_Value = moment.attrib.get('x')
+                y_Moment_Value = moment.attrib.get('y')
+                z_Moment_Value = moment.attrib.get('z')
+
+            in_OutputModelFile_obj.write("\n    x_Value = " + str(x_Force_Value))
+            in_OutputModelFile_obj.write("\n    y_Value = " + str(y_Force_Value))
+            in_OutputModelFile_obj.write("\n    z_Value = " + str(z_Force_Value))
+            
+            in_OutputModelFile_obj.write("\n    x11_Value = " + str(x_Moment_Value))
+            in_OutputModelFile_obj.write("\n    y22_Value = " + str(y_Moment_Value))
+            in_OutputModelFile_obj.write("\n    z33_Value = " + str(z_Moment_Value))
+            loadtype = "FORCE_MOMENT"
+
 
         in_out_ID_Counters.Load_ID += 1
         in_OutputModelFile_obj.write("\n\nLoad")
         in_OutputModelFile_obj.write("\n    ID =              " + str(in_out_ID_Counters.Load_ID))
-        in_OutputModelFile_obj.write("\n    Type =            " + "PRESSURE")
+        in_OutputModelFile_obj.write("\n    Type =            " + loadtype)
         in_OutputModelFile_obj.write("\n    SubCase_ID =      " + in_SubcaseID)
         in_OutputModelFile_obj.write("\n    Geometry_ID =     " + str(in_out_ID_Counters.Geometry_ID))
         in_OutputModelFile_obj.write("\n    Load_Value_ID =   " + str(in_out_ID_Counters.Load_Value_ID))

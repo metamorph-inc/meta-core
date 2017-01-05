@@ -303,7 +303,7 @@ FUNCTION constraint_Type_toStr ( in_constraint_Type_ID )
 		#CASE(ci_CONSTRAINT_BALL )
 		#	return c_CONSTRAINT_BALL					
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION

@@ -32,7 +32,8 @@ FUNCTION initialize(in_log_DirAndFileName)
 
 	c_ClassName = "vLogger"
 
-	ci_MaxMessageLength = 512
+	# If the following is allowed to exceed 256 chars, then the PCL program will crash.  Setting this to 256 will cause messages to be truncated to 256 chars.
+	ci_MaxMessageLength = 256	
 	
 	STRING in_Log_DirAndFileName[]
 

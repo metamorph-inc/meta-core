@@ -1443,7 +1443,7 @@ FUNCTION mat_Tropic_Type_toStr ( in_mat_Tropic_Type_ID )
 		CASE( ci_MAT_ANSITROPIC )		
 			c_MAT_ANSITROPIC
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION
@@ -1482,7 +1482,7 @@ FUNCTION mat_Tropic_Subtype_toStr ( in_mat_Tropic_Subtype_ID )
 		CASE( ci_MAT_NA )	
 			return c_MAT_NA			
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION

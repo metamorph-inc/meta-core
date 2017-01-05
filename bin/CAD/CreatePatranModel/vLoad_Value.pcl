@@ -20,7 +20,10 @@ CLASS vLoad_Value
 						c_SCALAR_VALUE[32],							@
 						c_x_VALUE[32],								@
 						c_y_VALUE[32],								@
-						c_z_VALUE[32]								
+						c_z_VALUE[32],								@	
+						c_x11_VALUE[32],							@
+						c_y22_VALUE[32],							@
+						c_z33_VALUE[32]							
 	
 						#################
 						# Load_Value
@@ -38,6 +41,14 @@ CLASS vLoad_Value
 	CLASSWIDE LOGICAL	load_Value_x_Set(VIRTUAL),					@
 						load_Value_y_Set(VIRTUAL),					@
 						load_Value_z_Set(VIRTUAL)
+						
+	CLASSWIDE REAL		load_Value_x11(VIRTUAL),					@
+						load_Value_y22(VIRTUAL),					@
+						load_Value_z33(VIRTUAL)
+	CLASSWIDE LOGICAL	load_Value_x11_Set(VIRTUAL),				@
+						load_Value_y22_Set(VIRTUAL),				@
+						load_Value_z33_Set(VIRTUAL)						
+						
 				
 	CLASSWIDE STRING  errorMsg[1024] 
 	CLASSWIDE INTEGER errorLevel				
@@ -51,6 +62,10 @@ FUNCTION initialize()
 	c_x_VALUE =						"x_Value"
 	c_y_VALUE =						"y_Value"
 	c_z_VALUE =						"z_Value"
+	
+	c_x11_VALUE =					"x11_Value"
+	c_y22_VALUE =					"y22_Value"
+	c_z33_VALUE =					"z33_Value"	
 	
 	count = 0
 	count_temp = 0
@@ -68,6 +83,14 @@ FUNCTION allocateArrays()
 		sys_allocate_array (load_Value_x_Set,   		1, 	count )	
 		sys_allocate_array (load_Value_y_Set,   		1, 	count )	
 		sys_allocate_array (load_Value_z_Set,   		1, 	count )	
+		
+		sys_allocate_array (load_Value_x11,   			1, 	count )	
+		sys_allocate_array (load_Value_y22,   			1, 	count )	
+		sys_allocate_array (load_Value_z33,   			1, 	count )	
+		sys_allocate_array (load_Value_x11_Set,   		1, 	count )	
+		sys_allocate_array (load_Value_y22_Set,   		1, 	count )	
+		sys_allocate_array (load_Value_z33_Set,   		1, 	count )		
+		
 	END IF		
 
 	INTEGER I
@@ -77,6 +100,9 @@ FUNCTION allocateArrays()
 		load_Value_x_Set(i) = 		FALSE
 		load_Value_y_Set(i) = 		FALSE
 		load_Value_z_Set(i) = 		FALSE
+		load_Value_x11_Set(i) = 	FALSE
+		load_Value_y22_Set(i) = 	FALSE
+		load_Value_z33_Set(i) = 	FALSE			
 	END FOR
 	
 END FUNCTION
@@ -155,7 +181,8 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 					  ELSE
 						load_Value_Scalar_Set(count_temp) = TRUE
 					  END IF
-													
+											
+					############### x, y, z Value
 					CASE (c_x_VALUE)  
 					  load_Value_x(count_temp) =  str_to_real(valueField, realStatus)
 					  IF (  realStatus != 0 ) THEN
@@ -167,12 +194,7 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 					  END IF
 					  								
 					CASE (c_y_VALUE)  
-					  WRITE ( "Function: " // functionName  // ", y_Value: " // valueField )	
-					  REAL TestY
-					  TestY = str_to_real(valueField, realStatus)
 					  load_Value_y(count_temp) =  str_to_real(valueField, realStatus)
-					  #WRITE ( "Function: " // functionName  // ", y_Value: " // str_from_real(load_Value_y(count_temp)) )	
-					  #WRITE ( "Function: " // functionName  // ", y_Value: " // str_from_real(TestY) )
 					  IF (  realStatus != 0 ) THEN
 							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
 							errorLevel = vLogger.get_ci_ERROR()
@@ -190,7 +212,40 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 					  ELSE
 						load_Value_z_Set(count_temp) = TRUE
 					  END IF	
-											  
+							
+					############### x11, y22, z22 Moment
+					CASE (c_x11_VALUE)  
+					  load_Value_x11(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
+					  ELSE
+						load_Value_x11_Set(count_temp) = TRUE
+					  END IF
+					  								
+					CASE (c_y22_VALUE)  
+					  load_Value_y22(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						load_Value_y22_Set(count_temp) = TRUE
+					  END IF								
+
+					CASE (c_z33_VALUE)  
+					  load_Value_z33(count_temp) =  str_to_real(valueField, realStatus)
+					  IF (  realStatus != 0 ) THEN
+							errorMsg = "Could not covert value in name-value pair to a floating point number, name-value pair: " // buffer //  ", Line number: " // str_from_integer(in_out_LineNum)
+							errorLevel = vLogger.get_ci_ERROR()
+							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+					  ELSE
+						load_Value_z33_Set(count_temp) = TRUE
+					  END IF
+					
+					
+							
 					DEFAULT
 						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
 						errorLevel = vLogger.get_ci_ERROR()
@@ -270,6 +325,80 @@ FUNCTION getLoadScalar ( in_Load_Value_ID, out_Scalar )
 	
 	RETURN returnStatus
 END FUNCTION
+################################################################################
+FUNCTION getLoadValues ( in_Load_Value_ID, 														@
+						out_x,     out_y,     out_z,     out_x11,     out_y22,     out_z33,   	@
+						out_x_set, out_y_set, out_z_set, out_x11_set, out_y22_set, out_z33_set )						
+
+	INTEGER in_Load_Value_ID
+	REAL	out_x,     out_y,     out_z,     out_x11,     out_y22,     out_z33
+	Logical out_x_set, out_y_set, out_z_set, out_x11_set, out_y22_set, out_z33_set
+	
+
+	
+	INTEGER index	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".getLoadValues"		
+	
+	out_x    = vConstants.get_cr_Undefined()
+	out_y    = vConstants.get_cr_Undefined()
+	out_z  	 = vConstants.get_cr_Undefined()
+	out_x11  = vConstants.get_cr_Undefined()
+	out_y22  = vConstants.get_cr_Undefined()
+	out_z33  = vConstants.get_cr_Undefined()
+	
+	out_x_set	= FALSE
+	out_y_set	= FALSE
+	out_z_set	= FALSE
+	out_x11_set	= FALSE
+	out_y22_set	= FALSE
+	out_z33_set	= FALSE	
+	
+	INTEGER returnStatus = 0
+	
+	index = vLoad_Value.getIndex(in_Load_Value_ID)
+	
+	IF ( index == vConstants.get_ci_Undefined() ) THEN
+		errorMsg = "Load values not found, Load Value ID " //  str_from_integer(in_Load_Value_ID)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
+		return -1
+	END IF
+	
+	IF ( load_Value_x_Set(index) ) THEN
+		out_x 	= load_Value_x(index)
+		out_x_set = TRUE
+	END IF
+	
+	IF ( load_Value_y_Set(index) ) THEN	
+		out_y 	= load_Value_y(index)
+		out_y_set = TRUE
+	END IF	
+	
+	IF ( load_Value_z_Set(index) ) THEN	
+		out_z 	= load_Value_z(index)
+		out_z_set = TRUE
+	END IF	
+
+	IF ( load_Value_x11_Set(index) ) THEN
+		out_x11 	= load_Value_x11(index)
+		out_x11_set = TRUE
+	END IF
+	
+	IF ( load_Value_y22_Set(index) ) THEN	
+		out_y22 	= load_Value_y22(index)
+		out_y22_set = TRUE
+	END IF
+	
+	IF ( load_Value_z33_Set(index) ) THEN	
+		out_z33 	= load_Value_z33(index)
+		out_z33_set = TRUE
+	END IF	
+		
+	RETURN returnStatus
+END FUNCTION
+
 ################################################################################
 
 END CLASS
