@@ -56,7 +56,7 @@ FUNCTION FEA_Element_Type_toStr ( in_sol_Element_Type_ID )
 		CASE( vConstants.get_ci_ELEMENT_TYPE_CQUAD8() )		
 			vConstants.get_c_ELEMENT_TYPE_CQUAD8()			
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION

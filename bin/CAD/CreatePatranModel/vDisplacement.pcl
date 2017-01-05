@@ -466,7 +466,7 @@ FUNCTION Fixed_Free_toStr ( in_Fixed_Free_ID )
 		CASE(ci_FREE )
 			return c_FREE			
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION

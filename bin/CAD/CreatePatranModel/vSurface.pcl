@@ -609,7 +609,7 @@ FUNCTION createSurfaceMesh()
 	# All elements for all solids must be of the same type (i.e. ci_ELEMENT_TYPE_TETRA4/ci_ELEMENT_TYPE_TETRA10
 	# Just use the setting from the first solid
    IF ( element_Type(1)	!= vConstants.get_ci_ELEMENT_TYPE_CQUAD4() && element_Type(1) != vConstants.get_ci_ELEMENT_TYPE_CQUAD8() ) THEN
-		errorMsg = "Surface elements must be meshed with Quad4 or Quad8, Element Type Specified: " // FEA_Element_Type_toStr(element_Type(1))
+		errorMsg = "Surface elements must be meshed with Quad4 or Quad8, Element Type Specified: " // vCommon.FEA_Element_Type_toStr(element_Type(1))
 		errorLevel = vLogger.get_ci_ERROR()
 		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
        RETURN -1
@@ -700,6 +700,7 @@ FUNCTION  get_Normal_DirectionHandled( in_SurfaceID_internal, out_Normal_Directi
 				
 	INTEGER returnStatus = 0	
 
+	INTEGER index
 	
 	index = vSurface_Database.getIndex ( in_SurfaceID_internal )
 	

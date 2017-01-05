@@ -340,7 +340,7 @@ FUNCTION solver_toStr ( in_Solver_ID )
 	IF ( in_Solver_ID == ci_NASTRAN ) THEN
 		return c_NASTRAN
 	ELSE
-		return ""
+		return "ERROR"
 	END IF
 
 END FUNCTION

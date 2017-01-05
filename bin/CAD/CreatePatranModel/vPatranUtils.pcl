@@ -379,15 +379,21 @@ FUNCTION applyLoad_Pressure(	in_Load_ID,						@
 	functionName = c_ClassName // ".applyLoad_Pressure"			
 	
 	
+	IF ( str_length( in_Mdl_SurfaceID_string ) > 256 ) THEN
+		errorMsg = "in_Mdl_SurfaceID_string exceeded 256 characters. This strings holds a list of surfaces (e.g. Surface 1 2 3). A software/PCL modification is needed to allow for more surfaces to be referenced by a single construct (e.g. polygon/extrusion)." 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN -1	
+	END IF 	
+	
 	#################
 	# Load Surface
 	#################
 	# ap_list  e.g. "Solid 1.2"
-	STRING ap_list[31](1)	
+	STRING ap_list[256](1)	
 	ap_list(1) = in_Mdl_SurfaceID_string
 	
 
-	
 	IF ( in_Load_value_Scalar == 0.0 ) THEN
 		errorMsg = "Zero load value. Load must be != 0, Load ID: " //  str_from_integer(in_Load_ID) 
 		errorLevel = vLogger.get_ci_ERROR()	
@@ -456,7 +462,140 @@ FUNCTION applyLoad_Pressure(	in_Load_ID,						@
 	
 	RETURN returnStatus
 
-END FUNCTION			
+END FUNCTION	
+#############################################################################################
+FUNCTION getCommaDelimitedString( in_1,     in_2,     in_3,		@
+								  in_1_set, in_2_set, in_3_set )
+	REAL	in_1,     in_2,     in_3
+	Logical in_1_set, in_2_set, in_3_set
+
+	STRING  tempString[100]
+
+	tempString = ""
+				
+	IF ( in_1_set ) THEN
+		tempString = str_from_real( in_1 )	
+	END IF
+	tempString = tempString // ","
+	
+	IF ( in_2_set ) THEN
+		tempString = tempString // str_from_real( in_2 )	
+	END IF
+	tempString = tempString // ","
+
+	IF ( in_3_set ) THEN
+		tempString = tempString // str_from_real( in_3 )	
+	END IF
+
+	return tempString
+			
+END FUNCTION						  
+#############################################################################################
+FUNCTION applyLoad_Force_Moment(	in_Load_ID,															@	
+									in_x,     in_y,     in_z,     in_x11,     in_y22,     in_z33,   	@
+									in_x_set, in_y_set, in_z_set, in_x11_set, in_y22_set, in_z33_set, 	@
+									in_Mdl_SurfaceID_string, 											@
+									in_lbc_name)				
+										
+	INTEGER		in_Load_ID
+	REAL	in_x,     in_y,     in_z,     in_x11,     in_y22,     in_z33
+	Logical in_x_set, in_y_set, in_z_set, in_x11_set, in_y22_set, in_z33_set	
+	STRING    	in_Mdl_SurfaceID_string[]	
+	
+	STRING 		in_lbc_name[]	
+
+	INTEGER returnStatus = 0			
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".applyLoad_Force_Moment"			
+	
+	
+	IF ( str_length( in_Mdl_SurfaceID_string ) > 256 ) THEN
+		errorMsg = "in_Mdl_SurfaceID_string exceeded 256 characters. This strings holds a list of surfaces (e.g. Surface 1 2 3). A software/PCL modification is needed to allow for more surfaces to be referenced by a single construct (e.g. polygon/extrusion)." 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN -1	
+	END IF 	
+	
+	#################
+	# Load Surface
+	#################
+	# ap_list  e.g. "Solid 1.2"
+	STRING ap_list[256](1)	
+	ap_list(1) = in_Mdl_SurfaceID_string
+	
+
+	IF ( !in_x_set && !in_y_set && !in_z_set && !in_x11_set && !in_y22_set&& !in_z33_set ) THEN
+		errorMsg = "No force value set. At least one of x, y, z or moment x11, y11, z11 must be set: " //  str_from_integer(in_Load_ID) 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )					
+		return -1
+	END IF
+	
+	
+	/**** From Session File for Solid	
+	
+	loadsbcs_create2( "zz_Force_2", "Force", "Nodal", "", "Static", ["Solid 1.1"], @
+	 "Geometry", "Coord 0", "1.", ["< 1.1,2.1,3.1    >", "<4.1,5.1,6.1     >",  @
+	"<     >", "<     >"], ["", "", "", ""] )	
+	
+	******/	
+	
+	/**** From Session File	  Surface
+		loadsbcs_create2( "zz_Force", "Force", "Nodal", "", "Static", ["Surface 2"],  @
+		"Geometry", "Coord 0", "1.", ["<1.1, 2.2, 3.3     >", "<4.1, 5.1, 6.1     >",  @
+		"<     >", "<     >"], ["", "", "", ""] )
+	****/	
+	
+	
+	
+	# STRING static_data[100](20)	
+	# INTEGER i
+	# FOR ( i = 1 to 20 ) 
+	#	static_data(i) = ""
+	# END FOR
+	
+	STRING static_data[100](Virtual)		
+	
+	sys_allocate_array (static_data,   		1, 	4 )
+	
+	STRING commaDelimitedString[100]
+	
+	commaDelimitedString = vPatranUtils.getCommaDelimitedString( in_x,     in_y,     in_z, @
+													in_x_set, in_y_set, in_z_set )
+	
+	static_data(1) = "<" //commaDelimitedString // ">"
+	
+	commaDelimitedString =  vPatranUtils.getCommaDelimitedString( in_x11,     in_y22,     in_z33, @
+													in_x11_set, in_y22_set, in_z33_set )	
+	
+	static_data(2) = "<" //commaDelimitedString // ">"	
+	
+	static_data(3) = "<     >"	
+	static_data(4) = "<     >"		
+	
+	dump in_lbc_name
+	dump ap_list
+	dump static_data
+	
+	returnStatus = loadsbcs_create2( in_lbc_name, "Force", "Nodal", "", "Static", ap_list,  @
+				"Geometry", "Coord 0", "1.", static_data, ["", "", "", ""] )
+	
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "loadsbcs_create2 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN returnStatus		
+	END IF			
+	
+
+	
+	sys_free_array(static_data)
+	
+	RETURN returnStatus
+
+END FUNCTION	
+		
 #############################################################################################
 FUNCTION writeImageFile( in_Filename, 	@
 						in_ViewOrientation )
@@ -866,14 +1005,14 @@ FUNCTION submitSolution101(	in_JobName )
 	text_write_string( vLogger.getChannel(), "")	
 
 	text_write_string( vLogger.getChannel(), "Submit to Solver( analysis_submit_2 )")	
-	text_write_string( vLogger.getChannel(), "*** IMPORTANT MESSAGE FOR SURFACE MODELS ***")		
-	text_write_string( vLogger.getChannel(), "   If this message is the last message in this log file, then the analysis_submit_2 failed." )				
-	text_write_string( vLogger.getChannel(), "   For surface models:" )
-	text_write_string( vLogger.getChannel(), "      this usually means that a surface in the Patran model has no assigned property set." )		
-	text_write_string( vLogger.getChannel(), "      Using Patran, open the Patran_Model.db (directory above the log file directory) and follow the instructions at." )		
-	text_write_string( vLogger.getChannel(), "         http://mscnastrannovice.blogspot.com/2014/02/how-to-find-elements-with-no-properties.html" )		
-	text_write_string( vLogger.getChannel(), "         Double click on props_NO_Properties to see the surface names that have no property sets." )		
-	text_write_string( vLogger.getChannel(), "         Edit the CyPhy model to assure that all surfaces have a MaterialContents (results in a property set in then Patran model)." )	
+	text_write_string( vLogger.getChannel(), "   *** IMPORTANT MESSAGE FOR SURFACE MODELS ***")		
+	text_write_string( vLogger.getChannel(), "      If this message (i.e. Submit to Solver( analysis_submit_2 )) is the last message in this log file, then the analysis_submit_2 failed." )				
+	text_write_string( vLogger.getChannel(), "      For surface models:" )
+	text_write_string( vLogger.getChannel(), "         this usually means that a surface in the Patran model has no assigned property set." )		
+	text_write_string( vLogger.getChannel(), "         Using Patran, open the Patran_Model.db (directory above the log file directory) and follow the instructions at." )		
+	text_write_string( vLogger.getChannel(), "            http://mscnastrannovice.blogspot.com/2014/02/how-to-find-elements-with-no-properties.html" )		
+	text_write_string( vLogger.getChannel(), "            Double click on props_NO_Properties to see the surface names that have no property sets." )		
+	text_write_string( vLogger.getChannel(), "            Edit the CyPhy model to assure that all surfaces have a MaterialContents (results in a property set in then Patran model)." )	
 	
 	analysis_submit_2( "MSC.Nastran", in_JobName )
 	

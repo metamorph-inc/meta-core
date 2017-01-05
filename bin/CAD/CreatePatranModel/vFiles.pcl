@@ -224,7 +224,7 @@ FUNCTION fileGeometry_File_Type_toStr ( in_fileGeometry_File_Type_ID )
 	IF ( in_fileGeometry_File_Type_ID == ci_PARASOLID ) THEN
 		return c_PARASOLID
 	ELSE
-		return ""
+		return "ERROR"
 	END IF
 
 END FUNCTION
