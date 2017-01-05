@@ -111,7 +111,7 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
-    def get_svnversion():
+    def get_vcsversion():
         p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
         return out.strip() or '5'
@@ -121,19 +121,19 @@ def build_msi():
         # if p.returncode:
         #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         # return out
-    svnversion = get_svnversion()
+    vcsversion = get_vcsversion()
 
-    print "SVN version: " + str(get_svnversion())
+    print "VCS version: " + str(vcsversion)
     sourcedir = os.path.relpath(this_dir) + '/'
 
-    def get_gitversion():
+    def get_githash():
         p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
         # if p.returncode:
         #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         return out.strip() or 'unknown'
 
-    gitversion = get_gitversion()
+    vcshash = get_githash()
 
     import glob
     if len(sys.argv[1:]) > 0:
@@ -205,16 +205,11 @@ def build_msi():
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
 
-    version = '14.13.'
-    if 'M' in svnversion:
-        version = version + '1'
-    else:
-        # this will crash for switched or sparse checkouts
-        version = version + str(int(svnversion))
+    version = '14.13.' + str(int(vcsversion))
     print 'Installer version: ' + version
     defines.append(('VERSIONSTR', version))
-    defines.append(('SVNVERSION', svnversion))
-    defines.append(('GITVERSION', gitversion))
+    defines.append(('VCSVERSION', vcsversion))
+    defines.append(('VCSHASH', vcshash))
 
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool()

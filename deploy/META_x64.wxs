@@ -12,7 +12,7 @@
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from $(var.SVNVERSION) ($(var.GITVERSION))'/>
+		Comments='Created from $(var.VCSVERSION) ($(var.VCSHASH))'/>
 
     <Upgrade Id="$(var.UpgradeCode)">
       <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
@@ -212,6 +212,21 @@
           <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
         </RegistryKey>
       </Component>
+      <Component Id='META_VERSION' Guid='{6e8cae49-ac6d-423f-9d7c-f36d9ae6fcbc}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_VERSION' Type='string' Value='$(var.VERSIONSTR)'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='META_VCSHASH' Guid='{63979997-6993-4d32-b1f7-0db7a37cdf4b}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_VCSHASH' Type='string' Value='$(var.VCSHASH)'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VERSIONSTR) ($(var.VCSHASH))'/>
+        </RegistryKey>
+      </Component>
       <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='MAX_DYMOLA_STEP_TIME' Type='integer' Value='3000'/>
@@ -367,6 +382,9 @@
       <ComponentGroupRef Id='bin'/>
       <ComponentGroupRef Id='analysis_tools'/>
       <ComponentRef Id='META_PATH'/>
+      <ComponentRef Id='META_VERSION'/>
+      <ComponentRef Id='META_VCSHASH'/>
+      <ComponentRef Id='META_FULLVERSION'/>
       <ComponentRef Id='META_PATH64'/>
 
       <ComponentRef Id='MAX_DYMOLA_STEP_TIME'/>

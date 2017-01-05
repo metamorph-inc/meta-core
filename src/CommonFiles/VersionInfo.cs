@@ -151,7 +151,7 @@ namespace META
         }
 
         /// <summary>
-        /// Gets Meta path from the registry
+        /// Gets Meta version from the registry or source control
         /// </summary>
         public static string MetaVersion
         {
@@ -159,16 +159,32 @@ namespace META
             {
                 if (string.IsNullOrEmpty(m_MetaVersion))
                 {
-                    var version = GetVersion("META toolchain");
-
-                    if (version == unknown &&
-                        Directory.Exists(MetaPath))
+                    using (var baseKey = RegistryKey.OpenBaseKey(
+                        RegistryHive.LocalMachine,
+                        RegistryView.Registry32))
                     {
+                        string keyName = @"Software\META";
+                        using (var software_meta = baseKey.OpenSubKey(keyName))
+                        {
+                            if (software_meta != null)
+                            {
+                                string value = @"META_FULLVERSION";
+                                var fullversion = (string)software_meta.GetValue(value, null);
+                                if (string.IsNullOrEmpty(fullversion) == false)
+                                {
+                                    m_MetaVersion = fullversion;
+                                    return m_MetaVersion;
+                                }
+                            }
+                        }
+                    }
+                    {
+                        string version;
                         ProcessStartInfo psi = new ProcessStartInfo()
                         {
-                            Arguments = "info",
+                            Arguments = "describe --dirty --always",
                             CreateNoWindow = true,
-                            FileName = "svn",
+                            FileName = "git",
                             RedirectStandardOutput = true,
                             UseShellExecute = false,
                             WorkingDirectory = MetaPath,
@@ -183,15 +199,19 @@ namespace META
                                 var infoXml = p.StandardOutput.ReadToEnd();
                                 version = infoXml;
                             }
+                            else
+                            {
+                                version = "unknown";
+                            }
                         }
                         catch (System.ComponentModel.Win32Exception)
                         {
-                            // SVN doesn't exist. It's okay, let's just move along. 
-                            version = "META is not installed. Source code is NOT under subversion OR command line svn client is not installed! META TOOLS MIGHT NOT BE FULLY FUNCTIONAL.";
+                            // It's okay, let's just move along. 
+                            version = "unknown";
                         }
 
+                        m_MetaVersion = version;
                     }
-                    m_MetaVersion = version;
                 }
                 return m_MetaVersion;
             }
