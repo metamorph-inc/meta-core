@@ -4,6 +4,7 @@ Updates the CADAssembly.xml with parameters from testbench_manifest.json.
 Functions in this file are always called from the TestBench directory. They must
 return from that directory (if there is an exception it does not matter).
 """
+import os.path
 import logging
 import xml.etree.ElementTree as ET
 
