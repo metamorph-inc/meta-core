@@ -163,6 +163,20 @@ namespace DynamicsTeamTest.Projects
 
         [Fact]
         [Trait("Model", "MSD_PCC")]
+        [Trait("PCC", "MSD_PCC")]
+        public void PCCWithMDAO()
+        {
+            string outputDir = "PCCWithMDAO";
+            string petExperimentPath = "/@TestBenches|kind=Testing|relpos=0/@SingleConfig|kind=Testing|relpos=0/@TestingParameterAndMetricMappings|kind=Testing|relpos=0/@PCCTests|kind=ParametricExplorationFolder|relpos=0/@PCCWithMDAO|kind=ParametricExploration|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result, "CyPhyPET failed.");
+        }
+
+        [Fact]
+        [Trait("Model", "MSD_PCC")]
         [Trait("CheckerShouldFail", "MSD_PCC")]
         public void PET_Fail_Opt1Param2Outputs()
         {

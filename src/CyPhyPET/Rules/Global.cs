@@ -314,35 +314,23 @@ namespace CyPhyPET.Rules
 
                 var driveParamCollection = param.DstConnections.DriveParameterCollection;
                 if (driveParamCollection != null &&
-                    driveParamCollection.Count() == 1)
+                    driveParamCollection.Any())
                 {
-                    CyPhy.DriveParameter driveParam = driveParamCollection.FirstOrDefault();
-                    var tbParam = driveParam.DstEnds.Parameter;
-                    var tb = driveParam.GenericDstEndRef;
-
-                    if (tbParam != null)
+                    foreach (var driveParam in driveParamCollection)
                     {
-                        var tbParamParent = tbParam.ParentContainer;
-                        if (tbParamParent != null &&
-                            (tbParamParent is CyPhy.TestBenchType) == false)
-                        {
-                            /*var feedback = new GenericRuleFeedback()
-                            {
-                                FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("Driver Parameter ({0}) must have a connection to a Testbench Parameter/Property", param.Name)
-                            };
+                        var tbParam = driveParam.DstEnds.Parameter;
+                        var tb = driveParam.GenericDstEndRef;
 
-                            feedback.InvolvedObjectsByRole.Add(param.Impl as IMgaFCO);
-                            checkResults.Add(feedback);*/
-                        }
-                        else
+                        if (tbParam != null)
                         {
                             if (string.IsNullOrEmpty(checkForInvalidCharacters(tbParam.Name)) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameter ({0}) contains invalid characters.", tbParam.Name)
+                                    Message =
+                                        string.Format("Connected Parameter ({0}) contains invalid characters.",
+                                            tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
@@ -356,40 +344,41 @@ namespace CyPhyPET.Rules
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameter {0} has a value, '{1}', that is not real.", tbParam.Name, value)
+                                    Message =
+                                        string.Format("Connected Parameter {0} has a value, '{1}', that is not real.",
+                                            tbParam.Name, value)
+                                };
+
+                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
+                                checkResults.Add(feedback);
+                            }
+
+                            if (tbParamsWithConnections.Add(
+                             new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
+                            {
+                                var feedback = new GenericRuleFeedback()
+                                {
+                                    FeedbackType = FeedbackTypes.Error,
+                                    Message = string.Format("Parameter ({0}) must have only 1 connection from a PCCDriverParameter", tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
                                 checkResults.Add(feedback);
                             }
                         }
-
-                        if (tbParamsWithConnections.Add(
-                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
-                        {
-                            /*var feedback = new GenericRuleFeedback()
-                            {
-                                FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("TestBench Parameter ({0}) must have only 1 connection from a PCCDriverParameter", tbParam.Name)
-                            };
-
-                            feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                            checkResults.Add(feedback);*/
-                        }
                     }
 
                 }
-                else if (driveParamCollection != null &&
-                    driveParamCollection.Count() != 1)
+                else if (driveParamCollection != null)
                 {
-                    /*var feedback = new GenericRuleFeedback()
+                    var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver Parameter ({0}) must have (only) 1 connection to a Testbench Parameter/Property", param.Name)
+                        Message = string.Format("Driver Parameter ({0}) must have at least 1 connection to a Testbench Parameter/Property", param.Name)
                     };
 
                     feedback.InvolvedObjectsByRole.Add(param.Impl as IMgaFCO);
-                    checkResults.Add(feedback);*/
+                    checkResults.Add(feedback);
                 }
             }
 
