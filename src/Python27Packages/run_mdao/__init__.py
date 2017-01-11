@@ -199,7 +199,7 @@ def with_problem(mdao_config, original_dir, override_driver=None):
         for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
             constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
 
-        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']} # All constraints that don't point back to design variables
+        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
 
         unknowns_map = design_var_map
         unknowns_map.update(objective_map)
@@ -242,13 +242,16 @@ def with_problem(mdao_config, original_dir, override_driver=None):
                 range_max = var.get('RangeMax')
                 if range_min is not None and range_max is not None:
                     default = range_min + (range_max - range_min) / 2
-                driver_vars.append((var_name, default))
+                driver_vars.append((var_name, default, {}))
             elif var['type'] == 'enum':
                 driver_vars.append((var_name, var['items'][0], {"pass_by_obj": True}))
             elif var['type'] == 'int':
-                driver_vars.append((var_name, 0))
+                driver_vars.append((var_name, 0, {}))
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
+            units = var.get('units')
+            if units:
+                driver_vars[-1][2]['units'] = str(var['units'])
 
         root.add(get_desvar_path('').split('.')[0], IndepVarComp(driver_vars))
         for var_name, var in six.iteritems(driver['designVariables']):
@@ -332,9 +335,7 @@ def with_problem(mdao_config, original_dir, override_driver=None):
                 elif 'RangeMin' not in constraint and 'RangeMax' in constraint:
                     top.driver.add_constraint(constraintPath, upper=constraint['RangeMax'])
                 else:
-                    pass # TODO: No min or max provided with constraint; warn or fail here?
-
-
+                    pass  # TODO: No min or max provided with constraint; warn or fail here?
 
         top.setup()
         # from openmdao.devtools.debug import dump_meta
