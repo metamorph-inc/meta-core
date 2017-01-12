@@ -111,7 +111,9 @@
                     {
                         continue;
                     }
-                    if (parent.MetaBase.Name == "DecisionGroup")
+                    if (parent.MetaBase.MetaRef == Factory.DecisionGroupMeta || parent.MetaBase.MetaRef == Factory.VisualConstraintMeta
+                        || parent.MetaBase.MetaRef == Factory.And_operatorMeta || parent.MetaBase.MetaRef == Factory.Or_operatorMeta
+                        || parent.MetaBase.MetaRef == Factory.Not_operatorMeta)
                     {
                         // DecisionGroup can hold only ComponentRefs, so we can't do anything with its children (META-3595)
                         continue;
