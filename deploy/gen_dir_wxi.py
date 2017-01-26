@@ -6,6 +6,8 @@ import re
 import errno
 import itertools
 
+import requests
+
 from xml.etree import ElementTree
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +125,6 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
 def download_file(url, filename):
     if os.path.isfile(filename):
         return
-    import requests
     print('Downloading {} => {}'.format(url, filename))
     if os.path.dirname(filename):
         try:
