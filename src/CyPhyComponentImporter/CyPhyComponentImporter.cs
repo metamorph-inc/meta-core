@@ -214,7 +214,7 @@ namespace CyPhyComponentImporter
             return this.ImportFiles(project, projroot, new string[] { FileName }, alwaysReplace: true).Cast<IMgaFCO>().FirstOrDefault();
         }
 
-        public IMgaFCOs ImportFiles(MgaProject project, string projRootPath, string[] FileNames, bool alwaysReplace = false)
+        public IMgaFCOs ImportFiles(MgaProject project, string projRootPath, string[] FileNames, bool alwaysReplace = false, bool doNotReplaceAll = false)
         {
             Boolean b_CLMAddOnStatus = META.ComponentLibraryManagerAddOn.GetEnabled(project);
             META.ComponentLibraryManagerAddOn.Enable(false, project);
@@ -232,7 +232,6 @@ namespace CyPhyComponentImporter
             try
             {
                 bool replaceAll = alwaysReplace;
-                bool doNotReplaceAll = false;
                 CyPhy.RootFolder rootFolder = ISIS.GME.Common.Utils.CreateObject<CyPhyClasses.RootFolder>(project.RootFolder as MgaObject);
                 Dictionary<string, CyPhy.Component> avmidComponentMap = getCyPhyMLComponentDictionary_ByAVMID(rootFolder);
                 Dictionary<string, CyPhy.Component> nameComponentMap = getCyPhyMLComponentDictionary_ByName(rootFolder);
@@ -413,7 +412,16 @@ namespace CyPhyComponentImporter
                         CyPhy.Component cyPhyReplaceComponent = null;
 
                         #region Search for Components that should be Replaced by this new one
-                        if (nameComponentMap.TryGetValue(ac_import.Name, out cyPhyReplaceComponent))
+                        bool replaceeFound = false;
+                        if (ac_import.ID != null)
+                        {
+                            replaceeFound = avmidComponentMap.TryGetValue(ac_import.ID, out cyPhyReplaceComponent);
+                        }
+                        if (replaceeFound == false)
+                        {
+                            replaceeFound = nameComponentMap.TryGetValue(ac_import.Name, out cyPhyReplaceComponent);
+                        }
+                        if (replaceeFound)
                         {
                             bool replace = false;
                             if (!doNotReplaceAll && !replaceAll)

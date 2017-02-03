@@ -97,7 +97,7 @@ namespace ComponentInterchangeTest
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
                 importer.Initialize(fixture.proj);
 
-                fco = importer.ImportFile(fixture.proj, fixture.proj.GetRootDirectoryPath(), acmPath);
+                fco = importer.ImportFiles(fixture.proj, fixture.proj.GetRootDirectoryPath(), new[] { acmPath }, doNotReplaceAll: true)[1];
             });
 
             proj.PerformInTransaction(delegate
@@ -120,7 +120,7 @@ namespace ComponentInterchangeTest
             {
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
                 importer.Initialize(fixture.proj);
-                fco = importer.ImportFile(fixture.proj, fixture.proj.GetRootDirectoryPath(), acmPath);
+                fco = importer.ImportFiles(fixture.proj, fixture.proj.GetRootDirectoryPath(), new[] { acmPath }, doNotReplaceAll: true)[1];
             });
 
             proj.PerformInTransaction(delegate
@@ -149,7 +149,7 @@ namespace ComponentInterchangeTest
                 var importer = new CyPhyComponentImporter.CyPhyComponentImporterInterpreter();
                 importer.Initialize(fixture.proj);
 
-                fco = importer.ImportFile(fixture.proj, fixture.proj.GetRootDirectoryPath(), acmPath);
+                fco = importer.ImportFiles(fixture.proj, fixture.proj.GetRootDirectoryPath(), new[] { acmPath }, doNotReplaceAll: true)[1];
             });
 
             proj.PerformInTransaction(delegate
