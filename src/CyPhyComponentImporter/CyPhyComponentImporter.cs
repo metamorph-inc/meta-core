@@ -208,6 +208,12 @@ namespace CyPhyComponentImporter
             return this.ImportFiles(project, projroot, new string[] { FileName }).Cast<IMgaFCO>().FirstOrDefault();
         }
 
+        public IMgaFCO ImportFileAndReplaceComponent(MgaProject project, string projroot, string FileName)
+        {
+            // this function can be called from python
+            return this.ImportFiles(project, projroot, new string[] { FileName }, alwaysReplace: true).Cast<IMgaFCO>().FirstOrDefault();
+        }
+
         public IMgaFCOs ImportFiles(MgaProject project, string projRootPath, string[] FileNames, bool alwaysReplace = false)
         {
             Boolean b_CLMAddOnStatus = META.ComponentLibraryManagerAddOn.GetEnabled(project);
