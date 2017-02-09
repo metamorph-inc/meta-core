@@ -6,7 +6,7 @@
    <parent>
      <groupId>edu.vanderbilt.isis.meta.link</groupId>
      <artifactId>metalink-protobuf-parent</artifactId>
-     <version>1.0.0</version>
+     <version>1.1.0</version>
    </parent>
 
    <properties>
@@ -48,7 +48,7 @@
        </activation>
 
        <properties>
-         <generation.classfier>protoc25</generation.classfier>
+         <generation.classfier>protoc26</generation.classfier>
          <proto.exec.path>../../../../3rdParty/protobuf_net_r640/protogen.exe</proto.exec.path>
        </properties>
 
@@ -120,13 +120,6 @@
 
   <build>
       <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-                <classifier>${generation.classfier}</classifier>
-            </configuration>
-        </plugin>
       </plugins>
   </build>
 </project>

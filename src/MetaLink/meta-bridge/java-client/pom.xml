@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.vanderbilt.isis.meta.link</groupId>
     <artifactId>metalink-java-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
   </parent>
   <artifactId>metalink-java-client</artifactId>
   <name>META Link java client</name>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>edu.vanderbilt.isis.meta.link</groupId>
       <artifactId>metalink-protobuf-java</artifactId>
-      <classifier>protoc25</classifier>
+      <classifier>protoc26</classifier>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -71,6 +71,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
         <configuration>
            <forceCreation>true</forceCreation>
         </configuration>

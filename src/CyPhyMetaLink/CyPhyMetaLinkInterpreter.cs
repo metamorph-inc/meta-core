@@ -321,10 +321,10 @@ namespace CyPhyMetaLink
                 //GMEConsole.Error.WriteLine("Failed to establish connection to MetaLink Bridge.");
                 if (param != 128)
                 {
-                    string metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar"); // dev machine
+                    string metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar"); // dev machine
                     if (!File.Exists(metaLinkPath))
                     {
-                        metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.0.0.jar"); // installed machine
+                        metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.1.0.jar"); // installed machine
                     }
                     if (File.Exists(metaLinkPath))
                     {
