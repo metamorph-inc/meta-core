@@ -190,7 +190,9 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
 					  ELSE
-						load_Value_x_Set(count_temp) = TRUE
+						IF ( load_Value_x(count_temp) != 0.0 ) THEN
+							load_Value_x_Set(count_temp) = TRUE
+						END IF
 					  END IF
 					  								
 					CASE (c_y_VALUE)  
@@ -200,7 +202,9 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
 					  ELSE
-						load_Value_y_Set(count_temp) = TRUE
+						IF ( load_Value_y(count_temp) != 0.0 ) THEN					  
+							load_Value_y_Set(count_temp) = TRUE
+						END IF
 					  END IF								
 
 					CASE (c_z_VALUE)  
@@ -210,7 +214,9 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
 					  ELSE
-						load_Value_z_Set(count_temp) = TRUE
+						IF ( load_Value_z(count_temp) != 0.0 ) THEN
+							load_Value_z_Set(count_temp) = TRUE
+						END IF
 					  END IF	
 							
 					############### x11, y22, z22 Moment
@@ -221,7 +227,9 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )		
 					  ELSE
-						load_Value_x11_Set(count_temp) = TRUE
+					  	IF ( load_Value_x11(count_temp) != 0.0 ) THEN
+							load_Value_x11_Set(count_temp) = TRUE
+						END IF
 					  END IF
 					  								
 					CASE (c_y22_VALUE)  
@@ -231,7 +239,9 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
 					  ELSE
-						load_Value_y22_Set(count_temp) = TRUE
+					  	IF ( load_Value_y22(count_temp) != 0.0 ) THEN
+							load_Value_y22_Set(count_temp) = TRUE
+						END IF
 					  END IF								
 
 					CASE (c_z33_VALUE)  
@@ -241,10 +251,10 @@ FUNCTION readNameValuePairs( 	modelFile,					@
 							errorLevel = vLogger.get_ci_ERROR()
 							vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
 					  ELSE
-						load_Value_z33_Set(count_temp) = TRUE
+					  	IF ( load_Value_z33(count_temp) != 0.0 ) THEN
+							load_Value_z33_Set(count_temp) = TRUE
+						END IF
 					  END IF
-					
-					
 							
 					DEFAULT
 						errorMsg = "Unexpected name-value pair: " // buffer // ", Line number: "  // str_from_integer(in_out_LineNum)
