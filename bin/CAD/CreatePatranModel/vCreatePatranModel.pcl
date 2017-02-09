@@ -69,10 +69,15 @@ Revision History
 	
 						Total --------------------------------> 46
 
-1/5/2017			Added support for Force_Moment load.  Modified logging (vLogger) to restrict message size to 
+1/5/2017	R.O.	Added support for Force_Moment load.  Modified logging (vLogger) to restrict message size to 
 					256 characters.  Before this change longer messages were resulting in behaviour similar to an 
 					address violation.
 	
+2/9/2017	R.O.	The force load was being applied to every node on the surface.  The desired effect was to uniformly 
+					apply the load across the entire surface.  Thus the load on all the nodes would add up to the load 
+					entered in the CyPhy testbench force construct.  Commented out applyLoad_Force_Moment and replaced 
+					it with applyLoad_Force_Total.  Also, now throw an exception if the input file contains a non-zero 
+					moment.  Not supporting moment loads anymore.  Should add this support later.	
 	
 *****/
 CLASS vCreatePatranModel

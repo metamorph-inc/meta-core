@@ -491,6 +491,121 @@ FUNCTION getCommaDelimitedString( in_1,     in_2,     in_3,		@
 			
 END FUNCTION						  
 #############################################################################################
+FUNCTION applyLoad_Force_Total(	in_Load_ID,						@	
+								in_x,     in_y,     in_z,  		@
+								in_x_set, in_y_set, in_z_set,  	@
+								in_Mdl_SurfaceID_string, 		@
+								in_lbc_name)				
+										
+	INTEGER		in_Load_ID
+	REAL	in_x,     in_y,     in_z
+	Logical in_x_set, in_y_set, in_z_set
+	STRING    	in_Mdl_SurfaceID_string[]	
+	
+	STRING 		in_lbc_name[]	
+
+	INTEGER returnStatus = 0			
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".applyLoad_Force_Total"			
+	
+	
+	IF ( str_length( in_Mdl_SurfaceID_string ) > 256 ) THEN
+		errorMsg = "in_Mdl_SurfaceID_string exceeded 256 characters. This strings holds a list of surfaces (e.g. Surface 1 2 3). A software/PCL modification is needed to allow for more surfaces to be referenced by a single construct (e.g. polygon/extrusion)." 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN -1	
+	END IF 	
+	
+	#################
+	# Load Surface
+	#################
+	# ap_list  e.g. "Solid 1.2"
+	STRING ap_list[256](1)	
+	ap_list(1) = in_Mdl_SurfaceID_string
+	
+	LOGICAL is_Solid = FALSE
+	
+	IF ( str_index( in_Mdl_SurfaceID_string, "Solid") > 0 ) THEN is_Solid = TRUE
+
+
+	IF ( !in_x_set && !in_y_set && !in_z_set  ) THEN
+		errorMsg = "No force value set. At least one of x, y, z value must be set: " //  str_from_integer(in_Load_ID) 
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )					
+		return -1
+	END IF
+	
+	
+	# From Session File for Solid		
+	# 	loadsbcs_create2( "Load_Uniform_77", "Total Load", "Element Uniform", "3D",  @
+	# 	"Static", ["Solid 1.5"], "Geometry", "Coord 0", "1.", ["<0.  77.77  0.>"], ["" @
+	# 	] )		
+		
+	
+	# From Session File	  Surface
+	#  loadsbcs_create2( "Total_Load_01", "Total Load", "Element Uniform", "2D",  @
+	#  "Static", ["Surface 1.4"], "Geometry", "Coord 0", "1.", [ @
+	#  "<1.11 2.22 3.33     >", "<     >"], ["", ""] )
+		
+	
+	# STRING static_data[100](20)	
+	# INTEGER i
+	# FOR ( i = 1 to 20 ) 
+	#	static_data(i) = ""
+	# END FOR
+	
+	STRING static_data[100](Virtual)		
+	
+	IF ( is_Solid ) THEN
+		sys_allocate_array (static_data,   		1, 	1 )
+	ELSE
+		sys_allocate_array (static_data,   		1, 	2 )	
+	END IF
+	
+	STRING commaDelimitedString[100]
+	
+	commaDelimitedString = vPatranUtils.getCommaDelimitedString( in_x,     in_y,     in_z, @
+																 in_x_set, in_y_set, in_z_set )
+	
+	static_data(1) = "<" //commaDelimitedString // ">"
+	
+	IF ( !is_Solid ) THEN static_data(2) = "<     >"
+	
+	dump in_lbc_name
+	dump ap_list
+	dump static_data
+	
+	# STRING target_element[32]  
+	# target_element = "2D" 
+	
+	IF ( is_Solid ) THEN
+		returnStatus = loadsbcs_create2( in_lbc_name, "Total Load", "Element Uniform", "3D", "Static", ap_list,  @
+				"Geometry", "Coord 0", "1.", static_data, ["", "", "", ""] )
+	ELSE	
+		returnStatus = loadsbcs_create2( in_lbc_name, "Total Load", "Element Uniform", "2D", "Static", ap_list,  @
+					"Geometry", "Coord 0", "1.", static_data, ["", ""]  )	
+	END IF
+	
+	
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "loadsbcs_create2 returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )	
+        RETURN returnStatus		
+	END IF			
+	
+	
+	sys_free_array(static_data)
+	
+	RETURN returnStatus
+
+END FUNCTION	
+		
+#############################################################################################
+/********************
+OLD APPROACH - This applies the same load to all noads.  Not very Useful.
+				NOTE - This example code may be usefule in the future when applying moments to edges.
+				
 FUNCTION applyLoad_Force_Moment(	in_Load_ID,															@	
 									in_x,     in_y,     in_z,     in_x11,     in_y22,     in_z33,   	@
 									in_x_set, in_y_set, in_z_set, in_x11_set, in_y22_set, in_z33_set, 	@
@@ -532,19 +647,17 @@ FUNCTION applyLoad_Force_Moment(	in_Load_ID,															@
 	END IF
 	
 	
-	/**** From Session File for Solid	
+	# From Session File for Solid	
 	
-	loadsbcs_create2( "zz_Force_2", "Force", "Nodal", "", "Static", ["Solid 1.1"], @
-	 "Geometry", "Coord 0", "1.", ["< 1.1,2.1,3.1    >", "<4.1,5.1,6.1     >",  @
-	"<     >", "<     >"], ["", "", "", ""] )	
+	# loadsbcs_create2( "zz_Force_2", "Force", "Nodal", "", "Static", ["Solid 1.1"], @
+	#  "Geometry", "Coord 0", "1.", ["< 1.1,2.1,3.1    >", "<4.1,5.1,6.1     >",  @
+	# "<     >", "<     >"], ["", "", "", ""] )	
 	
-	******/	
 	
-	/**** From Session File	  Surface
-		loadsbcs_create2( "zz_Force", "Force", "Nodal", "", "Static", ["Surface 2"],  @
-		"Geometry", "Coord 0", "1.", ["<1.1, 2.2, 3.3     >", "<4.1, 5.1, 6.1     >",  @
-		"<     >", "<     >"], ["", "", "", ""] )
-	****/	
+	# From Session File	  Surface
+	#	loadsbcs_create2( "zz_Force", "Force", "Nodal", "", "Static", ["Surface 2"],  @
+	#	"Geometry", "Coord 0", "1.", ["<1.1, 2.2, 3.3     >", "<4.1, 5.1, 6.1     >",  @
+	#	"<     >", "<     >"], ["", "", "", ""] 	
 	
 	
 	
@@ -588,14 +701,13 @@ FUNCTION applyLoad_Force_Moment(	in_Load_ID,															@
         RETURN returnStatus		
 	END IF			
 	
-
 	
 	sys_free_array(static_data)
 	
 	RETURN returnStatus
 
 END FUNCTION	
-		
+***********************/	
 #############################################################################################
 FUNCTION writeImageFile( in_Filename, 	@
 						in_ViewOrientation )

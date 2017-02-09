@@ -211,6 +211,7 @@ FUNCTION check()
 
 	Integer i
 	INTEGER returnStatus = 0	
+	INTEGER returnStatus_temp = 0		
 	
 	INTEGER subCase_index
 	INTEGER geometry_index
@@ -218,6 +219,9 @@ FUNCTION check()
 	
 	STRING headingName[64]	
 	headingName = c_Load
+	
+	REAL	value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33
+	Logical value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set		
 	
 	IF ( vCommon.iDsOccurMoreThanOnce(count, iD)) THEN
 		errorMsg = " A " // headingName // " entry has an ID that appears more than once.  Make sure each " // headingName  // " entry has a unique ID"
@@ -252,6 +256,27 @@ FUNCTION check()
 			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
 			returnStatus = -1				
 		END IF
+		
+		# Currently not supporting moment loads.  This is because vPatranUtils.applyLoad_Force_Total only supports total force
+		returnStatus_temp = vLoad_Value.getLoadValues( load_Load_Value_ID(i), @
+								value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33, @
+								value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set	)
+		dump value_x11,     value_y22,     value_z33
+		dump value_x11_set, value_y22_set, value_z33_set
+		IF ( returnStatus_temp != 0 ) THEN
+			errorMsg = "Load ID: " // str_from_integer(iD(i)) // ", error vLoad_Value.getLoadValues failed for Load_Value ID: "  // str_from_integer(load_Load_Value_ID(i))
+			errorLevel = vLogger.get_ci_ERROR()
+			vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+			returnStatus = -1			
+		ELSE
+			IF ( value_x11_set || value_y22_set || value_z33_set ) THEN
+				errorMsg = "Load ID: " // str_from_integer(iD(i)) // ", Moment loads currently NOT supported, found Moment (x11_Value, y22_Value, and/or z33_Value), Load_Value ID: "  // str_from_integer(load_Load_Value_ID(i))
+				errorLevel = vLogger.get_ci_ERROR()
+				vLogger.addErrorMessage(  errorLevel, functionName, errorMsg ) 	
+			returnStatus = -1					
+			END IF		
+		END IF
+		
 	END FOR
 
 	return returnStatus
@@ -442,11 +467,18 @@ FUNCTION createLoads()
 
 			lbc_name = vLoad.get_Load_InPatMdl_Name(i)
 			
+			returnStatus = vPatranUtils.applyLoad_Force_Total( iD(i), 		@
+									value_x,     value_y,     value_z,   	@
+									value_x_set, value_y_set, value_z_set,	@
+									mdl_SurfaceID_string, lbc_name )			
 			
-			returnStatus = vPatranUtils.applyLoad_Force_Moment( iD(i), 														@
-									value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33, 		@
-									value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set,		@
-									mdl_SurfaceID_string, lbc_name )	
+			##############################################################
+			# Example of how to call Force_Moment, if this is implemented
+			##############################################################
+			# returnStatus = vPatranUtils.applyLoad_Force_Moment( iD(i), 													@
+			# 						value_x,     value_y,     value_z,     value_x11,     value_y22,     value_z33, 		@
+			#						value_x_set, value_y_set, value_z_set, value_x11_set, value_y22_set, value_z33_set,		@
+			#						mdl_SurfaceID_string, lbc_name )	
 									
 			
 			IF ( returnStatus != 0 ) THEN
