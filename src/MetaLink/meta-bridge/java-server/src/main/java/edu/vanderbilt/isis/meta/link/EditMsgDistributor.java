@@ -552,5 +552,4 @@ public enum EditMsgDistributor {
             old.stopRecording();
         }
     }
-
 }

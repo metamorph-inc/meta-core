@@ -54,10 +54,10 @@
     <File Source="..\src\CyPhyMetaLink\bin\Release\CyPhyMetaLinkBridgeClient.dll"/>
   </Component>
   <Component Directory="INSTALLDIR_BIN" Id="protobuf_net.dll">
-    <File Source="..\3rdParty\protobuf_net_r640\protobuf-net.dll"/>
+    <File Source="..\src\CyPhyMetaLinkBridgeClient\bin\Release\protobuf-net.dll"/>
   </Component>
   <Component Directory="INSTALLDIR_BIN" Id="metalink.jar">
-    <File Source="..\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar"/>
+    <File Source="..\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar"/>
   </Component>
 </ComponentGroup>
 </Fragment>

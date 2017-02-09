@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.vanderbilt.isis.meta.link</groupId>
     <artifactId>metalink-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
   </parent>
   <artifactId>metalink-java-parent</artifactId>
   <name>META Link Bridge parent</name>
@@ -79,20 +79,20 @@
       <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
-        <version>2.5.0</version>
+        <version>2.6.1</version>
       </dependency>
       <dependency>
         <groupId>edu.vanderbilt.isis.meta.link</groupId>
         <artifactId>metalink-protobuf-java</artifactId>
-        <classifier>protoc25</classifier>
-        <version>1.0.0</version>
+        <classifier>protoc26</classifier>
+        <version>1.1.0</version>
         <scope>compile</scope>
       </dependency>
   
       <dependency>
          <groupId>edu.vanderbilt.isis.meta.link</groupId>
          <artifactId>metalink-java-library</artifactId>
-         <version>1.0.0</version>
+         <version>1.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -107,12 +107,9 @@
           <configuration>
             <source>1.6</source>
             <target>1.6</target>
+            <useIncrementalCompilation>false</useIncrementalCompilation>
+            <showWarnings>true</showWarnings>
           </configuration>
-        </plugin>
-        <plugin>
-           <groupId>org.scala-tools</groupId>
-           <artifactId>maven-scala-plugin</artifactId>
-           <version>2.15.2</version>
         </plugin>
 
         <plugin>
