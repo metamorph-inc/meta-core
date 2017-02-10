@@ -39,7 +39,7 @@ namespace isis
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProEngineerStart returned ProError: %d, proe_path: %s,  prodev_text_path: %s", err, proe_path, prodev_text_path );
+			sprintf( err_str, "exception : ProEngineerStart returned ProError: %s(%d), proe_path: %s,  prodev_text_path: %s", ProToolKitError_string(err).c_str(), err, proe_path, prodev_text_path );
 			throw isis::application_exception("C06001",err_str); 
 		}
 
@@ -69,7 +69,7 @@ namespace isis
 			const char* extra = "";
 			if (err == PRO_TK_E_NOT_FOUND)
 			{
-				extra = ", Possible causes: 1. No model by this name on load path 2. wrong type 3. a model created with Academic Creo being loaded by Commercial Creo, or vice versa";
+				extra = ", Possible causes: 1. No model by this name on load path 2. wrong type (asm vs prt) 3. a model created with Academic Creo being loaded by Commercial Creo, or vice versa";
 			}
 			sprintf( err_str, "exception : ProMdlRetrieve returned ProError: %s(%d), Model Name: %s  Type: %s%s", ProToolKitError_string(err).c_str(), err, name_narrow, isis::ProMdlType_string(type).c_str(), extra );
 			throw isis::application_exception("C06002",err_str); 
