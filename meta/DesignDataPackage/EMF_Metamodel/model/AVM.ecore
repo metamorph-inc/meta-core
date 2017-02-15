@@ -549,6 +549,8 @@
           lowerBound="1" eType="#//cad/PointReference" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ExtrusionSurface" lowerBound="1"
           eType="#//cad/Geometry2D" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DirectionReferencePoint"
+          eType="#//cad/PointReference" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Sphere" eSuperTypes="#//cad/Geometry3D">
       <eStructuralFeatures xsi:type="ecore:EReference" name="SphereCenter" ordered="false"

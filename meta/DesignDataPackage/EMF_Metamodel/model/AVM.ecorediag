@@ -3702,6 +3702,25 @@
       <element xmi:type="ecore:EClass" href="AVM.ecore#//cad/Plane"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JqpFcsyWEeKLkL5m5g5Zpw" x="594" y="540"/>
     </children>
+    <children xmi:type="notation:Node" xmi:id="_z_zyMPPAEeapQMp9VZ1w_A" type="1001">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0Ahj4PPAEeapQMp9VZ1w_A" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0Ahj4fPAEeapQMp9VZ1w_A" key="modelID" value="EcoreTools"/>
+      </eAnnotations>
+      <children xmi:type="notation:Node" xmi:id="_z_1AUPPAEeapQMp9VZ1w_A" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_z_1AUfPAEeapQMp9VZ1w_A" type="5001">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_z_1AUvPAEeapQMp9VZ1w_A"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_z_1AU_PAEeapQMp9VZ1w_A"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_z_1AVPPAEeapQMp9VZ1w_A"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_z_1nYPPAEeapQMp9VZ1w_A" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_z_1nYfPAEeapQMp9VZ1w_A"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_z_1nYvPAEeapQMp9VZ1w_A"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_z_1nY_PAEeapQMp9VZ1w_A"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_z_zyMfPAEeapQMp9VZ1w_A" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//cad/PointReference"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_z_zyMvPAEeapQMp9VZ1w_A" x="398" y="532"/>
+    </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_yRVogcl7EeKeC_-AWxhd0A"/>
     <element xmi:type="ecore:EPackage" href="AVM.ecore#//cad"/>
     <edges xmi:type="notation:Edge" xmi:id="_1FoVEMl7EeKeC_-AWxhd0A" type="3003" source="_1FS94Ml7EeKeC_-AWxhd0A" target="_1FUMAMl7EeKeC_-AWxhd0A">
@@ -3932,6 +3951,19 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_K_jp8syWEeKLkL5m5g5Zpw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
       <element xmi:type="ecore:EReference" href="AVM.ecore#//cad/PlaneReference/ReferredPlane"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_K_jp88yWEeKLkL5m5g5Zpw" points="[5, 20, 5, -88]$[5, 128, 5, 20]"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_2vFb4PPAEeapQMp9VZ1w_A" type="3002" source="_1FWBOcl7EeKeC_-AWxhd0A" target="_z_zyMPPAEeapQMp9VZ1w_A">
+      <children xmi:type="notation:Node" xmi:id="_2vGC8PPAEeapQMp9VZ1w_A" type="4011">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2vGC8fPAEeapQMp9VZ1w_A" x="-10" y="-10"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_2vGC8vPAEeapQMp9VZ1w_A" type="4012">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2vGC8_PAEeapQMp9VZ1w_A" x="10" y="10"/>
+      </children>
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_2vFb4fPAEeapQMp9VZ1w_A" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_2vFb4vPAEeapQMp9VZ1w_A" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+      <element xmi:type="ecore:EReference" href="AVM.ecore#//cad/ExtrudedGeometry/DirectionReferencePoint"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_2vFb4_PAEeapQMp9VZ1w_A" points="[6, 20, -56, -179]$[55, 179, -7, -20]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6e8_4PPAEeapQMp9VZ1w_A" id="(0.9172932330827067,0.9285714285714286)"/>
     </edges>
   </notation:Diagram>
   <notation:Diagram xmi:id="_JJOjUNUOEeKpYdWrh6xN3A" type="EcoreTools" name="Design" measurementUnit="Pixel">
