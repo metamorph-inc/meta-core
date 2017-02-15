@@ -65,7 +65,7 @@ manifest = """
 </dependency>
 <dependency>
   <dependentAssembly>
-    <assemblyIdentity type="win32" name="CSharpDSMLGenerator" version="1.0.8.0" publicKeyToken="1321e6b92842fe54" processorArchitecture="msil"/>
+    <assemblyIdentity type="win32" name="CSharpDSMLGenerator" version="1.0.15.1" publicKeyToken="1321e6b92842fe54" processorArchitecture="msil"/>
   </dependentAssembly>
 </dependency>
 <dependency>
