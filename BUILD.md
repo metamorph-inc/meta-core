@@ -51,3 +51,9 @@ Clone this repository to your disk.
 2. From the root repository directory, run `make_all_without_installer.cmd`. This may take 30 minutes to build. _(Warnings may be ignored, but there should be no errors.)_
 
 If you encounter errors, try to build once more. There may be some remaining race conditions in the build scripts.
+
+# Installer
+
+Merge modules from Visual Studio 2008 (vc9), 2010 (vc10), and 2012 (vc11) are required to be present in `C:\Program Files (x86)\Common Files\Merge Modules\` to build the installer.
+
+Run `bin\Python27\Scripts\python.exe deploy\build_msi.py` to build the installer.
