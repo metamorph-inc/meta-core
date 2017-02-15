@@ -2998,9 +2998,12 @@ namespace avm.cad {
         
         private Geometry2D extrusionSurfaceField;
         
+        private PointReference directionReferencePointField;
+        
         private static System.Xml.Serialization.XmlSerializer serializer;
         
         public ExtrudedGeometry() {
+            this.directionReferencePointField = new PointReference();
             this.extrusionHeightField = new PointReference();
         }
         
@@ -3021,6 +3024,16 @@ namespace avm.cad {
             }
             set {
                 this.extrusionSurfaceField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public PointReference DirectionReferencePoint {
+            get {
+                return this.directionReferencePointField;
+            }
+            set {
+                this.directionReferencePointField = value;
             }
         }
         
