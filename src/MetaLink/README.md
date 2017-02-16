@@ -36,7 +36,6 @@ The artifacts produced is used by
 * meta-bridge
 * meta-link-creo
 * meta-link-cyphy
-* meta-link-test
 
 meta-link-creo :
 The files for c++ framing, used by Creo.
@@ -52,11 +51,6 @@ meta-bridge is the edit message bridge server,
 it distributes the posted edit messages to all clients
 who have expressed interest in the particular edit message topics.
 Depends on meta-protobuf.
-
-meta-link-test :
-Primarily used for testing.
-Depends on the java framing found in meta-bridge.
-
 
 
 Build Bridge 

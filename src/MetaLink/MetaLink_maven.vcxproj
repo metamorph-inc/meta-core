@@ -8,7 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="pom.xml">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=$(MSBuildThisFileDirectory)..\..\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.5.0-win32;%PATH%
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set PATH=$(MSBuildThisFileDirectory)..\..\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.6.1-win32;%PATH%
     set M2=
     set M2_HOME=
     mvn install --projects meta-bridge/java-server
