@@ -2317,6 +2317,11 @@ namespace AVM2CyPhyML {
 			processValues();
 			processResources();
 
+            foreach (var analysisConstruct in avmComponent.AnalysisConstruct)
+            {
+                process(analysisConstruct);
+            }
+
             DoLayout();
             if (!this.aMemberHasLayoutData)
             {
@@ -2327,6 +2332,84 @@ namespace AVM2CyPhyML {
 
 			return _cyPhyMLComponent;
 		}
+
+        private void process(AnalysisConstruct analysisConstruct)
+        {
+            if (analysisConstruct is avm.cad.ExtrudedGeometry)
+            {
+                Action<List<string>, CyPhyML.Point> createPortCompositionInComponent = (referredPoints, fromPoint) =>
+                {
+                    foreach (string otherAvmPortID in referredPoints)
+                    {
+                        avm.PortMapTarget otherAVMPort = _avmPortIDMap[otherAvmPortID];
+
+                        object cyPhyMLObjectDst = null;
+                        if (!_avmCyPhyMLObjectMap.TryGetValue(otherAVMPort, out cyPhyMLObjectDst))
+                            continue;
+
+                        CyPhyMLClasses.PortComposition.Connect(fromPoint, (CyPhyML.Port)cyPhyMLObjectDst, parent: this._cyPhyMLComponent);
+                    }
+                };
+
+                var extrusion = (avm.cad.ExtrudedGeometry)analysisConstruct;
+                var cyphyExtrusion = CyPhyMLClasses.Extrusion.Create(_cyPhyMLComponent);
+                // FIXME cyphyExtrustion.Name = extrusion.Name;
+                cyphyExtrusion.Name = "Extrusion";
+                if (extrusion.GeometryQualifierSpecified)
+                {
+                    cyphyExtrusion.Attributes.BoundaryQualifier =
+                        CyPhyML2AVM.AVMComponentBuilder.extrusionBoundaryQualifierMap.First(ent => ent.Value == extrusion.GeometryQualifier).Key;
+                }
+                if (extrusion.PartIntersectionModifierSpecified)
+                {
+                    cyphyExtrusion.Attributes.GeometryModifier =
+                        CyPhyML2AVM.AVMComponentBuilder.extrusionIntersectionMap.First(ent => ent.Value == extrusion.PartIntersectionModifier).Key;
+                }
+                if (extrusion.ExtrusionHeight != null)
+                {
+                    var cyphyExtrusionHeight = CyPhyMLClasses.Point.Create(cyphyExtrusion, CyPhyMLClasses.Point.Roles.Extrusion.ExtrusionHeight);
+                    cyphyExtrusionHeight.Name = "ExtrusionHeight";
+                    cyphyExtrusionHeight.Attributes.ID = "id-" + cyphyExtrusionHeight.Guid.ToString();
+                    createPortCompositionInComponent(extrusion.ExtrusionHeight.ReferredPoint, cyphyExtrusionHeight);
+                }
+                if (extrusion.DirectionReferencePoint != null)
+                {
+                    var cyphyDirectionReference = CyPhyMLClasses.Point.Create(cyphyExtrusion, ISIS.GME.Dsml.CyPhyML.Classes.Point.Roles.Extrusion.Direction_Reference_Point);
+                    if (((MgaFCO)cyphyDirectionReference.Impl).MetaRole.Name != "Direction_Reference_Point")
+                    {
+                        throw new ApplicationException(((MgaFCO)cyphyDirectionReference.Impl).MetaRole.Name);
+                    }
+                    cyphyDirectionReference.Name = "DirectionReferencePoint";
+                    cyphyDirectionReference.Attributes.ID = "id-" + cyphyDirectionReference.Guid.ToString();
+                    createPortCompositionInComponent(extrusion.DirectionReferencePoint.ReferredPoint, cyphyDirectionReference);
+                }
+
+                var extrusionSurface = extrusion.ExtrusionSurface;
+                if (extrusionSurface is avm.cad.Polygon)
+                {
+                    var cyphyPolygon = CyPhyMLClasses.Polygon.Create(cyphyExtrusion);
+                    cyphyPolygon.Name = "Polygon";
+                    var extrusionPolygon = (avm.cad.Polygon)extrusionSurface;
+                    int ordinal = 0;
+                    foreach (var point in extrusionPolygon.PolygonPoint)
+                    {
+                        var cyphyPoint = CyPhyMLClasses.OrdinalPoint.Create(cyphyPolygon);
+                        cyphyPoint.Name = String.Format("Point_{0}", ordinal);
+                        cyphyPoint.Attributes.PolygonOrdinalPosition = ordinal++;
+                        var cyphyPointForwarder = CyPhyMLClasses.Point.Create(cyphyExtrusion, CyPhyMLClasses.Point.Roles.Extrusion.PointDatumForwarder);
+                        cyphyPointForwarder.Name = cyphyPoint.Name + "_Forwarder";
+
+                        CyPhyMLClasses.PortComposition.Connect(cyphyPoint, cyphyPointForwarder, parent: cyphyExtrusion);
+
+                        createPortCompositionInComponent(point.ReferredPoint, cyphyPointForwarder);
+                    }
+                }
+                else
+                {
+                    // FIXME handle other shapes
+                }
+            }
+        }
 
         public static CyPhyML.Component AVM2CyPhyML(CyPhyML.ComponentAssembly cyPhyMLComponentParent, avm.Component avmComponent, bool resetUnitLib = true, object messageConsole = null)
 		{

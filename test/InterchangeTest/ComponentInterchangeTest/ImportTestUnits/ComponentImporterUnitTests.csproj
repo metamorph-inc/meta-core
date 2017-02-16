@@ -92,6 +92,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -114,6 +115,7 @@
     <Compile Include="..\..\..\..\src\CommonFiles\MgaUtils.cs">
       <Link>MgaUtils.cs</Link>
     </Compile>
+    <Compile Include="CADGeometry.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ImportZip.cs" />
     <Compile Include="ImportZipFixture.cs" />
@@ -134,6 +136,10 @@
       <Project>{0B1EAA2B-5B37-4D27-868E-60CF820B3273}</Project>
       <Name>ComponentLibraryManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyComponentExporter\CyPhyComponentExporter.csproj">
+      <Project>{a2f4c950-6b54-4414-b091-83a9d44c9a48}</Project>
+      <Name>CyPhyComponentExporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\CyPhyComponentImporter\CyPhyComponentImporter.csproj">
       <Project>{4D62D66B-732C-40E2-B7E2-B0A72FBC2BDC}</Project>
       <Name>CyPhyComponentImporter</Name>
@@ -145,6 +151,10 @@
     <ProjectReference Include="..\..\..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
       <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExportTestUnits\ComponentExporterUnitTests.csproj">
+      <Project>{24637b48-c960-44b4-9431-651a52505b26}</Project>
+      <Name>ComponentExporterUnitTests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
