@@ -9,6 +9,7 @@ using CyPhy2ComponentModel;
 using CyPhyML = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyMLClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using GME.MGA;
+using System.Diagnostics;
 
 namespace CyPhyML2AVM {
     
@@ -139,10 +140,10 @@ namespace CyPhyML2AVM {
             return retval;
         }
 
-        private Dictionary<object, object> _cyPhyMLAVMObjectMap = new Dictionary<object, object>();
-        public Dictionary<object, object> CyPhyMLToAVMObjectMap { get { return _cyPhyMLAVMObjectMap; } }
+        private Dictionary<ISIS.GME.Common.Interfaces.Base, object> _cyPhyMLAVMObjectMap = new Dictionary<ISIS.GME.Common.Interfaces.Base, object>();
+        public Dictionary<ISIS.GME.Common.Interfaces.Base, object> CyPhyMLToAVMObjectMap { get { return _cyPhyMLAVMObjectMap; } }
 
-        private Dictionary<string, object> _idCyPhyMLObjectMap = new Dictionary<string, object>();
+        //private Dictionary<string, object> _idCyPhyMLObjectMap = new Dictionary<string, object>();
         private HashSet<CyPhyML.DomainModel> _cyPhyMLDomainModelSet = new HashSet<CyPhyML.DomainModel>();
 
         private class SourceTargetIDGroup {
@@ -185,9 +186,11 @@ namespace CyPhyML2AVM {
 
         private String getUniqueId() {
             string newID = "ID" + _idNo++.ToString();
-            while(  _idCyPhyMLObjectMap.ContainsKey( newID )  ) {
-                newID = "ID" + _idNo++.ToString();
-            }
+            // FIXME: where do we add to _idCyPhyMLObjectMap??
+            // while (_idCyPhyMLObjectMap.ContainsKey(newID))
+            // {
+            //     newID = "ID" + _idNo++.ToString();
+            // }            while(  _idCyPhyMLObjectMap.ContainsKey( newID )  ) {
             _newIDs.Add( newID );
             return newID;
         }
@@ -495,6 +498,11 @@ namespace CyPhyML2AVM {
                 foreach (CyPhyML.PortComposition cyPhyMLPortComposition in cyPhyMLDomainModelPort.SrcConnections.PortCompositionCollection.Where(c => c.IsRefportConnection() == false))
                 {
                     CyPhyML.DomainModelPort otherCyPhyMLDomainModelPort = cyPhyMLPortComposition.SrcEnds.DomainModelPort;
+                    if (((GME.MGA.MgaFCO)otherCyPhyMLDomainModelPort.Impl).MetaRole.Name == "PointDatumForwarder")
+                    {
+                        // we don't create an avm.Port for this
+                        continue;
+                    }
 
                     string id = ensureIDAttribute(otherCyPhyMLDomainModelPort);
                     if (id != "")
@@ -1207,6 +1215,7 @@ namespace CyPhyML2AVM {
                 }
 
                 avmCADModel.Datum.Add(avmCADDatum);
+                _cyPhyMLAVMObjectMap.Add(cyPhyMLCADDatum, avmCADDatum);
             }
         }
 
@@ -1280,7 +1289,9 @@ namespace CyPhyML2AVM {
                 _avmComponent.Supercedes = supercedes.Split('\n').ToList<String>();
         }
 
-        public avm.Component CyPhyML2AVMNonStatic(CyPhyML.Component cyPhyMLComponent) {
+        public avm.Component CyPhyML2AVMNonStatic(CyPhyML.Component cyPhyMLComponent)
+        {
+            this.cyPhyMLComponent = cyPhyMLComponent;
             cyPhyMLComponent.RunFormulaEvaluator();
             setComponentName( cyPhyMLComponent.Name );
             setSupercedes(cyPhyMLComponent.Attributes.Supercedes);
@@ -1339,6 +1350,11 @@ namespace CyPhyML2AVM {
                 createAVMCADModel(cyPhyMLCADModel);
             }
 
+            foreach (CyPhyML.Extrusion cyPhyMLExtrusion in cyPhyMLComponent.Children.ExtrusionCollection)
+            {
+                createAVMExtrusionModel(cyPhyMLExtrusion);
+            }
+
             foreach (CyPhyML.CarModel cyPhyMLCarModel in cyPhyMLComponent.Children.CarModelCollection)
             {
                 _cyPhyMLDomainModelSet.Add(cyPhyMLCarModel);
@@ -1377,6 +1393,146 @@ namespace CyPhyML2AVM {
             }
 
             return _avmComponent;
+        }
+
+        private IEnumerable<CyPhyML.Port> getComposedPorts(CyPhyML.Port port)
+        {
+            foreach (var connectedPort in port.SrcConnections.PortCompositionCollection.Select(conn => new { conn = conn, end = conn.SrcEnds.Port }).Concat(
+              port.DstConnections.PortCompositionCollection.Select(conn => new { conn = conn, end = conn.DstEnds.Port })))
+            {
+                if (connectedPort.conn.IsRefportConnection())
+                {
+                    continue;
+                }
+                yield return connectedPort.end;
+            }
+        }
+
+        public static Dictionary<CyPhyMLClasses.Extrusion.AttributesClass.BoundaryQualifier_enum, avm.cad.GeometryQualifierEnum> extrusionBoundaryQualifierMap =
+                new Dictionary<CyPhyMLClasses.Extrusion.AttributesClass.BoundaryQualifier_enum, avm.cad.GeometryQualifierEnum>()
+                {
+                    { CyPhyMLClasses.Extrusion.AttributesClass.BoundaryQualifier_enum.Interior_Only,
+                        avm.cad.GeometryQualifierEnum.InteriorOnly
+                    },
+                    { CyPhyMLClasses.Extrusion.AttributesClass.BoundaryQualifier_enum.Boundary_Only,
+                        avm.cad.GeometryQualifierEnum.BoundaryOnly
+                    },
+                    { CyPhyMLClasses.Extrusion.AttributesClass.BoundaryQualifier_enum.Interior_And_Boundary,
+                        avm.cad.GeometryQualifierEnum.InteriorAndBoundary
+                    }
+                };
+
+        public static Dictionary<CyPhyMLClasses.Extrusion.AttributesClass.GeometryModifier_enum, avm.cad.PartIntersectionEnum> extrusionIntersectionMap =
+            new Dictionary<CyPhyMLClasses.Extrusion.AttributesClass.GeometryModifier_enum, avm.cad.PartIntersectionEnum>()
+            {
+                { CyPhyMLClasses.Extrusion.AttributesClass.GeometryModifier_enum.None, avm.cad.PartIntersectionEnum.None },
+                { CyPhyMLClasses.Extrusion.AttributesClass.GeometryModifier_enum.Intersection_With_Any_Parts, avm.cad.PartIntersectionEnum.IntersectionWithAnyParts},
+                { CyPhyMLClasses.Extrusion.AttributesClass.GeometryModifier_enum.Intersection_With_Referenced_Parts, avm.cad.PartIntersectionEnum.IntersectionWithReferencedParts}
+            };
+
+        private void createAVMExtrusionModel(CyPhyML.Extrusion cyPhyMLExtrusion)
+        {
+            Func<CyPhyML.Port, List<string>> getCADModelPorts = point =>
+                getIndirectlyComposedPorts(point)
+                .Where(connectedPort => new string[] { typeof(CyPhyML.CADModel).Name, typeof(CyPhyML.Component).Name }.Contains(connectedPort.ParentContainer.Kind))
+                .Select(connectedPort => ((avm.Port)this._cyPhyMLAVMObjectMap[connectedPort]).ID).ToList();
+
+            avm.cad.ExtrudedGeometry extrusion = new avm.cad.ExtrudedGeometry()
+            {
+                GeometryQualifier = extrusionBoundaryQualifierMap[cyPhyMLExtrusion.Attributes.BoundaryQualifier],
+                PartIntersectionModifier = extrusionIntersectionMap[cyPhyMLExtrusion.Attributes.GeometryModifier]
+                // TODO put Name in avm.cad.ExtrudedGeometry?
+            };
+            foreach (var point in cyPhyMLExtrusion.Children.PointCollection)
+            {
+                var metaRole = ((IMgaFCO)point.Impl).MetaRole.Name;
+                if (metaRole == "ExtrusionHeight")
+                {
+                    extrusion.ExtrusionHeight = new avm.cad.PointReference()
+                    {
+                        // TODO look at PortCompositions  ReferredPoint
+                        ReferredPoint = getCADModelPorts(point)
+                    };
+                }
+                else if (metaRole == "Direction_Reference_Point")
+                {
+                    extrusion.DirectionReferencePoint = new avm.cad.PointReference()
+                    {
+                        ReferredPoint = getCADModelPorts(point)
+                    };
+                }
+                else if (metaRole == "PointDatumForwarder")
+                {
+                    // handled indirectly below
+                }
+                else
+                {
+                    if (Debugger.IsAttached)
+                    {
+                        Debugger.Break();
+                    }
+                }
+            }
+
+            foreach (var surface in cyPhyMLExtrusion.Children.PolygonCollection)
+            {
+
+                var polygon = new avm.cad.Polygon()
+                {
+
+                    // GeometryQualifier = boundary[surface.Attributes.BoundaryQualifier],
+                    // PartIntersectionModifier = intersection[surface.Attributes.GeometryModifier]
+                };
+                foreach (var point in surface.Children.OrdinalPointCollection.OrderBy(point => point.Attributes.PolygonOrdinalPosition))
+                {
+
+                    polygon.PolygonPoint.Add(new avm.cad.PointReference()
+                    {
+                        ReferredPoint = getCADModelPorts(point)
+                    });
+                }
+                extrusion.ExtrusionSurface = polygon;
+            }
+            _avmComponent.AnalysisConstruct.Add(extrusion);
+        }
+
+        private IEnumerable<CyPhyML.Port> getIndirectlyComposedPorts(CyPhyML.Port port)
+        {
+            HashSet<string> visited = new HashSet<string>();
+            Queue<CyPhyML.Port> q = new Queue<CyPhyML.Port>();
+            q.Enqueue(port);
+            visited.Add(port.ID);
+            while (q.Count > 0)
+            {
+                port = q.Dequeue();
+                foreach (var connectedPort in port.SrcConnections.PortCompositionCollection.Select(conn => new { conn = conn, end = conn.SrcEnds.Port }).Concat(
+                    port.DstConnections.PortCompositionCollection.Select(conn => new { conn = conn, end = conn.DstEnds.Port })))
+                {
+                    if (connectedPort.conn.IsRefportConnection())
+                    {
+                        continue;
+                    }
+                    // don't go outside our Component
+                    if (connectedPort.conn.ParentContainer.ID == this.cyPhyMLComponent.ID &&
+                        (connectedPort.end.ParentContainer.ID != this.cyPhyMLComponent.ID &&
+                        connectedPort.end.ParentContainer.ParentContainer.ID != this.cyPhyMLComponent.ID))
+                    {
+                        continue;
+                    }
+                    if (visited.Add(connectedPort.end.ID))
+                    {
+                        yield return connectedPort.end;
+                        if (connectedPort.conn.ParentContainer.ID == this.cyPhyMLComponent.ID)
+                        {
+                            // stop at ports in the Component
+                        }
+                        else
+                        {
+                            q.Enqueue(connectedPort.end);
+                        }
+                    }
+                }
+            }
         }
 
         private void createAVMComplexFormula(CyPhyML.CustomFormula cyPhyMLCustomFormula)
@@ -1424,6 +1580,7 @@ namespace CyPhyML2AVM {
                         {CyPhyMLClasses.SimpleFormula.AttributesClass.Method_enum.Minimum,avm.SimpleFormulaOperation.Minimum},
                         {CyPhyMLClasses.SimpleFormula.AttributesClass.Method_enum.Multiplication,avm.SimpleFormulaOperation.Multiplication}
                     };
+        private CyPhyML.Component cyPhyMLComponent;
 
         private void createAVMSimpleFormula(CyPhyML.SimpleFormula c_sf)
         {
