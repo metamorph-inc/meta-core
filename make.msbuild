@@ -33,7 +33,7 @@
     <PropertyGroup>
       <CyPhyMLPlatform Condition="'$(Platform)'!='x64'">Mixed Platforms</CyPhyMLPlatform>
     </PropertyGroup>
-    <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH);CreateHardLinksForCopyLocalIfPossible=true" Targets="Build"/>
+    <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH)" Targets="Build"/>
   </Target>
 
   <Target Name="CyPhyMLQudt" DependsOnTargets="CyPhyML">
