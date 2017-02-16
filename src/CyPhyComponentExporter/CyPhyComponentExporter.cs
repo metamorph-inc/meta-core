@@ -453,6 +453,7 @@ namespace CyPhyComponentExporter
             })
             {
                 String compDirAbsPath = component.GetDirectoryPath(META.ComponentLibraryManager.PathConvention.ABSOLUTE);
+                if (Directory.Exists(compDirAbsPath))
                 foreach (var filePath in Directory
                                     .EnumerateFiles(compDirAbsPath,"*.*",SearchOption.AllDirectories)
                                     .Where(f => Path.GetExtension(f).ToLower() != ".acm"
