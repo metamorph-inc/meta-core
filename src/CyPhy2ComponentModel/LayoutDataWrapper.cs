@@ -23,18 +23,24 @@ namespace CyPhy2ComponentModel
         {
             PropertyInfo propInfo = GetProperty(name);
             if (null != propInfo && propInfo.CanWrite)
+            {
                 propInfo.SetValue(obj, value, null);
+            }
         }
 
         private Boolean PropertyExistsAndIsAndTrue(String name)
         {
             PropertyInfo propInfo = GetProperty(name);
             if (propInfo == null)
+            {
                 return false;
+            }
 
             var propVal = propInfo.GetValue(obj, null);
             if (propVal == null)
+            {
                 return false;
+            }
 
             return System.Convert.ToBoolean(propVal);
         }
@@ -53,9 +59,13 @@ namespace CyPhy2ComponentModel
             get
             {
                 if (false == PropertyExistsAndIsAndTrue("XPositionSpecified"))
+                {
                     return 0;
+                }
                 else
+                {
                     return System.Convert.ToUInt32(GetProperty("XPosition").GetValue(obj, null));
+                }
             }
             set
             {
@@ -69,9 +79,13 @@ namespace CyPhy2ComponentModel
             get
             {
                 if (false == PropertyExistsAndIsAndTrue("YPositionSpecified"))
+                {
                     return 0;
+                }
                 else
+                {
                     return System.Convert.ToUInt32(GetProperty("YPosition").GetValue(obj, null));
+                }
             }
             set
             {

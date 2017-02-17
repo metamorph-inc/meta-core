@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Vanderbilt University, ISIS")]
 [assembly: AssemblyProduct("CyPhy2ComponentModel")]
-[assembly: AssemblyCopyright("© 2012-2013 Vanderbilt University")]
+[assembly: AssemblyCopyright("\u00A9 2012-2013 Vanderbilt University")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

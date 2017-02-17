@@ -16,17 +16,23 @@ namespace CyPhy2ComponentModel.Validation
             {
                 var xdoc = XDocument.Load(sr);
 
-                foreach (var node in xdoc.DescendantNodes().Where(x=> x.NodeType == XmlNodeType.Element))
+                foreach (var node in xdoc.DescendantNodes().Where(x => x.NodeType == XmlNodeType.Element))
                 {
                     var xElement = (XElement)node;
                     var names = new HashSet<string>();
                     foreach (var xChild in xElement.Elements())
                     {
                         var nameAttr = xChild.Attribute("Name");
-                        if (nameAttr == null) continue;
+                        if (nameAttr == null)
+                        {
+                            continue;
+                        }
 
                         var nameVal = nameAttr.Value;
-                        if (string.IsNullOrEmpty(nameVal)) continue;
+                        if (string.IsNullOrEmpty(nameVal))
+                        {
+                            continue;
+                        }
 
                         if (names.Contains(nameVal))
                         {
@@ -43,7 +49,6 @@ namespace CyPhy2ComponentModel.Validation
             }
 
             return result;
-
         }
 
         public static bool ValidateXsd(string inputXMLFile, ref List<string> oErrorMessages)
@@ -57,7 +62,7 @@ namespace CyPhy2ComponentModel.Validation
                 #region Collect XSD files
 
                 var xsdDirectory = new DirectoryInfo(META.VersionInfo.MetaPath).GetFiles("*.xsd", SearchOption.AllDirectories).FirstOrDefault();
-                if (xsdDirectory == null || xsdDirectory.Directory==null)
+                if (xsdDirectory == null || xsdDirectory.Directory == null)
                 {
                     errorMessages.Add("XSD directory cannot be found");
                     return false;
@@ -71,12 +76,16 @@ namespace CyPhy2ComponentModel.Validation
                 foreach (var xsd in xsdFileSet)
                 {
                     if (File.Exists(xsd))
+                    {
                         schemas.Add(XmlSchema.Read(XmlReader.Create(new StreamReader(xsd)), (sender, args) =>
-                                                                                            {
-                                                                                                errorMessages.Add("Schema is wrong: " + args.Message);
-                                                                                            }));
+                                                                                           {
+                                                                                               errorMessages.Add("Schema is wrong: " + args.Message);
+                                                                                           }));
+                    }
                     else
+                    {
                         errorMessages.Add("XSD file doesn't exist: " + xsd);
+                    }
                 }
 
                 var xdoc = XDocument.Load(sr);
@@ -86,7 +95,6 @@ namespace CyPhy2ComponentModel.Validation
                     errorMessages.Add(e.Message);
                     noErrors = false;
                 }, true);
-
             }
             oErrorMessages.AddRange(errorMessages);
             return noErrors;
@@ -102,6 +110,5 @@ namespace CyPhy2ComponentModel.Validation
 
             return results.All(x => x);
         }
-
     }
 }

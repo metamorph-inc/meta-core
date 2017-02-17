@@ -32,20 +32,20 @@ namespace CyPhy2ComponentModel
         #endregion
 
         #region iFAB to CyPhy maps
-        private static Dictionary<iFAB.inspectionRequirement, CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum> d_InspectionRequirement_Reverse = new Dictionary<inspectionRequirement,CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum>() {
+        private static Dictionary<iFAB.inspectionRequirement, CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum> d_InspectionRequirement_Reverse = new Dictionary<inspectionRequirement, CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum>() {
             {  iFAB.inspectionRequirement.Visual, CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum.Visual },
             {  iFAB.inspectionRequirement.XRay, CyPhyClasses.WeldedJoin.AttributesClass.InspectionRequirement_enum.X_dash_Ray },
         };
 
-        private static Dictionary<iFAB.torqueUnit, CyPhyClasses.MechanicalJoin.AttributesClass.TorqueUnit_enum> d_TorqueUnits_Reverse = new Dictionary<torqueUnit,CyPhyClasses.MechanicalJoin.AttributesClass.TorqueUnit_enum>() {
+        private static Dictionary<iFAB.torqueUnit, CyPhyClasses.MechanicalJoin.AttributesClass.TorqueUnit_enum> d_TorqueUnits_Reverse = new Dictionary<torqueUnit, CyPhyClasses.MechanicalJoin.AttributesClass.TorqueUnit_enum>() {
             { iFAB.torqueUnit.Nm, CyPhyClasses.MechanicalJoin.AttributesClass.TorqueUnit_enum.N_m }
         };
 
-        private static Dictionary<iFAB.forceUnit,CyPhyClasses.MechanicalJoin.AttributesClass.ForceUnit_enum> d_ForceUnits_Reverse = new Dictionary<forceUnit,CyPhyClasses.MechanicalJoin.AttributesClass.ForceUnit_enum>() {
+        private static Dictionary<iFAB.forceUnit, CyPhyClasses.MechanicalJoin.AttributesClass.ForceUnit_enum> d_ForceUnits_Reverse = new Dictionary<forceUnit, CyPhyClasses.MechanicalJoin.AttributesClass.ForceUnit_enum>() {
             { iFAB.forceUnit.N, CyPhyClasses.MechanicalJoin.AttributesClass.ForceUnit_enum.N }
         };
 
-        private static Dictionary<iFAB.fasteningMethod,CyPhyClasses.MechanicalJoin.AttributesClass.FasteningMethod_enum> d_FasteningMethod_Reverse = new Dictionary<fasteningMethod,CyPhyClasses.MechanicalJoin.AttributesClass.FasteningMethod_enum>() {
+        private static Dictionary<iFAB.fasteningMethod, CyPhyClasses.MechanicalJoin.AttributesClass.FasteningMethod_enum> d_FasteningMethod_Reverse = new Dictionary<fasteningMethod, CyPhyClasses.MechanicalJoin.AttributesClass.FasteningMethod_enum>() {
             { iFAB.fasteningMethod.Bolted, CyPhyClasses.MechanicalJoin.AttributesClass.FasteningMethod_enum.Bolted }
         };
         #endregion
@@ -62,45 +62,67 @@ namespace CyPhy2ComponentModel
                 if (join is welded)
                 {
                     var w = join as welded;
-                	if (parent is CyPhy.Connector)
-                    	jd = CyPhyClasses.WeldedJoin.Create(parent as CyPhy.Connector);
-                	else
-                    	jd = CyPhyClasses.WeldedJoin.CreateGeneric(parent) as CyPhy.WeldedJoin;
+                    if (parent is CyPhy.Connector)
+                    {
+                        jd = CyPhyClasses.WeldedJoin.Create(parent as CyPhy.Connector);
+                    }
+                    else
+                    {
+                        jd = CyPhyClasses.WeldedJoin.CreateGeneric(parent) as CyPhy.WeldedJoin;
+                    }
                 }
                 else if (join is brazed)
                 {
                     var w = join as brazed;
-                	if (parent is CyPhy.Connector)
-                    	jd = CyPhyClasses.BrazedJoin.Create(parent as CyPhy.Connector);
-                	else
-                    	jd = CyPhyClasses.BrazedJoin.CreateGeneric(parent) as CyPhy.BrazedJoin;
+                    if (parent is CyPhy.Connector)
+                    {
+                        jd = CyPhyClasses.BrazedJoin.Create(parent as CyPhy.Connector);
+                    }
+                    else
+                    {
+                        jd = CyPhyClasses.BrazedJoin.CreateGeneric(parent) as CyPhy.BrazedJoin;
+                    }
                 }
                 else if (join is soldered)
                 {
                     var w = join as soldered;
-                	if (parent is CyPhy.Connector)
-                    	jd = CyPhyClasses.SolderedJoin.Create(parent as CyPhy.Connector);
-                	else
-                    	jd = CyPhyClasses.SolderedJoin.CreateGeneric(parent) as CyPhy.SolderedJoin;
+                    if (parent is CyPhy.Connector)
+                    {
+                        jd = CyPhyClasses.SolderedJoin.Create(parent as CyPhy.Connector);
+                    }
+                    else
+                    {
+                        jd = CyPhyClasses.SolderedJoin.CreateGeneric(parent) as CyPhy.SolderedJoin;
+                    }
                 }
                 else if (join is glued)
                 {
                     var w = join as glued;
-                	if (parent is CyPhy.Connector)
-                    	jd = CyPhyClasses.GluedJoin.Create(parent as CyPhy.Connector);
-                	else
-                    	jd = CyPhyClasses.GluedJoin.CreateGeneric(parent) as CyPhy.GluedJoin;
+                    if (parent is CyPhy.Connector)
+                    {
+                        jd = CyPhyClasses.GluedJoin.Create(parent as CyPhy.Connector);
+                    }
+                    else
+                    {
+                        jd = CyPhyClasses.GluedJoin.CreateGeneric(parent) as CyPhy.GluedJoin;
+                    }
                 }
                 else if (join is mechanical)
                 {
                     var w = join as mechanical;
-                	if (parent is CyPhy.Connector)
-                    	jd = CyPhyClasses.MechanicalJoin.Create(parent as CyPhy.Connector);
-                	else
-                    	jd = CyPhyClasses.MechanicalJoin.CreateGeneric(parent) as CyPhy.MechanicalJoin;
+                    if (parent is CyPhy.Connector)
+                    {
+                        jd = CyPhyClasses.MechanicalJoin.Create(parent as CyPhy.Connector);
+                    }
+                    else
+                    {
+                        jd = CyPhyClasses.MechanicalJoin.CreateGeneric(parent) as CyPhy.MechanicalJoin;
+                    }
                 }
                 else
+                {
                     continue;
+                }
 
                 jd.Attributes.Description = ad.id;
                 rtn.Add(jd);
@@ -123,7 +145,9 @@ namespace CyPhy2ComponentModel
             {
                 CyPhy.WeldedJoin wj = jd as CyPhy.WeldedJoin;
                 if (wj == null)
+                {
                     wj = CyPhyClasses.WeldedJoin.Cast(jd.Impl);
+                }
 
                 iFAB.welded w = new iFAB.welded()
                 {
@@ -138,15 +162,17 @@ namespace CyPhy2ComponentModel
                     weldType = (iFAB.weldType)Enum.Parse(typeof(iFAB.weldType), wj.Attributes.WeldType.ToString()),
                     twoSided = wj.Attributes.TwoSided
                 };
-            
+
                 rtn.Items.Add(w);
             }
             else if (jd is CyPhy.BrazedJoin || jd.Kind == "BrazedJoin")
             {
                 CyPhy.BrazedJoin bj = jd as CyPhy.BrazedJoin;
                 if (bj == null)
+                {
                     bj = CyPhyClasses.BrazedJoin.Cast(jd.Impl);
-                
+                }
+
                 iFAB.brazed b = new iFAB.brazed()
                 {
                     fillerMaterial = bj.Attributes.FillerMaterial,
@@ -164,7 +190,9 @@ namespace CyPhy2ComponentModel
             {
                 CyPhy.SolderedJoin sj = jd as CyPhy.SolderedJoin;
                 if (sj == null)
+                {
                     sj = CyPhyClasses.SolderedJoin.Cast(jd.Impl);
+                }
 
                 iFAB.soldered s = new iFAB.soldered()
                 {
@@ -183,7 +211,9 @@ namespace CyPhy2ComponentModel
             {
                 CyPhy.GluedJoin gj = jd as CyPhy.GluedJoin;
                 if (gj == null)
+                {
                     gj = CyPhyClasses.GluedJoin.Cast(jd.Impl);
+                }
 
                 iFAB.glued g = new iFAB.glued()
                 {
@@ -206,7 +236,9 @@ namespace CyPhy2ComponentModel
             {
                 CyPhy.MechanicalJoin mj = jd as CyPhy.MechanicalJoin;
                 if (mj == null)
+                {
                     mj = CyPhyClasses.MechanicalJoin.Cast(jd.Impl);
+                }
 
                 iFAB.mechanical m = new iFAB.mechanical()
                 {
@@ -232,9 +264,13 @@ namespace CyPhy2ComponentModel
                     // If this refers to a Component model, get that guy's AVMID.
                     // If not, use the AVMID provided in the attribute of this object.
                     if (f.Referred.Component != null)
+                    {
                         pr.id = f.Referred.Component.Attributes.AVMID;
+                    }
                     else
+                    {
                         pr.id = f.Attributes.AVMID;
+                    }
 
                     for (int i = 0; i < f.Attributes.Quantity; i++)
                         m.linkingPart.Add(pr);
@@ -243,7 +279,9 @@ namespace CyPhy2ComponentModel
                 rtn.Items.Add(m);
             }
             else
+            {
                 throw new NotSupportedException("JoinData export not supported for object of type " + jd.Impl.MetaBase.Name);
+            }
 
             return rtn;
         }

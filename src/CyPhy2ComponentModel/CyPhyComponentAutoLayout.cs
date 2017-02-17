@@ -21,7 +21,7 @@ namespace CyPhy2ComponentModel
         // Prioritize kinds by aspect
         private static Dictionary<String, ArrayList> d_ClassPrioritiesByAspect = new Dictionary<string, ArrayList>()
         {
-            { 
+            {
                 "All", new ArrayList() {
                     typeof(CyPhy.Connector),
                     typeof(CyPhy.Port),
@@ -47,7 +47,7 @@ namespace CyPhy2ComponentModel
             }
         }
 
-        private static Dictionary<String,String> d_AspectPositionRegnode = new Dictionary<string,string> {
+        private static Dictionary<String, String> d_AspectPositionRegnode = new Dictionary<string, string> {
             { "All", "PartRegs/All/Position" }
         };
 
@@ -79,16 +79,26 @@ namespace CyPhy2ComponentModel
                     i_x += i_XOffset;
                 }
                 else if (fco is CyPhy.Connector)
+                {
                     i_x += 250;
+                }
                 else if (fco is CyPhy.Port)
+                {
                     i_x += 100;
+                }
                 else if (fco is CyPhy.ModelicaConnector)
+                {
                     i_x += 250;
+                }
                 else
+                {
                     i_x += 250;
+                }
 
                 if (i_x > i_MaxX)
+                {
                     NextLine();
+                }
             }
 
             public String GetCoordinatesAndIncrement(ISIS.GME.Common.Interfaces.FCO fco)
@@ -171,18 +181,18 @@ namespace CyPhy2ComponentModel
                     SetCoordinates(fco, s_Coord);
                     d_IsPositioned[fco.ID] = true;
                 }
-                pt.Increment(null); 
+                pt.Increment(null);
                 pt.Increment(null);
             }
-            foreach (ISIS.GME.Common.Interfaces.FCO fco in c.AllChildren.Where(fco => 
+            foreach (ISIS.GME.Common.Interfaces.FCO fco in c.AllChildren.Where(fco =>
                 fco is ISIS.GME.Common.Interfaces.Atom ||
                 fco is ISIS.GME.Common.Interfaces.Model ||
                 fco is ISIS.GME.Common.Interfaces.Reference ||
                 fco is ISIS.GME.Common.Interfaces.Set))
             {
                 Boolean b;
-                d_IsPositioned.TryGetValue(fco.ID,out b);
-                if ( !b )
+                d_IsPositioned.TryGetValue(fco.ID, out b);
+                if (!b)
                 {
                     String s_Coord = pt.GetCoordinatesAndIncrement(fco);
                     SetCoordinates(fco, s_Coord);
@@ -199,6 +209,5 @@ namespace CyPhy2ComponentModel
                 }
             }*/
         }
-
     }
 }
