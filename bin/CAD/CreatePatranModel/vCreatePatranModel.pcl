@@ -79,6 +79,9 @@ Revision History
 					it with applyLoad_Force_Total.  Also, now throw an exception if the input file contains a non-zero 
 					moment.  Not supporting moment loads anymore.  Should add this support later.	
 	
+2/23/2017	R.O.	Coorected the problem that the function vMath.point2D_InOn_Polygon_2D was not properly handling the case 
+					of the point being on the boundary when interior-only was specified.	
+	
 *****/
 CLASS vCreatePatranModel
 
