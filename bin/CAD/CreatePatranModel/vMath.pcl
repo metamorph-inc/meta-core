@@ -520,6 +520,14 @@ FUNCTION point2D_InOn_Polygon_2D( in_Point, in_Boundary_Qualifier, in_NumPolygon
 	IF ( in_Boundary_Qualifier == ci_INTERIOR_AND_BOUNDARY ) THEN
 		IF ( onBoundary ) THEN RETURN TRUE
 	END IF 	
+
+	######################################
+	# At this point must be INTERIOR_ONLY
+	# Make sure not on boundary
+	######################################
+	IF ( in_Boundary_Qualifier == ci_INTERIOR_ONLY ) THEN
+		IF ( onBoundary ) THEN RETURN FALSE
+	END IF 				
 	
 	##############################
 	# Check for Point in Interior
