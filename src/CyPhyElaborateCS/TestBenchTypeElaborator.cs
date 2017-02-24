@@ -29,6 +29,7 @@
 
             // initialize collections
             this.Traceability = new Dictionary<string, string>();
+            this.ComponentGUIDs = new HashSet<string>();
         }
 
         /// <summary>
@@ -107,6 +108,7 @@
 
             // pass our current traceability information
             componentAssemblyElaborator.Traceability = this.Traceability;
+            componentAssemblyElaborator.ComponentGUIDs = this.ComponentGUIDs;
 
             // elaborate the top level system under test object
             componentAssemblyElaborator.Elaborate();

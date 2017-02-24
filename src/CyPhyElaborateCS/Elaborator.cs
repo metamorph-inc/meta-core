@@ -43,7 +43,7 @@
         /// <summary>
         /// Stores a chain of GUID through which references the elaboration happened. Used by MetaLink
         /// </summary>
-        private const string RegistryNameInstanceGuidChain = RegistryNameElaborator + "/" + AttributeNameInstanceGuid + "_Chain";
+        public const string RegistryNameInstanceGuidChain = RegistryNameElaborator + "/" + AttributeNameInstanceGuid + "_Chain";
 
         /// <summary>
         /// Stores a chain of GME IDs through which references the elaboration happened. Might be used in interpreters.
@@ -81,6 +81,11 @@
         /// </summary>
         public Dictionary<string, string> Traceability { get; set; }
 
+        /// <summary>
+        /// Contains InstanceGUIDs of Components that have been elaborated thus far
+        /// </summary>
+        public ISet<string> ComponentGUIDs { get; set; }
+        
         /// <summary>
         /// Gets a new instance of an elaborator based on a given context.
         /// </summary>
@@ -276,6 +281,7 @@
                     // push current instance GUID down to all component assembly elements
                     MgaFilter filter = copiedObj.Project.CreateFilter();
                     filter.ObjType = GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL.ToString();
+                    // filter.Kind = "ComponentAssembly";
 
                     foreach (MgaFCO obj in (copiedObj as MgaModel).GetDescendantFCOs(filter))
                     {
@@ -290,6 +296,16 @@
             }
 
             copiedObj.Name = reference.Name;
+            if (reference.Meta.MetaRef == this.Factory.ComponentRefMeta && copiedObj.Meta.MetaRef == this.Factory.ComponentAssemblyMeta)
+            {
+                // TODO what should happen here
+                // var managedGuid = reference.StrAttrByName["ManagedGUID"]; ComponentRef does not have ManagedGUID
+                var managedGuid = reference.StrAttrByName["InstanceGUID"];
+                if (string.IsNullOrEmpty(managedGuid) == false)
+                {
+                //    copiedObj.StrAttrByName["ManagedGUID"] = managedGuid;
+                }
+            }
 
             foreach (MgaPart part in reference.Parts)
             {
@@ -362,7 +378,7 @@
                     this.Traceability.Add(copied.ID, original.ID);
                 }
 
-                if (copied.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                if (!createInstance && copied.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
                 {
                     this.AddRecursivelyTraceability(copied, original);
                 }
@@ -487,14 +503,15 @@
         /// <param name="original">Original object from which the copy was made.</param>
         private void AddRecursivelyTraceability(MgaFCO copied, MgaFCO original)
         {
+            const int RELID_BASE_MAX = 0x7FFFFFF; // Mga.idl
             var componentAssembly = copied as MgaModel;
 
             foreach (MgaFCO child in componentAssembly.ChildFCOs)
             {
-                var originalChild = original.ChildObjectByRelID[child.RelID] as MgaFCO;
+                var originalChild = original.ChildObjectByRelID[child.RelID & (original.IsInstance ? Int32.MaxValue : RELID_BASE_MAX)] as MgaFCO;
                 this.Traceability.Add(child.ID, originalChild.ID);
 
-                if (child.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                if (child.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
                 {
                     this.AddRecursivelyTraceability(child, originalChild);
                 }
