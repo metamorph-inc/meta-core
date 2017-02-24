@@ -117,14 +117,24 @@ namespace GME.CSharp
                     string DllFileName = registrar.LocalDllPath[TaskProgId];
                     try
                     {
-                        // TODO: we should read this from the registry...
                         // if the value is ,IDI_COMPICON get the icon from the dll
                         string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
-                        var temp = registrar.get_IconPath(regaccessmode_enum.REGACCESS_USER);
+                        string iconPath = null;
+                        try
+                        {
+                            iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, TaskProgId, "Icon"];
+                        }
+                        catch (COMException)
+                        {
+                        }
 
                         if (File.Exists(iconFileNameGuess))
                         {
                             icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
+                        }
+                        else if (iconPath != null && File.Exists(iconPath))
+                        {
+                            icon = Icon.ExtractAssociatedIcon(iconPath);
                         }
                         else
                         {
@@ -184,13 +194,24 @@ namespace GME.CSharp
                             string DllFileName = registrar.LocalDllPath[comComponent.ProgId];
                             try
                             {
-                                // TODO: we should read this from the registry...
                                 // if the value is ,IDI_COMPICON get the icon from the dll
                                 string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
+                                string iconPath = null;
+                                try
+                                {
+                                    iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, taskInfo.COMName, "Icon"];
+                                }
+                                catch (COMException)
+                                {
+                                }
 
                                 if (File.Exists(iconFileNameGuess))
                                 {
                                     icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
+                                }
+                                else if (iconPath != null && File.Exists(iconPath))
+                                {
+                                    icon = Icon.ExtractAssociatedIcon(iconPath);
                                 }
                                 else
                                 {
