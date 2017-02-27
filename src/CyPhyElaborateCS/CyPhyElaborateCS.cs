@@ -385,7 +385,7 @@ namespace CyPhyElaborateCS
             var beforeElaboration = (currentobj as MgaModel).GetDescendantFCOs(currentobj.Project.CreateFilter()).Count;
 
             // get an elaborator for the current context
-            var elaborator = Elaborator.GetElaborator(currentobj as MgaModel, this.Logger);
+            var elaborator = Elaborator.GetElaborator(currentobj as MgaModel, this.Logger, UnrollConnectors);
 
             // elaborate the entire model starting from the current object
             elaborator.Elaborate();

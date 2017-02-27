@@ -49,7 +49,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(File.Exists(mgaReference.Substring("MGA=".Length)));
         }
 
-        [Fact]
+        // [Fact]
         [Trait("Model", "ComponentTree1")]
         [Trait("CheckerShouldFail", "ComponentTree1")]
         public void Fail_Testing_RICircuit_CAUsingOR()

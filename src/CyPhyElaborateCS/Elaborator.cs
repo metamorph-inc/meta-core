@@ -56,6 +56,8 @@
         /// <remarks>NOTE: Will be handy on collapse, but collapse CANNOT be implemented because of MetaLink assumptions.</remarks>
         private const string RegistryNameOriginalReferredID = RegistryNameElaborator + "/ReferredID";
 
+        protected bool UnrollConnectors;
+
         /// <summary>
         /// Gets meta reference id factory.
         /// </summary>
@@ -85,7 +87,15 @@
         /// Contains InstanceGUIDs of Components that have been elaborated thus far
         /// </summary>
         public ISet<string> ComponentGUIDs { get; set; }
-        
+
+        public Dictionary<MgaFCO, MgaFCO> ComponentCopyMap { get; set; }
+
+        public Elaborator(bool UnrollConnectors)
+        {
+            ComponentCopyMap = new Dictionary<MgaFCO, MgaFCO>();
+            this.UnrollConnectors = UnrollConnectors;
+        }
+
         /// <summary>
         /// Gets a new instance of an elaborator based on a given context.
         /// </summary>
@@ -94,7 +104,7 @@
         /// <returns>A new instance of a context aware elaborator.</returns>
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
-        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.GMELogger logger)
+        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
         {
             if (subject == null)
             {
@@ -117,15 +127,15 @@
                 subject.MetaBase.MetaRef == factory.KinematicTestBenchMeta ||
                 subject.MetaBase.MetaRef == factory.CarTestBenchMeta)
             {
-                elaborator = new TestBenchTypeElaborator(subject);
+                elaborator = new TestBenchTypeElaborator(subject, UnrollConnectors);
             }
             else if (subject.MetaBase.MetaRef == factory.ComponentAssemblyMeta)
             {
-                elaborator = new ComponentAssemblyElaborator(subject);
+                elaborator = new ComponentAssemblyElaborator(subject, UnrollConnectors);
             }
             else if (subject.MetaBase.MetaRef == factory.DesignContainerMeta)
             {
-                elaborator = new DesignContainerElaborator(subject);
+                elaborator = new DesignContainerElaborator(subject, UnrollConnectors);
             }
             else
             {
@@ -155,10 +165,10 @@
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
         /// <exception cref="InvalidCastException">If the created elaborator cannot be casted to the requested type.</exception>
-        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.GMELogger logger)
+        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
             where T : Elaborator
         {
-            return (T)GetElaborator(subject, logger);
+            return (T)GetElaborator(subject, logger, UnrollConnectors);
         }
 
         /// <summary>
@@ -223,11 +233,69 @@
             {
                 this.LogDebug("Creating instance from", referred);
 
+                MgaFCO originalReferred = null;
+                if (UnrollConnectors)
+                {
+                    originalReferred = referred;
+                    MgaFCO referredCopy;
+                    if (ComponentCopyMap.TryGetValue(referred, out referredCopy))
+                    {
+                    }
+                    else
+                    {
+                        // FIXME update traceability
+                        referredCopy = referred.ParentFolder.CopyFCODisp(referred);
+                        ComponentCopyMap[referred] = referredCopy;
+                    }
+                    referred = referredCopy;
+                }
+
                 copiedObj = parentModel.DeriveChildObject(referred, role, true);
+
+                Func<IMgaFCO, int> getRelID = (fco) => {
+                    if (fco.DerivedFrom != null && fco.IsPrimaryDerived == false)
+                    {
+                        // workaround GME bug fixed 2/27/2017
+                        const int RELID_BASE_MAX = 0x07FFFFFF; // Mga.idl
+                        return (~RELID_BASE_MAX & fco.RelID) | (RELID_BASE_MAX & fco.DerivedFrom.RelID);
+
+                    }
+                    return fco.RelID;
+                };
+                Func<MgaFCO, string> getFCORelIds = fco =>
+                {
+                    string ret = "/#" + getRelID(fco);
+                    MgaModel parent = fco.ParentModel;
+                    while (parent != null)
+                    {
+                        ret = "/#" + getRelID(parent) + ret;
+                        parent = parent.ParentModel;
+                    }
+                    return ret;
+                };
 
                 getOriginalChildObject = new Func<MgaFCO, MgaFCO, MgaFCO>((parent, copied) =>
                 {
-                    return copied.DerivedFrom;
+                    if (UnrollConnectors == false)
+                    {
+                        return copied.DerivedFrom;
+                    }
+                    string relPath = getFCORelIds(copied.DerivedFrom).Substring(getFCORelIds(referred).Length);
+                    var ret = (MgaFCO)originalReferred.GetObjectByPathDisp(relPath);
+                    if (ret == null)
+                    {
+                        ret = originalReferred;
+                        // GME bug workaround continued
+                        foreach (var relID in relPath.Substring(2).Split(new[] { "/#" }, StringSplitOptions.None))
+                        {
+                            ret = ret.ChildObjects.Cast<MgaFCO>().Where(f => getRelID(f).ToString() == relID).First();
+                        }
+                        if (ret == null)
+                        {
+                            throw new ArgumentNullException();
+                        }
+                    }
+                    return ret;
                 });
 
                 var guid = reference.StrAttrByName[AttributeNameInstanceGuid];

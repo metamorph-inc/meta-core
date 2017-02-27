@@ -3466,7 +3466,7 @@ namespace CyPhy2Modelica_v2.Rules
                         folder.Folder.Path, string.Join(", ", names))
                 };
 
-                result.Add(feedback);
+                // result.Add(feedback);
             }
 
             foreach (var subFolder in folder.Children.Where(c => c is FolderTreeNode))

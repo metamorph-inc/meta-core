@@ -17,7 +17,8 @@
         /// </summary>
         /// <param name="subject">Component Assembly object.</param>
         /// <exception cref="ArgumentNullException">If any arguments are null</exception>
-        public TestBenchTypeElaborator(MgaModel subject)
+        public TestBenchTypeElaborator(MgaModel subject, bool UnrollConnectors)
+            : base(UnrollConnectors)
         {
             if (subject == null)
             {
@@ -104,7 +105,7 @@
             ComponentAssemblyElaborator componentAssemblyElaborator = null;
 
             // get a Componenet assembly elaborator for the top level system under test object.
-            componentAssemblyElaborator = Elaborator.GetElaborator<ComponentAssemblyElaborator>(ca_tlsut, this.Logger);
+            componentAssemblyElaborator = Elaborator.GetElaborator<ComponentAssemblyElaborator>(ca_tlsut, this.Logger, UnrollConnectors);
 
             // pass our current traceability information
             componentAssemblyElaborator.Traceability = this.Traceability;

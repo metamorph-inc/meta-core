@@ -17,7 +17,8 @@
         /// </summary>
         /// <param name="subject">Component Assembly object.</param>
         /// <exception cref="ArgumentNullException">If any arguments are null</exception>
-        public ComponentAssemblyElaborator(MgaModel subject)
+        public ComponentAssemblyElaborator(MgaModel subject, bool UnrollConnectors)
+            : base(UnrollConnectors)
         {
             if (subject == null)
             {
@@ -187,11 +188,12 @@
                         var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, false);
 
                         // prevent circular dependency
-                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger) as ComponentAssemblyElaborator;
+                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger, UnrollConnectors) as ComponentAssemblyElaborator;
 
                         // use only one map
                         innerElaborator.Traceability = this.Traceability;
                         innerElaborator.ComponentGUIDs = this.ComponentGUIDs;
+                        innerElaborator.ComponentCopyMap = this.ComponentCopyMap;
 
                         // hold only one queue
                         foreach (var item in this.ComponentAssemblyReferences)
