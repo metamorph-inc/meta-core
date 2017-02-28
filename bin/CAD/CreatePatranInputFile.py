@@ -531,6 +531,7 @@ def write_Material_section(in_OutputModelFile_obj, in_MaterialName, in_MaterailI
                        in_MaterialName )
 
     in_OutputModelFile_obj.write("\n\nMaterial")
+    in_OutputModelFile_obj.write("\n    # Units: Density - kg/mm^3, Elastic_Modulus - MPa, Stress_Limit - MPa")
     in_OutputModelFile_obj.write("\n    ID =                       " + in_MaterailID)
     in_OutputModelFile_obj.write("\n    Name =                     " + in_MaterialName)
     in_OutputModelFile_obj.write("\n    Description =              " + in_MaterialName)
