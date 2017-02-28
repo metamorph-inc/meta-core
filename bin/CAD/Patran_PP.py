@@ -15,9 +15,13 @@ import _winreg
 # 10/12/2016 R.O. WARNING - This file was updated to support:
 #    FEA_Total_Volume
 #    FEA_Total_Mass
-# in testbench_manifest.json, but only for the update_results_files_op2 function in this file.
+# in testbench_manifest.json, but only for the update_results_files_xdb_op2 function in this file.
 # This case is for Patran composite runs.  This program should be updated to support FEA_Total_Volume/ FEA_Total_Mass
 # for all cases ( e.g. solid model, non-composite plate model).
+#
+# 2/28/2017 R.O. - Added support for FEA_Total_Volume/ FEA_Total_Mass in update_results_files_xdb_op2 for
+# isotropic Patran_Nastran models. Previously, FEA_Total_Volume/ FEA_Total_Mass was only supported for composite models.
+#
 
 def recurse_list(component, component_list):
     for comp in component_list.values():
@@ -282,7 +286,7 @@ class PatranPostProcess:
 
         return status
 
-    def update_results_files_op2(self, result_txt_file):
+    def update_results_files_xdb_op2(self, result_txt_file):
 
         self.logger.info("Enter update_results_files_op2()")
 
@@ -452,6 +456,41 @@ class PatranPostProcess:
                 self.logger.error(msg)
                 self.write_failed_and_exit(msg)
 
+
+            #################################################################################
+            # Update tb_manifest_json with fea_total_volume and fea_total_mass, if specified
+            #################################################################################
+
+            tb_metrics = None
+            tb_manifest_json = None
+
+            with open(self.results_json, 'r') as tb_file:
+                tb_manifest_json = json.load(tb_file)
+
+
+            tb_metrics = tb_manifest_json.get('Metrics')
+
+            found_mass_or_volume = False
+            for metric in tb_metrics:
+                metric_id = metric['ID']
+                metrid_name =  metric['Name']
+                print metrid_name
+                print globalMetrics
+                if ( metrid_name.lower() == "fea_total_volume" or metrid_name.lower() == "fea_total_mass" ):
+                    found_mass_or_volume = True
+                    if (  metrid_name.lower() == "fea_total_volume" ):
+                        metric_value = globalMetrics.get("TotalVolume".lower())
+                    else:
+                        metric_value = globalMetrics.get("TotalMass".lower())
+
+                    metric['Value'] = metric_value
+
+            if found_mass_or_volume:
+                tb_manifest_json['Metrics'] = tb_metrics
+
+                with open(self.results_json, 'w') as tb_file:
+                    json.dump(tb_manifest_json, tb_file, indent=4)
+
             return True
 
     def run(self):
@@ -472,8 +511,8 @@ class PatranPostProcess:
                 self.write_failed_and_exit()
 
         elif os.path.exists(v2_res_name):
-            self.logger.info("Calling update_results_files_op2({})...".format(v2_res_name))
-            op2_method_success = self.update_results_files_op2(v2_res_name)
+            self.logger.info("Calling update_results_files_xdb_op2({})...".format(v2_res_name))
+            op2_method_success = self.update_results_files_xdb_op2(v2_res_name)
 
             if not op2_method_success:
                 self.logger.error('"update_results_files_op2({})" failed.'.format(v2_res_name))
