@@ -112,7 +112,7 @@ namespace CyPhyGUIs
 
         public void AddWriter(string filename)
         {
-            // TODO: what if this throughs an exception?
+            // TODO: what if this throws an exception?
 
             TextWriter tw = File.AppendText(filename);
             m_textWriters.Add(tw);

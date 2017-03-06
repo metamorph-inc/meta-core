@@ -50,6 +50,12 @@ namespace CyPhyMasterInterpreter
             this.InitForm();
         }
 
+        private void CommandLinkRunParallel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
+        }
+
         public void InitForm()
         {
             this.txtOutputDir.Text = this.m_Input.OutputDirectory;
@@ -290,4 +296,5 @@ namespace CyPhyMasterInterpreter
             this.lblCASelected.Text = this.lbExportedCAs.SelectedItems.Count + " / " + this.lbExportedCAs.Items.Count;
         }
     }
+
 }

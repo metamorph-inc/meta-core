@@ -51,6 +51,7 @@
             this.chbSaveTestBenches = new System.Windows.Forms.CheckBox();
             this.chbOpenDashboard = new System.Windows.Forms.CheckBox();
             this.chbVerbose = new System.Windows.Forms.CheckBox();
+            this.commandLinkRunParallel = new CyPhyGUIs.CommandLink();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,7 +129,7 @@
             this.lbExportedCAs.Location = new System.Drawing.Point(272, 95);
             this.lbExportedCAs.Name = "lbExportedCAs";
             this.lbExportedCAs.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbExportedCAs.Size = new System.Drawing.Size(248, 368);
+            this.lbExportedCAs.Size = new System.Drawing.Size(248, 316);
             this.lbExportedCAs.TabIndex = 21;
             this.lbExportedCAs.SelectedIndexChanged += new System.EventHandler(this.lbExportedCAs_SelectedIndexChanged);
             this.lbExportedCAs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbExportedCAs_KeyDown);
@@ -268,6 +269,17 @@
             this.chbVerbose.Text = "Verbose console";
             this.chbVerbose.UseVisualStyleBackColor = true;
             // 
+            // commandLinkRunParallel
+            // 
+            this.commandLinkRunParallel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.commandLinkRunParallel.Location = new System.Drawing.Point(275, 422);
+            this.commandLinkRunParallel.Name = "commandLinkRunParallel";
+            this.commandLinkRunParallel.Size = new System.Drawing.Size(225, 41);
+            this.commandLinkRunParallel.TabIndex = 102;
+            this.commandLinkRunParallel.Text = "Run all configs in parallel";
+            this.commandLinkRunParallel.UseVisualStyleBackColor = true;
+            this.commandLinkRunParallel.Click += new System.EventHandler(this.CommandLinkRunParallel_Click);
+            // 
             // ConfigurationSelectionForm
             // 
             this.AcceptButton = this.btnOK;
@@ -275,6 +287,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(534, 562);
+            this.Controls.Add(this.commandLinkRunParallel);
             this.Controls.Add(this.chbVerbose);
             this.Controls.Add(this.chbOpenDashboard);
             this.Controls.Add(this.lblCASelected);
@@ -329,5 +342,6 @@
         private System.Windows.Forms.CheckBox chbSaveTestBenches;
         private System.Windows.Forms.CheckBox chbOpenDashboard;
         private System.Windows.Forms.CheckBox chbVerbose;
-	}
+        private CyPhyGUIs.CommandLink commandLinkRunParallel;
+    }
 }

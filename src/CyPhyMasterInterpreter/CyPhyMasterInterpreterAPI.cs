@@ -243,9 +243,11 @@
             ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
 
             AnalysisModelProcessor analysisModelProcessor = null;
+            string contextID = null;
 
             this.ExecuteInTransaction(context, () =>
             {
+                contextID = context.ID;
                 analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
                 configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
                 configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
@@ -300,6 +302,54 @@
                             results.SelectedConfigurations.Append(selectedGmeObject as MgaFCO);
                         }
                     });
+                }
+                else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ProcessStartInfo info = new ProcessStartInfo()
+                    {
+                        FileName = META.VersionInfo.PythonVEnvExe,
+                        Arguments = String.Format("\"{0}\" \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
+                                this.Project.ProjectConnStr.Substring("MGA=".Length),
+                                contextID),
+                        RedirectStandardError = true,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    Process process = new Process()
+                    {
+                        StartInfo = info,
+                        EnableRaisingEvents = true
+                    };
+                    GME.CSharp.GMEConsole console = GME.CSharp.GMEConsole.CreateFromProject(this.Project);
+                    process.ErrorDataReceived += (sender, data) =>
+                    {
+                        if (String.IsNullOrEmpty(data.Data) == false)
+                        {
+                            console.Error.WriteLine(data.Data);
+                        }
+                    };
+                    process.OutputDataReceived += (sender, data) =>
+                    {
+                        if (String.IsNullOrEmpty(data.Data) == false)
+                        {
+                            console.Info.WriteLine(data.Data);
+                        }
+                    };
+                    process.Exited += (s, o) =>
+                    {
+                        // TODO: check process.ExitCode?
+                        process.Dispose();
+                    };
+                    process.Disposed += (s, o) => {
+                        Marshal.ReleaseComObject(console.gme);
+                        console.gme = null;
+                    };
+                    process.Start();
+                    process.StandardInput.Close();
+                    process.BeginErrorReadLine();
+                    process.BeginOutputReadLine();
                 }
                 else
                 {
@@ -918,14 +968,14 @@
                 {
                     MgaFCO found = null;
 
-                    foreach (MgaSimpleConnection conn in configuration.PartOfConns)
+                    foreach (MgaSimpleConnection conn in configuration.PartOfConns.Cast<MgaConnPoint>().Select(cp => cp.Owner))
                     {
                         if (conn.MetaBase.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.Config2CA).Name)
                         {
                             if ((conn.Dst as MgaReference).Referred != null)
                             {
                                 // pick the first non null exported configuration
-                                found = conn.Dst;
+                                found = (conn.Dst as MgaReference).Referred;
                                 break;
                             }
                         }

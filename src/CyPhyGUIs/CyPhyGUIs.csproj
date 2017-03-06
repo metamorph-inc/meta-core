@@ -105,6 +105,9 @@
       <Link>VersionInfo.cs</Link>
     </Compile>
     <Compile Include="ComComponent.cs" />
+    <Compile Include="CommandLink.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GMELogger.cs" />
     <Compile Include="GMEConsole.cs" />
     <Compile Include="Interfaces.cs" />
