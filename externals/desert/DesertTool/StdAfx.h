@@ -11,9 +11,11 @@ using namespace std;
 #ifdef _UNICODE
 typedef std::wstring tstring;
 typedef std::wstringstream tstringstream;
+#define PRINTF_TSTRING "%S"
 #else
 typedef std::string tstring;
 typedef std::stringstream tstringstream;
+#define PRINTF_TSTRING "%s"
 #endif
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers

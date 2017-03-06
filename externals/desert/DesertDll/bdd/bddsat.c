@@ -343,6 +343,9 @@ void bdd_sat_f_step_mat(bdd_manager bddm, bdd f, int *a, int len,
         }
         printf("\n");
 #endif
+		// if (*rows >= BDD_MAX_PATHS) {
+		// 	bdd_fatal(_T("Design space is too big"));
+		// }
         m[*rows] = b;        
         *rows = *rows + 1;
         free(a);
@@ -421,10 +424,10 @@ void bdd_sat_f_mat(bdd_manager bddm, bdd f, int begin_var_index, int end_var_ind
 
     index = BDD_INDEX(bddm, f); 
 
-    if(index == 65535) {
-      fprintf(stderr,"index is screwed up!\n");
-      return;
-    }
+    // if(index == 65535) {
+    //   fprintf(stderr,"index is screwed up!\n");
+    // return;
+    // }
       
     num_vars = (end_var_index - begin_var_index) + 1;
 
@@ -606,10 +609,10 @@ void bdd_sat_f(bdd_manager bddm, bdd f, int begin_var_index, int end_var_index)
 
     index = BDD_INDEX(bddm, f); 
 
-    if(index == 65535) {
-      fprintf(stderr,"index is screwed up!\n");
-      return;
-    }
+    // if(index == 65535) {
+    //   fprintf(stderr,"index is screwed up!\n");
+    // return;
+    // }
       
     num_vars = (end_var_index - begin_var_index) + 1;
 

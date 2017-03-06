@@ -36,17 +36,17 @@ void CStatusDlg::DoDataExchange(CDataExchange* pDX)
 #include <iostream> // for std::cout
 void CStatusDlg::SetStatus(StatusID s_id)
 {
+	status = s_id;
+	const StatusDefinition * s_def = LookUpStatus(s_id);
+	tick = (unsigned long int)((float)PBR_RANGE * (float)s_def->percent / 100.00);
 	if ( _silent) {
 		std::cout << ".";
 	} else {
-		status = s_id;
-		const StatusDefinition * s_def = LookUpStatus(s_id);
 		//m_Status = s_def->desc;
 		m_Status.SetWindowText(s_def->desc);
 		m_Status.RedrawWindow();
 		m_Status.UpdateData();
 
-		tick = (unsigned long int)((float)PBR_RANGE * (float)s_def->percent / 100.00);
 		m_prgBar.SetPos(tick);
 
 

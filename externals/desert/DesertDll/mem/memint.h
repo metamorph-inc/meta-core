@@ -32,7 +32,7 @@ static char THIS_FILE[] = __FILE__;
 /* scheme based on something like sbrk.  If you want to do the former, */
 /* define USE_MALLOC_FREE. */
 
-#undef USE_MALLOC_FREE
+// #undef USE_MALLOC_FREE
 
 /* Now we need macros for routines to copy and zero-fill blocks of */
 /* memory, and to either do malloc/free/whatever or to do an sbrk.  Since */
@@ -40,21 +40,7 @@ static char THIS_FILE[] = __FILE__;
 /* wrap everything in macros. */
 
 #if defined(USE_MALLOC_FREE)
-#if defined(__STDC__)
-extern void *malloc(unsigned long);
-extern void free(void *);
-extern void *realloc(void *, unsigned long);
-#define MALLOC(size) ((pointer)malloc((unsigned long)(size)))
-#define FREE(p) (free((void *)(p)))
-#define REALLOC(p, size) ((pointer)realloc((void *)(p), (unsigned long)(size)))
-#else
-extern TCHAR *malloc();
-extern void free();
-extern TCHAR *realloc();
-#define MALLOC(size) ((pointer)malloc((int)(size)))
-#define FREE(p) (free((TCHAR *)(p)))
-#define REALLOC(p, size) ((pointer)realloc((TCHAR *)(p), (int)(size)))
-#endif
+#include <stdlib.h>
 #else
 #ifdef WIN32
 #define SBRK(size) ((pointer)malloc((int)(size)))
@@ -75,8 +61,8 @@ extern TCHAR *sbrk();
 #if defined(__STDC__)
 //extern void *memcpy(void *, const void *, size_t);
 //extern void *memset(void *, int, size_t);
-#define MEM_COPY(dest, src, size) (void)memcpy((void *)(dest), (const void *)(src), (unsigned long)(size))
-#define MEM_ZERO(ptr, size) (void)memset((void *)(ptr), 0, (unsigned long)(size))
+#define MEM_COPY(dest, src, size) (void)memcpy((void *)(dest), (const void *)(src), size)
+#define MEM_ZERO(ptr, size) (void)memset((void *)(ptr), 0, size)
 #else
 extern void bcopy();
 extern void bzero();

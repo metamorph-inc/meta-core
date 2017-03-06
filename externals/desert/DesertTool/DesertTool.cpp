@@ -426,7 +426,7 @@ BOOL CDesertToolApp::InitInstance()
 
 			using namespace BackIfaceFunctions;
 		
-			fprintf(fdDcif, "<?xml version=\"1.1\"?>\n");
+			fprintf(fdDcif, "<?xml version=\"1.0\"?>\n");
 			fprintf(fdDcif, "<DesertConfigurations>\n");
 
 			if (multiRun) {
@@ -452,10 +452,10 @@ BOOL CDesertToolApp::InitInstance()
 					numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), consGroupNames[j], consGroups[j]);
 
 					std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
-					fprintf(fdDcif, "\t\t<Group Name=\"%S\" NumConfigs=\"%d\">\n", consGroupNames[j], numCfgs);
+					fprintf(fdDcif, "\t\t<Group Name=\"" PRINTF_TSTRING "\" NumConfigs=\"%d\">\n", consGroupNames[j], numCfgs);
 					std::vector<tstring> splittedCons = splitConstraints(consGroups[j]);
 					for (std::vector<tstring>::iterator conIt = splittedCons.begin(); conIt != splittedCons.end(); ++conIt)
-						fprintf(fdDcif, "\t\t\t<Constraint Name=\"%S\"/>\n", conIt->c_str());
+						fprintf(fdDcif, "\t\t\t<Constraint Name=\"" PRINTF_TSTRING "\"/>\n", conIt->c_str());
 					fprintf(fdDcif, "\t\t</Group>\n");
 
 					if (j < numConsGroups) {
@@ -485,7 +485,7 @@ BOOL CDesertToolApp::InitInstance()
 					fprintf(fdDcif, "\t<ConstraintSet NumConfigs=\"%d\">\n", numCfgs);
 					std::vector<tstring> allStrCons = splitConstraints(strConsList);
 					for (std::vector<tstring>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
-						fprintf(fdDcif, "\t\t<Constraint Name=\"%S\"/>\n", strCIt->c_str());
+						fprintf(fdDcif, "\t\t<Constraint Name=\"" PRINTF_TSTRING" \"/>\n", strCIt->c_str());
 					fprintf(fdDcif, "\t</ConstraintSet>\n");
 				}
 				std::cout << "Configs: " << numCfgs << std::endl;
