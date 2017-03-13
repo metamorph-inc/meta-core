@@ -135,6 +135,7 @@ def download_file(url, filename):
             if e.errno != errno.EEXIST:
                 raise
     r = requests.get(url, stream=True)
+    r.raise_for_status()
     fd, tmp_path = tempfile.mkstemp()
     # wix bootstrapper uses SHA1
     hash = hashlib.sha1()
