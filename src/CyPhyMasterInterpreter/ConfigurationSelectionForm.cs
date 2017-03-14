@@ -21,7 +21,7 @@ namespace CyPhyMasterInterpreter
 {
     public partial class ConfigurationSelectionForm : Form
     {
-        public ConfigurationSelectionOutput ConfigurationSelectionResult {get; set;}
+        public ConfigurationSelectionOutput ConfigurationSelectionResult { get; set; }
         private ConfigurationSelectionInput m_Input { get; set; }
 
         public ConfigurationSelectionForm(ConfigurationSelectionInput input, bool enableDebugging)
@@ -203,7 +203,7 @@ namespace CyPhyMasterInterpreter
         {
             string newToolTipText = string.Empty;
             int nIdx = this.lbExportedCAs.IndexFromPoint(e.Location);
-            
+
             if (nIdx >= 0 &&
                 nIdx < this.lbExportedCAs.Items.Count)
             {
@@ -296,5 +296,4 @@ namespace CyPhyMasterInterpreter
             this.lblCASelected.Text = this.lbExportedCAs.SelectedItems.Count + " / " + this.lbExportedCAs.Items.Count;
         }
     }
-
 }

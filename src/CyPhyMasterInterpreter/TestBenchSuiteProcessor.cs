@@ -179,5 +179,4 @@ namespace CyPhyMasterInterpreter
             return true;
         }
     }
-
 }

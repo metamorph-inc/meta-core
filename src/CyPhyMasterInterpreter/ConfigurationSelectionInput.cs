@@ -143,7 +143,7 @@ namespace CyPhyMasterInterpreter
 
             gmeLightObject.AbsPath = subject.AbsPath;
             gmeLightObject.GMEId = subject.ID;
-            
+
             // TODO: figure out how to show to the user configurations when they have no uniqie names.
             //// dashboard shows last 4 digit of the guid
             //var guidStr = new Guid(subject.GetGuidDisp()).ToString();

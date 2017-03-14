@@ -211,6 +211,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             return results;
         }
-
     }
 }

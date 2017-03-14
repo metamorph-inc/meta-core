@@ -59,7 +59,6 @@
                 mutex.ReleaseMutex();
                 mutex.Dispose();
             }
-
         });
 
         private Dictionary<string, CyPhyGUIs.IInterpreterConfiguration> interpreterConfigurations =
@@ -342,7 +341,8 @@
                         // TODO: check process.ExitCode?
                         process.Dispose();
                     };
-                    process.Disposed += (s, o) => {
+                    process.Disposed += (s, o) =>
+                    {
                         Marshal.ReleaseComObject(console.gme);
                         console.gme = null;
                     };
@@ -1023,7 +1023,6 @@
             mutex.WaitOne();
             try
             {
-
                 // Generate python scripts if not already there
                 string export_for_dashboard_scoring = Path.GetFullPath(
                     Path.Combine(this.ProjectManifest.OutputDirectory, "export_for_dashboard_scoring.py"));

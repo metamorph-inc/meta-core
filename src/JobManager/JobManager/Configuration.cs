@@ -19,14 +19,15 @@ namespace JobManager
             //this.jenkins = jenkins;
             InitializeComponent();
             AcceptButton = btnSave;
-            chbRemoteExec.CheckedChanged +=new EventHandler(delegate (object o, EventArgs args) {
+            chbRemoteExec.CheckedChanged += new EventHandler(delegate (object o, EventArgs args)
+            {
                 panelRemote.Enabled = chbRemoteExec.Checked;
             });
             panelRemote.Enabled = chbRemoteExec.Checked;
 
 
             this.txtUsername.Text = Properties.Settings.Default.UserID;
-            
+
             if (string.IsNullOrEmpty(password) == false)
             {
                 // auto-configure
@@ -41,7 +42,10 @@ namespace JobManager
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
+            {
                 this.Close();
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -95,9 +99,14 @@ namespace JobManager
                     lock (this)
                     {
                         if (cancel_Clicked)
+                        {
                             break;
+                        }
+
                         if (userCreateResult != null && userCreateResult.AsyncWaitHandle.WaitOne(50))
+                        {
                             break;
+                        }
                     }
                 }
                 pictureBoxLoading.Visible = false;
@@ -158,7 +167,10 @@ namespace JobManager
             {
                 string message = ex.Message;
                 if (ex.InnerException != null)
+                {
                     message += ": " + ex.InnerException.Message;
+                }
+
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

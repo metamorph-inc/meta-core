@@ -82,7 +82,7 @@
         /// </summary>
         /// <remarks>Original top level system under test will be redirected to this object.</remarks>
         public CyPhy.ComponentAssembly Configuration { get; protected set; }
-        
+
         public CyPhy.CWC DesignConfiguration { get; protected set; }
 
         /// <summary>
@@ -97,7 +97,7 @@
                 return this.traceability;
             }
         }
-        
+
         /// <summary>
         /// Gets a set of interpreters that have to be configured.
         /// </summary>
@@ -821,7 +821,7 @@
                 handler(this, eventArgs);
             }
         }
-        
+
         /// <summary>
         /// Ensures that output directory is not null and creates it if it does not exist already.
         /// </summary>

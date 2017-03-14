@@ -7,7 +7,6 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 
 namespace CyPhyMasterInterpreter.Rules
 {
-
     public class TestBenchSuiteChecker : ContextChecker
     {
         public CyPhy.TestBenchSuite testBenchSuite { get; set; }
@@ -25,7 +24,7 @@ namespace CyPhyMasterInterpreter.Rules
         public override void CheckNoThrow()
         {
             base.CheckNoThrow();
-            
+
             this.m_details.AddRange(this.TestBenchReferences());
         }
 
@@ -142,7 +141,7 @@ namespace CyPhyMasterInterpreter.Rules
 
                 // check top level system under test pointers
                 var tlsut = testBench.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
-                
+
                 if (tlsut != null &&
                     tlsut.Referred.DesignEntity != null)
                 {

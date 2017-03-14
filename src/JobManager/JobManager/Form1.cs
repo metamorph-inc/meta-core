@@ -296,7 +296,7 @@ namespace JobManager
                 this.remoteStatusToolStripMenuItem.Visible = false;
                 return;
             }
-            Shown += new EventHandler(delegate(object o, EventArgs args)
+            Shown += new EventHandler(delegate (object o, EventArgs args)
                 {
                     if (this.Configure(password) == DialogResult.OK)
                     {
@@ -534,7 +534,6 @@ namespace JobManager
                 MessageBox.Show(ex.Message);
                 Trace.TraceError(ex.ToString());
             }
-
         }
 
         void NotifyIcon_Click(object sender, EventArgs e)
@@ -615,11 +614,11 @@ namespace JobManager
                 (x.Status == Job.StatusEnum.FailedToDownload) &&
                 Directory.Exists(x.WorkingDirectory));
 
-            abortExecutionOnServerToolStripMenuItem.Enabled = selectedJobs.All(x => new Job.StatusEnum[] { 
+            abortExecutionOnServerToolStripMenuItem.Enabled = selectedJobs.All(x => new Job.StatusEnum[] {
                         Job.StatusEnum.RunningOnServer, Job.StatusEnum.StartedOnServer, Job.StatusEnum.QueuedOnServer }.Contains(x.Status) &&
                     Directory.Exists(x.WorkingDirectory));
 
-            makeHighPriorityToolStripMenuItem.Enabled = selectedJobs.All(x => new Job.StatusEnum[] { 
+            makeHighPriorityToolStripMenuItem.Enabled = selectedJobs.All(x => new Job.StatusEnum[] {
                     Job.StatusEnum.PostedToServer, Job.StatusEnum.StartedOnServer, Job.StatusEnum.QueuedOnServer }.Contains(x.Status)) &&
                 highPriorityJobsRemaining >= selectedJobs.Count();
         }
@@ -736,7 +735,6 @@ namespace JobManager
                         manager.Jobs.Where(job => job.Id.ToString() == x.SubItems[Headers.Id.ToString()].Text));
 
             manager.RetryDownload(toReDownload);
-
         }
 
         private void abortExecutionOnServerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -792,7 +790,10 @@ namespace JobManager
             {
                 T item = stack.Pop();
                 if (seen.Contains(item))
+                {
                     continue;
+                }
+
                 seen.Add(item);
                 yield return item;
                 foreach (var child in children(item))

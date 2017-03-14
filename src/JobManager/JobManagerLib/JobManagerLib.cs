@@ -109,5 +109,4 @@ namespace JobManager
 
         public abstract void AddSoT(SoT sot);
     }
-
 }

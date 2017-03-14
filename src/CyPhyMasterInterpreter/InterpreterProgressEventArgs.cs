@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CyPhyMasterInterpreter
 {
-    public class InterpreterProgressEventArgs :EventArgs
+    public class InterpreterProgressEventArgs : EventArgs
     {
         public int Percent { get; set; }
         public bool Success { get; set; }

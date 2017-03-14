@@ -150,7 +150,6 @@ namespace CyPhyMasterInterpreter
                     throw new AnalysisModelExpandFailedException("ReferenceSwitcher failed.", ex);
                 }
             }
-
         }
 
 
@@ -366,11 +365,10 @@ namespace CyPhyMasterInterpreter
                             // TODO: how this would work if it points to a component in a CA which is referred in the design???
                             targetTipByBuilt = builtDesignEntityRef.AllReferred.Impl as MgaFCO;
                         }
-                        
                     }
                 }
             }
-            
+
 
             if (targetTipByBuilt != null)
             {
@@ -520,7 +518,7 @@ namespace CyPhyMasterInterpreter
                             {
                                 throw new ApplicationException(String.Format("Could not parse Parameters for '{0}'", nextTask.Name), ex);
                             }
-                            workflow.Enqueue(component);                            
+                            workflow.Enqueue(component);
 
                             var flow = nextTask.DstConnections.FlowCollection.FirstOrDefault();
                             if (flow == null)
@@ -731,14 +729,14 @@ namespace CyPhyMasterInterpreter
         {
             this.ExecuteInTransaction(() =>
             {
-                    try
-                    {
-                        manifest.AddAllTasks(this.testBenchType, this.Interpreters);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new AnalysisModelProcessorException("Updating test bench execution steps failed.", ex);
-                    }
+                try
+                {
+                    manifest.AddAllTasks(this.testBenchType, this.Interpreters);
+                }
+                catch (Exception ex)
+                {
+                    throw new AnalysisModelProcessorException("Updating test bench execution steps failed.", ex);
+                }
             });
 
             return true;

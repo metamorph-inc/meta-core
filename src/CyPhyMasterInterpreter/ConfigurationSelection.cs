@@ -161,7 +161,6 @@ namespace CyPhyMasterInterpreter
                 {
                     throw new FormatException(string.Format("Identification must be a GME ID 'id-006X-YYYYYYYY' or a GUID '{{guid}}' or an AbsPath '/@...' : given value:'{0}'", identification));
                 }
-
             }
             finally
             {

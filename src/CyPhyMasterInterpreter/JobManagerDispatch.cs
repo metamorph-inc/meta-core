@@ -126,9 +126,15 @@ namespace CyPhyMasterInterpreter
                 string assemblyDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
                 string exe = Path.Combine(assemblyDir, "JobManager.exe");
                 if (!File.Exists(exe))
+                {
                     exe = Path.Combine(assemblyDir, "..\\..\\..\\JobManager\\JobManager\\bin\\Release\\JobManager.exe");
+                }
+
                 if (!File.Exists(exe))
+                {
                     exe = Path.Combine(assemblyDir, "..\\..\\..\\JobManager\\JobManager\\bin\\Debug\\JobManager.exe");
+                }
+
                 if (File.Exists(exe))
                 {
                     Process proc = new Process();

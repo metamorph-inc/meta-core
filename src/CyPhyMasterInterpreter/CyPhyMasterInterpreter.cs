@@ -440,7 +440,6 @@ namespace CyPhyMasterInterpreter
         public static void GMERegister(Type t)
         {
             Registrar.RegisterComponentsInGMERegistry();
-
         }
 
         [ComUnregisterFunctionAttribute]
@@ -450,8 +449,5 @@ namespace CyPhyMasterInterpreter
         }
 
         #endregion
-
     }
-
-
 }

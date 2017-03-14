@@ -27,6 +27,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             this.m_details.AddRange(this.ValidateTestInjectionPoints());
         }
-
     }
 }
