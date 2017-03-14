@@ -23,20 +23,11 @@ namespace JobManager
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                int port = 35010; // preferred
-
-                string strPort = string.Empty;
-
-                if (settings.TryGetValue("-P", out strPort))
-                {
-                    int.TryParse(strPort, out port);
-                }
-
                 //TODO: read from settings
                 JobManagerForm managerForm = new JobManagerForm(settings);
                 Console.Out.WriteLine("JobManager has started");
 
-                managerForm.Text = "JobManager (Port:" + port.ToString() + ")";
+                managerForm.Text = "JobManager";
 
                 Application.Run(managerForm);
             }
@@ -77,29 +68,6 @@ namespace JobManager
             }
 
             return result;
-        }
-
-        private static int GetPort(int port)
-        {
-            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            System.Net.IPEndPoint[] tcpListeners = ipGlobalProperties.GetActiveTcpListeners();
-
-            foreach (var item in tcpListeners)
-            {
-                if (item.Port == port)
-                {
-                    if (port < 65000)
-                    {
-                        return GetPort(port + 1);
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-                }
-            }
-
-            return port;
         }
     }
 }

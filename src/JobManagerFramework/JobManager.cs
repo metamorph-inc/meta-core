@@ -9,12 +9,12 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
 using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using JobManager;
+using System.Runtime.Remoting.Channels.Ipc;
 
 namespace JobManagerFramework
 {
@@ -83,11 +83,7 @@ namespace JobManagerFramework
             get { return this.pool.GetNumberOfUnfinishedJobs(); }
         }
 
-        public const int DefaultPort = 35010;
-
-        public int Port { get; private set; }
-
-        private TcpServerChannel ServerChannel { get; set; }
+        private IpcServerChannel ServerChannel { get; set; }
         private JobServerImpl Server { get; set; }
 
         private string TempDir { get; set; }
@@ -112,9 +108,6 @@ namespace JobManagerFramework
          */
         public class JobManagerConfiguration
         {
-            public string CommandUri { get; set; }
-            public string MatlabUri { get; set; }
-            public string CadUri { get; set; }
             public string VehicleForgeUri { get; set; }
             public string SshHost { get; set; }
             public string SshUser { get; set; }
@@ -128,9 +121,6 @@ namespace JobManagerFramework
             public JobManagerConfiguration()
             {
                 // Initialize to defaults (taken from the default settings on the original JobManager)
-                CommandUri = "tcp://localhost:35010/JobServer";
-                MatlabUri = "tcp://localhost:35010/JobServer";
-                CadUri = "tcp://localhost:35010/JobServer";
                 VehicleForgeUri = "";
                 SshHost = "129.59.105.248";
                 SshUser = "meta";
@@ -145,45 +135,6 @@ namespace JobManagerFramework
 
         public JobManager.JobManagerConfiguration Configuration { get; }
 
-        public class TargetMachine
-        {
-            public enum TargetMachineType
-            {
-                Local,
-                Remote,
-            }
-
-            public Uri Connection { get; set; }
-            public TargetMachineType Type { get; set; }
-
-            public TargetMachine(
-                Uri connection,
-                TargetMachineType type = TargetMachineType.Local)
-            {
-                Connection = connection;
-                Type = type;
-            }
-        }
-
-        private Dictionary<Job.TypeEnum, TargetMachine> RuntimeConfig =
-            new Dictionary<Job.TypeEnum, TargetMachine>()
-        {
-            { Job.TypeEnum.Command,
-                new TargetMachine(
-                    new Uri("tcp://localhost:35010/JobServer"),
-                    TargetMachine.TargetMachineType.Local)},
-
-            { Job.TypeEnum.Matlab,
-                new TargetMachine(
-                    new Uri("tcp://localhost:35010/JobServer"),
-                    TargetMachine.TargetMachineType.Local)},
-
-            { Job.TypeEnum.CAD,
-              new TargetMachine(
-                new Uri("tcp://localhost:35010/JobServer"),
-                TargetMachine.TargetMachineType.Local)},
-        };
-
         Jenkins.Jenkins JenkinsInstance;
         public class RemoteJobInfo
         {
@@ -191,21 +142,6 @@ namespace JobManagerFramework
             public string ResultsGetURL;
         }
         ConcurrentDictionary<Job, RemoteJobInfo> JobMap;
-
-        public void UpdateRuntimeConfig(Dictionary<Job.TypeEnum, TargetMachine> config)
-        {
-            foreach (var item in config)
-            {
-                if (RuntimeConfig.ContainsKey(item.Key))
-                {
-                    RuntimeConfig[item.Key] = item.Value;
-                }
-                else
-                {
-                    RuntimeConfig.Add(item.Key, item.Value);
-                }
-            }
-        }
 
         public int LocalConcurrentThreads
         {
@@ -249,8 +185,6 @@ namespace JobManagerFramework
             JenkinsInstance = new Jenkins.Jenkins(this.TempDir);
             JobMap = new ConcurrentDictionary<Job, RemoteJobInfo>();
 
-            InitializeRuntimeConfig();
-
             this.JobsToBeStartedThread = new System.Threading.Thread(this.JobsToBeStartedCleaner);
             this.JobsToBeStartedThread.Name = "JobStarter";
             this.JobsToBeStartedThread.IsBackground = true;
@@ -264,35 +198,19 @@ namespace JobManagerFramework
             this.Dispose();
         }
 
+        public static readonly string ServerName = "JobServer";
+        public static readonly string ChannelName = "MetaJobManager";
+
         private void InitializeChannels(int preferredPort)
         {
-            BinaryServerFormatterSinkProvider serverProv = new BinaryServerFormatterSinkProvider();
-            serverProv.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
+            var provider = new BinaryServerFormatterSinkProvider();
+            provider.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
 
-            System.Collections.IDictionary clientTcpChannelProperties = new System.Collections.Hashtable();
-            clientTcpChannelProperties["name"] = "ClientTcpChan";
-            ChannelServices.RegisterChannel(
-                new System.Runtime.Remoting.Channels.Tcp.TcpClientChannel(clientTcpChannelProperties,
-                    new BinaryClientFormatterSinkProvider()), false);
-
-            Port = preferredPort;
-
-            Port = GetPort(Port);
-
-            if (Port == -1)
-            {
-                // there is no free tcp port
-            }
-
-            System.Collections.IDictionary TcpChannelProperties = new Dictionary<string, object>();
-            TcpChannelProperties["name"] = "jobs";
-            TcpChannelProperties["port"] = Port;
-            TcpChannelProperties["bindTo"] = System.Net.IPAddress.Loopback.ToString();
-            ServerChannel = new System.Runtime.Remoting.Channels.Tcp.TcpServerChannel(TcpChannelProperties, serverProv);
+            ServerChannel = new IpcServerChannel(ServerName, ChannelName, provider);
             ChannelServices.RegisterChannel(ServerChannel, false);
 
             Server = new JobServerImpl();
-            RemotingServices.Marshal(Server, "JobServer");
+            RemotingServices.Marshal(Server, ServerName);
 
             Server.JobAdded += JobAddedHandler;
             Server.SoTAdded += SoTAddedHandler;
@@ -329,47 +247,6 @@ namespace JobManagerFramework
             Entities = new JobManagerEntities1(String.Format("metadata=res://*/SavedJobs.csdl|res://*/SavedJobs.ssdl|res://*/SavedJobs.msl;provider=System.Data.SQLite;provider connection string=\"data source={0}\"", dbPath));
             // Fail fast
             Entities.SavedJobs.ToList();
-        }
-
-        private void InitializeRuntimeConfig()
-        {
-            Uri cmd = new Uri(Configuration.CommandUri);
-            Uri matlab = new Uri(Configuration.MatlabUri);
-            Uri cad = new Uri(Configuration.CadUri);
-
-            Dictionary<Job.TypeEnum, TargetMachine> config = new Dictionary<Job.TypeEnum, TargetMachine>();
-            TargetMachine.TargetMachineType type = TargetMachine.TargetMachineType.Local;
-            if (cmd.Host.Equals("localhost"))
-            {
-                type = TargetMachine.TargetMachineType.Local;
-            }
-            else
-            {
-                type = TargetMachine.TargetMachineType.Remote;
-            }
-            config.Add(Job.TypeEnum.Command, new TargetMachine(cmd, type));
-
-            if (matlab.Host.Equals("localhost"))
-            {
-                type = TargetMachine.TargetMachineType.Local;
-            }
-            else
-            {
-                type = TargetMachine.TargetMachineType.Remote;
-            }
-            config.Add(Job.TypeEnum.Matlab, new TargetMachine(matlab, type));
-
-            if (cad.Host.Equals("localhost"))
-            {
-                type = TargetMachine.TargetMachineType.Local;
-            }
-            else
-            {
-                type = TargetMachine.TargetMachineType.Remote;
-            }
-            config.Add(Job.TypeEnum.CAD, new TargetMachine(cad, type));
-
-            UpdateRuntimeConfig(config);
         }
 
         private void LoadSavedJobs()
@@ -615,8 +492,6 @@ namespace JobManagerFramework
         {
             string failedLog = Path.Combine(job.WorkingDirectory, LocalPool.Failed);
             File.Delete(failedLog);
-
-            TargetMachine target = RuntimeConfig[job.Type];
 
             if (string.IsNullOrEmpty(job.RunCommand)
                 // || (job.RunCommand.Split(' ').Count() > 1 &&

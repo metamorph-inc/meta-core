@@ -643,7 +643,7 @@ namespace CyPhyMasterInterpreter
                     title = String.Format("{0}_{1}", interpreterName, this.expandedTestBenchType.Name).Replace(" ", "_");
                     testbenchName = this.testBenchType.Name;
 
-                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, interpreter);
+                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, ProjectDirectory, interpreter);
                 }
             }
 

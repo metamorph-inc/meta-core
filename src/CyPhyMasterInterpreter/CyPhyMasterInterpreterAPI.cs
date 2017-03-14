@@ -1192,6 +1192,17 @@
                 this.Logger.WriteDebug("Turning off addons for performance reasons: {0}", string.Join(", ", this.addonNames));
                 this.TurnOffAddons(context);
 
+                Action createJobManager = () =>
+                {
+                    this.Manager = new JobManagerDispatch();
+                    this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
+                };
+                IAsyncResult createJobManagerResult = null;
+                if (postToJobManager && this.Manager == null)
+                {
+                    createJobManagerResult = createJobManager.BeginInvoke(null, null);
+                }
+
                 this.ExecuteInTransaction(context, () =>
                 {
                     contextName = context.Name;
@@ -1376,10 +1387,10 @@
                             Title = "Posting to Job Manager"
                         });
 
-                        if (this.Manager == null)
+                        if (createJobManagerResult != null)
                         {
                             this.Logger.WriteDebug("Job manager instance is null. Initializing one.");
-                            this.Manager = new JobManagerDispatch();
+                            createJobManager.EndInvoke(createJobManagerResult);
                             this.Logger.WriteDebug("Job manager dispatch is ready to receive jobs");
                         }
 

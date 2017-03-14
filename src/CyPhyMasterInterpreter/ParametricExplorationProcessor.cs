@@ -137,7 +137,7 @@ namespace CyPhyMasterInterpreter
                         .TestBenchType
                         .Name;
 
-                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, interpreter);
+                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, ProjectDirectory, interpreter);
                 }
             }
 

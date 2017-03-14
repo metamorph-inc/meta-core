@@ -236,9 +236,6 @@ namespace JobManager
             //TODO: pass in configuration loaded from Settings
             var config = new JobManagerFramework.JobManager.JobManagerConfiguration()
             {
-                CommandUri = Properties.Settings.Default.CommandUri,
-                MatlabUri = Properties.Settings.Default.MatLabUri,
-                CadUri = Properties.Settings.Default.CADUri,
                 VehicleForgeUri = Properties.Settings.Default.VehicleForgeUri,
                 SshHost = Properties.Settings.Default.SSHHost,
                 SshPort = Properties.Settings.Default.SSHPort,

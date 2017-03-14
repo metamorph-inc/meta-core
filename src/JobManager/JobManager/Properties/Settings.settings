@@ -2,15 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="JobManager.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CommandUri" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
-    </Setting>
-    <Setting Name="MatLabUri" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
-    </Setting>
-    <Setting Name="CADUri" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tcp://localhost:35010/JobServer</Value>
-    </Setting>
     <Setting Name="VehicleForgeUri" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
