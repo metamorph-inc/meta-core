@@ -8,7 +8,7 @@
   </Target>
 
   <Target Name="CyPhy-FunctionalTests" DependsOnTargets="change_to_hintpath">
-    <MSBuild Projects="CyPhy-FunctionalTests.sln" Properties="Configuration=Release;CreateHardLinksForCopyLocalIfPossible=true" Targets="Build"/>
+    <MSBuild Projects="CyPhy-FunctionalTests.sln" Properties="Configuration=Release" Targets="Build"/>
   </Target>
 
   <Target Name="DynamicsTeamSimulations">
