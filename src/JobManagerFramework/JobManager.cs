@@ -84,7 +84,7 @@ namespace JobManagerFramework
         }
 
         private IpcServerChannel ServerChannel { get; set; }
-        private JobServerImpl Server { get; set; }
+        public JobServerImpl Server { get; set; }
 
         private string TempDir { get; set; }
 
@@ -102,40 +102,7 @@ namespace JobManagerFramework
 
         private JobManagerEntities1 Entities;
 
-        /**
-         * Job manager application settings.  Applications using the JobManager should populate
-         * these settings from runtime configuration specified by the user.
-         */
-        public class JobManagerConfiguration
-        {
-            public string VehicleForgeUri { get; set; }
-            public string SshHost { get; set; }
-            public string SshUser { get; set; }
-            public string SshPort { get; set; }
-            public bool RemoteExecution { get; set; }
-            public bool WipeWorkspaceOnSuccess { get; set; }
-            public bool DeleteJobOnSuccess { get; set; }
-            public string UserId { get; set; }
-            public string JenkinsUri { get; set; }
-
-            public JobManagerConfiguration()
-            {
-                // Initialize to defaults (taken from the default settings on the original JobManager)
-                VehicleForgeUri = "";
-                SshHost = "129.59.105.248";
-                SshUser = "meta";
-                SshPort = "8080";
-                RemoteExecution = false;
-                WipeWorkspaceOnSuccess = true;
-                DeleteJobOnSuccess = true;
-                UserId = "";
-                JenkinsUri = "";
-            }
-        }
-
-        public JobManager.JobManagerConfiguration Configuration { get; }
-
-        Jenkins.Jenkins JenkinsInstance;
+        public Jenkins.Jenkins JenkinsInstance;
         public class RemoteJobInfo
         {
             public string JenkinsJobName { get; set; }
@@ -171,11 +138,12 @@ namespace JobManagerFramework
 
         private int highPriorityJobsRemaining = 0;
 
-        public JobManager(int preferredPort, JobManagerConfiguration configuration, int localConcurrentThreads = 0)
+        public event Action<ServiceStatus> ServiceStatusUpdated;
+
+        public JobManager(int localConcurrentThreads = 0)
         {
             pool = new LocalPool(localConcurrentThreads);
-            Configuration = configuration;
-            InitializeChannels(preferredPort);
+            InitializeChannels();
             InitializePersistence();
 
             TempDir = Path.Combine(
@@ -189,8 +157,6 @@ namespace JobManagerFramework
             this.JobsToBeStartedThread.Name = "JobStarter";
             this.JobsToBeStartedThread.IsBackground = true;
             this.JobsToBeStartedThread.Start();
-
-            LoadSavedJobs();
         }
 
         ~JobManager()
@@ -201,7 +167,7 @@ namespace JobManagerFramework
         public static readonly string ServerName = "JobServer";
         public static readonly string ChannelName = "MetaJobManager";
 
-        private void InitializeChannels(int preferredPort)
+        private void InitializeChannels()
         {
             var provider = new BinaryServerFormatterSinkProvider();
             provider.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
@@ -249,7 +215,7 @@ namespace JobManagerFramework
             Entities.SavedJobs.ToList();
         }
 
-        private void LoadSavedJobs()
+        public void LoadSavedJobs()
         {
             lock (this)
             {
@@ -260,7 +226,9 @@ namespace JobManagerFramework
                     foreach (SavedJob saved in Entities.SavedJobs)
                     {
                         if (string.IsNullOrEmpty(saved.VFUrl) == false && Server.JenkinsUrl != saved.VFUrl)
+                        {
                             continue;
+                        }
                         Job job = new JobImpl(Server)
                         {
                             Title = saved.Title,
@@ -303,7 +271,7 @@ namespace JobManagerFramework
         {
             if (JobMonitorThread == null)
             {
-                Trace.TraceInformation("Starting JobMonitor for remote jobs due time: {0}.");
+                Trace.TraceInformation("Starting JobMonitor for remote jobs");
                 JobMonitorThread = new System.Threading.Thread(MonitorJenkinsJobs);
                 JobMonitorThread.Name = "JobMonitor";
                 JobMonitorThread.IsBackground = true;
@@ -367,6 +335,11 @@ namespace JobManagerFramework
                 }
             }
 
+            if (ServiceStatusUpdated != null)
+            {
+                ServiceStatusUpdated(result);
+            }
+
             return result;
         }
 
@@ -390,7 +363,6 @@ namespace JobManagerFramework
          */
         public void AbortJobs(IEnumerable<Job> jobs)
         {
-            
             var toAbort = jobs.Where(x => new Job.StatusEnum[] {
                     Job.StatusEnum.RunningOnServer, Job.StatusEnum.StartedOnServer, Job.StatusEnum.QueuedOnServer, Job.StatusEnum.RunningLocal, Job.StatusEnum.QueuedLocal, Job.StatusEnum.Ready }.Contains(x.Status));
 
@@ -507,7 +479,7 @@ namespace JobManagerFramework
                 return;
             }
 
-            if (Configuration.RemoteExecution)
+            if (Server.IsRemote)
             {
                 Trace.TraceInformation("Prepare Job for remote execution: {0} {1}", job.Id, job.Title);
 
@@ -605,7 +577,7 @@ finally:
 
                         // hack: maybe the jenkins job server is down. don't hammer the server
                         Thread.Sleep(Jenkins.Jenkins.VF_JOB_POLL_FREQUENCY);
-                        
+
                         // put the job back to the list and try to start it again later
                         JobsToBeStarted.Add(() => { job.Start(); });
                         return;
@@ -618,21 +590,12 @@ finally:
                     //      jobname is not unique: problems in database due jobname is the primary key and on jenkins too.
                     var randomid = Path.GetFileName(job.WorkingDirectory); //Guid.NewGuid().ToString("N");
                     var anotherRandomId = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
-                    string jobname = string.Format("{0}_{1}{2}", Configuration.UserId, randomid, anotherRandomId);
-                    string description = string.Format("{0}_{1}_{2:00000}_{3}", Configuration.UserId, job.Title,
+                    string jobname = string.Format("{0}_{1}{2}", Server.UserName, randomid, anotherRandomId);
+                    string description = string.Format("{0}_{1}_{2:00000}_{3}", Server.UserName, job.Title,
                         job.Id, randomid);
                     jobname = jobname.Replace(' ', '_');
 
-                    //if (Jenkins.JobExists(jobname))
-                    {
-                        // job already exists
-                        //   Jenkins.DeleteJob(jobname);
-                    }
-
-
-                    string cmd = Path.GetExtension(job.RunCommand) == ".py" ?
-                        "python " + job.RunCommand :
-                        job.RunCommand;
+                    string cmd = job.RunCommand;
 
                     string labels = job.Labels;
 
@@ -702,8 +665,7 @@ finally:
                     }
                     else
                     {
-                        
-                    }; // FIXME throw?
+                    } // FIXME throw?
 
                     // send zip and start job
                     if (JenkinsInstance.BuildJob(jobname, jobname, job.BuildQuery) == null)
@@ -767,6 +729,14 @@ finally:
                 {
                     SoTTodo.Add(delegate { sot.Run(); });
                 });
+
+                if (SotAdded != null)
+                {
+                    SotAdded(this, new SotAddedEventArgs
+                    {
+                        Sot = sot
+                    });
+                }
             }
         }
 
@@ -776,7 +746,7 @@ finally:
             {
                 JobImpl job = (JobImpl)job_;
                 Trace.TraceInformation("Form JobStatusChanged was called for: {0}, which changed status to {1}", job.Title, status.ToString());
-                
+
 
                 if (Server.IsRemote)
                 {
@@ -921,13 +891,13 @@ finally:
                 File.Delete(Path.Combine(job.WorkingDirectory, "workspace.zip"));
                 var success = SaveWorkspace(job, remoteJobInfo);
 
-                if (Configuration.WipeWorkspaceOnSuccess)
+                if (Server.WipeWorkspaceOnSuccess)
                 {
                     // wipe workspace before we delete the job
                     JenkinsInstance.WipeWorkSpace(jenkinsJob.name);
                 }
 
-                if (false && Configuration.DeleteJobOnSuccess) // META-2493 META-2492
+                if (false && Server.DeleteJobOnSuccess) // META-2493 META-2492
                 {
                     // delete job from server
                     JenkinsInstance.DeleteJob(jenkinsJob.name);

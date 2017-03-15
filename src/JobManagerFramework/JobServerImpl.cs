@@ -9,6 +9,9 @@ namespace JobManagerFramework
 {
     public class JobServerImpl : JobServer
     {
+        public bool WipeWorkspaceOnSuccess { get; set; }
+        public bool DeleteJobOnSuccess { get; set; }
+
         public ManualResetEvent handlersAdded = new ManualResetEvent(false);
 
         public delegate void SoTActionHandler(SoTImpl sot);

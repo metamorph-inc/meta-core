@@ -36,8 +36,7 @@ namespace JobManagerFramework
 
             this.Labels = DefaultLabels;
             this.BuildQuery = DefaultBuildQuery;
-            //TODO: Move this into library
-            //this.ResultsZip = Encoding.UTF8.GetString(Properties.Resources.zip);
+            this.ResultsZip = Encoding.UTF8.GetString(Properties.Resources.zip);
 
             this.RerunEnabled = true;
 

@@ -69,15 +69,5 @@ namespace JobManager.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] zip {
-            get {
-                object obj = ResourceManager.GetObject("zip", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

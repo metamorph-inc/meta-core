@@ -5,15 +5,6 @@
     <Setting Name="VehicleForgeUri" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SSHHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">129.59.105.248</Value>
-    </Setting>
-    <Setting Name="SSHUser" Type="System.String" Scope="User">
-      <Value Profile="(Default)">meta</Value>
-    </Setting>
-    <Setting Name="SSHPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">8080</Value>
-    </Setting>
     <Setting Name="RemoteExecution" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

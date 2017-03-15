@@ -35,54 +35,38 @@ namespace JobManager
 
         private JobManagerFramework.JobManager manager;
 
+        private JobServerImpl Server
+        {
+            get
+            {
+                return manager.Server;
+            }
+        }
+
         private enum Headers
         {
             Id, Title, TestBenchName, Status, Progress, RunCommand, WorkingDirectory
         }
-
-        /// <summary>
-        /// Controls will be refreshed when the timer has elapsed.
-        /// </summary>
-        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer()
-        {
-            Interval = 1000,
-        };
 
         private int highPriorityJobsRemaining = 0;
 
         /// <summary>
         /// Updates all controls that displays status of the remote servers.
         /// </summary>
-        private bool UpdateServiceStatus()
+        private void UpdateServiceStatus(JobManagerFramework.JobManager.ServiceStatus serviceStatus)
         {
-            /*
-            if (server.IsRemote == false)
+            var sb = new StringBuilder();
+            highPriorityJobsRemaining = 0;
+            var statusInfo = serviceStatus.statusInfo;
+            if (serviceStatus.isRemoteServer == false)
             {
-                return true;
+                return;
             }
-            bool connected = false;
-            Trace.TraceInformation("Pinging VF and getting status.");
-
-            StringBuilder sb = new StringBuilder();
-
-            global::JobManager.Jenkins.UserProfile.UserProfile info = null;
-            if (this.Jenkins.PingVF(out info))
+            if (serviceStatus.vfConnected)
             {
-                sb.AppendFormat("Connected to {0} and logged in as {1}. ",
-                    this.server.JenkinsUrl,
-                    this.server.UserName);
-
-                this.remoteServiceStatusForm.SafeInvoke(delegate
+                this.remoteServiceStatusForm.lblVFStatus.Text = "UP";
+                if (statusInfo != null)
                 {
-                    this.remoteServiceStatusForm.lblVFStatus.Text = "OK";
-                });
-
-                global::JobManager.Jenkins.StatusInfo.StatusInfo statusInfo = null;
-
-                highPriorityJobsRemaining = 0;
-                if (this.Jenkins.PingJenkins(out statusInfo))
-                {
-                    connected = true;
                     highPriorityJobsRemaining = statusInfo.highPriorityRemaining;
                     // TODO: update detailed status
                     sb.AppendFormat(
@@ -108,7 +92,7 @@ namespace JobManager
                             this.remoteServiceStatusForm.lvRemoteNodes.Items.Clear();
                             foreach (var node in statusInfo.nodes)
                             {
-                                var listViewItem = new ListViewItem(new string[] 
+                                var listViewItem = new ListViewItem(new string[]
                                                     {
                                                         node.status,
                                                         node.busy.ToString(),
@@ -151,7 +135,7 @@ namespace JobManager
             }
             else
             {
-                sb.AppendFormat("VF is NOT connected. {0}", this.server.JenkinsUrl);
+                sb.AppendFormat("VF is NOT connected. {0}", this.manager.Server.JenkinsUrl);
                 this.remoteServiceStatusForm.SafeInvoke(delegate
                 {
                     this.remoteServiceStatusForm.lblVFStatus.Text = "DOWN";
@@ -160,15 +144,12 @@ namespace JobManager
                 });
             }
 
-            this.toolStripStatusLabel.Text = sb.ToString();
-            */
-            var connected = false;
-            return connected;
+            // this.toolStripStatusLabel.Text = sb.ToString();
+            return;
         }
 
         public string TraceFileName { get; set; }
         private string password { get; set; }
-        JobManagerEntities1 entities;
 
         public JobManagerForm(Dictionary<string, string> settings = null)
         {
@@ -181,8 +162,6 @@ namespace JobManager
             this.statusStrip1.Items.Add(this.toolStripStatusLabel);
 
             this.remoteServiceStatusForm = new RemoteServiceStatusForm();
-
-            int port = 35010; // preferred
 
             if (settings != null)
             {
@@ -198,10 +177,6 @@ namespace JobManager
                 if (settings.TryGetValue("-U", out value))
                 {
                     Properties.Settings.Default.VehicleForgeUri = value;
-                }
-                if (settings.TryGetValue("-P", out value))
-                {
-                    int.TryParse(value, out port);
                 }
             }
 
@@ -233,20 +208,7 @@ namespace JobManager
 
             Trace.TraceInformation(META.Logger.Header());
 
-            //TODO: pass in configuration loaded from Settings
-            var config = new JobManagerFramework.JobManager.JobManagerConfiguration()
-            {
-                VehicleForgeUri = Properties.Settings.Default.VehicleForgeUri,
-                SshHost = Properties.Settings.Default.SSHHost,
-                SshPort = Properties.Settings.Default.SSHPort,
-                SshUser = Properties.Settings.Default.SSHUser,
-                RemoteExecution = Properties.Settings.Default.RemoteExecution,
-                WipeWorkspaceOnSuccess = Properties.Settings.Default.WipeWorkspaceOnSuccess,
-                DeleteJobOnSuccess = Properties.Settings.Default.DeleteJobOnSuccess,
-                UserId = Properties.Settings.Default.UserID,
-                JenkinsUri = Properties.Settings.Default.JenkinsUri
-            };
-            manager = new JobManagerFramework.JobManager(port, config);
+            manager = new JobManagerFramework.JobManager();
 
             this.FormClosing += (sender, args) =>
             {
@@ -287,7 +249,6 @@ namespace JobManager
             manager.JobAdded += Manager_JobAdded;
             manager.SotAdded += Manager_SotAdded;
             //pool.JobStatusChanged += JobStatusChanged;
-            this.timer.Start(); // TODO: Is this timer doing anything?
 
             if (settings.ContainsKey("-i"))
             {
@@ -298,23 +259,26 @@ namespace JobManager
             }
             Shown += new EventHandler(delegate (object o, EventArgs args)
                 {
-                    if (this.Configure(password) == DialogResult.OK)
+                    if (this.Configure() == DialogResult.OK)
                     {
                         lock (this)
                         {
                             //TODO: determine if set for remote execution and show in status bar
-                            /*if (server.IsRemote)
+                            if (manager.IsRemote)
                             {
                                 this.toolStripStatusLabel.Text = "Configured for remote execution.";
                                 this.remoteStatusToolStripMenuItem.Enabled = true;
                                 this.remoteStatusToolStripMenuItem.Visible = true;
                             }
-                            else*/
+                            else
                             {
                                 this.toolStripStatusLabel.Text = "Configured for local execution.";
                                 this.remoteStatusToolStripMenuItem.Enabled = false;
                                 this.remoteStatusToolStripMenuItem.Visible = false;
                             }
+
+                            manager.ServiceStatusUpdated += UpdateServiceStatus;
+                            manager.LoadSavedJobs();
                         }
                     }
                     else
@@ -329,7 +293,7 @@ namespace JobManager
 
         private void Manager_SotAdded(object sender, JobManagerFramework.JobManager.SotAddedEventArgs e)
         {
-            //TODO: do we need to do anything here?
+            // TODO: do we need to do anything here?
         }
 
         private void Manager_JobAdded(object sender, JobManagerFramework.JobManager.JobAddedEventArgs e)
@@ -627,13 +591,30 @@ namespace JobManager
         private bool DeleteJobOnSuccess { get { return global::JobManager.Properties.Settings.Default.DeleteJobOnSuccess; } }
 
 
-        private DialogResult Configure(string password = null)
+        private DialogResult Configure()
         {
-            // MOT-281 skip configuration dialog
-            /*server.JenkinsUrl = Properties.Settings.Default.VehicleForgeUri = "";
-            server.UserName = Properties.Settings.Default.UserID = "";
-            server.IsRemote = Properties.Settings.Default.RemoteExecution = false;*/
-            return DialogResult.OK;
+            using (Configuration cfgRemote = new Configuration(manager, password))
+            {
+                this.toolStripStatusLabel.Text = "Configuring";
+                DialogResult dr;
+                if (string.IsNullOrEmpty(password))
+                {
+                    dr = cfgRemote.ShowDialog(this);
+                }
+                else
+                {
+                    cfgRemote.btnSave_Click(cfgRemote.btnSave, null);
+                    dr = cfgRemote.DialogResult;
+                }
+                Server.IsRemote = Properties.Settings.Default.RemoteExecution;
+                
+                if (Server.IsRemote)
+                {
+                    Server.JenkinsUrl = Properties.Settings.Default.VehicleForgeUri;
+                    Server.UserName = Properties.Settings.Default.UserID;
+                }
+                return dr;
+            }
         }
 
         private void logToolStripMenuItem_Click(object sender, EventArgs e)
@@ -715,14 +696,12 @@ namespace JobManager
                 this.remoteServiceStatusForm.IsDisposed)
             {
                 this.remoteServiceStatusForm = new RemoteServiceStatusForm();
-                this.remoteServiceStatusForm.Show();
-                this.UpdateServiceStatus();
+                this.remoteServiceStatusForm.Show(this);
             }
             else
             {
                 this.remoteServiceStatusForm.Hide();
-                this.remoteServiceStatusForm.Show();
-                this.UpdateServiceStatus();
+                this.remoteServiceStatusForm.Show(this);
             }
         }
 

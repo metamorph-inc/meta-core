@@ -118,6 +118,7 @@ namespace CyPhyMasterInterpreter
             try
             {
                 var manager = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
+                // the proxy won't throw until property access/method call
                 var tmp = manager.JenkinsUrl;
             }
             catch (RemotingException)

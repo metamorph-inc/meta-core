@@ -37,42 +37,6 @@ namespace JobManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("129.59.105.248")]
-        public string SSHHost {
-            get {
-                return ((string)(this["SSHHost"]));
-            }
-            set {
-                this["SSHHost"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("meta")]
-        public string SSHUser {
-            get {
-                return ((string)(this["SSHUser"]));
-            }
-            set {
-                this["SSHUser"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8080")]
-        public string SSHPort {
-            get {
-                return ((string)(this["SSHPort"]));
-            }
-            set {
-                this["SSHPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool RemoteExecution {
             get {

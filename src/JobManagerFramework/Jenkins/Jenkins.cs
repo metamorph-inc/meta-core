@@ -741,14 +741,7 @@ namespace JobManagerFramework.Jenkins
             }
         }
 
-        // TODO: implement node functions
-
-        // TODO: implement view functions
-        // https://issues.jenkins-ci.org/browse/JENKINS-8927?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
-        // wget --post-data='name=ViewX&mode=hudson.model.ListView&json={"name": "ViewX", "mode": "hudson.model.ListView"}' http://.../jenkins/createView
-
-        //TODO: implement settings mechanism
-        public string ServerUrl { get { return ""; } }
+        public string ServerUrl { get; set; }
 
         public Jenkins(string logDir = null)
         {
