@@ -543,6 +543,10 @@
                     Title = "Finished"
                 });
             });
+            if (this.Manager != null)
+            {
+                Manager.Done();
+            }
 
             this.Results = results.ToArray();
 

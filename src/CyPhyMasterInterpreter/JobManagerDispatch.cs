@@ -13,7 +13,7 @@ namespace CyPhyMasterInterpreter
 {
     public class JobManagerDispatch
     {
-        public Uri JobServerConnection = new Uri("ipc://MetaJobManager/JobServer");
+        public static readonly Uri JobServerConnection = new Uri("ipc://MetaJobManager/JobServer");
 
         public Queue<KeyValuePair<JobServer, Job>> jobsToAdd = new Queue<KeyValuePair<JobServer, Job>>();
         public void AddJobs()
@@ -67,7 +67,6 @@ namespace CyPhyMasterInterpreter
             j.WorkingDirectory = workingDirectory;
             j.Type = type;
 
-            // TODO: allow empty Labels
             j.Labels = String.IsNullOrWhiteSpace(interpreter.result.Labels) ?
                 Job.DefaultLabels :
                 interpreter.result.Labels;
@@ -105,21 +104,33 @@ namespace CyPhyMasterInterpreter
 
         private Job CreateJob(out JobServer manager, string projectDirectory)
         {
-            return CreateOnServer(out manager, server => server.CreateJob(), projectDirectory);
+            var job = CreateOnServer(out manager, server => server.CreateJob(), projectDirectory);
+            JobCollection.AddJob(job);
+            return job;
         }
 
         private SoT CreateSoT(out JobServer manager, string projectDirectory)
         {
-            return CreateOnServer(out manager, server => server.CreateSoT(), projectDirectory);
+            var sot = CreateOnServer(out manager, server => server.CreateSoT(), projectDirectory);
+            JobCollection.AddSoT(sot);
+            return sot;
         }
+
+        public void Done()
+        {
+            JobCollection.Done();
+        }
+
+        JobServer Server;
+        JobCollection JobCollection;
 
         public void StartJobManager(string projectDirectory)
         {
             try
             {
-                var manager = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
+                Server = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
                 // the proxy won't throw until property access/method call
-                var tmp = manager.JenkinsUrl;
+                JobCollection = Server.CreateAndAddJobCollection();
             }
             catch (RemotingException)
             {
@@ -146,7 +157,8 @@ namespace CyPhyMasterInterpreter
                     proc.Start();
                     proc.WaitForInputIdle(20 * 1000);
                     proc.StandardOutput.ReadLine(); // matches Console.Out.WriteLine("JobManager has started"); in JobManager
-                    //System.Threading.Thread.Sleep(3 * 1000);
+                    Server = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
+                    JobCollection = Server.CreateAndAddJobCollection();
                 }
                 else
                 {

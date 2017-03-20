@@ -102,11 +102,24 @@ namespace JobManager
 
         public abstract SoT CreateSoT();
 
+        public abstract JobCollection CreateAndAddJobCollection();
+
         public List<Job> Jobs { get; set; }
         public List<SoT> SoTs { get; set; }
 
         public abstract void AddJob(Job job);
 
         public abstract void AddSoT(SoT sot);
+    }
+
+    /*
+     * JobCollection corresponds to one run of the MasterInterpreter 
+     */
+    public abstract class JobCollection : MarshalByRefObject
+    {
+        public abstract void AddJob(Job job);
+        public abstract void AddSoT(SoT sot);
+
+        public abstract void Done();
     }
 }

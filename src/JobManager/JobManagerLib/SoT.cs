@@ -1,21 +1,7 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="SoT.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using System;
 
 namespace JobManager
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.IO;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
-    using GME.MGA;
-    using System.Threading;
-
     /// <summary>
     /// TODO: Update summary.
     /// </summary>

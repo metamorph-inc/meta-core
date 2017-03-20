@@ -99,16 +99,11 @@ namespace CyPhyMasterInterpreter
             return workflow;
         }
 
-        public override bool PostToJobManager(JobManagerDispatch manager = null)
+        public override bool PostToJobManager(JobManagerDispatch manager)
         {
             if (this.Interpreters == null)
             {
                 throw new InvalidOperationException("Call RunInterpreters method first.");
-            }
-
-            if (manager == null)
-            {
-                manager = new JobManagerDispatch();
             }
 
             bool success = true;
