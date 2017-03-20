@@ -278,6 +278,10 @@
                 {
                     selectionForm.SaveSettingsAndResults();
                     dialogResult = System.Windows.Forms.DialogResult.OK;
+                    var selectionResult = selectionForm.ConfigurationSelectionResult;
+                    selectionResult.KeepTemporaryModels = false;
+                    selectionResult.OpenDashboard = false;
+                    selectionResult.PostToJobManager = false;
                 }
 
                 if (dialogResult == System.Windows.Forms.DialogResult.OK)
