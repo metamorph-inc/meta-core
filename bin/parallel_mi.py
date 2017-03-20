@@ -4,10 +4,23 @@ import os
 import os.path
 import errno
 import subprocess
+
+import imp
+# taken from CyPhyPython:
+#  pythoncom.py calls LoadLibrary("pythoncom27.dll"), which will load via %PATH%
+#  Anaconda's pythoncom27.dll (for one) doesn't include the correct SxS activation info, so trying to load it results in "An application has made an attempt to load the C runtime library incorrectly."
+#  load our pythoncom27.dll (which we know works) with an explicit path
+import os.path
+import afxres
+# FIXME: would this be better : pkg_resources.resource_filename('win32api', 'pythoncom27.dll')
+imp.load_dynamic('pythoncom', os.path.join(os.path.dirname(afxres.__file__), 'pythoncom%d%d.dll' % sys.version_info[0:2]))
+import pythoncom
+
 import _winreg as winreg
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
     meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
 sys.path.append(os.path.join(meta_path, 'bin'))
+import udm
 
 
 def log(s):
@@ -148,14 +161,10 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
             messages_condition.wait(1)
 
     # start_pdb()
-    log('done')
+    log('Parallel Master Interpreter finished')
 
 # Allow calling this script with a .mga file as an argument
 if __name__ == '__main__':
-    import _winreg as winreg
-    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
-        meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
-
     # need to open meta DN since it isn't compiled in
     uml_diagram = udm.uml_diagram()
     meta_dn = udm.SmartDataNetwork(uml_diagram)
@@ -167,7 +176,7 @@ if __name__ == '__main__':
 
     dn = udm.SmartDataNetwork(meta_dn.root)
     dn.open(sys.argv[1], "")
-    # TODO: what should focusObject be
-    # invoke(None, dn.root);
+    focusObject = dn.get_object_by_id(udm.GmeId2UdmId(sys.argv[2]))
+    invoke(focusObject, dn.root, {})
     dn.close_no_update()
     meta_dn.close_no_update()
