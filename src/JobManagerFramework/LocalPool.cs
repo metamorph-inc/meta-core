@@ -308,7 +308,7 @@ namespace JobManagerFramework
                         }
                         else
                         {
-                            commandToShowToUser = Path.Combine(job.WorkingDirectory, job.RunCommand);
+                            commandToShowToUser = job.WorkingDirectory + ": " + job.RunCommand;
                         }
 
                         int iWaitHandle =
