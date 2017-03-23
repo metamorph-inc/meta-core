@@ -158,8 +158,13 @@ def with_problem(mdao_config, original_dir, override_driver=None):
         return 'designVariable.{}'.format(designVariable)
 
     if driver['type'] == 'optimizer':
-        top.driver = ScipyOptimizer()
-        top.driver.options['optimizer'] = str(driver.get('details', {}).get('OptimizationFunction', 'SLSQP'))
+        if driver.get('details', {}).get('OptimizationFunction') == 'Custom':
+            class_path = driver['details']['OptimizationClass'].split('.')
+            mod = __import__('.'.join(class_path[:-1]), fromlist=[class_path[-1]])
+            top.driver = getattr(mod, class_path[-1])()
+        else:
+            top.driver = ScipyOptimizer()
+            top.driver.options['optimizer'] = str(driver.get('details', {}).get('OptimizationFunction', 'SLSQP'))
 
         for key, value in six.iteritems(driver_params):
             try:

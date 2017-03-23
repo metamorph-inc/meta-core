@@ -108,6 +108,11 @@ namespace CyPhyPET
                 var optimizer = this.pet.Children.OptimizerCollection.FirstOrDefault();
                 var config = AddConfigurationForMDAODriver(optimizer);
                 config.type = "optimizer";
+                config.details["OptimizationFunction"] = optimizer.Attributes.OptimizationFunction.ToString();
+                if (optimizer.Attributes.OptimizationFunction == CyPhyClasses.Optimizer.AttributesClass.OptimizationFunction_enum.Custom)
+                {
+                    config.details["OptimizationClass"] = optimizer.Attributes.CustomOptimizer;
+                }
 
                 foreach (var intermediateVar in optimizer.Children.IntermediateVariableCollection)
                 {
