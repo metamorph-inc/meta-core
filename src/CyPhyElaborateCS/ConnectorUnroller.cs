@@ -105,7 +105,8 @@ namespace CyPhyElaborateCS
             "AbstractPort",
             "BondGraphPort",
             "ModelicaConnector",
-            "SimulinkPort"
+            "SimulinkPort",
+            "GenericDomainModelPort"
         };
 
         /// <summary>
