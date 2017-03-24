@@ -24,7 +24,14 @@ static PyObject* return_Py_None()
 	return none;
 }
 
-struct PyObject_RAII
+struct NonCopyable {
+	NonCopyable() {}
+private:
+	NonCopyable & operator=(const NonCopyable&);
+	NonCopyable(const NonCopyable&);
+};
+
+struct PyObject_RAII : private NonCopyable
 {
 	PyObject* p;
 	PyObject_RAII() : p(NULL) { }
@@ -262,11 +269,13 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 	PyObject_RAII main = PyImport_ImportModule("__main__");
 	PyObject* main_namespace = PyModule_GetDict(main);
-	PyObject_RAII ret = PyRun_StringFlags("import sys\n"
-		"import udm\n", Py_file_input, main_namespace, main_namespace, NULL);
-	if (ret == NULL && PyErr_Occurred())
 	{
-		throw python_error(GetPythonError());
+		PyObject_RAII ret = PyRun_StringFlags("import sys\n"
+			"import udm\n", Py_file_input, main_namespace, main_namespace, NULL);
+		if (ret == NULL && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
 	}
 
 	if (meta_path.length()) {
@@ -279,7 +288,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	PyObject* CyPhyPython = Py_InitModule("CyPhyPython", CyPhyPython_methods);
 	PyObject* CyPhyPython_namespace = PyModule_GetDict(CyPhyPython);
 	PyDict_SetItemString(CyPhyPython_namespace, "__builtins__", PyEval_GetBuiltins());
-	ret = PyRun_StringFlags(
+	PyObject_RAII ret = PyRun_StringFlags(
 		"class ErrorMessageException(Exception):\n"
 		"    'An Exception for which CyPhyPython does not print the stack trace'\n"
 		"    pass\n",
@@ -288,6 +297,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	{
 		throw python_error(GetPythonError());
 	}
+	PyObject_RAII logfile;
 	PyObject_RAII ErrorMessageException = PyDict_GetItemString(CyPhyPython_namespace, "ErrorMessageException");
 	auto console_messages = componentParameters.find(L"console_messages");
 	if (console_messages != componentParameters.end()
@@ -302,7 +312,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			&& *output_dir->second.bstrVal)
 		{
 			CreateDirectoryW(CStringW(output_dir->second.bstrVal) + L"\\log", NULL);
-			PyObject_RAII logfile = PyFile_FromString(const_cast<char *>(static_cast<const char*>(CStringA(output_dir->second.bstrVal) + "\\log\\CyPhyPython.log")), "w");
+			logfile.p = PyFile_FromString(const_cast<char *>(static_cast<const char*>(CStringA(output_dir->second.bstrVal) + "\\log\\CyPhyPython.log")), "w");
 			if (PyErr_Occurred())
 			{
 				// FIXME where to log this
@@ -312,6 +322,14 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			{
 				PyObject_SetAttrString(CyPhyPython, "_logfile", logfile);
 			}
+		}
+	}
+	if (logfile.p == nullptr)
+	{
+		// may be leftover from last run
+		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))
+		{
+			PyObject_DelAttrString(CyPhyPython, "_logfile");
 		}
 	}
 
@@ -505,12 +523,12 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 		PyObject_RAII dn_close;
 		if (invokeError) {
-			dn_close = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+			dn_close.p = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
 		}
 		else {
-			dn_close = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+			dn_close.p = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
 		}
-		if (dn_close == NULL && PyErr_Occurred())
+		if (dn_close.p == NULL && PyErr_Occurred())
 		{
 			throw python_error(GetPythonError());
 		}
@@ -527,6 +545,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 				{
 					throw python_error(GetPythonError());
 				}
+				PyObject_DelAttrString(CyPhyPython, "_logfile");
 			}
 		}
 		if (invokeError)
