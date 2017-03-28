@@ -31,11 +31,6 @@ namespace CyPhyMasterInterpreter
         public GMELightObject Context { get; set; }
 
         /// <summary>
-        /// Top level system under test's referred object.
-        /// </summary>
-        public GMELightObject Target { get; set; }
-
-        /// <summary>
         /// Configuration groups.
         /// </summary>
         public ConfigurationGroupLight[] Groups { get; set; }

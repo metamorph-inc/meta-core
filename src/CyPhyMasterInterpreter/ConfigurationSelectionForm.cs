@@ -33,8 +33,7 @@ namespace CyPhyMasterInterpreter
             if (input == null ||
                 input.Context == null ||
                 input.Groups == null ||
-                input.InterpreterNames == null ||
-                input.Target == null)
+                input.InterpreterNames == null)
             {
                 throw new ArgumentNullException();
             }

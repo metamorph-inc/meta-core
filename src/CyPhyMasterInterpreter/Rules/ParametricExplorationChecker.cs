@@ -34,6 +34,7 @@ namespace CyPhyMasterInterpreter.Rules
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();
 
             var testBenchRefCount = this.parametricExploration.Children.TestBenchRefCollection.Count();
+            testBenchRefCount += this.parametricExploration.Children.ParametricTestBenchCollection.Count();
 
             if (testBenchRefCount == 0)
             {
@@ -41,25 +42,10 @@ namespace CyPhyMasterInterpreter.Rules
                 {
                     Success = false,
                     Subject = this.parametricExploration.Impl,
-                    Message = "Parametric exploration no test bench reference. It must have exactly one test bench reference."
+                    Message = "Parametric exploration has no TestBenches, ExcelWrapper, PythonWrappers, or MATLABWrappers. There must be at least one."
                 };
 
                 results.Add(feedback);
-            }
-            else if (testBenchRefCount >= 1)
-            {
-                var feedback = new ContextCheckerResult()
-                {
-                    Success = true,
-                    Subject = this.parametricExploration.Children.TestBenchRefCollection.FirstOrDefault().Impl,
-                    Message = "One or more test bench reference found."
-                };
-
-                results.Add(feedback);
-            }
-            else
-            {
-                throw new NotImplementedException();
             }
 
             foreach (var testBenchRef in this.parametricExploration.Children.TestBenchRefCollection)

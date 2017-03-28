@@ -277,6 +277,11 @@
         /// <param name="configuration">Top level system under test will be redirected to this object.</param>
         public abstract void Expand(CyPhy.ComponentAssembly configuration);
 
+        public virtual void Expand(CyPhy.ParametricExploration parametricExploration)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Posts the generated analysis packages to the JobManager for execution.
         /// </summary>
@@ -425,7 +430,11 @@
 
             this.ThrowIfNotExpanded();
 
-            if (this.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
+            if (this.OriginalSystemUnderTest == null)
+            {
+                return true;
+            }
+            else if (this.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
             {
                 bool success = false;
                 try
@@ -451,7 +460,7 @@
         /// </summary>
         /// <param name="projectManifest">Given project manifest object.</param>
         /// <returns>True if exporting and indexing are successful, otherwise false.</returns>
-        public bool SaveDesign(AVM.DDP.MetaAvmProject projectManifest)
+        public virtual bool SaveDesign(AVM.DDP.MetaAvmProject projectManifest)
         {
             if (projectManifest == null)
             {

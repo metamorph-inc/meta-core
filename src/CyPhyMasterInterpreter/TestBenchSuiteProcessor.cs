@@ -43,7 +43,11 @@ namespace CyPhyMasterInterpreter
         {
             this.Configuration = configuration;
 
-            if (this.OriginalSystemUnderTest.Referred.DesignEntity.ID == configuration.ID)
+            if (this.OriginalSystemUnderTest == null)
+            {
+                // don't need to do anything
+            }
+            else if (this.OriginalSystemUnderTest.Referred.DesignEntity.ID == configuration.ID)
             {
                 this.expandedTestBenchSuite = this.testBenchSuite;
             }

@@ -17,6 +17,7 @@ namespace AVM.DDP
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Diagnostics.Contracts;
+    using ISIS.GME.Common.Interfaces;
 
     /// <summary>
     /// TODO: Update summary.
@@ -125,8 +126,15 @@ namespace AVM.DDP
                         new { t = typeof(CyPhy.BlastTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.BlastTestBench.Cast) },
                         new { t = typeof(CyPhy.CADTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.CADTestBench.Cast) },
                         new { t = typeof(CyPhy.CFDTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.CFDTestBench.Cast) },
-                        new { t = typeof(CyPhy.ParametricExploration), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco => CyPhyClasses.ParametricExploration.Cast(fco)
-                            .Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBench) },
+                        new { t = typeof(CyPhy.ParametricExploration), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco =>
+                        {
+                            var tbRef = CyPhyClasses.ParametricExploration.Cast(fco).Children.TestBenchRefCollection.FirstOrDefault();
+                            if (tbRef == null)
+                            {
+                                return null;
+                            }
+                            return tbRef.Referred.TestBench; })
+                        },
                         new { t = typeof(CyPhy.TestBenchSuite), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco => CyPhyClasses.ParametricExploration.Cast(fco)
                             .Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBench) },
                     }.ToDictionary(t => t.t.Name, c => c.cast);
@@ -170,21 +178,11 @@ namespace AVM.DDP
             return Directory.CreateDirectory(Path.Combine(this.OutputDirectory, "test-benches")).FullName;
         }
 
-        public bool SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType origialTestBenchType, DateTime analysisStartTime)
+        public bool SaveTestBenchManifest(string designName, string configurationName, string testBenchName, FCO expandedTestBenchType, string outputDir, DateTime analysisStartTime)
         {
-            if (expandedTestBenchType == null)
-            {
-                throw new ArgumentNullException("expandedTestBenchType");
-            }
-
             if (outputDir == null)
             {
                 throw new ArgumentNullException("outputDirectory");
-            }
-
-            if (origialTestBenchType == null)
-            {
-                expandedTestBenchType = origialTestBenchType;
             }
 
             try
@@ -196,7 +194,7 @@ namespace AVM.DDP
                 manifest.DesignName = designName;
 
                 // test bench name fixture
-                manifest.TestBench = origialTestBenchType.Name;
+                manifest.TestBench = testBenchName;
 
                 manifest.CfgID = configurationName;
 
@@ -211,7 +209,23 @@ namespace AVM.DDP
                 // TODO: log exception/store last exception
                 return false;
             }
+
         }
+
+        public bool SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType originalTestBenchType, DateTime analysisStartTime)
+        {
+            if (expandedTestBenchType == null)
+            {
+                throw new ArgumentNullException("expandedTestBenchType");
+            }
+
+            if (originalTestBenchType == null)
+            {
+                expandedTestBenchType = originalTestBenchType;
+            }
+
+            return SaveTestBenchManifest(designName, configurationName, originalTestBenchType.Name, expandedTestBenchType, outputDir, analysisStartTime);
+            }
 
         public bool SaveTestBench(CyPhy.TestBenchType testBenchType)
         {
@@ -297,6 +311,10 @@ namespace AVM.DDP
                 return false;
             }
             tb = cast(fco);
+            if (tb == null)
+            {
+                return false;
+            }
 
             var tlsut = tb.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
             if (tlsut == null)
@@ -381,10 +399,13 @@ namespace AVM.DDP
 
                     thisResult.Time = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 
-                    thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                    if (string.IsNullOrWhiteSpace(singleFco.RegistryValue["TestBenchUniqueName"]) == false)
+                    {
+                        thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                    }
 
                     Func<MgaFCO, CyPhy.TestBenchType> cast;
-                    if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast))
+                    if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast) && cast(singleFco) != null)
                     {
                         CyPhy.TestBenchType testBench = cast(singleFco);
 

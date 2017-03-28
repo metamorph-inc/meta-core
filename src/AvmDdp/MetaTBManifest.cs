@@ -160,7 +160,7 @@ namespace AVM.DDP
         }
 
         public void MakeManifest(
-            CyPhy.TestBenchType testBench,
+            ISIS.GME.Common.Interfaces.FCO testBench,
             string outputDir = "",
             bool update = true)
         {
@@ -181,119 +181,123 @@ namespace AVM.DDP
                 (testBench.Impl as MgaFCO).RegistryValue["TestBenchUniqueName"];
 
             this.Created = DateTime.UtcNow.ToString("o");
+            // FIXME: put design name here...
+            this.DesignName = testBench.Name;
 
             if (testBench is CyPhy.BallisticTestBench)
             {
                 this.TierLevel = (int)(testBench as CyPhy.BallisticTestBench).Attributes.Tier;
             }
 
-            foreach (var item in testBench.Children.MetricCollection)
+            if (testBench is CyPhy.TestBenchType)
             {
-                if (shouldUpdate)
+                var testBenchType = ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(testBench.Impl);
+
+                foreach (var item in testBenchType.Children.MetricCollection)
                 {
-                    var oldData = this.Metrics.FirstOrDefault(x => x.ID == item.Guid.ToString());
-                    if (oldData != null)
+                    if (shouldUpdate)
                     {
-                        this.Metrics.Remove(oldData);
-                    }
-                }
-
-                AVM.DDP.MetaTBManifest.Metric metric = new AVM.DDP.MetaTBManifest.Metric();
-                metric.Name = item.Name.Trim();
-                metric.Unit = (item.Impl as MgaReference).Referred == null ?
-                    string.Empty :
-                    (item.Impl as MgaReference).Referred.Name;
-
-                // TODO: add the displayed name
-                metric.Value = item.Attributes.Value;
-                metric.ID = item.Guid.ToString();
-                metric.GMEID = item.ID;
-                metric.Description = item.Attributes.Description;
-                this.Metrics.Add(metric);
-            }
-
-            foreach (var item in testBench.Children.ParameterCollection)
-            {
-                if (shouldUpdate)
-                {
-                    var oldData = this.Parameters.FirstOrDefault(x => x.ID == item.Guid.ToString());
-                    if (oldData != null)
-                    {
-                        this.Parameters.Remove(oldData);
-                    }
-                }
-
-                AVM.DDP.MetaTBManifest.Parameter parameter = new AVM.DDP.MetaTBManifest.Parameter();
-                parameter.Name = item.Name;
-                parameter.Unit = (item.Impl as MgaReference).Referred == null ?
-                    string.Empty :
-                    (item.Impl as MgaReference).Referred.Name;
-
-                parameter.Description = item.Attributes.Description;
-                parameter.GMEID = item.ID;
-                parameter.ID = item.Guid.ToString();
-                parameter.Range = item.Attributes.Range;
-                parameter.Value = item.Attributes.Value;
-                
-                this.Parameters.Add(parameter);
-            }
-
-            // FIX ME: put design name here...
-            this.DesignName = testBench.Name;
-
-            // get designID
-            string designID = null;
-            var tlsut = testBench.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
-            var catlsut = testBench.Children.ComponentAssemblyCollection.FirstOrDefault();
-            if (tlsut != null)
-            {
-                // if it is a reference
-                if (tlsut.Referred.DesignEntity != null)
-                {
-                    designID = tlsut.Referred.DesignEntity.Properties.Guid.ToString("B");
-                    if (tlsut.Referred.DesignEntity is CyPhy.ComponentAssembly)
-                    {
-                        catlsut = tlsut.Referred.ComponentAssembly;
-                        var cid = catlsut.Attributes.ConfigurationUniqueID;
-                        //this.ConfigurationUniqueID = cid;
-
-                        if (string.IsNullOrWhiteSpace(cid))
+                        var oldData = this.Metrics.FirstOrDefault(x => x.ID == item.Guid.ToString());
+                        if (oldData != null)
                         {
-                            cid = Guid.NewGuid().ToString("B");
-                            catlsut.Attributes.ConfigurationUniqueID = cid;
-                        }
-
-                        if (!string.IsNullOrEmpty(cid))
-                        {
-                            try
-                            {
-                                Guid guid = new Guid(cid);
-                                designID = guid.ToString("B");
-                            }
-                            catch (System.FormatException ex)
-                            {
-                                Trace.TraceError("{0} is not a vaild GUID.", cid);
-                                Trace.TraceError(ex.ToString());
-                            }
+                            this.Metrics.Remove(oldData);
                         }
                     }
-                }
-            }
-            else if (catlsut != null)
-            {
-                // if it is an instance
-                var cid = catlsut.Attributes.ConfigurationUniqueID;
 
-                if (!string.IsNullOrEmpty(cid))
+                    AVM.DDP.MetaTBManifest.Metric metric = new AVM.DDP.MetaTBManifest.Metric();
+                    metric.Name = item.Name.Trim();
+                    metric.Unit = (item.Impl as MgaReference).Referred == null ?
+                        string.Empty :
+                        (item.Impl as MgaReference).Referred.Name;
+
+                    // TODO: add the displayed name
+                    metric.Value = item.Attributes.Value;
+                    metric.ID = item.Guid.ToString();
+                    metric.GMEID = item.ID;
+                    metric.Description = item.Attributes.Description;
+                    this.Metrics.Add(metric);
+                }
+
+                foreach (var item in testBenchType.Children.ParameterCollection)
                 {
-                    Guid guid = new Guid(cid);
-                    designID = guid.ToString("B");
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.Parameters.FirstOrDefault(x => x.ID == item.Guid.ToString());
+                        if (oldData != null)
+                        {
+                            this.Parameters.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.Parameter parameter = new AVM.DDP.MetaTBManifest.Parameter();
+                    parameter.Name = item.Name;
+                    parameter.Unit = (item.Impl as MgaReference).Referred == null ?
+                        string.Empty :
+                        (item.Impl as MgaReference).Referred.Name;
+
+                    parameter.Description = item.Attributes.Description;
+                    parameter.GMEID = item.ID;
+                    parameter.ID = item.Guid.ToString();
+                    parameter.Range = item.Attributes.Range;
+                    parameter.Value = item.Attributes.Value;
+
+                    this.Parameters.Add(parameter);
                 }
+
+                // get designID
+                string designID = null;
+                var tlsut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
+                var catlsut = testBenchType.Children.ComponentAssemblyCollection.FirstOrDefault();
+                if (tlsut != null)
+                {
+                    // if it is a reference
+                    if (tlsut.Referred.DesignEntity != null)
+                    {
+                        designID = tlsut.Referred.DesignEntity.Properties.Guid.ToString("B");
+                        if (tlsut.Referred.DesignEntity is CyPhy.ComponentAssembly)
+                        {
+                            catlsut = tlsut.Referred.ComponentAssembly;
+                            var cid = catlsut.Attributes.ConfigurationUniqueID;
+                            //this.ConfigurationUniqueID = cid;
+
+                            if (string.IsNullOrWhiteSpace(cid))
+                            {
+                                cid = Guid.NewGuid().ToString("B");
+                                catlsut.Attributes.ConfigurationUniqueID = cid;
+                            }
+
+                            if (!string.IsNullOrEmpty(cid))
+                            {
+                                try
+                                {
+                                    Guid guid = new Guid(cid);
+                                    designID = guid.ToString("B");
+                                }
+                                catch (System.FormatException ex)
+                                {
+                                    Trace.TraceError("{0} is not a vaild GUID.", cid);
+                                    Trace.TraceError(ex.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (catlsut != null)
+                {
+                    // if it is an instance
+                    var cid = catlsut.Attributes.ConfigurationUniqueID;
+
+                    if (!string.IsNullOrEmpty(cid))
+                    {
+                        Guid guid = new Guid(cid);
+                        designID = guid.ToString("B");
+                    }
+                }
+
+                // this.CopyTestResults = testBench.Attributes.CopyResults;
+
+                this.DesignID = designID;
             }
-
-            // this.CopyTestResults = testBench.Attributes.CopyResults;
-
-            this.DesignID = designID;
         }
 
         // Use this method in next iteration (13.17)

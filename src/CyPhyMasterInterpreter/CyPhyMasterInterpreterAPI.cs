@@ -252,13 +252,18 @@
                 configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
                 configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
 
+                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
+
+                if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                {
+                    configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
+                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
+                    return;
+                }
+
                 configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
                     SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
                     SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
-
-                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
-
-                configurationSelectionInput.Target = GMELightObject.GetGMELightFromMgaObject(analysisModelProcessor.OriginalSystemUnderTest.Impl);
             });
 
             var interpreters = analysisModelProcessor.GetWorkflow();
@@ -844,7 +849,18 @@
 
                 if (context.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
                 {
-                    testBenchType = CyPhyClasses.ParametricExploration.Cast(context).Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBenchType;
+                    var tbRef = CyPhyClasses.ParametricExploration.Cast(context).Children.TestBenchRefCollection.FirstOrDefault();
+                    if (tbRef != null)
+                    {
+                        testBenchType = tbRef.Referred.TestBenchType;
+                    }
+                    else
+                    {
+                        configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+                        configurations.Append(context as MgaFCO);
+                        configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
+                        return;
+                    }
                 }
                 else if (context.MetaBase.Name == typeof(CyPhy.TestBenchSuite).Name)
                 {
@@ -856,58 +872,61 @@
                     testBenchType = CyPhyClasses.TestBenchType.Cast(context);
                 }
 
-                var referredSut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault().Referred.DesignEntity;
-
-                if (referredSut is CyPhy.ComponentAssembly)
+                if (testBenchType != null)
                 {
-                    configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
-                    configurations.Append(referredSut.Impl as MgaFCO);
-                    configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
-                }
-                else if (referredSut is CyPhy.DesignContainer)
-                {
-                    var configItems = (referredSut as CyPhy.DesignContainer)
-                        .Children
-                        .ConfigurationsCollection;
+                    var referredSut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault().Referred.DesignEntity;
 
-                    foreach (CyPhy.Configurations configItem in configItems)
+                    if (referredSut is CyPhy.ComponentAssembly)
                     {
                         configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+                        configurations.Append(referredSut.Impl as MgaFCO);
+                        configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
+                    }
+                    else if (referredSut is CyPhy.DesignContainer)
+                    {
+                        var configItems = (referredSut as CyPhy.DesignContainer)
+                            .Children
+                            .ConfigurationsCollection;
 
-                        foreach (var cwc in configItem.Children.CWCCollection)
+                        foreach (CyPhy.Configurations configItem in configItems)
                         {
-                            if (cwc.DstConnections.Config2CACollection.Any())
+                            configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+
+                            foreach (var cwc in configItem.Children.CWCCollection)
                             {
-                                foreach (var componentAssemblyRef in cwc.DstConnections.Config2CACollection.Select(x => x.DstEnds.ComponentAssemblyRef))
+                                if (cwc.DstConnections.Config2CACollection.Any())
                                 {
-                                    if (componentAssemblyRef.Referred.ComponentAssembly != null)
+                                    foreach (var componentAssemblyRef in cwc.DstConnections.Config2CACollection.Select(x => x.DstEnds.ComponentAssemblyRef))
                                     {
-                                        configurations.Append(componentAssemblyRef.Referred.ComponentAssembly.Impl as MgaFCO);
-                                    }
-                                    else
-                                    {
-                                        this.Logger.WriteWarning("Null reference to generated component assembly for {0} within {1}.", cwc.Name, configItem.Name);
+                                        if (componentAssemblyRef.Referred.ComponentAssembly != null)
+                                        {
+                                            configurations.Append(componentAssemblyRef.Referred.ComponentAssembly.Impl as MgaFCO);
+                                        }
+                                        else
+                                        {
+                                            this.Logger.WriteWarning("Null reference to generated component assembly for {0} within {1}.", cwc.Name, configItem.Name);
+                                        }
                                     }
                                 }
+                                else
+                                {
+                                    // CA exporter will be required to call
+                                    configurations.Append(cwc.Impl as MgaFCO);
+                                }
                             }
-                            else
-                            {
-                                // CA exporter will be required to call
-                                configurations.Append(cwc.Impl as MgaFCO);
-                            }
-                        }
 
-                        configurationGroups.Add(new ConfigurationGroup()
-                        {
-                            Configurations = configurations,
-                            IsDirty = configItem.Attributes.isDirty,
-                            Owner = configItem.Impl as MgaModel
-                        });
+                            configurationGroups.Add(new ConfigurationGroup()
+                            {
+                                Configurations = configurations,
+                                IsDirty = configItem.Attributes.isDirty,
+                                Owner = configItem.Impl as MgaModel
+                            });
+                        }
                     }
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             });
 
@@ -1253,6 +1272,13 @@
                         analysisModelProcessor.Expand(CyPhyClasses.ComponentAssembly.Cast(configuration));
                         this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
                     }
+                    else if (configuration.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
+                    {
+                        // standalone PET
+                        this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
+                        analysisModelProcessor.Expand(CyPhyClasses.ParametricExploration.Cast(configuration));
+                        this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
+                    }
                     else
                     {
                         this.Logger.WriteDebug("{0} expand is not supported {1}", configuration.MetaBase.Name, configuration.AbsPath);
@@ -1263,7 +1289,11 @@
 
                     // design space might be saved multiple times
 
-                    if (analysisModelProcessor.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
+                    if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                    {
+                        this.Logger.WriteDebug("[SKIP] Calling design space exporter, since standalone PET does not have a TestBench");
+                    }
+                    else if (analysisModelProcessor.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
                     {
                         this.Logger.WriteDebug("Calling design space exporter");
                         bool successDesignSpaceExport = analysisModelProcessor.SaveDesignSpace(this.ProjectManifest);
