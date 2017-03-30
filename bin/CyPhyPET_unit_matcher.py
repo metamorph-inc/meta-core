@@ -76,7 +76,7 @@ def invoke(focusObject, rootObject, componentParameters, udmProject, **kwargs):
 
     for param_name, metadata in itertools.chain(c._init_params_dict.iteritems(), c._init_unknowns_dict.iteritems()):
         unit_expr = metadata.get('units')
-        if unit_expr is None:
+        if not unit_expr:
             continue
         # debug_log(repr(unit_expr))
         openmdao_unit = _find_unit(unit_expr)
