@@ -36,6 +36,7 @@ using namespace std;
 #include "UdmApp.h"
 #include "UdmConfig.h"
 #include <boost/filesystem.hpp>
+#include "UnitUtil.h"
 
 __declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
 
@@ -530,3 +531,22 @@ STDMETHODIMP RawComponent::ObjectEvent(IMgaObject * obj, unsigned long eventmask
 }
 
 #endif
+
+
+extern "C" __declspec(dllexport) int AreUnitsEqual(IMgaFCO* fco1, IMgaFCO* fco2)
+{
+	UnitUtil u;
+	UdmGme::GmeDataNetwork dn(CyPhyML::diagram);
+	CComPtr<IMgaProject> project;
+	fco1->get_Project(&project);
+	dn.OpenExisting(project, Udm::CHANGES_LOST_DEFAULT, true);
+	auto unit1 = CyPhyML::unit::Cast(dn.Gme2Udm(fco1));
+	auto unit2 = CyPhyML::unit::Cast(dn.Gme2Udm(fco2));
+
+	UnitUtil::DimensionRep unit1rep;
+	u.ConvertToSIEquivalent(unit1, 1, unit1rep);
+	UnitUtil::DimensionRep unit2rep;
+	u.ConvertToSIEquivalent(unit2, 1, unit2rep);
+
+	return unit1rep == unit2rep;
+}

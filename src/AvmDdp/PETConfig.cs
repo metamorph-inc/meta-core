@@ -9,6 +9,8 @@ namespace AVM.DDP
         {
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string[] source;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string units;
         }
         public class Constraint
         {
@@ -37,6 +39,8 @@ namespace AVM.DDP
             public double? RangeMax;
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public List<object> items;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string units;
         }
         public class Driver
         {

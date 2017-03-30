@@ -388,20 +388,6 @@ namespace DynamicsTeamTest.Projects
         [Fact]
         [Trait("Model", "MSD_PET_RuleFailure")]
         [Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
-        public void PET_Fail_PCC_DriverParam2MultipleTBParams()
-        {
-            string outputDir = "PCC_DriverParam2MultipleTBParams";
-            string petExperimentPath = "/@Examples|kind=Testing|relpos=0/@PETRuleFailures|kind=ParametricExplorationFolder|relpos=0/@PCC_DriverParam2MultipleTBParams|kind=ParametricExploration|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-            bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
-
-            Assert.False(result, "CyPhyPET should have failed, but did not.");
-        }
-
-        [Fact]
-        [Trait("Model", "MSD_PET_RuleFailure")]
-        [Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
         public void PET_Fail_PCCDriver_OutputNotConnected()
         {
             string outputDir = "PCCDriver_OutputNotConnected";

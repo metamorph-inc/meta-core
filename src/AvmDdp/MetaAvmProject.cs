@@ -200,11 +200,11 @@ namespace AVM.DDP
 
                 manifest.Serialize(outputDir);
 
-                this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir);
+                this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir, analysisStartTime);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: log exception/store last exception
                 return false;
@@ -356,7 +356,8 @@ namespace AVM.DDP
         /// <param name="OutputSubDir"></param>
         public void UpdateResultsJson(
             MgaFCO singleFco,
-            string OutputSubDir)
+            string OutputSubDir,
+            DateTime time)
         {
             string jsonFile = Path.Combine(this.GetResultsFolder(), "results.metaresults.json");
             AVM.DDP.MetaResults results = null;
@@ -397,7 +398,7 @@ namespace AVM.DDP
                         Path.GetDirectoryName(jsonFile),
                         Path.Combine(OutputSubDir, AVM.DDP.MetaTBManifest.TESTBENCH_FILENAME)).Replace('\\', '/');
 
-                    thisResult.Time = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+                    thisResult.Time = time.ToString("yyyy-MM-dd HH-mm-ss");
 
                     if (string.IsNullOrWhiteSpace(singleFco.RegistryValue["TestBenchUniqueName"]) == false)
                     {
@@ -415,6 +416,7 @@ namespace AVM.DDP
                             if (tlsut.AllReferred is CyPhy.ComponentAssembly)
                             {
                                 var cfg = tlsut.Referred.ComponentAssembly;
+                                //thisResult.Design = cfg.Name + ".metadesign.json";
 
                                 var cid = cfg.Attributes.ConfigurationUniqueID;
                                 //this.ConfigurationUniqueID = cid;
@@ -786,18 +788,6 @@ namespace AVM.DDP
                 var designContainer = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(rootDS);
                 var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(designContainer);
                 design.SaveToFile(Path.GetFullPath(dsFileName));
-
-                // old API
-                //var dsProjectJsonLinkOld = Path.Combine(".", designSpaceFolder, rootDS.Name + ".metadesign.json").Replace('\\', '/');
-                //var dsFileNameOld = Path.Combine(dirName, rootDS.Name + ".metadesign.json");
-
-                //if (avmProj.Project.DesignSpaceModels.Contains(dsProjectJsonLinkOld) == false)
-                //{
-                //    avmProj.Project.DesignSpaceModels.Add(dsProjectJsonLinkOld);
-                //}
-
-                //var designOld = CyPhy2DesignInterchange_ddp1format.CyPhy2DesignInterchange.Convert(designContainer);
-                //designOld.SerializeToFile(Path.GetFullPath(dsFileNameOld));
             }
 
             Directory.SetCurrentDirectory(currentDir);

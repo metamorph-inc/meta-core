@@ -90,7 +90,7 @@ namespace CyPhySoT
             avmProj = AVM.DDP.MetaAvmProject.Create(Path.GetDirectoryName(OriginalProjectFileName), Project);
             avmProj.SaveSummaryReportJson(this.OutputDirectory, this.CurrentObj);
             avmProj.SaveTestBenchManifest(this.OutputDirectory, tb, Dependencies);
-            avmProj.UpdateResultsJson(this.CurrentObj, this.OutputDirectory);
+            avmProj.UpdateResultsJson(this.CurrentObj, this.OutputDirectory, DateTime.Now);
             // TODO: test bench export??
             }
             finally
