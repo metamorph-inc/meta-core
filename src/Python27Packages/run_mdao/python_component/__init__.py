@@ -4,6 +4,7 @@ import sys
 import os
 import os.path
 import importlib
+from six.moves import reload_module
 
 from openmdao.core.component import Component
 
@@ -13,6 +14,7 @@ def PythonComponent(filename):
     try:
         modname = os.path.splitext(os.path.basename(filename))[0]
         mod = importlib.import_module(modname)
+        reload_module(mod)
 
         def is_component(val):
             return isinstance(val, type) and val.__module__ == modname and Component in val.__mro__
