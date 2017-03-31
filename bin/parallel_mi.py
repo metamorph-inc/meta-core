@@ -173,7 +173,7 @@ if __name__ == '__main__':
     meta_dn.open(CyPhyML_udm, "")
 
     dn = udm.SmartDataNetwork(meta_dn.root)
-    dn.open(sys.argv[1], "")
+    dn.open(os.path.abspath(sys.argv[1]), "")
     focusObject = dn.get_object_by_id(udm.GmeId2UdmId(sys.argv[2]))
     invoke(focusObject, dn.root, {})
     dn.close_no_update()
