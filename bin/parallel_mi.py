@@ -55,20 +55,18 @@ def start_pdb():
 
 
 def test_jobmanager_running(mga_dir):
-    import socket
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        s.connect(('127.0.0.1', 35010))
-        s.close()
-    except socket.error as e:
-        if e.errno != errno.WSAECONNREFUSED:
+        with open(r'\\.\pipe\MetaJobManager', 'r+b', 0):
+            pass
+    except IOError as e:
+        if e.errno != errno.ENOENT:
             raise
     else:
         return
 
     for jobmanager_exe in (os.path.join(meta_path, "bin", "PETBrowser.exe"), os.path.join(meta_path, "bin", "JobManager.exe"),
-            os.path.join(meta_path, r"src\\PETBrowser\\bin\\Release\\PETBrowser.exe"),
-            os.path.join(meta_path, r"src\\JobManager\\JobManager\\bin\\Release\\JobManager.exe")):
+            os.path.join(meta_path, r"src\PETBrowser\bin\Release\PETBrowser.exe"),
+            os.path.join(meta_path, r"src\JobManager\JobManager\bin\Release\JobManager.exe")):
         if os.path.isfile(jobmanager_exe):
             break
     else:
