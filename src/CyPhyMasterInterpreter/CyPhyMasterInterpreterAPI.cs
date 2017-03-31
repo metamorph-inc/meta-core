@@ -1021,6 +1021,10 @@
                 {
                     results.Append(configuration);
                 }
+                else if (configuration.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
+                {
+                    results.Append(configuration);
+                }
                 else
                 {
                     this.Logger.WriteWarning("Not supported configuration type {0} [{1}]", configuration.Name, configuration.MetaBase.Name);
