@@ -170,6 +170,55 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             DefaultRep = GetParameterValue(testBench, "DEFAULT_REP");
             BuyRep = GetParameterValue(testBench, "BUY_REP");
 
+            string exportParameterName;
+            string exportFormat;
+
+            exportParameterName = "EXPORT_STEP_AP203_SINGLE_FILE";
+            exportFormat =                    "AP203_Single_File";
+            if (GetParameterValue(testBench, exportParameterName) != null )
+                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEP_AP203_E2_SINGLE_FILE";
+            exportFormat =                    "AP203_E2_Single_File";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEP_AP203_E2_SEPARATE_PART_FILES";
+            exportFormat =                    "AP203_E2_Separate_Part_Files";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEP_AP214_SINGLE_FILE";
+            exportFormat =                    "AP214_Single_File";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEP_AP214_SEPARATE_PART_FILES";
+            exportFormat =                    "AP214_Separate_Part_Files";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEREOLITHOGRAPHY_ASCII";
+            exportFormat =                                 "ASCII";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_STEREOLITHOGRAPHY_BINARY";
+            exportFormat =                                 "Binary";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_INVENTOR";
+            exportFormat =               "Inventor";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_PARASOLID";
+            exportFormat =               "Parasolid";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+
+
             foreach (var param in testBench.Children.ParameterCollection.Where(p => p.Name == "PROCESSINGINSTRUCTION"))
             {
                 string[] paramarr = param.Attributes.Value.Split(',');
