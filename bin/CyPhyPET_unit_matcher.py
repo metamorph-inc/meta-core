@@ -1,5 +1,7 @@
 """Converts OpenMDAO unit strings to a matching CyPhy unit FCO."""
 # sys.path[0:0] = ['C:\\Users\\kevin\\Documents\\meta-tonka\\bin\\Python27\\lib\\site-packages']
+from __future__ import absolute_import
+from __future__ import print_function
 import json
 import operator
 import re
@@ -10,6 +12,7 @@ import run_mdao.python_component
 import run_mdao.python_component.get_params_and_unknowns
 
 import openmdao.units.units
+import six
 PhysicalQuantity = openmdao.units.units.PhysicalQuantity
 PhysicalUnit = openmdao.units.units.PhysicalUnit
 _find_unit = openmdao.units.units._find_unit
@@ -17,11 +20,13 @@ _UNIT_LIB = openmdao.units.units._UNIT_LIB
 
 
 def log(s):
-    print s
+    print(s)
 
 
 def log_formatted(s):
-    print s
+    print(s)
+
+
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
     import cgi
@@ -74,7 +79,7 @@ def invoke(focusObject, rootObject, componentParameters, udmProject, **kwargs):
             continue
         CyPhyPET_unit_setter.set_unit(unit_fco, set_units)
 
-    for param_name, metadata in itertools.chain(c._init_params_dict.iteritems(), c._init_unknowns_dict.iteritems()):
+    for param_name, metadata in itertools.chain(six.iteritems(c._init_params_dict), six.iteritems(c._init_unknowns_dict)):
         unit_expr = metadata.get('units')
         if not unit_expr:
             continue

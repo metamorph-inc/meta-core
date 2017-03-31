@@ -1,10 +1,15 @@
 """Converts CyPhy units to OpenMDAO unit strings."""
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 # sys.path[0:0] = ['C:\\Users\\kevin\\Documents\\meta-tonka\\bin\\Python27\\lib\\site-packages']
 import operator
 import openmdao.units.units
 import re
 import itertools
+from functools import reduce
+import six
+from six.moves import zip
 PhysicalQuantity = openmdao.units.units.PhysicalQuantity
 PhysicalUnit = openmdao.units.units.PhysicalUnit
 _find_unit = openmdao.units.units._find_unit
@@ -12,11 +17,13 @@ _UNIT_LIB = openmdao.units.units._UNIT_LIB
 
 
 def log(s):
-    print s
+    print(s)
 
 
 def log_formatted(s):
-    print s
+    print(s)
+
+
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
     import cgi
@@ -109,13 +116,13 @@ def get_unit_for_gme(fco, exponent=1):
 
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
-    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
 def unit_eq(self, other):
     return isclose(self.factor, other.factor) and \
-           self.offset == other.offset and \
-           self.powers == other.powers
+        self.offset == other.offset and \
+        self.powers == other.powers
 
 
 def convert_unit_symbol(symbol):
@@ -140,7 +147,7 @@ def invoke(focusObject, rootObject, componentParameters, udmProject, **kwargs):
 
     mga_project = focusObject.convert_udm2gme().Project
 
-    for index, gme_id in [(key, value) for key, value in componentParameters.iteritems() if key.startswith('unit_id_')]:
+    for index, gme_id in [(key, value) for key, value in six.iteritems(componentParameters) if key.startswith('unit_id_')]:
         unit_fco = mga_project.GetFCOByID(gme_id)
 
         def set_units(units):
@@ -157,8 +164,8 @@ def set_unit(unit_fco, set_units):
     try:
         gme_unit = get_unit_for_gme(unit_fco)
     except InvalidGMEUnitException:
-            set_units('')
-            return
+        set_units('')
+        return
     except TypeError as e:
         if 'cannot multiply units with non-zero offset' in e.message:
             # FIXME: investigate why .../degC always fails
@@ -215,13 +222,14 @@ def get_all_unit_fcos(project):
     cbus = sort_gme(project.AllFCOs(filter))
     return itertools.chain(sis, deriveds, cbus)
 
+
 # run under gme console: check all units
 if __name__ == '__ax_main__':
     gme = gme
 
     def log(msg):
         # if msg.startswith('Close') or msg.startswith('mismatch'):
-        gme.ConsoleMessage(unicode(msg), 1)
+        gme.ConsoleMessage(six.text_type(msg), 1)
     debug_log = log
 
     reload(openmdao.units.units)

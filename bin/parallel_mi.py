@@ -1,4 +1,6 @@
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os
 import os.path
@@ -12,11 +14,12 @@ import imp
 #  load our pythoncom27.dll (which we know works) with an explicit path
 import os.path
 import afxres
+from six.moves import range
 # FIXME: would this be better : pkg_resources.resource_filename('win32api', 'pythoncom27.dll')
 imp.load_dynamic('pythoncom', os.path.join(os.path.dirname(afxres.__file__), 'pythoncom%d%d.dll' % sys.version_info[0:2]))
 import pythoncom
 
-import _winreg as winreg
+import six.moves.winreg as winreg
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
     meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
 sys.path.append(os.path.join(meta_path, 'bin'))
@@ -24,11 +27,12 @@ import udm
 
 
 def log(s):
-    print s
+    print(s)
 
 
 def log_formatted(s):
-    print s
+    print(s)
+
 
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
@@ -160,6 +164,7 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
 
     # start_pdb()
     log('Parallel Master Interpreter finished')
+
 
 # Allow calling this script with a .mga file as an argument
 if __name__ == '__main__':
