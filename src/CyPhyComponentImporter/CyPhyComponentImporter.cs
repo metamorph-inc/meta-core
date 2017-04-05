@@ -844,18 +844,17 @@ namespace CyPhyComponentImporter
                 TempDirDestination = Path.Combine(tempPath, Path.GetRandomFileName());
                 Directory.CreateDirectory(TempDirDestination);
 
-                using (var zip = ZipStorer.Open(inputFilePath, FileAccess.Read))
+                using (var zip = new Ionic.Zip.ZipFile(inputFilePath))
                 {
-                    foreach (var record in zip.ReadCentralDir())
+                    foreach (var record in zip.Entries)
                     {
-                        var relDir = Path.GetDirectoryName(record.FilenameInZip);
+                        var relDir = Path.GetDirectoryName(record.FileName);
                         var absDir = Path.Combine(TempDirDestination, relDir);
                         Directory.CreateDirectory(absDir);
 
-                        var absPath = Path.Combine(TempDirDestination, record.FilenameInZip);
-                        zip.ExtractFile(record, absPath);
-                        
-                        ret.Add(record.FilenameInZip);
+                        var absPath = Path.Combine(TempDirDestination, record.FileName);
+                        record.Extract(TempDirDestination, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+                        ret.Add(record.FileName);
                     }
                 }
 

@@ -43,6 +43,10 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Ionic.Zip\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="ISIS.GME.Common">
       <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
     </Reference>
@@ -90,7 +94,6 @@
     <Compile Include="UpdatePrompt.Designer.cs">
       <DependentUpon>UpdatePrompt.cs</DependentUpon>
     </Compile>
-    <Compile Include="ZipStorer.cs" />
     <!--$ADDITIONALFILES$-->
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +145,10 @@
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
       <Name>CyPhyMLCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyPET\CyPhyPET.csproj">
+      <Project>{98831605-e3ef-4a4f-b5e4-092f946dad53}</Project>
+      <Name>CyPhyPET</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReferenceSwitcher\ReferenceSwitcher.csproj">
       <Project>{145ED698-BC88-451D-A0E8-478F05E13981}</Project>
