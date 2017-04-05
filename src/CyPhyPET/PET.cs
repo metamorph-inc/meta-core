@@ -914,10 +914,15 @@ namespace CyPhyPET
             var config = GenerateCode((CyPhy.ParametricTestBench)python);
 
             var projectDir = Path.GetDirectoryName(Path.GetFullPath(python.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+
+            System.Uri pyFileUri = new Uri(Path.Combine(projectDir, python.Attributes.PyFilename));
+            System.Uri outputUri = new Uri(this.outputDirectory + "\\");
+            string pyFilename = Uri.UnescapeDataString(outputUri.MakeRelativeUri(pyFileUri).ToString());
+            // n.b. keep forward slashes
+
             config.details = new Dictionary<string, string>()
             {
-                // TODO: maybe generate a relative path instead of making absolute here
-                {"filename", Path.Combine(projectDir, python.Attributes.PyFilename)}
+                {"filename", pyFilename}
             };
             config.type = "run_mdao.python_component.PythonComponent";
         }
