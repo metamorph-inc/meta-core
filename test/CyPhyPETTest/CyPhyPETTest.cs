@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace CyPhyPETTest
 {
-    class CyPhyPETTest
+    public class CyPhyPETTest
     {
         static void Main(string[] args)
         {
@@ -16,6 +17,14 @@ namespace CyPhyPETTest
             });
             Console.In.ReadLine();
             //System.Console.Out.WriteLine("HEllo World");
+        }
+
+        [Fact]
+        public void TestCodeParameters()
+        {
+            Dictionary<string, object> assignment = CyPhyPET.PET.getPythonAssignment("x = 1\ny = '2'");
+            Assert.Equal(1L, assignment["x"]);
+            Assert.Equal("2", assignment["y"]);
         }
     }
 }

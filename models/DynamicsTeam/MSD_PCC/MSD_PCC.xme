@@ -18257,7 +18257,8 @@ maxiter = 100</value>
 										<value>0</value>
 									</regnode>
 									<attribute kind="Code">
-										<value>num_levels=5</value>
+										<value>num_levels=5
+num_samples=1</value>
 									</attribute>
 									<attribute kind="DOEType">
 										<value>Full Factorial</value>

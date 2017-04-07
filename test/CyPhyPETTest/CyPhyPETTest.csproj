@@ -120,6 +120,10 @@
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyPET\CyPhyPET.csproj">
+      <Project>{98831605-e3ef-4a4f-b5e4-092f946dad53}</Project>
+      <Name>CyPhyPET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DynamicsTeamTest\DynamicsTeamTest.csproj">
       <Project>{33011618-1b17-4bc7-b204-b84d0fc40b30}</Project>
       <Name>DynamicsTeamTest</Name>
