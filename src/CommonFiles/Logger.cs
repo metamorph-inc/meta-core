@@ -34,8 +34,6 @@ namespace META
             logFileHeader.AppendLine(string.Format("CyPhyML version: {0}", META.VersionInfo.CyPhyML));
             logFileHeader.AppendLine(string.Format("CyPhyML GUID:    {0}", META.VersionInfo.CyPhyMLGuid));
 
-            logFileHeader.AppendLine(string.Format("Python Dll:      {0}", META.VersionInfo.PythonVersion));
-            logFileHeader.AppendLine(string.Format("Python Exe:      {0}", META.VersionInfo.PythonExe));
             logFileHeader.AppendLine(string.Format("Python27 VE exe: {0}", META.VersionInfo.PythonVEnvExe));
 
             logFileHeader.AppendLine(string.Format("PROE ISIS Ext. : {0}", META.VersionInfo.ProeISISExtPath));

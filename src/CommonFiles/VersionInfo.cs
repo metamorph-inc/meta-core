@@ -35,8 +35,6 @@ namespace META
         private static string m_PythonVEnvPath = string.Empty;
         private static string m_PythonVEnvExe = string.Empty;
         private static string m_PythonVEnvActivate = string.Empty;
-        private static string m_PythonVersion = string.Empty;
-        private static string m_PythonExe = string.Empty;
 
 
         public static string CyPhyMLGuid
@@ -337,60 +335,6 @@ namespace META
                         "activate.bat");
                 }
                 return m_PythonVEnvActivate;
-            }
-        }
-
-        public static string PythonExe
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonExe) == false &&
-                    m_PythonExe != unknown)
-                {
-                    return m_PythonExe;
-                }
-
-                m_PythonExe = unknown;
-
-                // Get the system python based on .py file association
-                RegistryKey baseRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Default);
-                string subKey = @"Python.File\shell\open\command";
-                RegistryKey systemPython = baseRegistryKey.OpenSubKey(subKey);
-                if (systemPython != null)
-                {
-                    m_PythonExe = systemPython.GetValue("") as string;
-                }
-
-                return m_PythonExe;
-            }
-        }
-
-        public static string PythonVersion
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonVersion) == false &&
-                    m_PythonVersion != unknown)
-                {
-                    return m_PythonVersion;
-                }
-
-                m_PythonVersion = unknown;
-
-                string pythonDllPath = Path.Combine(
-                    Environment.GetEnvironmentVariable("windir"),
-                    "SysWOW64",
-                    "python27.dll");
-
-                if (File.Exists(pythonDllPath))
-                {
-                    m_PythonVersion = string.Format("{0} {1} {2}",
-                        pythonDllPath,
-                        FileVersionInfo.GetVersionInfo(pythonDllPath).ProductVersion,
-                        GetDllMachineType(pythonDllPath));
-                }
-
-                return m_PythonVersion;
             }
         }
 
