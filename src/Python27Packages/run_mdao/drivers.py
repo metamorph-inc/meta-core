@@ -207,6 +207,8 @@ class OptimizedLatinHypercubeDriver(PredeterminedRunsDriver):
         super(OptimizedLatinHypercubeDriver, self).__init__(*args, **kwargs)
         self.qs = [1, 2, 5, 10, 20, 50, 100]  # List of qs to try for Phi_q optimization
         self.num_samples = num_samples
+        if num_samples < 2:
+            raise ValueError('num_samples must be >= 2')
         self.seed = seed
         self.population = population
         self.generations = generations
