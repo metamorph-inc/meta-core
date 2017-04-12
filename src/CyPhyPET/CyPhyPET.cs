@@ -1073,7 +1073,8 @@ namespace CyPhyPET
 
             };
 
-            foreach (var item in paramsAndUnknowns["unknowns"])
+            int i = 1;
+            foreach (var item in paramsAndUnknowns["unknowns"].OrderBy(x => x.Key))
             {
                 string name = item.Key;
                 var metric = tb.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
@@ -1082,15 +1083,17 @@ namespace CyPhyPET
                     metric = metricCreate();
                     metric.Name = name;
                     // metric.Attributes.Description =
-                    ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, 300);
                 }
                 else
                 {
                     metricsAndParameters.Remove(metric);
                 }
                 setUnit(metric, item.Value);
+                ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800,  i * 65);
+                i++;
             }
-            foreach (var item in paramsAndUnknowns["params"])
+            i = 1;
+            foreach (var item in paramsAndUnknowns["params"].OrderBy(x => x.Key))
             {
                 string name = item.Key;
                 var param = tb.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
@@ -1105,7 +1108,8 @@ namespace CyPhyPET
                     metricsAndParameters.Remove(param);
                 }
                 setUnit(param, item.Value);
-
+                ((IMgaFCO)param.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, i * 65);
+                i++;
             }
             foreach (var metricOrParameter in metricsAndParameters)
             {
