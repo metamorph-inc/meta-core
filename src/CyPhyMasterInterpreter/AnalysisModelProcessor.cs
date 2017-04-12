@@ -852,19 +852,10 @@
         {
             // TODO: review this code
             string outputSubDir = string.Empty;
-            string randomFolderName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
-            HashSet<char> illegalStartChars = new HashSet<char>()
-                {
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-                };
-
-            outputSubDir = Path.Combine(outputDir, randomFolderName);
-
+            string randomFolderName;
             int maxFolders = 0;
 
-            while (illegalStartChars.Contains(randomFolderName.FirstOrDefault()) ||
-                File.Exists(outputSubDir) ||
-                Directory.Exists(outputSubDir))
+            do
             {
                 if (maxFolders++ > 2000000)
                 {
@@ -875,10 +866,13 @@
                             outputDir));
                 }
 
-                randomFolderName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+                randomFolderName = "r" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + "_" +
+                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 
                 outputSubDir = Path.Combine(outputDir, randomFolderName);
-            }
+
+            } while (File.Exists(outputSubDir) ||
+                Directory.Exists(outputSubDir));
 
             return Path.GetFullPath(outputSubDir);
         }
