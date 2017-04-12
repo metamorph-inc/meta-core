@@ -453,56 +453,6 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		{
 			throw python_error(GetPythonError());
 		}
-		PyObject_RAII invoke = PyObject_GetAttrString(reloaded_module, "invoke");
-		if (!invoke)
-		{
-			throw python_error("Error: script has no \"invoke\" function");
-		}
-		if (!PyCallable_Check(invoke))
-		{
-			throw python_error("Error: script \"invoke\" attribute is not callable");
-		}
-
-		PyDict_SetItemString(main_namespace, "focusObj", pyFocusObject.p);
-		PyDict_SetItemString(main_namespace, "rootObj", pyRootObject.p);
-		PyDict_SetItemString(main_namespace, "project", pyProject.p);
-		
-		PyObject_RAII setup = PyRun_StringFlags(
-			//"import ctypes\n"
-			//"ctypes.windll.kernel32.allocconsole()\n"
-			//"import sys\n"
-			//"sys.stdout = open('conout$', 'wt')\n"
-			//"sys.stdin = open('conin$', 'rt')\n"
-			//"import pdb; pdb.set_trace()\n"
-			"import win32com.client.dynamic\n"
-			"import udm\n"
-			"import os.path\n"
-			"import six\n"
-			"with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\\META') as software_meta:\n"
-			"    meta_path, _ = six.moves.winreg.QueryValueEx(software_meta, 'META_PATH')\n"
-			"CyPhyML_udm = os.path.join(meta_path, r'generated\\CyPhyML\\models\\CyPhyML_udm.xml')\n"
-			"if not os.path.isfile(CyPhyML_udm):\n"
-			"	CyPhyML_udm = os.path.join(meta_path, r'meta\\CyPhyML_udm.xml')\n"
-			"cyphy = udm.SmartDataNetwork(udm.uml_diagram())\n"
-			"cyphy.open(CyPhyML_udm, '')\n"
-			"udm_project = udm.SmartDataNetwork(cyphy.root)\n"
-			"udm_project.open(project, '')\n"
-			"if focusObj: focusObj = win32com.client.dynamic.Dispatch(focusObj)\n"
-			"if rootObj: rootObj = win32com.client.dynamic.Dispatch(rootObj)\n"
-			"if focusObj: focusObj = udm_project.convert_gme2udm(focusObj)\n"
-			"if rootObj: rootObj = udm_project.convert_gme2udm(rootObj)\n"
-			, Py_file_input, main_namespace, main_namespace, NULL);
-		if (setup == nullptr && PyErr_Occurred())
-		{
-			throw python_error(GetPythonError());
-		}
-
-		PyObject_RAII empty_tuple = PyTuple_New(0);
-		PyObject_RAII args = PyDict_New();
-		PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObj"));
-		PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObj"));
-		PyDict_SetItemString(args, "udmProject", PyDict_GetItemString(main_namespace, "udm_project"));
-
 		PyObject_RAII parameters = PyDict_New();
 		for (auto it = componentParameters.begin(); it != componentParameters.end(); it++)
 		{
@@ -512,25 +462,110 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 				PyDict_SetItemString(parameters, static_cast<const char*>(it->first), parameterString);
 			}
 		}
-		PyDict_SetItemString(args, "componentParameters", parameters);
 
-		PyObject_RAII ret = PyObject_Call(invoke, empty_tuple, args);
 		std::unique_ptr<python_error> invokeError;
-		if (ret == nullptr && PyErr_Occurred())
+		PyObject_RAII invoke = PyObject_GetAttrString(reloaded_module, "invoke");
+		if (!invoke)
 		{
-			invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError(ErrorMessageException)));
-		}
+			PyErr_Clear();
+			PyObject_RAII invokeGME = PyObject_GetAttrString(reloaded_module, "invokeGME");
+			if (!invokeGME.p)
+			{
+				PyErr_Clear();
+				throw python_error("Error: script has no \"invoke\" or \"invokeGME\" function");
+			}
+			PyDict_SetItemString(main_namespace, "focusObject", pyFocusObject.p);
+			PyDict_SetItemString(main_namespace, "rootObject", pyRootObject.p);
+			PyDict_SetItemString(main_namespace, "project", pyProject.p);
 
-		PyObject_RAII dn_close;
-		if (invokeError) {
-			dn_close.p = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+			PyObject_RAII setup = PyRun_StringFlags(
+				"import win32com.client.dynamic\n"
+				"if focusObject: focusObject = win32com.client.dynamic.Dispatch(focusObject)\n"
+				"if rootObject: rootObject = win32com.client.dynamic.Dispatch(rootObject)\n"
+				"project = win32com.client.dynamic.Dispatch(project)\n"
+				, Py_file_input, main_namespace, main_namespace, NULL);
+			if (setup == nullptr && PyErr_Occurred())
+			{
+				throw python_error(GetPythonError());
+			}
+
+			PyObject_RAII empty_tuple = PyTuple_New(0);
+			PyObject_RAII args = PyDict_New();
+			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObject"));
+			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObject"));
+			PyDict_SetItemString(args, "project", PyDict_GetItemString(main_namespace, "project"));
+			PyDict_SetItemString(args, "componentParameters", parameters);
+
+			PyObject_RAII ret = PyObject_Call(invokeGME, empty_tuple, args);
+			if (ret == nullptr && PyErr_Occurred())
+			{
+				invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError(ErrorMessageException)));
+			}
 		}
 		else {
-			dn_close.p = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
-		}
-		if (dn_close.p == NULL && PyErr_Occurred())
-		{
-			throw python_error(GetPythonError());
+			if (!PyCallable_Check(invoke))
+			{
+				throw python_error("Error: script \"invoke\" attribute is not callable");
+			}
+
+			PyDict_SetItemString(main_namespace, "focusObj", pyFocusObject.p);
+			PyDict_SetItemString(main_namespace, "rootObj", pyRootObject.p);
+			PyDict_SetItemString(main_namespace, "project", pyProject.p);
+
+			PyObject_RAII setup = PyRun_StringFlags(
+				//"import ctypes\n"
+				//"ctypes.windll.kernel32.allocconsole()\n"
+				//"import sys\n"
+				//"sys.stdout = open('conout$', 'wt')\n"
+				//"sys.stdin = open('conin$', 'rt')\n"
+				//"import pdb; pdb.set_trace()\n"
+				"import win32com.client.dynamic\n"
+				"import udm\n"
+				"import os.path\n"
+				"import six\n"
+				"with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\\META') as software_meta:\n"
+				"    meta_path, _ = six.moves.winreg.QueryValueEx(software_meta, 'META_PATH')\n"
+				"CyPhyML_udm = os.path.join(meta_path, r'generated\\CyPhyML\\models\\CyPhyML_udm.xml')\n"
+				"if not os.path.isfile(CyPhyML_udm):\n"
+				"	CyPhyML_udm = os.path.join(meta_path, r'meta\\CyPhyML_udm.xml')\n"
+				"cyphy = udm.SmartDataNetwork(udm.uml_diagram())\n"
+				"cyphy.open(CyPhyML_udm, '')\n"
+				"udm_project = udm.SmartDataNetwork(cyphy.root)\n"
+				"udm_project.open(project, '')\n"
+				"if focusObj: focusObj = win32com.client.dynamic.Dispatch(focusObj)\n"
+				"if rootObj: rootObj = win32com.client.dynamic.Dispatch(rootObj)\n"
+				"if focusObj: focusObj = udm_project.convert_gme2udm(focusObj)\n"
+				"if rootObj: rootObj = udm_project.convert_gme2udm(rootObj)\n"
+				, Py_file_input, main_namespace, main_namespace, NULL);
+			if (setup == nullptr && PyErr_Occurred())
+			{
+				throw python_error(GetPythonError());
+			}
+
+			PyObject_RAII empty_tuple = PyTuple_New(0);
+			PyObject_RAII args = PyDict_New();
+			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObj"));
+			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObj"));
+			PyDict_SetItemString(args, "udmProject", PyDict_GetItemString(main_namespace, "udm_project"));
+			PyDict_SetItemString(args, "componentParameters", parameters);
+
+			PyObject_RAII ret = PyObject_Call(invoke, empty_tuple, args);
+			if (ret == nullptr && PyErr_Occurred())
+			{
+				invokeError = std::unique_ptr<python_error>(new python_error(GetPythonError(ErrorMessageException)));
+			}
+
+			PyObject_RAII dn_close;
+			if (invokeError) {
+				dn_close.p = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+			}
+			else {
+				dn_close.p = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+			}
+			if (dn_close.p == NULL && PyErr_Occurred())
+			{
+				throw python_error(GetPythonError());
+			}
 		}
 
 		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))

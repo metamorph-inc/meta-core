@@ -61,8 +61,8 @@ def start_pdb():
 
 
 # This is the entry point
-def invoke(focusObject, rootObject, componentParameters, udmProject, **kwargs):
-    mga_project = focusObject.convert_udm2gme().Project
+def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
+    mga_project = project
 
     c = run_mdao.python_component.PythonComponent(componentParameters['openmdao_py'])
 
