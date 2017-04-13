@@ -950,10 +950,12 @@ FUNCTION submitSolution101(	in_JobName )
 	jobfile.writec( "MODEL SUFFIX", ".bdf" )
 	jobfile.writec( "RESULTS SUFFIX", ".op2" )
 	jobfile.writec( "", "" )
-	jobfile.writec( "", "/*" )
-	jobfile.writec( "", " * File Search Path Declaration" )
-	jobfile.writec( "", " */" )
-	jobfile.writec( "", "" )
+	#jobfile.writec( "", "/*" )
+	#jobfile.writec( "", " * File Search Path Declaration" )
+	#jobfile.writec( "", " */" )
+	#jobfile.writec( "", "" )
+	
+	/*******************************************************************
 	jobfile.writec( "File Search Path", "C:\Users\rowens" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\help" // @
@@ -980,6 +982,8 @@ FUNCTION submitSolution101(	in_JobName )
 	"eware\msc\unsupported\utilities\plb" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
 	"eware\msc\unsupported\utilities\extra_files" )
+	
+	**************************************************************************/
 	jobfile.writec( "", "" )
 	jobfile.writec( "", "/*" )
 	jobfile.writec( "", " * Translation Parameters" )
@@ -1147,6 +1151,246 @@ FUNCTION submitSolution101(	in_JobName )
 	
 END FUNCTION	
 #############################################################################################
+FUNCTION exportBDF_Solution101(	in_JobName ) 
+							
+	STRING		in_JobName[]
+													
+	INTEGER returnStatus = 0	
+	
+	STRING  functionName[64] 
+	functionName = c_ClassName // ".exportBDF_Solution101"		
+	
+	STRING date_time_array[32](2)
+	date_time_array(1) = sys_date()
+	date_time_array(2) = sys_time()		
+	
+	msc_delete_old_files( in_JobName, ".bdf", ".op2" )	
+	jobfile.open( in_JobName, "ANALYZE NO JOBFILE" )
+	
+	jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", date_time_array )
+	
+	#jobfile.write_spl( "/* Jobfile for PATNAS created %A% at %A% */", ["06-May-16" @
+	#, "14:32:06"] )	
+	
+	jobfile.writec( "", "TRANSLATOR = pat3nas" )
+	jobfile.writec( "DATABASE", "C:\Users\rowens\My_SVN\META_Sandbox\Blade_Win" // @
+	"d_Turbine\PatranModels\PCL_Programs\SpecificFunctionalityExamples\01_Star" // @
+	"t_PCL_DB\suppo" )
+	jobfile.writec( "JOBNAME", in_JobName )
+	jobfile.writec( "ANALYSIS TITLE", "MSC.Nastran job created on 06-May-16 at" // @
+	" 14:30:53" )
+	jobfile.writec( "ANALYSIS SUBTITLE", "" )
+	jobfile.writec( "ANALYSIS LABEL", "" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "OBJECT", "Entire Model" )
+	jobfile.writec( "METHOD", "Analysis Deck" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "MODEL SUFFIX", ".bdf" )
+	jobfile.writec( "RESULTS SUFFIX", ".op2" )
+	jobfile.writec( "", "" )
+	#jobfile.writec( "", "/*" )
+	#jobfile.writec( "", " * File Search Path Declaration" )
+	#jobfile.writec( "", " */" )
+	#jobfile.writec( "", "" )
+	
+	/*******************************************************************
+	jobfile.writec( "File Search Path", "C:\Users\rowens" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\help" // @
+	"files" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\alters" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\icon" // @
+	"s\RibbonIcons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\bin\exe" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\msce" // @
+	"xplore_files\" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\dmap" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\lib" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\mscp" // @
+	"rocor_files\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\icons" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\plb" )
+	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
+	"eware\msc\unsupported\utilities\extra_files" )
+	
+	**************************************************************************/
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Translation Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	
+	IF ( vAnalysis.get_failure_Criteria() == vConstants.get_ci_Undefined() ) THEN
+		# If the .xdb file exists, post processing will compute (if requested) the values of 
+		# VonMises stress, Principal stress, Bearing Stress, Shear Stress, Factor-of-Safety 
+		jobfile.writec( "DATA OUTPUT", "XDB+PRINT" )
+	Else
+		# Create a .op2 file for the case where of TSAI_WU, HOFFMAN, HILL, or MAXIMUM_STRESS
+		# If the .op2 files exists, post processing will retrieve "Failure Index for Bonding, Interlaminar Stress"
+		# and "Failure Index for Ply, Direct Stress/Strain" form the .op2 file.  These will be the failure criteria. 
+		jobfile.writec( "DATA OUTPUT", "OP2+PRINT" )
+	END IF
+
+	jobfile.writec( "OUTPUT2 REQUESTS", "P3 Built In" )
+	jobfile.writec( "OUTPUT2 FORMAT", "Binary" )
+	jobfile.writec( "DIVISION TOLERANCE", "1.0e-08" )
+	jobfile.writec( "NUMERICAL TOLERANCE", "1.0e-04" )
+	jobfile.writec( "WRITING TOLERANCE", "1.0e-21" )
+	jobfile.writec( "GEOM CHECK", "INFORM" )
+	jobfile.writec( "SORTED BULK", "NO" )
+	jobfile.writec( "CARD FORMAT", "either" )
+	jobfile.writec( "NODE COORDINATES", "reference frame" )
+	jobfile.writec( "COORD COORDINATES", "global" )
+	jobfile.writec( "MSC.Nastran VERSION", "2014." )
+	jobfile.writec( "WRITE STORED PRECISION", "TRUE" )
+	jobfile.writec( "PROPS ON ELEM ENTRY", "FALSE" )
+	jobfile.writec( "CONTINUATION ENTRY", "FALSE" )
+	jobfile.writec( "PCOMPG ENTRY", "TRUE" )
+	jobfile.writec( "CONVERT CBAR CBEAM", "FALSE" )
+	jobfile.writec( "ITERATIVE SOLVER", "FALSE" )
+	jobfile.writei( "SUPER ELEMENT 0", 0 )
+	jobfile.writec( "SEALL WRITE", "FALSE" )
+	jobfile.writec( "PART SUPERELEMENT CREATE", "TRUE" )
+	jobfile.writec( "AUTOQSET", "FALSE" )
+	jobfile.writec( "FIXEDB", "FALSE" )
+	jobfile.writei( "SUPER TREE COUNT", 0 )
+	jobfile.writec( "MODEL TOLERANCE", "0.0049999999" )
+	jobfile.writec( "ELEMENT PROPERTY OFFSET", "0" )
+	jobfile.writec( "MATERIAL PROPERTY OFFSET", "0" )
+	jobfile.writec( "TABLE OFFSET", "0" )
+	jobfile.writec( "LOAD SET OFFSET", "0" )
+	jobfile.writec( "LOAD CASE OFFSET", "0" )
+	jobfile.writec( "CONTROL SET OFFSET", "0" )
+	jobfile.writec( "RIGID ELEMENT OFFSET", "0" )
+	jobfile.writec( "SCALAR POINT OFFSET", "0" )
+	jobfile.writec( "BEGINNING CONTINUATION MARKER", "+      A" )
+	jobfile.writec( "NUMBER ONLY", "ON" )
+	jobfile.writec( "BEGINNING NUMBER", "OFF" )
+	jobfile.writec( "TRAILING NUMBER", "OFF" )
+	jobfile.writec( "SYNTAX NUMBER", "ON" )
+	jobfile.writec( "SYNTAX MARKER", "." )
+	jobfile.writec( "EXTERNAL SUPERELEMENT METHOD", "NONE" )
+	jobfile.writec( "GRID COORDINATES ROUNDING", "15" )
+	jobfile.writec( "COORD DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "MPC DATA PRECISION ROUNDING", "15" )
+	jobfile.writec( "LBC DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "MAT DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "PROP DATA PRECISION ROUNDING", "7" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "", "/*" )
+	jobfile.writec( "", " * Solution Parameters" )
+	jobfile.writec( "", " */" )
+	jobfile.writec( "", "" )
+	jobfile.writec( "SOLUTION TYPE", "LINEAR STATIC" )
+	jobfile.writei( "SOLUTION SEQUENCE", 101 )
+	jobfile.writec( "DATABASE RUN", "ON" )
+	jobfile.writec( "CYCLIC SYMMETRY", "OFF" )
+	jobfile.writec( "AUTOMATIC CONSTRAINTS", "ON" )
+	jobfile.writec( "INERTIA RELIEF", "OFF" )
+	jobfile.writec( "ALTERNATE REDUCTION", "OFF" )
+	jobfile.writec( "SHELL NORMAL TOLERANCE", "" )
+	jobfile.writec( "MASS CALCULATION", "Lumped" )
+	jobfile.writec( "DATA DECK ECHO", "None" )
+	jobfile.writec( "PLATE RZ STIFFNESS FACTOR", "100.0" )
+	jobfile.writec( "MAXIMUM PRINTED LINES", "" )
+	jobfile.writec( "MAXIMUM RUN TIME", "" )
+	jobfile.writec( "WT-MASS CONVERSION", "1.0" )
+	jobfile.writec( "NODE ID FOR WT-GENER", "" )
+	jobfile.writec( "RIGID ELEMENT TYPE", "LINEAR" )
+	jobfile.writec( "USE SOL600", "OFF" )
+	jobfile.writei( "CONTACT-SEGMENT-CONTROL METHOD", 0 )
+	jobfile.writei( "CONTACT-DEFORMABLE-DEFORMABLE METHOD", 0 )
+	jobfile.writei( "CONTACT-CRITERION", 0 )
+	jobfile.writei( "CONTACT-DERIVATION", 0 )
+	jobfile.writei( "CONTACT-REL_ABS", 0 )
+	jobfile.writec( "USE SOL700", "OFF" )
+	jobfile.writec( "SN MEAN STRESS CORRECTION", "NONE" )
+	jobfile.writec( "NEF STRESS UNITS", "MPA" )
+	jobfile.writec( "NEF STRESS COMBINATION", "ABSMAXPR" )
+	jobfile.writec( "NEF RESULT LOCATION", "NODE" )
+	jobfile.writec( "NEF INTERPOLATION LIMIT", "0" )
+	jobfile.writec( "NEF LEVEL OF MESSAGE", "0" )
+	jobfile.writec( "NEF NUMBER OF THREADS", "1" )
+	jobfile.writer( "NEF CERTAINTY OF SURVIVAL", 50. )
+	jobfile.writer( "NEF OVERALL SCALE FACTOR", 1. )
+	jobfile.writer( "NEF TOP STRESS PERCENTAGE FILTER", 100. )
+	jobfile.writer( "NEF TOP DAMAGE PERCENTAGE FILTER", 100. )
+	jobfile.writec( "NEF TIME HISTORY DIRECTORY", "C:\Users\rowens" )
+	jobfile.writei( "NEF MAX LOAD PER EVENT", 1 )
+	jobfile.writec( "NEF EVENT DATA", "0" )
+	jobfile.writec( "NEF LOAD SEQUENCE DATA", "0" )
+	jobfile.writec( "USE CONTACT TABLE", "OFF" )
+	jobfile.writec( "INITIAL CONTACTPAIR LOADCASE NAME", "" )
+	jobfile.writei( "MDOF DATA", 0 )
+	jobfile.writec( "CELL WRITE", "ON" )
+	jobfile.writei( "CELL INPUT 0", 0 )
+	jobfile.writec( "FMS WRITE", "ON" )
+	jobfile.writei( "FMS INPUT 0", 0 )
+	jobfile.writec( "EXEC WRITE", "ON" )
+	jobfile.writei( "EXEC INPUT 0", 0 )
+	jobfile.writec( "CASE WRITE", "ON" )
+	jobfile.writei( "CASE INPUT 0", 0 )
+	jobfile.writec( "BULK WRITE", "ON" )
+	jobfile.writei( "BULK INPUT 0", 0 )
+	jobfile.writec( "CELL DTI POSITION", "START" )
+	jobfile.writec( "FMS DTI POSITION", "START" )
+	jobfile.writec( "EXEC DTI POSITION", "START" )
+	jobfile.writec( "CASE DTI POSITION", "START" )
+	jobfile.writec( "BULK DTI POSITION", "START" )
+	jobfile.writec( "", "END" )
+	jobfile.close(  )
+	returnStatus = mscnastran_job.associate_subcases( "101", in_JobName, 1, ["Default"] )	
+
+	IF ( returnStatus != 0 ) THEN
+		errorMsg = "mscnastran_job.associate_subcases returned an error, Return Status: " // str_from_integer(returnStatus)
+		errorLevel = vLogger.get_ci_ERROR()	
+		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )			
+        RETURN returnStatus		
+	END IF			
+	
+	text_write_string( vLogger.getChannel(), "")	
+
+	text_write_string( vLogger.getChannel(), "Export BDF ( i.e. Patran function analysis_submit_2 )")	
+	text_write_string( vLogger.getChannel(), "   *** IMPORTANT MESSAGE FOR SURFACE MODELS ***")		
+	text_write_string( vLogger.getChannel(), "      If this message (i.e. Export BDF( i.e Patran function analysis_submit_2 )) is the last message in this log file, then the analysis_submit_2 failed." )				
+	text_write_string( vLogger.getChannel(), "      For surface models:" )
+	text_write_string( vLogger.getChannel(), "         this usually means that a surface in the Patran model has no assigned property set." )		
+	text_write_string( vLogger.getChannel(), "         Using Patran, open the Patran_Model.db (directory above the log file directory) and follow the instructions at." )		
+	text_write_string( vLogger.getChannel(), "            http://mscnastrannovice.blogspot.com/2014/02/how-to-find-elements-with-no-properties.html" )		
+	text_write_string( vLogger.getChannel(), "            Double click on props_NO_Properties to see the surface names that have no property sets." )		
+	text_write_string( vLogger.getChannel(), "            Edit the CyPhy model to assure that all surfaces have a MaterialContents (results in a property set in then Patran model)." )	
+	
+	analysis_submit_2( "MSC.Nastran", in_JobName )
+	
+	
+	# analysis_submit_2 does not return a returnStatus
+	#IF ( returnStatus != 0 ) THEN
+	#	addErrorMessage( @
+	#					errorMsg = " analysis_submit_2c returned an error, Return Status: " // str_from_integer(returnStatus)), @
+	#		in_ErrorMessages_maxCount, in_out_ErrorMessages_current, in_out_errorMessages) 
+    #   RETURN returnStatus		
+	#END IF		
+	
+	text_write_string ( vLogger.getChannel(), "" )	
+	
+	text_write_string ( vLogger.getChannel(), "Successfully exported BDF: " // in_JobName // ".bdf" )	
+
+	text_write_string ( vLogger.getChannel(), "" )		
+	
+	RETURN returnStatus
+	
+END FUNCTION	
+
+
+#############################################################################################
 FUNCTION submitSolution400(	in_JobName ) 
 							
 	STRING		in_JobName[]
@@ -1184,10 +1428,12 @@ FUNCTION submitSolution400(	in_JobName )
 	jobfile.writec( "MODEL SUFFIX", ".bdf" )
 	jobfile.writec( "RESULTS SUFFIX", ".op2" )
 	jobfile.writec( "", "" )
-	jobfile.writec( "", "/*" )
-	jobfile.writec( "", " * File Search Path Declaration" )
-	jobfile.writec( "", " */" )
-	jobfile.writec( "", "" )
+	#jobfile.writec( "", "/*" )
+	#jobfile.writec( "", " * File Search Path Declaration" )
+	#jobfile.writec( "", " */" )
+	#jobfile.writec( "", "" )
+	
+	/*******************************************************************	
 	jobfile.writec( "File Search Path", "C:\Users\rowens" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\help" // @
@@ -1214,6 +1460,8 @@ FUNCTION submitSolution400(	in_JobName )
 	"eware\msc\unsupported\utilities\plb" )
 	jobfile.writec( "File Search Path", "C:\MSC.Software\Patran_x64\20140\shar" // @
 	"eware\msc\unsupported\utilities\extra_files" )
+	*******************************************************************/	
+	
 	jobfile.writec( "", "" )
 	jobfile.writec( "", "/*" )
 	jobfile.writec( "", " * Translation Parameters" )

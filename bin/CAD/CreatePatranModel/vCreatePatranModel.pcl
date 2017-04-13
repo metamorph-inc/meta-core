@@ -510,7 +510,8 @@ FUNCTION  createPatranModel( 	in_Working_Dir,				@
 			# must hard code the job name so the bdf and xdb will have this name so it can be consumed by patran_pp.pcl
 			# patran_pp.pcl supports PATRAN_NASTRAN and deck-based NASTRAN. 
 			
-			returnStatus = vPatranUtils.submitSolution101("Nastran_mod" )
+			# returnStatus = vPatranUtils.submitSolution101("Nastran_mod" )
+			returnStatus = vPatranUtils.exportBDF_Solution101("Nastran_mod")
 			
 			# The following will be supported when 3D Orthotropic (i.e. solid composite) is supported.
 			#IF ( ?? if materials are all ar 3D Orthotropic with a failure (e.g. Tsai_Wu) defined ) THEN
@@ -538,7 +539,7 @@ FUNCTION  createPatranModel( 	in_Working_Dir,				@
 		text_open( "_SUCCEEDED_CreatePatranModel.TXT", "NOWA", 0, 0, succeededFile )	
 		text_write_string ( succeededFile, "Processing completed successfully" )			
 		text_write_string( succeededFile, "Date Time: " // sys_date() // "  " // sys_time())			
-		text_write_string( succeededFile, "Patran model created/ran successfully.")
+		text_write_string( succeededFile, "Patran model created successfully and BDF exported successfully.")
 		text_write_string( succeededFile, "See the log file, " // log_DirAndFileName // ", for details about this successful run." )			
 		text_close(succeededFile,"")	
 		
@@ -549,7 +550,7 @@ FUNCTION  createPatranModel( 	in_Working_Dir,				@
 		END FOR		
 
 		text_write_string ( vLogger.getChannel(), "" )					
-		text_write_string( vLogger.getChannel(), "Patran model created/ran successfully, Date Time: " // sys_date() // "  " // sys_time())		
+		text_write_string( vLogger.getChannel(), "Patran model created successfully and BDF exported successfully, Date Time: " // sys_date() // "  " // sys_time())		
 	ELSE
 		INTEGER failedFile = 0
 		INTEGER failedFile_ResultsDir = 0		

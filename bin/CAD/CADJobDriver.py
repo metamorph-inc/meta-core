@@ -120,7 +120,10 @@ class CADJobDriver():
         elif self.analyzer == 'ABAQUSDECK':
             self.run_abaqus_deck_based()
         elif self.analyzer == 'NASTRAN':
-            self.run_nastran()
+            cwd = os.path.abspath(os.getcwd())
+            nastran_dir = os.path.join(cwd, 'Analysis', 'Nastran')
+            os.chdir(nastran_dir)		
+            self.run_nastran_post_process('..\\Nastran_mod.nas')
         elif self.analyzer == 'CALCULIX':
             self.run_calculix()
 
@@ -311,29 +314,29 @@ class CADJobDriver():
             cad_library.exitwitherror("CreatePatranModel.pcl failed. See .\log\CreatePatranModel_Session.log " +
             "and .\log\CreatePatranModel_Application.log", -1)
 
-        if not self.run_pp:
-            return 0
+		#################################################################################
+        # 4/12/2017 New approach - Patran now only creates the BDF, must run Nastran explicitly		
+        self.run_nastran_post_process('.\\Nastran_mod.bdf')		
+			
+        #if not self.run_pp:
+        #    return 0
 
-        else:
-            pp_result = self.run_patran_post_processing()
+        #else:
+        #    pp_result = self.run_patran_post_processing()
 
-            if not os.path.exists("_SUCCEEDED_PatranPostProcessing.TXT"):
-                cad_library.exitwitherror("vPatranPostProcess.pcl failed. See .\log\PatranPostProcessing_Session.log " +
-                "and .\log\PatranPostProcessing_Application.log", -1)
+        #    if not os.path.exists("_SUCCEEDED_PatranPostProcessing.TXT"):
+        #        cad_library.exitwitherror("vPatranPostProcess.pcl failed. See .\log\PatranPostProcessing_Session.log " +
+        #        "and .\log\PatranPostProcessing_Application.log", -1)
 
-            if pp_result != 0:
-                msg = "Patran Post Processing failed."
-                cad_library.exitwitherror(msg, -1)
+        #    if pp_result != 0:
+        #        msg = "Patran Post Processing failed."
+        #        cad_library.exitwitherror(msg, -1)
 
-    def run_nastran(self):
+    # Pre-Condition - Must be set (i.e. os.chdir) to the directory containing in_BDF_FileName before calling run_nastran_post_process
+    def run_nastran_post_process(self, in_BDF_FileName):
 
-        cwd = os.path.abspath(os.getcwd())
-
-        nastran_dir = os.path.join(cwd, 'Analysis', 'Nastran')
-
-        os.chdir(nastran_dir)
-
-        nastran_py_cmd = ' \"' + cad_library.META_PATH + 'bin\\CAD\Nastran.py\" ..\\Nastran_mod.nas'
+        #nastran_py_cmd = ' \"' + cad_library.META_PATH + 'bin\\CAD\Nastran.py\" ..\\Nastran_mod.nas'
+        nastran_py_cmd = ' \"' + cad_library.META_PATH + 'bin\\CAD\Nastran.py\" ' + in_BDF_FileName	
 
         self.call_subprocess(sys.executable + nastran_py_cmd)
 
@@ -344,6 +347,10 @@ class CADJobDriver():
         else:
             pp_result = self.run_patran_post_processing()
 
+            if not os.path.exists("_SUCCEEDED_PatranPostProcessing.TXT"):
+                cad_library.exitwitherror("vPatranPostProcess.pcl failed. See .\log\PatranPostProcessing_Session.log " +
+                "and .\log\PatranPostProcessing_Application.log", -1)			
+			
             if pp_result != 0:
                 msg = "Patran Post Processing failed."
                 cad_library.exitwitherror(msg, -1)
