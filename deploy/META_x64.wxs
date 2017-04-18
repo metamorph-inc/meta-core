@@ -44,6 +44,10 @@
       <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
     </Condition>
 
+    <Condition Message="The installation environment is not correct. Possible cause: running under cygwin ssh with key authentication. Run `passwd -R` and ensure `/cygdrive/c/Windows/System32/whoami.exe` returns the correct username.">
+      <![CDATA[Installed OR (WIX_DIR_COMMON_DOCUMENTS <> "")]]>
+    </Condition>
+
     <Property Id='ARPPRODUCTICON' Value='META.ico' />
     <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
 
