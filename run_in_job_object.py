@@ -25,6 +25,9 @@ if __name__=='__main__':
     extended_info['BasicLimitInformation']['LimitFlags'] = win32job.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | win32job.JOB_OBJECT_LIMIT_BREAKAWAY_OK
     win32job.SetInformationJobObject(hJob, win32job.JobObjectExtendedLimitInformation, extended_info)
     win32job.AssignProcessToJobObject(hJob, hProcess)
+    # n.b. intentionally leak hJob. Otherwise, when running on Windows Server 2008R2 SP1, AssignProcessToJobObject closes hJob (try !handle
+    # in windbg before and after), and we crash with invalid handle in CloseHandle on exit
+    hJob.Detach()
 
     win32process.ResumeThread(hThread)
 
