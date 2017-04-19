@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -80,6 +80,10 @@
     <Reference Include="GME.MGA.Parser, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ISIS.GME.Common, Version=1.0.5.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\meta-tonka\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -116,9 +120,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
+      <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
+      <Name>CyPhy2Modelica_v2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{a7efedc9-9557-4083-a990-efcac684e3c6}</Project>
+      <Name>CyPhyMLCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyPET\CyPhyPET.csproj">
       <Project>{98831605-e3ef-4a4f-b5e4-092f946dad53}</Project>
