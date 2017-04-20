@@ -190,16 +190,18 @@ namespace META
 
                         try
                         {
-                            Process p = Process.Start(psi);
-                            p.WaitForExit();
-                            if (p.ExitCode == 0)
+                            using (Process p = Process.Start(psi))
                             {
-                                var infoXml = p.StandardOutput.ReadToEnd();
-                                version = infoXml;
-                            }
-                            else
-                            {
-                                version = "unknown";
+                                p.WaitForExit();
+                                if (p.ExitCode == 0)
+                                {
+                                    var infoXml = p.StandardOutput.ReadToEnd();
+                                    version = infoXml;
+                                }
+                                else
+                                {
+                                    version = "unknown";
+                                }
                             }
                         }
                         catch (System.ComponentModel.Win32Exception)

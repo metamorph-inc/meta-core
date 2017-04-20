@@ -15,6 +15,8 @@ using System.Diagnostics;
 using CyPhyGUIs;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CyPhyPET
 {
@@ -967,11 +969,83 @@ namespace CyPhyPET
             }
         }
 
-        public void DecoratorDoubleClick(object fco)
+        public void EditButtonClicked(object fco)
         {
-            GMEConsole console = GMEConsole.CreateFromProject(((IMgaFCO)fco).Project);
+            DecoratorCallback(fco, () =>
+            {
+                string filename;
+                if (((IMgaFCO)fco).Meta.Name == "ExcelWrapper")
+                {
+                    // ISIS.GME.Dsml.CyPhyML.Interfaces.ExcelWrapper ew;
+                    // ew.Attributes.ExcelFilename
+                    filename = ((IMgaFCO)fco).GetStrAttrByNameDisp("ExcelFilename");
+                }
+                else if (((IMgaFCO)fco).Meta.Name == "MATLABWrapper")
+                {
+                    // ISIS.GME.Dsml.CyPhyML.Interfaces.MATLABWrapper wrapper;
+                    // wrapper.Attributes.MFilename
+                    filename = ((IMgaFCO)fco).GetStrAttrByNameDisp("MFilename");
+                }
+                else if (((IMgaFCO)fco).Meta.Name == "PythonWrapper")
+                {
+                    // ISIS.GME.Dsml.CyPhyML.Interfaces.PythonWrapper wrap;
+                    // wrap.Attributes.PyFilename
+                    filename = ((IMgaFCO)fco).GetStrAttrByNameDisp("PyFilename");
+                }
+                else
+                {
+                    return;
+                }
+                string editor = "notepad.exe";
+                GME.Util.IMgaRegistrar reg = new GME.Util.MgaRegistrar();
+                foreach (var mode in new GME.Util.regaccessmode_enum[] { GME.Util.regaccessmode_enum.REGACCESS_USER, GME.Util.regaccessmode_enum.REGACCESS_SYSTEM })
+                {
+                    if (reg.ExternalEditorEnabled[mode])
+                    {
+                        editor = reg.ExternalEditor[mode];
+                        break;
+                    }
+                }
+                Regex argParser = new Regex("(\"[^\"]*\"|[^\" \t]*)(?:[ \t](.*))?");
+                /*
+                argParser.Match("notepad.exe").Groups
+                argParser.Match("notepad.exe 12 123").Groups
+                argParser.Match("\"notepad.exe\"").Groups
+                argParser.Match("\"C:\\Program Files\\notepad++.exe\" -multiInst").Groups
+                */
+                var match = argParser.Match(editor);
+                var editorFilename = match.Groups[1].Value;
+                if (editorFilename[0] == '\"')
+                {
+                    editorFilename = editorFilename.Substring(1, editorFilename.Length - 2);
+                }
+                var args = match.Groups[2].Value;
 
-            try
+                Process p = new Process();
+                p.StartInfo.FileName = editorFilename;
+                p.StartInfo.Arguments = String.Format("{0} \"{1}\"", args, filename);
+                p.StartInfo.WorkingDirectory = Path.GetDirectoryName(((IMgaFCO)fco).Project.ProjectConnStr.Substring("MGA=".Length));
+                using (p)
+                {
+                    p.Start();
+                    /*
+                     * TODO: automatically refresh wrapper after user is done editing
+                    p.WaitForInputIdle();
+                    Thread.Sleep(2000);
+                    if (p.HasExited == false)
+                    {
+                        // assume user is editing file, editor will exit when done
+                        // TODO: pop up a dialog
+                        p.WaitForExit();
+                    }
+                    */
+                }
+            });
+        }
+
+        public void RefreshButtonClicked(object fco)
+        {
+            DecoratorCallback(fco, () =>
             {
                 if (((IMgaFCO)fco).Meta.Name == "ExcelWrapper")
                 {
@@ -998,7 +1072,15 @@ namespace CyPhyPET
                         wrapper.Attributes.PyFilename = filename;
                     }
                 }
+            });
+        }
 
+        private void DecoratorCallback(object fco, Action f)
+        {
+            GMEConsole console = GMEConsole.CreateFromProject(((IMgaFCO)fco).Project);
+            try
+            {
+                f();
             }
             catch (Exception e)
             {
@@ -1051,7 +1133,8 @@ namespace CyPhyPET
                 metricsAndParameters.Add(metricOrParameter);
             }
 
-            Action<ISIS.GME.Common.Interfaces.FCO, Dictionary<string, object>> setUnit = (fco, metadata) => {
+            Action<ISIS.GME.Common.Interfaces.FCO, Dictionary<string, object>> setUnit = (fco, metadata) =>
+            {
                 object gme_unit_id;
                 if (metadata.TryGetValue("gme_unit_id", out gme_unit_id))
                 {
@@ -1089,7 +1172,7 @@ namespace CyPhyPET
                     metricsAndParameters.Remove(metric);
                 }
                 setUnit(metric, item.Value);
-                ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800,  i * 65);
+                ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, i * 65);
                 i++;
             }
             i = 1;
