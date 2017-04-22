@@ -940,6 +940,43 @@ namespace CyPhyPET
             config.type = "matlab_wrapper.MatlabWrapper";
         }
 
+        public PETConfig.Component GenerateCode(CyPhy.Constants constants)
+        {
+            // Get a new config
+            var config = new PETConfig.Component()
+            {
+                unknowns = new Dictionary<string, PETConfig.Parameter>(),
+                type = "IndepVarComp"
+            };
+
+            foreach (var metric in constants.Children.MetricCollection)
+            {
+                var configParameter = new PETConfig.Parameter();
+
+                int int_val;
+                double dbl_val;
+                if (int.TryParse(metric.Attributes.Value, out int_val))
+                {
+                    configParameter.value = int_val;
+                }
+                else if (double.TryParse(metric.Attributes.Value, out dbl_val))
+                {
+                    configParameter.value = dbl_val;
+                }
+                else
+                {
+                    configParameter.value = metric.Attributes.Value;
+                }
+                
+                config.unknowns.Add(metric.Name, configParameter);
+                setUnit(metric.Referred.unit, configParameter);
+            }
+
+            this.config.components.Add(constants.Name, config);
+
+            return config;
+        }
+
         public PETConfig.Component GenerateCode(CyPhy.ParametricTestBench excel)
         {
             var config = new PETConfig.Component()

@@ -704,6 +704,10 @@ namespace CyPhyPET
             {
                 petGenerator.GenerateCode(python);
             }
+            foreach (var constants in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.ConstantsCollection.OrderBy(x => x.ID))
+            {
+                petGenerator.GenerateCode(constants);
+            }
 
             if (this.result.Success)
             {

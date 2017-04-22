@@ -389,8 +389,10 @@ namespace CyPhyPET.Rules
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null &&
-                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
+                        if (tbMetricParent != null && (
+                               (tbMetricParent is CyPhy.TestBenchType) == false
+                            && (tbMetricParent is CyPhy.ParametricTestBench) == false
+                            && (tbMetricParent is CyPhy.Constants) == false))
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -785,8 +787,10 @@ namespace CyPhyPET.Rules
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null &&
-                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
+                        if (tbMetricParent != null && (
+                               (tbMetricParent is CyPhy.TestBenchType) == false 
+                            && (tbMetricParent is CyPhy.ParametricTestBench) == false)
+                            && (tbMetricParent is CyPhy.Constants) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
