@@ -11,6 +11,8 @@ namespace AVM.DDP
             public string[] source;
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string units;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public object value;
         }
         public class Constraint
         {

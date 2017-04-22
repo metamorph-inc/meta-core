@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{556779F7-4887-4E79-AEC4-82A85143F73A}" cdate="Fri Apr 21 19:26:17 2017" mdate="Fri Apr 21 19:26:17 2017" version="" metaguid="{6985F25F-1982-039C-03C7-7E68CE62C448}" metaversion="$Rev: 29700 $" metaname="CyPhyML">
+<project guid="{DEAB5859-E487-431B-9024-35D6286AA749}" cdate="Fri Apr 21 19:26:17 2017" mdate="Fri Apr 21 19:26:17 2017" version="" metaguid="{6985F25F-1982-039C-03C7-7E68CE62C448}" metaversion="$Rev: 29700 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -4678,24 +4678,24 @@
 						<connpoint role="src" target="id-0067-00000073"/>
 					</connection>
 				</model>
-				<model id="id-0065-00000032" kind="ParametricExploration" guid="{0e3941b3-8044-425c-ba59-a23d61129a49}" relid="0x4a" childrelidcntr="0x9">
+				<model id="id-0065-00000032" kind="ParametricExploration" guid="{0e3941b3-8044-425c-ba59-a23d61129a49}" relid="0x4a" childrelidcntr="0xd">
 					<name>TestConstants</name>
-					<model id="id-0065-00000033" kind="ParameterStudy" role="ParameterStudy" guid="{2f929ec0-98cb-420f-aea2-a653f9a2b6a7}" relid="0x1" childrelidcntr="0x4">
+					<model id="id-0065-00000033" kind="ParameterStudy" role="ParameterStudy" guid="{2f929ec0-98cb-420f-aea2-a653f9a2b6a7}" relid="0x1" childrelidcntr="0x7">
 						<name>ParameterStudy</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="TestBenchCompositionAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>252,112</value>
+									<value>252,154</value>
 								</regnode>
 							</regnode>
 						</regnode>
-						<attribute kind="Code" status="meta">
-							<value></value>
+						<attribute kind="Code">
+							<value>num_samples = 1</value>
 						</attribute>
-						<attribute kind="DOEType" status="meta">
-							<value>Full Factorial</value>
+						<attribute kind="DOEType">
+							<value>Uniform</value>
 						</attribute>
 						<attribute kind="SurrogateType" status="meta">
 							<value>None</value>
@@ -4748,6 +4748,48 @@
 								</regnode>
 							</regnode>
 						</reference>
+						<reference id="id-0067-00000684" kind="Objective" role="Objective" guid="{8c6c657b-b6bb-4d59-bad7-043784a4ee7a}" relid="0x5">
+							<name>_dummy</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="TestBenchCompositionAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>301,7</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-00000685" kind="DesignVariable" role="DesignVariable" guid="{bf434511-4918-45d3-aeaf-7e1a7b43e7d7}" relid="0x6">
+							<name>x</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="TestBenchCompositionAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>56,84</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Range">
+								<value>1</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000686" kind="DesignVariable" role="DesignVariable" guid="{8c571296-1b78-47fc-82ea-6080d97999d5}" relid="0x7">
+							<name>y</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="TestBenchCompositionAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>56,161</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Range">
+								<value>2</value>
+							</attribute>
+						</reference>
 					</model>
 					<model id="id-0065-00000034" kind="Constants" role="Constants" guid="{97cfc79e-9916-41f5-9284-0ae710f15c9d}" relid="0x2" childrelidcntr="0x4">
 						<name>Constants</name>
@@ -4799,7 +4841,7 @@
 								<value></value>
 							</attribute>
 							<attribute kind="Value">
-								<value>&quot;AString&quot;</value>
+								<value>AString</value>
 							</attribute>
 						</reference>
 						<reference id="id-0067-0000007a" kind="Metric" role="Metric" guid="{2a0b097c-59b3-412d-8451-c2b8e3fee7e9}" relid="0x3">
@@ -4845,6 +4887,21 @@
 							</attribute>
 						</reference>
 					</model>
+					<reference id="id-0067-00000683" kind="TestBenchRef" role="TestBenchRef" guid="{203489e8-e5bb-41c2-8808-8ae3a8d019fc}" relid="0xa" referred="id-0065-00000003">
+						<name>paraboloid_TestBench</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TestBenchCompositionAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>294,35</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="portLabelLength" isopaque="yes">
+							<value>0</value>
+						</regnode>
+					</reference>
 					<connection id="id-0068-00000038" kind="ObjectiveMapping" role="ObjectiveMapping" guid="{ce5f61b6-a51a-4eda-b008-3764f40c5d3b}" relid="0x5">
 						<name>ObjectiveMapping</name>
 						<regnode name="color" isopaque="yes">
@@ -4888,6 +4945,39 @@
 						</regnode>
 						<connpoint role="src" target="id-0067-00000681"/>
 						<connpoint role="dst" target="id-0067-00000682"/>
+					</connection>
+					<connection id="id-0068-0000007e" kind="ObjectiveMapping" role="ObjectiveMapping" guid="{16a05f1c-04b7-409d-8515-bd3e39abf47c}" relid="0xb">
+						<name>ObjectiveMapping</name>
+						<regnode name="color" isopaque="yes">
+							<value>0x7cadde</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000006" refs="id-0067-00000683"/>
+						<connpoint role="dst" target="id-0067-00000684"/>
+					</connection>
+					<connection id="id-0068-0000007f" kind="VariableSweep" role="VariableSweep" guid="{4f161a43-1fb6-4086-9a89-67eebc118a20}" relid="0xc">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="dst" target="id-0067-00000005" refs="id-0067-00000683"/>
+						<connpoint role="src" target="id-0067-00000685"/>
+					</connection>
+					<connection id="id-0068-00000080" kind="VariableSweep" role="VariableSweep" guid="{db5abd5f-6b3b-4e0a-aeed-952e2bd9ba8e}" relid="0xd">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="dst" target="id-0067-00000007" refs="id-0067-00000683"/>
+						<connpoint role="src" target="id-0067-00000686"/>
 					</connection>
 				</model>
 			</folder>
