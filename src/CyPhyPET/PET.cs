@@ -945,6 +945,7 @@ namespace CyPhyPET
             // Get a new config
             var config = new PETConfig.Component()
             {
+                parameters = new Dictionary<string, PETConfig.Parameter>(),
                 unknowns = new Dictionary<string, PETConfig.Parameter>(),
                 type = "IndepVarComp"
             };
