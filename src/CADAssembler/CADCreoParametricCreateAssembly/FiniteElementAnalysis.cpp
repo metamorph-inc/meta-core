@@ -612,7 +612,7 @@ void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				
 	{
 		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
 		{
-			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			if ( j.analysisFeatureGeometryType == CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				for each ( const CADFeature &k in j.features )
 				{
@@ -627,7 +627,7 @@ void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				
 	{
 		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
 		{
-			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			if ( j.analysisFeatureGeometryType == CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				for each ( const CADFeature &k in j.features )
 				{
@@ -914,12 +914,12 @@ void GetGridPointsWithinAnalysisGeometry(
 
 			// For CAD_GEOMETRY_FACE there should be one and only one datum point
 
-			if ( i->featureGeometryType != CAD_FEATURE_GEOMETRY_POINT )
+			if ( i->analysisFeatureGeometryType != CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				std::stringstream errorString;
 				errorString <<
-					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have a featureGeometryType of CAD_FEATURE_GEOMETRY_POINT." << std::endl <<
-					"featureGeometryType: " << CADFeatureGeometryType_string(i->featureGeometryType);
+					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have a featureGeometryType of CAD_ANALYSIS_FEATURE_GEOMETRY_POINT." << std::endl <<
+					"featureGeometryType: " << CADAnalysisFeatureGeometryType_string(i->analysisFeatureGeometryType);
 				throw isis::application_exception(errorString.str());
 			}
 			if ( i->features.size() != 1 )

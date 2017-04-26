@@ -2,7 +2,7 @@
 #include <CADCommonConstants.h>
 #include <CreoErrorCodes.h>
 #include <MultiFormatString.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 #include <UtilCollect.h>

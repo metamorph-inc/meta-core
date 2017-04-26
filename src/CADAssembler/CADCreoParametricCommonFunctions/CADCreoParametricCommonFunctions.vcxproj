@@ -159,6 +159,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClInclude Include="CommonFeatureUtils.h" />
     <ClInclude Include="CommonFunctions.h" />
     <ClInclude Include="CommonUtilities.h" />
+    <ClInclude Include="CreoStringToEnumConversions.h" />
     <ClInclude Include="Disassembler.h" />
     <ClInclude Include="FeatureFactory.h" />
     <ClInclude Include="JointCreo.h" />
@@ -166,9 +167,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClInclude Include="Selector.h" />
     <ClInclude Include="CreoModelToCyphyXML.h" />
     <ClInclude Include="ExteriorShell.h" />
-    <ClInclude Include="MultiFormatString.h" />
     <ClInclude Include="ParametricParameters.h" />
-    <ClInclude Include="StringToEnumConversions.h" />
     <ClInclude Include="TemplateModel.h" />
     <ClInclude Include="UIFunctions.h" />
   </ItemGroup>
@@ -183,6 +182,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClCompile Include="CommonUtilities.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
+    <ClCompile Include="CreoStringToEnumConversions.cpp" />
     <ClCompile Include="JointCreo.cpp" />
     <ClCompile Include="disassembler.cpp" />
     <ClCompile Include="FeatureFactory.cpp" />
@@ -190,15 +190,11 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClCompile Include="CreoSaveFeatureUtility.cpp" />
     <ClCompile Include="ExteriorShell.cpp" />
     <ClCompile Include="ExteriorShell_PolatedSpace.cpp" />
-    <ClCompile Include="MultiFormatString.cpp" />
     <ClCompile Include="ParametricParameters.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="ExteriorShell_PolatedAxis.cpp" />
     <ClCompile Include="Selector.cpp" />
-    <ClCompile Include="StringToEnumConversions.cpp">
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
     <ClCompile Include="TemplateModel.cpp" />
     <ClCompile Include="UIFunctions.cpp" />
   </ItemGroup>
