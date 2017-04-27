@@ -27,7 +27,7 @@ def get_latest_nastran_directory():
                 return
 
     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\MSC.Software Corporation", winreg.KEY_READ | winreg.KEY_WOW64_32KEY) as software_msc:
-        nastrans = sorted([name for name in enum_keys(software_msc) if "MSC Nastran" in name])
+        nastrans = sorted([name for name in enum_keys(software_msc) if "MSC Nastran" in name and "MSC Nastran Documentation" not in name])
         if not nastrans:
             exitwitherror("Nastran.py: Can't read NASTRAN path from registry. Do you have it installed?", -1)
         latest_nastran = nastrans[-1]
