@@ -235,8 +235,7 @@
         /// in the project manifest.
         /// </summary>
         /// <param name="projectManifest">Manifest object of the project.</param>
-        /// <returns>True if the manifest was saved and indexed successfully, otherwise false.</returns>
-        public abstract bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject projectManifest, string configurationName, DateTime analysisStartTime);
+        public abstract void SaveTestBenchManifest(AVM.DDP.MetaAvmProject projectManifest, string configurationName, DateTime analysisStartTime);
 
         /// <summary>
         /// Updates the execution steps in the test bench manifest file based on the Tasks and Execution tasks in the

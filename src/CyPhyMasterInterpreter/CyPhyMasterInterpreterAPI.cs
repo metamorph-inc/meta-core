@@ -552,7 +552,7 @@
                     Title = "Finished"
                 });
             });
-            if (this.Manager != null)
+            if (this.Manager != null && this.Manager.Started)
             {
                 Manager.Done();
             }
@@ -1346,22 +1346,11 @@
                     }
 
                     this.Logger.WriteDebug("Saving test bench manifest");
-                    bool successTestBenchManifest = analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
+                    analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
 
                     var manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(analysisModelProcessor.OutputDirectory);
                     manifest.Design = ddpDesign;
                     manifest.Serialize(analysisModelProcessor.OutputDirectory);
-
-                    result.Success = result.Success && successTestBenchManifest;
-
-                    if (successTestBenchManifest)
-                    {
-                        this.Logger.WriteDebug("Saving test bench manifest succeeded.");
-                    }
-                    else
-                    {
-                        this.Logger.WriteError("Saving test bench manifest failed.");
-                    }
 
                     this.Logger.WriteDebug("Serializing Project manifest file with updates.");
                     this.ProjectManifest.Serialize();

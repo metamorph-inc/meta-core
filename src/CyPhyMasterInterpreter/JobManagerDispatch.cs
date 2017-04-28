@@ -123,6 +123,7 @@ namespace CyPhyMasterInterpreter
 
         JobServer Server;
         JobCollection JobCollection;
+        public bool Started { get; private set; }
 
         public void StartJobManager(string projectDirectory)
         {
@@ -131,6 +132,7 @@ namespace CyPhyMasterInterpreter
                 Server = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
                 // the proxy won't throw until property access/method call
                 JobCollection = Server.CreateAndAddJobCollection();
+                Started = true;
             }
             catch (RemotingException)
             {
@@ -159,6 +161,7 @@ namespace CyPhyMasterInterpreter
                     proc.StandardOutput.ReadLine(); // matches Console.Out.WriteLine("JobManager has started"); in JobManager
                     Server = (JobServer)Activator.GetObject(typeof(JobServer), JobServerConnection.OriginalString);
                     JobCollection = Server.CreateAndAddJobCollection();
+                    Started = true;
                 }
                 else
                 {

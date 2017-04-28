@@ -136,7 +136,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -144,9 +144,6 @@ namespace CyPhyMasterInterpreter
             }
 
             // TODO: implement this method!
-
-            // FIXME: return fake true for now.
-            return true;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)

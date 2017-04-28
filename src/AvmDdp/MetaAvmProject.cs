@@ -178,41 +178,30 @@ namespace AVM.DDP
             return Directory.CreateDirectory(Path.Combine(this.OutputDirectory, "test-benches")).FullName;
         }
 
-        public bool SaveTestBenchManifest(string designName, string configurationName, string testBenchName, FCO expandedTestBenchType, string outputDir, DateTime analysisStartTime)
+        public void SaveTestBenchManifest(string designName, string configurationName, string testBenchName, FCO expandedTestBenchType, string outputDir, DateTime analysisStartTime)
         {
             if (outputDir == null)
             {
                 throw new ArgumentNullException("outputDirectory");
             }
 
-            try
-            {
-                AVM.DDP.MetaTBManifest manifest = new AVM.DDP.MetaTBManifest();
-                manifest.MakeManifest(expandedTestBenchType, outputDir);
+            AVM.DDP.MetaTBManifest manifest = new AVM.DDP.MetaTBManifest();
+            manifest.MakeManifest(expandedTestBenchType, outputDir);
 
-                // design name fixture
-                manifest.DesignName = designName;
+            // design name fixture
+            manifest.DesignName = designName;
 
-                // test bench name fixture
-                manifest.TestBench = testBenchName;
+            // test bench name fixture
+            manifest.TestBench = testBenchName;
 
-                manifest.CfgID = configurationName;
+            manifest.CfgID = configurationName;
 
-                manifest.Serialize(outputDir);
+            manifest.Serialize(outputDir);
 
-                this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir, analysisStartTime);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                // TODO: log exception/store last exception
-                return false;
-            }
-
+            this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir, analysisStartTime);
         }
 
-        public bool SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType originalTestBenchType, DateTime analysisStartTime)
+        public void SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType originalTestBenchType, DateTime analysisStartTime)
         {
             if (expandedTestBenchType == null)
             {
@@ -224,8 +213,8 @@ namespace AVM.DDP
                 expandedTestBenchType = originalTestBenchType;
             }
 
-            return SaveTestBenchManifest(designName, configurationName, originalTestBenchType.Name, expandedTestBenchType, outputDir, analysisStartTime);
-            }
+            SaveTestBenchManifest(designName, configurationName, originalTestBenchType.Name, expandedTestBenchType, outputDir, analysisStartTime);
+         }
 
         public bool SaveTestBench(CyPhy.TestBenchType testBenchType)
         {

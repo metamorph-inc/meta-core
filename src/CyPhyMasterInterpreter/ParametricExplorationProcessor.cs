@@ -161,7 +161,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -172,15 +172,13 @@ namespace CyPhyMasterInterpreter
 
             this.EnsureOutputDirectory();
 
-            var success = project.SaveTestBenchManifest(
+            project.SaveTestBenchManifest(
                 this.Configuration != null ? this.Configuration.Name : this.parametricExploration.Name,
                 configurationName,
                 this.parametricExploration.Name,
                 expandedParametricExploration,
                 this.OutputDirectory,
                 analysisStartTime);
-
-            return success;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)

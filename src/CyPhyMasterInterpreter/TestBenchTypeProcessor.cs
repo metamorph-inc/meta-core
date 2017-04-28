@@ -652,7 +652,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -663,10 +663,9 @@ namespace CyPhyMasterInterpreter
 
             this.EnsureOutputDirectory();
 
-            bool success = false;
             try
             {
-                success = project.SaveTestBenchManifest(
+                project.SaveTestBenchManifest(
                 this.Configuration.Name,
                 configurationName,
                 this.expandedTestBenchType,
@@ -678,8 +677,6 @@ namespace CyPhyMasterInterpreter
             {
                 throw new AnalysisModelProcessorException("Saving test bench manifest failed.", ex);
             }
-
-            return success;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)
