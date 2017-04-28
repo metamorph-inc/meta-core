@@ -1037,6 +1037,15 @@ v1.5.12.0  08/17/2016	GitHub Branch: Patran_010_Orient_Surfaces_Properly
 v1.5.13.0  08/19/2016	Add support for Tetra4 and Tetra10 in CADAssembly.xml. 
 			R.O.
 
+
+v1.5.14.0  04/27/2016	Started the refactoring to support other CAD systems.  In CommonStructures.h 
+			replaced ProAsmcompConstrType with e_CADAssemblyConstraintType and 
+			ProType with e_CADFeatureGeometryType.  Created the file CADStringToEnumConversions.h/.cpp 
+			to hold the enums common to all CAD systems.  Renamed StringToEnumConversions.h/.cpp to 
+			CreoStringToEnumConversions.h/.cpp to clearly signify that these are Creo enums.
+			CAD_025_Updates_for_Generic_CAD_Interface
+			R.O.
+
 Known Defects
 -------------
 

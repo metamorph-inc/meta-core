@@ -1924,7 +1924,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				{			
 					for each ( ProType k in in_RequiredGeometries[j].geometries)
 					{
-						if ( i.featureGeometryType == k )
+						//if ( i.featureGeometryType == k )
+						if ( FeatureGeometryType_enum(i.featureGeometryType) == k )
+							
 						{
 							++actualCounts[j];
 							break;
@@ -2486,6 +2488,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 																	l->componentInstanceID,
 																	l->featureName,
 																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
 																	componentInstanceIDs_of_PartsReferencedByFeature_set);
@@ -2557,6 +2560,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 																l->componentInstanceID,
 																l->featureName,
 																FeatureGeometryType_enum(k->featureGeometryType),
+																//k->featureGeometryType,
 																in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																in_out_CADComponentData_map,
 																componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set);
@@ -2579,6 +2583,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 																	l->componentInstanceID,
 																	l->featureName,
 																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
 																	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set);

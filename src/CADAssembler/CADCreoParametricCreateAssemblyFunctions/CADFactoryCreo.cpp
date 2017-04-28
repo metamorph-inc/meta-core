@@ -78,6 +78,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 
 		ProAsmcompConstrType constraint_type = ProAsmcompConstrType_enum(pair.featureAlignmentType);
 		ProType	 pro_datum_type =  FeatureGeometryType_enum(pair.featureGeometryType);	
+		//ProType	 pro_datum_type =  pair.featureGeometryType;	
 
 		const wchar_t* model_datum_name[2];
 		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), 

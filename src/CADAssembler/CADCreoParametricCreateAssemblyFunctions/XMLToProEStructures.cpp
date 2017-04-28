@@ -352,6 +352,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 
 			// ProType:						PRO_SURFACE, PRO_AXIS = 	
 			Cst_Pair.featureGeometryType =	CADFeatureGeometryType_enum( ck->FeatureGeometryType() );
+			//Cst_Pair.featureGeometryType =	FeatureGeometryType_enum( ck->FeatureGeometryType() );
 
 			// e_FeatureInterfaceType:		CAD_DATUM, CAD_MODEL_INTERFACE, CAD_MODEL_USER_DATA
 			Cst_Pair.featureInterfaceType = FeatureInterfaceType_enum( ck->FeatureInterfaceType() );
