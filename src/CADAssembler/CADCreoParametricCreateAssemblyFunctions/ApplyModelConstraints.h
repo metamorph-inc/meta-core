@@ -5,7 +5,7 @@
 #include <isis_include_ptc_headers.h>
 #include <string>
 #include <iostream>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <BuildAssembly.h>
 #include <AssembleComponents.h>
 #include <CommonStructures.h>

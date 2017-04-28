@@ -879,8 +879,10 @@ namespace isis
 					<< isis_EOL << "contraintPair.featuregeometrytype():  " <<	contraintPair.featuregeometrytype()
 					<< isis_EOL << "contraintPair.featureinterfacetype(): " <<	contraintPair.featureinterfacetype();
 
-				creoConstraintPair.featureAlignmentType = isis::ProAsmcompConstrType_enum(contraintPair.featurealignmenttype());
-				creoConstraintPair.featureGeometryType  = isis::FeatureGeometryType_enum(contraintPair.featuregeometrytype());
+				//creoConstraintPair.featureAlignmentType = isis::ProAsmcompConstrType_enum(contraintPair.featurealignmenttype());
+				creoConstraintPair.featureAlignmentType = isis::CADAssemblyConstraintType_enum(contraintPair.featurealignmenttype());
+				// creoConstraintPair.featureGeometryType  = isis::FeatureGeometryType_enum(contraintPair.featuregeometrytype());
+				creoConstraintPair.featureGeometryType  = isis::CADFeatureGeometryType_enum(contraintPair.featuregeometrytype());
 				creoConstraintPair.featureInterfaceType = isis::FeatureInterfaceType_enum(contraintPair.featureinterfacetype());
 
 				edu::vanderbilt::isis::meta::ConstraintFeatureType constraintFeature_A = contraintPair.constraintfeaturea();

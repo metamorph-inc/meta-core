@@ -115,8 +115,10 @@ throw(isis::application_exception)
 
     isis::ConstraintPair  creoConstraintPair_1;
 
-    creoConstraintPair_1.featureAlignmentType = isis::ProAsmcompConstrType_enum("MATE");
-    creoConstraintPair_1.featureGeometryType  = isis::FeatureGeometryType_enum("SURFACE");
+    //creoConstraintPair_1.featureAlignmentType = isis::ProAsmcompConstrType_enum("MATE");
+    creoConstraintPair_1.featureAlignmentType = isis::CADAssemblyConstraintType_enum("MATE");
+    creoConstraintPair_1.featureGeometryType  = isis::CADFeatureGeometryType_enum("SURFACE");
+    //creoConstraintPair_1.featureGeometryType  = isis::FeatureGeometryType_enum("SURFACE");
     creoConstraintPair_1.featureInterfaceType = isis::FeatureInterfaceType_enum("CAD_DATUM");
 
     isis::ConstraintFeature  creoConstraintFeature_A;

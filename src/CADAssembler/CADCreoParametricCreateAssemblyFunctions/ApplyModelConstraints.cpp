@@ -3425,9 +3425,10 @@ void Populate_PerSetConstraintDefinitions(
 					k != j->constraintPairs.end();
 					++k )
 			{
-				ProAsmcompConstrType constraint_type = k->featureAlignmentType;
+				ProAsmcompConstrType constraint_type = ProAsmcompConstrType_enum(k->featureAlignmentType);
 
-				ProType	 pro_datum_type =  k->featureGeometryType;	
+				ProType	 pro_datum_type =  FeatureGeometryType_enum(k->featureGeometryType);	
+				//ProType	 pro_datum_type =  k->featureGeometryType;	
 
 				//ProName		 base_model_datum_name;	 // ASM_RIGHT, A_1..
 				MultiFormatString base_model_datum_name(PRO_NAME_SIZE - 1);  // ASM_RIGHT, A_1..
@@ -4412,9 +4413,10 @@ bool Apply_CADDatum_ModelConstraints(
 						k != j->constraintPairs.end();
 						++k )
 				{
-					ProAsmcompConstrType constraint_type = k->featureAlignmentType;
+					ProAsmcompConstrType constraint_type = ProAsmcompConstrType_enum(k->featureAlignmentType);
 
-					ProType	 pro_datum_type =  k->featureGeometryType;	
+					ProType	 pro_datum_type =  FeatureGeometryType_enum(k->featureGeometryType);	
+					//ProType	 pro_datum_type =  k->featureGeometryType;	
 
 					//if ( constraint_type == PRO_ASM_ALIGN &&  pro_datum_type== PRO_AXIS && numberOfConstraints > 2 ) constraint_type = PRO_ASM_LINE_DIST;
 					//if ( constraint_type == PRO_ASM_ALIGN &&  pro_datum_type== PRO_AXIS && numberOfConstraints > 2  ) constraint_type = PRO_ASM_LINE_PARL;

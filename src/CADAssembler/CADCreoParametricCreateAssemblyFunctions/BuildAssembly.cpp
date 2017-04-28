@@ -3,7 +3,7 @@
 #include <isis_application_exception.h>
 #include <isis_include_ptc_headers.h>
 #include <AssembleComponents.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <ApplyModelConstraints.h>
 #include <CommonUtilities.h>
 #include <DiagnosticUtilities.h>

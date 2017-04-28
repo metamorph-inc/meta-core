@@ -1,7 +1,7 @@
 #include <SetCADModelParameters.h>
 #include <iostream>
 #include <string>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <ParametricParameters.h>
 #include "CommonDefinitions.h"
 #include <map>

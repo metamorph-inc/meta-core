@@ -3,7 +3,7 @@
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
 #include <isis_include_ptc_headers.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MultiFormatString.h>
 #include <GraphicsFunctions.h>
 #include "JointCreo.h"
@@ -42,14 +42,16 @@ namespace isis
 	*/
 	struct ConstraintOffset
 	{
-		ProAsmcompConstrType	offsetAlignmentType; /**< PRO_ASM_ALIGN_OFF, PRO_ASM_MATE_OFF */
+		e_CADAssemblyConstraintType offsetAlignmentType;
+		// ProAsmcompConstrType	offsetAlignmentType; /**< PRO_ASM_ALIGN_OFF, PRO_ASM_MATE_OFF */
 		double					value;
 
 		bool					unitsPresent;				
 		e_CADUnitsDistance		units;				/**<CAD_UNITS_MM, CAD_UNITS_CM, CAD_UNITS_INCH */
 
 		ConstraintOffset()
-			: offsetAlignmentType(PRO_ASM_MATE_OFF), 
+			//: offsetAlignmentType(PRO_ASM_MATE_OFF), 
+			: offsetAlignmentType( CAD_ASM_MATE_OFF),
 			value(0.0),
 			unitsPresent(false), 
 			units(CAD_UNITS_MM) 
@@ -83,8 +85,11 @@ namespace isis
 	*/
 	struct ConstraintPair
 	{
-		ProAsmcompConstrType			featureAlignmentType;     // PRO_ASM_ALIGN, PRO_ASM_MATE, PRO_ASM_MATE_OFF, always PRO_ASM_ALIGN for now 
-		ProType							featureGeometryType;      // PRO_SURFACE, PRO_AXIS
+		e_CADAssemblyConstraintType featureAlignmentType;
+		//ProAsmcompConstrType			featureAlignmentType;     // PRO_ASM_ALIGN, PRO_ASM_MATE, PRO_ASM_MATE_OFF, always PRO_ASM_ALIGN for now 
+
+		//ProType							featureGeometryType;      // PRO_SURFACE, PRO_AXIS
+		e_CADFeatureGeometryType		featureGeometryType;
 		e_FeatureInterfaceType			featureInterfaceType;     // CAD_DATUM, CAD_MODEL_INTERFACE, CAD_MODEL_USER_DATA 
 		e_CADTreatConstraintAsAGuide	treatConstraintAsAGuide;  // Means that it would be applied and then removed.  This would establish an initial position for kinematic joints.
 		
@@ -428,7 +433,7 @@ namespace isis
 															//	CAD_GEOMETRY_NONE
 		std::list<CADFeature>		features;            
 		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
-		e_CADFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
+		e_CADAnalysisFeatureGeometryType	analysisFeatureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
 
 		bool							primaryGeometryQualifierDefined;
 		bool							secondaryGeometryQualifierDefined;
@@ -494,7 +499,7 @@ namespace isis
 //		e_CADGeometryType			geometryType;			// CAD_GEOMETRY_POLYGON, CAD_GEOMETRY_CYLINDER, CAD_GEOMETRY_SPHERE
 //		std::string					componentID;
 //		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
-//		e_CADFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
+//		e_CADAnalysisFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
 //		std::list<std::string>		features;				// actual datum names in the Creo model
 //	};
 

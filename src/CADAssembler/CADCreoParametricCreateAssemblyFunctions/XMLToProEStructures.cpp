@@ -12,7 +12,7 @@
 
 #include "UdmBase.h"
 #include "AssemblyInterface.h"
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MaterialProperties.h>
 #include <CADCommonConstants.h>
 
@@ -348,10 +348,11 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 			ConstraintPair Cst_Pair;
 
 			 // ProAsmcompConstrType:		PRO_ASM_ALIGN, PRO_ASM_MATE, PRO_ASM_MATE_OFF, always PRO_ASM_ALIGN for now 
-			Cst_Pair.featureAlignmentType = ProAsmcompConstrType_enum( ck->FeatureAlignmentType() );
+			Cst_Pair.featureAlignmentType = CADAssemblyConstraintType_enum( ck->FeatureAlignmentType());
 
 			// ProType:						PRO_SURFACE, PRO_AXIS = 	
-			Cst_Pair.featureGeometryType =	FeatureGeometryType_enum( ck->FeatureGeometryType() );
+			Cst_Pair.featureGeometryType =	CADFeatureGeometryType_enum( ck->FeatureGeometryType() );
+			//Cst_Pair.featureGeometryType =	FeatureGeometryType_enum( ck->FeatureGeometryType() );
 
 			// e_FeatureInterfaceType:		CAD_DATUM, CAD_MODEL_INTERFACE, CAD_MODEL_USER_DATA
 			Cst_Pair.featureInterfaceType = FeatureInterfaceType_enum( ck->FeatureInterfaceType() );
@@ -513,7 +514,7 @@ void PopulateGeometry ( const vector<AssemblyInterface::Geometry> in_GeometryVec
 			analysisGeometryFeature.featureID = ck->FeatureID();
 			analysisGeometryFeature.geometryType = CADGeometryType_enum(ck->GeometryType());
 			analysisGeometryFeature.featureInterfaceType = FeatureInterfaceType_enum(ck->FeatureInterfaceType());
-			analysisGeometryFeature.featureGeometryType = CADFeatureGeometryType_enum(ck->FeatureGeometryType());
+			analysisGeometryFeature.analysisFeatureGeometryType = CADAnalysisFeatureGeometryType_enum(ck->FeatureGeometryType());
 			analysisGeometryFeature.primaryGeometryQualifier =   CADPrimaryGeometryQualifier_enum(   ck->PrimaryGeometryQualifier());
 			analysisGeometryFeature.secondaryGeometryQualifier = CADSecondaryGeometryQualifier_enum( ck->SecondaryGeometryQualifier());
 			
@@ -580,7 +581,7 @@ void PopulateGeometry ( const AssemblyInterface::Geometry &in_XML_Geometry, Anal
 			analysisGeometryFeature.featureID = ck->FeatureID();
 			analysisGeometryFeature.geometryType = CADGeometryType_enum(ck->GeometryType());
 			analysisGeometryFeature.featureInterfaceType = FeatureInterfaceType_enum(ck->FeatureInterfaceType());
-			analysisGeometryFeature.featureGeometryType = CADFeatureGeometryType_enum(ck->FeatureGeometryType());
+			analysisGeometryFeature.featureGeometryType = CADAnalysisFeatureGeometryType_enum(ck->FeatureGeometryType());
 				
 			vector<AssemblyInterface::Feature> featureChildren =  ck->Feature_kind_children();
 
@@ -918,7 +919,7 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 						analysisGeometryFeature.geometryType = CADGeometryType_enum(ck->GeometryType());
 					    analysisGeometryFeature.componentID = ck->ComponentID();
 						analysisGeometryFeature.featureInterfaceType = FeatureInterfaceType_enum(ck->FeatureInterfaceType());
-						analysisGeometryFeature.featureGeometryType = CADFeatureGeometryType_enum(ck->FeatureGeometryType());
+						analysisGeometryFeature.featureGeometryType = CADAnalysisFeatureGeometryType_enum(ck->FeatureGeometryType());
 						
 						analysisConstraint.geometry.features.push_back(analysisGeometryFeature);
 				}
@@ -1110,7 +1111,7 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 					analysisLoad.geometry.geometryType = CADGeometryType_enum(features.GeometryType());
 					analysisLoad.geometry.componentID = features.ComponentID();
 					analysisLoad.geometry.featureInterfaceType = FeatureInterfaceType_enum(features.FeatureInterfaceType());
-					analysisLoad.geometry.featureGeometryType =  CADFeatureGeometryType_enum(features.FeatureGeometryType());
+					analysisLoad.geometry.featureGeometryType =  CADAnalysisFeatureGeometryType_enum(features.FeatureGeometryType());
 
 					vector<AssemblyInterface::Feature> featureVector = features.Feature_kind_children();
 					for ( vector<AssemblyInterface::Feature>::const_iterator ck = featureVector.begin(); ck != featureVector.end(); ck++)

@@ -1,6 +1,6 @@
 #include <ToolKitPassThroughFunctions.h>
 #include <CADCommonConstants.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MultiFormatString.h>
 #include <CommonUtilities.h>
 #include <CommonStructures.h>

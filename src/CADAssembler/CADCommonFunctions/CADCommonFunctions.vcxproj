@@ -165,6 +165,7 @@
     <ClInclude Include="c3ga.h" />
     <ClInclude Include="CADCommonConstants.h" />
     <ClInclude Include="CADCommonDefinitions.h" />
+    <ClInclude Include="CADStringToEnumConversions.h" />
     <ClInclude Include="CommonDefinitions.h" />
     <ClInclude Include="e3ga.h" />
     <ClInclude Include="GraphicsFunctions.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="JsonHelper.h" />
     <ClInclude Include="LoggerBoost.h" />
     <ClInclude Include="MiscellaneousFunctions.h" />
+    <ClInclude Include="MultiFormatString.h" />
     <ClInclude Include="Nastran.h" />
     <ClInclude Include="RelativePath.h" />
     <ClInclude Include="resource.h" />
@@ -181,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="c3ga.cpp" />
+    <ClCompile Include="CADStringToEnumConversions.cpp" />
     <ClCompile Include="CommonDefinitions.cpp" />
     <ClCompile Include="e3ga.cpp" />
     <ClCompile Include="GraphicsFunctions.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="JsonHelper.cpp" />
     <ClCompile Include="LoggerBoost.cpp" />
     <ClCompile Include="MiscellaneousFunctions.cpp" />
+    <ClCompile Include="MultiFormatString.cpp" />
     <ClCompile Include="Nastran.cpp" />
     <ClCompile Include="RelativePath.cpp" />
     <ClCompile Include="SurvivabilityJasonWriter.cpp" />
