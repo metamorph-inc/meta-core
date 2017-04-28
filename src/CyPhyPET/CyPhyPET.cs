@@ -773,19 +773,15 @@ namespace CyPhyPET
             {
                 var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhy2CAD.MainParameters.OutputDirectory);
 
+                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhy2CAD });
+
                 tbManifest.Steps.Insert(0, new AVM.DDP.MetaTBManifest.Step()
                 {
                     Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
                     Invocation = String.Format("\"{0}\" -E -m run_mdao.cad.update_parameters", META.VersionInfo.PythonVEnvExe),
                     Description = "Update parameters in CADAssembly.xml"
                 });
-                tbManifest.AddStep(new AVM.DDP.MetaTBManifest.Step()
-                {
-                    Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
-                    Invocation = cyPhy2CAD.result.RunCommand,
-                    Description = "Run CAD assembly",
-                    // TODO MaxIterationExecutionTime = 2 // hours
-                });
+
                 tbManifest.Serialize(cyPhy2CAD.MainParameters.OutputDirectory);
 
                 return true;
@@ -953,11 +949,8 @@ namespace CyPhyPET
                 if (string.IsNullOrWhiteSpace(cyPhyPython.result.RunCommand) == false)
                 {
                     tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhyPython.MainParameters.OutputDirectory);
-                    tbManifest.Steps.Add(new AVM.DDP.MetaTBManifest.Step()
-                    {
-                        Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
-                        Invocation = cyPhyPython.result.RunCommand
-                    });
+
+                    tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhyPython });
                     tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
                 }
 
