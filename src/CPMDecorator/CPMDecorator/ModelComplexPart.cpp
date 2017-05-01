@@ -823,7 +823,7 @@ bool ModelComplexPart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoint& poi
 				CComDispatchDriver dd;
 				CComVariant variantFCO = (IDispatch*)m_spFCO.p;
 				if (SUCCEEDED(dd.CoCreateInstance(L"MGA.Interpreter.CyPhyPET", nullptr, CLSCTX_INPROC))) {
-					dd.Invoke1(L"DecoratorDoubleClick", &variantFCO);
+					dd.Invoke1(L"RefreshButtonClicked", &variantFCO);
 					proj->CommitTransaction();
 					return true;
 				}
