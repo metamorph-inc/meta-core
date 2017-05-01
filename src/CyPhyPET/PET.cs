@@ -954,20 +954,7 @@ namespace CyPhyPET
             {
                 var configParameter = new PETConfig.Parameter();
 
-                int int_val;
-                double dbl_val;
-                if (int.TryParse(metric.Attributes.Value, out int_val))
-                {
-                    configParameter.value = int_val;
-                }
-                else if (double.TryParse(metric.Attributes.Value, out dbl_val))
-                {
-                    configParameter.value = dbl_val;
-                }
-                else
-                {
-                    configParameter.value = metric.Attributes.Value;
-                }
+                configParameter.value = Newtonsoft.Json.Linq.JToken.Parse(metric.Attributes.Value);
                 
                 config.unknowns.Add(metric.Name, configParameter);
                 setUnit(metric.Referred.unit, configParameter);
