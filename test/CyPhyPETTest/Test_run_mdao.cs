@@ -1,13 +1,17 @@
 ﻿using GME.MGA;
 using META;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 
 namespace CyPhyPETTest
@@ -82,7 +86,6 @@ namespace CyPhyPETTest
         }
     }
 
-
     public class Workflow_PET_Test : IUseFixture<WorkFlow_PETFixture>
     {
         private string mgaFile;
@@ -140,6 +143,115 @@ namespace CyPhyPETTest
             {
                 project.Close(abort: true);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public string GetCurrentMethod()
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(1);
+
+            return sf.GetMethod().Name;
+        }
+
+        // From http://stackoverflow.com/a/28557035
+        private static JObject SortPropertiesAlphabetically(JObject original)
+        {
+            var result = new JObject();
+
+            foreach (var property in original.Properties().ToList().OrderBy(p => p.Name))
+            {
+                var value = property.Value as JObject;
+
+                if (value != null)
+                {
+                    value = SortPropertiesAlphabetically(value);
+                    result.Add(property.Name, value);
+                }
+                else
+                {
+                    result.Add(property.Name, property.Value);
+                }
+            }
+
+            return result;
+        }
+
+        [Fact]
+        public void Constants()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestConstants";
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(GetCurrentMethod(), this.mgaFile, path_pet);
+
+            var path_outdir = result.Item1.OutputDirectory;
+
+            var path_mdao_config = Path.Combine(path_outdir, "mdao_config.json");
+            var config = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(path_mdao_config));
+            var constants = config["components"]["Constants"];
+            Assert.Equal("IndepVarComp", constants["type"]);
+
+            var json_expected = Newtonsoft.Json.Linq.JObject.Parse(@"{
+                    'parameters': {},
+                    'unknowns': {
+                        'Array': {
+                            'units': '1e-09*m**2*kg/s**2/A**2',
+                            'value': [
+                            1.0,
+                            2.2,
+                            3.3
+                                ]
+                        },
+                        'Float': {
+                            'units': 'A*J**-1',
+                            'value': 3.2
+                        },
+                        'Integer': {
+                            'units': '4046.8564224*m**2',
+                            'value': 4
+                        },
+                        'String': {
+                            'value': 'AString'
+                        }
+                    },
+                    'details': null,
+                    'type': 'IndepVarComp'
+                }");
+
+            Assert.Equal(JsonConvert.SerializeObject(SortPropertiesAlphabetically(json_expected)),
+                         JsonConvert.SerializeObject(SortPropertiesAlphabetically((JObject)constants)));
+        }
+
+        [Fact]
+        public void Constants_fail_array()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestConstants_fail_array";
+            var test_name = GetCurrentMethod();
+            Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
+            {
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            });
+        }
+
+        [Fact]
+        public void Constants_fail_float()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestConstants_fail_float";
+            var test_name = GetCurrentMethod();
+            Assert.Throws<System.FormatException>(delegate
+            {
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            });
+        }
+
+        [Fact]
+        public void Constants_fail_string()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestConstants_fail_string";
+            var test_name = GetCurrentMethod();
+            Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
+            {
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            });
         }
 
         public void SetFixture(WorkFlow_PETFixture data)
