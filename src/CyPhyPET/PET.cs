@@ -954,7 +954,20 @@ namespace CyPhyPET
             {
                 var configParameter = new PETConfig.Parameter();
 
-                configParameter.value = Newtonsoft.Json.Linq.JToken.Parse(metric.Attributes.Value);
+                try
+                {
+                    configParameter.value = Newtonsoft.Json.Linq.JToken.Parse(metric.Attributes.Value);
+                }
+                catch (JsonReaderException ex)
+                {
+                    String msg = "Failed to parse constant Value for the Metric <a href=\"mga:{1}\">\"{0}\"</a> in the constant block <a href=\"mga:{3}\">\"{2}\"</a>. If this was intended to be a String, surround it in quotes.";
+                    this.Logger.WriteError(String.Format(msg, 
+                                                         metric.Name, metric.ID,
+                                                         constants.Name, constants.ID));
+                    this.Logger.WriteDebug(msg);
+
+                    throw ex;
+                }
                 
                 config.unknowns.Add(metric.Name, configParameter);
                 setUnit(metric.Referred.unit, configParameter);
