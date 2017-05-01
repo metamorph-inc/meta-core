@@ -100,7 +100,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CyPhyPETTest.cs" />
     <Compile Include="MSD_PCC.cs" />
     <Compile Include="MSD_PCC.Designer.cs">
       <DependentUpon>MSD_PCC.cs</DependentUpon>

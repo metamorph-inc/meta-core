@@ -117,7 +117,7 @@ namespace CyPhyPETTest
                     var wrapper = project.RootFolder.ObjectByPath["/@Testing/@ParametricExploration/@TestPython/@PythonWrapper"];
                     var pythonBlock = ISIS.GME.Dsml.CyPhyML.Classes.PythonWrapper.Cast(wrapper);
 
-                    var binDir = Path.GetDirectoryName(System.Reflection.Assembly.GetAssembly(typeof(CyPhyPETTest)).CodeBase.Substring("file:///".Length));
+                    var binDir = Path.GetDirectoryName(System.Reflection.Assembly.GetAssembly(typeof(Workflow_PET_Test)).CodeBase.Substring("file:///".Length));
                     var path = Path.GetFullPath(binDir + "/../../paraboloid.py");
                     var pet = CyPhyPET.CyPhyPETInterpreter.GetParamsAndUnknownsForPythonOpenMDAO(path, pythonBlock);
                     
@@ -187,6 +187,18 @@ namespace CyPhyPETTest
 
             return proc.ExitCode;
 
+        }
+
+
+        static void Main(string[] args)
+        {
+            int ret = Xunit.ConsoleClient.Program.Main(new string[]
+            {
+                System.Reflection.Assembly.GetAssembly(typeof(Workflow_PET_Test)).CodeBase.Substring("file:///".Length),
+                //"/noshadow",
+            });
+            Console.In.ReadLine();
+            //System.Console.Out.WriteLine("HEllo World");
         }
     }
 }
