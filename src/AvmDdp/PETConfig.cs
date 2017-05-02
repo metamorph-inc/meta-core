@@ -55,6 +55,18 @@ namespace AVM.DDP
         }
         public Dictionary<string, Component> components;
         public Dictionary<string, Driver> drivers;
+        public List<Recorder> recorders;
+
+        public class Recorder
+        {
+            public string type;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string filename;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string run_id;
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public bool? include_id;
+        }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string GeneratedConfigurationModel;

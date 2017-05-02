@@ -15,6 +15,8 @@ def log(s):
 
 def log_formatted(s):
     print(s)
+
+
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
     import cgi
@@ -59,6 +61,7 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
         with open(os.path.join(output_dir, os.path.basename(__file__)), 'w') as output:
             output.write(this_py.read())
 
+
 # Phase 2: called by OpenMDAO
 if __name__ == '__main__':
     with open('testbench_manifest.json', 'r') as testbench_manifest_json:
@@ -76,7 +79,7 @@ if __name__ == '__main__':
     y = params['y']
 
     for metric in testbench_manifest['Metrics']:
-        metric['Value'] = (x-3.0)**2 + x*(y*y/y) + (y+4.0)**2 - 3.0
+        metric['Value'] = (x - 3.0)**2 + x * (y * y / y) + (y + 4.0)**2 - 3.0
 
     for metric in testbench_manifest['Metrics']:
         if isinstance(metric['Value'], numpy.ndarray):

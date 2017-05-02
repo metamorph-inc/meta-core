@@ -31,4 +31,3 @@ def PythonComponent(filename):
         raise ValueError('{} contains {} openmdao.core.component.Components; it must contain exactly 1'.format(modname, len(components)))
     component = components[0]
     return component()
-    

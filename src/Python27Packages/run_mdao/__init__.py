@@ -37,6 +37,7 @@ def FmuWrapper(*args, **kwargs):
     from fmu_wrapper import fmu_wrapper
     return fmu_wrapper.FmuWrapper(*args, **kwargs)
 
+
 if MPI:
     from openmdao.core.petsc_impl import PetscImpl as impl
 else:
@@ -170,7 +171,7 @@ def with_problem(mdao_config, original_dir, override_driver=None):
             try:
                 top.driver.options[key] = value
             except KeyError:
-                pass # Ignore options that aren't valid for driver
+                pass  # Ignore options that aren't valid for driver
     elif driver['type'] == 'parameterStudy':
         drivers = {
             "Uniform": UniformDriver,
@@ -216,7 +217,7 @@ def with_problem(mdao_config, original_dir, override_driver=None):
                 mode = 'wb'
                 if RestartRecorder.is_restartable(original_dir):
                     mode = 'ab'
-                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode))
+                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
                 if mode == 'ab':
                     recorder._wrote_header = True
             elif recorder['type'] == 'AllCsvRecorder':

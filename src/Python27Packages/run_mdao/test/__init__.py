@@ -42,5 +42,6 @@ def test_main():
             with open(tb_json_name, 'w') as tb_json:
                 tb_json.write(contents)
 
+
 if __name__ == '__main__':
     test_main()

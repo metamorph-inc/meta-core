@@ -21,7 +21,7 @@ class RestartRecorder(object):
     @classmethod
     def is_restartable(cls, original_dir):
         return os.path.isfile(os.path.join(original_dir, RestartRecorder.RESTART_PROGRESS_FILENAME)) and \
-                os.path.isfile(os.path.join(original_dir, RestartRecorder.RESTART_RUNLIST_FILENAME))
+            os.path.isfile(os.path.join(original_dir, RestartRecorder.RESTART_RUNLIST_FILENAME))
 
     @classmethod
     def deserialize_runlist(cls, original_dir):

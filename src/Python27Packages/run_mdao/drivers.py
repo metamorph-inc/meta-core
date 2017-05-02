@@ -28,7 +28,7 @@ except AttributeError:
 
 def _get_seed_and_random(seed):
     if seed is None:
-        seed = numpy.random.randint(0, 2**31-1) + numpy.random.randint(0, 2**31-1)
+        seed = numpy.random.randint(0, 2**31 - 1) + numpy.random.randint(0, 2**31 - 1)
     return seed, numpy.random.RandomState(seed)
 
 
@@ -101,8 +101,8 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
 
             run_sizes, run_offsets = evenly_distrib_idxs(self._num_par_doe,
                                                          len(run_list))
-            job_list = [run_list[o:o+s] for o, s in zip(run_offsets,
-                                                        run_sizes)]
+            job_list = [run_list[o:o + s] for o, s in zip(run_offsets,
+                                                          run_sizes)]
 
         run_list = comm.scatter(job_list, root=0)
         debug('Number of DOE jobs: %s' % len(run_list))

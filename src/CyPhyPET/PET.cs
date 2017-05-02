@@ -41,7 +41,16 @@ namespace CyPhyPET
         public PETConfig config = new PETConfig()
         {
             components = new Dictionary<string, PETConfig.Component>(),
-            drivers = new Dictionary<string, PETConfig.Driver>()
+            drivers = new Dictionary<string, PETConfig.Driver>(),
+            recorders = new List<PETConfig.Recorder>()
+            {
+                new PETConfig.Recorder()
+                {
+                    type = "DriverCsvRecorder",
+                    filename = "output.csv",
+                    include_id = true
+                }
+            }
         };
 
         public static IEnumerable<IMgaObject> getAncestors(IMgaFCO fco, IMgaObject stopAt = null)

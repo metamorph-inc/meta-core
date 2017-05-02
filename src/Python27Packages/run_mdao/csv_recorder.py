@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 import sys
 import csv
+import uuid
 import six
 from collections import OrderedDict
 
@@ -49,11 +50,12 @@ class CsvRecorder(BaseRecorder):
 
 class MappingCsvRecorder(BaseRecorder):
 
-    def __init__(self, params_map, unknowns_map, out=sys.stdout):
+    def __init__(self, params_map, unknowns_map, out=sys.stdout, include_id=False):
         super(MappingCsvRecorder, self).__init__()
 
         self._wrote_header = False
         self._parallel = False
+        self._include_id = include_id
 
         self.params_map = OrderedDict(((k, v) for k, v in sorted(six.iteritems(params_map))))
         self.unknowns_map = OrderedDict(((k, v) for k, v in sorted(six.iteritems(unknowns_map))))
@@ -67,7 +69,10 @@ class MappingCsvRecorder(BaseRecorder):
 
     def record_iteration(self, params, unknowns, resids, metadata):
         if self._wrote_header is False:
-            self.writer.writerow(list(self.params_map.values()) + list(self.unknowns_map.values()))
+            id = []
+            if self._include_id:
+                id = ['_id']
+            self.writer.writerow(id + list(self.params_map.values()) + list(self.unknowns_map.values()))
             self._wrote_header = True
 
         def munge(val):
@@ -78,7 +83,10 @@ class MappingCsvRecorder(BaseRecorder):
         def do_mapping(map_, values):
             return [munge(values[key]) for key in map_]
         # import pdb; pdb.set_trace()
-        self.writer.writerow(do_mapping(self.params_map, params) + do_mapping(self.unknowns_map, unknowns))
+        id = []
+        if self._include_id:
+            id = [uuid.uuid4()]
+        self.writer.writerow(id + do_mapping(self.params_map, params) + do_mapping(self.unknowns_map, unknowns))
 
         if self.out:
             self.out.flush()
