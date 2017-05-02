@@ -96,9 +96,10 @@ $(META_PATH)\externals\common-scripts\gmepy.exe xme2mga %(FullPath) $(META_PATH)
     </xme2mga>
   </ItemGroup>
   <ItemGroup>
-    <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
-      <RefreshLibs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</RefreshLibs>
-    </meta2uml>
+    <None Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
     <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML.mga">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)\bin\MetaGME2UML.exe" "%(FullPath)" "%(RootDir)%(Directory)\%(Filename)_uml.mga"
 "$(META_PATH)\externals\common-scripts\gmepy.exe" mga2xmp "%(FullPath)"
@@ -109,6 +110,7 @@ $(META_PATH)\externals\common-scripts\gmepy.exe xme2mga %(FullPath) $(META_PATH)
       <OutFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\%(FileName)_uml.mga</OutFile>
       <Refresh Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</Refresh>
       <RefreshLibs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</RefreshLibs>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\CyPhyML-core.mga</AdditionalDependencies>
     </meta2uml>
   </ItemGroup>
   <ItemGroup>
