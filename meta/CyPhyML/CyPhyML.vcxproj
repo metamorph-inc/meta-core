@@ -96,10 +96,9 @@ $(META_PATH)\externals\common-scripts\gmepy.exe xme2mga %(FullPath) $(META_PATH)
     </xme2mga>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
       <FileType>Document</FileType>
-    </None>
+    </meta2uml>
     <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML.mga">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(GREAT_PATH)\bin\MetaGME2UML.exe" "%(FullPath)" "%(RootDir)%(Directory)\%(Filename)_uml.mga"
 "$(META_PATH)\externals\common-scripts\gmepy.exe" mga2xmp "%(FullPath)"

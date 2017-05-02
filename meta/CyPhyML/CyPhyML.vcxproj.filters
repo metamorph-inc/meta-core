@@ -32,10 +32,8 @@
     <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML.mga">
       <Filter>Generated Models</Filter>
     </meta2uml>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
+    <meta2uml Include="..\..\generated\CyPhyML\models\CyPhyML-core.mga">
       <Filter>Generated Models</Filter>
-    </None>
+    </meta2uml>
   </ItemGroup>
 </Project>
