@@ -254,6 +254,15 @@ namespace CyPhyPETTest
             });
         }
 
+        [Fact]
+        public void Support_FEA_Test_Bench()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestFEA";
+            var test_name = GetCurrentMethod();
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            Assert.True(result.Item2.Success);
+        }
+
         public void SetFixture(WorkFlow_PETFixture data)
         {
             mgaFile = data.mgaFile;
