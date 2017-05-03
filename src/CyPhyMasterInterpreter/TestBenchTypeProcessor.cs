@@ -324,7 +324,9 @@ namespace CyPhyMasterInterpreter
                         continue;
                     }
 
-                    var builtConnections = designEntityRef.DstConnections.BuiltCollection.Count();
+                    // user may have leftovers from running CAExporter then deleting the CA
+                    var builts = designEntityRef.DstConnections.BuiltCollection.Where(x => x.DstEnds.BuiltDesignEntityRef.AllReferred != null);
+                    var builtConnections = builts.Count();
 
                     if (builtConnections == 0)
                     {
@@ -346,18 +348,9 @@ namespace CyPhyMasterInterpreter
 
                     // Get the Built connection and then the BuildDesignEntityRef.
                     // The BuildDesignEntityRef will point to our source object within a Component Assembly / configuration.
-                    foreach (CyPhy.Built built in designEntityRef.DstConnections.BuiltCollection)
+                    foreach (CyPhy.Built built in builts)
                     {
                         var builtDesignEntityRef = built.DstEnds.BuiltDesignEntityRef;
-                        if (builtDesignEntityRef.AllReferred == null)
-                        {
-                            // in case user clears the reference
-
-                            string message = string.Format("Model does not contain traceablity information between the generated configurations and the design space. {0} will not be found in the original design space. Please try to export the configurations again using CAExporter or run the design space exploration tool.", originalTip.Meta.Name);
-
-                            ex = new AnalysisModelTipNotFoundException(message);
-                            continue;
-                        }
 
                         if ((builtDesignEntityRef.AllReferred.Impl as MgaFCO).RootFCO.ID == (sutComponentAssemblyTarget.Impl as MgaFCO).RootFCO.ID)
                         {
