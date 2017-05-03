@@ -133,7 +133,7 @@ namespace AVM.DDP
                             {
                                 return null;
                             }
-                            return tbRef.Referred.TestBench; })
+                            return tbRef.Referred.TestBenchType; })
                         },
                         new { t = typeof(CyPhy.TestBenchSuite), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco => CyPhyClasses.ParametricExploration.Cast(fco)
                             .Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBench) },

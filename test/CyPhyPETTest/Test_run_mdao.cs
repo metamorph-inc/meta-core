@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using MasterInterpreterTest;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Xunit;
@@ -252,6 +253,32 @@ namespace CyPhyPETTest
             {
                 DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
             });
+        }
+
+        [Fact]
+        public void Support_FEA_Test_Bench()
+        {
+            var path_pet = "/@Testing/@ParametricExploration/@TestFEA";
+            var test_name = GetCurrentMethod();
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            Assert.True(result.Item2.Success);
+        }
+
+        [Fact]
+        public void Support_FEA_Test_Bench_Via_MasterInterpreter()
+        {
+            //string outputDir = "BallisticTestBench_BallisticHasTestInjectionPoint_Invalid";
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestFEA";
+            string configAbsPath = "/@Designs/@Box";
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: this.mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
         }
 
         public void SetFixture(WorkFlow_PETFixture data)

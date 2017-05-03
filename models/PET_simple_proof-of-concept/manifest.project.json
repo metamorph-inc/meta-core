@@ -3,14 +3,17 @@
     "Components": [],
     "DesignSpaceModels": [],
     "Configurations": [
-      "./designs/SimpleSystem.adm"
+      "./designs/SimpleSystem.adm",
+      "./designs/Box.adm"
     ],
     "TestBenches": [
       "./test-benches/paraboloid_TestBench.testbench.json",
       "./test-benches/add2_TestBench.testbench.json",
       "./test-benches/CAD_TestBench.testbench.json",
       "./test-benches/sum_arrays.testbench.json",
-      "./test-benches/count_components.testbench.json"
+      "./test-benches/count_components.testbench.json",
+      "./test-benches/StructuralFEATestBench.testbench.json",
+      "./test-benches/FEA_Box_CircleTest.testbench.json"
     ],
     "Results": {
       "UrlHints": [
@@ -25,7 +28,7 @@
       "vfLink": "",
       "text": ""
     },
-    "CyPhyProjectFileName": "WorkFlow_PET.mga",
-    "LastModified": "2017-05-01 13-07-18"
+    "CyPhyProjectFileName": "WorkFlow_PET_test.mga",
+    "LastModified": "2017-05-02 16-42-14"
   }
 }

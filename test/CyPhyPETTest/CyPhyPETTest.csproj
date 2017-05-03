@@ -143,6 +143,10 @@
       <Project>{33011618-1b17-4bc7-b204-b84d0fc40b30}</Project>
       <Name>DynamicsTeamTest</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MasterInterpreterTest\MasterInterpreterTest.csproj">
+      <Project>{AA7C3471-C4BE-46C0-9328-EE208FC3D537}</Project>
+      <Name>MasterInterpreterTest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
