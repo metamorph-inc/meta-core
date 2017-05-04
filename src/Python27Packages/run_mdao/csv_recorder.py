@@ -71,7 +71,7 @@ class MappingCsvRecorder(BaseRecorder):
         if self._wrote_header is False:
             id = []
             if self._include_id:
-                id = ['_id']
+                id = ['GUID']
             self.writer.writerow(id + list(self.params_map.values()) + list(self.unknowns_map.values()))
             self._wrote_header = True
 
