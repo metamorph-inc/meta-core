@@ -78,6 +78,7 @@ namespace CyPhyPropagateTest
             }
             catch
             {
+                KillMetaLink();
                 lock (metalinkLogStream)
                     metalinkLogStream.Dispose();
                 throw;
@@ -108,12 +109,14 @@ namespace CyPhyPropagateTest
 
         protected void KillMetaLink()
         {
-            lock (metalink)
+            lock (this)
             {
-                if (metalink.HasExited == false)
+                if (metalink != null && metalink.HasExited == false)
                 {
                     metalink.Kill();
                     metalink.WaitForExit();
+                    metalink.Dispose();
+                    metalink = null;
                 }
             }
         }
@@ -261,6 +264,7 @@ namespace CyPhyPropagateTest
             metalinkLogStream.AutoFlush = true;
             try
             {
+                // FIXME: look for "exception caught"
                 metalink.ErrorDataReceived += (o, dataArgs) =>
                 {
                     if (dataArgs.Data == null)
@@ -289,11 +293,10 @@ namespace CyPhyPropagateTest
                 metalink.BeginOutputReadLine();
                 metalink.BeginErrorReadLine();
             }
-            catch
+            finally
             {
                 lock (metalinkLogStream)
                     metalinkLogStream.Close();
-                throw;
             }
         }
 

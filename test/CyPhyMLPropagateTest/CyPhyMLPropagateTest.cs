@@ -251,7 +251,6 @@ namespace CyPhyPropagateTest
             {
                 throw new TimeoutException();
             }
-            System.Console.WriteLine("aa");
         }
 
         [Fact]
