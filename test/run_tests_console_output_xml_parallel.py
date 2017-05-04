@@ -37,9 +37,12 @@ if __name__ == '__main__':
     _this_dir = os.path.dirname(os.path.abspath(__file__))
     xml_files = main(*[(xunit_file, os.path.abspath(os.path.join(os.path.dirname(xunit_file), 'results'))) for xunit_file in args.xunit_files])
     run_tests_console_output_xml.amalgamate_nunit_xmls([xml_file for xml_file in xml_files if xml_file is not None], os.path.join(_this_dir, 'nunit_results.xml'))
+    run_tests_console_output_xml.transform_xunit_xmls([xml_file + '.xunit.xml' for xml_file in xml_files if xml_file is not None], os.path.join(_this_dir, 'junit_results.xml'))
 
     if args.start_failed:
         from xml.etree import ElementTree
         for xml_file in xml_files:
+            if xml_file is None:
+                continue
             if int(ElementTree.parse(xml_file).getroot().get('failures')):
                 subprocess.check_call(['cmd.exe', '/c', 'start', xml_file + '.html'])

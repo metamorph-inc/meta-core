@@ -43,7 +43,7 @@ def run_test(filename, cwd, result_dir):
     with open(result_xml + '.log', 'wb') as logfile:
         process = subprocess.Popen([sys.executable, os.path.join(_this_dir, '..\\run_in_job_object.py'), # n.b. without this, if a test creates a child process which doesn't exit, we hang reading its stdout
                                 os.path.join(_this_dir, r'..\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe'),
-                                filename, '/nunit', result_xml, '/html', result_xml + '.html'],
+                                filename, '/nunit', result_xml, '/html', result_xml + '.html', '/xml', result_xml + '.xunit.xml'],
                                 cwd=cwd, stdout=logfile, stderr=subprocess.STDOUT)
         # output, unused_err = process.communicate()
         retcode = process.wait()
@@ -79,6 +79,49 @@ def amalgamate_nunit_xmls(xml_files, output_filename):
     ElementTree.ElementTree(test_results).write(output_filename)
     fixup_nunit_xml(output_filename)
 
+def transform_xunit_xmls(xml_files, output_filename):
+    test_results = ElementTree.Element('testsuites')
+    for xml_file in xml_files:
+        result_root = ElementTree.parse(xml_file).getroot()
+
+        for class_ in result_root.findall('./class'):
+            testsuite = ElementTree.Element('testsuite')
+            test_results.append(testsuite)
+            #  <testsuite name="JUnitXmlReporter" errors="0" tests="0" failures="0" time="0" timestamp="2013-05-24T10:23:58" />
+            testsuite.set('name', class_.get('name'))
+            testsuite.set('failures', str(len(class_.findall('.//test[@result="Fail"]'))))
+            testsuite.set('errors', '0')
+            testsuite.set('tests', str(len(class_.findall('.//test'))))
+            # TODO result_root.run-date + run-time
+            testsuite.set('timestamp', '2017-01-01T00:00:00')
+            for test in class_.findall('./test'):
+                testcase = ElementTree.Element('testcase')
+                testsuite.append(testcase)
+                testcase.set('classname', '.'.join(test.get('name').split('.')[:-1]))
+                testcase.set('name', test.get('name').split('.')[-1])
+                if test.get('time') is not None:
+                    testcase.set('time', test.get('time'))
+                system_err = ElementTree.Element('system-err')
+                if test.find('./output') is not None:
+                    system_err.text = test.find('./output').text
+                testcase.append(system_err)
+                if test.get('result') == 'Pass':
+                    pass
+                elif test.get('result') == 'Fail':
+                    failure = test.find('./failure')
+                    failure_out = ElementTree.Element('failure')
+                    testcase.append(failure_out)
+                    failure_out.set('message', failure.find('./message').text)
+                    failure_out.set('type', failure.get('exception-type'))
+                    failure_out.text = failure.find('./stack-trace').text
+                elif test.get('result') == 'Skip':
+                    testcase.append(ElementTree.Element('skipped'))
+    # TODO: attributes: <testsuites disabled="" errors="" failures="" name="" tests="" time="">
+
+
+    ElementTree.ElementTree(test_results).write(output_filename)
+    # fixup_nunit_xml(output_filename)
+
 def clean_result_dir(result_dir=None):
     try:
         os.mkdir(result_dir)
@@ -87,7 +130,7 @@ def clean_result_dir(result_dir=None):
             pass
         else:
             raise
-    for file in glob.glob(result_dir + "/*_result.xml"):
+    for file in glob.glob(result_dir + "/*_result.xml") + glob.glob(result_dir + "/*.xunit.xml"):
         #print "Unlink " + file
         os.unlink(file)
     
@@ -109,6 +152,7 @@ def run_tests_only(xunit_file, cwd=None, result_dir=None):
 def run_tests(xunit_file, cwd=None, result_dir=None):
     clean_result_dir(result_dir)
     return run_tests(xunit_file, cwd, result_dir)
+
 
 if __name__ == '__main__':
     xunit_files = sys.argv[1:] if len(sys.argv) >= 2 else ['tests.xunit']

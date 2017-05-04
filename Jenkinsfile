@@ -30,7 +30,7 @@ run_cadunittests.cmd/$)
 
 //                stash includes: 'deploy/META*exe', name: 'installer'
                 archiveArtifacts artifacts: 'deploy/META*exe'
-                step([$class: 'NUnitPublisher', testResultsPattern: 'test/nunit_results.xml', debug: false, keepJUnitReports: false, skipJUnitArchiver:false, failIfNoResults: true])
+                junit keepLongStdio: true, testResults: 'test/junit_results.xml'
             }
 
         }
