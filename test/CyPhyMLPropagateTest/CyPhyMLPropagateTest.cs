@@ -1028,5 +1028,5 @@ namespace CyPhyPropagateTest
 
 // cd C:\Users\kevin\meta11\META_MetaLink_HullandHook
 // change addcomp.txt topic guids
-// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-client\target\metalink-java-client-1.0.0.jar  -p addcomp.txt
-// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar   -r EditComponent.mlp
+// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-client\target\metalink-java-client-1.1.0.jar  -p addcomp.txt
+// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar   -r EditComponent.mlp

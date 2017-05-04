@@ -6,14 +6,14 @@
    <parent>
      <groupId>edu.vanderbilt.isis.meta.link</groupId>
      <artifactId>metalink-protobuf-parent</artifactId>
-     <version>1.0.0</version>
+     <version>1.1.0</version>
    </parent>
 
    <properties>
      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
      <protobuf.source>${project.parent.build.sourceDirectory}</protobuf.source>
      <target.cpp.path>target/generated-sources/cpp/</target.cpp.path>
-     <usage.creo>${project.parent.parent.basedir}/meta-link-creo/src</usage.creo>
+     <usage.creo>meta-link-creo/src</usage.creo>
    </properties>
 
   <artifactId>metalink-protobuf-cpp</artifactId>
@@ -21,7 +21,6 @@
 
   <name>meta protocol buffer message C++</name>
   <url>http://maven.apache.org</url>
-  <version>1.0.0</version>
 
   <dependencies>
     <dependency>
@@ -38,8 +37,8 @@
          <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <generation.classfier>protoc25</generation.classfier>
-	<protoc.exec.path>../../3rdParty/protoc-2.5.0-win32/protoc25.exe</protoc.exec.path>
+        <generation.classfier>protoc26</generation.classfier>
+	<protoc.exec.path>../../3rdParty/protoc-2.6.1-win32/protoc26.exe</protoc.exec.path>
       </properties>
     </profile>
   </profiles>
@@ -110,19 +109,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-        </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-                <classifier>${generation.classfier}</classifier>
-            </configuration>
         </plugin>
 
       </plugins>
