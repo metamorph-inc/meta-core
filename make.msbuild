@@ -52,11 +52,11 @@
   
   <Target Name="Install_PythonLibs" DependsOnTargets="">
     <!-- make sure pip works -->
-    <Exec Command="bin\Python27\Scripts\python.exe -m pip freeze >NUL" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+    <Exec Command="bin\Python27\Scripts\python.exe -m pip freeze >NUL" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
   </Target>
   
   <Target Name="DownloadNuGetPackages">
-    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
+    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
   </Target>
   
   <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;DownloadNuGetPackages">
