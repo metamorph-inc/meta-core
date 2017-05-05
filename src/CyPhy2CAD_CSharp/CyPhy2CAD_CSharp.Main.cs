@@ -80,7 +80,7 @@ namespace CyPhy2CAD_CSharp
 
                 // META-2987 
                 GenerateCADParameterMapping(tb,
-                                            outputdir);
+                                            outputdir, new List<object>());
 
                 CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory);
                 datacreator.Traceability = this.result.Traceability;
@@ -139,10 +139,6 @@ namespace CyPhy2CAD_CSharp
                     throw new Exception("There is no elaborated system under test component assembly in the model!");
                 }
 
-                // META-2987
-                GenerateCADParameterMapping(tb,
-                                            outputdir);
-
                 CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory);
                 datacreator.Traceability = this.result.Traceability;
                 datacreator.CreateFlatData(tb,
@@ -172,6 +168,15 @@ namespace CyPhy2CAD_CSharp
                 testBenchRep.TraverseTestBench(tb);
                 testBenchRep.CollectDirectories();
                 result.Success = testBenchRep.GenerateOutputFiles();
+
+                List<object> mappings = new List<object>();
+                if (testBenchRep is TestBenchModel.FEATestBench)
+                {
+                    var feaRep = (TestBenchModel.FEATestBench)testBenchRep;
+                    mappings = feaRep.TestBenchParameterMappings;
+                }
+                // META-2987
+                GenerateCADParameterMapping(tb, outputdir, mappings);
             }
             else if (curObjMetaBase == "ComponentAssembly")
             {
@@ -198,26 +203,23 @@ namespace CyPhy2CAD_CSharp
         }
 
         // META-2987
-        private void GenerateCADParameterMapping(CyPhy.TestBenchType testBench,
-                                                 string outputDir)
+        private void GenerateCADParameterMapping(CyPhy.TestBenchType testBench, string outputDir, List<object> cadParamList)
         {
-            List<CyPhy2CAD_CSharp.TestBenchModel.TBCadParameterMapping> cadParamList = new List<TestBenchModel.TBCadParameterMapping>();
-            if (testBench.Children.ParameterCollection.Any())
+            foreach (var parameter in testBench.Children.ParameterCollection)
             {
-                foreach (var parameter in testBench.Children.ParameterCollection)
-                {
-                    List<CyPhy.CADParameter> vftFound = new List<CyPhy.CADParameter>();
-                    List<CyPhy.ValueFlowTarget> vftVisited = new List<CyPhy.ValueFlowTarget>();
+                List<CyPhy.CADParameter> vftFound = new List<CyPhy.CADParameter>();
+                List<CyPhy.ValueFlowTarget> vftVisited = new List<CyPhy.ValueFlowTarget>();
  
-                    FindValueFlowTargets(parameter, 
-                                         vftFound,
-                                         vftVisited);
+                FindValueFlowTargets(parameter,
+                                        vftFound,
+                                        vftVisited);
 
-                    foreach (var cadParam in vftFound)
+                foreach (var cadParam in vftFound)
+                {
+                    CyPhy2CAD_CSharp.TestBenchModel.TBCadParameterMapping cadParameterMapping = new TestBenchModel.TBCadParameterMapping(cadParam, parameter.Name);
+                    if (!String.IsNullOrEmpty(cadParameterMapping.ComponentInstanceGUID))
                     {
-                        CyPhy2CAD_CSharp.TestBenchModel.TBCadParameterMapping cadParameterMapping = new TestBenchModel.TBCadParameterMapping(cadParam, parameter.Name);
-                        if (!String.IsNullOrEmpty(cadParameterMapping.ComponentInstanceGUID))
-                            cadParamList.Add(cadParameterMapping);
+                        cadParamList.Add(cadParameterMapping);
                     }
                 }
             }
@@ -225,10 +227,7 @@ namespace CyPhy2CAD_CSharp
             if (cadParamList.Any())
             {
                 string mappingFileContent = Newtonsoft.Json.JsonConvert.SerializeObject(cadParamList);
-                using (StreamWriter writer = new StreamWriter(Path.Combine(outputDir, "CADParamTestBenchMapping.json")))
-                {
-                    writer.WriteLine(mappingFileContent);
-                }
+                File.WriteAllText(Path.Combine(outputDir, "CADParamTestBenchMapping.json"), mappingFileContent, new UTF8Encoding(false));
             }            
 
             // generate testbench_manifest.json if it does not exist

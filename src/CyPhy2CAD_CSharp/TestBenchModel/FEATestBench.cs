@@ -26,6 +26,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public List<FEAThermalElement> ThermalElements = new List<FEAThermalElement>();
         public CyPhyClasses.CADTestBench.AttributesClass.AdjoiningTreatment_enum AdjSurfTreatment;
         public string FEAAnalysisType;
+        public List<object> TestBenchParameterMappings = new List<object>();
 
         //public List<TBComputation> StaticComputations = new List<TBComputation>();
 
@@ -577,15 +578,15 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     double fx = 0.0, fy = 0.0, fz = 0.0, mx = 0.0, my = 0.0, mz = 0.0;
                     string funit = "N", munit = "N-mm";
 
-                    CyPhy.Parameter p1 = GetForceLoadParam(forceLoad, "ForceX", out fx);
-                    GetForceLoadParam(forceLoad, "ForceY", out fy);
-                    GetForceLoadParam(forceLoad, "ForceZ", out fz);
-                    CyPhy.Parameter p2 = GetForceLoadParam(forceLoad, "MomentX", out mx);
-                    GetForceLoadParam(forceLoad, "MomentY", out my);
-                    GetForceLoadParam(forceLoad, "MomentZ", out mz);
+                    CyPhy.Parameter p1x = GetForceLoadParam(forceLoad, "ForceX", out fx);
+                    CyPhy.Parameter p1y = GetForceLoadParam(forceLoad, "ForceY", out fy);
+                    CyPhy.Parameter p1z = GetForceLoadParam(forceLoad, "ForceZ", out fz);
+                    CyPhy.Parameter p2x = GetForceLoadParam(forceLoad, "MomentX", out mx);
+                    CyPhy.Parameter p2y = GetForceLoadParam(forceLoad, "MomentY", out my);
+                    CyPhy.Parameter p2z = GetForceLoadParam(forceLoad, "MomentZ", out mz);
 
-                    GetParamUnitName(p1, ref funit);
-                    GetParamUnitName(p2, ref munit);
+                    GetParamUnitName(p1x, ref funit);
+                    GetParamUnitName(p2x, ref munit);
 
 
                     foreach (var item in forceLoad.DstConnections.ForceLoadParam2GeometryCollection)
@@ -600,6 +601,28 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         feaforceRep.Moment_Y = my;
                         feaforceRep.Moment_Z = mz;
                         feaforceRep.MomentUnit = munit;
+
+                        string _id = feaforceRep.Force_id;
+                        Action<CyPhy.Parameter, string> addMapping = (param, name) =>
+                        {
+                            var srcParam = param.SrcConnections.ValueFlowCollection.Select(vf => vf.SrcEnds.Parameter).Where(srcp => srcp != null).FirstOrDefault();
+                            if (srcParam != null)
+                            {
+                                TestBenchParameterMappings.Add(new CyPhy2CAD_CSharp.TestBenchModel.FEALoadCadParameterMapping()
+                                {
+                                    TestBenchParameterName = srcParam.Name,
+                                    _id = _id,
+                                    AttributeName = name
+                                });
+                            }
+                        };
+                        addMapping(p1x, "x");
+                        addMapping(p1y, "y");
+                        addMapping(p1z, "z");
+                        _id = feaforceRep.Moment_id;
+                        addMapping(p2x, "x");
+                        addMapping(p2y, "y");
+                        addMapping(p2z, "z");
 
                         Logger.Instance.AddLogMessage(String.Format("ForceLoad Units - Force Component = {0}, Moment Component = {1}", funit, munit), Severity.Info);
 
@@ -676,8 +699,24 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     double y = 0;
                     double z = 0;
                     CyPhy.Parameter p1 = GetAccelerationLoadParam(acceleration, "X", out x);
-                    GetAccelerationLoadParam(acceleration, "Y", out y);
-                    GetAccelerationLoadParam(acceleration, "Z", out z);
+                    Action<string> addMapping = (name) =>
+                    {
+                        var srcParam = p1.SrcConnections.ValueFlowCollection.Select(vf => vf.SrcEnds.Parameter).Where(srcp => srcp != null).FirstOrDefault();
+                        if (srcParam != null)
+                        {
+                            TestBenchParameterMappings.Add(new CyPhy2CAD_CSharp.TestBenchModel.FEALoadCadParameterMapping()
+                            {
+                                TestBenchParameterName = srcParam.Name,
+                                _id = feaaccelRep.Acceleration_id,
+                                AttributeName = name
+                            });
+                        }
+                    };
+                    addMapping("x");
+                    p1 = GetAccelerationLoadParam(acceleration, "Y", out y);
+                    addMapping("y");
+                    p1 = GetAccelerationLoadParam(acceleration, "Z", out z);
+                    addMapping("z");
                     feaaccelRep.X = x;
                     feaaccelRep.Y = y;
                     feaaccelRep.Z = z;
@@ -731,6 +770,17 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                             AddGeometry2Load(feapressRep,
                                              geometry.Impl as MgaFCO,
                                              tipContextPath, true);
+
+                            var srcParam = p1.SrcConnections.ValueFlowCollection.Select(vf => vf.SrcEnds.Parameter).Where(srcp => srcp != null).FirstOrDefault();
+                            if (srcParam != null)
+                            {
+                                TestBenchParameterMappings.Add(new CyPhy2CAD_CSharp.TestBenchModel.FEALoadCadParameterMapping()
+                                {
+                                    TestBenchParameterName = srcParam.Name,
+                                    _id = feapressRep.Pressure_id,
+                                    AttributeName = "Value"
+                                });
+                            }
                         }
                     }
                 }
@@ -814,23 +864,23 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             CADGeometry geomRep = FillOutGeometryRep(geometryFCO,
                                                      tipContextPath);
 
-            if (addcomputations)
-            {
-                foreach (var point in geomRep.GeometryFeatures)
-                {
-                    TBComputation tbcomputation = new TBComputation();
-                    tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
-                    tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
-                    tbcomputation.RequestedValueType = "Vector";
-                    tbcomputation.Details = point.DatumName;       //tbcomputation.FeatureDatumName = point.DatumName;
-                    tbcomputation.ComponentID = point.ComponentID;
-
-                    StaticAnalysisMetrics.Add(tbcomputation);
-                }
-            }
-
             if (geomRep != null)
-            {                     
+            {
+                if (addcomputations)
+                {
+                    foreach (var point in geomRep.GeometryFeatures)
+                    {
+                        TBComputation tbcomputation = new TBComputation();
+                        tbcomputation.ComputationType = TBComputation.Type.POINTCOORDINATES;
+                        tbcomputation.MetricID = point.ComponentID + ":" + point.DatumName;
+                        tbcomputation.RequestedValueType = "Vector";
+                        tbcomputation.Details = point.DatumName;       //tbcomputation.FeatureDatumName = point.DatumName;
+                        tbcomputation.ComponentID = point.ComponentID;
+
+                        StaticAnalysisMetrics.Add(tbcomputation);
+                    }
+                }
+
                 loadRep.AddGeometry(geomRep);
                 this.Loads.Add(loadRep);
             }

@@ -24,4 +24,11 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             TestBenchParameterName = tbParamName;
         }
     }
+
+    public class FEALoadCadParameterMapping
+    {
+        public string AttributeName { get; set; }
+        public string TestBenchParameterName { get; set; }
+        public string _id { get; set; }
+    }
 }

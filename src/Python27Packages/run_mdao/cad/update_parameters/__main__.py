@@ -7,7 +7,7 @@ def update_parameters():
     log = run_mdao.cad.log = logging.getLogger()
     log.info('About to update parameters in CADAssembly.xml.')
     ltc = run_mdao.cad.TestBenchParameter_to_CadAssembly()
-    with open('CADParamTestBenchMapping.log', 'w') as statusfile:
+    with open('log/CADParamTestBenchMapping.log', 'w') as statusfile:
         ltc.modify_cad_assembly_file(statusfile)
 
     log.info('Wrote back to CADAssembly.xml')
