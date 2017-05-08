@@ -1,4 +1,8 @@
 from __future__ import absolute_import
+import os
+import os.path
+import shutil
+import errno
 import sys
 import csv
 import uuid
@@ -8,6 +12,7 @@ from collections import OrderedDict
 import numpy
 
 from openmdao.recorders.base_recorder import BaseRecorder
+from openmdao.api import FileRef
 from six.moves import map
 
 
@@ -49,6 +54,7 @@ class CsvRecorder(BaseRecorder):
 
 
 class MappingCsvRecorder(BaseRecorder):
+    artifacts_directory = 'artifacts'
 
     def __init__(self, params_map, unknowns_map, out=sys.stdout, include_id=False):
         super(MappingCsvRecorder, self).__init__()
@@ -72,21 +78,39 @@ class MappingCsvRecorder(BaseRecorder):
             id = []
             if self._include_id:
                 id = ['GUID']
-            self.writer.writerow(id + list(self.params_map.values()) + list(self.unknowns_map.values()))
+            self.writer.writerow(id + list(self.params_map.values()) +
+                [v for k, v in six.iteritems(self.unknowns_map) if isinstance(unknowns[k], FileRef) is False])
             self._wrote_header = True
+
+        id = []
+        if self._include_id:
+            id = [uuid.uuid4()]
 
         def munge(val):
             if isinstance(val, numpy.ndarray):
                 return str(val.tolist())
+            if isinstance(val, FileRef):
+                return None
             return str(val)
 
         def do_mapping(map_, values):
-            return [munge(values[key]) for key in map_]
-        # import pdb; pdb.set_trace()
-        id = []
-        if self._include_id:
-            id = [uuid.uuid4()]
+            return [v for v in (munge(values[key]) for key in map_) if v is not None]
         self.writer.writerow(id + do_mapping(self.params_map, params) + do_mapping(self.unknowns_map, unknowns))
+
+        if self._include_id:
+            # write FileRefs to artifacts/GUID/mapped_name
+            for name, fileref in ((n, fr) for n, fr in six.iteritems(dict(unknowns)) if isinstance(fr, FileRef)):
+                with fileref.open('rb') as artifact:
+                    directory = os.path.join(self.artifacts_directory, six.text_type(id[0]))
+                    try:
+                        os.makedirs(directory)
+                    except OSError as e:
+                        if e.errno == errno.EEXIST and os.path.isdir(directory):
+                            pass
+                        else:
+                            raise
+                    with open(os.path.join(directory, self.unknowns_map[name]), 'wb') as out:
+                        shutil.copyfileobj(artifact, out)
 
         if self.out:
             self.out.flush()
