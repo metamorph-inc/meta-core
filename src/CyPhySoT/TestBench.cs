@@ -132,7 +132,7 @@ namespace CyPhySoT
             try
             {
                 var manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(this.OutputDirectory);
-                manifest.AddAllTasks(ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(this.CurrentObj), new ComComponent[] { interpreter });
+                manifest.AddAllTasks(ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(this.CurrentObj), new ComComponent[] { interpreter }, "..\\..");
                 manifest.Serialize(this.OutputDirectory);
                 // if some magic happens in the test bench and some interpreters would update the model
                 // and they are NOT updating the summary file accordingly we will do it here.

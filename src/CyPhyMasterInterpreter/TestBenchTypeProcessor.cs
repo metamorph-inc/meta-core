@@ -716,7 +716,7 @@ namespace CyPhyMasterInterpreter
             {
                 try
                 {
-                    manifest.AddAllTasks(this.testBenchType, this.Interpreters);
+                    manifest.AddAllTasks(this.testBenchType, this.Interpreters, "..\\..");
                 }
                 catch (Exception ex)
                 {

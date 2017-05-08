@@ -761,7 +761,7 @@ namespace CyPhyPET
                 // if RunCommand is specified, add it to the manifest
                 var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(interpreter.MainParameters.OutputDirectory);
 
-                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { interpreter });
+                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { interpreter }, "..\\..\\..");
                 tbManifest.Serialize(interpreter.MainParameters.OutputDirectory);
 
                 return true;
@@ -777,7 +777,7 @@ namespace CyPhyPET
             {
                 var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhy2CAD.MainParameters.OutputDirectory);
 
-                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhy2CAD });
+                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhy2CAD }, "..\\..\\..");
 
                 tbManifest.Steps.Insert(0, new AVM.DDP.MetaTBManifest.Step()
                 {
@@ -954,7 +954,7 @@ namespace CyPhyPET
                 {
                     tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhyPython.MainParameters.OutputDirectory);
 
-                    tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhyPython });
+                    tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhyPython }, "..\\..\\..");
                     tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
                 }
 

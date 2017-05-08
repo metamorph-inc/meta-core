@@ -10,6 +10,7 @@ using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace AVM.DDP
 {
@@ -485,7 +486,8 @@ namespace AVM.DDP
 
         public void AddAllTasks(
             CyPhy.TestBenchType testBenchType,
-            IEnumerable<global::META.ComComponent> interpreters)
+            IEnumerable<global::META.ComComponent> interpreters,
+            string relativePathToProjectDir)
         {
             Contract.Requires(testBenchType != null);
             Contract.Requires(interpreters != null);
@@ -534,7 +536,8 @@ namespace AVM.DDP
                         var step = new Step();
 
                         step.Description = executionTask.Attributes.Description;
-                        step.Invocation = executionTask.Attributes.Invocation;
+                        // %project_dir% is relative path to MgaExtensions.MgaExtensions.GetProjectDirectoryPath(testBenchType.Impl.Project)
+                        step.Invocation = Regex.Replace(executionTask.Attributes.Invocation, "%project_dir%", relativePathToProjectDir, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
                         step.PreProcess = executionTask.Attributes.PreProcess;
                         step.PostProcess = executionTask.Attributes.PostProcess;
 
