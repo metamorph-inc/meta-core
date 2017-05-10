@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Xunit;
 
+
 namespace CyPhyPETTest
 {
     public class Test_run_mdao
@@ -279,6 +280,38 @@ namespace CyPhyPETTest
                 keepTempModels: false);
 
             Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
+        [Fact]
+        public void PET_File_Recorder_via_MasterInterpreter()
+        {
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestFileRecorder";
+
+            //Run CyPhyPET
+            var result = CyPhyMasterInterpreterRunner.RunMasterInterpreterAndReturnResults(
+                projectPath: this.mgaFile,
+                absPath: objectAbsPath,
+                configPath: objectAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(result.Success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+            var outputDir = result.OutputDirectory;
+
+            //Run run_mdao
+            string stderr = "<did not start process>";
+            int retcode = Run("Unused Parameter?", outputDir, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            //Compare values in 'output.csv' to 'file_x.txt'
+            var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
+            Assert.True(lines[0] == "GUID,x", "Header doesn't match.");
+            foreach (var line in lines.Skip(1))
+            {
+                var values = line.Split(',');
+                var filepath = Path.Combine(outputDir, "artifacts", values[0], "file_x.txt");
+                Assert.True(File.ReadAllLines(filepath)[0] == values[1], "Values didn't match between 'output.csv' and 'file_x.txt'.");
+            }
         }
 
         public void SetFixture(WorkFlow_PETFixture data)
