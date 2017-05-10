@@ -674,7 +674,6 @@ namespace CyPhyPET.Rules
             }
 
             var tbParamsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
-            var tbMetricsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
             // Check for connections and names of parameters in the test-bench.
             var rangeLengths = new List<int>();
             foreach (var designVar in designVariables)
@@ -778,18 +777,25 @@ namespace CyPhyPET.Rules
             foreach (var obj in objectives)
             {
                 var objMappingCollection = obj.SrcConnections.ObjectiveMappingCollection;
-                if (objMappingCollection != null &&
-                    objMappingCollection.Count() == 1)
+                var fileFlowCollection = obj.SrcConnections.FileResultFlowCollection;
+                if (objMappingCollection.Count() + fileFlowCollection.Count() == 1)
                 {
-                    CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
-                    var tbMetric = objMap.SrcEnd;
-                    var tb = objMap.GenericSrcEndRef;
+                    FCO tbMetric;
+                    if (objMappingCollection.Count() == 1)
+                    {
+                        CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
+                        tbMetric = objMap.SrcEnd;
+                    }
+                    else
+                    {
+                        var fileFlow = fileFlowCollection.First();
+                        tbMetric = fileFlow.SrcEnd;
+                    }
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null && (
-                               (tbMetricParent is CyPhy.TestBenchType) == false 
-                            && (tbMetricParent is CyPhy.ParametricTestBench) == false)
+                        if (   (tbMetricParent is CyPhy.TestBenchType) == false
+                            && (tbMetricParent is CyPhy.ParametricTestBench) == false
                             && (tbMetricParent is CyPhy.Constants) == false)
                         {
                             var feedback = new GenericRuleFeedback()
@@ -815,40 +821,27 @@ namespace CyPhyPET.Rules
                                 checkResults.Add(feedback);
                             }
                         }
-
-                        if (tbMetricsWithConnections.Add(
-                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbMetric)) == false)
-                        {
-                            var feedback = new GenericRuleFeedback()
-                            {
-                                FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("TestBench Metric ({0}) must have only 1 connection to a Objective", tbMetric.Name)
-                            };
-
-                            feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
-                            checkResults.Add(feedback);
-                        }
                     }
                 }
-                else if (objMappingCollection != null)
+                else
                 {
-                    if (objMappingCollection.Count() > 1)
+                    if (objMappingCollection.Count() + fileFlowCollection.Count() > 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("Driver Objective ({0}) must not have multiple connections from Testbench Metrics", obj.Name)
+                            Message = string.Format("Driver Objective ({0}) must not have multiple incoming connections", obj.Name)
                         };
 
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
                         checkResults.Add(feedback);
                     }
-                    else if (objMappingCollection.Count() == 0)
+                    else if (objMappingCollection.Count() + fileFlowCollection.Count() == 0)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Warning,
-                            Message = string.Format("Driver Objective ({0}) does not have a connection from a Testbench Metric", obj.Name)
+                            Message = string.Format("Driver Objective ({0}) does not have an incoming connection", obj.Name)
                         };
 
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);

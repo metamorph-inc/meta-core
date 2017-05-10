@@ -1,0 +1,53 @@
+{
+  "components": {
+    "paraboloid_TestBench": {
+      "parameters": {
+        "x": {
+          "source": [
+            "ParameterStudy",
+            "TestEnum"
+          ]
+        },
+        "y": {
+          "source": [
+              "ParameterStudy",
+              "TestEnum"
+          ]
+        }
+      },
+      "unknowns": {
+        "fxy": {}
+      },
+      "details": {
+        "directory": "TestBench2"
+      }
+    }
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+          "TestEnum": {
+            "type": "enum",
+            "items": [
+              0.0,
+              5.0
+            ]
+          }
+      },
+      "objectives": {
+        "fxy": {
+          "source": [
+            "paraboloid_TestBench",
+            "fxy"
+          ]
+        }
+      },
+      "details": {
+        "Code": "num_samples=2",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  }
+}

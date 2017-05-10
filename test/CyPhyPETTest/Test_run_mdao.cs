@@ -314,6 +314,22 @@ namespace CyPhyPETTest
             }
         }
 
+        [Fact]
+        public void Test__TestTestBench_With_Files__MasterInterpreter()
+        {
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestTestBench_With_Files";
+            string configAbsPath = "/@Designs/@SimpleSystem";
+
+            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+                projectPath: this.mgaFile,
+                absPath: objectAbsPath,
+                configPath: configAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+        }
+
         public void SetFixture(WorkFlow_PETFixture data)
         {
             mgaFile = data.mgaFile;

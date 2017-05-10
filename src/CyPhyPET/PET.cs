@@ -377,26 +377,30 @@ namespace CyPhyPET
                 {
                     continue;
                 }
-                var metric = (MgaReference)((MgaSimpleConnection)connPoint.Owner).Src;
-                if (metric.Referred == null || mgaObjective.Referred == null)
+                var src = ((MgaSimpleConnection)connPoint.Owner).Src;
+                if (src is MgaReference)
                 {
-                    continue;
-                }
-                if (metric.Referred.ID != mgaObjective.Referred.ID)
-                {
-                    foreach (var path in new string[] { Path.Combine(META.VersionInfo.MetaPath, "bin"), Path.Combine(META.VersionInfo.MetaPath, "src", "bin") })
+                    var metric = (MgaReference)src;
+                    if (metric.Referred == null || mgaObjective.Referred == null)
                     {
-                        if (File.Exists(Path.Combine(path, "CyPhyFormulaEvaluator.dll")))
-                        {
-                            SetDllDirectory(path);
-                        }
+                        continue;
                     }
-                    if (AreUnitsEqual(metric.Referred, mgaObjective.Referred) == false)
+                    if (metric.Referred.ID != mgaObjective.Referred.ID)
                     {
-                        Logger.WriteFailed(String.Format("Unit for <a href=\"mga:{0}\">{1}</a> must match unit for <a href=\"mga:{2}\">{3}</a>",
-                            metric.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(metric.Name),
-                            objective.Impl.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(objective.Name)));
-                        throw new ApplicationException();
+                        foreach (var path in new string[] { Path.Combine(META.VersionInfo.MetaPath, "bin"), Path.Combine(META.VersionInfo.MetaPath, "src", "bin") })
+                        {
+                            if (File.Exists(Path.Combine(path, "CyPhyFormulaEvaluator.dll")))
+                            {
+                                SetDllDirectory(path);
+                            }
+                        }
+                        if (AreUnitsEqual(metric.Referred, mgaObjective.Referred) == false)
+                        {
+                            Logger.WriteFailed(String.Format("Unit for <a href=\"mga:{0}\">{1}</a> must match unit for <a href=\"mga:{2}\">{3}</a>",
+                                metric.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(metric.Name),
+                                objective.Impl.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(objective.Name)));
+                            throw new ApplicationException();
+                        }
                     }
                 }
             }
@@ -415,17 +419,20 @@ namespace CyPhyPET
             config.details["directory"] = testBenchOutputDir;
 
             this.config.components.Add(testBenchRef.Name, config);
-            foreach (var parameter in testBench.Children.ParameterCollection)
+            foreach (var parameter in
+                testBench.Children.ParameterCollection.Select(parameter => new { fco = parameter.Impl, unit = parameter.Referred.unit }).
+                Concat(testBench.Children.FileInputCollection.Select(fileInput => new { fco = fileInput.Impl, unit = (CyPhy.unit)null }))
+                )
             {
-                var sourcePath = GetSourcePath((MgaReference)testBenchRef.Impl, (MgaFCO)parameter.Impl);
+                var sourcePath = GetSourcePath((MgaReference)testBenchRef.Impl, (MgaFCO)parameter.fco);
                 if (sourcePath != null)
                 {
                     var configParameter = new PETConfig.Parameter()
                     {
                         source = sourcePath
                     };
-                    config.parameters.Add(parameter.Name, configParameter);
-                    setUnit(parameter.Referred.unit, configParameter);
+                    config.parameters.Add(parameter.fco.Name, configParameter);
+                    setUnit(parameter.unit, configParameter);
                 }
             }
             foreach (var metric in testBench.Children.MetricCollection)
@@ -433,6 +440,11 @@ namespace CyPhyPET
                 var configParameter = new PETConfig.Parameter();
                 config.unknowns.Add(metric.Name, configParameter);
                 setUnit(metric.Referred.unit, configParameter);
+            }
+            foreach (var fileOutput in testBench.Children.FileOutputCollection)
+            {
+                var configParameter = new PETConfig.Parameter();
+                config.unknowns.Add(fileOutput.Name, configParameter);
             }
             if (this.testBench is CyPhy.TestBench)
             {

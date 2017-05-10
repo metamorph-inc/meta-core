@@ -11,6 +11,7 @@
 *.VC.db
 *.sln.metaproj
 # *.mga
+*.xmp.log
 *.vcxproj.user
 *.csproj.user
 *.csproj.metaproj
@@ -132,6 +133,8 @@ meta/DesignDataPackage/iFAB/ManufacturingLib/manufacturingDetails.cs
 meta/DesignDataPackage/iFAB/ManufacturingLib/manufacturingDetails.xsd
 meta/DesignDataPackage/iFAB/ManufacturingLib/materials.xsd
 meta/DesignDataPackage/iFAB/ManufacturingLib/procurementDetails.xsd
+meta/CyPhyML/CyPhyML-*.mta
+meta/CyPhyML/CyPhyML.xmp
 src/CLM_light/obj/
 src/CPMDecorator/CPMDecorator/unusedDecoratorLib.h
 src/ComponentLibraryManagerAddOn/obj/

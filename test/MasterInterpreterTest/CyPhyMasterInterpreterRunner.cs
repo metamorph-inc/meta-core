@@ -163,8 +163,7 @@ namespace MasterInterpreterTest
             bool postToJobManager = false,
             bool keepTempModels = false)
         {
-            var result = RunMasterInterpreterAndReturnResults(projectPath, absPath, configPath, postToJobManager, keepTempModels);
-            return result.Success;
+            return RunMasterInterpreterAndReturnResults(projectPath, absPath, configPath, postToJobManager, keepTempModels).Success;
         }
 
         public static CyPhyMasterInterpreter.MasterInterpreterResult RunMasterInterpreterAndReturnResults(
@@ -183,9 +182,17 @@ namespace MasterInterpreterTest
             try
             {
                 var terr = project.BeginTransactionInNewTerr();
-                var testObj = project.ObjectByPath[absPath] as MgaFCO;
-                var configObj = project.ObjectByPath[configPath] as MgaFCO;
-                project.AbortTransaction();
+                MgaFCO testObj;
+                MgaFCO configObj;
+                try
+                {
+                    testObj = project.ObjectByPath[absPath] as MgaFCO;
+                    configObj = project.ObjectByPath[configPath] as MgaFCO;
+                }
+                finally
+                {
+                    project.AbortTransaction();
+                }
 
                 using (var masterInterpreter = new CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI(project))
                 {

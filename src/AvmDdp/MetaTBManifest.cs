@@ -50,6 +50,18 @@ namespace AVM.DDP
             public string Range { get; set; }
         }
 
+        public class FileInput
+        {
+            public string Name;
+            public string FileName;
+        }
+
+        public class FileOutput
+        {
+            public string Name;
+            public string FileName;
+        }
+
         public enum StatusEnum
         {
             UNEXECUTED,
@@ -96,16 +108,18 @@ namespace AVM.DDP
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusEnum Status { get; set; }
 
-        public List<Dependency> Dependencies { get; set; }
-        public List<Artifact> Artifacts { get; set; }
-        public List<Artifact> VisualizationArtifacts { get; set; }
+        public List<Dependency> Dependencies { get; set; } = new List<Dependency>();
+        public List<Artifact> Artifacts { get; set; } = new List<Artifact>();
+        public List<Artifact> VisualizationArtifacts { get; set; } = new List<Artifact>();
         public string Created { get; set; }
         public string DesignID { get; set; }
         public string DesignName { get; set; }
         public string CfgID { get; set; }
-        public List<Metric> Metrics { get; set; }
-        public List<Parameter> Parameters { get; set; }
-        public List<Step> Steps { get; set; }
+        public List<Metric> Metrics { get; set; } = new List<Metric>();
+        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public List<FileInput> FileInputs { get; set; } = new List<FileInput>();
+        public List<FileOutput> FileOutputs { get; set; } = new List<FileOutput>();
+        public List<Step> Steps { get; set; } = new List<Step>();
         public string TestBench { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? TierLevel { get; set; }
@@ -116,12 +130,6 @@ namespace AVM.DDP
 
         public MetaTBManifest()
         {         
-            Artifacts = new List<Artifact>();
-            VisualizationArtifacts = new List<Artifact>();
-            Metrics = new List<Metric>();
-            Parameters = new List<Parameter>();
-            Steps = new List<Step>();
-            Dependencies = new List<Dependency>();
         }
 
         protected void CopyManifest(MetaTBManifest other)
@@ -157,6 +165,14 @@ namespace AVM.DDP
             foreach (var item in other.Dependencies)
             {
                 this.Dependencies.Add(item);
+            }
+            foreach (var item in other.FileInputs)
+            {
+                this.FileInputs.Add(item);
+            }
+            foreach (var item in other.FileOutputs)
+            {
+                this.FileOutputs.Add(item);
             }
         }
 
@@ -243,6 +259,42 @@ namespace AVM.DDP
                     parameter.Value = item.Attributes.Value;
 
                     this.Parameters.Add(parameter);
+                }
+
+                foreach (var item in testBenchType.Children.FileInputCollection)
+                {
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.FileInputs.FirstOrDefault(x => x.Name == item.Name);
+                        if (oldData != null)
+                        {
+                            this.FileInputs.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.FileInput fileInput = new AVM.DDP.MetaTBManifest.FileInput();
+                    fileInput.Name = item.Name;
+                    fileInput.FileName = item.Attributes.FileName != "" ? item.Attributes.FileName : fileInput.Name;
+
+                    this.FileInputs.Add(fileInput);
+                }
+
+                foreach (var item in testBenchType.Children.FileOutputCollection)
+                {
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.FileOutputs.FirstOrDefault(x => x.Name == item.Name);
+                        if (oldData != null)
+                        {
+                            this.FileOutputs.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.FileOutput fileOutput = new AVM.DDP.MetaTBManifest.FileOutput();
+                    fileOutput.Name = item.Name;
+                    fileOutput.FileName = item.Attributes.FileName != "" ? item.Attributes.FileName : item.Name;
+
+                    this.FileOutputs.Add(fileOutput);
                 }
 
                 // get designID

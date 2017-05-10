@@ -100,17 +100,19 @@ class MappingCsvRecorder(BaseRecorder):
         if self._include_id:
             # write FileRefs to artifacts/GUID/mapped_name
             for name, fileref in ((n, fr) for n, fr in six.iteritems(dict(unknowns)) if isinstance(fr, FileRef)):
-                with fileref.open('rb') as artifact:
-                    directory = os.path.join(self.artifacts_directory, six.text_type(id[0]))
-                    try:
-                        os.makedirs(directory)
-                    except OSError as e:
-                        if e.errno == errno.EEXIST and os.path.isdir(directory):
-                            pass
-                        else:
-                            raise
-                    with open(os.path.join(directory, self.unknowns_map[name]), 'wb') as out:
-                        shutil.copyfileobj(artifact, out)
+                mapped_name = self.unknowns_map.get(name)
+                if mapped_name is not None:
+                    with fileref.open('rb') as artifact:
+                        directory = os.path.join(self.artifacts_directory, six.text_type(id[0]))
+                        try:
+                            os.makedirs(directory)
+                        except OSError as e:
+                            if e.errno == errno.EEXIST and os.path.isdir(directory):
+                                pass
+                            else:
+                                raise
+                        with open(os.path.join(directory, mapped_name), 'wb') as out:
+                            shutil.copyfileobj(artifact, out)
 
         if self.out:
             self.out.flush()

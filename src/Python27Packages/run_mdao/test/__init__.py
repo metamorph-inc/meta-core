@@ -10,6 +10,7 @@ import subprocess
 import unittest
 import contextlib
 import csv
+import hashlib
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -29,6 +30,9 @@ class RegressionTest(unittest.TestCase):
     def setUpClass(cls):
         tb_json_names = glob.glob(os.path.join(_this_dir, '*/testbench_manifest.json'))
         cls.tb_jsons = [(tb_json_name, open(tb_json_name, 'r').read()) for tb_json_name in tb_json_names]
+        artifacts_dir = os.path.join(_this_dir, 'artifacts')
+        if os.path.exists(artifacts_dir):
+            shutil.rmtree(artifacts_dir)
 
     @classmethod
     def tearDownClass(cls):
@@ -57,6 +61,18 @@ class RegressionTest(unittest.TestCase):
             for row in csvreader:
                 guid = row[headers.index('GUID')]
                 self.assertTrue(os.path.isfile(os.path.join('artifacts', guid, 'bin.out')))
+
+    def test_mdao_config_file_testbench(self):
+        os.chdir(_this_dir)
+        run_mdao.run('mdao_config_file_testbench.json')
+        with open('output.csv') as output:
+            csvreader = iter(csv.reader(output))
+            headers = next(csvreader)
+            for row in csvreader:
+                checksum_file = row[headers.index('checksum')]
+                checksum_expected = str(int(hashlib.md5('sample data').hexdigest(), 16))
+                self.assertEqual(checksum_file, checksum_expected)
+
 
 for input_filename in glob.glob(_this_dir + '/mdao_config*json'):
     output_filename = input_filename + '.output.csv'
