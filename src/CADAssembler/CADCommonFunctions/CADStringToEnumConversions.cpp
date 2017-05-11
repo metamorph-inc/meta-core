@@ -1027,6 +1027,8 @@ namespace isis
 		  else if ( DataExchangeFormat.compare("STEREOLITHOGRAPHY") == 0 )	return DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY;
 		  else if ( DataExchangeFormat.compare("INVENTOR") == 0 )	        return DATA_EXCHANGE_FORMAT_INVENTOR;	
 		  else if ( DataExchangeFormat.compare("PARASOLID") == 0 )	        return DATA_EXCHANGE_FORMAT_PARASOLID;
+		  else if ( DataExchangeFormat.compare("DXF") == 0 )				return DATA_EXCHANGE_DXF;
+		  // else if ( DataExchangeFormat.compare("WAVEFRONT") == 0 )			return DATA_EXCHANGE_WAVEFRONT; Wavefront export not supported as of Creo 3.0, See Creo Support document CS249920
 		  
 
 		  string temp_string = "Function DataExchangeFormat_enum was passed " + in_DataExchangeFormat_string + " which is an erroneous type.";
@@ -1051,11 +1053,17 @@ namespace isis
 			case DATA_EXCHANGE_FORMAT_PARASOLID:
 				return "PARASOLID";
 				break;
+			case DATA_EXCHANGE_DXF:
+				return "DXF";
+				break;
+			//case DATA_EXCHANGE_WAVEFRONT:  Wavefront export not supported as of Creo 3.0, See Creo Support document CS249920
+			//	return "WAVEFRONT";
+			//	break;
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function DataExchangeFormat_string was passed " + 
 					std::string(_itoa(in_DataExchangeFormat_enum, temp_char_array, 10)) + 
-					" which is an erroneous type.  Allowed enum value DATA_EXCHANGE_FORMAT_STEP, DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY, and DATA_EXCHANGE_FORMAT_INVENTOR.";
+					" which is an erroneous type.  Allowed enum value DATA_EXCHANGE_FORMAT_STEP, DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY, DATA_EXCHANGE_FORMAT_INVENTOR, and DATA_EXCHANGE_DXF.";
 				throw isis::application_exception(temp_string.c_str());
 		}
 	}
@@ -1076,7 +1084,9 @@ namespace isis
 		  else if ( DataExchangeVersion_string.compare("AP214_SEPARATE_PART_FILES") == 0 )		return AP214_SEPARATE_PART_FILES;
 		  else if ( DataExchangeVersion_string.compare("ASCII") == 0 )							return ASCII;
 		  else if ( DataExchangeVersion_string.compare("BINARY") == 0 )							return BINARY;
-		 
+		  else if ( DataExchangeVersion_string.compare("2013") == 0 )							return Y2013;
+	
+
 		  string temp_string = "Function DataExchangeVersion_enum was passed " + in_DataExchangeVersion_string + " which is an erroneous type.";
 		  throw isis::application_exception(temp_string.c_str());
 	 }
@@ -1111,11 +1121,14 @@ namespace isis
 			case BINARY:
 				return "BINARY";
 				break;
+			case Y2013:
+				return "2013";
+				break;
 			default:
 				char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 				string temp_string = "Function DataExchangeVersion_string was passed " + 
 					std::string(_itoa(in_DataExchangeVersion_enum, temp_char_array, 10)) + 
-					" which is an erroneous type.  Allowed enum values are DATA_EXCHANGE_VERSION_NOT_APPLICABLE, AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES, AP214_SINGLE_FILE, AP214_SEPARATE_PART_FILES, STEREOLITHOGRAPHY_ASCII and STEREOLITHOGRAPHY_BINARY.";
+					" which is an erroneous type.  Allowed enum values are DATA_EXCHANGE_VERSION_NOT_APPLICABLE, AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES, AP214_SINGLE_FILE, AP214_SEPARATE_PART_FILES, STEREOLITHOGRAPHY_ASCII, STEREOLITHOGRAPHY_BINARY, and Y2013.";
 				throw isis::application_exception(temp_string.c_str());
 	  }
 	}

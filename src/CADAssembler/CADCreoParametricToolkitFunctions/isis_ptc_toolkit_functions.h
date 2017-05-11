@@ -463,6 +463,61 @@ namespace isis
 												ProAppData  arg4 )
 											throw(isis::application_exception);
 
+
+	extern ProError isis_ProOutputFileMdlnameWrite(	ProMdl      model,
+												const ProFileName name,
+												ProImportExportFile   file_type,
+												ProAppData  arg1,
+												ProAppData  arg2,
+												ProAppData  arg3,
+												ProAppData  arg4 )
+											throw(isis::application_exception);
+
+	extern ProError isis_ProOutputAssemblyConfigurationIsSupported( ProIntf3DExportType file_type,
+           											ProOutputAssemblyConfiguration configuration,
+													ProBoolean*  is_supported)
+													throw(isis::application_exception);
+
+	extern ProError  isis_ProOutputBrepRepresentationAlloc( ProOutputBrepRepresentation* representation)
+														throw(isis::application_exception);
+
+	extern ProError   isis_ProOutputBrepRepresentationFlagsSet(
+								ProOutputBrepRepresentation representation,
+								ProBoolean as_wireframe,
+								ProBoolean as_surfaces,
+								ProBoolean as_solid,
+								ProBoolean as_quilts)
+														throw(isis::application_exception);
+
+	extern  ProError isis_ProOutputBrepRepresentationFree( ProOutputBrepRepresentation representation)
+																	throw(isis::application_exception);
+
+	extern ProError   isis_ProOutputBrepRepresentationIsSupported( ProIntf3DExportType file_type,
+          													ProOutputBrepRepresentation representation,
+															ProBoolean*  is_supported)
+															throw(isis::application_exception);
+
+	extern ProError  isis_ProOutputInclusionWithOptionsSet(	ProOutputInclusion inclusion,
+													double             *parameters,
+													int                config_flags)
+														throw(isis::application_exception);
+
+
+	extern ProError   isis_ProOutputInclusionAlloc( ProOutputInclusion* inclusion)
+														throw(isis::application_exception);
+
+
+	extern ProError   isis_ProOutputInclusionFlagsSet( ProOutputInclusion inclusion,
+														 ProBoolean include_datums,
+														 ProBoolean include_blanked,
+														 ProBoolean include_facetted)
+														throw(isis::application_exception);
+
+
+	extern ProError   isis_ProOutputInclusionFree (ProOutputInclusion inclusion)
+														throw(isis::application_exception);
+
+
 	extern ProError isis_ProIntf3DFileWrite(	ProSolid solid,
         								ProIntf3DExportType file_type,
 										ProPath output_file,

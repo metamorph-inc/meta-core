@@ -143,7 +143,7 @@
             "AP203_E2_Single_File",
             "AP203_E2_Separate_Part_Files",
             "AP214_Single_File",
-            "AP214_E2_Seperate_Part_Files"});
+            "AP214_Separate_Part_Files"});
             this.clb_Step.Location = new System.Drawing.Point(12, 130);
             this.clb_Step.Name = "clb_Step";
             this.clb_Step.Size = new System.Drawing.Size(522, 79);

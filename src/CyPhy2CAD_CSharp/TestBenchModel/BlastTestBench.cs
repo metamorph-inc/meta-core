@@ -113,8 +113,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 stepFormat = "AP203_E2_Single_File";
             }
 
-            if (!DataExchangeFormats.Contains(stepFormat))
-                DataExchangeFormats.Add(stepFormat);
+            if (!STEP_DataExchangeFormats.Contains(stepFormat, StringComparer.CurrentCultureIgnoreCase))
+                STEP_DataExchangeFormats.Add(stepFormat);
 
             // blast threat
             if (customCnt > 0)

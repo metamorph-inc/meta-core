@@ -1046,6 +1046,12 @@ v1.5.14.0  04/27/2016	Started the refactoring to support other CAD systems.  In 
 			CAD_025_Updates_for_Generic_CAD_Interface
 			R.O.
 
+v1.5.15.0  05/11/2016	Added support for exporting DXF format.  Exporting Wavefront is not supported by the toolkit.
+			DXF exports only work with Solid models.  Surface models will result in a DXF file that is empty.
+ 			Switched from using the Creo function ProOutputFileWrite (deprecated as of Creo 3.0) to ProOutputFileMdlnameWrite.
+			R.O.	
+
+
 Known Defects
 -------------
 
