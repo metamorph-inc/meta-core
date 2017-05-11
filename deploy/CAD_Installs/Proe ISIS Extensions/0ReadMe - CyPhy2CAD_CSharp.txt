@@ -38,3 +38,6 @@ Revision History:
 				EXPORT_INVENTOR
 				EXPORT_PARASOLID
 			R.O.
+
+	5/11/2017	Added support for exporting DXF formats based on the Test Bench parameter 
+			EXPORT_DXF_2013. 

@@ -147,15 +147,15 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public override void TraverseTestBench(CyPhy.TestBenchType testBenchBase)
         {           
             string stepFormat = "AP203_E2_Single_File";
-            if (!DataExchangeFormats.Contains(stepFormat))
-                DataExchangeFormats.Add(stepFormat);
+            if (!STEP_DataExchangeFormats.Contains(stepFormat, StringComparer.CurrentCultureIgnoreCase))
+                STEP_DataExchangeFormats.Add(stepFormat);
 
             CyPhy.CADTestBench testBench = testBenchBase as CyPhy.CADTestBench;
             if (testBench == null)
                 testBench = CyPhyClasses.CADTestBench.Cast(testBenchBase.Impl);
 
             if (testBench.Attributes.SolverType == CyPhyClasses.CADTestBench.AttributesClass.SolverType_enum.PATRAN_NASTRAN)
-                STLDataExchangeFormats.Add("Parasolid");
+                NonSTEP_DataExchangeFormats.Add("Parasolid");
 
             this.CyphyTestBenchRef = testBench;
             base.TraverseTestBench(testBenchBase);

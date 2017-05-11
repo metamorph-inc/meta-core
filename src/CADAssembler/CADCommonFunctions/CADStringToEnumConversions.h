@@ -393,7 +393,10 @@ namespace isis
         DATA_EXCHANGE_FORMAT_STEP,
 		DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY,  //STL
 		DATA_EXCHANGE_FORMAT_INVENTOR,
-		DATA_EXCHANGE_FORMAT_PARASOLID
+		DATA_EXCHANGE_FORMAT_PARASOLID,
+		DATA_EXCHANGE_DXF
+		// DATA_EXCHANGE_WAVEFRONT,   Wavefront export not supported as of Creo 3.0, See Creo Support document CS249920
+
     };	
 
 	e_DataExchangeFormat	DataExchangeFormat_enum( 
@@ -413,6 +416,7 @@ namespace isis
 		AP214_SEPARATE_PART_FILES,
 		ASCII,
 		BINARY,
+		Y2013     // Applies only to DXF
     };	
 
 	 e_DataExchangeVersion	DataExchangeVersion_enum( 

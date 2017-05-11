@@ -66,8 +66,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public static readonly string CADAssemblyFile = "CADAssembly.xml";
         public static readonly string CADAnalysisFile = "CADAnalysis.xml";
 
-        public List<string> DataExchangeFormats { get; set; }
-        public List<string> STLDataExchangeFormats { get; set; }
+        public List<string> STEP_DataExchangeFormats { get; set; }
+        public List<string> NonSTEP_DataExchangeFormats { get; set; }
         public List<string> SpecialDataFormatInstructions { get; set; }
         public DataRep.CADContainer cadDataContainer    { get; set; }
         public string OutputDirectory { get; set; }
@@ -101,21 +101,21 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                              string projectdir,
                              bool auto = false)
         {
-            DataExchangeFormats = new List<string>();
-            DataExchangeFormats.AddRange(cadSetting.StepFormats);
-            STLDataExchangeFormats = new List<string>();
+            STEP_DataExchangeFormats = new List<string>();
+            STEP_DataExchangeFormats.AddRange(cadSetting.StepFormats);
+            NonSTEP_DataExchangeFormats = new List<string>();
             if (cadSetting.OtherDataFormat.STLAscii == true)
             {
-                STLDataExchangeFormats.Add("ASCII");
+                NonSTEP_DataExchangeFormats.Add("Stereolithography_ASCII");
             }
 
             if (cadSetting.OtherDataFormat.STLBinary == true)
             {
-                STLDataExchangeFormats.Add("Binary");
+                NonSTEP_DataExchangeFormats.Add("Stereolithography_Binary");
             }
             if (cadSetting.OtherDataFormat.Inventor == true)
             {
-                STLDataExchangeFormats.Add("Inventor");
+                NonSTEP_DataExchangeFormats.Add("Inventor");
             }
             SpecialDataFormatInstructions = new List<string>();
             if (cadSetting.SpecialInstructions.LeafAssembliesMetric == true)
@@ -154,13 +154,16 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         public string GetParameterValue(CyPhy.TestBenchType testBench, string paramname)
         {
-            var param = testBench.Children.ParameterCollection.Where(p => p.Name == paramname);
+            //var param = testBench.Children.ParameterCollection.Where(p => p.Name == paramname);
+            // R. Owens, 5/11/2017 Make case insentive
+            var param = testBench.Children.ParameterCollection.Where(p => p.Name.Equals(paramname, StringComparison.CurrentCultureIgnoreCase) );
             if (param.Any())
             {
                 return param.First().Attributes.Value;
             }
             return null;
         }
+
 
         public virtual void TraverseTestBench(CyPhy.TestBenchType testBench)
         {
@@ -176,47 +179,52 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             exportParameterName = "EXPORT_STEP_AP203_SINGLE_FILE";
             exportFormat =                    "AP203_Single_File";
             if (GetParameterValue(testBench, exportParameterName) != null )
-                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+                if (!STEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) STEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEP_AP203_E2_SINGLE_FILE";
             exportFormat =                    "AP203_E2_Single_File";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+                if (!STEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) STEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEP_AP203_E2_SEPARATE_PART_FILES";
             exportFormat =                    "AP203_E2_Separate_Part_Files";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+                if (!STEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) STEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEP_AP214_SINGLE_FILE";
             exportFormat =                    "AP214_Single_File";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+                if (!STEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) STEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEP_AP214_SEPARATE_PART_FILES";
             exportFormat =                    "AP214_Separate_Part_Files";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!DataExchangeFormats.Contains(exportFormat)) DataExchangeFormats.Add(exportFormat);
+                if (!STEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) STEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEREOLITHOGRAPHY_ASCII";
-            exportFormat =                                 "ASCII";
+            exportFormat =               "Stereolithography_ASCII";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+                if (!NonSTEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) NonSTEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_STEREOLITHOGRAPHY_BINARY";
-            exportFormat =                                 "Binary";
+            exportFormat =               "Stereolithography_Binary";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+                if (!NonSTEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) NonSTEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_INVENTOR";
             exportFormat =               "Inventor";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+                if (!NonSTEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) NonSTEP_DataExchangeFormats.Add(exportFormat);
 
             exportParameterName = "EXPORT_PARASOLID";
             exportFormat =               "Parasolid";
             if (GetParameterValue(testBench, exportParameterName) != null)
-                if (!STLDataExchangeFormats.Contains(exportFormat)) STLDataExchangeFormats.Add(exportFormat);
+                if (!NonSTEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) NonSTEP_DataExchangeFormats.Add(exportFormat);
+
+            exportParameterName = "EXPORT_DXF_2013";
+            exportFormat = "DXF_2013";
+            if (GetParameterValue(testBench, exportParameterName) != null)
+                if (!NonSTEP_DataExchangeFormats.Contains(exportFormat, StringComparer.CurrentCultureIgnoreCase)) NonSTEP_DataExchangeFormats.Add(exportFormat);
 
 
             foreach (var param in testBench.Children.ParameterCollection.Where(p => p.Name == "PROCESSINGINSTRUCTION"))
@@ -268,13 +276,13 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         public void AddDataExchangeFormatToXMLOutput(CAD.AssembliesType assembliesRoot)
         {
-            if (DataExchangeFormats.Count > 0 || STLDataExchangeFormats.Count > 0 || SpecialDataFormatInstructions.Count > 0)
+            if (STEP_DataExchangeFormats.Count > 0 || NonSTEP_DataExchangeFormats.Count > 0 || SpecialDataFormatInstructions.Count > 0)
             {
                 CAD.DataExchangeType dataexchangeout = new CAD.DataExchangeType();
                 dataexchangeout._id = UtilityHelpers.MakeUdmID();
 
                 List<CAD.STEPFormatType> exchangelist = new List<CAD.STEPFormatType>();
-                foreach (var item in DataExchangeFormats)
+                foreach (var item in STEP_DataExchangeFormats)
                 {
                     CAD.STEPFormatType formatout = new CAD.STEPFormatType();
                     formatout._id = UtilityHelpers.MakeUdmID();
@@ -283,22 +291,37 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                 }
 
                 List<CAD.NonSTEPFormatType> stllist = new List<CAD.NonSTEPFormatType>();
-                foreach (var item in STLDataExchangeFormats)
+                foreach (var item in NonSTEP_DataExchangeFormats)
                 {
                     CAD.NonSTEPFormatType formatout = new CAD.NonSTEPFormatType();
                     formatout._id = UtilityHelpers.MakeUdmID();
 
-                    if (item == "Inventor" || item == "Parasolid")
+                    switch (item.ToLower())
                     {
-                        formatout.FormatType = item;
-                        formatout.FormatSubType = "";
-                    }
-                    else
-                    {
-                        formatout.FormatType = "Stereolithography";
-                        formatout.FormatSubType = item.ToUpper();
-                    }
+                        case "inventor":
+                        case "parasolid":
+                            formatout.FormatType = item;
+                            formatout.FormatSubType = "";
+                            break;
+                        case "stereolithography_ascii":
+                            formatout.FormatType = "Stereolithography";
+                            formatout.FormatSubType = "ASCII";
+                            break;
+                        case "stereolithography_binary":
+                            formatout.FormatType = "Stereolithography";
+                            formatout.FormatSubType = "BINARY";
+                            break;
+                        case "dxf_2013":
+                            formatout.FormatType = "DXF";
+                            formatout.FormatSubType = "2013";
+                            break;
 
+                        default:
+                            Logger.Instance.AddLogMessage("AddDataExchangeFormatToXMLOutput received an unknown NonSTEP_DataExchangeFormat, recieved value: " + item 
+                                + "  This would be due to a programming error/bug.", Severity.Error);
+                            break;
+
+                    }
                     stllist.Add(formatout);
                 }
 
