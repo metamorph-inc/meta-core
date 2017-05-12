@@ -880,6 +880,8 @@
 //model[@name='Environment']/role[@name='ModelicaConnector'] 58926
 //model[@name='Environment']/role[@name='ModelicaParameter'] 58927
 //model[@name='Environment']/role[@name='ModelicaRedeclare'] 58928
+//model[@name='ExcelWrapper']/role[@name='FileInput'] 60401
+//model[@name='ExcelWrapper']/role[@name='FileOutput'] 60402
 //model[@name='ExcelWrapper']/role[@name='Metric'] 60070
 //model[@name='ExcelWrapper']/role[@name='Parameter'] 60071
 //model[@name='Extrusion']/role[@name='AxisDatumForwarder'] 58938
@@ -955,6 +957,8 @@
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_BusPortInterface'] 33414
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_Signal'] 33415
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_SignalPort_Ref'] 33416
+//model[@name='MATLABWrapper']/role[@name='FileInput'] 60403
+//model[@name='MATLABWrapper']/role[@name='FileOutput'] 60404
 //model[@name='MATLABWrapper']/role[@name='Metric'] 60093
 //model[@name='MATLABWrapper']/role[@name='Parameter'] 60094
 //model[@name='ManufacturingModel']/role[@name='ManufacturingModelMetric'] 59155
@@ -1030,6 +1034,8 @@
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_SignalPort_Ref'] 33682
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_State'] 33683
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_Transition'] 33684
+//model[@name='PythonWrapper']/role[@name='FileInput'] 60405
+//model[@name='PythonWrapper']/role[@name='FileOutput'] 60406
 //model[@name='PythonWrapper']/role[@name='Metric'] 60097
 //model[@name='PythonWrapper']/role[@name='Parameter'] 60098
 //model[@name='Set']/role[@name='TypeRef'] 59307
@@ -3018,6 +3024,8 @@
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaConnector'] 58931
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaParameter'] 58932
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaRedeclare'] 58933
+//model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60407
+//model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60408
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60075
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60076
 //model[@name='Extrusion']/aspect[@name='Aspect']/part[@role='AxisDatumForwarder'] 58946
@@ -3129,6 +3137,8 @@
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_BusPortInterface'] 33419
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_Signal'] 33420
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_SignalPort_Ref'] 33421
+//model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60409
+//model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60410
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60150
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60151
 //model[@name='ManufacturingModel']/aspect[@name='ManufacturingAspect']/part[@role='ManufacturingModelMetric'] 59157
@@ -3202,6 +3212,8 @@
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_SignalPort_Ref'] 33688
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_State'] 33689
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_Transition'] 33690
+//model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60411
+//model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60412
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60154
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60155
 //model[@name='Set']/aspect[@name='TypeAspect']/part[@role='TypeRef'] 59308

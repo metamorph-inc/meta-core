@@ -1017,21 +1017,20 @@ namespace CyPhyPET
                 unknowns = new Dictionary<string, PETConfig.Parameter>(),
             };
 
-            foreach (var parameter in excel.Children.ParameterCollection)
+            foreach (var parameter in
+                excel.Children.ParameterCollection.Select(parameter => new { fco = (ISIS.GME.Common.Interfaces.FCO)parameter, unit = parameter.Referred.unit }).
+                Concat(excel.Children.FileInputCollection.Select(fileInput => new { fco = (ISIS.GME.Common.Interfaces.FCO)fileInput, unit = (CyPhy.unit)null }))
+                )
             {
-                if (parameter.AllSrcConnections.Count() == 0)
-                {
-                    continue;
-                }
-                var sourcePath = GetSourcePath(null, (MgaFCO)parameter.Impl);
+                var sourcePath = GetSourcePath(null, (MgaFCO)parameter.fco.Impl);
                 if (sourcePath != null)
                 {
                     var configParameter = new PETConfig.Parameter()
                     {
                         source = sourcePath,
                     };
-                    config.parameters.Add(parameter.Name, configParameter);
-                    setUnit(parameter.Referred.unit, configParameter);
+                    config.parameters.Add(parameter.fco.Name, configParameter);
+                    setUnit(parameter.unit, configParameter);
 
                 }
             }
@@ -1042,6 +1041,10 @@ namespace CyPhyPET
                 };
                 config.unknowns.Add(metric.Name, configParameter);
                 setUnit(metric.Referred.unit, configParameter);
+            }
+            foreach (var fileOutput in excel.Children.FileOutputCollection)
+            {
+                config.unknowns.Add(fileOutput.Name, new PETConfig.Parameter());
             }
 
             this.config.components.Add(excel.Name, config);
