@@ -1053,7 +1053,8 @@ namespace CyPhyPET
                     var wrapper = CyPhyClasses.MATLABWrapper.Cast((IMgaFCO)fco);
                     string filename = CreateParametersAndMetricsForOpenMDAOComponent("MATLAB file|*.m|All Files (*.*)|*.*", ".m", wrapper.Attributes.MFilename, wrapper,
                         (filename_, model) => GetParamsAndUnknownsFromPythonExe(filename_, "matlab_wrapper", model),
-                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper));
+                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
+                        () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
                     if (filename != null)
                     {
                         wrapper.Attributes.MFilename = filename;
@@ -1063,7 +1064,8 @@ namespace CyPhyPET
                 {
                     var wrapper = CyPhyClasses.PythonWrapper.Cast((IMgaFCO)fco);
                     string filename = CreateParametersAndMetricsForOpenMDAOComponent("Python file|*.py;*.pyd|All Files (*.*)|*.*", ".py", wrapper.Attributes.PyFilename, wrapper, GetParamsAndUnknownsForPythonOpenMDAO,
-                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper));
+                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
+                        () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
                     if (filename != null)
                     {
                         wrapper.Attributes.PyFilename = filename;
@@ -1093,7 +1095,8 @@ namespace CyPhyPET
         }
 
         private string CreateParametersAndMetricsForOpenMDAOComponent(string openFileFilter, string defaultExt, string oldFilename, CyPhy.ParametricTestBench tb,
-            Func<string, ISIS.GME.Common.Interfaces.Model, Dictionary<string, Dictionary<string, Dictionary<string, object>>>> GetParamsAndUnknowns, Func<CyPhy.Metric> metricCreate, Func<CyPhy.Parameter> paramCreate)
+            Func<string, ISIS.GME.Common.Interfaces.Model, Dictionary<string, Dictionary<string, Dictionary<string, object>>>> GetParamsAndUnknowns,
+            Func<CyPhy.Metric> metricCreate, Func<CyPhy.Parameter> paramCreate, Func<CyPhy.FileInput> fileInputCreate, Func<CyPhy.FileOutput> fileOutputCreate)
         {
             string mgaDir = Path.GetDirectoryName(Path.GetFullPath(tb.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
             oldFilename = Path.Combine(mgaDir, oldFilename);
@@ -1125,7 +1128,10 @@ namespace CyPhyPET
             Dictionary<string, Dictionary<string, Dictionary<string, object>>> paramsAndUnknowns = GetParamsAndUnknowns(dialog.FileName, tb);
 
             HashSet<ISIS.GME.Common.Interfaces.FCO> metricsAndParameters = new HashSet<ISIS.GME.Common.Interfaces.FCO>(new DsmlFCOComparer());
-            foreach (var metricOrParameter in tb.Children.MetricCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(tb.Children.ParameterCollection))
+            foreach (var metricOrParameter in tb.Children.MetricCollection
+                .Concat<ISIS.GME.Common.Interfaces.FCO>(tb.Children.ParameterCollection)
+                .Concat<ISIS.GME.Common.Interfaces.FCO>(tb.Children.FileInputCollection)
+                .Concat<ISIS.GME.Common.Interfaces.FCO>(tb.Children.FileOutputCollection))
             {
                 metricsAndParameters.Add(metricOrParameter);
             }
@@ -1157,38 +1163,80 @@ namespace CyPhyPET
             foreach (var item in paramsAndUnknowns["unknowns"].OrderBy(x => x.Key))
             {
                 string name = item.Key;
-                var metric = tb.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
-                if (metric == null)
+                ISIS.GME.Common.Interfaces.FCO output;
+                object val;
+                if (item.Value.TryGetValue("val", out val) && val is string && ((string)val).StartsWith("<openmdao.core.fileref.FileRef"))
                 {
-                    metric = metricCreate();
-                    metric.Name = name;
-                    // metric.Attributes.Description =
+                    var fileOutput = tb.Children.FileOutputCollection.Where(m => m.Name == name).FirstOrDefault();
+                    if (fileOutput == null)
+                    {
+                        fileOutput = fileOutputCreate();
+                        fileOutput.Name = name;
+                    }
+                    else
+                    {
+                        metricsAndParameters.Remove(fileOutput);
+                    }
+                    output = fileOutput;
                 }
                 else
                 {
-                    metricsAndParameters.Remove(metric);
+                    var metric = tb.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
+                    if (metric == null)
+                    {
+                        metric = metricCreate();
+                        metric.Name = name;
+                        // metric.Attributes.Description =
+                    }
+                    else
+                    {
+                        metricsAndParameters.Remove(metric);
+                    }
+                    setUnit(metric, item.Value);
+                    output = metric;
                 }
-                setUnit(metric, item.Value);
-                ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, i * 65);
+                ((IMgaFCO)output.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, i * 65);
                 i++;
             }
             i = 1;
             foreach (var item in paramsAndUnknowns["params"].OrderBy(x => x.Key))
             {
                 string name = item.Key;
-                var param = tb.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
-                if (param == null)
+                ISIS.GME.Common.Interfaces.FCO input;
+                object val;
+                if (item.Value.TryGetValue("val", out val) && val is string && ((string)val).StartsWith("<openmdao.core.fileref.FileRef"))
                 {
-                    param = paramCreate();
-                    param.Name = name;
-                    // param.Attributes.Description =
+                    var fileInput = tb.Children.FileInputCollection.Where(m => m.Name == name).FirstOrDefault();
+                    if (fileInput == null)
+                    {
+                        fileInput = fileInputCreate();
+                        fileInput.Name = name;
+                        // TODO: this isn't read by CyPhy, but maybe the user wants to see it
+                        // fileInput.Attributes.FileName =
+                    }
+                    else
+                    {
+                        metricsAndParameters.Remove(fileInput);
+                    }
+                    input = fileInput;
                 }
                 else
                 {
-                    metricsAndParameters.Remove(param);
+                    var param = tb.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
+                    if (param == null)
+                    {
+                        param = paramCreate();
+                        param.Name = name;
+                        // param.Attributes.Description =
+                    }
+                    else
+                    {
+                        metricsAndParameters.Remove(param);
+                    }
+                    input = param;
+                    setUnit(param, item.Value);
                 }
-                setUnit(param, item.Value);
-                ((IMgaFCO)param.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, i * 65);
+                ((IMgaFCO)input.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, i * 65);
                 i++;
             }
             foreach (var metricOrParameter in metricsAndParameters)
