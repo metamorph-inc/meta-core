@@ -87,7 +87,7 @@ namespace CyPhyMasterInterpreter
 
                 foreach (var config in this.m_Input.Groups.SelectMany(x => x.Configurations))
                 {
-                    this.AddExportedCAItem(config);
+                    this.AddExportedCAItemQuadratic(config);
                 }
             }
 
@@ -171,7 +171,7 @@ namespace CyPhyMasterInterpreter
         /// Inserts the configurations in alphabetical order and respects the ordering if the name has numbers.
         /// </summary>
         /// <param name="config">Configuration to insert to configuration list.</param>
-        private void AddExportedCAItem(GMELightObject config)
+        private void AddExportedCAItemQuadratic(GMELightObject config)
         {
             int i = 0;
             for (; i < this.lbExportedCAs.Items.Count; i++)
@@ -184,12 +184,22 @@ namespace CyPhyMasterInterpreter
             this.lbExportedCAs.Items.Insert(i, config);
         }
 
+        public class StrCmpLogicalCompararer : IComparer<String>
+        {
+            public int Compare(string x, string y)
+            {
+                return StrCmpLogicalW(x, y);
+            }
+        }
+
         private void lbConfigModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.lbExportedCAs.Items.Clear();
-            foreach (var group in lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>())
+            int i = 0;
+            foreach (var config in lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>().SelectMany(group => group.Configurations)
+                .OrderBy(fco => fco.Name, new StrCmpLogicalCompararer()))
             {
-                group.Configurations.ToList().ForEach(x => AddExportedCAItem(x));
+                this.lbExportedCAs.Items.Insert(i++, config);
             }
 
             this.lbExportedCAs.Refresh();
