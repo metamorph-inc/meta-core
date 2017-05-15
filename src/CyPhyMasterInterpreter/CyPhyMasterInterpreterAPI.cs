@@ -1217,6 +1217,7 @@
 
             Exception exceptionToThrow = null;
 
+            IAsyncResult createJobManagerResult = null;
             try
             {
                 this.Logger.WriteDebug("Turning off addons for performance reasons: {0}", string.Join(", ", this.addonNames));
@@ -1227,7 +1228,6 @@
                     this.Manager = new JobManagerDispatch();
                     this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
                 };
-                IAsyncResult createJobManagerResult = null;
                 if (postToJobManager && this.Manager == null)
                 {
                     createJobManagerResult = createJobManager.BeginInvoke(null, null);
@@ -1495,6 +1495,10 @@
             }
             finally
             {
+                if (createJobManagerResult != null)
+                {
+                    createJobManagerResult.AsyncWaitHandle.WaitOne();
+                }
                 // clean up if interpreter is canceled
                 this.ExecuteInTransaction(context, () =>
                 {
