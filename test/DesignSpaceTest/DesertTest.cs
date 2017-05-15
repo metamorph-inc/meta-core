@@ -36,6 +36,15 @@ namespace DesignSpaceTest
         }
     }
 
+    public class FixtureTest
+    {
+        [Fact]
+        public void ToyDSFixtureTest()
+        {
+            var tdsf = new ToyDSFixture();
+        }
+    }
+
     public class DesertTest : IUseFixture<ToyDSFixture>
     {
         public void DesertTestBase(string dsPath, Action<IEnumerable<Configurations>> helperTest, Action<Configurations> exporterTest)
