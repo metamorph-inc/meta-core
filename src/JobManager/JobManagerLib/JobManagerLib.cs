@@ -119,6 +119,7 @@ namespace JobManager
     {
         public abstract void AddJob(Job job);
         public abstract void AddSoT(SoT sot);
+        public List<string> ConfigurationNames { get; set; }
 
         public abstract void Done();
     }

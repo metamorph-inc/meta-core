@@ -161,6 +161,7 @@ namespace CyPhyMasterInterpreter
             this.ConfigurationSelectionResult.PostToJobManager = this.chbPostJobs.Checked;
             this.ConfigurationSelectionResult.VerboseLogging = this.chbVerbose.Checked;
             this.ConfigurationSelectionResult.SelectedConfigurations = this.lbExportedCAs.SelectedItems.Cast<GMELightObject>().ToArray();
+            this.ConfigurationSelectionResult.ConfigurationGroups = this.lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>().ToList();
         }
 
 

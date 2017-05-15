@@ -20,7 +20,8 @@ namespace CyPhyMasterInterpreter
         public bool OpenDashboard { get; set; }
 
         public bool VerboseLogging { get; set; }
-        // TODO: add Job Manager Instance selection (maybe url/port number is enough or some kind of descriptor)
+
+        public List<ConfigurationGroupLight> ConfigurationGroups { get; set; }
     }
 
     public class ConfigurationSelectionInput

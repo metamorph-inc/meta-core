@@ -162,6 +162,7 @@
         /// True if this class should dispose the logger.
         /// </summary>
         private bool LoggerDisposeRequired { get; set; }
+        public List<string> ConfigurationNames { get; private set; }
 
         /// <summary>
         /// Disposes the logger if it needs to be disposed.
@@ -309,6 +310,8 @@
 
                             results.SelectedConfigurations.Append(selectedGmeObject as MgaFCO);
                         }
+
+                        this.ConfigurationNames = selectionResult.ConfigurationGroups.SelectMany(group => group.Configurations).Select(fco => fco.Name).ToList();
                     });
                 }
                 else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
@@ -1227,6 +1230,7 @@
                 {
                     this.Manager = new JobManagerDispatch();
                     this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
+                    this.Manager.JobCollection.ConfigurationNames = this.ConfigurationNames;
                 };
                 if (postToJobManager && this.Manager == null)
                 {
