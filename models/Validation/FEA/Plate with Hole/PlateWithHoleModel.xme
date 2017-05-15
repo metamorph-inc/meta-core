@@ -1008,7 +1008,7 @@
 							</regnode>
 						</regnode>
 					</regnode>
-					<reference id="id-0067-0000000e" kind="Parameter" role="ConvectionHeat" guid="{22a4a959-417b-4400-bd7d-d2a01888e818}" relid="0x1">
+					<reference id="id-0067-0000000e" kind="Parameter" role="Convection" guid="{22a4a959-417b-4400-bd7d-d2a01888e818}" relid="0x1">
 						<name>ConvectionHeat</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1584,7 +1584,7 @@
 							<value>25</value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000016" kind="Parameter" role="ConvectionHeat" guid="{9c8eee51-30fe-431b-8ed1-8e142a193031}" relid="0x1">
+					<reference id="id-0067-00000016" kind="Parameter" role="Convection" guid="{9c8eee51-30fe-431b-8ed1-8e142a193031}" relid="0x1">
 						<name>ConvectionHeat</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -3098,7 +3098,7 @@
 							<value>25</value>
 						</attribute>
 					</reference>
-					<reference id="id-0067-00000029" kind="Parameter" role="ConvectionHeat" guid="{a2be726d-abd4-4c17-b559-49275a91089e}" relid="0x1">
+					<reference id="id-0067-00000029" kind="Parameter" role="Convection" guid="{a2be726d-abd4-4c17-b559-49275a91089e}" relid="0x1">
 						<name>ConvectionHeat</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -3767,7 +3767,7 @@
 							</regnode>
 						</regnode>
 					</regnode>
-					<reference id="id-0067-0000002f" kind="Parameter" role="ConvectionHeat" guid="{dfd694f3-d249-485a-84f7-b413a1213195}" relid="0x1">
+					<reference id="id-0067-0000002f" kind="Parameter" role="Convection" guid="{dfd694f3-d249-485a-84f7-b413a1213195}" relid="0x1">
 						<name>ConvectionHeat</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
