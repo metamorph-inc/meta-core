@@ -101,7 +101,6 @@ def build_msi():
     gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\models\MassSpringDamper",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)

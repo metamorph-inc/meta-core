@@ -51,13 +51,6 @@ namespace ComponentAndArchitectureTeamTest
             "test",
             "ComponentAuthoringToolTests");
 
-        public static string testpartpath = Path.Combine(
-            META.VersionInfo.MetaPath,
-            "models",
-            "MassSpringDamper",
-            "Creo Files for MSD",
-            "damper.prt.36");
-
         public static string testiconpath = Path.Combine(
             META.VersionInfo.MetaPath,
             "meta",
@@ -92,6 +85,9 @@ namespace ComponentAndArchitectureTeamTest
             testPath,
             "ComponentAuthoringTool.xme"
             );
+        public static string testpartpath = Path.Combine(
+            testPath,
+            "damper.prt.36");
         #endregion
 
         #region Fixture
