@@ -23,6 +23,7 @@
   </Target>
 
   <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">
+    <Exec Command=".nuget\NuGet.exe restore CyPhyML.sln" WorkingDirectory="src" />
     <ItemGroup>
       <CyPhyMLIcons Include="$(MSBuildThisFileDirectory)meta\CyPhyML\icons\*"/>
     </ItemGroup>
