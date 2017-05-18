@@ -12,6 +12,7 @@ pipeline {
                 checkout scm
                 bat($/cmd /c set/$)
                 bat($/del deploy\META_*.exe/$)
+                bat($/"c:\Program Files\Git\Usr\bin\find.exe" src/CADAssembler -iname META.\*.nupkg -print -delete/$)
                 bat($/cmd /c register_interpreters.cmd || git clean -xdf/$)
                 bat($/"c:\Program Files\Git\Usr\bin\find.exe" -iname \*UnmanagedRegistration.cache -print -delete/$)
                 bat($/Setlocal EnableDelayedExpansion
@@ -28,8 +29,7 @@ run_cadunittests.cmd/$)
 
                 bat('jenkins_build.cmd')
 
-//                stash includes: 'deploy/META*exe', name: 'installer'
-                archiveArtifacts artifacts: 'deploy/META*exe'
+                archiveArtifacts artifacts: 'deploy/META*exe,src/CADAssembler/*/META.*.nupkg', onlyIfSuccessful: true
                 junit keepLongStdio: true, testResults: 'test/junit_results.xml'
             }
 
