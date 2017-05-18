@@ -1,5 +1,6 @@
 #include <CommonStructures.h>
 #include <CommonUtilities.h>
+#include <CommonFunctions.h>
 #include <boost/algorithm/string.hpp>
 
 namespace isis

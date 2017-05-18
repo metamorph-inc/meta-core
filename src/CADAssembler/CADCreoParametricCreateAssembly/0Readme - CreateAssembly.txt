@@ -1052,6 +1052,9 @@ v1.5.15.0  05/11/2016	Added support for exporting DXF format.  Exporting Wavefro
 			R.O.	
 
 
+v1.5.16.0  05/18/2016	Add code (src\CADAssembler\CodeGenerationTools\enums) to programmatically generate enums and link 
+			CAD-specific enums to generic enums.  The generic enums will be the common interface between all CAD systems.
+
 Known Defects
 -------------
 

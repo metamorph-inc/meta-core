@@ -80,7 +80,7 @@ void SetParametricParameter(
 			
 			case CAD_BOOLEAN:
 				ProParamvalue_struct.type = PRO_PARAM_BOOLEAN;
-				ProParamvalue_struct.value.l_val = isis::String_To_ProBoolean(in_ParameterValue);
+				ProParamvalue_struct.value.l_val = isis::ProBoolean_enum(in_ParameterValue);
 				break;
 
 			case CAD_STRING:
@@ -288,7 +288,7 @@ ProError SetParametricParameter(
 			break;
 		case CAD_BOOLEAN:
 			parameter_value.type = PRO_PARAM_BOOLEAN;
-			parameter_value.value.l_val = isis::String_To_ProBoolean(in_ParameterValue);
+			parameter_value.value.l_val = isis::ProBoolean_enum(in_ParameterValue);
 			break;
 		case CAD_STRING:
 			if ( in_ParameterValue.size() > MAX_STRING_PARAMETER_LENGTH )

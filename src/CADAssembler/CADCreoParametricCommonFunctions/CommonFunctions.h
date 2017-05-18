@@ -19,6 +19,8 @@
 
 namespace isis
 {
+	std::string  Bool_string( bool in_Bool );
+
 	void setCreoWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception);
 
 	//	Description:
