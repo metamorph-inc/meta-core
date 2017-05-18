@@ -1,5 +1,6 @@
 #include <DiagnosticUtilities.h>
 #include <CommonStructures.h>
+#include <CommonFunctions.h>
 #include <CreoStringToEnumConversions.h>
 #include <MaterialProperties.h>
 #include <ISISConstants.h>
