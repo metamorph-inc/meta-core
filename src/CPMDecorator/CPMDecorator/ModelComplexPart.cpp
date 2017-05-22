@@ -500,8 +500,11 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 		if (PETWrapperLookup(kind)) {
 			button = std::unique_ptr<ModelButton>(new ModelButton());
 			button->callback = PETRefreshButtonClicked;
-			button2 = std::unique_ptr<ModelButton>(new ModelButton());
-			button2->callback = PETEditButtonClicked;
+			if (wcscmp(kind, L"ExcelWrapper") != 0)
+			{
+				button2 = std::unique_ptr<ModelButton>(new ModelButton());
+				button2->callback = PETEditButtonClicked;
+			}
 
 			if (getFacilities().arePathesValid())
 			{
@@ -509,7 +512,7 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 
 				CString filenames[] = { L"refresh.png", L"open_button.png" };
 				std::unique_ptr<ModelButton>* buttons[] = { &button, &button2 };
-				for (int i = 0; i < _countof(buttons); i++)
+				for (int i = 0; i < _countof(buttons) && *buttons[i]; i++)
 				{
 					CString& strFName = filenames[i];
 					auto& m_bmp = (**buttons[i]).m_bmp;

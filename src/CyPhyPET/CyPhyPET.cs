@@ -29,6 +29,9 @@ namespace CyPhyPET
     [ComVisible(true)]
     public class CyPhyPETInterpreter : IMgaComponentEx, IGMEVersionInfo, ICyPhyInterpreter
     {
+        [DllImport("user32.dll")]
+        public static extern bool WaitMessage();
+
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
         /// </summary>
@@ -1022,20 +1025,59 @@ namespace CyPhyPET
                 p.StartInfo.FileName = editorFilename;
                 p.StartInfo.Arguments = String.Format("{0} \"{1}\"", args, filename);
                 p.StartInfo.WorkingDirectory = Path.GetDirectoryName(((IMgaFCO)fco).Project.ProjectConnStr.Substring("MGA=".Length));
-                using (p)
+                p.EnableRaisingEvents = true;
+                Stopwatch stopwatch = new Stopwatch();
+                EditDialog f = new EditDialog();
+                using (f)
                 {
-                    p.Start();
-                    /*
-                     * TODO: automatically refresh wrapper after user is done editing
-                    p.WaitForInputIdle();
-                    Thread.Sleep(2000);
-                    if (p.HasExited == false)
+                    bool closed = false;
+                    p.Exited += (s, o) =>
                     {
-                        // assume user is editing file, editor will exit when done
-                        // TODO: pop up a dialog
-                        p.WaitForExit();
+                        IAsyncResult result = null;
+                        lock (this)
+                        {
+                            if (f.IsDisposed == false)
+                            {
+                                result = f.BeginInvoke((Action)(() =>
+                                {
+                                    stopwatch.Stop();
+                                    if (!closed && stopwatch.ElapsedMilliseconds > 2000)
+                                    {
+                                        f.DialogResult = DialogResult.OK;
+                                        f.Close();
+                                    }
+                                }));
+                            }
+                        }
+                        if (result != null)
+                        {
+                            f.EndInvoke(result);
+                        }
+                        p.Dispose();
+                    };
+                    lock (this)
+                    {
+                        p.Start();
+                        stopwatch.Start();
+                        f.FormClosed += (s, e) =>
+                        {
+                            closed = true;
+                        };
+                        f.Show();
                     }
-                    */
+                    while (closed == false)
+                    {
+                        WaitMessage();
+                        System.Windows.Forms.Application.DoEvents();
+                    }
+
+                    if (f.DialogResult != DialogResult.Cancel)
+                    {
+                        CreateParametersAndMetricsForPythonOrMatlab(fco, (_1, _2) =>
+                        {
+                            return (oldFileName) => oldFileName;
+                        });
+                    }
                 }
             });
         }
@@ -1048,30 +1090,72 @@ namespace CyPhyPET
                 {
                     CreateParametersAndMetricsForExcel(fco);
                 }
-                else if (((IMgaFCO)fco).Meta.Name == "MATLABWrapper")
-                {
-                    var wrapper = CyPhyClasses.MATLABWrapper.Cast((IMgaFCO)fco);
-                    string filename = CreateParametersAndMetricsForOpenMDAOComponent("MATLAB file|*.m|All Files (*.*)|*.*", ".m", wrapper.Attributes.MFilename, wrapper,
-                        (filename_, model) => GetParamsAndUnknownsFromPythonExe(filename_, "matlab_wrapper", model),
-                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
-                        () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
-                    if (filename != null)
-                    {
-                        wrapper.Attributes.MFilename = filename;
-                    }
-                }
-                else if (((IMgaFCO)fco).Meta.Name == "PythonWrapper")
-                {
-                    var wrapper = CyPhyClasses.PythonWrapper.Cast((IMgaFCO)fco);
-                    string filename = CreateParametersAndMetricsForOpenMDAOComponent("Python file|*.py;*.pyd|All Files (*.*)|*.*", ".py", wrapper.Attributes.PyFilename, wrapper, GetParamsAndUnknownsForPythonOpenMDAO,
-                        () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
-                        () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
-                    if (filename != null)
-                    {
-                        wrapper.Attributes.PyFilename = filename;
-                    }
-                }
+
+                CreateParametersAndMetricsForPythonOrMatlab(fco);
             });
+        }
+
+        private void CreateParametersAndMetricsForPythonOrMatlab(object fco)
+        {
+            Func<string, string, Func<string, string>> filePicker = (openFileFilter, defaultExt) =>
+            {
+                return (oldFilename) =>
+                {
+                    string mgaDir = Path.GetDirectoryName(Path.GetFullPath(((MgaFCO)fco).Project.ProjectConnStr.Substring("MGA=".Length)));
+                    oldFilename = Path.Combine(mgaDir, oldFilename);
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.DefaultExt = defaultExt;
+                    dialog.CheckFileExists = true;
+                    if (String.IsNullOrEmpty(oldFilename) == false
+                        && Directory.Exists(Path.GetDirectoryName(oldFilename)))
+                    {
+                        dialog.InitialDirectory = Path.GetDirectoryName(oldFilename);
+                        if (File.Exists(oldFilename))
+                        {
+                            dialog.FileName = Path.GetFileName(oldFilename);
+                            dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
+                        }
+                    }
+                    else
+                    {
+                        dialog.InitialDirectory = mgaDir;
+                    }
+                    dialog.Filter = openFileFilter;
+                    if (dialog.ShowDialog() != DialogResult.OK)
+                    {
+                        return null;
+                    }
+                    return dialog.FileName;
+                };
+            };
+            CreateParametersAndMetricsForPythonOrMatlab(fco, filePicker);
+        }
+
+        private void CreateParametersAndMetricsForPythonOrMatlab(object fco, Func<string, string, Func<string, string>> filePicker)
+        {
+            if (((IMgaFCO)fco).Meta.Name == "MATLABWrapper")
+            {
+                var wrapper = CyPhyClasses.MATLABWrapper.Cast((IMgaFCO)fco);
+                string filename = CreateParametersAndMetricsForOpenMDAOComponent(filePicker("MATLAB file|*.m|All Files (*.*)|*.*", ".m"), wrapper.Attributes.MFilename, wrapper,
+                    (filename_, model) => GetParamsAndUnknownsFromPythonExe(filename_, "matlab_wrapper", model),
+                    () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
+                    () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
+                if (filename != null)
+                {
+                    wrapper.Attributes.MFilename = filename;
+                }
+            }
+            else if (((IMgaFCO)fco).Meta.Name == "PythonWrapper")
+            {
+                var wrapper = CyPhyClasses.PythonWrapper.Cast((IMgaFCO)fco);
+                string filename = CreateParametersAndMetricsForOpenMDAOComponent(filePicker("Python file|*.py;*.pyd|All Files (*.*)|*.*", ".py"), wrapper.Attributes.PyFilename, wrapper, GetParamsAndUnknownsForPythonOpenMDAO,
+                    () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
+                    () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
+                if (filename != null)
+                {
+                    wrapper.Attributes.PyFilename = filename;
+                }
+            }
         }
 
         private void DecoratorCallback(object fco, Action f)
@@ -1094,38 +1178,19 @@ namespace CyPhyPET
             }
         }
 
-        private string CreateParametersAndMetricsForOpenMDAOComponent(string openFileFilter, string defaultExt, string oldFilename, CyPhy.ParametricTestBench tb,
+        private string CreateParametersAndMetricsForOpenMDAOComponent(Func<string, string> getNewFilename, string oldFilename, CyPhy.ParametricTestBench tb,
             Func<string, ISIS.GME.Common.Interfaces.Model, Dictionary<string, Dictionary<string, Dictionary<string, object>>>> GetParamsAndUnknowns,
             Func<CyPhy.Metric> metricCreate, Func<CyPhy.Parameter> paramCreate, Func<CyPhy.FileInput> fileInputCreate, Func<CyPhy.FileOutput> fileOutputCreate)
         {
-            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(tb.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
-            oldFilename = Path.Combine(mgaDir, oldFilename);
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.DefaultExt = defaultExt;
-            dialog.CheckFileExists = true;
-            if (String.IsNullOrEmpty(oldFilename) == false
-                && Directory.Exists(Path.GetDirectoryName(oldFilename)))
-            {
-                dialog.InitialDirectory = Path.GetDirectoryName(oldFilename);
-                if (File.Exists(oldFilename))
-                {
-                    dialog.FileName = Path.GetFileName(oldFilename);
-                    dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
-                }
-            }
-            else
-            {
-                dialog.InitialDirectory = mgaDir;
-            }
-            dialog.Filter = openFileFilter;
-            if (dialog.ShowDialog() != DialogResult.OK)
+            var fileName = getNewFilename(oldFilename);
+            if (string.IsNullOrEmpty(fileName))
             {
                 return null;
             }
 
             var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)tb.Impl.MetaBase).AspectByName["ValueFlowAspect"];
 
-            Dictionary<string, Dictionary<string, Dictionary<string, object>>> paramsAndUnknowns = GetParamsAndUnknowns(dialog.FileName, tb);
+            Dictionary<string, Dictionary<string, Dictionary<string, object>>> paramsAndUnknowns = GetParamsAndUnknowns(fileName, tb);
 
             HashSet<ISIS.GME.Common.Interfaces.FCO> metricsAndParameters = new HashSet<ISIS.GME.Common.Interfaces.FCO>(new DsmlFCOComparer());
             foreach (var metricOrParameter in tb.Children.MetricCollection
@@ -1244,13 +1309,13 @@ namespace CyPhyPET
                 // no longer in MATLAB function declaration
                 metricOrParameter.Delete();
             }
-            var filename = dialog.FileName;
             // make relative if filename is in same directory as GME project
-            if (filename.StartsWith(mgaDir + "\\"))
+            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(((MgaFCO)tb.Impl).Project.ProjectConnStr.Substring("MGA=".Length)));
+            if (fileName.StartsWith(mgaDir + "\\"))
             {
-                filename = filename.Substring((mgaDir + "\\").Length);
+                fileName = fileName.Substring((mgaDir + "\\").Length);
             }
-            return filename;
+            return fileName;
         }
 
         public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj)

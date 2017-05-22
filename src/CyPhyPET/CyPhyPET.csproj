@@ -86,6 +86,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDialog.Designer.cs">
+      <DependentUpon>EditDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcelInterop.cs" />
     <Compile Include="PCCPropertyInputDistributionEditor.cs">
       <SubType>Form</SubType>
@@ -180,6 +186,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EditDialog.resx">
+      <DependentUpon>EditDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PCCPropertyInputDistributionEditor.resx">
       <DependentUpon>PCCPropertyInputDistributionEditor.cs</DependentUpon>
     </EmbeddedResource>
