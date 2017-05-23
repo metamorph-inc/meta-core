@@ -453,11 +453,19 @@ namespace CyPhyComponentExporter
             })
             {
                 String compDirAbsPath = component.GetDirectoryPath(META.ComponentLibraryManager.PathConvention.ABSOLUTE);
+                IEnumerable<string> filePaths;
                 if (Directory.Exists(compDirAbsPath))
-                foreach (var filePath in Directory
-                                    .EnumerateFiles(compDirAbsPath,"*.*",SearchOption.AllDirectories)
+                {
+                    filePaths = Directory
+                                    .EnumerateFiles(compDirAbsPath, "*.*", SearchOption.AllDirectories)
                                     .Where(f => Path.GetExtension(f).ToLower() != ".acm"
-                                             && Path.GetFileName(f).ToLower() != "componentdata.xml"))
+                                             && Path.GetFileName(f).ToLower() != "componentdata.xml");
+                }
+                else
+                {
+                    filePaths = new string[] { };
+                }
+                foreach (var filePath in filePaths)
                 {
                     String fileRelDir;
                     if (compDirAbsPath.EndsWith("/"))
