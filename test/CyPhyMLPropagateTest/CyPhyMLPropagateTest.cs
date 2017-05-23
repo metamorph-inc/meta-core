@@ -833,6 +833,19 @@ namespace CyPhyPropagateTest
                     }
                     interpreter.StartAssemblySync(project, testAssemblyHierarchy_2, 128);
                     Application.DoEvents();
+                    // wait for metalink bridge to record addon's interest in assembly
+                    while (true)
+                    {
+                        string line;
+                        if (metalinkOutput.TryTake(out line, 5000) == false)
+                        {
+                            throw new TimeoutException("Timed out waiting for metalink bridge to log 'interest recorded'");
+                        }
+                        if (line.Contains("interest recorded"))
+                        {
+                            break;
+                        }
+                    }
                     var msg = new Edit();
                     msg.mode.Add(Edit.EditMode.POST);
                     msg.origin.Add(origin);

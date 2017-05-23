@@ -223,6 +223,7 @@ namespace CyPhyPropagateTest
         }
 
         ManualResetEvent metalinkReady;
+        public BlockingCollection<string> metalinkOutput = new BlockingCollection<string>(new ConcurrentQueue<string>());
         protected void StartMetaLinkBridge()
         {
             foreach (string filename in new string[] { "CyPhyPropagateTest_recorded_messages.mlp", "CyPhyPropagateTest_Hull_and_Hook.mga_posttest.mga" })
@@ -288,6 +289,7 @@ namespace CyPhyPropagateTest
                     {
                         metalinkReady.Set();
                     }
+                    metalinkOutput.Add(dataArgs.Data);
                 };
                 metalink.Start();
                 metalink.BeginOutputReadLine();
