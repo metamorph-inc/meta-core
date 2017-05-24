@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -10,6 +11,7 @@ using GME.CSharp;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ModelTest
 {
@@ -51,10 +53,55 @@ namespace ModelTest
             // Try to import each one.
             // If one or more fail to import, fail the test and list the failing models.
 
+            var proc = System.Diagnostics.Process.Start(new ProcessStartInfo()
+            {
+                Arguments = "ls-files **.xme",
+                FileName = "git",
+                WorkingDirectory = META.VersionInfo.MetaPath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+            proc.EnableRaisingEvents = true;
+            ManualResetEvent stdoutDone = new ManualResetEvent(false);
+            List<string> lines = new List<string>();
+            proc.OutputDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    lock (this)
+                    {
+                        lines.Add(e.Data);
+                    }
+                }
+                else
+                {
+                    stdoutDone.Set();
+                }
+            };
+            proc.BeginOutputReadLine();
+            var exited = proc.WaitForExit(300 * 1000);
+            if (!exited)
+            {
+                proc.Kill();
+                lock (this)
+                {
+                    Console.Out.WriteLine(String.Join("\n", lines));
+                }
+                Console.Out.WriteLine(proc.StandardError.ReadToEnd());
+            }
+            Assert.True(exited);
+            Assert.Equal(0, proc.ExitCode);
+            stdoutDone.WaitOne();
+
+            IEnumerable<string> xmes;
+            lock (this)
+            {
+                xmes = lines.Select(line => Path.Combine(META.VersionInfo.MetaPath, line));
+            }
+
             var failures = new ConcurrentDictionary<String, String>();
-            var xmes = System.IO.Directory.GetFiles(META.VersionInfo.MetaPath,
-                "*.xme",
-                SearchOption.AllDirectories);
             var path_temporary = Path.Combine(META.VersionInfo.MetaPath,
                 "test",
                 "ModelTest",
@@ -115,7 +162,7 @@ namespace ModelTest
             {
                 var msg = String.Format("{0} of {1} XME file(s) failed to import" + Environment.NewLine,
                                         failures.Count,
-                                        xmes.Length);
+                                        xmes.Count());
                 foreach (var entry in failures)
                 {
                     msg += String.Format("{0}{2}{1}{2}{2}",
