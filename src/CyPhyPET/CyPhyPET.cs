@@ -1065,11 +1065,12 @@ namespace CyPhyPET
                         {
                             if (e.NativeErrorCode == 2)
                             {
-                                var msg = String.Format("Could not find editor '{0}' using configured editor '{1}'. ", editorFilename, editor);
+                                var msg = String.Format("Could not find editor '{0}' using configured editor '{1}'.", editorFilename, editor);
                                 if (editor.Contains(" "))
                                 {
-                                    msg += "Surround filenames that contain spaces with double-quotes";
+                                    msg += " Surround paths that contain spaces with double-quotes.";
                                 }
+                                msg += " The editor configuration can be found under <i>Tools -&gt; Options -&gt; MultilineAttributes</i>";
                                 throw new Exception(msg);
                             }
                             else
