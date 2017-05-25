@@ -1057,7 +1057,26 @@ namespace CyPhyPET
                     };
                     lock (this)
                     {
-                        p.Start();
+                        try
+                        {
+                            p.Start();
+                        }
+                        catch (System.ComponentModel.Win32Exception e)
+                        {
+                            if (e.NativeErrorCode == 2)
+                            {
+                                var msg = String.Format("Could not find editor '{0}' using configured editor '{1}'. ", editorFilename, editor);
+                                if (editor.Contains(" "))
+                                {
+                                    msg += "Surround filenames that contain spaces with double-quotes";
+                                }
+                                throw new Exception(msg);
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
                         stopwatch.Start();
                         f.FormClosed += (s, e) =>
                         {
