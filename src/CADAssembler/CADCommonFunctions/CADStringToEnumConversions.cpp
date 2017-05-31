@@ -1059,10 +1059,11 @@ namespace isis
 
 		if    	(strUpper.compare("BOUNDINGBOX") == 0 ) return COMPUTATION_BOUNDING_BOX;
 		else if	(strUpper.compare("CG") == 0 ) return COMPUTATION_CG;
+		else if (strUpper.compare("CENTEROFGRAVITY") == 0 ) return COMPUTATION_CG;
 		else if	(strUpper.compare("POINT") == 0 ) return COMPUTATION_POINT;
 		else if	(strUpper.compare("POINTCOORDINATES") == 0 ) return COMPUTATION_POINT;
 		else if	(strUpper.compare("MASS") == 0 ) return COMPUTATION_MASS;
-		else if	(strUpper.compare("INTERFERENCCOUNT") == 0 ) return COMPUTATION_INTERFERENCE_COUNT;
+		else if	(strUpper.compare("INTERFERENCECOUNT") == 0 ) return COMPUTATION_INTERFERENCE_COUNT;
 		else if	(strUpper.compare("COEFFICIENTOFDRAG") == 0 ) return COMPUTATION_COEFFICIENT_OF_DRAG;
 		else if	(strUpper.compare("PLANE") == 0 ) return COMPUTATION_PLANE;
 		else if	(strUpper.compare("VONMISESSTRESS") == 0 ) return COMPUTATION_STRESS_MISES;
