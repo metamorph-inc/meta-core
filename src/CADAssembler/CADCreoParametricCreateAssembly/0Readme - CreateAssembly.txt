@@ -1038,7 +1038,7 @@ v1.5.13.0  08/19/2016	Add support for Tetra4 and Tetra10 in CADAssembly.xml.
 			R.O.
 
 
-v1.5.14.0  04/27/2016	Started the refactoring to support other CAD systems.  In CommonStructures.h 
+v1.5.14.0  04/27/2017	Started the refactoring to support other CAD systems.  In CommonStructures.h 
 			replaced ProAsmcompConstrType with e_CADAssemblyConstraintType and 
 			ProType with e_CADFeatureGeometryType.  Created the file CADStringToEnumConversions.h/.cpp 
 			to hold the enums common to all CAD systems.  Renamed StringToEnumConversions.h/.cpp to 
@@ -1046,15 +1046,17 @@ v1.5.14.0  04/27/2016	Started the refactoring to support other CAD systems.  In 
 			CAD_025_Updates_for_Generic_CAD_Interface
 			R.O.
 
-v1.5.15.0  05/11/2016	Added support for exporting DXF format.  Exporting Wavefront is not supported by the toolkit.
+v1.5.15.0  05/11/2017	Added support for exporting DXF format.  Exporting Wavefront is not supported by the toolkit.
 			DXF exports only work with Solid models.  Surface models will result in a DXF file that is empty.
  			Switched from using the Creo function ProOutputFileWrite (deprecated as of Creo 3.0) to ProOutputFileMdlnameWrite.
 			R.O.	
 
 
-v1.5.16.0  05/18/2016	Add code (src\CADAssembler\CodeGenerationTools\enums) to programmatically generate enums and link 
+v1.5.16.0  05/18/2017	Add code (src\CADAssembler\CodeGenerationTools\enums) to programmatically generate enums and link 
 			CAD-specific enums to generic enums.  The generic enums will be the common interface between all CAD systems.
 
+v1.5.17.0	05/31/2017  Correct ComputationType_enum CENTEROFGRAVITY and INTERFERENCCOUNT strings.
+			
 Known Defects
 -------------
 
