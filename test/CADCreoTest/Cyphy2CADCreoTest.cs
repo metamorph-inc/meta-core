@@ -18,7 +18,8 @@ namespace CADCreoTest
 
             public MetaLinkFixture()
             {
-                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
+                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.User) ??
+                    System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
                 createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricMetaLink.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
@@ -33,7 +34,8 @@ namespace CADCreoTest
 
             public CadAssemblyFixture()
             {
-                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
+                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.User) ??
+                    System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
                 createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricCreateAssembly.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
