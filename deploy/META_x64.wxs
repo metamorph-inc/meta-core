@@ -51,14 +51,6 @@
     <Property Id='ARPPRODUCTICON' Value='META.ico' />
     <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
 
-    <CustomAction Id="SetDocProps" Return="check" Property="Documentation.5875F5A4_E9AD_421C_BDF1_7E7D36837AEF" Value="[ProgramFilesFolder]META\Documentation"/>
-    <InstallExecuteSequence>
-      <Custom Action="SetDocProps" After="CostInitialize" />
-    </InstallExecuteSequence>
-    <InstallUISequence>
-      <Custom Action="SetDocProps" After="CostInitialize" />
-    </InstallUISequence>
-
     <WixVariable Id="WixUILicenseRtf" Value="..\license.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="WixUiBanner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="WixUIDialog.bmp" />
@@ -126,8 +118,6 @@
             <Directory Id='MaterialLibrary' Name='MaterialLibrary'/>
             <Directory Id='Validation' Name='Validation'/>
 
-            <Directory Id='doc' Name='Documentation'/>
-            <!-- <Directory Id='DashboardVisualizer' Name='DashboardVisualizer'/> -->
           </Directory>
         </Directory>
       </Directory>
@@ -146,7 +136,6 @@
       <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x64.msm" DiskId="2" />
       <Merge Id="CRT110x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC110_CRT_x64.msm" DiskId="2" />
-      <Merge Id='DocModule' Language='1033' SourceFile='Documentation.msm' DiskId='2' />
     </DirectoryRef>
 
     <!-- =========================================================== -->
@@ -465,16 +454,10 @@
       <Feature Id='DSE' Title='Design Space Exploration' Level='1'/>
       <Feature Id='Static_Analysis' Title='Statics Analysis' Level='1' />
       <Feature Id='Dynamics_Analysis' Title='Dynamics Analysis' Level='1' />
-      <Feature Id='doc' Title='Documentation' Level='1'>
-        <ComponentGroupRef Id='doc'/>
-      </Feature>
       <Feature Id='models' Title='Example Models' Level='1'>
-        <!-- TODO: storyboard -->
       </Feature>
 
       <Feature Id='CAD' Title='CAD' Level='1'>
-        <!--<ComponentRef Id='CyPhy2CAD.dll'/>-->
-
         <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1' ConfigurableDirectory='INSTALLDIR64'>
           <ComponentGroupRef Id='Proe_ISIS_Extensions_x64'/>
           <ComponentRef Id='PROE_ISIS_EXTENSIONS'/>
@@ -493,7 +476,6 @@
       <MergeRef Id='CRT90' />
       <MergeRef Id='CRT90_policy' />
       <MergeRef Id='CRT100' />
-      <MergeRef Id='DocModule' />
     </Feature>
 
     <!-- =========================================================== -->

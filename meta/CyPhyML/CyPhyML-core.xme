@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{28724AD8-CD50-4C3B-9435-990D67FA155A}" cdate="Tue May 16 15:25:55 2017" mdate="Tue May 16 15:25:55 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{68724AD8-CD50-4C3B-9435-990D67FA155A}" cdate="Tue May 16 15:25:55 2017" mdate="Tue May 16 15:25:55 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>CyPhyML-core</name>
 	<comment></comment>
 	<author></author>
@@ -101,7 +101,7 @@ Precedence (P &amp; S)</value>
 						<value>
 rName = ref
 rrName = referedbySignalPort_Ref
-help=$META_DOCROOT$9cbb3970-6bf0-4a2c-943f-4b0f4dc3a355.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -1160,7 +1160,7 @@ S</value>
 						<value>
 sName = srcTransition
 dName = dstTransition
-help=$META_DOCROOT$becc5b3e-6265-4adc-9ed2-3b0e04b0fd41.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -3487,7 +3487,7 @@ Log Normal</value>
 						<value>
 sName = srcMetricConstraintBinding
 dName = dstMetricConstraintBinding
-help=$META_DOCROOT$0e80cddb-33ca-4153-9b7a-283f202ca676.html
+
 dRefParent=dstMetricConstraintBinding_refport_parent
 sRefParent=srcMetricConstraintBinding_refport_parent</value>
 					</attribute>
@@ -3567,7 +3567,7 @@ sRefParent=srcMetricConstraintBinding_refport_parent</value>
 						<value>portLabelLength = 0
 rName = ref
 rrName = referedbyTopLevelSystemUnderTest
-help=$META_DOCROOT$853c9ce6-f891-4b41-8428-0d692935e083.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -4021,7 +4021,7 @@ PATRAN_NASTRAN</value>
 						<value>
 sName = srcRandomParameterDriverMap
 dName = dstRandomParameterDriverMap
-help=$META_DOCROOT$11c0df8c-cb4f-4ad2-a873-bc0567c3f7e3.html
+
 dRefParent=dstRandomParameterDriverMap_refport_parent
 sRefParent=srcRandomParameterDriverMap_refport_parent</value>
 					</attribute>
@@ -4503,7 +4503,7 @@ sRefParent=srcRandomParameterDriverMap_refport_parent</value>
 						<value>
 rName = ref
 rrName = referedbyTestInjectionPoint
-help=$META_DOCROOT$f28888b6-cdf0-4e6b-9d19-3686ab91a60e.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -6602,7 +6602,7 @@ help=$META_DOCROOT$f28888b6-cdf0-4e6b-9d19-3686ab91a60e.html</value>
 						<value>
 sName = srcPPOutput2Metric
 dName = dstPPOutput2Metric
-help=$META_DOCROOT$0aca4eaf-e821-4d23-bfa8-78b803b956d5.html
+
 dRefParent=dstPPOutput2Metric_refport_parent</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
@@ -6792,7 +6792,7 @@ dRefParent=dstPPOutput2Metric_refport_parent</value>
 						<value>
 sName = srcPPInput2PPOutput
 dName = dstPPInput2PPOutput
-help=$META_DOCROOT$82aa818d-23e0-40f6-a27c-6407dcdf48e0.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -8054,7 +8054,7 @@ help=$META_DOCROOT$82aa818d-23e0-40f6-a27c-6407dcdf48e0.html</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength=10
-help=$META_DOCROOT$580b4b09-dd8b-4b09-b8e7-cd272d062f1c.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -8210,7 +8210,7 @@ In the context of a TestBench, a &quot;&quot;Parameter&quot;&quot; can be varied
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength=0
 treeIcon = test_bench.png
-help=$META_DOCROOT$21c9558e-9540-443d-b9af-c04760226054.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -11348,7 +11348,7 @@ rName = ref
 rrName = referedbyComponentRef
 portLabelLength=0
 treeIcon = ComponentRef.png
-help=$META_DOCROOT$13312748-06ed-4b86-91c3-eebae9ba9d2d.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -11891,7 +11891,7 @@ help=$META_DOCROOT$13312748-06ed-4b86-91c3-eebae9ba9d2d.html</value>
 						<value>fillColor = 0xdddddd
 portLabelLength=0
 treeIcon = treecomponents.gif
-help=$META_DOCROOT$1257d05c-7140-4399-ac36-acb527aaa7ef.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -12023,7 +12023,7 @@ help=$META_DOCROOT$1257d05c-7140-4399-ac36-acb527aaa7ef.html</value>
 						<value>fillColor = 0xdddddd
 treeIcon = treecomponentassemblies.gif
 portLabelLength=0
-help=$META_DOCROOT$5ae01295-095a-4456-9c38-01d40d134ce2.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -24648,7 +24648,7 @@ dName = dstValueFlow
 dRefParent=dstValueFlow_refport_parent
 sRefParent=srcValueFlow_refport_parent
 
-help=$META_DOCROOT$7dc10c5d-ad3c-456b-9218-e4a496d67c7e.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -25006,7 +25006,7 @@ or self.parent().kindName() = &quot;Constants&quot;</value>
 						<value>
 rName = ref
 rrName = referedbyValueFlowTypeSpecification
-help=$META_DOCROOT$81f1a2e3-1f18-439e-a504-4f864ba7a76c.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -25550,7 +25550,7 @@ Custom</value>
 						<value>
 rName = ref
 rrName = referedbyParameter
-help=$META_DOCROOT$9b7f09d6-8d99-4c14-8c70-7765ddedf7f0.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -25673,7 +25673,7 @@ help=$META_DOCROOT$9b7f09d6-8d99-4c14-8c70-7765ddedf7f0.html</value>
 						<value>
 rName = ref
 rrName = referedbyMetric
-help=$META_DOCROOT$3aa8cd66-d56f-4efb-b4ea-fa2468169b7d.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -26789,7 +26789,7 @@ Minimum</value>
 						<value>
 rName = ref
 rrName = referedbyProperty
-help=$META_DOCROOT$e2466976-df42-45da-8fd6-7917d3c1f652.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -31827,7 +31827,7 @@ help=$META_DOCROOT$e2466976-df42-45da-8fd6-7917d3c1f652.html</value>
 						<value>
 rName = ref
 rrName = referedbyRequirementLinkRef
-help=$META_DOCROOT$34748de6-5cc3-4186-8e19-438b4271bb78.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -32286,7 +32286,7 @@ help=$META_DOCROOT$34748de6-5cc3-4186-8e19-438b4271bb78.html</value>
 						<value>
 sName = srcRequirementTag
 dName = dstRequirementTag
-help=$META_DOCROOT$dc995bca-7d33-4212-bf57-defcbf611e1a.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -33753,7 +33753,7 @@ help=$META_DOCROOT$dc995bca-7d33-4212-bf57-defcbf611e1a.html</value>
 						<value>
 sName = srcDriveParameter
 dName = dstDriveParameter
-help=$META_DOCROOT$16afc93f-6232-4a21-8f2e-5361289501da.html
+
 dRefParent=dstDriveParameter_refport_parent</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
@@ -33916,7 +33916,7 @@ dRefParent=dstDriveParameter_refport_parent</value>
 						<value>
 rName = ref
 rrName = referedbyPCCParameter
-help=$META_DOCROOT$5b046cc5-60da-4a2f-b353-2c0e9718fbe4.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -34576,7 +34576,7 @@ help=$META_DOCROOT$5b046cc5-60da-4a2f-b353-2c0e9718fbe4.html</value>
 						<value>
 rName = ref
 rrName = referedbyPCCOutput
-help=$META_DOCROOT$ea5b5b2d-53d2-460c-8e55-d0a28e5842ba.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -34975,7 +34975,7 @@ help=$META_DOCROOT$ea5b5b2d-53d2-460c-8e55-d0a28e5842ba.html</value>
 						<value>
 sName = srcPCCOutputMapping
 dName = dstPCCOutputMapping
-help=$META_DOCROOT$2ac8f45b-b572-49e8-a535-3ab6f0457889.html
+
 sRefParent=srcPCCOutputMapping_refport_parent</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
@@ -36351,7 +36351,7 @@ sRefParent=srcPCCOutputMapping_refport_parent</value>
 						<value>
 sName = srcFlow
 dName = dstFlow
-help=$META_DOCROOT$47051e6f-25d1-4d2e-b97e-666afb72c621.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -36753,7 +36753,7 @@ help=$META_DOCROOT$47051e6f-25d1-4d2e-b97e-666afb72c621.html</value>
 						<value>
 rName = ref
 rrName = referedbyWorkflowRef
-help=$META_DOCROOT$ec589ca9-47d2-42d8-a5c0-eb349bd66f9e.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -39560,7 +39560,7 @@ sName = srcResultFlow
 dName = dstResultFlow
 dRefParent=dstResultFlow_refport_parent
 sRefParent=srcResultFlow_refport_parent
-help=$META_DOCROOT$543c051c-721a-454e-b578-5671939d5c57.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -39883,7 +39883,7 @@ Custom</value>
 sName = srcConstraintMapping
 dName = dstConstraintMapping
 sRefParent=srcConstraint_refport_parent
-help=$META_DOCROOT$69e75a89-f326-4ae9-b075-a3f4099288dc.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -39985,7 +39985,7 @@ help=$META_DOCROOT$69e75a89-f326-4ae9-b075-a3f4099288dc.html</value>
 						<value>
 rName = ref
 rrName = referedbyTestBenchRef
-help=$META_DOCROOT$5c8735c8-c89a-4bdf-aae2-3e158f4bddee.html
+
 fillColor=0xfff0b4</value>
 					</attribute>
 					<attribute kind="GradientFillColor">
@@ -40238,7 +40238,7 @@ sName = srcVariableSweep
 dName = dstVariableSweep
 dRefParent=dstVariableSweep_refport_parent
 
-help=$META_DOCROOT$c17b154a-d198-42b5-a6d8-f6332a7d1207.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -40442,7 +40442,7 @@ help=$META_DOCROOT$c17b154a-d198-42b5-a6d8-f6332a7d1207.html</value>
 						<value>
 rName = ref
 rrName = referedbyDesignVariable
-help=$META_DOCROOT$238c3ed1-9e1b-4830-81fe-02107dc023c7.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -40628,7 +40628,7 @@ EFAST method (SA_EFAST),SA_EFAST</value>
 						<value>
 rName = ref
 rrName = referedbyOptimizerConstraint
-help=$META_DOCROOT$a7492257-75f0-4d6a-bd49-72e8a57b2be7.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -40761,7 +40761,7 @@ help=$META_DOCROOT$a7492257-75f0-4d6a-bd49-72e8a57b2be7.html</value>
 sName = srcObjectiveMapping
 dName = dstObjectiveMapping
 sRefParent=srcObjectiveMapping_refport_parent
-help=$META_DOCROOT$2a12b920-2bdb-4d32-b3d2-7148ac2e91e5.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -40839,7 +40839,7 @@ help=$META_DOCROOT$2a12b920-2bdb-4d32-b3d2-7148ac2e91e5.html</value>
 						<value>
 rName = ref
 rrName = referedbyObjective
-help=$META_DOCROOT$93df6b7e-bbf4-4550-b2e6-5b8106eaac53.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -46408,7 +46408,7 @@ endif</value>
 						<value>
 rName = ref
 rrName = referedbyTypeRef
-help=$META_DOCROOT$e2e841b8-2076-41f5-8e63-4a661946a8e6.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -47716,7 +47716,7 @@ help=$META_DOCROOT$e2e841b8-2076-41f5-8e63-4a661946a8e6.html</value>
 						<value>
 rName = ref
 rrName = referedbyTypedField
-help=$META_DOCROOT$886e0ded-64eb-4b8c-9681-8a26e9dae592.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -51427,7 +51427,7 @@ true
 						<value>
 rName = ref
 rrName = referedbyderived_unit_element
-help=$META_DOCROOT$f8ed78b3-4174-4b09-a7c1-28684cf0732c.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -52207,7 +52207,7 @@ katal</value>
 						<value>
 rName = ref
 rrName = referedbyreference_unit
-help=$META_DOCROOT$b04a7bbf-25d1-4c6e-8e36-473217c6141f.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -52730,7 +52730,7 @@ help=$META_DOCROOT$b04a7bbf-25d1-4c6e-8e36-473217c6141f.html</value>
 						<value>
 rName = ref
 rrName = referedbyunit_component
-help=$META_DOCROOT$9517c5c8-055d-4f0a-859d-5a95a284adbc.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -53177,7 +53177,7 @@ and
 						<value>
 rName = ref
 rrName = referedbyvalue_component
-help=$META_DOCROOT$32ac3c84-ec53-4dda-9563-a0e5aeb9fb37.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -54945,7 +54945,7 @@ not dc.isNull() =&gt; dc.ContainerType = #Optional</value>
 						<value>
 rName = ref
 rrName = referedbyPropertyConstraintRef
-help=$META_DOCROOT$451a8dd0-719b-4f63-acae-11ec6fdb5822.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -55200,7 +55200,7 @@ help=$META_DOCROOT$451a8dd0-719b-4f63-acae-11ec6fdb5822.html</value>
 						<value>
 sName = srcImplies
 dName = dstImplies
-help=$META_DOCROOT$0ea431b0-24f7-45c2-a20b-0e3ffb57be48.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -55722,7 +55722,7 @@ help=$META_DOCROOT$0ea431b0-24f7-45c2-a20b-0e3ffb57be48.html</value>
 						<value>
 sName = srcPropertyConstraintBinding
 dName = dstPropertyConstraintBinding
-help=$META_DOCROOT$ba58b4c0-ffaf-4521-b9c4-9b5972a8460f.html
+
 dRefParent=dstPropertyConstraintBinding_refport_parent</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
@@ -55801,7 +55801,7 @@ dRefParent=dstPropertyConstraintBinding_refport_parent</value>
 						<value>
 rName = ref
 rrName = referedbyNullOptionRef
-help=$META_DOCROOT$ffb54dbd-028f-4e9e-a624-912791f39235.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -55924,7 +55924,7 @@ help=$META_DOCROOT$ffb54dbd-028f-4e9e-a624-912791f39235.html</value>
 						<value>
 rName = ref
 rrName = referedbyDesignEntityRef
-help=$META_DOCROOT$07e85043-c037-42c3-8923-92bf73dfd117.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -57263,7 +57263,7 @@ Optional</value>
 						<value>
 rName = ref
 rrName = referedbyDesignSpaceRef
-help=$META_DOCROOT$95929dad-23c6-4269-ad3a-2ab06899769c.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -57467,7 +57467,7 @@ Retain as Component Assembly,AsCA</value>
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength=7
 treeIcon = treedesignspace.gif
-help=$META_DOCROOT$0d636049-07d2-4763-9a4c-8448e531992d.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -59034,7 +59034,7 @@ endif</value>
 						<value>
 rName = ref
 rrName = referedbyBuiltDesignEntityRef
-help=$META_DOCROOT$9bb144f4-474f-41c5-95b2-c0d2c07d8ed1.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -59158,7 +59158,7 @@ help=$META_DOCROOT$9bb144f4-474f-41c5-95b2-c0d2c07d8ed1.html</value>
 rName = ref
 rrName = referedbyComponentAssemblyRef
 treeIcon = ComponentAssemblyRef.png
-help=$META_DOCROOT$29aba9dc-8acd-4172-8f6c-9c8bd2e1575c.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -59539,7 +59539,7 @@ help=$META_DOCROOT$29aba9dc-8acd-4172-8f6c-9c8bd2e1575c.html</value>
 						<value>
 sName = srcBuilt
 dName = dstBuilt
-help=$META_DOCROOT$fb471c3e-14f0-4dc9-a070-6071f15bf333.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -59899,7 +59899,7 @@ help=$META_DOCROOT$fb471c3e-14f0-4dc9-a070-6071f15bf333.html</value>
 						<value>
 sName = srcConfig2CA
 dName = dstConfig2CA
-help=$META_DOCROOT$fc26f729-6fce-4971-abe9-c2a71f455d83.html</value>
+</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -59977,7 +59977,7 @@ help=$META_DOCROOT$fc26f729-6fce-4971-abe9-c2a71f455d83.html</value>
 						<value>
 rName = ref
 rrName = referedbyConstraintRef
-help=$META_DOCROOT$d61548dd-ba05-431e-9c4d-ecb0602762bb.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -60142,7 +60142,7 @@ help=$META_DOCROOT$d61548dd-ba05-431e-9c4d-ecb0602762bb.html</value>
 						<value>
 rName = ref
 rrName = referedbyCWCReference
-help=$META_DOCROOT$6bbed7a1-72e8-4a80-829f-3edb4ad37cee.html</value>
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
