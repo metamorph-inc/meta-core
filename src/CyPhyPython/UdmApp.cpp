@@ -298,7 +298,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		throw python_error(GetPythonError());
 	}
 	PyObject_RAII logfile;
-	PyObject_RAII ErrorMessageException = PyDict_GetItemString(CyPhyPython_namespace, "ErrorMessageException");
+	PyObject* ErrorMessageException = PyDict_GetItemString(CyPhyPython_namespace, "ErrorMessageException");
 	auto console_messages = componentParameters.find(L"console_messages");
 	if (console_messages != componentParameters.end()
 		&& console_messages->second.vt == VT_BSTR
