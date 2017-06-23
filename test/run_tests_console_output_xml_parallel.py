@@ -46,3 +46,5 @@ if __name__ == '__main__':
                 continue
             if int(ElementTree.parse(xml_file).getroot().get('failures')):
                 subprocess.check_call(['cmd.exe', '/c', 'start', xml_file + '.html'])
+    # exit with number of missing results (e.g. xunit.exe crash)
+    sys.exit(xml_files.count(None))
