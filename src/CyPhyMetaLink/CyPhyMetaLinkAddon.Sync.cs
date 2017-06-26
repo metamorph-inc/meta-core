@@ -237,11 +237,12 @@ namespace CyPhyMetaLink
                 return;
             }
 
-            string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
+            string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.User) ??
+                System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
             string createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricMetaLink.exe");
             if (File.Exists(createAssemblyExe) == false)
             {
-                GMEConsole.Error.WriteLine("CADCreoParametricMetaLink.exe could not be found");
+                GMEConsole.Error.WriteLine(String.Format("Could not find CADCreoParametricMetaLink.exe at '{0}'", createAssemblyExe));
                 return;
             }
             if (workingDir == null)
