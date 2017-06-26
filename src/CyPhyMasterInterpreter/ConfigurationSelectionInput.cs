@@ -20,6 +20,8 @@ namespace CyPhyMasterInterpreter
         public bool VerboseLogging { get; set; }
 
         public List<ConfigurationGroupLight> ConfigurationGroups { get; set; }
+
+        public IEnumerable<GMELightObject> UnselectedConfigurations { get; internal set; }
     }
 
     public class ConfigurationSelectionInput

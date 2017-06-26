@@ -51,7 +51,7 @@ def run_test(filename, cwd, result_dir):
         if retcode != 0:
             # xunit exe returns 1 when a test fails
             if os.path.exists(result_xml):
-                print "Test '" + filename + "' failed"
+                print "Test \"" + filename + "\" failed"
             else:
                 print "Error while testing ", filename, " return code: ", retcode
         if os.path.exists(result_xml):

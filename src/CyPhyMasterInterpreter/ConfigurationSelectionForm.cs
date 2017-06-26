@@ -143,7 +143,7 @@ namespace CyPhyMasterInterpreter
         }
 
         /// <summary>
-        /// Non interactive support. This function will show no UI components.
+        /// For non interactive support, this function will show no UI components.
         /// </summary>
         public void SaveSettingsAndResults()
         {
@@ -158,6 +158,8 @@ namespace CyPhyMasterInterpreter
             this.ConfigurationSelectionResult.PostToJobManager = this.chbPostJobs.Checked;
             this.ConfigurationSelectionResult.VerboseLogging = this.chbVerbose.Checked;
             this.ConfigurationSelectionResult.SelectedConfigurations = this.lbExportedCAs.SelectedItems.Cast<GMELightObject>().ToArray();
+            var selected = new HashSet<GMELightObject>(this.lbExportedCAs.SelectedItems.Cast<GMELightObject>());
+            this.ConfigurationSelectionResult.UnselectedConfigurations = this.lbExportedCAs.Items.Cast<GMELightObject>().Where(o => selected.Contains(o) == false);
             this.ConfigurationSelectionResult.ConfigurationGroups = this.lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>().ToList();
         }
 

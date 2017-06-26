@@ -6,4 +6,6 @@
   <NonCheckedIncludeDirPaths />
   <CheckWithDymola>false</CheckWithDymola>
   <CheckWithOpenModelica>false</CheckWithOpenModelica>
+  <GenerateConstrainedBys>false</GenerateConstrainedBys>
+  <simulationTargetTool>Dymola</simulationTargetTool>
 </CyPhy2Modelica_v2Settings>
