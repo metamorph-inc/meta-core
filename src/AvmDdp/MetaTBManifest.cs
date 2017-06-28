@@ -95,6 +95,7 @@ namespace AVM.DDP
             public string Directory { get; set; }
         }
 
+        [Serializable]
         public class DesignType
         {
             public string Name { get; set; }

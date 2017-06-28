@@ -139,6 +139,8 @@
 
         private JobManagerDispatch Manager { get; set; }
 
+        Dictionary<string, AVM.DDP.MetaTBManifest.DesignType> Designs = new Dictionary<string, AVM.DDP.MetaTBManifest.DesignType>();
+
         /// <summary>
         /// True if this class should dispose the logger.
         /// </summary>
@@ -528,11 +530,12 @@
                             var designContainer = (CyPhy.DesignContainer)configs.ParentContainer;
                             var ddpDesign = GetSelectedDesign(CyPhyClasses.CWC.Cast(configuration), designContainer);
                             var ddpDesignName = configuration.Name;
-                            this.Manager.JobCollection.Designs.Add(ddpDesignName, ddpDesign);
+                            Designs.Add(ddpDesignName, ddpDesign);
                         }
                         // TODO else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
 
                     }
+                    this.Manager.JobCollection.Designs = Designs;
                 }
 
                 this.OnMultipleConfigurationProgress(new ProgressCallbackEventArgs()
@@ -1284,7 +1287,7 @@
 
                         if (ddpDesign != null)
                         {
-                            this.Manager.JobCollection.Designs.Add(ddpDesignName, ddpDesign);
+                            Designs.Add(ddpDesignName, ddpDesign);
                         }
 
                         if (postedToJobManager)
