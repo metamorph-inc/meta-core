@@ -8,6 +8,11 @@ rem TODO: register more Decorators?
 rem not being built:
 rem meta/MaterialLibImporter
 rem src/CyPhyMasterInterpreterChecker
+set PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools;c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools
+@rem need to uninstall, as the version isn't bumped for every change
+gacutil.exe /nologo /u JobManagerLib
+if exist "src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll" gacutil.exe /nologo /i "src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll"  || exit /b !ERRORLEVEL!
+gacutil.exe /l JobManagerLib
 if exist "src\DesignConsistencyChecker\bin\Release\DesignConsistencyChecker.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase "src\DesignConsistencyChecker\bin\Release\DesignConsistencyChecker.dll" || exit /b !ERRORLEVEL!
 if exist "src\CyPhyComponentFidelitySelector\bin\Release\CyPhyComponentFidelitySelector.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase "src\CyPhyComponentFidelitySelector\bin\Release\CyPhyComponentFidelitySelector.dll" || exit /b !ERRORLEVEL!
 if exist "src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" %windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase /tlb "src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" || exit /b !ERRORLEVEL!
