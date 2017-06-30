@@ -123,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
+      <Project>{931606c8-6178-4f8c-8e02-9d28c6d79fea}</Project>
+      <Name>CyPhy2DesignInterchange</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
       <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
       <Name>CyPhy2Modelica_v2</Name>
