@@ -29,7 +29,7 @@ namespace AVM.DDP
             public string Description { get; set; }
             public string Name { get; set; }
             public string Unit { get; set; }
-            public string Value { get; set; }
+            public object Value { get; set; }
             public string ID { get; set; } // GUID for now -- may need to reverse with GMEID
             public string DisplayedName { get; set; }
             public string GMEID { get; set; } // Object ID

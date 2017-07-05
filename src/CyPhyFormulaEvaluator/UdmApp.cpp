@@ -107,10 +107,9 @@ void CUdmApp::UdmMain(
 			OutputDir = full_path.string();
 		}
 
-		if (focusObject != Udm::null)
-		{
-			FormulaEvaluator(focusObject);
-		}
+		NewTraverser traverser;
+		traverser.Traverse(focusObject);
+		numericLeafNodes = traverser.numericLeafNodes;
 
 		string projectRoot;
 		if (CUdmApp::projectDir_SOT != "")
@@ -122,7 +121,6 @@ void CUdmApp::UdmMain(
 		{
 			CUdmApp::GeneratePostProcessingPython(focusObject, projectRoot);
 		}
-
 
 	}
 }

@@ -16,6 +16,7 @@
 #include <string>
 
 #include "atlsafe.h"
+#include "UdmApp.h"
 
 class RawComponent {
 ////////////////////
@@ -23,6 +24,7 @@ class RawComponent {
 public:
 	std::map<std::string, _variant_t> componentParameters;
 	std::string delimiter;
+	CUdmApp app;
 
 	void UpdateParameters();
 

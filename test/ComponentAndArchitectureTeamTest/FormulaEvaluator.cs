@@ -87,7 +87,7 @@ namespace ComponentAndArchitectureTeamTest
         }
         #endregion
 
-        public void RunFormulaEvaluator(MgaFCO currentobj)
+        public string[] RunFormulaEvaluator(MgaFCO currentobj)
         {
             // create formula evaluator type
             // FIXME: calling the elaborator is faster than calling the formula evaluator
@@ -113,6 +113,9 @@ namespace ComponentAndArchitectureTeamTest
 
             // call the formula evaluator and update all parameters starting from the current object
             formulaEval.InvokeEx(fixture.proj, currentobj, selectedObjs, 16);
+
+            string[] numericLeafNodes = (string[])formulaEval.ComponentParameter["numericLeafNodes"];
+            return numericLeafNodes;
         }
 
         [Fact]
@@ -426,10 +429,11 @@ namespace ComponentAndArchitectureTeamTest
             {
                 var sot = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation");
                 Assert.NotNull(sot);
-                RunFormulaEvaluator(sot);
+                string[] numericLeafNodes = RunFormulaEvaluator(sot);
                 var mass_g = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation/@Mass");
                 Assert.NotNull(mass_g);
                 Assert.Equal("10000", mass_g.get_StrAttrByName("Value"));
+                Assert.Equal(new string[] { "Mass" }, numericLeafNodes);
             });
         }
 

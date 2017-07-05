@@ -82,7 +82,7 @@ namespace CyPhyElaborateCS
         }
 
         public Boolean UnrollConnectors = false;
-
+        string[] numericLeafNodes;
 
         /// <summary>
         /// The main entry point of the interpreter. A transaction is already open,
@@ -174,6 +174,7 @@ namespace CyPhyElaborateCS
                 try
                 {
                     formulaEval.InvokeEx(project, currentobj, selectedObjs, 128);
+                    numericLeafNodes = (string[])formulaEval.ComponentParameter["numericLeafNodes"];
                     this.Logger.WriteInfo("CyPhyFormulaEvaluator 1.0 finished");
                 }
                 catch (COMException e)
@@ -554,7 +555,7 @@ namespace CyPhyElaborateCS
             return success;
         }
 
-        public static void UpdateMetricsInTestbenchManifest(MgaFCO currentobj, string outputDirectory)
+        public void UpdateMetricsInTestbenchManifest(MgaFCO currentobj, string outputDirectory)
         {
             var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(outputDirectory);
             Dictionary<string, AVM.DDP.MetaTBManifest.Metric> metrics = tbManifest.Metrics.ToDictionary(metric => metric.Name);
@@ -564,7 +565,14 @@ namespace CyPhyElaborateCS
                 AVM.DDP.MetaTBManifest.Metric metric;
                 if (metrics.TryGetValue(metricFco.Name, out metric))
                 {
-                    metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                    if (numericLeafNodes.Contains(metricFco.Name))
+                    {
+                        metric.Value = Double.Parse(metricFco.GetStrAttrByNameDisp("Value"));
+                    }
+                    else
+                    {
+                        metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                    }
                 }
             }
 

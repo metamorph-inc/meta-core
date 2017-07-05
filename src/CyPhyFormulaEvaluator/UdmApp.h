@@ -29,7 +29,8 @@ public:
 	static string projectDir;
 	static string projectDir_SOT;
 	static int Initialize();
-	static void UdmMain(Udm::DataNetwork* p_backend, Udm::Object currentObject, std::set<Udm::Object> selectedObjects, long param);
+	void UdmMain(Udm::DataNetwork* p_backend, Udm::Object currentObject, std::set<Udm::Object> selectedObjects, long param);
+	std::vector<std::string> numericLeafNodes;
 
 private:
 	static void GeneratePostProcessingPython(const Udm::Object &, string);

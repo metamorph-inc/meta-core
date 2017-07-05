@@ -32,6 +32,7 @@ public:
 
 public: // member variables
 	string m_fileName;											///< This name is used to name the Graphviz file and gif that are produced when cycles are encountered
+	vector<string> numericLeafNodes;
 
 public: // member fcn
 	virtual void Traverse(const Udm::Object &udmObject);
@@ -74,6 +75,8 @@ protected:
 	set<CyPhyML::ValueFlowTarget> m_rootNodes;			///< List of VF rootNodes
 	Udm::Object m_BoundingBox;
 	UnitUtil unitUtil;
+
+	set<CyPhyML::ValueFlowTarget> leafNodes;
 
 protected:
 	// Provide a version of this function that uses a cache, and speed up this slow function a bit
