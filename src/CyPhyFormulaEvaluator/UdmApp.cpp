@@ -107,15 +107,9 @@ void CUdmApp::UdmMain(
 			OutputDir = full_path.string();
 		}
 
-		bool elaborateAndCollapse = (Expanded == false);// ( Automation == false );
 		if (focusObject != Udm::null)
 		{
-			FormulaEvaluator(focusObject,elaborateAndCollapse);
-		}
-		else
-		{
-			//traverser.Traverse(selectedObjects);
-			FormulaEvaluator(selectedObjects,elaborateAndCollapse);
+			FormulaEvaluator(focusObject);
 		}
 
 		string projectRoot;

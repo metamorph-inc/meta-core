@@ -42,7 +42,6 @@ __declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
 
 bool ConsoleMessagesOn;
 bool Automation;
-bool Expanded;
 bool DoNotGeneratePostProcessing;
 string OutputDir = "";
 string ExceptionMessage = "";
@@ -56,7 +55,6 @@ STDMETHODIMP RawComponent::Initialize(struct IMgaProject *) {
 	ConsoleMessagesOn = false;
 #endif
 	Automation = false;
-	Expanded = false;
 	DoNotGeneratePostProcessing = false;
 	OutputDir = "";
 	ExceptionMessage = "";
@@ -427,18 +425,6 @@ void RawComponent::UpdateParameters()
 			else
 			{
 				Automation = false;
-			}
-		}
-		else if (_name == "expanded")
-		{
-			std::string value = _bstr_t(_newVal.bstrVal);
-			if (value == "true")
-			{
-				Expanded = true;
-			}
-			else
-			{
-				Expanded = false;
 			}
 		}
 		else if (_name == "do_not_generate_post_processing")
