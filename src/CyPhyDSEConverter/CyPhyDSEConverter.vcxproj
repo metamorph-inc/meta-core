@@ -305,8 +305,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
     <ClCompile Include="ComponentObj.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
-    <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp" />
-    <ClCompile Include="..\CyPhyToolbox\FormulaTraverse.cpp" />
     <ClCompile Include="..\CyPhyToolbox\UdmGmeUtil.cpp" />
     <ClCompile Include="..\CyPhyToolbox\UnitUtil.cpp" />
     <ClCompile Include="..\Util\CyPhyUtil.cpp" />
@@ -336,7 +334,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\generated\CyPhyML.h" />
-    <ClInclude Include="..\CyPhyToolbox\CyPhyElaborate.h" />
     <ClInclude Include="..\CyPhyToolbox\UdmGmeUtil.h" />
     <ClInclude Include="..\Util\CyPhyUtil.h" />
     <ClInclude Include="CARefactorDialog.h" />
