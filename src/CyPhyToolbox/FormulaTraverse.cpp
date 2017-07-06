@@ -55,6 +55,16 @@ void NewTraverser::Traverse(const Udm::Object &udmObject)
 	if (myType == CyPhyML::TestBenchSuite::meta)
 	{
 		CyPhyML::TestBenchSuite tbsuite = CyPhyML::TestBenchSuite::Cast(udmObject);
+		set<CyPhyML::ValueFlowTarget> vtf_Set = tbsuite.ValueFlowTarget_kind_children();
+		for (set<CyPhyML::ValueFlowTarget>::iterator i = vtf_Set.begin(); i != vtf_Set.end(); i++)
+		{
+			CyPhyML::ValueFlowTarget vft(*i);
+			if (this->IsLeafNode(vft))
+			{
+				leafNodes.insert(vft);
+			}
+		}
+
 		this->EvaluateTestBenchSuite(tbsuite);
 	}
 	else
