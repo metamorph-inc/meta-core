@@ -244,6 +244,10 @@
       <Project>{8880FD8F-C7DA-4491-908D-778B67057DA0}</Project>
       <Name>AvmDdp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CyPhy2ComponentModel\CyPhy2ComponentModel.csproj">
+      <Project>{e6267d3d-fdaa-4173-a5e7-87b23b46f883}</Project>
+      <Name>CyPhy2ComponentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>
       <Name>CyPhy2DesignInterchange</Name>
