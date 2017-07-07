@@ -104,7 +104,6 @@ namespace CyPhyMdaoAddOn
                 else if (subject.MetaBase.Name == "Optimizer")
                 {
                     (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
-                    UpdateColor(subject as MgaFCO);
                 }
                 else if (subject.MetaBase.Name == "VariableSweep")
                 {

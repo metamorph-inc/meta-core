@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{E844500E-5471-4A44-A070-95C445CC4AE5}" cdate="Fri Jul 07 13:48:19 2017" mdate="Fri Jul 07 13:48:19 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{EB218F8E-9AC2-4FF1-9B01-A8F1BA1D8044}" cdate="Fri Jul 07 15:33:16 2017" mdate="Fri Jul 07 15:33:16 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>CyPhyML-core</name>
 	<comment></comment>
 	<author></author>
@@ -39368,14 +39368,15 @@ rrName = referedbyWorkflowRef
 					<attribute kind="AutoRouterPref" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Decorator" status="meta">
-						<value></value>
+					<attribute kind="Decorator">
+						<value>Mga.CPMDecorator</value>
 					</attribute>
 					<attribute kind="DisplayedName" status="meta">
 						<value></value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
-						<value>portLabelLength = 20</value>
+						<value>portLabelLength = 20
+fillColor=0xffdcbc</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -39386,8 +39387,8 @@ rrName = referedbyWorkflowRef
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>Optimizer.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -39710,14 +39711,15 @@ Custom</value>
 					<attribute kind="AutoRouterPref" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Decorator" status="meta">
-						<value></value>
+					<attribute kind="Decorator">
+						<value>Mga.CPMDecorator</value>
 					</attribute>
 					<attribute kind="DisplayedName">
 						<value>Parameter Study</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
-						<value>portLabelLength = 20</value>
+						<value>portLabelLength = 20
+fillColor=0xbcf2ff</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -39728,8 +39730,8 @@ Custom</value>
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>ParameterStudy.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -41185,14 +41187,14 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="AutoRouterPref" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Decorator" status="meta">
-						<value></value>
+					<attribute kind="Decorator">
+						<value>Mga.CPMDecorator</value>
 					</attribute>
 					<attribute kind="DisplayedName" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="GeneralPreferences" status="meta">
-						<value></value>
+					<attribute kind="GeneralPreferences">
+						<value>fillColor=0xddbcff</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -41203,8 +41205,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>PCC.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -41356,8 +41358,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="AutoRouterPref" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Decorator" status="meta">
-						<value></value>
+					<attribute kind="Decorator">
+						<value>Mga.CPMDecorator</value>
 					</attribute>
 					<attribute kind="DisplayedName">
 						<value>Parametric Exploration</value>
@@ -41374,8 +41376,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>ParametricExploration.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -45614,8 +45616,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>ProblemInput.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -45653,8 +45655,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="NameWrapNum" status="meta">
 						<value>0</value>
 					</attribute>
-					<attribute kind="PortIcon" status="meta">
-						<value></value>
+					<attribute kind="PortIcon">
+						<value>ProblemInputPort.png</value>
 					</attribute>
 					<attribute kind="RoundRectangleRadius" status="meta">
 						<value></value>
@@ -45728,8 +45730,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="HelpURL" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="Icon" status="meta">
-						<value></value>
+					<attribute kind="Icon">
+						<value>ProblemOutput.png</value>
 					</attribute>
 					<attribute kind="InRootFolder" status="meta">
 						<value>false</value>
@@ -45767,8 +45769,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="NameWrapNum" status="meta">
 						<value>0</value>
 					</attribute>
-					<attribute kind="PortIcon" status="meta">
-						<value></value>
+					<attribute kind="PortIcon">
+						<value>ProblemOutputPort.png</value>
 					</attribute>
 					<attribute kind="RoundRectangleRadius" status="meta">
 						<value></value>
