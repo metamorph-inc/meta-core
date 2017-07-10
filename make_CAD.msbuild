@@ -35,22 +35,24 @@
   </Target>
 
   <Target Name="Push_CADCreoParametricCreateAssembly_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricCreateAssembly\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricCreateAssembly\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
 
   <Target Name="Push_ExtractACM-XMLfromCreoModels_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe ExtractACM-XMLfromCreoModels\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe ExtractACM-XMLfromCreoModels\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
   
   <Target Name="Push_CADCreoParametricMetaLink_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricMetaLink\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricMetaLink\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
   
 
-  <Target Name="Push_All_NuGet" DependsOnTargets="Push_CADCreoParametricCreateAssembly_NuGet;Push_ExtractACM-XMLfromCreoModels_NuGet;Push_CADCreoParametricMetaLink_NuGet" />
+  <Target Name="Pack_NuGet" DependsOnTargets="Push_CADCreoParametricCreateAssembly_NuGet;Push_ExtractACM-XMLfromCreoModels_NuGet;Push_CADCreoParametricMetaLink_NuGet" />
+
+  <Target Name="Push_All_NuGet" DependsOnTargets="Pack_NuGet" />
 
   <!-- deprecated -->
   <Target Name="Push_NuGet" DependsOnTargets="Push_All_NuGet"/>
