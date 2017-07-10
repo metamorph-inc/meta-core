@@ -10,7 +10,7 @@ meta_path = os.path.normpath(os.path.join(THIS_DIR, '..'))
 def throw_if_modified():
     output = subprocess.check_output('git status -uno --porcelain'.split(), cwd=meta_path).rstrip()
     if len(output):
-        raise Exception('Files are modified: %s' % output)
+        raise Exception('Files are modified: %s\nDo `git commit` and try again' % output)
 
 def repo_rev():
     return last_changed_rev('.')

@@ -4,7 +4,7 @@ pushd %~dp0
 
 where UdmDll_3_2_VS10.dll
 
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe make_CAD.msbuild /t:All;Push_All_NuGet /fl /flp:diag;PerformanceSummary /m /nodeReuse:false
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe make_CAD.msbuild /t:All;Pack_NuGet /fl /flp:diag;PerformanceSummary /m /nodeReuse:false
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
 run_cadunittests
