@@ -1144,7 +1144,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				//std::cout << std::endl << "Exporting STEP file for " + unusedComp->name + ", this could take several seconds...";
 				isis::ExportDataExchangeFiles(	unusedComp->componentID,
 												unusedComp->name,
-												unusedComp->modelType,
+												ProMdlType_enum(unusedComp->modelType),
 												unusedComp->geometryRepresentation,
 												in_WorkingDirector,
 												out_CADComponentAssemblies.DataExchangeSpecifications, true );

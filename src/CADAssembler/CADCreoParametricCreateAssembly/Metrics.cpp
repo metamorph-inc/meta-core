@@ -963,7 +963,7 @@ void Assign_MetricIDs_To_Components(
 																						throw (isis::application_exception)
 {
 	std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix( in_out_CADComponentData_map[in_ComponentID].name, 
-																	 in_out_CADComponentData_map[in_ComponentID].modelType );
+																	 ProMdlType_enum(in_out_CADComponentData_map[in_ComponentID].modelType ));
 
 	if ( ( in_out_CADComponentData_map[in_ComponentID].parametricParametersPresent )  || 
 		 ( in_out_CADComponentData_map[in_ComponentID].specialInstruction == CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT ) ||

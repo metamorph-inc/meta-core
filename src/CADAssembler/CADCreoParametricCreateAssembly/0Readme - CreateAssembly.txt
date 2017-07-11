@@ -1054,9 +1054,14 @@ v1.5.15.0  05/11/2017	Added support for exporting DXF format.  Exporting Wavefro
 
 v1.5.16.0  05/18/2017	Add code (src\CADAssembler\CodeGenerationTools\enums) to programmatically generate enums and link 
 			CAD-specific enums to generic enums.  The generic enums will be the common interface between all CAD systems.
+	
+v1.5.17.0		Someone else changed the version number. Don't know if any changes were actually made.
 
-v1.5.17.0	05/31/2017  Correct ComputationType_enum CENTEROFGRAVITY and INTERFERENCCOUNT strings.
-			
+v1.5.18.0  07/16/2017 Modified CommonStructures.h so that it only depends on generic CAD enums, with the exception of 
+			Creo pointers (ProMdl, ProSolid) and assembled features (ProAsmcomp).  Will deal with those anomalies later. 
+			Added error checking to CreateCADEnums.py.  Added CodeGenerationTools.
+			Branch: CAD_030_CommonStructures_Remove_Creo_References_Except_ptrs
+
 Known Defects
 -------------
 

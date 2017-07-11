@@ -303,7 +303,7 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			  j != i->analysisSolvers.end();
 			  ++j )
 		{
-			if ( (j->type != PRO_FEM_FEAS_ABAQUS &&  j->type != PRO_FEM_FEAS_NASTRAN &&  j->type != PRO_FEM_FEAS_PATRAN ) || j->meshType != PRO_FEM_SOLID_MESH || j->elementShapeType != PRO_FEM_MIDPNT_PARABOLIC_FIXED )
+			if ( (j->type != CAD_FEM_FEAS_ABAQUS &&  j->type != CAD_FEM_FEAS_NASTRAN &&  j->type != CAD_FEM_FEAS_PATRAN ) || j->meshType != CAD_FEM_SOLID_MESH || j->elementShapeType != CAD_FEM_MIDPNT_PARABOLIC_FIXED )
 			{
 				TempError += " For FEA analysis, the only supported solver settings are Type=\"ABAQUS/NASTRAN/PATRAN_NASTRAN\", MeshType=\"SOLID\", ShellElementType=\"N/A\", and ElementShapeType=\"MIDPOINT_PARABOLIC_FIXED\"";
 				throw isis::application_exception(TempError.c_str());		
@@ -394,7 +394,7 @@ void RetrieveDatumPointCoordinates( const std::string							&in_AssemblyComponen
 
 	ProModelitem  datum_point;
 	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
-		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, in_CADComponentData_map[in_PartComponentID].modelType,
+		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
 		in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
 	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
 
@@ -1169,9 +1169,9 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 						  PRO_FEM_ANALYSIS_STRUCTURAL, 
 						  // Old ProFemAnalysisType(i->type) , should use this when mapping poisons ratio to component ID is no longer needed
 						  PRO_FEM_FEAS_NASTRAN,
-						  (*i->analysisSolvers.begin()).meshType,
-						  (*i->analysisSolvers.begin()).shellElementType,
-						  (*i->analysisSolvers.begin()).elementShapeType,
+						  ProAnalysisMeshType_enum((*i->analysisSolvers.begin()).meshType),
+						  ProAnalysisShellElementType_enum((*i->analysisSolvers.begin()).shellElementType),
+						  ProAnalysisElementShapeType_enum((*i->analysisSolvers.begin()).elementShapeType),
 						   MeshUnmodified_PathAndFileName );
 
 		// Read the mesh

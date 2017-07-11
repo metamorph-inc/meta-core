@@ -23,7 +23,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 		// to avoid dereferencing
 		CADComponentData *cadata = &in_CADComponentData_map[*t];
 
-		std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( cadata->name, cadata->modelType );
+		std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( cadata->name, ProMdlType_enum(cadata->modelType) );
 		
 
 		if ( cadata->parametricParametersPresent )

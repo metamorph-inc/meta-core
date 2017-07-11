@@ -221,7 +221,7 @@ void SetCADComponentLevelAttributes( const AssemblyInterface::CADComponent	 &in_
 	//out_CADComponentData_map[ID].cyPhyComponent = in_XML_CADComponent.
 
 	out_CADComponentData_map[ID].materialID_FromCyPhy	= in_XML_CADComponent.MaterialID();
-	out_CADComponentData_map[ID].modelType		= isis::ProMdlType_enum(in_XML_CADComponent.Type()); // PRO_MDL_PART, PRO_MDL_ASSEMBLY
+	out_CADComponentData_map[ID].modelType		= CADMdlType_enum(in_XML_CADComponent.Type()); // PRO_MDL_PART, PRO_MDL_ASSEMBLY
 	//out_CADComponentData_map[ID].type_string	= in_XML_CADComponent.Type();
 	//out_CADComponentData_map[ID].specialInstruction = isis::SpecialInstruction_enum(in_XML_CADComponent.SpecialInstruction());
 	out_CADComponentData_map[ID].specialInstruction.FromCommaDelimitedString(in_XML_CADComponent.SpecialInstruction());
@@ -301,28 +301,28 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 					{
 						rotationtarget[InputJoint::DEFAULT].ComponentID = it->ComponentID();
 						rotationtarget[InputJoint::DEFAULT].FeatureName = it->FeatureName();
-						rotationtarget[InputJoint::DEFAULT].FeatureType = FeatureGeometryType_enum(it->FeatureGeometryType());
+						rotationtarget[InputJoint::DEFAULT].FeatureType = CADFeatureGeometryType_enum(it->FeatureGeometryType());
 						rotationtarget[InputJoint::DEFAULT].Provided = true;
 					}
 					else if (it->Role() == "RotationMin")
 					{
 						rotationtarget[InputJoint::MIN].ComponentID = it->ComponentID();
 						rotationtarget[InputJoint::MIN].FeatureName = it->FeatureName();
-						rotationtarget[InputJoint::MIN].FeatureType = FeatureGeometryType_enum(it->FeatureGeometryType());
+						rotationtarget[InputJoint::MIN].FeatureType = CADFeatureGeometryType_enum(it->FeatureGeometryType());
 						rotationtarget[InputJoint::MIN].Provided = true;
 					}
 					else if (it->Role() == "RotationMax")
 					{
 						rotationtarget[InputJoint::MAX].ComponentID = it->ComponentID();
 						rotationtarget[InputJoint::MAX].FeatureName = it->FeatureName();
-						rotationtarget[InputJoint::MAX].FeatureType = FeatureGeometryType_enum(it->FeatureGeometryType());
+						rotationtarget[InputJoint::MAX].FeatureType = CADFeatureGeometryType_enum(it->FeatureGeometryType());
 						rotationtarget[InputJoint::MAX].Provided = true;
 					}
 					else if (it->Role() == "TranslationDefault")
 					{
 						translationtarget[InputJoint::DEFAULT].ComponentID = it->ComponentID();
 						translationtarget[InputJoint::DEFAULT].FeatureName = it->FeatureName();
-						translationtarget[InputJoint::DEFAULT].FeatureType = FeatureGeometryType_enum(it->FeatureGeometryType());
+						translationtarget[InputJoint::DEFAULT].FeatureType = CADFeatureGeometryType_enum(it->FeatureGeometryType());
 						translationtarget[InputJoint::DEFAULT].Provided = true;
 					}
 					else
@@ -410,7 +410,7 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 						throw isis::application_exception(errorString.str());
 				}
 
-				Cst_Feature.featureOrientationType = ProDatumside_enum(cl->FeatureOrientationType());
+				Cst_Feature.featureOrientationType = CADDatumside_enum(cl->FeatureOrientationType());
 
 				 // The order is important later: the feature belonging to this component should be first in the list
 				if (cl->ComponentID()==ID)
@@ -1319,11 +1319,11 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 			for ( vector<AssemblyInterface::Solver>::const_iterator cj = solverVector.begin(); cj != solverVector.end(); cj++ )
 			{
 				AnalysisSolver analysisSolver;
-				analysisSolver.type				= AnalysisSolverType_enum( cj->Type());
+				analysisSolver.type				= CADAnalysisSolverType_enum( cj->Type());
 				analysisSolver.analysisSolutionType = AnalysisSolutionType_enum( cj->Type()); // ANALYSIS_DECK_BASED, or ANALYSIS_MODEL_BASED
-				analysisSolver.meshType			= AnalysisMeshType_enum( cj->MeshType());
-				analysisSolver.shellElementType	= AnalysisShellElementType_enum( cj->ShellElementType() );
-				analysisSolver.elementShapeType = AnalysisElementShapeType_enum( cj->ElementShapeType() );
+				analysisSolver.meshType			= CADAnalysisMeshType_enum( cj->MeshType());
+				analysisSolver.shellElementType	= CADAnalysisShellElementType_enum( cj->ShellElementType() );
+				analysisSolver.elementShapeType = CADAnalysisElementShapeType_enum( cj->ElementShapeType() );
 
 				analysisFEA.analysisSolvers.push_back(analysisSolver);
 			}
@@ -1800,7 +1800,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 
 					out_CADComponentAssemblies.unassembledComponents.push_back(
 									UnassembledComponent(	cadComp->Name(),
-															ProMdlType_enum(cadComp->Type()),
+															CADMdlType_enum(cadComp->Type()),
 															cadComp->Representation(),
 															cadComp->ComponentID()));
 

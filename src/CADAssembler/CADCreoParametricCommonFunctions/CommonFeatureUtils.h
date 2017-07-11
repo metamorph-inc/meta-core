@@ -1,6 +1,7 @@
 #ifndef COMMON_FEATURE_UTILS
 #define COMMON_FEATURE_UTILS
 
+#include "CADStringToEnumConversions.h"
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
 #include <MultiFormatString.h>
@@ -14,7 +15,8 @@ namespace isis
 	struct CreoModelAssemblyAttributes
 	{
 		MultiFormatString								modelname;
-		ProMdlType										modelType;
+		//ProMdlType									modelType;
+		e_CADMdlType									modelType;
 		ProSolid										p_solid_handle;
 		ProAsmcomp										proAsmcomp;
 		std::vector<CreoModelAssemblyAttributes>		children;

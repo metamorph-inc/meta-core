@@ -730,7 +730,8 @@ namespace isis
 
 			const std::string					creoModelName =			in_component.name();
 			const std::string					componentInstanceID =	in_component.componentid();
-			ProMdlType							creoModelType =			isis::ProMdlType_enum(in_component.type());
+			//ProMdlType						creoModelType =			isis::ProMdlType_enum(in_component.type());
+			e_CADMdlType						creoModelType =			isis::CADMdlType_enum(in_component.type());
 			const std::string					materialID =			in_component.materialid();
 			isis::e_CADSpecialInstruction		specialInstruction =	isis::SpecialInstruction_enum(in_component.specialinstruction());
 
@@ -901,13 +902,13 @@ namespace isis
 				isis::ConstraintFeature  creoConstraintFeature_A;
 				creoConstraintFeature_A.componentInstanceID	 =  constraintFeature_A.componentid();
 				creoConstraintFeature_A.featureName			 =  constraintFeature_A.featurename();
-				creoConstraintFeature_A.featureOrientationType =  isis::ProDatumside_enum(constraintFeature_A.featureorientationtype());
+				creoConstraintFeature_A.featureOrientationType =  isis::CADDatumside_enum(constraintFeature_A.featureorientationtype());
 				creoConstraintPair.constraintFeatures.push_back(creoConstraintFeature_A);
 
 				isis::ConstraintFeature  creoConstraintFeature_B;
 				creoConstraintFeature_B.componentInstanceID	 =  constraintFeature_B.componentid();
 				creoConstraintFeature_B.featureName			 =  constraintFeature_B.featurename();
-				creoConstraintFeature_B.featureOrientationType =  isis::ProDatumside_enum(constraintFeature_B.featureorientationtype());
+				creoConstraintFeature_B.featureOrientationType =  isis::CADDatumside_enum(constraintFeature_B.featureorientationtype());
 				creoConstraintPair.constraintFeatures.push_back(creoConstraintFeature_B);
 
 				creoConstraintPairs.push_back(creoConstraintPair);

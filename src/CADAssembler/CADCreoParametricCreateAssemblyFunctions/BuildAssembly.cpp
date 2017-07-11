@@ -542,14 +542,14 @@ void Add_Subassemblies_and_Parts(
 
 			std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( 
 												in_CADComponentData_map[*itr].name, 
-												in_CADComponentData_map[*itr].modelType );
+												ProMdlType_enum(in_CADComponentData_map[*itr].modelType ));
 
 			//wchar_t  PartName[ISIS_CHAR_BUFFER_LENGTH];
 			//ProStringToWstring(PartName, (char *)(const char *)in_CADComponentData_map[*itr].name );
 
 			isis::isis_ProMdlRetrieve_WithDescriptiveErrorMsg(
 				*itr, in_CADComponentData_map[*itr].name, in_CADComponentData_map[*itr].geometryRepresentation,   // Added arguments
-				in_CADComponentData_map[*itr].name,in_CADComponentData_map[*itr].modelType, p_model);	// Original Arguments
+				in_CADComponentData_map[*itr].name,ProMdlType_enum(in_CADComponentData_map[*itr].modelType), p_model);	// Original Arguments
 				//PartName,in_CADComponentData_map[*itr].modelType, p_model);	// Original Arguments
 
 			ProMatrix identity_matrix = {{ 1.0, 0.0, 0.0, 0.0 }, 

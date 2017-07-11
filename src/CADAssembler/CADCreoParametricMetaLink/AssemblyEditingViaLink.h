@@ -101,7 +101,8 @@ public:
     void AddComponentToAssembly(
         const std::string 				&in_ComponentInstanceID,
         const std::string 				&in_CreoModelName,
-        ProMdlType						in_CreoModelType,
+		// ProMdlType                        in_CreoModelType,
+		e_CADMdlType						in_CreoModelType,
         const std::string				&in_MaterialID,
         const std::string				&in_DisplayName,
         e_CADSpecialInstruction			in_SpecialInstruction,
