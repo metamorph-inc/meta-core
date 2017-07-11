@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{83BC97B7-0CCB-4004-AA47-2CA91B1136D1}" cdate="Tue Jul 11 12:13:06 2017" mdate="Tue Jul 11 12:13:06 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{0721271E-7705-45D3-8F6E-C9FDE729C157}" cdate="Tue Jul 11 12:55:58 2017" mdate="Tue Jul 11 12:55:58 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>CyPhyML-core</name>
 	<comment></comment>
 	<author></author>
@@ -45557,7 +45557,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					</attribute>
 				</set>
 			</model>
-			<model id="id-0065-00000018" kind="ParadigmSheet" guid="{14cb291e-ca51-48a5-a18f-e1c9cceb4bc2}" relid="0xe" childrelidcntr="0x96">
+			<model id="id-0065-00000018" kind="ParadigmSheet" guid="{14cb291e-ca51-48a5-a18f-e1c9cceb4bc2}" relid="0xe" childrelidcntr="0x97">
 				<name>3_PET_Hierarchy</name>
 				<atom id="id-0066-00000171" kind="Atom" role="Atom" guid="{661c00fe-94bc-4689-9959-2cc87867ec7f}" relid="0x3">
 					<name>ProblemInput</name>
@@ -48193,6 +48193,14 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					</regnode>
 					<connpoint role="src" target="id-0066-00000178"/>
 					<connpoint role="dst" target="id-0067-00000050"/>
+				</connection>
+				<connection id="id-0068-00000373" kind="DerivedInheritance" role="DerivedInheritance" guid="{7077c873-3837-4d8e-8fcc-1f57ff4b6574}" relid="0x97">
+					<name>DerivedInheritance</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Sn</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-0000017b"/>
+					<connpoint role="dst" target="id-0067-0000004f"/>
 				</connection>
 				<set id="id-0069-00000024" kind="Aspect" role="Aspect" guid="{f8dc0b30-fb8d-47a4-b0d4-ef70c19936c3}" relid="0x37" members="id-0066-00000171 id-0066-00000172 id-0066-0000017c id-0066-0000017e id-0066-00000180 id-0066-00000182 id-0066-00000184 id-0067-0000004e">
 					<name>TestBenchCompositionAspect</name>
