@@ -1059,7 +1059,7 @@ namespace isis
 
 		if    	(strUpper.compare("BOUNDINGBOX") == 0 ) return COMPUTATION_BOUNDING_BOX;
 		else if	(strUpper.compare("CG") == 0 ) return COMPUTATION_CG;
-		else if (strUpper.compare("CENTEROFGRAVITY") == 0 ) return COMPUTATION_CG;
+		else if	(strUpper.compare("CENTEROFGRAVITY") == 0 ) return COMPUTATION_CG;
 		else if	(strUpper.compare("POINT") == 0 ) return COMPUTATION_POINT;
 		else if	(strUpper.compare("POINTCOORDINATES") == 0 ) return COMPUTATION_POINT;
 		else if	(strUpper.compare("MASS") == 0 ) return COMPUTATION_MASS;
@@ -1087,7 +1087,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"BoundingBox   CG   Point   PointCoordinates   Mass   InterferencCount   CoefficientOfDrag   Plane   VonMisesStress   ShearStress   BearingStress   FactorOfSafety   TotalShots   TotalIntersections   TotalPerforations   TotalKills   MaxVerticalJump   MaxVerticalVelocity   MaxHorizonalVelocity   MinimumTemperature   MaximumTemperature   Tsai_Wu_Failure   Hill_Failure   Hoffman_Failure   Maximum_Failure";
+			"BoundingBox   CG   CenterOfGravity   Point   PointCoordinates   Mass   InterferenceCount   CoefficientOfDrag   Plane   VonMisesStress   ShearStress   BearingStress   FactorOfSafety   TotalShots   TotalIntersections   TotalPerforations   TotalKills   MaxVerticalJump   MaxVerticalVelocity   MaxHorizonalVelocity   MinimumTemperature   MaximumTemperature   Tsai_Wu_Failure   Hill_Failure   Hoffman_Failure   Maximum_Failure";
 		throw isis::application_exception(errorString);
 	}
 
@@ -1109,7 +1109,7 @@ namespace isis
 				return "Mass";
 				break;
 			case COMPUTATION_INTERFERENCE_COUNT:
-				return "InterferencCount";
+				return "InterferenceCount";
 				break;
 			case COMPUTATION_COEFFICIENT_OF_DRAG:
 				return "CoefficientOfDrag";
@@ -1966,6 +1966,271 @@ namespace isis
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
 					"CAD_SURFACE   CAD_DATUM_PLANE   CAD_AXIS   CAD_POINT   CAD_CSYS   CAD_PART   CAD_ASSEMBLY   CAD_FEATURE   CAD_EDGE";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADDatumside CADDatumside_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("CAD_DATUM_SIDE_NONE") == 0 ) return CAD_DATUM_SIDE_NONE;
+		else if	(strUpper.compare("NONE") == 0 ) return CAD_DATUM_SIDE_NONE;
+		else if	(strUpper.compare("CAD_DATUM_SIDE_YELLOW") == 0 ) return CAD_DATUM_SIDE_YELLOW;
+		else if	(strUpper.compare("SIDE_A") == 0 ) return CAD_DATUM_SIDE_YELLOW;
+		else if	(strUpper.compare("CAD_DATUM_SIDE_RED") == 0 ) return CAD_DATUM_SIDE_RED;
+		else if	(strUpper.compare("SIDE_B") == 0 ) return CAD_DATUM_SIDE_RED;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"CAD_DATUM_SIDE_NONE   None   CAD_DATUM_SIDE_YELLOW   Side_A   CAD_DATUM_SIDE_RED   Side_B";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADDatumside_string( e_CADDatumside in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_DATUM_SIDE_NONE:
+				return "CAD_DATUM_SIDE_NONE";
+				break;
+			case CAD_DATUM_SIDE_YELLOW:
+				return "CAD_DATUM_SIDE_YELLOW";
+				break;
+			case CAD_DATUM_SIDE_RED:
+				return "CAD_DATUM_SIDE_RED";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_DATUM_SIDE_NONE   CAD_DATUM_SIDE_YELLOW   CAD_DATUM_SIDE_RED";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADAnalysisSolverType CADAnalysisSolverType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("NASTRAN") == 0 ) return CAD_FEM_FEAS_NASTRAN;
+		else if	(strUpper.compare("ANSYS") == 0 ) return CAD_FEM_FEAS_ANSYS;
+		else if	(strUpper.compare("ABAQUS") == 0 ) return CAD_FEM_FEAS_ABAQUS;
+		else if	(strUpper.compare("ABAQUS_DECK_BASED") == 0 ) return CAD_FEM_FEAS_ABAQUS;
+		else if	(strUpper.compare("ABAQUS_MODEL_BASED") == 0 ) return CAD_FEM_FEAS_ABAQUS;
+		else if	(strUpper.compare("PATRAN_NASTRAN") == 0 ) return CAD_FEM_FEAS_PATRAN;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"NASTRAN   ANSYS   ABAQUS   ABAQUS_DECK_BASED   ABAQUS_MODEL_BASED   PATRAN_NASTRAN";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADAnalysisSolverType_string( e_CADAnalysisSolverType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_FEM_FEAS_NASTRAN:
+				return "NASTRAN";
+				break;
+			case CAD_FEM_FEAS_ANSYS:
+				return "ANSYS";
+				break;
+			case CAD_FEM_FEAS_ABAQUS:
+				return "ABAQUS";
+				break;
+			case CAD_FEM_FEAS_PATRAN:
+				return "PATRAN_NASTRAN";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_FEM_FEAS_NASTRAN   CAD_FEM_FEAS_ANSYS   CAD_FEM_FEAS_ABAQUS   CAD_FEM_FEAS_PATRAN";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADAnalysisMeshType CADAnalysisMeshType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("SOLID") == 0 ) return CAD_FEM_SOLID_MESH;
+		else if	(strUpper.compare("SURFACE") == 0 ) return CAD_FEM_SHELL_MESH;
+		else if	(strUpper.compare("SHELL") == 0 ) return CAD_FEM_SHELL_MESH;
+		else if	(strUpper.compare("MIXED") == 0 ) return CAD_FEM_MIXED_MESH;
+		else if	(strUpper.compare("QUILT") == 0 ) return CAD_FEM_QUILT_MESH;
+		else if	(strUpper.compare("BOUNDARY") == 0 ) return CAD_FEM_BOUNDARY_MESH;
+		else if	(strUpper.compare("BAR") == 0 ) return CAD_FEM_BAR_MESH;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"SOLID   SURFACE   SHELL   MIXED   QUILT   BOUNDARY   BAR";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADAnalysisMeshType_string( e_CADAnalysisMeshType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_FEM_SOLID_MESH:
+				return "SOLID";
+				break;
+			case CAD_FEM_SHELL_MESH:
+				return "SURFACE";
+				break;
+			case CAD_FEM_MIXED_MESH:
+				return "MIXED";
+				break;
+			case CAD_FEM_QUILT_MESH:
+				return "QUILT";
+				break;
+			case CAD_FEM_BOUNDARY_MESH:
+				return "BOUNDARY";
+				break;
+			case CAD_FEM_BAR_MESH:
+				return "BAR";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_FEM_SOLID_MESH   CAD_FEM_SHELL_MESH   CAD_FEM_MIXED_MESH   CAD_FEM_QUILT_MESH   CAD_FEM_BOUNDARY_MESH   CAD_FEM_BAR_MESH";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADAnalysisShellElementType CADAnalysisShellElementType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("TRIANGLE") == 0 ) return CAD_FEM_SHELL_MESH_TRIANGLE;
+		else if	(strUpper.compare("TETRA4") == 0 ) return CAD_FEM_SHELL_MESH_TRIANGLE;
+		else if	(strUpper.compare("TETRA10") == 0 ) return CAD_FEM_SHELL_MESH_TRIANGLE;
+		else if	(strUpper.compare("QUADRANGLE") == 0 ) return CAD_FEM_SHELL_MESH_QUADRANGLE;
+		else if	(strUpper.compare("PLATE4") == 0 ) return CAD_FEM_SHELL_MESH_QUADRANGLE;
+		else if	(strUpper.compare("PLATE8") == 0 ) return CAD_FEM_SHELL_MESH_QUADRANGLE;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_FEM_SHELL_MESH_QUADRANGLE;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"TRIANGLE   TETRA4   TETRA10   QUADRANGLE   PLATE4   PLATE8   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADAnalysisShellElementType_string( e_CADAnalysisShellElementType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_FEM_SHELL_MESH_TRIANGLE:
+				return "TRIANGLE";
+				break;
+			case CAD_FEM_SHELL_MESH_QUADRANGLE:
+				return "QUADRANGLE";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_FEM_SHELL_MESH_TRIANGLE   CAD_FEM_SHELL_MESH_QUADRANGLE";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADAnalysisElementShapeType CADAnalysisElementShapeType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("MIDPOINT_LINEAR") == 0 ) return CAD_FEM_MIDPNT_LINEAR;
+		else if	(strUpper.compare("MIDPOINT_PARABOLIC") == 0 ) return CAD_FEM_MIDPNT_PARABOLIC;
+		else if	(strUpper.compare("MIDPOINT_PARABOLIC_FIXED") == 0 ) return CAD_FEM_MIDPNT_PARABOLIC_FIXED;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"MIDPOINT_LINEAR   MIDPOINT_PARABOLIC   MIDPOINT_PARABOLIC_FIXED";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADAnalysisElementShapeType_string( e_CADAnalysisElementShapeType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_FEM_MIDPNT_LINEAR:
+				return "MIDPOINT_LINEAR";
+				break;
+			case CAD_FEM_MIDPNT_PARABOLIC:
+				return "MIDPOINT_PARABOLIC";
+				break;
+			case CAD_FEM_MIDPNT_PARABOLIC_FIXED:
+				return "MIDPOINT_PARABOLIC_FIXED";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_FEM_MIDPNT_LINEAR   CAD_FEM_MIDPNT_PARABOLIC   CAD_FEM_MIDPNT_PARABOLIC_FIXED";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADMdlType CADMdlType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("CAD_MDL_UNUSED") == 0 ) return CAD_MDL_UNUSED;
+		else if	(strUpper.compare("CAD_MDL_ASSEMBLY") == 0 ) return CAD_MDL_ASSEMBLY;
+		else if	(strUpper.compare("ASSEMBLY") == 0 ) return CAD_MDL_ASSEMBLY;
+		else if	(strUpper.compare("CAD_MDL_PART") == 0 ) return CAD_MDL_PART;
+		else if	(strUpper.compare("PART") == 0 ) return CAD_MDL_PART;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"CAD_MDL_UNUSED   CAD_MDL_ASSEMBLY   Assembly   CAD_MDL_PART   Part";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADMdlType_string( e_CADMdlType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_MDL_UNUSED:
+				return "CAD_MDL_UNUSED";
+				break;
+			case CAD_MDL_ASSEMBLY:
+				return "CAD_MDL_ASSEMBLY";
+				break;
+			case CAD_MDL_PART:
+				return "CAD_MDL_PART";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_MDL_UNUSED   CAD_MDL_ASSEMBLY   CAD_MDL_PART";
 				throw isis::application_exception(errorString);
 		}
 	}

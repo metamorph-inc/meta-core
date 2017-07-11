@@ -54,7 +54,7 @@ throw(isis::application_exception)
     in_MetaLinkAssemblyEditor.AddComponentToAssembly(
         "new_comp_1", 					// in_ComponentInstanceID,
         "Plate_02",					// in_CreoModelName,
-        PRO_MDL_PART,					// ProMdlType in_CreoModelType,
+        CAD_MDL_PART,					// ProMdlType in_CreoModelType,
         "Steel",						// in_MaterialID,
         "DisplayName",
         isis::CAD_SPECIAL_INSTRUCTION_NONE, // in_SpecialInstruction,
@@ -126,12 +126,12 @@ throw(isis::application_exception)
 
     creoConstraintFeature_A.componentInstanceID	 =  "new_comp_1";
     creoConstraintFeature_A.featureName			 =  "Front";
-    creoConstraintFeature_A.featureOrientationType =  isis::ProDatumside_enum("SIDE_A");
+    creoConstraintFeature_A.featureOrientationType =  isis::CADDatumside_enum("SIDE_A");
     creoConstraintPair_1.constraintFeatures.push_back(creoConstraintFeature_A);
 
     creoConstraintFeature_B.componentInstanceID	 =  "7";
     creoConstraintFeature_B.featureName			 =  "Plane_Front";
-    creoConstraintFeature_B.featureOrientationType =   isis::ProDatumside_enum("SIDE_A");
+    creoConstraintFeature_B.featureOrientationType =   isis::CADDatumside_enum("SIDE_A");
     creoConstraintPair_1.constraintFeatures.push_back(creoConstraintFeature_B);
 
     creoConstraintPairs.push_back(creoConstraintPair_1);

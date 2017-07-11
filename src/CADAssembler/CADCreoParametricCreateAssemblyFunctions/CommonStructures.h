@@ -2,6 +2,7 @@
 #define  COMMON_STRUCTURES_H
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
+#include "CADStringToEnumConversions.h"
 #include <isis_include_ptc_headers.h>
 #include <CreoStringToEnumConversions.h>
 #include <MultiFormatString.h>
@@ -18,6 +19,7 @@
 
 #include <boost/functional/hash.hpp>
 
+typedef               double  MatrixD4x4[4][4];
 
 namespace isis
 {
@@ -69,10 +71,12 @@ namespace isis
 		std::string			componentInstanceID;
 		//std::string		featureName;
 		MultiFormatString	featureName;
-		ProDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
+		// ProDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
+		e_CADDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
 
 		ConstraintFeature()
-			:featureOrientationType(PRO_DATUM_SIDE_NONE),
+			//:featureOrientationType(PRO_DATUM_SIDE_NONE),
+			:featureOrientationType(CAD_DATUM_SIDE_NONE),
 			 featureName(PRO_NAME_SIZE - 1)
 		{}
 	};
@@ -119,7 +123,8 @@ namespace isis
 		{
 			std::string ComponentID;
 			std::string FeatureName;
-			ProType FeatureType;
+			//ProType FeatureType;
+			e_CADFeatureGeometryType FeatureType;
 			bool Provided;
 		};
 		struct Limit
@@ -614,11 +619,15 @@ namespace isis
 
 	struct AnalysisSolver
 	{
-		pro_fem_solver_type			type;
-		e_AnalysisSolutionType	    analysisSolutionType; // ANALYSIS_DECK_BASED, or ANALYSIS_MODEL_BASED, 
-		pro_fem_mesh_type			meshType;
-		pro_fem_shell_mesh_type		shellElementType;
-		pro_fem_elem_shape_type		elementShapeType;
+		//pro_fem_solver_type			type;
+		e_CADAnalysisSolverType			type;
+		e_AnalysisSolutionType			analysisSolutionType; // ANALYSIS_DECK_BASED, or ANALYSIS_MODEL_BASED, 
+		//pro_fem_mesh_type				meshType;
+		e_CADAnalysisMeshType			meshType;
+		//pro_fem_shell_mesh_type		shellElementType;
+		e_CADAnalysisShellElementType	shellElementType;
+		//pro_fem_elem_shape_type		elementShapeType;
+		e_CADAnalysisElementShapeType	elementShapeType;
 	};
 
 	struct CADAnalysisComponentMetrics
@@ -790,12 +799,14 @@ namespace isis
 	struct UnassembledComponent
 	{
 		MultiFormatString			name;					/**<  Part/Assembly name without the suffix. */
-		ProMdlType					modelType;	
+		//ProMdlType				modelType;	
+		e_CADMdlType				modelType;	
 		MultiFormatString			geometryRepresentation;
 		std::string					componentID;
 		/**<  PRO_MDL_PART, PRO_MDL_ASSEMBLY */
 		UnassembledComponent(	const std::string			&in_Name, 
-								ProMdlType					in_ModelType, 
+								//ProMdlType					in_ModelType, 
+								e_CADMdlType					in_ModelType, 
 								const std::string			&in_GeometryRepresentation, 
 								const std::string			&in_ComponentID) : 
 										 name ( in_Name, PRO_NAME_SIZE - 1 ),
@@ -900,14 +911,18 @@ namespace isis
 		std::string					materialID_FromCreoPart;
 		std::string					avmComponentId;			// If applicable, only in component edit mode
 		std::string					cyphyInstanceId;		// If applicable, only in design mode
-		ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
+		//ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
+		e_CADMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */		
 
 		CADSpecialInstruction		specialInstruction;		/**< CAD_SPECIAL_INSTRUCTION_NONE, CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT, CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINTS */
 		// either p_model or modelHandle is not necessary, should review thier uses and eliminate one.
 		ProMdl						*p_model;				/**<  Pointer to the model. */
+		
 		ProSolid					modelHandle;			/**< typedef struct sld_part* ProSolid;  */
 		ProAsmcomp					assembledFeature;		/**< typedef struct pro_model_item  ProAsmcomp; */
-		ProMatrix					initialPosition;		/** initial position, as stored manually in file */
+
+		// ProMatrix				initialPosition;		/** initial position, as stored manually in file */
+		MatrixD4x4					initialPosition;		/** initial position, as stored manually in file */
 		list<int>					componentPaths;			/**< This is the path from the current assembly (i.e. active assembly) to the part/assembly defined by this structure. */
 		std::list<std::string>		children;				/**<  Component IDs of the children. */
 		std::set<std::string>		dependsOn;				/**< Depends on (i.e. constrained to) ComponentIDs. */

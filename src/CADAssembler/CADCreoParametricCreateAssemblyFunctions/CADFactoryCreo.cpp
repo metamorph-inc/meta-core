@@ -43,7 +43,8 @@ void* AssemblerCreo::get_assembly_component
 		in_map[in_id].name,
 		(ProMdlType)PRO_ASSEMBLY, (ProMdl*)&assembly_model);  
 
-		in_map[in_id].modelType = PRO_MDL_ASSEMBLY;
+		//in_map[in_id].modelType = PRO_MDL_ASSEMBLY;
+		in_map[in_id].modelType = CAD_MDL_ASSEMBLY;
 	return reinterpret_cast<void*>(&assembly_model);
 }
 
@@ -100,7 +101,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 
 			model_path_list[ix] = in_CADComponentData_map[feature.componentInstanceID].componentPaths;
 			model_datum_name[ix] = feature.featureName;
-			model_datum_side[ix] = feature.featureOrientationType;
+			model_datum_side[ix] = ProDatumside_enum(feature.featureOrientationType);
 			model_constraint_feature_component_ID[ix] = feature.componentInstanceID;
 		}
 
@@ -131,7 +132,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 			isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
 				in_component_id, 
 				in_CADComponentData_map[in_component_id].name,
-				in_CADComponentData_map[in_component_id].modelType,
+				ProMdlType_enum(in_CADComponentData_map[in_component_id].modelType),
 				component_model, pro_datum_type, model_datum_name[ix], 
 				&datum_model);
 
