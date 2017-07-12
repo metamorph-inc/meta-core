@@ -1,0 +1,1 @@
+..\..\..\..\..\meta-core\bin\Python27\Scripts\python.exe CreateCADEnums.py

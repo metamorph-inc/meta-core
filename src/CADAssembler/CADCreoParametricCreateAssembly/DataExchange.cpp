@@ -823,7 +823,7 @@ class ComponentVistorExportDataExchange: public ComponentVistor
 		{
 			std::string modelNameWithSuffix = ConvertToUpperCase (CombineCreoModelNameAndSuffix(
 														in_CADComponentData_map[in_ComponentID].name,
-														in_CADComponentData_map[in_ComponentID].modelType) );
+														ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType)) );
 
 
 			if ( exportedCADModels.find(modelNameWithSuffix) ==  exportedCADModels.end())
@@ -832,7 +832,7 @@ class ComponentVistorExportDataExchange: public ComponentVistor
 				(*exportDataExchangeFuncdtion)( 
 						in_ComponentID,
 						in_CADComponentData_map[in_ComponentID].name,
-						in_CADComponentData_map[in_ComponentID].modelType,
+						ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType),
 						in_CADComponentData_map[in_ComponentID].geometryRepresentation,
 						workingDir,
 						dataExchangeSpecifications,
@@ -909,7 +909,7 @@ void ExportDataExchangeFiles(
 		// export individual files.
 		ExportDataExchangeFiles_Parasolid( in_ComponentID,
 					in_CADComponentData_map[in_ComponentID].name, 
-					in_CADComponentData_map[in_ComponentID].modelType,
+					ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType),
 					in_CADComponentData_map[in_ComponentID].geometryRepresentation,
 					in_WORKING_DIR,
 					in_DataExchangeSpecifications,
@@ -922,7 +922,7 @@ void ExportDataExchangeFiles(
 		// export individual files.
 		ExportDataExchangeFiles_DXF( in_ComponentID,
 					in_CADComponentData_map[in_ComponentID].name, 
-					in_CADComponentData_map[in_ComponentID].modelType,
+					ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType),
 					in_CADComponentData_map[in_ComponentID].geometryRepresentation,
 					in_WORKING_DIR,
 					in_DataExchangeSpecifications,

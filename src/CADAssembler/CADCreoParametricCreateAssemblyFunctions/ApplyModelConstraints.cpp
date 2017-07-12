@@ -1210,8 +1210,8 @@ void SetupRotationLimits(ProSolid parentAssembly, const std::vector<ContraintFea
 		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
 		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
 
-		isis_ProModelitemByNameInit(constraintdefs[0].p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
-		isis_ProModelitemByNameInit(constraintdefs[0].p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+		isis_ProModelitemByNameInit(constraintdefs[0].p_base_model, FeatureGeometryType_enum(base_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdefs[0].p_added_model, FeatureGeometryType_enum(added_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_added, &added_model_item);
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
@@ -1294,8 +1294,8 @@ void SetupRotationLimits_2(	ProSolid parentAssembly,
 		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
 		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
 
-		isis_ProModelitemByNameInit(constraintdef.p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
-		isis_ProModelitemByNameInit(constraintdef.p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_base_model, FeatureGeometryType_enum(base_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_added_model, FeatureGeometryType_enum(added_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_added, &added_model_item);
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
@@ -1372,8 +1372,8 @@ void SetupTranslationLimits(ProSolid parentAssembly, const std::vector<Contraint
 		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
 		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
 
-		isis_ProModelitemByNameInit(constraintdefs[0].p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
-		isis_ProModelitemByNameInit(constraintdefs[0].p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+		isis_ProModelitemByNameInit(constraintdefs[0].p_base_model, FeatureGeometryType_enum(base_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdefs[0].p_added_model, FeatureGeometryType_enum(added_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_added, &added_model_item);
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
@@ -1453,8 +1453,8 @@ void SetupTranslationLimits_2(	ProSolid parentAssembly,
 		MultiFormatString featurename_base(base_limitrefs[InputJoint::DEFAULT].FeatureName);
 		MultiFormatString featurename_added(added_limitrefs[InputJoint::DEFAULT].FeatureName);
 
-		isis_ProModelitemByNameInit(constraintdef.p_base_model, base_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_base, &base_model_item);
-		isis_ProModelitemByNameInit(constraintdef.p_added_model, added_limitrefs[InputJoint::DEFAULT].FeatureType, featurename_added, &added_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_base_model, FeatureGeometryType_enum(base_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_base, &base_model_item);
+		isis_ProModelitemByNameInit(constraintdef.p_added_model, FeatureGeometryType_enum(added_limitrefs[InputJoint::DEFAULT].FeatureType), featurename_added, &added_model_item);
 
 
 		ProError err = ProReferenceSet(asm_ref, &base_comp_path, &base_model_item);
@@ -3463,7 +3463,7 @@ void Populate_PerSetConstraintDefinitions(
 						//	    to be no more than 31 characters.		
 						added_model_component_instance_ID = l->componentInstanceID;
 						added_model_datum_name = l->featureName;
-						added_model_datum_side = l->featureOrientationType;
+						added_model_datum_side = ProDatumside_enum(l->featureOrientationType);
 						added_model_defined = true;
 						added_model_constraint_feature_component_ID = l->componentInstanceID;
 						constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
@@ -3479,7 +3479,7 @@ void Populate_PerSetConstraintDefinitions(
 						//	    to be no more than 31 characters.		
 						base_model_component_instance_ID = l->componentInstanceID;
 						base_model_datum_name = l->featureName;
-						base_model_datum_side = l->featureOrientationType;
+						base_model_datum_side = ProDatumside_enum(l->featureOrientationType);
 						base_model_defined = true;
 						base_model_constraint_feature_component_ID = l->componentInstanceID;
 						constraintFeature_From_To += (std::string)in_CADComponentData_map[l->componentInstanceID].name + "::" + (std::string)l->featureName;
@@ -3517,11 +3517,11 @@ void Populate_PerSetConstraintDefinitions(
 
 				cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].modelHandle;
 				cFDef.base_model_name =						in_CADComponentData_map[base_model_component_instance_ID].name;
-				cFDef.base_model_type =						in_CADComponentData_map[base_model_component_instance_ID].modelType;
+				cFDef.base_model_type =						ProMdlType_enum(in_CADComponentData_map[base_model_component_instance_ID].modelType);
 				cFDef.base_model_component_instance_ID =	base_model_component_instance_ID;
 
 				cFDef.added_model_name =					in_CADComponentData_map[added_model_component_instance_ID].name;
-				cFDef.added_model_type =					in_CADComponentData_map[added_model_component_instance_ID].modelType;
+				cFDef.added_model_type =					ProMdlType_enum(in_CADComponentData_map[added_model_component_instance_ID].modelType);
 				cFDef.added_model_component_instance_ID =	added_model_component_instance_ID;
 
 				cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].modelHandle;
@@ -4144,7 +4144,7 @@ bool Apply_CADDatum_ModelConstraints_2(
 											in_assembly_model,
 											in_ComponentID,
 											in_CADComponentData_map[in_ComponentID].name,		
-											in_CADComponentData_map[in_ComponentID].modelType,
+											ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType),
 											constraintOrder_temp,
 											perSetConstraintDefinitions );
 	
@@ -4462,7 +4462,7 @@ bool Apply_CADDatum_ModelConstraints(
 							//ProStringToWstring(added_model_datum_name, (char *)(const char *)l->featureName );
 							added_model_component_instance_ID = l->componentInstanceID;
 							added_model_datum_name = l->featureName;
-							added_model_datum_side = l->featureOrientationType;
+							added_model_datum_side = ProDatumside_enum(l->featureOrientationType);
 							added_model_defined = true;
 							added_model_constraint_feature_component_ID = l->componentInstanceID;
 							//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
@@ -4481,7 +4481,7 @@ bool Apply_CADDatum_ModelConstraints(
 							// ProStringToWstring(base_model_datum_name, (char *) (const char*) l->featureName );
 							base_model_component_instance_ID = l->componentInstanceID;
 							base_model_datum_name = l->featureName;
-							base_model_datum_side = l->featureOrientationType;
+							base_model_datum_side = ProDatumside_enum(l->featureOrientationType);
 							base_model_defined = true;
 							base_model_constraint_feature_component_ID = l->componentInstanceID;
 							//isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << in_CADComponentData_map[l->componentInstanceID].name << "::" << l->featureName;
@@ -4544,11 +4544,11 @@ bool Apply_CADDatum_ModelConstraints(
 
 						cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].modelHandle;
 						cFDef.base_model_name =						in_CADComponentData_map[base_model_component_instance_ID].name;
-						cFDef.base_model_type =						in_CADComponentData_map[base_model_component_instance_ID].modelType;
+						cFDef.base_model_type =						ProMdlType_enum(in_CADComponentData_map[base_model_component_instance_ID].modelType);
 						cFDef.base_model_component_instance_ID =	base_model_component_instance_ID;
 
 						cFDef.added_model_name =					in_CADComponentData_map[added_model_component_instance_ID].name;
-						cFDef.added_model_type =					in_CADComponentData_map[added_model_component_instance_ID].modelType;
+						cFDef.added_model_type =					ProMdlType_enum(in_CADComponentData_map[added_model_component_instance_ID].modelType);
 						cFDef.added_model_component_instance_ID =	added_model_component_instance_ID;
 
 						cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].modelHandle;

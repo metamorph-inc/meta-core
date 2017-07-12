@@ -308,7 +308,8 @@ throw(isis::application_exception)
 void MetaLinkAssemblyEditor::AddComponentToAssembly(
     const std::string                 &in_ComponentInstanceID,
     const std::string                 &in_CreoModelName,
-    ProMdlType                        in_CreoModelType,
+    //ProMdlType                        in_CreoModelType,
+	e_CADMdlType						in_CreoModelType,
     const std::string                &in_MaterialID,
     const std::string                &in_DisplayName,
     e_CADSpecialInstruction            in_SpecialInstruction,
@@ -621,7 +622,7 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
     isis::CADComponentData &data = m_CADComponentData_map[in_ConstraintComponentInstanceID];
     data.displayName = newName;
 
-    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, data.modelType);
+    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, ProMdlType_enum(data.modelType));
 
     try
     {
@@ -830,7 +831,7 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
 
     std::string modelNameWithSuffix = AmalgamateModelNameWithSuffix(
                                           m_CADComponentData_map[in_ComponentInstanceID].name,
-                                          m_CADComponentData_map[in_ComponentInstanceID].modelType);
+                                          ProMdlType_enum(m_CADComponentData_map[in_ComponentInstanceID].modelType));
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "Internal data structure parameter values BEFORE modification:";
     for each(CADParameter i in m_CADComponentData_map[in_ComponentInstanceID].parametricParameters)

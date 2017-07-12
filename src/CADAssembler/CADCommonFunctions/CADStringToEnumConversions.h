@@ -712,5 +712,98 @@ namespace isis
 	std::string CADFeatureGeometryType_string( e_CADFeatureGeometryType in_Enum )
 										throw (isis::application_exception);
 
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADDatumside
+	{
+		CAD_DATUM_SIDE_NONE,
+		CAD_DATUM_SIDE_YELLOW,
+		CAD_DATUM_SIDE_RED,
+	};
+
+	e_CADDatumside CADDatumside_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADDatumside_string( e_CADDatumside in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADAnalysisSolverType
+	{
+		CAD_FEM_FEAS_NASTRAN,
+		CAD_FEM_FEAS_ANSYS,
+		CAD_FEM_FEAS_ABAQUS,
+		CAD_FEM_FEAS_PATRAN,
+	};
+
+	e_CADAnalysisSolverType CADAnalysisSolverType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADAnalysisSolverType_string( e_CADAnalysisSolverType in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADAnalysisMeshType
+	{
+		CAD_FEM_SOLID_MESH,
+		CAD_FEM_SHELL_MESH,
+		CAD_FEM_MIXED_MESH,
+		CAD_FEM_QUILT_MESH,
+		CAD_FEM_BOUNDARY_MESH,
+		CAD_FEM_BAR_MESH,
+	};
+
+	e_CADAnalysisMeshType CADAnalysisMeshType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADAnalysisMeshType_string( e_CADAnalysisMeshType in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADAnalysisShellElementType
+	{
+		CAD_FEM_SHELL_MESH_TRIANGLE,
+		CAD_FEM_SHELL_MESH_QUADRANGLE,
+	};
+
+	e_CADAnalysisShellElementType CADAnalysisShellElementType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADAnalysisShellElementType_string( e_CADAnalysisShellElementType in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADAnalysisElementShapeType
+	{
+		CAD_FEM_MIDPNT_LINEAR,
+		CAD_FEM_MIDPNT_PARABOLIC,
+		CAD_FEM_MIDPNT_PARABOLIC_FIXED,
+	};
+
+	e_CADAnalysisElementShapeType CADAnalysisElementShapeType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADAnalysisElementShapeType_string( e_CADAnalysisElementShapeType in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADMdlType
+	{
+		CAD_MDL_UNUSED,
+		CAD_MDL_ASSEMBLY,
+		CAD_MDL_PART,
+	};
+
+	e_CADMdlType CADMdlType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADMdlType_string( e_CADMdlType in_Enum )
+										throw (isis::application_exception);
+
 } // End Namespace
 #endif

@@ -755,7 +755,7 @@ void CreateModelNameWithUniqueSuffix(
 			}
 
 			std::string modelNameWithSuffix = 
-				ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
+				ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
 
 			//std::cout << std::endl << "############## ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
 
@@ -777,7 +777,7 @@ void CreateModelNameWithUniqueSuffix(
 			// Check for parametric parts
 			if ( !familyTableModel &&  // Temporaily exclude family table models, see comment above for info on the family table bug.
 				 SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && 
-				 ModelTypesMatch(in_ModelTypeIndicator, i->second.modelType) &&
+				 ModelTypesMatch(in_ModelTypeIndicator, ProMdlType_enum(i->second.modelType)) &&
 				 ( modelsAlreadyEncountered.find(modelNameWithSuffix) !=  modelsAlreadyEncountered.end()))  // Part/Assembly occurs a second time
 			{
 				std::string origNameWithoutFamilyEntry;
@@ -794,7 +794,7 @@ void CreateModelNameWithUniqueSuffix(
 				copyModelDefinition_temp.componentInstanceID = i->first;
 				copyModelDefinition_temp.fromModelName = origNameWithoutFamilyEntry;
 				copyModelDefinition_temp.toModelName = modelName;
-				copyModelDefinition_temp.modelType = i->second.modelType;
+				copyModelDefinition_temp.modelType = ProMdlType_enum(i->second.modelType);
 				out_FromModel_ToModel.push_back(copyModelDefinition_temp);
 
 				//std::cout << std::endl << copyModelDefinition_temp;
@@ -2382,7 +2382,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	
 												in_ComponentInstanceID, // Added arguments
 												in_CADComponentData_map[in_ComponentInstanceID].name, 
-												in_CADComponentData_map[in_ComponentInstanceID].modelType,   
+												ProMdlType_enum(in_CADComponentData_map[in_ComponentInstanceID].modelType),   
 																	//in_ContraintDef.p_base_model, //base_model, // Original arguments
 												model, //base_model, // Original arguments
 												in_FeatureGeometryType, 

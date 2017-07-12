@@ -11,7 +11,7 @@ namespace isis
 									   std::ostream &out_Stream, const std::string &in_Space )
 	{		
 		out_Stream << std::endl << in_Space << "Model Name: " << in_AssemblyAttributes.modelname; 
-		out_Stream << std::endl << in_Space << "Type:       " << ProMdlType_string(in_AssemblyAttributes.modelType);
+		out_Stream << std::endl << in_Space << "Type:       " << CADMdlType_string(in_AssemblyAttributes.modelType);
 		out_Stream << std::endl << in_Space << "Address:    " << in_AssemblyAttributes.p_solid_handle;
 		out_Stream << std::endl << in_Space << "ProAsmcomp: ";
 		out_Stream << "id:    " << in_AssemblyAttributes.proAsmcomp.id;
@@ -141,9 +141,9 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 
 	CreoModelAssemblyAttributes modelAttributes;
 	if ( strncmp(type,"ASM",3) == 0 )
-		modelAttributes.modelType = PRO_MDL_ASSEMBLY;
+		modelAttributes.modelType = CAD_MDL_ASSEMBLY;
 	else
-		modelAttributes.modelType = PRO_MDL_PART;
+		modelAttributes.modelType = CAD_MDL_PART;
 
 	modelAttributes.modelname = mdldata.name;
 	modelAttributes.p_solid_handle = (ProSolid)mdl;
@@ -194,7 +194,7 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 
 		if ( strncmp(type,"ASM",3) == 0 )
 		{
-			appdata.assemblyHierarchy.modelType = PRO_MDL_ASSEMBLY;
+			appdata.assemblyHierarchy.modelType = CAD_MDL_ASSEMBLY;
 			appdata.assemblyHierarchy.proAsmcomp.type = PRO_TYPE_UNUSED;
 			appdata.assemblyHierarchy.proAsmcomp.id = 0;
 			appdata.assemblyHierarchy.proAsmcomp.owner = 0;
