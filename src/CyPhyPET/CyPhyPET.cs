@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
+using CyPhyMasterInterpreter.Rules;
+using AVM.DDP;
 
 namespace CyPhyPET
 {
@@ -621,6 +623,8 @@ namespace CyPhyPET
 
         #region CyPhyPET Specific code
 
+
+
         private void WorkInMainTransaction()
         {
             this.Logger.WriteInfo("{0} [{1}]", this.mainParameters.CurrentFCO.Name, this.mainParameters.CurrentFCO.MetaBase.Name);
@@ -638,86 +642,162 @@ namespace CyPhyPET
                 return;
             }
 
-            var petGenerator = new PET(this.mainParameters, this.Logger);
+            PETConfig config = new PETConfig()
+            {
+                components = new Dictionary<string, PETConfig.Component>(),
+                drivers = new Dictionary<string, PETConfig.Driver>(),
+                subProblems = new Dictionary<string, SubProblem>(),
+                recorders = new List<PETConfig.Recorder>()
+                {
+                    new PETConfig.Recorder()
+                    {
+                        type = "DriverCsvRecorder",
+                        filename = "output.csv",
+                        include_id = true
+                    }
+                }
+            };
+
+            config.MgaFilename = mainParameters.CurrentFCO.Project.ProjectConnStr.Substring("MGA=".Length);
+            if (mainParameters.SelectedConfig != null)
+            {
+                config.SelectedConfigurations = new string[] { mainParameters.SelectedConfig }.ToList();
+            }
+            else
+            {
+                config.SelectedConfigurations = new string[] { mainParameters.OriginalCurrentFCOName }.ToList();
+            }
+            config.GeneratedConfigurationModel = mainParameters.GeneratedConfigurationModel;
+            config.PETName = "/" + string.Join("/", PET.getAncestors(mainParameters.CurrentFCO, stopAt: mainParameters.CurrentFCO.Project.RootFolder).Skip(1) // HACK: MI inserts a "Temporary" folder
+                .getTracedObjectOrSelf(mainParameters.GetTraceability()).Select(obj => obj.Name).Reverse()) + "/" + mainParameters.OriginalCurrentFCOName;
 
             // 2) Get the type of test-bench and call any dependent interpreters
             //var graph = CyPhySoT.CyPhySoTInterpreter.UpdateDependency((MgaModel)this.mainParameters.CurrentFCO, this.Logger);
 
-            foreach (var testBenchRef in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.TestBenchRefCollection.OrderBy(x => x.ID))
+            var root = CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO);
+            var allParametricExplorations = ParametricExplorationChecker.getParametricExplorationsRecursively(root);
+            Dictionary<CyPhy.ParametricExploration, PET> generatorMap = new Dictionary<CyPhy.ParametricExploration, PET>();
+            PET rootGenerator = null;
+            foreach (var exploration in allParametricExplorations)
             {
-                var outputFolder = "TestBench_" + testBenchRef.Name;
-                bool interpreterSuccess = false;
-                if (testBenchRef != null &&
-                    testBenchRef.AllReferred != null
-                    && testBenchRef.AllReferred is CyPhy.TestBench)
+                var petGenerator = new PET((MgaFCO)exploration.Impl, this.Logger);
+                generatorMap[exploration] = petGenerator;
+                if (rootGenerator == null)
                 {
-                    var testBench = testBenchRef.AllReferred as CyPhy.TestBench;
-
-                    var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
-                    switch (interpreterProgID)
+                    rootGenerator = petGenerator;
+                    petGenerator.config = config;
+                }
+                else
+                {
+                    petGenerator.subProblem = new SubProblem()
                     {
-                        case "MGA.Interpreter.CyPhy2CAD_CSharp":
-                            interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench, outputFolder);
-                            break;
+                        components = new Dictionary<string, PETConfig.Component>(),
+                        drivers = new Dictionary<string, PETConfig.Driver>(),
+                        problemInputs = new Dictionary<string, SubProblem.ProblemInput>(),
+                        problemOutputs = new Dictionary<string, string[]>(),
+                        subProblems = new Dictionary<string, SubProblem>()
+                    };
+                    var parentGenerator = generatorMap[(CyPhy.ParametricExploration)exploration.ParentContainer];
+                    Dictionary<string, SubProblem> parentSubproblems = parentGenerator.config != null ? parentGenerator.config.subProblems : parentGenerator.subProblem.subProblems;
+                    parentSubproblems[exploration.Name] = petGenerator.subProblem;
+                    petGenerator.unitsToSet = rootGenerator.unitsToSet;
+                }
+                petGenerator.outputDirectory = mainParameters.OutputDirectory;
+                petGenerator.Initialize();
 
-                        case "MGA.Interpreter.CyPhyFormulaEvaluator":
-                            interpreterSuccess = true;
-                            break;
+                foreach (var testBenchRef in exploration.Children.TestBenchRefCollection.OrderBy(x => x.Guid))
+                {
+                    var outputFolder = "TestBench_" + testBenchRef.Name;
+                    bool interpreterSuccess = false;
+                    if (testBenchRef != null &&
+                        testBenchRef.AllReferred != null
+                        && testBenchRef.AllReferred is CyPhy.TestBench)
+                    {
+                        var testBench = testBenchRef.AllReferred as CyPhy.TestBench;
 
-                        case "MGA.Interpreter.CyPhyPython":
-                            interpreterSuccess = this.CallCyPhyPython(testBench, outputFolder);
-                            break;
+                        var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
+                        switch (interpreterProgID)
+                        {
+                            case "MGA.Interpreter.CyPhy2CAD_CSharp":
+                                interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench, outputFolder);
+                                break;
 
-                        default:
-                            interpreterSuccess = this.CallIntererpreterAndAddRunCommandToManifest(interpreterProgID, testBench, outputFolder);
-                            break;
+                            case "MGA.Interpreter.CyPhyFormulaEvaluator":
+                                interpreterSuccess = true;
+                                break;
+
+                            case "MGA.Interpreter.CyPhyPython":
+                                interpreterSuccess = this.CallCyPhyPython(testBench, outputFolder);
+                                break;
+
+                            default:
+                                interpreterSuccess = this.CallIntererpreterAndAddRunCommandToManifest(interpreterProgID, testBench, outputFolder);
+                                break;
+                        }
+                        this.UpdateSuccess("Interpreter successful : ", interpreterSuccess);
                     }
-                    this.UpdateSuccess("Interpreter successful : ", interpreterSuccess);
-                }
-                else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
-                {
-                    interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, outputFolder);
-                    this.UpdateSuccess("Assuming call to CAD successful : ", true);
-                }
-                else
-                {
-                    throw new NotSupportedException(string.Format(@"Error: {0} must contain one non-null reference to a TestBench",
-                        this.mainParameters.CurrentFCO.ToMgaHyperLink()));
+                    else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
+                    {
+                        interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, outputFolder);
+                        this.UpdateSuccess("Assuming call to CAD successful : ", true);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException(string.Format(@"Error: {0} must contain one non-null reference to a TestBench",
+                            this.mainParameters.CurrentFCO.ToMgaHyperLink()));
+                    }
+
+                    if (interpreterSuccess == false)
+                    {
+                        Logger.WriteError("TestBench {0} failed", testBenchRef.Name);
+                    }
+                    else
+                    {
+                        petGenerator.GenerateCode(testBenchRef, outputFolder);
+                    }
                 }
 
-                if (interpreterSuccess == false)
+                foreach (var excel in exploration.Children.ExcelWrapperCollection.OrderBy(x => x.ID))
                 {
-                    Logger.WriteError("TestBench {0} failed", testBenchRef.Name);
+                    petGenerator.GenerateCode(excel);
                 }
-                else
+                foreach (var matlab in exploration.Children.MATLABWrapperCollection.OrderBy(x => x.ID))
                 {
-                    petGenerator.GenerateCode(testBenchRef, outputFolder);
+                    petGenerator.GenerateCode(matlab);
                 }
+                foreach (var python in exploration.Children.PythonWrapperCollection.OrderBy(x => x.ID))
+                {
+                    petGenerator.GenerateCode(python);
+                }
+                foreach (var constants in exploration.Children.ConstantsCollection.OrderBy(x => x.ID))
+                {
+                    petGenerator.GenerateCode(constants);
+                }
+                petGenerator.GenerateInputsAndOutputs();
+
+                petGenerator.GenerateDriverCode();
             }
 
-            foreach (var excel in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.ExcelWrapperCollection.OrderBy(x => x.ID))
-            {
-                petGenerator.GenerateCode(excel);
-            }
-            foreach (var matlab in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.MATLABWrapperCollection.OrderBy(x => x.ID))
-            {
-                petGenerator.GenerateCode(matlab);
-            }
-            foreach (var python in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.PythonWrapperCollection.OrderBy(x => x.ID))
-            {
-                petGenerator.GenerateCode(python);
-            }
-            foreach (var constants in CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO).Children.ConstantsCollection.OrderBy(x => x.ID))
-            {
-                petGenerator.GenerateCode(constants);
-            }
 
             if (this.result.Success)
             {
                 // 3) Generate scripts
-                petGenerator.GenerateDriverCode();
-                this.result.RunCommand = petGenerator.RunCommand;
-                this.result.Labels += petGenerator.Label;
+                // FIXME
+                // this.result.Labels += ;
+                this.result.RunCommand = String.Format("\"{0}\" -E -m run_mdao", META.VersionInfo.PythonVEnvExe);
+
+                var outputDirectory = mainParameters.OutputDirectory;
+                File.WriteAllText(Path.Combine(outputDirectory, "mdao_config.json"), Newtonsoft.Json.JsonConvert.SerializeObject(config, Newtonsoft.Json.Formatting.Indented), new System.Text.UTF8Encoding(false));
+
+                File.WriteAllText(Path.Combine(outputDirectory, "..", "CyPhyPET_combine.cmd"),
+                    "FOR /F \"skip=2 tokens=2,*\" %%A IN ('C:\\Windows\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set META_PATH=%%B" +
+                    @"%META_PATH%\bin\Python27\Scripts\Python.exe %META_PATH%\bin\PetViz.py");
+
+                using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "zip.py")))
+                {
+                    writer.WriteLine(CyPhyPET.Properties.Resources.zip);
+                }
+
             }
         }
 

@@ -221,6 +221,10 @@
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CyPhyMasterInterpreter\CyPhyMasterInterpreter.csproj">
+      <Project>{C8254F79-337F-420E-BDFA-654843D20F4E}</Project>
+      <Name>CyPhyMasterInterpreter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
       <Name>CyPhyMLCS</Name>

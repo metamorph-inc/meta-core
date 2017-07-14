@@ -83,7 +83,9 @@ namespace AVM.DDP
     {
         public class ProblemInput
         {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string[] outerSource; //Source of this ProblemInput from outside the subproblem (i.e. one level up), relative to the enclosing problem
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string[] innerSource; //Source of this ProblemInput from inside the subproblem (i.e. from the driver), relative to this problem
         }
 

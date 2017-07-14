@@ -99,9 +99,14 @@ namespace CyPhyPET.Rules
 
         public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
         {
-            var result = new List<RuleFeedbackBase>();
-
             var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
+
+            return UniqueNames(components);
+        }
+
+        public static IEnumerable<RuleFeedbackBase> UniqueNames(IEnumerable<FCO> components)
+        {
+            var result = new List<RuleFeedbackBase>();
             var dupNames = components.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
                 .Select(group => group.Key);
             if (dupNames.Count() > 0)
@@ -626,7 +631,6 @@ namespace CyPhyPET.Rules
         [ValidContext("ParameterStudy")]
         public static IEnumerable<RuleFeedbackBase> ParameterStudySetUpCorrectly(MgaFCO context)
         {
-            var result = new List<RuleFeedbackBase>();
             var parameterStudy = CyPhyClasses.ParameterStudy.Cast(context);
             return checkMdaoDriverChildren(context);
         }
@@ -683,8 +687,7 @@ namespace CyPhyPET.Rules
                 rangeLengths.Add(discreteRange);
 
                 var varSweepCollection = designVar.DstConnections.VariableSweepCollection;
-                if (varSweepCollection != null &&
-                    varSweepCollection.Count() == 1)
+                if (varSweepCollection.Count() == 1)
                 {
                     CyPhy.VariableSweep varSweep = varSweepCollection.FirstOrDefault();
                     var tbParam = varSweep.DstEnds.Parameter;
@@ -750,14 +753,18 @@ namespace CyPhyPET.Rules
                 else if (varSweepCollection != null &&
                     varSweepCollection.Count() == 0)
                 {
-                    var feedback = new GenericRuleFeedback()
+                    var problemInputs = designVar.DstConnections.ProblemInputFlowSourceConnectionCollection;
+                    if (problemInputs.Count() != 1)
                     {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
-                    };
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Error,
+                            Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
+                        };
 
-                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                    checkResults.Add(feedback);
+                        feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
+                        checkResults.Add(feedback);
+                    }
                 }
             }
 

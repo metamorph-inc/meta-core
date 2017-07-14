@@ -679,7 +679,7 @@ namespace DynamicsTeamTest.Projects
             Assert.False(result, "CyPhyPET should have failed, but did not.");
         }
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "MSD_PET_RuleFailure")]
         [Trait("PCC", "MSD_PET_RuleFailure")]
         public void PCC_for_MSD()

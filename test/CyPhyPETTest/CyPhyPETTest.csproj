@@ -104,10 +104,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MSD_PCC.cs" />
-    <Compile Include="MSD_PCC.Designer.cs">
-      <DependentUpon>MSD_PCC.cs</DependentUpon>
-    </Compile>
     <Compile Include="MSD_PET.cs" />
     <Compile Include="MSD_PET.Designer.cs">
       <DependentUpon>MSD_PET.cs</DependentUpon>
@@ -123,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AvmDdp\AvmDdp.csproj">
+      <Project>{8880fd8f-c7da-4491-908d-778b67057da0}</Project>
+      <Name>AvmDdp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
       <Project>{931606c8-6178-4f8c-8e02-9d28c6d79fea}</Project>
       <Name>CyPhy2DesignInterchange</Name>

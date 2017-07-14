@@ -49,6 +49,7 @@ namespace DynamicsTeamTest
                 project.AbortTransaction();
 
                 string OutputDir = Path.Combine(Path.GetDirectoryName(projectPath), outputdirname);
+                OutputDir = Path.GetFullPath(OutputDir);
                 if (Directory.Exists(OutputDir))
                 {
                     Test.DeleteDirectory(OutputDir);

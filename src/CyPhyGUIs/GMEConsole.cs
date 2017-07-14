@@ -158,7 +158,7 @@ namespace GME.CSharp
             }
             else
             {
-                sb.AppendFormat("<a href=\"mga:{0}\">{1} (not mapped)</a>", subject.ID, subject.Path);
+                sb.AppendFormat("<a href=\"mga:{0}\">{1}</a>", subject.ID, subject.Path);
             }
             return sb.ToString();
         }
