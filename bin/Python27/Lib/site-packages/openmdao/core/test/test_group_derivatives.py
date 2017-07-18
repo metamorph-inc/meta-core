@@ -4,6 +4,7 @@ import unittest
 import numpy as np
 
 from openmdao.api import IndepVarComp, Component, Group, Problem
+from openmdao.core.system import DEFAULT_STEP_SIZE_CS, DEFAULT_STEP_SIZE_FD
 from openmdao.test.converge_diverge import ConvergeDivergeGroups
 from openmdao.test.simple_comps import SimpleCompDerivMatVec
 from openmdao.test.util import assert_rel_error
@@ -46,8 +47,8 @@ class TestGroupDerivatves(unittest.TestCase):
     def test_converge_diverge_groups(self):
 
         prob = Problem()
-        prob.root = Group()
-        prob.root.add('sub', ConvergeDivergeGroups())
+        root = prob.root = Group()
+        root.add('sub', ConvergeDivergeGroups())
 
         indep_list = ['sub.p.x']
         unknown_list = ['sub.comp7.y1']
@@ -60,6 +61,13 @@ class TestGroupDerivatves(unittest.TestCase):
 
         J = prob.calc_gradient(indep_list, unknown_list, mode='rev', return_format='dict')
         assert_rel_error(self, J['sub.comp7.y1']['sub.p.x'][0][0], -40.75, 1e-6)
+        
+        # Piggyback here to test out user calls to group.assemble_jacobian.
+        
+        J, idx_dict = root.assemble_jacobian()
+        
+        rs, re, cs, ce = idx_dict[('sub.sub1.comp1', ('y1', 'x1'))]
+        self.assertEqual(J[rs:re, cs:ce], 8)
 
     def test_group_fd(self):
 
@@ -167,5 +175,42 @@ class TestGroupDerivatves(unittest.TestCase):
         assert_rel_error(self, J[0][0], 8.0, 1e-6)
         assert_rel_error(self, J[1][0], 16.0, 1e-6)
 
+
+    def test_step_size_defaults(self):
+        
+        p = Problem()
+        p.root = Group()
+        opt = p.root.deriv_options
+        
+        opt['type'] = 'fd'
+        self.assertEqual(opt['step_size'], DEFAULT_STEP_SIZE_FD)
+
+        opt['type'] = 'cs'
+        self.assertEqual(opt['step_size'], DEFAULT_STEP_SIZE_CS)
+
+        opt['type'] = 'fd'
+        self.assertEqual(opt['step_size'], DEFAULT_STEP_SIZE_FD)
+
+        opt['step_size'] = 1.5
+        self.assertEqual(opt['step_size'], 1.5)
+
+        opt['type'] = 'cs'
+        self.assertEqual(opt['step_size'], 1.5)
+
+        opt['check_type'] = 'fd'
+        self.assertEqual(opt['check_step_size'], DEFAULT_STEP_SIZE_FD)
+
+        opt['check_type'] = 'cs'
+        self.assertEqual(opt['check_step_size'], DEFAULT_STEP_SIZE_CS)
+
+        opt['check_type'] = 'fd'
+        self.assertEqual(opt['check_step_size'], DEFAULT_STEP_SIZE_FD)
+
+        opt['check_step_size'] = 1.5
+        self.assertEqual(opt['check_step_size'], 1.5)
+
+        opt['check_type'] = 'cs'
+        self.assertEqual(opt['check_step_size'], 1.5)
+        
 if __name__ == "__main__":
     unittest.main()
