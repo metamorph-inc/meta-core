@@ -122,6 +122,34 @@ namespace CyPhyPET.Rules
             return result;
         }
 
+        internal static IEnumerable<RuleFeedbackBase> CheckProblemInput(MgaFCO child)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var incomingConnections = child.PartOfConns.Cast<IMgaConnPoint>().Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+                .Cast<IMgaSimpleConnection>();
+            if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection at the same level of hierarchy")
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+            if (incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection from the parent ParametricExploration")
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+            return result;
+        }
+
         [CheckerRule("TestBenchCorrectlySetUp", Description = "Basic rules for the test-bench reference checked.")]
         [Tags("PET")]
         [ValidContext("TestBenchRef")]
@@ -785,13 +813,18 @@ namespace CyPhyPET.Rules
             {
                 var objMappingCollection = obj.SrcConnections.ObjectiveMappingCollection;
                 var fileFlowCollection = obj.SrcConnections.FileResultFlowCollection;
-                if (objMappingCollection.Count() + fileFlowCollection.Count() == 1)
+                var outputColection = obj.SrcConnections.ProblemOutputFlowTargetConnectionCollection;
+                if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 1)
                 {
                     FCO tbMetric;
                     if (objMappingCollection.Count() == 1)
                     {
                         CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
                         tbMetric = objMap.SrcEnd;
+                    }
+                    else if (outputColection.Count() == 1)
+                    {
+                        tbMetric = outputColection.First().SrcEnd;
                     }
                     else
                     {
@@ -803,7 +836,8 @@ namespace CyPhyPET.Rules
                         var tbMetricParent = tbMetric.ParentContainer;
                         if (   (tbMetricParent is CyPhy.TestBenchType) == false
                             && (tbMetricParent is CyPhy.ParametricTestBench) == false
-                            && (tbMetricParent is CyPhy.Constants) == false)
+                            && (tbMetricParent is CyPhy.Constants) == false
+                            && (tbMetricParent is CyPhy.ParametricExploration) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -832,7 +866,7 @@ namespace CyPhyPET.Rules
                 }
                 else
                 {
-                    if (objMappingCollection.Count() + fileFlowCollection.Count() > 1)
+                    if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() > 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
@@ -843,7 +877,7 @@ namespace CyPhyPET.Rules
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
                         checkResults.Add(feedback);
                     }
-                    else if (objMappingCollection.Count() + fileFlowCollection.Count() == 0)
+                    else if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 0)
                     {
                         var feedback = new GenericRuleFeedback()
                         {

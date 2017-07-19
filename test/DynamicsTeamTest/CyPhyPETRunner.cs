@@ -45,7 +45,7 @@ namespace DynamicsTeamTest
             {
                 var terr = project.BeginTransactionInNewTerr();
                 var testObj = project.ObjectByPath[absPath] as MgaFCO;
-                Assert.NotNull(testObj);
+                Assert.True(testObj != null, String.Format("Could not find FCO by path '{0}'", absPath));
                 project.AbortTransaction();
 
                 string OutputDir = Path.Combine(Path.GetDirectoryName(projectPath), outputdirname);

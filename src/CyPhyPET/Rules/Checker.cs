@@ -79,6 +79,10 @@ namespace CyPhyPET.Rules
                 {
                     ReportFeedBack(Global.OptimizerSetUpCorrectly(child), child, "OptimizerSetUpCorrectly", "Checks rules for an Optimizer");
                 }
+                else if (child.Meta.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.ProblemInput).Name)
+                {
+                    ReportFeedBack(Global.CheckProblemInput(child), child, "CheckProblemInput", "Checks rules for a ProblemInput");
+                }
             }
         }
 
