@@ -22,11 +22,12 @@
 
 # HOWTO update Python version
 # reconstruct virtualenv with new Python version
-# zip contents of Lib\ except site-packages into Python27.zip and copy over
+# zip contents of Lib\ except site-packages and lib2to3 into Python27.zip and copy over
 # copy over dlls and pyds from DLLs
+# copy lib2to3 to Lib\  (ref https://bugs.python.org/issue24960)
 # copy over python27.lib
 # cmd /c "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86 ^& editbin.exe /largeaddressaware   bin\Python27\Scripts\python.exe
-openmdao==1.7.1
+openmdao==1.7.3
 decorator==4.0.4 # simviz
 lxml==3.6.1
 elementtree==1.2.7-20070827-preview
@@ -49,7 +50,7 @@ sympy==0.7.2  # PET PCC
 requests==2.11.0  # installer
 smop==0.23+gfea61da
 
-networkx==1.9.1
+networkx==1.11
 requests
 # git@github.com:metamorph-inc/matlab_wrapper.git
 matlab_wrapper
