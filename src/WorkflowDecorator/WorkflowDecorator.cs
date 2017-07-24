@@ -611,6 +611,12 @@ namespace GME.CSharp
                 Value = x.Value,
             }).ToList();
 
+            myobj.Project.BeginTransactionInNewTerr();
+            if (myobj.IsLibObject || myobj.HasReadOnlyAccess())
+            {
+                myobj.Project.AbortTransaction();
+                return;
+            }
             using (ParameterSettingsForm form = new ParameterSettingsForm(parameters, TaskProgId))
             {
                 if (c != null && c.isValid)
@@ -618,7 +624,6 @@ namespace GME.CSharp
                     form.ShowDialog();
                     Dictionary<String, String> d = form.parameters.ToDictionary(p => p.Name, p => p.Value);
                     string serialized = JsonConvert.SerializeObject(d, Formatting.Indented);
-                    myobj.Project.BeginTransactionInNewTerr();
                     try
                     {
                         Parameters = myobj.StrAttrByName["Parameters"] = serialized;
@@ -626,6 +631,7 @@ namespace GME.CSharp
                     catch
                     {
                         myobj.Project.AbortTransaction();
+                        return;
                     }
                     myobj.Project.CommitTransaction();
                 }
