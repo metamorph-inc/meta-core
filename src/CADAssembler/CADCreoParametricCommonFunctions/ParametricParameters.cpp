@@ -255,7 +255,7 @@ ProError SetParametricParameter(
 	isis_LOG(lg, isis_FILE, isis_INFO) <<  "  SetParametricParameter CADParameter" 
 		<< isis_EOL <<  "      Force          "  <<  force
 		<< isis_EOL <<  "      Model Name     "  <<  in_model_name 
-		<< isis_EOL <<  "      Model Handle   "  <<  in_p_model
+		<< isis_EOL <<  "      Model Handle   "  <<  (const void*)in_p_model
 		<< isis_EOL <<  "      Type           "  <<  in_ParameterType 
 		<< isis_EOL <<  "      Name           "  <<  in_ParameterName
 		<< isis_EOL <<  "      Value          "  <<  in_ParameterValue;

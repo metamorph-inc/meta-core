@@ -14,7 +14,7 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\protobuf-propertiesui-801f026b-45d8-4241-8336-e7527615f1b9.xml" />
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\protobuf-propertiesui-2b290923-2b50-480f-9cc0-22783e25be92.xml" />
   </ItemGroup>
   <ItemDefinitionGroup Label="static" Condition="'$(Linkage-protobuf.ToLower())' == 'static'">
     <ClCompile>

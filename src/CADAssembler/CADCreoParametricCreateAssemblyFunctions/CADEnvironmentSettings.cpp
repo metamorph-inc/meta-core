@@ -41,7 +41,7 @@ namespace isis
 		// Log: Use environment  variables or look values in registry
 		//////////////////////////////////////////////////////////////
 		
-		char *envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS;
+		const char *envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS;
 		envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS = getenv ("CREO_PARAMETRIC_USE_ENVIR_VARS");
 		if ( envVariable_CREO_PARAMETRIC_USE_ENVIR_VARS == NULL )
 			isis_LOG(lg, isis_FILE, isis_WARN) << "Environment Variable CREO_PARAMETRIC_USE_ENVIR_VARS: Not Defined";
@@ -72,7 +72,7 @@ namespace isis
 		isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Environment Variables and System Settings *****************";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "ProeIsisExtensionsDir:         "	<< out_ProeIsisExtensionsDir; 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "CreoStartCommand:              "	<< out_CreoStartCommand; 
-		isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_COMM_MSG_EXE:              "	<<  getenv ("PRO_COMM_MSG_EXE"); 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_COMM_MSG_EXE:              "	<<  static_cast<const char*>(getenv ("PRO_COMM_MSG_EXE")); 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "TemplateFile_PathAndFileName:  "	<< out_TemplateFile_PathAndFileName; 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Environment Variables and System Settings *****************";
 

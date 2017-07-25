@@ -25,6 +25,8 @@ namespace isis
 
 	std::ostream& operator <<(std::ostream & out, const ProMdlType & type);
 
+	std::ostream& operator <<(std::ostream & out, const ProMdl & type);
+
 	std::ostream& operator <<(std::ostream & out, const ProParamowner & owner) ;
 
 	

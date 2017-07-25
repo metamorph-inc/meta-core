@@ -39,8 +39,6 @@
 #include <boost/atomic.hpp>
 #include <boost/filesystem.hpp>
 
-#include "gen/MetaLinkMsg.pb.h"
-
 #include "CreoModelToCyphyXML.h"
 
 

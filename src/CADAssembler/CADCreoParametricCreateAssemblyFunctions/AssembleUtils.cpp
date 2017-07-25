@@ -1163,14 +1163,14 @@ void CreateModelNameWithUniqueSuffix(
 	{
 		
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << in_FromModelInstanceData.topAssemblyModelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << (const void*)in_FromModelInstanceData.topAssemblyModelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << in_FromModelInstanceData.modelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << (const void*)in_FromModelInstanceData.modelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ToModelName:        " << in_ToModelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   From Model assembledFeature: ";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "        id:    "  << in_FromModelInstanceData.assembledFeature.id;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "        owner: "  << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "        owner: "  << (const void*)in_FromModelInstanceData.assembledFeature.owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "        type: "   << FeatureGeometryType_string(in_FromModelInstanceData.assembledFeature.type);
 
 		/////////////////////////////////////
@@ -1203,7 +1203,7 @@ void CreateModelNameWithUniqueSuffix(
 		}
 		//// Test 
 		
-		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.owner: " << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.owner: " << (const void*)in_FromModelInstanceData.assembledFeature.owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.id:    " << in_FromModelInstanceData.assembledFeature.id;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.type:  " << in_FromModelInstanceData.assembledFeature.type;		
 		

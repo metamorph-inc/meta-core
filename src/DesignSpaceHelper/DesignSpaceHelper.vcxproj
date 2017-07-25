@@ -129,7 +129,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desertD.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -177,7 +177,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert_x64D.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -222,7 +222,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -269,7 +269,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert_x64.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -478,15 +478,23 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
-    <Import Project="..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets" Condition="Exists('..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets')" />
-    <Import Project="..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets" Condition="Exists('..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets')" />
-    <Import Project="..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
-    <Import Project="..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets" Condition="Exists('..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets')" />
+    <Import Project="..\nuget\boost.1.64.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.64.0.0\build\native\boost.targets')" />
+    <Import Project="..\nuget\boost_date_time-vc140.1.64.0.0\build\native\boost_date_time-vc140.targets" Condition="Exists('..\nuget\boost_date_time-vc140.1.64.0.0\build\native\boost_date_time-vc140.targets')" />
+    <Import Project="..\nuget\boost_thread-vc140.1.64.0.0\build\native\boost_thread-vc140.targets" Condition="Exists('..\nuget\boost_thread-vc140.1.64.0.0\build\native\boost_thread-vc140.targets')" />
+    <Import Project="..\nuget\boost_system-vc140.1.64.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.64.0.0\build\native\boost_system-vc140.targets')" />
+    <Import Project="..\nuget\boost_chrono-vc140.1.64.0.0\build\native\boost_chrono-vc140.targets" Condition="Exists('..\nuget\boost_chrono-vc140.1.64.0.0\build\native\boost_chrono-vc140.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties RESOURCE_FILE="Component.rc" />
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\nuget\boost.1.64.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\boost.1.64.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\nuget\boost_date_time-vc140.1.64.0.0\build\native\boost_date_time-vc140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\boost_date_time-vc140.1.64.0.0\build\native\boost_date_time-vc140.targets'))" />
+    <Error Condition="!Exists('..\nuget\boost_thread-vc140.1.64.0.0\build\native\boost_thread-vc140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\nuget\boost_thread-vc140.1.64.0.0\build\native\boost_thread-vc140.targets'))" />
+  </Target>
 </Project>

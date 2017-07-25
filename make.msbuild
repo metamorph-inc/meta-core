@@ -47,7 +47,7 @@
     set M2=
     set M2_HOME=
     mvn install
-    " WorkingDirectory="$(MSBuildThisFileDirectory)\src\MetaLink" 
+" WorkingDirectory="$(MSBuildThisFileDirectory)\src\MetaLink" 
     CustomErrorRegularExpression="\[ERROR\]"/>
   </Target>
   

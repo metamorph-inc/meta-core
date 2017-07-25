@@ -140,6 +140,11 @@ namespace isis
 		return out;
 	}
 
+	std::ostream& operator <<(std::ostream & out, ProMdl & model) {
+		out << static_cast<const void *>(model);
+		return out;
+	}
+
 	std::ostream& operator <<(std::ostream & out, const ProModel & model) {
 		out << " Model { " << " name: " << model.name << " type: " << model.type << " } ";
 		return out;

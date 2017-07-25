@@ -3136,7 +3136,7 @@ void SetConstraint_AllowAssumptions ( ProAsmcomppath *assem_path,  ProAsmcomp *i
 	{
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\nAllowAssumptions already set to: " << ConstraintAllowAssumptionse_string(in_AllowAssumptions) << ".  For:";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Feature ID: " << in_ProAsmcomp->id;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Owner:      " << in_ProAsmcomp->owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Owner:      " << (const void*) in_ProAsmcomp->owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Type:       " << FeatureGeometryType_string(in_ProAsmcomp->type);
 		
 	}

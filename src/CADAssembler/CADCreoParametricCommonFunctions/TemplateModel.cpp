@@ -67,7 +67,7 @@ bool make_solid_templated( ProSolid& in_original, ProSolid& out_template )
 	case PRO_TK_BAD_INPUTS:
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 
 			<< "could not set the units in the shrinkwrap : "
-			<< ProWstringToString(pro_str, template_system.name);
+			<< (const char*)ProWstringToString(pro_str, template_system.name);
 		break;
 	default:
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) 

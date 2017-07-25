@@ -347,7 +347,7 @@ namespace isis
 				isis_EOL << "   Material:    "  << materialName <<
 				isis_EOL << "   Model Name:  " << in_out_CADComponentData_map[*i].name <<
 				isis_EOL << "   Model Type:  " << isis::ProMdlType_string(in_out_CADComponentData_map[*i].modelType) << 
-				isis_EOL << "   modelHandel: " <<    in_out_CADComponentData_map[*i].modelHandle;
+				isis_EOL << "   modelHandel: " <<    (const void*)in_out_CADComponentData_map[*i].modelHandle;
 
 			if ( materialName.size() >= PRO_NAME_SIZE )
 			{

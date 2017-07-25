@@ -768,7 +768,7 @@ ProError Solidify_Truncate( ProFeature& out_feature, ProMdl in_model, ProSelecti
 			break;
 		default:
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not create truncated-solid [" << status << "] "
-				<< quilt_value.v.r << " fid: " << in_datum_plane.id;
+				<< (const void*)quilt_value.v.r << " fid: " << in_datum_plane.id;
 		}
 	} catch (std::runtime_error ex) {
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << "could not select the datum plane surface";
