@@ -96,5 +96,11 @@ namespace WorkflowDecorator
             this.paramAnalysis.Value = this.cmbAnalysisToolSelection.SelectedItem.ToString();
             this.parameters.Add(this.paramAnalysis);
         }
+
+        private void ParameterSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // in case the user clicked the close button while editing a parameter
+            parameterGridView.EndEdit();
+        }
     }
 }

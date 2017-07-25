@@ -90,6 +90,7 @@
             this.Name = "ParameterSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Workflow Parameters";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParameterSettingsForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ParameterSettingsForm_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
