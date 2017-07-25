@@ -72,10 +72,7 @@ const StatusDefinition * LookUpStatus(StatusID s_id);
 
 class Notify;
 
-namespace boost
-{
-  class thread;
-}
+class DesertThread;
 
 class CDesertStatusDlg : public CDialog
 {
@@ -90,7 +87,8 @@ private:
 
 	//for DesertThread
 	Notify* m_notify;
-	boost::thread*  m_thrd; 
+	HANDLE m_thrd;
+	std::unique_ptr<DesertThread> threadData;
 	bool m_finished;
 	DesertIface::DesertSystem m_ds;
 	DesertIfaceBack::DesertBackSystem m_dbs;

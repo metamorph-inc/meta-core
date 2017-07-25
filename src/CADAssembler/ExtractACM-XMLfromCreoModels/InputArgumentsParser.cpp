@@ -33,10 +33,8 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include <boost/thread/thread.hpp>
 #include <iostream>
 
-#include <boost/atomic.hpp>
 #include <boost/filesystem.hpp>
 
 #include "CreoModelToCyphyXML.h"

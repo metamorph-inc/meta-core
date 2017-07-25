@@ -19,7 +19,7 @@
     <PropertyGroup>
       <DesertPlatform Condition="'$(Platform)'!='x64'">Win32</DesertPlatform>
     </PropertyGroup>
-    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="Build"/>
+    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="desert"/>
   </Target>
 
   <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">

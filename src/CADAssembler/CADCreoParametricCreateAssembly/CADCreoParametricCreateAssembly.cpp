@@ -99,7 +99,6 @@
 #include <boost/thread/thread.hpp>
 #include <iostream>
 
-#include <boost/atomic.hpp>
 #include <boost/filesystem.hpp>
 
 void SetupLogging(const std::string &in_Logfilename, isis_LogSeverityLevel in_LogSeverityLevel)

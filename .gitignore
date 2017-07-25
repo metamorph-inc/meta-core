@@ -760,6 +760,9 @@ models/DynamicsTeam/RollingWheel/stats/
 models/DynamicsTeam/RollingWheel/test-benches/
 models/PET_simple_proof-of-concept/design-space/
 src/CADAssembler/bin/
+src/CADAssembler/**/*nupkg
+src/CADAssembler/**/vcinfo
+src/MetaLink/meta-link-creo/MetaLinkLib.lib
 test/InterchangeTest/ComponentInterchangeTest/ComponentInterchangeTest/ComponentInterchangeTest.csproj.metaproj
 test/InterchangeTest/ComponentInterchangeTest/ExportTestUnits/ComponentExporterUnitTests.csproj.metaproj
 test/InterchangeTest/ComponentInterchangeTest/ImportTestModels/CADGeometry/exported_components/

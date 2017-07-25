@@ -73,18 +73,15 @@
 
 #include <iostream>
 
-#include <boost/atomic.hpp>
 #include <boost/filesystem.hpp>
 
 #include "CreoModelToCyphyXML.h"
 
 #include "CommonFeatureUtils.h"
 
-boost::atomic<bool> terminateProcess (false);
 
 ProError ProTermAction( ProeTerminationStatus term_type )
 {
-	terminateProcess=true;
 	std::stringstream errorString;
 	errorString << "Creo-Parametric has terminated with status : " << term_type;
 						throw isis::application_exception("Creo-Parametric has terminated with status : " + term_type);
@@ -123,7 +120,6 @@ string getpartname(string sourcefile)
 int main( int argc, char *argv[] )
 {
 	const std::string ASSEMBLE_PTC_VERSION = ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS;
-	::boost::filesystem::path original_directory = ::boost::filesystem::current_path();
 
 	int ExitCode = 0;
 
@@ -306,6 +302,5 @@ int main( int argc, char *argv[] )
 			printf("\nType Enter to exit.");
 			getc(stdin);
 		}
-    ::boost::filesystem::current_path(original_directory);
 	exit(ExitCode);
 }
