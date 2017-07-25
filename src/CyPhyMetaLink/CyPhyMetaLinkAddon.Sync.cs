@@ -67,6 +67,7 @@ namespace CyPhyMetaLink
         public CyPhyMetaLinkBridgeClient.MetaLinkBridgeClient bridgeClient = new CyPhyMetaLinkBridgeClient.MetaLinkBridgeClient();
 
         // Data maintained for synced components
+        [ComVisible(false)]
         public readonly Dictionary<string, SyncedComponentData> syncedComponents = new Dictionary<string, SyncedComponentData>();
 
         // right now, support syncing only one ComponentAssembly

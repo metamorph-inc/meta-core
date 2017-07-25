@@ -117,8 +117,8 @@ namespace CyPhy2Modelica_v2
             {
                 var pathToSave = fbd.FileName;
                 // offer relative path if it is available
-                Uri uri1 = new Uri(pathToSave, true);
-                Uri uri2 = new Uri(this.ProjectDir + "\\", true);
+                Uri uri1 = new Uri(pathToSave);
+                Uri uri2 = new Uri(this.ProjectDir + "\\");
                 string relativePath = Uri.UnescapeDataString(uri2.MakeRelativeUri(uri1).ToString().Replace('/', '\\'));
 
                 if (relativePath != pathToSave &&

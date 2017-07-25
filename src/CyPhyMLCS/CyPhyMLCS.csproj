@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\CyPhyML.XML</DocumentationFile>
+    <NoWarn>CS0108</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <DsmlGeneratorParadigm>CyPhyML</DsmlGeneratorParadigm>

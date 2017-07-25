@@ -106,9 +106,6 @@
     <Compile Include="..\..\src\CommonFiles\MgaUtils.cs">
       <Link>MgaUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\CommonFiles\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
-    </Compile>
     <Compile Include="ComponentAuthoringTool.cs" />
     <Compile Include="FormulaEvaluator.cs" />
     <Compile Include="Program.cs" />

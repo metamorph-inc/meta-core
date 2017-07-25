@@ -145,7 +145,9 @@
         /// True if this class should dispose the logger.
         /// </summary>
         private bool LoggerDisposeRequired { get; set; }
+        [ComVisible(false)]
         public List<string> ConfigurationNames { get; private set; }
+        [ComVisible(false)]
         public IEnumerable<GMELightObject> UnselectedConfigurationGroups;
 
         /// <summary>

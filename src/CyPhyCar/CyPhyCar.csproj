@@ -86,7 +86,6 @@
       <DependentUpon>NumericResultExtract.tt</DependentUpon>
     </Compile>
     <Compile Include="Registrar.cs" />
-    <Compile Include="GMEConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="runCarSim_bat.cs">
       <AutoGen>True</AutoGen>
