@@ -397,7 +397,6 @@ namespace CyPhyDecoratorAddon
     internal class MgaAtomWrapper
     {
         protected MgaAtom atom;
-        protected string name;
 
         public MgaAtom Atom
         {

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="protobuf-vc110_init">
+  <PropertyGroup Label="Debug and static and RuntimeLibraryNull" Condition="( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkage-protobuf-vc110.ToLower())' == 'static' And ('$(RuntimeLibrary)' == '')">
+    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+  </PropertyGroup>
+  <PropertyGroup Label="Release and static and RuntimeLibraryNull" Condition="( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkage-protobuf-vc110.ToLower())' == 'static' And ('$(RuntimeLibrary)' == '')">
+    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+  </PropertyGroup>
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-protobuf-vc110 Condition="'$(Linkage-protobuf-vc110)' == ''">dynamic</Linkage-protobuf-vc110>
+    <CallingConvention-protobuf-vc110 Condition="'$(CallingConvention-protobuf-vc110)' == ''">cdecl</CallingConvention-protobuf-vc110>
+  </PropertyGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\protobuf-vc110-propertiesui-cf86574c-5d6c-4810-89fd-ad905e8f90d6.xml" />
+  </ItemGroup>
+  <ItemDefinitionGroup Label="static" Condition="'$(Linkage-protobuf-vc110.ToLower())' == 'static'">
+    <ClCompile>
+      <RuntimeLibrary>$(RuntimeLibrary)</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="x64 and v110 and Release" Condition="'$(Platform.ToLower())' == 'x64' And ( $(PlatformToolset.ToLower().IndexOf('v110')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And ( $(Configuration.ToLower().IndexOf('debug')) == -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/x64\v110\Release\libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="x64 and v110 and Debug" Condition="'$(Platform.ToLower())' == 'x64' And ( $(PlatformToolset.ToLower().IndexOf('v110')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/x64\v110\Debug\libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="Win32 and v110 and Release" Condition="'$(Platform.ToLower())' == 'win32' And ( $(PlatformToolset.ToLower().IndexOf('v110')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And ( $(Configuration.ToLower().IndexOf('debug')) == -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/Win32\v110\Release\libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="Win32 and v110 and Debug" Condition="'$(Platform.ToLower())' == 'win32' And ( $(PlatformToolset.ToLower().IndexOf('v110')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 )">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/Win32\v110\Debug\libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <UsingTask TaskName="protobuf-vc110_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="protobuf-vc110_init">
+    <protobuf-vc110_Contains Text="Linkage-dynamic" Library="protobuf-vc110" Value="dynamic" Condition="'$(Linkage-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="Linkage-static" Library="protobuf-vc110" Value="static" Condition="'$(Linkage-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="Linkage-ltcg" Library="protobuf-vc110" Value="ltcg" Condition="'$(Linkage-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="Linkage-sxs" Library="protobuf-vc110" Value="sxs" Condition="'$(Linkage-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="CallingConvention-cdecl" Library="protobuf-vc110" Value="cdecl" Condition="'$(CallingConvention-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="CallingConvention-stdcall" Library="protobuf-vc110" Value="stdcall" Condition="'$(CallingConvention-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="CallingConvention-fastcall" Library="protobuf-vc110" Value="fastcall" Condition="'$(CallingConvention-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="CallingConvention-thiscall" Library="protobuf-vc110" Value="thiscall" Condition="'$(CallingConvention-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+    <protobuf-vc110_Contains Text="CallingConvention-clrcall" Library="protobuf-vc110" Value="clrcall" Condition="'$(CallingConvention-protobuf-vc110)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf-vc110" />
+    </protobuf-vc110_Contains>
+  </Target>
+</Project>

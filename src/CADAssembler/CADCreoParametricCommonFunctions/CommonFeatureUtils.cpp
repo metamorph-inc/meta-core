@@ -119,17 +119,17 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 		{
 			//std::cout << std::endl << std::endl << "@@@@@@@@@@@@@@@@@@@@@ isis_ProAsmcompMdlGet @@@@@@@@@@@@@@@@@@@@@@@@@@@@";
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "INFORMATION: isis_ProAsmcompMdlGet(feature , &mdl), Could not retrieve sub-part/assembly, probably because the simplified rep did not contain the part/assembly";
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << (const void*)feature;
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                       id       " << feature->id;
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                       owner    " << feature->owner;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                       owner    " << (const void*)feature->owner;
 			isis_LOG(lg, isis_FILE, isis_ERROR) <<  "                                      type     " << feature->type;	
 			return(PRO_TK_CONTINUE);
 		}
 		else
 		{
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << feature;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "isis_ProAsmcompMdlGet(feature , &mdl), feature: " << (const void*)feature;
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                        id      " << feature->id;
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                        owner   " << feature->owner;
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "                                        owner   " << (const void*)feature->owner;
 			isis_LOG(lg, isis_FILE, isis_ERROR) <<  "                                       type    " << feature->type;	
 			throw;
 		}

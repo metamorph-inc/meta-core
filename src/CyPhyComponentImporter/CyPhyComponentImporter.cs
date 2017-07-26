@@ -605,6 +605,7 @@ namespace CyPhyComponentImporter
             return importedComponents;
         }
 
+        [ComVisible(false)]
         public List<string> Errors = new List<string>();
 
         private void CheckAndWarnOnSchemaVersion(avm.Component ac_import)

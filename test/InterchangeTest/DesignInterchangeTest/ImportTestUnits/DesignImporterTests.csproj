@@ -68,9 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\src\CommonFiles\MgaUtils.cs">
-      <Link>MgaUtils.cs</Link>
-    </Compile>
     <Compile Include="CAD.cs" />
     <Compile Include="DesignImporterTests.cs" />
     <Compile Include="DSAlternative.cs" />

@@ -6,8 +6,9 @@
 #include "DesBackMap.h"
 #include "CyPhyUtil.h"
 
-#include <boost/crc.hpp>  // for boost::crc_32_type
 #include <sstream>
+
+uint32_t crc32(uint32_t crc, const uint8_t *buf, size_t size);
 
 void Notify::reportProgress(const std::string &progress) 
 {
@@ -168,11 +169,9 @@ void DesertThread::RunDesert()
 					cfgids.insert(cfgid);
 					cfg.id() = idx;
 					idx++;
-					boost::crc_32_type id_hash;
-					id_hash.process_bytes(cfgid.c_str(), cfgid.length());
-					int uid = id_hash.checksum();
+					uint32_t id_hash = crc32(0, (const uint8_t*)cfgid.c_str(), cfgid.length());
 					std::stringstream sstream;
-					sstream << std::hex <<std::uppercase<<uid;
+					sstream << std::hex << std::uppercase << id_hash;
 					std::string sstream_str = sstream.str();
 					int cnt = sstream_str.size();
 					std::string pre("");
@@ -184,7 +183,6 @@ void DesertThread::RunDesert()
 						}
 					}
 					cfg.cfgId() = pre+sstream_str;
-					id_hash.reset();
 				}
 				else
 					cfg.DeleteObject();

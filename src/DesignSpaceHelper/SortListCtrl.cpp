@@ -348,7 +348,7 @@ void CSortListCtrl::SaveColumnInfo()
 	m_ctlHeader.Serialize( ar );
 	ar.Close();
 
-	DWORD dwLen = memFile.GetLength();
+	DWORD dwLen = (DWORD)memFile.GetLength();
 	BYTE* buf = memFile.Detach();	
 
 	VERIFY( AfxGetApp()->WriteProfileBinary( g_pszSection, strKey, buf, dwLen ) );

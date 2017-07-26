@@ -734,8 +734,8 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface:         " << in_DatumName_PointOnSurface;
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface (x,y,z): " << pointOnSurface_XYZ_In[0] << "  " << pointOnSurface_XYZ_In[1] << "  " << pointOnSurface_XYZ_In[2];
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].name:         " << in_CADComponentData_map[in_PartComponentID].name;
-	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].modelHandle:  " << in_CADComponentData_map[in_PartComponentID].modelHandle;
-	isis_LOG(lg, isis_FILE, isis_INFO) << "   *in_CADComponentData_map[in_PartComponentID].p_model:     " << *in_CADComponentData_map[in_PartComponentID].p_model;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].modelHandle:  " << (const void*)in_CADComponentData_map[in_PartComponentID].modelHandle;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   *in_CADComponentData_map[in_PartComponentID].p_model:     " << (const void*)in_CADComponentData_map[in_PartComponentID].p_model;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Find all Surfaces in Model (i.e. in_CADComponentData_map[in_PartComponentID].modelHandle

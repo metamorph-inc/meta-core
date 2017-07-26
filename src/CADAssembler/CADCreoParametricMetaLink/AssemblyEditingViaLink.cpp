@@ -540,7 +540,7 @@ throw(isis::application_exception)
         //             regenerationSucceeded);
 
         isis_LOG(lg, isis_FILE, isis_INFO) << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
-        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
         isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
         isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                 " << cADComponentData_map_TEMP[in_ComponentInstanceID];
         isis_LOG(lg, isis_FILE, isis_INFO) << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
@@ -586,7 +586,7 @@ throw(isis::application_exception)
     m_CADComponentData_map[parentAssemblyInstanceID].children.push_back(in_ComponentInstanceID);
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* Begin Final Structure - Add the Component *************************";
-    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[in_ComponentInstanceID]:                    " << m_CADComponentData_map[in_ComponentInstanceID];
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* End Final Structure - Add the Component *************************";
@@ -1172,7 +1172,7 @@ bool MetaLinkAssemblyEditor::Clear()
         return false;
     }
 
-    isis_LOG(lg, isis_FILE, isis_INFO) << " top: " << topAssemblyComponentInstanceID << " handle: " << model_handle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << " top: " << topAssemblyComponentInstanceID << " handle: " << (const void*)model_handle;
 
     switch(status = ProMdlEraseAll(model_handle))
     {
@@ -1346,7 +1346,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
 		isis_LOG(lg, isis_FILE, isis_DEBUG) << "The ProMdlToModelitem() was successful: "
                               << " id: " <<  modelItem.id
-                              << " owner: " << modelItem.owner
+                              << " owner: " << (const void*)modelItem.owner
                               << " type: " << modelItem.type;
         break;
     }

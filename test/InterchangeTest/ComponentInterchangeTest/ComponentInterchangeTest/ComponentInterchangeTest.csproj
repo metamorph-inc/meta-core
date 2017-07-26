@@ -107,9 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\src\CommonFiles\MgaUtils.cs">
-      <Link>MgaUtils.cs</Link>
-    </Compile>
     <Compile Include="..\..\PyLibUtils\PyLibUtils.cs">
       <Link>PyLibUtils.cs</Link>
     </Compile>

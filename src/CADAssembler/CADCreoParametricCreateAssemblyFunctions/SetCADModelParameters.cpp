@@ -34,7 +34,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 			{
 				isis_LOG(lg, isis_FILE, isis_INFO) << "Set Component Parameter: ";
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   ModelNameWithSuffix: " << ModelNameWithSuffix;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[*t].p_model: " << cadata->p_model;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[*t].p_model: " << (const void*)cadata->p_model;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->name:   " <<	p->name;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->type:   " <<	CADParameterType_string(p->type);
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->value:  " <<	p->value;

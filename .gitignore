@@ -642,7 +642,23 @@ externals/desert/nuget/**
 deploy/Validation.wxi
 test/ComponentAuthoringToolTests/
 
-# [Zsolt 09/21/2015] added the items below, please review it if some of the files/directories should or should not be ignored
+meta/CyPhyML/CyPhyML.mta
+meta/CyPhyML/log/
+models/DynamicsTeam/MSDVerification/MSDVerification.mga
+models/DynamicsTeam/MSDVerification/manifest.project.json
+models/DynamicsTeam/MSDVerification/results/
+models/DynamicsTeam/MSDVerification/test-benches/
+models/DynamicsTeam/MSD_PCC/MSD_PCC.mga
+models/DynamicsTeam/MSD_PCC/PCCWithMDAO/
+models/DynamicsTeam/MSD_PET_RuleFailure/MSD_PET_RuleFailure.mga
+models/DynamicsTeam/MSD_PET_RuleFailure/MDAO_OneMetric2TwoObjectives/
+models/DynamicsTeam/MSD_PET_RuleFailure/PCC_DriverParam2MultipleTBParams/
+models/DynamicsTeam/RICircuitVerification/RICircuitVerification.mga
+models/PET_simple_proof-of-concept/WorkFlow_PET-backup.mga
+src/MetaLink/meta-protobuf/cpp-proj/meta-link-creo/
+src/Python27Packages/testbenchexecutor/log/
+test/junit_results.xml
+
 meta/Complexity/ComplexityDomainLib_vs10/bin/
 meta/Complexity/ComplexityDomainLib_vs10/obj/
 meta/DesignDataPackage/iFAB/ManufacturingLib/obj/
@@ -744,6 +760,9 @@ models/DynamicsTeam/RollingWheel/stats/
 models/DynamicsTeam/RollingWheel/test-benches/
 models/PET_simple_proof-of-concept/design-space/
 src/CADAssembler/bin/
+src/CADAssembler/**/*nupkg
+src/CADAssembler/**/vcinfo
+src/MetaLink/meta-link-creo/MetaLinkLib.lib
 test/InterchangeTest/ComponentInterchangeTest/ComponentInterchangeTest/ComponentInterchangeTest.csproj.metaproj
 test/InterchangeTest/ComponentInterchangeTest/ExportTestUnits/ComponentExporterUnitTests.csproj.metaproj
 test/InterchangeTest/ComponentInterchangeTest/ImportTestModels/CADGeometry/exported_components/

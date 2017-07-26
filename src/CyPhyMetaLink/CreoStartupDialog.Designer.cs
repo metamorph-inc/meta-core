@@ -44,7 +44,6 @@
             this.progressBar1.Step = 1;
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // label1
             // 
@@ -55,7 +54,6 @@
             this.label1.Size = new System.Drawing.Size(94, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Starting Creo...";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // CreoStartupDialog
             // 

@@ -56,7 +56,6 @@ namespace CyPhy2CAD_CSharp.DataRep
     public class CADAssembly : CADData
     {
         public string ConfigID { get; set; }
-        public string Name { get; set; }
         public string DisplayName { get; set; }
         public List<CADForwarder> ForwarderList { get; set; }
         public Dictionary<string, CADComponent> ChildComponents { get; set; }

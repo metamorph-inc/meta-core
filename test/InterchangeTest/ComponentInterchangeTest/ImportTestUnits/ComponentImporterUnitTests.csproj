@@ -107,9 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\src\CommonFiles\MgaUtils.cs">
-      <Link>MgaUtils.cs</Link>
-    </Compile>
     <Compile Include="CADGeometry.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ImportZip.cs" />
