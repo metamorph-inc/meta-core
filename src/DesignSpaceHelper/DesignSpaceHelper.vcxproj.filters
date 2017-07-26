@@ -203,8 +203,6 @@
     <CustomBuild Include="$(DESERT_PATH)\bin\desertD.dll" />
     <CustomBuild Include="$(DESERT_PATH)\bin\desert_x64D.dll" />
     <CustomBuild Include="$(DESERT_PATH)\bin\desert_x64.dll" />
-    <CustomBuild Include="$(DESERT_PATH)\bin\DesertTool.exe" />
-    <CustomBuild Include="$(DESERT_PATH)\bin\DesertToolD.exe" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CompIcon.ico">
