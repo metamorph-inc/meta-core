@@ -30,7 +30,7 @@ namespace isis
 
 
 void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              &in_ProgramInputArguments,
-								 const std::string								&in_ProeIsisExtensionsDir,
+								 const std::string								&in_CADToolDir,
 								 const std::string								&in_XMLInputFile_PathAndFileName,
 								 const std::string								&in_WorkingDirector,
 								 const std::string								&in_CADPartsLibDir,
@@ -328,8 +328,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		config_Pro << std::endl << "pro_material_dir " << CreoMaterialMTLFilesDir_Path();
 
 		// add component creo plugin if in graphics mode
-		if ( in_ProgramInputArguments.graphicsModeOn )
-			config_Pro << std::endl << "toolkit_registry_file  $PROE_ISIS_EXTENSIONS\\plugins\\protk.dat";
+		// config_Pro << std::endl << "toolkit_registry_file  \"" << META_PATH() << "bin\\CAD\\Creo\\plugins\\protk.dat\"";
 
 		config_Pro.close();
 
@@ -799,7 +798,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			// CFD Run
 			////////////////
 			if ( cFDAnalysisRun) {
-				CFD_Driver( isis::V1, in_ProeIsisExtensionsDir, 
+				CFD_Driver( isis::V1, in_CADToolDir, 
 					in_WorkingDirector, *i, out_CADComponentData_map );
 			}
 

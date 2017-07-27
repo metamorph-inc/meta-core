@@ -68,16 +68,15 @@ deploy/CAD_Installs/WiX.Toolset.*/
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/
 deploy/CAD_Installs/META.CadCreoParametricCreateAssembly.*/
 deploy/CAD_Installs/META.ExtractACM-XMLfromCreoModels.*/
-deploy/CAD_Installs/Proe ISIS Extensions/0Readme - CreateAssembly.txt
-deploy/CAD_Installs/Proe ISIS Extensions/bin/CADCreoParametricCreateAssembly.exe
-deploy/CAD_Installs/Proe ISIS Extensions/bin/CADCreoParametricMetaLink.exe
-deploy/CAD_Installs/Proe ISIS Extensions/bin/ExtractACM-XMLfromCreoModels.exe
+bin/CAD/Creo/0Readme - CreateAssembly.txt
+bin/CAD/Creo/bin/CADCreoParametricCreateAssembly.exe
+bin/CAD/Creo/bin/CADCreoParametricMetaLink.exe
+bin/CAD/Creo/bin/ExtractACM-XMLfromCreoModels.exe
 deploy/DesignDataPackage_python.wxi
 deploy/MassSpringDamper.wxi
 deploy/MaterialLibraryInterface.wxi
 deploy/META_bundle_x64.exe
 deploy/PCC.wxi
-deploy/Proe_ISIS_Extensions_x64.wxi
 deploy/Redist/
 deploy/analysis_tool_CFD.wxi
 deploy/analysis_tool_FAME.wxi

@@ -141,13 +141,7 @@ class CADJobDriver():
         self.logger.info("======================================================")
 
     def run_creo_assembler(self):
-
-        isis_ext = os.environ.get('PROE_ISIS_EXTENSIONS')
-        if isis_ext is None:
-            cad_library.exitwitherror(
-                'PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
-
-        create_asm = os.path.join(isis_ext, 'bin', 'CADCreoParametricCreateAssembly.exe')
+        create_asm = os.path.join(cad_library.META_PATH, 'bin', 'CAD', 'Creo', 'bin', 'CADCreoParametricCreateAssembly.exe')
         if not os.path.isfile(create_asm):
             cad_library.exitwitherror(
                 'Cannot find CADCreoParametricCreateAssembly.exe. Do you have the META toolchain installed properly?', -1)
@@ -375,11 +369,8 @@ class CADJobDriver():
 
     def run_calculix(self):
         import _winreg
-        isisext = os.environ['PROE_ISIS_EXTENSIONS']
         os.chdir(os.getcwd() + "\\Analysis\\Calculix")
-        if isisext is None:
-            cad_library.exitwitherror('PROE_ISIS_EXTENSIONS env. variable is not set. Do you have the META toolchain installed properly?', -1)
-        deckconvexe = os.path.join(isisext, 'bin', 'DeckConverter.exe')
+        deckconvexe = os.path.join(cad_library.META_PATH, 'bin', 'CAD', 'Creo', 'bin', 'DeckConverter.exe')
         self.call_subprocess(deckconvexe + ' -i ..\\Nastran_mod.nas')
         with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\CMS\CalculiX', 0,
                          _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:

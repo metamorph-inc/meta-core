@@ -22,6 +22,7 @@
 #include "UIFunctions.h"
 #include "isis_ptc_toolkit_ostream.h"
 #include "CADFactoryAbstract.h"
+#include "AssembleUtils.h"
 
 
 namespace isis
@@ -1078,8 +1079,7 @@ throw(isis::application_exception)
         //isis::isis_ProDirectoryChange( workingDir_MultiFormat );
         isis::setCreoWorkingDirectory(workingDir_MultiFormat);
 
-        std::string ProeIsisExtensionsDir = getenv("PROE_ISIS_EXTENSIONS");
-        std::string TemplateFile_PathAndFileName =  ProeIsisExtensionsDir + "\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
+        std::string TemplateFile_PathAndFileName = META_PATH() + "\\bin\\CAD\\Creo\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
 
         // Copy template model to the working directory
         isis::CopyFileIsis(TemplateFile_PathAndFileName,  in_ProgramInputArguments.workingDirectory);

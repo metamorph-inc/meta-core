@@ -11,7 +11,7 @@
 
 namespace isis
 {
-
+	std::string META_PATH();
 	bool Get_CompleteTheHierarchyForLeafAssemblies( const CADAssemblies &in_CADAssemblies );
 	bool Get_UniquelyNameAllCADModelInstances( const CADAssemblies &in_CADAssemblies );
 	bool Get_OutputJointInformation( const CADAssemblies &in_CADAssemblies );

@@ -11,7 +11,7 @@ namespace isis
 	void SetCreoEnvirVariable_RetrieveSystemSettings(	bool			in_graphicsModeOn,
 														bool			in_CreoExceptInputFromThisProgramAndCreoUI,
 														std::string		&out_CreoStartCommand,
-														std::string		&out_ProeIsisExtensionsDir,	
+														std::string		&out_CADToolDir,	
 														std::string		&out_TemplateFile_PathAndFileName ) 
 																					throw (isis::application_exception);
 

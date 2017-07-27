@@ -18,9 +18,7 @@ namespace CADCreoTest
 
             public MetaLinkFixture()
             {
-                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.User) ??
-                    System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
-                createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricMetaLink.exe");
+                createAssemblyExe = Path.Combine(META.VersionInfo.MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricMetaLink.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
                     throw new FileNotFoundException("CADCreoParametricMetaLink.exe is not installed.");
@@ -34,9 +32,7 @@ namespace CADCreoTest
 
             public CadAssemblyFixture()
             {
-                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.User) ??
-                    System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS", EnvironmentVariableTarget.Machine);
-                createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricCreateAssembly.exe");
+                createAssemblyExe = Path.Combine(META.VersionInfo.MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricCreateAssembly.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
                     throw new FileNotFoundException("CADCreoParametricCreateAssembly.exe is not installed.");

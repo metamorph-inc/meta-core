@@ -1,9 +1,6 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".cmd" #>
 
-REM	The following system environment variable must be set:
-REM	    PROE_ISIS_EXTENSIONS	// typically set to C:\Program Files\META\Proe ISIS Extensions
-REM
 REM	See "C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt" for the complete setup instructions.
 
 set WORKING_DIR="."
