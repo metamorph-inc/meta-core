@@ -53,7 +53,7 @@
   
   <Target Name="Install_PythonLibs" DependsOnTargets="">
     <!-- make sure pip works -->
-    <Exec Command="bin\Python27\Scripts\python.exe -m pip freeze >NUL" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+    <Exec Command="bin\Python27\Scripts\python.exe -m pip --disable-pip-version-check freeze >NUL" IgnoreExitCode="false" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
   </Target>
   
   <Target Name="DownloadNuGetPackages">

@@ -789,10 +789,6 @@ namespace CyPhyPET
                 var outputDirectory = mainParameters.OutputDirectory;
                 File.WriteAllText(Path.Combine(outputDirectory, "mdao_config.json"), Newtonsoft.Json.JsonConvert.SerializeObject(config, Newtonsoft.Json.Formatting.Indented), new System.Text.UTF8Encoding(false));
 
-                File.WriteAllText(Path.Combine(outputDirectory, "..", "CyPhyPET_combine.cmd"),
-                    "FOR /F \"skip=2 tokens=2,*\" %%A IN ('C:\\Windows\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set META_PATH=%%B" +
-                    @"%META_PATH%\bin\Python27\Scripts\Python.exe %META_PATH%\bin\PetViz.py");
-
                 using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, "zip.py")))
                 {
                     writer.WriteLine(CyPhyPET.Properties.Resources.zip);
@@ -1329,8 +1325,13 @@ namespace CyPhyPET
             {
                 string name = item.Key;
                 ISIS.GME.Common.Interfaces.FCO output;
-                object val;
-                if (item.Value.TryGetValue("val", out val) && val is string && ((string)val).StartsWith("<openmdao.core.fileref.FileRef"))
+                object val = null;
+                item.Value.TryGetValue("val", out val);
+                object repr_val = null;
+                item.Value.TryGetValue("repr_val", out repr_val);
+                object pass_by_obj = null;
+                item.Value.TryGetValue("pass_by_obj", out pass_by_obj);
+                if (val != null && val is string && ((string)val).StartsWith("<openmdao.core.fileref.FileRef"))
                 {
                     var fileOutput = tb.Children.FileOutputCollection.Where(m => m.Name == name).FirstOrDefault();
                     if (fileOutput == null)
@@ -1358,6 +1359,12 @@ namespace CyPhyPET
                         metricsAndParameters.Remove(metric);
                     }
                     setUnit(metric, item.Value);
+                    if (repr_val != null && repr_val is string)
+                    {
+                        metric.Attributes.Value = (string)repr_val;
+                    }
+                    pass_by_obj = pass_by_obj ?? false;
+                    ((MgaFCO)metric.Impl).SetRegistryValueDisp("pass_by_obj", pass_by_obj.ToString());
                     output = metric;
                 }
                 ((IMgaFCO)output.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, i * 65);
@@ -1368,6 +1375,8 @@ namespace CyPhyPET
             {
                 string name = item.Key;
                 ISIS.GME.Common.Interfaces.FCO input;
+                object pass_by_obj = null;
+                item.Value.TryGetValue("pass_by_obj", out pass_by_obj);
                 object val;
                 if (item.Value.TryGetValue("val", out val) && val is string && ((string)val).StartsWith("<openmdao.core.fileref.FileRef"))
                 {
@@ -1400,6 +1409,8 @@ namespace CyPhyPET
                     }
                     input = param;
                     setUnit(param, item.Value);
+                    pass_by_obj = pass_by_obj ?? false;
+                    ((MgaFCO)param.Impl).SetRegistryValueDisp("pass_by_obj", pass_by_obj.ToString());
                 }
                 ((IMgaFCO)input.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, i * 65);
                 i++;

@@ -87,6 +87,9 @@ namespace AVM.DDP
             public string[] outerSource; //Source of this ProblemInput from outside the subproblem (i.e. one level up), relative to the enclosing problem
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string[] innerSource; //Source of this ProblemInput from inside the subproblem (i.e. from the driver), relative to this problem
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string value;
+            public bool pass_by_obj;
         }
 
         public Dictionary<string, ProblemInput> problemInputs; //Map of problem inputs (by name) to their sources

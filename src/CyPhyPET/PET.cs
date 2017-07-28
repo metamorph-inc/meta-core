@@ -762,6 +762,7 @@ namespace CyPhyPET
                 {
                     //outerSource =
                     //innerSource =
+                    value = input.Attributes.Value
                 };
 
                 var sources = ((MgaFCO)input.Impl).PartOfConns.Cast<MgaConnPoint>().Where(cp => (cp.References == null || cp.References.Count == 0) && cp.ConnRole == "dst");
@@ -782,6 +783,8 @@ namespace CyPhyPET
                     if (gparent != null && gparent.ID == pet.ID)
                     {
                         problemInput.innerSource = new string[] { parent.Name, source.Src.Name };
+                        problemInput.value = "\"0.0\"";
+                        problemInput.pass_by_obj = false;
                     }
                     else
                     {
@@ -790,12 +793,106 @@ namespace CyPhyPET
                     }
                 }
 
+                if (problemInput.innerSource == null)
+                {
+                    List<MgaFCO> realSources = GetTransitiveSources((MgaFCO)input.Impl, new HashSet<string>()
+                    {
+                        typeof(CyPhy.Metric).Name,
+                        typeof(CyPhy.FileOutput).Name,
+                        // typeof(CyPhy.ProblemOutput)
+                        // typeof(CyPhy.DesignVariable).Name
+
+                    });
+                    MgaModel realSourceParent;
+                    MgaFCO realSource = null;
+                    if (realSources.Count > 1)
+                    {
+                        // should be unreachable because checker should detect this error
+                        throw new ApplicationException(String.Format("Error: {0} has more than one source", input.Name));
+                    }
+                    realSource = realSources.First();
+                    realSourceParent = realSource.ParentModel;
+                    if (problemInput.value == "")
+                    {
+                        if (testbenchtypes.Contains(realSourceParent.Meta.Name))
+                        {
+                            problemInput.value = "\"0.0\"";
+                        }
+                        else if (realSource.Meta.Name == typeof(CyPhy.Metric).Name)
+                        {
+                            problemInput.value = CyPhyClasses.Metric.Cast(realSource).Attributes.Value;
+                            // FIXME: move this to the checker
+                            if (problemInput.value == "")
+                            {
+                                throw new ApplicationException(String.Format("Error: {0} must specify a Value", input.Name));
+                            }
+                        }
+                    }
+                    string kind = realSourceParent.Meta.Name;
+                    if (testbenchtypes.Contains(kind))
+                    {
+                        problemInput.pass_by_obj = true;
+                    }
+                    else if (kind == typeof(CyPhy.ExcelWrapper).Name || kind == typeof(CyPhy.MATLABWrapper).Name)
+                    {
+                        problemInput.pass_by_obj = false;
+                    }
+                    else
+                    {
+                        string pbo = realSource.GetRegistryValueDisp("pass_by_obj") ?? "False";
+                        problemInput.pass_by_obj = true.ToString().Equals(pbo, StringComparison.InvariantCultureIgnoreCase);
+                    }
+                }
                 subProblem.problemInputs.Add(input.Name, problemInput);
             }
             foreach (var output in pet.Children.ProblemOutputCollection)
             {
                 subProblem.problemOutputs.Add(output.Name, GetSourcePath(null, (MgaFCO)output.Impl));
             }
+        }
+
+        readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
+        // readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
+
+        private static ISet<string> GetDerivedTypeNames(Type type)
+        {
+            HashSet<string> ret = new HashSet<string>();
+            foreach (Type t in type.Assembly.GetExportedTypes())
+            {
+                if (type.IsAssignableFrom(t))
+                {
+                    ret.Add(t.Name);
+                }
+            }
+            return ret;
+        }
+
+        public static List<MgaFCO> GetTransitiveSources(MgaFCO fco, ISet<string> stopKinds)
+        {
+            List<MgaFCO> ret = new List<MgaFCO>();
+            Queue<MgaFCO> q = new Queue<MgaFCO>();
+            q.Enqueue(fco);
+            while (q.Count > 0)
+            {
+                fco = q.Dequeue();
+                foreach (MgaConnPoint cp in fco.PartOfConns)
+                {
+                    // FIXME: don't go above top-level PET
+                    if (cp.ConnRole == "dst")
+                    {
+                        fco = ((MgaSimpleConnection)cp.Owner).Src;
+                        if (stopKinds.Contains(fco.Meta.Name))
+                        {
+                            ret.Add(fco);
+                        }
+                        else
+                        {
+                            q.Enqueue(fco);
+                        }
+                    }
+                }
+            }
+            return ret;
         }
 
         public PETConfig.Component GenerateCode(CyPhy.ParametricTestBench excel)

@@ -154,6 +154,11 @@ namespace CyPhyPETTest
 
             Assert.Equal(new string[] { "ParameterStudy", "y_0" }, config.subProblems["OptimizationProblem"].problemInputs["y_0"].outerSource);
             Assert.Equal(new string[] { "Optimizer", "y" }, config.subProblems["OptimizationProblem"].problemInputs["y_0"].innerSource);
+            Assert.Equal(false, config.subProblems["OptimizationProblem"].problemInputs["y_0"].pass_by_obj);
+            Assert.Equal("\"0.0\"", config.subProblems["OptimizationProblem"].problemInputs["y_0"].value);
+
+            Assert.Equal(false, config.subProblems["OptimizationProblem"].problemInputs["x_0"].pass_by_obj);
+            Assert.Equal("\"0.0\"", config.subProblems["OptimizationProblem"].problemInputs["x_0"].value);
 
             Assert.Equal(new string[] { "x_0" }, config.subProblems["OptimizationProblem"].problemOutputs["x_f"]);
             Assert.Equal(new string[] { "Paraboloid", "f_xy" }, config.subProblems["OptimizationProblem"].problemOutputs["f_xy"]);

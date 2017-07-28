@@ -83,6 +83,10 @@ namespace CyPhyPET.Rules
                 {
                     ReportFeedBack(Global.CheckProblemInput(child), child, "CheckProblemInput", "Checks rules for a ProblemInput");
                 }
+                else if (child.Meta.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.ProblemOutput).Name)
+                {
+                    ReportFeedBack(Global.CheckProblemOutput(child), child, "CheckProblemOutput", "Checks rules for a ProblemOutput");
+                }
             }
         }
 

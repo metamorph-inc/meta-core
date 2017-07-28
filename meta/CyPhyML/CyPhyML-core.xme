@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{266ED912-CD40-4867-A1AB-DD69EDA966CB}" cdate="Tue Jul 11 13:16:32 2017" mdate="Tue Jul 11 13:16:32 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{8095A5A6-BA22-4DF3-AF27-A7D1E61B21F1}" cdate="Thu Jul 27 13:33:00 2017" mdate="Thu Jul 27 13:33:00 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>CyPhyML-core</name>
 	<comment></comment>
 	<author></author>
@@ -28153,7 +28153,7 @@ rrName = referedbyProperty
 						<regnode name="Attributes" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>700,7</value>
+								<value>693,7</value>
 							</regnode>
 						</regnode>
 						<regnode name="ClassDiagram" status="undefined">
@@ -28396,7 +28396,7 @@ rrName = referedbyProperty
 						<regnode name="Attributes" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>818,35</value>
+								<value>882,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -28438,7 +28438,7 @@ rrName = referedbyProperty
 						<regnode name="Attributes" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>818,35</value>
+								<value>742,105</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -29083,7 +29083,7 @@ rrName = referedbyProperty
 						<regnode name="Attributes" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>214,112</value>
+								<value>203,119</value>
 							</regnode>
 						</regnode>
 						<regnode name="ClassDiagram" status="undefined">
@@ -37975,8 +37975,8 @@ rrName = referedbyWorkflowRef
 					<attribute kind="Decorator">
 						<value>Mga.CPMDecorator</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Python Wrapper</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength=50</value>
@@ -38095,8 +38095,8 @@ rrName = referedbyWorkflowRef
 					<attribute kind="Decorator">
 						<value>Mga.CPMDecorator</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>MATLAB Wrapper</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength=50</value>
@@ -39376,7 +39376,12 @@ rrName = referedbyWorkflowRef
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>portLabelLength = 20
-fillColor=0xffdcbc</value>
+fillColor=0xffdcbc
+color=0xff6820
+borderColor=0x8b0000
+shadowThickness=12
+itemShadowCast=true
+</value>
 					</attribute>
 					<attribute kind="GradientFillColor" status="meta">
 						<value></value>
@@ -39715,7 +39720,7 @@ Custom</value>
 						<value>Mga.CPMDecorator</value>
 					</attribute>
 					<attribute kind="DisplayedName">
-						<value>Parameter Study</value>
+						<value>Parameter Study Driver</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>fillColor=0xcad1f0</value>
@@ -39870,8 +39875,8 @@ Custom</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Constraint Mapping</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -39983,7 +39988,7 @@ sRefParent=srcConstraint_refport_parent
 						<value>Component</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
-						<value>
+						<value>portLabelLength = 0
 rName = ref
 rrName = referedbyTestBenchRef
 
@@ -40748,8 +40753,8 @@ rrName = referedbyOptimizerConstraint
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Objective Mapping</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -41189,8 +41194,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator">
 						<value>Mga.CPMDecorator</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>PCC Driver</value>
 					</attribute>
 					<attribute kind="GeneralPreferences">
 						<value>fillColor=0xc4e7f5</value>
@@ -41549,8 +41554,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Design Variable Constraint Mapping</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -41750,8 +41755,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Intermediate Variable Mapping</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -42023,8 +42028,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>File Result Flow</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -42677,8 +42682,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Optimizer Constraint</value>
 					</attribute>
 					<attribute kind="GeneralPreferences" status="meta">
 						<value></value>
@@ -43590,6 +43595,9 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 							<regnode name="Position" isopaque="yes">
 								<value>532,133</value>
 							</regnode>
+							<regnode name="preferredSize" isopaque="yes">
+								<value>134,58</value>
+							</regnode>
 						</regnode>
 						<regnode name="Constraints" status="undefined">
 							<value></value>
@@ -43733,8 +43741,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>File Output</value>
 					</attribute>
 					<attribute kind="GeneralPreferences" status="meta">
 						<value></value>
@@ -43847,8 +43855,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>File Input</value>
 					</attribute>
 					<attribute kind="GeneralPreferences" status="meta">
 						<value></value>
@@ -45557,7 +45565,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					</attribute>
 				</set>
 			</model>
-			<model id="id-0065-00000018" kind="ParadigmSheet" guid="{14cb291e-ca51-48a5-a18f-e1c9cceb4bc2}" relid="0xe" childrelidcntr="0x97">
+			<model id="id-0065-00000018" kind="ParadigmSheet" guid="{14cb291e-ca51-48a5-a18f-e1c9cceb4bc2}" relid="0xe" childrelidcntr="0x99">
 				<name>3_PET_Hierarchy</name>
 				<atom id="id-0066-00000171" kind="Atom" role="Atom" guid="{661c00fe-94bc-4689-9959-2cc87867ec7f}" relid="0x3">
 					<name>ProblemInput</name>
@@ -45600,8 +45608,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Input</value>
 					</attribute>
 					<attribute kind="GeneralPreferences" status="meta">
 						<value></value>
@@ -45714,8 +45722,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="Decorator" status="meta">
 						<value></value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Output</value>
 					</attribute>
 					<attribute kind="GeneralPreferences" status="meta">
 						<value></value>
@@ -45800,7 +45808,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 						<regnode name="Visualization" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>875,42</value>
+								<value>658,42</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -46452,8 +46460,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Input Flow Target Connection</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -46557,8 +46565,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Input Flow Source Connection</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -46662,8 +46670,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Output Flow Target Connection</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -46767,8 +46775,8 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<attribute kind="ConnLineType" status="meta">
 						<value>solid</value>
 					</attribute>
-					<attribute kind="DisplayedName" status="meta">
-						<value></value>
+					<attribute kind="DisplayedName">
+						<value>Problem Output Flow Source Connection</value>
 					</attribute>
 					<attribute kind="DstAttrLabel1" status="meta">
 						<value></value>
@@ -46942,6 +46950,48 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 						</regnode>
 					</regnode>
 				</atom>
+				<atom id="id-0066-0000024c" kind="FieldAttribute" role="FieldAttribute" guid="{362653d8-6f4f-4a21-b6e4-075da5543d01}" relid="0x98">
+					<name>Value</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,266</value>
+							</regnode>
+						</regnode>
+						<regnode name="Attributes" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,266</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ContentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>string</value>
+					</attribute>
+					<attribute kind="FieldDefault" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="GlobalScope">
+						<value>false</value>
+					</attribute>
+					<attribute kind="Help" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IsViewable" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="Multiline">
+						<value>5</value>
+					</attribute>
+					<attribute kind="Prompt" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
 				<reference id="id-0067-0000004e" kind="ModelProxy" role="ModelProxy" guid="{573d9d10-aaff-44ca-9be1-6ee0ba1b259b}" relid="0x1" referred="id-0066-00000161">
 					<name>ParametricExploration</name>
 					<regnode name="PartRegs" status="undefined">
@@ -46973,7 +47023,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 						<regnode name="Visualization" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>147,84</value>
+								<value>203,28</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -47780,7 +47830,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 						<regnode name="Visualization" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>7,7</value>
+								<value>735,21</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -48202,6 +48252,11 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 					<connpoint role="src" target="id-0066-0000017b"/>
 					<connpoint role="dst" target="id-0067-0000004f"/>
 				</connection>
+				<connection id="id-0068-00000374" kind="HasAttribute" role="HasAttribute" guid="{68d4a303-2272-420f-b44a-4178d6e0aa5f}" relid="0x99">
+					<name>HasAttribute</name>
+					<connpoint role="dst" target="id-0066-00000171"/>
+					<connpoint role="src" target="id-0066-0000024c"/>
+				</connection>
 				<set id="id-0069-00000024" kind="Aspect" role="Aspect" guid="{f8dc0b30-fb8d-47a4-b0d4-ef70c19936c3}" relid="0x37" members="id-0066-00000171 id-0066-00000172 id-0066-0000017c id-0066-0000017e id-0066-00000180 id-0066-00000182 id-0066-00000184 id-0067-0000004e">
 					<name>TestBenchCompositionAspect</name>
 					<regnode name="PartRegs" status="undefined">
@@ -48215,7 +48270,7 @@ Polynomial Chaos Expansion (UP_PCE),UP_PCE</value>
 						<regnode name="Visualization" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>224,14</value>
+								<value>448,21</value>
 							</regnode>
 						</regnode>
 					</regnode>
