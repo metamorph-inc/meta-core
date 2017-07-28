@@ -783,8 +783,6 @@ namespace CyPhyPET
                     if (gparent != null && gparent.ID == pet.ID)
                     {
                         problemInput.innerSource = new string[] { parent.Name, source.Src.Name };
-                        problemInput.value = "\"0.0\"";
-                        problemInput.pass_by_obj = false;
                     }
                     else
                     {
@@ -793,16 +791,23 @@ namespace CyPhyPET
                     }
                 }
 
-                if (problemInput.innerSource == null)
+                List<MgaFCO> realSources = GetTransitiveSources((MgaFCO)input.Impl, new HashSet<string>()
                 {
-                    List<MgaFCO> realSources = GetTransitiveSources((MgaFCO)input.Impl, new HashSet<string>()
-                    {
-                        typeof(CyPhy.Metric).Name,
-                        typeof(CyPhy.FileOutput).Name,
-                        // typeof(CyPhy.ProblemOutput)
-                        // typeof(CyPhy.DesignVariable).Name
-
-                    });
+                    typeof(CyPhy.Metric).Name,
+                    typeof(CyPhy.FileOutput).Name,
+                    // typeof(CyPhy.ProblemOutput)
+                    typeof(CyPhy.DesignVariable).Name
+                });
+                var desVarSources = realSources.Where(s => s.Meta.Name == typeof(CyPhy.DesignVariable).Name);
+                if (desVarSources.Count() > 0)
+                {
+                    var desVar = desVarSources.First();
+                    // FIXME: get from desVar attribute
+                    problemInput.value = "\"0.0\"";
+                    problemInput.pass_by_obj = false;
+                }
+                else
+                {
                     MgaModel realSourceParent;
                     MgaFCO realSource = null;
                     if (realSources.Count > 1)
@@ -816,7 +821,9 @@ namespace CyPhyPET
                     {
                         if (testbenchtypes.Contains(realSourceParent.Meta.Name))
                         {
+                            // FIXME read DesignVariable to get type
                             problemInput.value = "\"0.0\"";
+                            problemInput.pass_by_obj = false;
                         }
                         else if (realSource.Meta.Name == typeof(CyPhy.Metric).Name)
                         {
@@ -843,6 +850,7 @@ namespace CyPhyPET
                         problemInput.pass_by_obj = true.ToString().Equals(pbo, StringComparison.InvariantCultureIgnoreCase);
                     }
                 }
+                
                 subProblem.problemInputs.Add(input.Name, problemInput);
             }
             foreach (var output in pet.Children.ProblemOutputCollection)

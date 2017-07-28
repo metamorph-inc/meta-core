@@ -814,7 +814,7 @@ namespace CyPhyPET.Rules
                     varSweepCollection.Count() == 0)
                 {
                     var problemInputs = designVar.DstConnections.ProblemInputFlowSourceConnectionCollection;
-                    if (problemInputs.Count() != 1)
+                    if (problemInputs.Count() < 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
