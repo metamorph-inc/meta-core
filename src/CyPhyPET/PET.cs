@@ -102,7 +102,8 @@ namespace CyPhyPET
                 config.SelectedConfigurations = new string[] { parameters.OriginalCurrentFCOName }.ToList();
             }
             config.GeneratedConfigurationModel = parameters.GeneratedConfigurationModel;
-            config.PETName = "/" + string.Join("/", getAncestors(parameters.CurrentFCO, stopAt: parameters.CurrentFCO.Project.RootFolder).Skip(1) // HACK: MI inserts a "Temporary" folder
+            config.PETName = "/" + string.Join("/", getAncestors(parameters.CurrentFCO, stopAt: parameters.CurrentFCO.Project.RootFolder)
+                .Skip(parameters.SelectedConfig != null ? 1 : 0) // HACK: MI inserts a "Temporary" folder for design space SUTs
                 .getTracedObjectOrSelf(parameters.GetTraceability()).Select(obj => obj.Name).Reverse()) + "/" + parameters.OriginalCurrentFCOName;
             this.PCCPropertyInputDistributions = new Dictionary<string, string>();
             // Determine type of driver of the Parametric Exploration
