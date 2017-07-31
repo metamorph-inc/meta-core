@@ -803,7 +803,7 @@ namespace CyPhyPET
                 {
                     var desVar = desVarSources.First();
                     // FIXME: get from desVar attribute
-                    problemInput.value = "\"0.0\"";
+                    problemInput.value = "0.0";
                     problemInput.pass_by_obj = false;
                 }
                 else
@@ -822,7 +822,7 @@ namespace CyPhyPET
                         if (testbenchtypes.Contains(realSourceParent.Meta.Name))
                         {
                             // FIXME read DesignVariable to get type
-                            problemInput.value = "\"0.0\"";
+                            problemInput.value = "0.0";
                             problemInput.pass_by_obj = false;
                         }
                         else if (realSource.Meta.Name == typeof(CyPhy.Metric).Name)
