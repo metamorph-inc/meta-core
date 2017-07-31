@@ -7,22 +7,8 @@ The subprojects hierarchy is:
 README.md :
 This file which describes the project source an build instructions.
 
-meta-schema : 
-The schema for the serialized objects.
-This derives a protobuf file from an xsd file created 
-by the GME CyPhy UML model.
-The generation from the protobuf file from the xsd is
-performed (mostly) by https://github.com/phreed/protomak.
-
-Protomak has some issues but appears to be 
-adequate for our purposes.
-Some hand edits of the generated artifacts are required.
-The artifact produced is used by 
-* meta-link-protobuf.
-
 meta-link-protobuf :
 The protobuf files for posting edits to designs.
-Contains files generated (in part) by meta-schema.
 The components use protobuf for message passing.
 First we need to run the appropriate protobuf code generators.
 Three languages are currently generated with two generators:

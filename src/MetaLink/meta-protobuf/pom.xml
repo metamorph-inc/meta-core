@@ -1,76 +1,103 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <prerequisites>
-     <maven>3.0.4</maven>
-   </prerequisites>
+  <prerequisites>
+    <maven>3.0.4</maven>
+  </prerequisites>
 
-   <modelVersion>4.0.0</modelVersion>
-   <properties>
-     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+  <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-   <parent>
-     <groupId>edu.vanderbilt.isis.meta.link</groupId>
-     <artifactId>metalink-parent</artifactId>
-     <version>1.1.0</version>
-   </parent>
+  <parent>
+    <groupId>edu.vanderbilt.isis.meta.link</groupId>
+    <artifactId>metalink-parent</artifactId>
+    <version>1.1.0</version>
+  </parent>
   <artifactId>metalink-protobuf-parent</artifactId>
   <packaging>pom</packaging>
 
   <name>meta protocol buffer message parent</name>
   <url>http://maven.apache.org</url>
 
-   <modules>
-       <module>java-proj</module>
-       <module>csharp-proj</module>
-       <module>cpp-proj</module>
-   </modules>
+  <modules>
+    <module>java-proj</module>
+    <module>csharp-proj</module>
+    <module>cpp-proj</module>
+  </modules>
 
   <dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.9</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>2.6.1</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.9</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>2.6.1</version>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 
   <build>
     <sourceDirectory>${project.basedir}/src/main/protobuf</sourceDirectory>
     <pluginManagement>
       <plugins>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.6.1</version>
-              <configuration>
-                  <source>1.6</source>
-                  <target>1.6</target>
-              </configuration>
-          </plugin>
-  
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-              <version>2.4</version>
-          </plugin>
-  
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.7</version>
         </plugin>
-  
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-install</id>
+              <phase>none</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-resources</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>default-testResources</id>
+              <phase>none</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-jar</id>
+              <phase>none</phase>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
-  
+
   </build>
 </project>

@@ -24,7 +24,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-            <scope>compile</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
@@ -39,17 +39,16 @@
       <artifactId>protobuf-java</artifactId>
     </dependency>
     <dependency>
-          <groupId>edu.vanderbilt.isis.meta.link</groupId>
-          <artifactId>metalink-protobuf-java</artifactId>
-          <classifier>protoc26</classifier>
-          <scope>compile</scope>
+      <groupId>edu.vanderbilt.isis.meta.link</groupId>
+      <artifactId>metalink-protobuf-java</artifactId>
+      <version>1.1.0</version>
     </dependency>
 
   </dependencies>
 
   <build>
     <plugins>
-                 
+
     </plugins>
   </build>
 
