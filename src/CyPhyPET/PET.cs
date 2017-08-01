@@ -112,7 +112,6 @@ namespace CyPhyPET
 
         public void Initialize()
         {
-
             // Determine type of driver of the Parametric Exploration
             if (this.pet.Children.PCCDriverCollection.Count() == 1)
             {

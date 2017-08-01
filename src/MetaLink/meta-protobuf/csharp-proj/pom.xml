@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-     <groupId>edu.vanderbilt.isis.meta.link</groupId>
-     <artifactId>metalink-protobuf-parent</artifactId>
-     <version>1.1.0</version>
-   </parent>
+  <parent>
+    <groupId>edu.vanderbilt.isis.meta.link</groupId>
+    <artifactId>metalink-protobuf-parent</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-   <properties>
-     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-     <target.csharp.path>target/generated-sources/csharp/</target.csharp.path>
-     <protobuf.source>${project.parent.build.sourceDirectory}</protobuf.source>
-     <usage.cyphy>${project.parent.parent.basedir}/meta-link-cyphy/src</usage.cyphy>
-   </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <target.csharp.path>target/generated-sources/csharp/</target.csharp.path>
+    <protobuf.source>${project.parent.build.sourceDirectory}</protobuf.source>
+    <usage.cyphy>${project.parent.parent.basedir}/meta-link-cyphy/src</usage.cyphy>
+  </properties>
 
   <artifactId>metalink-protobuf-csharp</artifactId>
   <packaging>jar</packaging>
@@ -37,89 +37,88 @@
   <profiles>
 
     <profile>
-       <id>gen-csharp</id>
-       <activation>
-<!--
-         <activeByDefault>true</activeByDefault>
+      <id>gen-csharp</id>
+      <activation>
+        <!--
+     <activeByDefault>true</activeByDefault>
 -->
-         <os>
-           <family>Windows</family>
-         </os>
-       </activation>
+        <os>
+          <family>Windows</family>
+        </os>
+      </activation>
 
-       <properties>
-         <generation.classfier>protoc26</generation.classfier>
-         <proto.exec.path>../../../../3rdParty/protobuf_net_r640/protogen.exe</proto.exec.path>
-       </properties>
+      <properties>
+        <generation.classfier>protoc26</generation.classfier>
+        <proto.exec.path>${project.basedir}/../../../../3rdParty/protobuf_net_r640/protogen.exe</proto.exec.path>
+      </properties>
 
-       <build>
-         <plugins>
-            <plugin>
-               <groupId>com.github.goldin</groupId>
-               <artifactId>find-maven-plugin</artifactId>
-               <version>0.2.5</version>
-               <executions>
-                 <execution>
-                    <id>set-protogen-path</id>
-                    <goals>
-                       <goal>find</goal>
-                    </goals>
-                    <phase>validate</phase>
-                    <configuration>
-                       <propertyName>proto.exec.abs.path</propertyName>
-		       <file>${proto.exec.path}</file>
-                    </configuration>
-                 </execution>
-              </executions>
-           </plugin>
-
-           <plugin>
-              <artifactId>maven-antrun-plugin</artifactId>
-              <executions>
-                <execution>
-                  <id>generate-csharp-sources</id>
-                  <phase>generate-sources</phase>
-                  <configuration>
-                    <tasks>
-                      <mkdir dir="${target.csharp.path}"/>
-                      <exec executable="${proto.exec.abs.path}" dir="${protobuf.source}" failonerror="true">
-                        <arg value="-d"/>
-                        <arg value="-o:${basedir}/${target.csharp.path}/MetaLinkMsg.cs"/>
-                        <arg value="-i:MetaLinkMsg.proto"/>
-                      </exec>
-                    </tasks>
-                  </configuration>
-                  <goals>
-                    <goal>run</goal>
-                  </goals>
-                </execution>
-                <execution>
-                  <!-- copy the csharp files to the projects which use them -->
-                  <id>copy-csharp-sources</id>
-                  <phase>install</phase>
-                  <configuration>
-                    <tasks>
-                        <mkdir dir="${usage.cyphy}/gen"/>
-                        <copy todir="${usage.cyphy}/gen">
-                          <fileset dir="${target.csharp.path}">
-                            <exclude name="**/*.java"/>
-                          </fileset>
-                        </copy>
-                    </tasks>
-                  </configuration>
-                  <goals>
-                    <goal>run</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
-          </plugins>
-       </build>
-     </profile>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate-csharp-sources</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <tasks>
+                    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                    <mkdir dir="${target.csharp.path}"/>
+                    <uptodate property="metaLinkMsgBuildNotRequired" targetfile="${basedir}/${target.csharp.path}/MetaLinkMsg.cs" >
+                      <srcfiles dir="${protobuf.source}" includes="*.proto"/>
+                    </uptodate>
+                    <if>
+                      <equals arg1="${metaLinkMsgBuildNotRequired}" arg2="true" />
+                      <then/>
+                      <else>
+                        <exec executable="${proto.exec.path}" dir="${protobuf.source}" failonerror="true">
+                          <arg value="-d"/>
+                          <arg value="-o:${basedir}/${target.csharp.path}/MetaLinkMsg.cs"/>
+                          <arg value="-i:MetaLinkMsg.proto"/>
+                        </exec>
+                      </else>
+                    </if>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <!-- copy the csharp files to the projects which use them -->
+                <id>copy-csharp-sources</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <mkdir dir="${usage.cyphy}/gen"/>
+                    <copy todir="${usage.cyphy}/gen">
+                      <fileset dir="${target.csharp.path}">
+                        <exclude name="**/*.java"/>
+                      </fileset>
+                    </copy>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <!-- https://mvnrepository.com/artifact/ant-contrib/ant-contrib -->
+              <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>20020829</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <build>
-      <plugins>
-      </plugins>
+    <plugins>
+    </plugins>
   </build>
 </project>

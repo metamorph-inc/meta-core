@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-     <groupId>edu.vanderbilt.isis.meta.link</groupId>
-     <artifactId>metalink-protobuf-parent</artifactId>
-     <version>1.1.0</version>
-   </parent>
+  <parent>
+    <groupId>edu.vanderbilt.isis.meta.link</groupId>
+    <artifactId>metalink-protobuf-parent</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-   <properties>
-     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-     <target.java.path>target/generated-sources/java/</target.java.path>
-     <protobuf.source>${project.parent.build.sourceDirectory}</protobuf.source>
-   </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <target.java.path>target/generated-sources/java/</target.java.path>
+    <protobuf.source>${project.parent.build.sourceDirectory}</protobuf.source>
+  </properties>
 
   <artifactId>metalink-protobuf-java</artifactId>
   <packaging>jar</packaging>
@@ -37,102 +37,142 @@
     <profile>
       <id>pb25</id>
       <activation>
-         <activeByDefault>true</activeByDefault>
+        <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
         <generation.classfier>protoc26</generation.classfier>
-	<protoc.exec.path>../../3rdParty/protoc-2.6.1-win32/protoc26.exe</protoc.exec.path>
+        <protoc.exec.path>${project.basedir}/../../../../3rdParty/protoc-2.6.1-win32/protoc26.exe</protoc.exec.path>
       </properties>
     </profile>
   </profiles>
 
   <build>
+
+    <pluginManagement>
       <plugins>
-      
         <plugin>
-           <groupId>com.github.goldin</groupId>
-           <artifactId>find-maven-plugin</artifactId>
-           <version>0.2.5</version>
-           <executions>
-             <execution>
-                <id>set-protogen-path</id>
-                <goals>
-                   <goal>find</goal>
-                </goals>
-                <phase>validate</phase>
-                <configuration>
-                   <propertyName>proto.exec.abs.path</propertyName>
-           <file>${protoc.exec.path}</file>
-                </configuration>
-             </execution>
-          </executions>
-       </plugin>
-      
-      
-       <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.6.1</version>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
           <executions>
             <execution>
-              <!-- build the java files -->
-              <id>generate-java-sources</id>
-              <phase>generate-sources</phase>
-              <configuration>
-                <tasks>
-                  <mkdir dir="${target.java.path}"/>
-                  <exec executable="${proto.exec.abs.path}" failonerror="true">
-                    <arg value="--proto_path=${protobuf.source}"/>
-                    <arg value="--java_out=${target.java.path}"/>
-		    <arg value="${protobuf.source}/MetaLinkMsg.proto"/>
-                  </exec>
-                  <exec executable="${proto.exec.abs.path}" failonerror="true">
-                    <arg value="--proto_path=${protobuf.source}"/>
-                    <arg value="--java_out=${target.java.path}"/>
-		    <arg value="${protobuf.source}/AssemblyInterface.proto"/>
-                  </exec>
-                </tasks>
-              </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
+              <id>default-compile</id>
+              <phase>compile</phase>
             </execution>
           </executions>
         </plugin>
 
         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-install</id>
+              <phase>install</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-jar</id>
+              <phase>package</phase>
+            </execution>
+          </executions>
         </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- build the java files -->
+            <id>generate-java-sources</id>
+            <phase>generate-sources</phase>
             <configuration>
-                <classifier>${generation.classfier}</classifier>
+              <tasks>
+                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                <mkdir dir="${target.java.path}"/>
+                <uptodate property="metaLinkMsgBuildNotRequired" targetfile="${target.java.path}\edu\vanderbilt\isis\meta\MetaLinkMsg.java" >
+                  <srcfiles dir="${protobuf.source}" includes="MetaLinkMsg.proto"/>
+                </uptodate>
+                <if>
+                  <equals arg1="${metaLinkMsgBuildNotRequired}" arg2="true" />
+                  <then/>
+                  <else>
+                    <exec executable="${protoc.exec.path}" failonerror="true">
+                      <arg value="--proto_path=${protobuf.source}"/>
+                      <arg value="--java_out=${target.java.path}"/>
+                      <arg value="${protobuf.source}/MetaLinkMsg.proto"/>
+                    </exec>
+                  </else>
+                </if>
+                <uptodate property="assemblyInterfaceBuildNotRequired" targetfile="${target.java.path}\edu\vanderbilt\isis\meta\AssemblyInterface.java" >
+                  <srcfiles dir="${protobuf.source}" includes="AssemblyInterface.proto"/>
+                </uptodate>
+                <if>
+                  <equals arg1="${assemblyInterfaceBuildNotRequired}" arg2="true" />
+                  <then/>
+                  <else>
+                    <exec executable="${protoc.exec.path}" failonerror="true">
+                      <arg value="--proto_path=${protobuf.source}"/>
+                      <arg value="--java_out=${target.java.path}"/>
+                      <arg value="${protobuf.source}/AssemblyInterface.proto"/>
+                    </exec>
+                  </else>
+                </if>
+              </tasks>
             </configuration>
-        </plugin>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <dependencies>
+          <!-- https://mvnrepository.com/artifact/ant-contrib/ant-contrib -->
+          <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>20020829</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
-           <execution>
-             <id>add-source</id>
-             <phase>generate-sources</phase>
-             <goals> <goal>add-source</goal> </goals>
-             <configuration> 
-               <sources> 
-                 <source>${basedir}/${target.java.path}</source>
-               </sources>
-             </configuration>
-           </execution>
-           <execution>
-             <id>parse-version</id>
-             <phase>validate</phase>
-             <goals> <goal>parse-version</goal> </goals>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration> 
+              <sources> 
+                <source>${basedir}/${target.java.path}</source>
+              </sources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
-            
-      </plugins>
+
+    </plugins>
   </build>
 </project>

@@ -668,7 +668,8 @@ namespace CyPhyPET
                 config.SelectedConfigurations = new string[] { mainParameters.OriginalCurrentFCOName }.ToList();
             }
             config.GeneratedConfigurationModel = mainParameters.GeneratedConfigurationModel;
-            config.PETName = "/" + string.Join("/", PET.getAncestors(mainParameters.CurrentFCO, stopAt: mainParameters.CurrentFCO.Project.RootFolder).Skip(1) // HACK: MI inserts a "Temporary" folder
+            config.PETName = "/" + string.Join("/", PET.getAncestors(mainParameters.CurrentFCO, stopAt: mainParameters.CurrentFCO.Project.RootFolder)
+                .Skip(mainParameters.SelectedConfig != null ? 1 : 0) // HACK: MI inserts a "Temporary" folder for design space SUTs
                 .getTracedObjectOrSelf(mainParameters.GetTraceability()).Select(obj => obj.Name).Reverse()) + "/" + mainParameters.OriginalCurrentFCOName;
 
             // 2) Get the type of test-bench and call any dependent interpreters
