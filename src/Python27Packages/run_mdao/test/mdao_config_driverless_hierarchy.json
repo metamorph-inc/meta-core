@@ -1,0 +1,130 @@
+{
+  "components": {},
+  "drivers": {
+    "ParameterStudyDriver": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "c_in": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        },
+        "b": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        },
+        "a": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        }
+      },
+      "objectives": {
+        "c_out": {
+          "source": [
+            "ParametricExploration",
+            "c_out"
+          ]
+        },
+        "y": {
+          "source": [
+            "ParametricExploration",
+            "y"
+          ]
+        },
+        "x": {
+          "source": [
+            "ParametricExploration",
+            "x"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=10\n",
+        "SurrogateType": "None",
+        "DOEType": "Uniform"
+      }
+    }
+  },
+  "subProblems": {
+    "ParametricExploration": {
+      "problemInputs": {
+        "b": {
+          "outerSource": [
+            "ParameterStudyDriver",
+            "b"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        },
+        "c_in": {
+          "outerSource": [
+            "ParameterStudyDriver",
+            "c_in"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        },
+        "a": {
+          "outerSource": [
+            "ParameterStudyDriver",
+            "a"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        }
+      },
+      "problemOutputs": {
+        "c_out": [
+          "c_in"
+        ],
+        "x": [
+          "PythonWrapper",
+          "x"
+        ],
+        "y": [
+          "PythonWrapper",
+          "y"
+        ]
+      },
+      "components": {
+        "PythonWrapper": {
+          "parameters": {
+            "b": {
+              "source": [
+                "b"
+              ]
+            },
+            "a": {
+              "source": [
+                "a"
+              ]
+            }
+          },
+          "unknowns": {
+            "y": {},
+            "x": {}
+          },
+          "details": {
+            "filename": "Adder.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {},
+      "subProblems": {}
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "SubGroup"
+  ],
+  "PETName": "/Testing/SubGroup",
+  "MgaFilename": "C:\\source\\mc-test-model\\Temp.mga"
+}

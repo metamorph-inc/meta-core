@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import numpy
 import itertools
 import traceback
+import os
 
 from run_mdao.restart_recorder import RestartRecorder
 
@@ -45,6 +46,13 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         super(PredeterminedRunsDriver, self).__init__(*args, **kwargs)
         self.supports['gradients'] = False
         self.original_dir = original_dir
+
+        # Make sure self.original_dir exists (if this was instantiated from a subproblem, it might not)
+        try:
+            os.makedirs(self.original_dir)
+        except OSError:
+            pass # Directory already exists
+
         self.use_restart = True
 
     def _setup_communicators(self, comm, parent_dir):
@@ -158,6 +166,8 @@ class UniformDriver(PredeterminedRunsDriver):
     def _build_runlist(self):
         def sample_var(metadata):
             if metadata.get('type', 'double') == 'double':
+                if metadata['lower'] == metadata['upper']:
+                    return metadata['lower']
                 return self.random.uniform(metadata['lower'], metadata['upper'])
             elif metadata.get('type') == 'enum':
                 return self.random.choice(metadata['items'])
