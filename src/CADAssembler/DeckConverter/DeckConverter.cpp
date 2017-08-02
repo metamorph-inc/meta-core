@@ -198,7 +198,7 @@ namespace isis
 			calculix << "*ELEMENT, TYPE=" << elementType << ", ELSET=" << psolidID << "\n";			// TODO: Change element type accordingly
 			calculix << "**\n";
 			
-			for (std::map<int, isis_CADCommon::SolidElement>::const_iterator ret = nasDeck.getElementData().begin(); ret != nasDeck.getElementData().end(); ret++)
+			for (std::map<int, isis_CADCommon::FEAElement>::const_iterator ret = nasDeck.getElementData().begin(); ret != nasDeck.getElementData().end(); ret++)
 			{
 				if (ret->second.PID != ci->first)
 				{
@@ -207,9 +207,9 @@ namespace isis
 				else
 				{
 					calculix << ret->second.EID;
-					for (unsigned int i = 0; i < ret->second.GID.size(); i++)
+					for (unsigned int i = 0; i < ret->second.GIDs.size(); i++)
 					{
-						calculix << ", " << ret->second.GID[i];
+						calculix << ", " << ret->second.GIDs[i];
 					}
 					calculix << "\n";
 				}
@@ -256,7 +256,7 @@ namespace isis
 				calculix << "**\n";
 				calculix << "** SPECIFIED TEMPERATURE LOADS\n";
 				calculix << "*BOUNDARY, OP=NEW\n";
-				for each ( const std::pair<int, int> &i in gridPointToSpecifiedTemperature_map )
+				for each ( const std::pair<int, double> &i in gridPointToSpecifiedTemperature_map )
 				{
 					// Abaqus Heat Transfer DOF = 11
 					calculix << i.first << ", " << "11" << "," << "11" << ", " << i.second << "\n";
@@ -293,7 +293,7 @@ namespace isis
 			{
 				calculix << "**\n";
 				calculix << "*DFLUX\n";
-				std::map<int, isis_CADCommon::SolidElement> elementData = nasDeck.getElementData();
+				std::map<int, isis_CADCommon::FEAElement> elementData = nasDeck.getElementData();
 				for (std::vector<isis_CADCommon::HeatFluxLoad>::const_iterator hfi = heatFluxLoads.begin(); hfi != heatFluxLoads.end(); hfi++)
 				{
 					int face = 0;
@@ -301,9 +301,9 @@ namespace isis
 					int currentElement = hfi->elementIDThatContainsSurface;
 					for (std::vector<int>::size_type gi = 0; gi != hfi->surfaceGridPointIDs.size()-3; gi++)
 					{
-						for (unsigned int i = 0; i < elementData[currentElement].GID.size(); i++)
+						for (unsigned int i = 0; i < elementData[currentElement].GIDs.size(); i++)
 						{
-							if ( elementData[currentElement].GID[i] == hfi->surfaceGridPointIDs[gi] )
+							if ( elementData[currentElement].GIDs[i] == hfi->surfaceGridPointIDs[gi] )
 								faceNodes.push_back(i+1);  // Add 1: index is zero-based.
 						}
 					}
@@ -335,7 +335,7 @@ namespace isis
 			{
 				calculix << "**\n";
 				calculix << "*FILM\n";
-				std::map<int, isis_CADCommon::SolidElement> elementData = nasDeck.getElementData();
+				std::map<int, isis_CADCommon::FEAElement> elementData = nasDeck.getElementData();
 				for (std::vector<isis_CADCommon::SurfaceConvection>::const_iterator sci = surfaceConvection.begin(); sci != surfaceConvection.end(); sci++)
 				{
 					int face = 0;
@@ -344,9 +344,9 @@ namespace isis
 					// Determine which element surface the grid points correspond to
 					for (std::vector<int>::size_type gi = 0; gi != sci->surfaceGridPointIDs.size()-3; gi++)
 					{
-						for (unsigned int i = 0; i < elementData[currentElement].GID.size(); i++)
+						for (unsigned int i = 0; i < elementData[currentElement].GIDs.size(); i++)
 						{
-							if ( elementData[currentElement].GID[i] == sci->surfaceGridPointIDs[gi] )
+							if ( elementData[currentElement].GIDs[i] == sci->surfaceGridPointIDs[gi] )
 								faceNodes.push_back(i+1);  // Add 1: index is zero-based.
 						}
 					}
@@ -468,7 +468,7 @@ namespace isis
 		
 
 		elmerMesh.open(outputDirectory + "//" + "mesh.elements");
-		for (std::map<int, isis_CADCommon::SolidElement>::const_iterator ci = nasDeck.getElementData().begin(); 
+		for (std::map<int, isis_CADCommon::FEAElement>::const_iterator ci = nasDeck.getElementData().begin(); 
 			ci != nasDeck.getElementData().end();
 			ci++)
 		{
@@ -481,9 +481,9 @@ namespace isis
 			else if (ci->second.Type == isis_CADCommon::CTETRA)
 				elmerMesh << "510";
 
-			for (size_t i = 0; i < ci->second.GID.size(); i++)
+			for (size_t i = 0; i < ci->second.GIDs.size(); i++)
 			{
-				elmerMesh << " " << ci->second.GID[i];
+				elmerMesh << " " << ci->second.GIDs[i];
 			}
 			elmerMesh << "\n";
 		}
