@@ -1,0 +1,271 @@
+{
+  "components": {},
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "n": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "y_f": {
+          "source": [
+            "ParametricExploration",
+            "y_f"
+          ]
+        },
+        "x_f": {
+          "source": [
+            "ParametricExploration",
+            "x_f"
+          ]
+        },
+        "Time": {
+          "source": [
+            "ParametricExploration",
+            "Time"
+          ]
+        },
+        "f_xy": {
+          "source": [
+            "ParametricExploration",
+            "f_xy"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples = 2",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  },
+  "subProblems": {
+    "ParametricExploration": {
+      "problemInputs": {
+        "k": {
+          "outerSource": [
+            "ParameterStudy",
+            "n"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        }
+      },
+      "problemOutputs": {
+        "y_f": [
+          "OptimizationProblem",
+          "y_f"
+        ],
+        "x_f": [
+          "OptimizationProblem",
+          "x_f"
+        ],
+        "Time": [
+          "MeasureTime",
+          "time"
+        ],
+        "f_xy": [
+          "OptimizationProblem",
+          "f_xy"
+        ]
+      },
+      "components": {
+        "SaveTime": {
+          "parameters": {
+            "pass_in": {
+              "source": [
+                "ParameterStudy",
+                "x_0"
+              ]
+            }
+          },
+          "unknowns": {
+            "pass_out": {}
+          },
+          "details": {
+            "filename": "savetime.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        },
+        "MeasureTime": {
+          "parameters": {
+            "finished": {
+              "source": [
+                "OptimizationProblem",
+                "f_xy"
+              ]
+            }
+          },
+          "unknowns": {
+            "time": {}
+          },
+          "details": {
+            "filename": "measuretime.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {
+        "ParameterStudy": {
+          "type": "parameterStudy",
+          "designVariables": {
+            "y_0": {
+              "RangeMin": -50.0,
+              "RangeMax": 50.0
+            },
+            "x_0": {
+              "RangeMin": -50.0,
+              "RangeMax": 50.0
+            }
+          },
+          "objectives": {
+            "Time": {
+              "source": [
+                "MeasureTime",
+                "time"
+              ]
+            },
+            "y_f": {
+              "source": [
+                "OptimizationProblem",
+                "y_f"
+              ]
+            },
+            "x_f": {
+              "source": [
+                "OptimizationProblem",
+                "x_f"
+              ]
+            },
+            "f_xy": {
+              "source": [
+                "OptimizationProblem",
+                "f_xy"
+              ]
+            }
+          },
+          "constraints": {},
+          "intermediateVariables": {},
+          "details": {
+            "Code": "num_samples = 3",
+            "SurrogateType": "None",
+            "DOEType": "Full Factorial"
+          }
+        }
+      },
+      "subProblems": {
+        "OptimizationProblem": {
+          "problemInputs": {
+            "y_0": {
+              "outerSource": [
+                "ParameterStudy",
+                "y_0"
+              ],
+              "innerSource": [
+                "Optimizer",
+                "y"
+              ],
+              "value": "0.0",
+              "pass_by_obj": false
+            },
+            "x_0": {
+              "outerSource": [
+                "SaveTime",
+                "pass_out"
+              ],
+              "innerSource": [
+                "Optimizer",
+                "x"
+              ],
+              "value": "0.0",
+              "pass_by_obj": false
+            }
+          },
+          "problemOutputs": {
+            "f_xy": [
+              "PythonWrapper",
+              "f_xy"
+            ],
+            "x_f": [
+              "x_0"
+            ],
+            "y_f": [
+              "y_0"
+            ]
+          },
+          "components": {
+            "PythonWrapper": {
+              "parameters": {
+                "x": {
+                  "source": [
+                    "x_0"
+                  ]
+                },
+                "y": {
+                  "source": [
+                    "y_0"
+                  ]
+                }
+              },
+              "unknowns": {
+                "f_xy": {}
+              },
+              "details": {
+                "filename": "paraboloid.py"
+              },
+              "type": "run_mdao.python_component.PythonComponent"
+            }
+          },
+          "drivers": {
+            "Optimizer": {
+              "type": "optimizer",
+              "designVariables": {
+                "y": {
+                  "RangeMin": -50.0,
+                  "RangeMax": 50.0
+                },
+                "x": {
+                  "RangeMin": -50.0,
+                  "RangeMax": 50.0
+                }
+              },
+              "objectives": {
+                "f_xy": {
+                  "source": [
+                    "PythonWrapper",
+                    "f_xy"
+                  ]
+                }
+              },
+              "constraints": {},
+              "intermediateVariables": {},
+              "details": {
+                "Code": "",
+                "CustomOptimizer": "",
+                "OptimizationFunction": "COBYLA"
+              }
+            }
+          },
+          "subProblems": {}
+        }
+      }
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "OptimizationInitialConditionProfilingRepeat"
+  ],
+  "PETName": "/Testing/OptimizationInitialConditionProfilingRepeat",
+  "MgaFilename": "C:\\source\\meta-core\\models\\PET_simple_proof-of-concept\\WorkFlow_PET.mga"
+}

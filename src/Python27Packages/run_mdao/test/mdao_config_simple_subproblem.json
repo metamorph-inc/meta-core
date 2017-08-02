@@ -1,0 +1,170 @@
+{
+  "components": {
+    "PythonWrapper": {
+      "parameters": {
+        "b": {
+          "source": [
+            "ParameterStudy",
+            "b"
+          ]
+        },
+        "a": {
+          "source": [
+            "ParameterStudy",
+            "a"
+          ]
+        }
+      },
+      "unknowns": {
+        "y": {},
+        "x": {}
+      },
+      "details": {
+        "filename": "Adder.py"
+      },
+      "type": "run_mdao.python_component.PythonComponent"
+    }
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "b": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        },
+        "a": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        }
+      },
+      "objectives": {
+        "y": {
+          "source": [
+            "sub",
+            "y"
+          ]
+        },
+        "x": {
+          "source": [
+            "sub",
+            "x"
+          ]
+        },
+        "z": {
+          "source": [
+            "sub",
+            "z"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=10",
+        "SurrogateType": "None",
+        "DOEType": "Uniform"
+      }
+    }
+  },
+  "subProblems": {
+    "sub": {
+      "problemInputs": {
+        "a_0": {
+          "outerSource": ["PythonWrapper", "x"],
+          "innerSource": ["Optimizer", "a"]
+        }
+      },
+      "problemOutputs": {
+        "z": ["a_0"],
+        "b": ["Optimizer", "b"],
+        "x": ["PythonWrapper", "x"],
+        "y": ["PythonWrapper", "y"]
+      },
+      "components": {
+        "PythonWrapper": {
+          "parameters": {
+            "a": {
+              "source": [
+                "a_0"
+              ]
+            },
+            "b": {
+              "source": [
+                "Optimizer",
+                "b"
+              ]
+            }
+          },
+          "unknowns": {
+            "y": {},
+            "x": {}
+          },
+          "details": {
+            "filename": "Adder.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {
+        "Optimizer": {
+          "type": "optimizer",
+          "designVariables": {
+            "a": {
+              "RangeMin": 1.0,
+              "RangeMax": 10.0
+            },
+            "b": {
+              "RangeMin": 1.0,
+              "RangeMax": 10.0
+            }
+          },
+          "objectives": {
+            "x": {
+              "source": [
+                "PythonWrapper",
+                "x"
+              ]
+            }
+          },
+          "constraints": {
+            "cons": {
+              "source": [
+                "PythonWrapper",
+                "y"
+              ],
+              "RangeMin": 1.0,
+              "RangeMax": 10.0
+            }
+          },
+          "intermediateVariables": {
+            "y": {
+              "source": [
+                "PythonWrapper",
+                "y"
+              ]
+            }
+          },
+          "details": {
+            "Code": "",
+            "CustomOptimizer": "",
+            "OptimizationFunction": "COBYLA"
+          }
+        }
+      },
+      "subProblems": { }
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "SimplePet"
+  ],
+  "PETName": "/Testing/SimplePet",
+  "MgaFilename": "C:\\source\\mc-test-model\\Temp.mga"
+}

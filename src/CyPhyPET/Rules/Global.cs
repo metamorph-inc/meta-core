@@ -56,7 +56,7 @@ namespace CyPhyPET.Rules
             return result;
         }
 
-#region TestBench
+        #region TestBench
         /// <summary>
         /// Looks if a work-flow with a task is defined in testBench and if so, returns the ProgID defined
         /// in task. If the rules are not fulfilled an empty string is returned.
@@ -99,9 +99,14 @@ namespace CyPhyPET.Rules
 
         public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
         {
-            var result = new List<RuleFeedbackBase>();
-
             var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
+
+            return UniqueNames(components);
+        }
+
+        public static IEnumerable<RuleFeedbackBase> UniqueNames(IEnumerable<FCO> components)
+        {
+            var result = new List<RuleFeedbackBase>();
             var dupNames = components.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
                 .Select(group => group.Key);
             if (dupNames.Count() > 0)
@@ -111,6 +116,66 @@ namespace CyPhyPET.Rules
                     FeedbackType = FeedbackTypes.Error,
                     Message = string.Format("PET requires unique names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
                 };
+                result.Add(feedback);
+            }
+
+            return result;
+        }
+
+        internal static IEnumerable<RuleFeedbackBase> CheckProblemOutput(MgaFCO child)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var incomingConnections = child.PartOfConns.Cast<IMgaConnPoint>().Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+                .Cast<IMgaSimpleConnection>();
+            if (incomingConnections.Count() != 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = incomingConnections.Count() == 0 ? "ProblemOutput must have one incoming connection" :
+                        "ProblemOutput may not have more than one incoming connection"
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+            return result;
+        }
+
+        internal static IEnumerable<RuleFeedbackBase> CheckProblemInput(MgaFCO child)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var incomingConnections = child.PartOfConns.Cast<IMgaConnPoint>().Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+                .Cast<IMgaSimpleConnection>();
+            if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection at the same level of hierarchy")
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+            if (incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection from the parent ParametricExploration")
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+            if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() == 1 &&
+                incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).First().Src.Meta.Name != typeof(CyPhy.DesignVariable).Name &&
+                incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() == 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput must be connected to a Design Variable") // TODO: if it is connected one hierarchy level up
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
                 result.Add(feedback);
             }
 
@@ -233,9 +298,9 @@ namespace CyPhyPET.Rules
             return result;
         }
 
-#endregion
+        #endregion
 
-#region PCC
+        #region PCC
         [CheckerRule("PCCDriverSetUpCorrectly", Description = "Checks all rules for a PCCDriver")]
         [Tags("PET")]
         [ValidContext("PCCDriver")]
@@ -618,15 +683,14 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
-#region ParameterStudy
+        #region ParameterStudy
         [CheckerRule("ParameterStudySetUpCorrectly", Description = "Checks rules for a ParameterStudy")]
         [Tags("PET")]
         [ValidContext("ParameterStudy")]
         public static IEnumerable<RuleFeedbackBase> ParameterStudySetUpCorrectly(MgaFCO context)
         {
-            var result = new List<RuleFeedbackBase>();
             var parameterStudy = CyPhyClasses.ParameterStudy.Cast(context);
             return checkMdaoDriverChildren(context);
         }
@@ -683,8 +747,7 @@ namespace CyPhyPET.Rules
                 rangeLengths.Add(discreteRange);
 
                 var varSweepCollection = designVar.DstConnections.VariableSweepCollection;
-                if (varSweepCollection != null &&
-                    varSweepCollection.Count() == 1)
+                if (varSweepCollection.Count() == 1)
                 {
                     CyPhy.VariableSweep varSweep = varSweepCollection.FirstOrDefault();
                     var tbParam = varSweep.DstEnds.Parameter;
@@ -750,14 +813,18 @@ namespace CyPhyPET.Rules
                 else if (varSweepCollection != null &&
                     varSweepCollection.Count() == 0)
                 {
-                    var feedback = new GenericRuleFeedback()
+                    var problemInputs = designVar.DstConnections.ProblemInputFlowSourceConnectionCollection;
+                    if (problemInputs.Count() < 1)
                     {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
-                    };
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Error,
+                            Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
+                        };
 
-                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                    checkResults.Add(feedback);
+                        feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
+                        checkResults.Add(feedback);
+                    }
                 }
             }
 
@@ -778,13 +845,18 @@ namespace CyPhyPET.Rules
             {
                 var objMappingCollection = obj.SrcConnections.ObjectiveMappingCollection;
                 var fileFlowCollection = obj.SrcConnections.FileResultFlowCollection;
-                if (objMappingCollection.Count() + fileFlowCollection.Count() == 1)
+                var outputColection = obj.SrcConnections.ProblemOutputFlowTargetConnectionCollection;
+                if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 1)
                 {
                     FCO tbMetric;
                     if (objMappingCollection.Count() == 1)
                     {
                         CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
                         tbMetric = objMap.SrcEnd;
+                    }
+                    else if (outputColection.Count() == 1)
+                    {
+                        tbMetric = outputColection.First().SrcEnd;
                     }
                     else
                     {
@@ -794,9 +866,10 @@ namespace CyPhyPET.Rules
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (   (tbMetricParent is CyPhy.TestBenchType) == false
+                        if ((tbMetricParent is CyPhy.TestBenchType) == false
                             && (tbMetricParent is CyPhy.ParametricTestBench) == false
-                            && (tbMetricParent is CyPhy.Constants) == false)
+                            && (tbMetricParent is CyPhy.Constants) == false
+                            && (tbMetricParent is CyPhy.ParametricExploration) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -825,7 +898,7 @@ namespace CyPhyPET.Rules
                 }
                 else
                 {
-                    if (objMappingCollection.Count() + fileFlowCollection.Count() > 1)
+                    if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() > 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
@@ -836,7 +909,7 @@ namespace CyPhyPET.Rules
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
                         checkResults.Add(feedback);
                     }
-                    else if (objMappingCollection.Count() + fileFlowCollection.Count() == 0)
+                    else if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 0)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
@@ -952,9 +1025,9 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
-#region Optimizer
+        #region Optimizer
         [CheckerRule("OptimizerSetUpCorrectly", Description = "Checks rules for an Optimizer")]
         [Tags("PET")]
         [ValidContext("Optimizer")]
@@ -1028,7 +1101,7 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
         public static string checkForInvalidCharacters(string childName)
         {

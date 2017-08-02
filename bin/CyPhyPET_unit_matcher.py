@@ -3,10 +3,8 @@
 from __future__ import absolute_import
 from __future__ import print_function
 import json
-import operator
-import re
 import itertools
-
+import numpy
 import CyPhyPET_unit_setter
 import run_mdao.python_component
 import run_mdao.python_component.get_params_and_unknowns
@@ -99,7 +97,22 @@ def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
             metadata['gme_unit_id'] = gme_unit_id
         # else: TODO create a new unit
 
-    componentParameters['ret'] = json.dumps({'params': c._init_params_dict, 'unknowns': c._init_unknowns_dict},
-        default=run_mdao.python_component.get_params_and_unknowns.json_default)
+    def repr_val(val):
+        if isinstance(val, numpy.ndarray):
+            return 'numpy.as' + repr(val)
+        return repr(val)
+
+    def add_repr_val(param):
+        val = param.get('val')
+        if val is None:
+            # TODO: look for shape?
+            return param
+        param = dict(param)
+        param['repr_val'] = repr_val(val)
+        return param
+
+    componentParameters['ret'] = json.dumps({'params': {n: add_repr_val(p) for (n, p) in six.iteritems(c._init_params_dict)},
+                       'unknowns': {n: add_repr_val(u) for (n, u) in six.iteritems(c._init_unknowns_dict)}},
+                      default=run_mdao.python_component.get_params_and_unknowns.json_default)
     # import cgi
     # debug_log(cgi.escape(componentParameters['ret']))

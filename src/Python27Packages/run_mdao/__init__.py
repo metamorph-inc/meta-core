@@ -8,6 +8,7 @@ import json
 import importlib
 import time
 import contextlib
+import itertools
 import numpy
 import six
 
@@ -16,7 +17,7 @@ from run_mdao.enum_mapper import EnumMapper
 from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver
 from run_mdao.restart_recorder import RestartRecorder
 
-from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer
+from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, ExecComp, Component
 
 from openmdao.core.mpi_wrap import MPI
 
@@ -51,6 +52,9 @@ def _memoize_solve(component, fn):
     from run_mdao.array_hashable import array_hashable
     memo = {}
     component.add_output('_runtime', val=0.0)
+    # don't attempt to memoize components with FileRefs
+    if [v for v in itertools.chain(component._init_unknowns_dict.values(), component._init_params_dict.values()) if isinstance(v['val'], FileRef)]:
+        return fn
 
     def solve_nonlinear(tb_params, unknowns, resids):
         # FIXME: without dict(), this returns wrong values. why?
@@ -145,101 +149,62 @@ def run(filename, override_driver=None):
 
 
 @contextlib.contextmanager
-def with_problem(mdao_config, original_dir, override_driver=None):
+def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False):
     # TODO: can we support more than one driver
-    driver = next(iter(mdao_config['drivers'].values()))
+    if len(mdao_config['drivers']) == 0:
+        driver = None
+    else:
+        driver = next(iter(mdao_config['drivers'].values()))
 
     top = Problem(impl=impl)
     root = top.root = Group()
     recorder = None
     driver_params = {'original_dir': original_dir}
-    eval(compile(driver['details'].get('Code', ''), '<driver Code>', 'exec'), globals(), driver_params)
+    if driver != None:
+        eval(compile(driver['details'].get('Code', ''), '<driver Code>', 'exec'), globals(), driver_params)
 
     def get_desvar_path(designVariable):
         return 'designVariable.{}'.format(designVariable)
 
-    if driver['type'] == 'optimizer':
-        if driver.get('details', {}).get('OptimizationFunction') == 'Custom':
-            class_path = driver['details']['OptimizationClass'].split('.')
-            mod = __import__('.'.join(class_path[:-1]), fromlist=[class_path[-1]])
-            top.driver = getattr(mod, class_path[-1])()
-        else:
-            top.driver = ScipyOptimizer()
-            top.driver.options['optimizer'] = str(driver.get('details', {}).get('OptimizationFunction', 'SLSQP'))
-
-        for key, value in six.iteritems(driver_params):
-            try:
-                top.driver.options[key] = value
-            except KeyError:
-                pass  # Ignore options that aren't valid for driver
-    elif driver['type'] == 'parameterStudy':
-        drivers = {
-            "Uniform": UniformDriver,
-            "Full Factorial": FullFactorialDriver,
-            "Latin Hypercube": LatinHypercubeDriver,
-            "Opt Latin Hypercube": OptimizedLatinHypercubeDriver,
-        }
-        driver_type = drivers.get(driver['details']['DOEType'])
-        if driver_type is None:
-            raise Exception('DOEType "{}" is unsupported'.format(driver['details']['DOEType']))
-        if override_driver is None:
-            top.driver = driver_type(**driver_params)
-        else:
-            top.driver = override_driver
-        seed = getattr(top.driver, 'seed', None)
-        if seed is not None:
-            print('Using random seed {}'.format(seed))
-    elif driver['type'] == 'PCCDriver':
-        import PCC.pcc_driver
-        driver_params.update(driver['details'])
-        top.driver = PCC.pcc_driver.PCCdriver(**driver_params)
-    else:
-        raise ValueError('Unsupported driver type %s' % driver['type'])
-
-    def add_recorders():
-        recorders = []
-        design_var_map = {get_desvar_path(designVariable): designVariable for designVariable in driver['designVariables']}
-        objective_map = {'{}.{}'.format(objective['source'][0], objective['source'][1]): objective_name for objective_name, objective in six.iteritems(driver['objectives'])}
-        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver.get('intermediateVariables', {}))}
-        constants_map = {}
-        for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
-            constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
-
-        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
-
-        unknowns_map = design_var_map
-        unknowns_map.update(objective_map)
-        unknowns_map.update(intermediate_var_map)
-        unknowns_map.update(constants_map)
-        unknowns_map.update(constraints_map)
-        for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
-            if recorder['type'] == 'DriverCsvRecorder':
-                mode = 'wb'
-                if RestartRecorder.is_restartable(original_dir):
-                    mode = 'ab'
-                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
-                if mode == 'ab':
-                    recorder._wrote_header = True
-            elif recorder['type'] == 'AllCsvRecorder':
-                mode = 'wb'
-                recorder = CsvRecorder(out=open(recorder['filename'], mode))
-            elif recorder['type'] == 'CouchDBRecorder':
-                recorder = CouchDBRecorder(recorder.get('url', 'http://localhost:5984/'), recorder['run_id'])
-                recorder.options['record_params'] = True
-                recorder.options['record_unknowns'] = True
-                recorder.options['record_resids'] = False
-                recorder.options['includes'] = list(unknowns_map.keys())
+    if driver != None:
+        if driver['type'] == 'optimizer':
+            if driver.get('details', {}).get('OptimizationFunction') == 'Custom':
+                class_path = driver['details']['OptimizationClass'].split('.')
+                mod = __import__('.'.join(class_path[:-1]), fromlist=[class_path[-1]])
+                top.driver = getattr(mod, class_path[-1])()
             else:
-                mod_name = '.'.join(recorder['type'].split('.')[:-1])
-                class_name = recorder['type'].split('.')[-1]
-                recorder = getattr(importlib.import_module(mod_name), class_name)()
+                top.driver = ScipyOptimizer()
+                top.driver.options['optimizer'] = str(driver.get('details', {}).get('OptimizationFunction', 'SLSQP'))
 
-            top.driver.add_recorder(recorder)
-        return recorders
-
-    recorders = add_recorders()
-
-    try:
+            for key, value in six.iteritems(driver_params):
+                try:
+                    top.driver.options[key] = value
+                except KeyError:
+                    pass  # Ignore options that aren't valid for driver
+        elif driver['type'] == 'parameterStudy':
+            drivers = {
+                "Uniform": UniformDriver,
+                "Full Factorial": FullFactorialDriver,
+                "Latin Hypercube": LatinHypercubeDriver,
+                "Opt Latin Hypercube": OptimizedLatinHypercubeDriver,
+            }
+            driver_type = drivers.get(driver['details']['DOEType'])
+            if driver_type is None:
+                raise Exception('DOEType "{}" is unsupported'.format(driver['details']['DOEType']))
+            if override_driver is None:
+                top.driver = driver_type(**driver_params)
+            else:
+                top.driver = override_driver
+            seed = getattr(top.driver, 'seed', None)
+            if seed is not None:
+                print('Using random seed {}'.format(seed))
+        elif driver['type'] == 'PCCDriver':
+            import PCC.pcc_driver
+            driver_params.update(driver['details'])
+            top.driver = PCC.pcc_driver.PCCdriver(**driver_params)
+        else:
+            raise ValueError('Unsupported driver type %s' % driver['type'])
+        
         driver_vars = []
         for var_name, var in six.iteritems(driver['designVariables']):
             if var.get('type', 'double') == 'double':
@@ -277,76 +242,318 @@ def with_problem(mdao_config, original_dir, override_driver=None):
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
 
-        def get_sorted_components():
-            """Apply Tarjan's algorithm to the Components."""
-            visited = {}
-            tbs_sorted = []
+    def get_sorted_components():
+        """Apply Tarjan's algorithm to the Components."""
+        visited = {}
+        tbs_sorted = []
 
-            def get_ordinal(name):
-                ordinal = visited.get(name, -1)
-                if ordinal is None:
-                    raise ValueError('Loop involving component "{}"'.format(name))
-                if ordinal != -1:
-                    return ordinal
-                component = mdao_config['components'][name]
-                visited[name] = None
-                ordinal = 0
-                for source in (param.get('source') for param in component.get('parameters', {}).values()):
-                    if not source:
-                        continue
-                    if source[0] in mdao_config['drivers']:
-                        continue
-                    ordinal = max(ordinal, get_ordinal(source[0]) + 1)
-                visited[name] = ordinal
-                tbs_sorted.append(name)
+        def get_ordinal(name):
+            ordinal = visited.get(name, -1)
+            if ordinal is None:
+                raise ValueError('Loop involving component "{}"'.format(name))
+            if ordinal != -1:
                 return ordinal
+            component = mdao_config['components'][name]
+            visited[name] = None
+            ordinal = 0
+            for source in (param.get('source') for param in component.get('parameters', {}).values()):
+                if not source:
+                    continue
+                if source[0] in mdao_config['drivers']:
+                    continue
+                if source[0] in mdao_config.get('problemInputs', {}):
+                    continue
+                if source[0] in mdao_config.get('subProblems', {}):
+                    continue
+                ordinal = max(ordinal, get_ordinal(source[0]) + 1)
+            visited[name] = ordinal
+            tbs_sorted.append(name)
+            return ordinal
 
-            for component_name in mdao_config['components']:
-                get_ordinal(component_name)
-            return tbs_sorted
+        for component_name in mdao_config['components']:
+            get_ordinal(component_name)
+        return tbs_sorted
 
-        tbs_sorted = get_sorted_components()
-        for component_name in tbs_sorted:
-            component = mdao_config['components'][component_name]
-            mdao_component = instantiate_component(component, component_name, mdao_config, root)
-            root.add(component_name, mdao_component)
+    tbs_sorted = get_sorted_components()
+    for component_name in tbs_sorted:
+        component = mdao_config['components'][component_name]
+        mdao_component = instantiate_component(component, component_name, mdao_config, root)
+        root.add(component_name, mdao_component)
 
-        for component_name, component in six.iteritems(mdao_config['components']):
-            for parameter_name, parameter in six.iteritems(component.get('parameters', {})):
-                if parameter.get('source'):
-                    source = parameter['source']
+    subProblemInputMeta = {}
+    subProblemOutputMeta = {}
+    for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
+        subProblemDir = os.path.join(original_dir, subProblemName)
+        
+        with with_problem(subProblemConfig, subProblemDir, is_subproblem=True) as (subProblem, inputMeta, outputMeta):
+            root.add(subProblemName, subProblem)
+            subProblemInputMeta[subProblemName] = inputMeta
+            subProblemOutputMeta[subProblemName] = outputMeta
+
+    if is_subproblem:
+        subProblemInputs = []
+        inputMeta = {}
+        for name, problemInput in six.iteritems(mdao_config['problemInputs']):
+            if problemInput.get("innerSource"):
+                if problemInput["innerSource"][0] in mdao_config['drivers']:
+                    path = get_desvar_path(problemInput["innerSource"][1])
+                else:
+                    path = '{}.{}'.format(problemInput["innerSource"][0], problemInput["innerSource"][1])
+
+                subProblemInputs.append(path)
+                inputMeta[name] = path
+            else:
+                # TODO: How important is it to figure out the correct type here?
+                #   We might be able to infer the type from a component that connects to
+                #   this ProblemInput, but might have to refer to something outside the
+                #   subproblem
+                (initial_value, pass_by_obj) = get_problem_input_value(problemInput)
+                
+                root.add(name, IndepVarComp(name, initial_value, pass_by_obj=pass_by_obj))
+                path = "{0}.{0}".format(name)
+                subProblemInputs.append(path)
+                inputMeta[name] = path
+
+
+        # TODO: Handle direct connection between ProblemInput and ProblemOutput (single-element Source)
+        # TODO: Pass-through ExecComps to allow direct ProblemInput->ProblemOutput connections to behave
+        subProblemOutputs = []
+        outputMeta = {}
+        for name, source in six.iteritems(mdao_config['problemOutputs']):
+            if len(source) == 1:
+                if source[0] in mdao_config['problemInputs'] and 'innerSource' in mdao_config['problemInputs'][source[0]]:
+                    # Assume inner source is a design variable
+                    desvar = driver['designVariables']
+                    passByObj = False
+                    if desvar.get('type', 'double') == 'double':
+                        initialVal = 0.0
+                    elif desvar['type'] == 'enum':
+                        initialVal = ''
+                    elif desvar['type'] == 'int':
+                        initialVal = 0
+                    else:
+                        raise ValueError('Unimplemented designVariable type "{}"'.format(desvar['type']))
+                else:
+                    if source[0] in mdao_config['problemInputs']:
+                        (initialVal, passByObj) = get_problem_input_value(mdao_config['problemInputs'][source[0]])
+                    else:
+                        raise ValueError('Missing ProblemOutput source: {}'.format(source[0]))
+                comp_name = "pass_through_{}".format(name)
+                comp = PassThroughComponent()
+                comp.add_var(name, initialVal)
+                root.add(comp_name, comp)
+                inputPath = "{}.{}".format(comp_name, name)
+                path = "{}.{}_out".format(comp_name, name)
+                root.connect(inputMeta[source[0]], inputPath)
+            else:
+                if source[0] in mdao_config['drivers']:
+                    # TODO: If it's legal for this desvar to also point to a ProblemInput,
+                    # we need to create a PassThroughComponent just like above
+                    path = get_desvar_path(source[1])
+                elif source[0] in mdao_config['subProblems']:
+                    unknown_name = subProblemOutputMeta[source[0]][source[1]]
+                    path = '{}.{}'.format(source[0], unknown_name)
+                else:
+                    path = '{}.{}'.format(source[0], source[1])
+
+            subProblemOutputs.append(path)
+            outputMeta[name] = path
+
+    for component_name, component in six.iteritems(mdao_config['components']):
+        for parameter_name, parameter in six.iteritems(component.get('parameters', {})):
+            if parameter.get('source'):
+                source = parameter['source']
+                if len(source) == 1 and is_subproblem:
+                    # Points to a top-level ProblemInput; look up what design variable it points to and reference that IVC
+                    problemInputName = source[0]
+                    if problemInputName in inputMeta:
+                        root.connect(inputMeta[problemInputName],  '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
+                    else:
+                        # TODO: Warn or fail if name isn't found?
+                        print("WARNING: Missing problem input reference")
+                else:
                     if source[0] in mdao_config['drivers']:
                         # print('driver{}.{}'.format(source[1], source[1]))
                         root.connect(get_desvar_path(source[1]), '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
+                    elif source[0] in mdao_config.get('subProblems', {}):
+                        # Map subproblem output name to actual unknown name
+                        unknown_name = subProblemOutputMeta[source[0]][source[1]]
+                        root.connect('{}.{}'.format(source[0], unknown_name), '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
                     else:
                         root.connect('{}.{}'.format(source[0], source[1]), '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
-                else:
-                    pass  # TODO warn or fail?
+            else:
+                pass  # TODO warn or fail?
 
-        if driver['type'] == 'optimizer':
-            for objective in six.itervalues(driver['objectives']):
+    for subProblemName, subProblem in six.iteritems(mdao_config.get('subProblems', {})):
+        for problemInputName, problemInput in six.iteritems(subProblem.get('problemInputs', {})):
+            if problemInput.get('outerSource'):
+                source = problemInput['outerSource']
+                subProblemInputPath = subProblemInputMeta[subProblemName][problemInputName]
+
+                if len(source) == 1 and is_subproblem:
+                    problemInputName = source[0]
+                    if problemInputName in inputMeta:
+                        root.connect(inputMeta[problemInputName],  '{}.{}'.format(subProblemName, subProblemInputPath))
+                    else:
+                        # TODO: Warn or fail if name isn't found?
+                        print("WARNING: Missing problem input reference")
+                else:
+                    if source[0] in mdao_config['drivers']:
+                        # print('driver{}.{}'.format(source[1], source[1]))
+                        root.connect(get_desvar_path(source[1]), '{}.{}'.format(subProblemName, subProblemInputPath))
+                    elif source[0] in mdao_config['subProblems']:
+                        # Map subproblem output name to actual unknown name
+                        unknown_name = subProblemOutputMeta[source[0]][source[1]]
+                        root.connect('{}.{}'.format(source[0], unknown_name), '{}.{}'.format(subProblemName, subProblemInputPath))
+                    else:
+                        root.connect('{}.{}'.format(source[0], source[1]), '{}.{}'.format(subProblemName, subProblemInputPath))
+            else:
+                print("Failed to connect")
+                pass  # TODO warn or fail?
+
+    # TODO: Make sure objectives/constraints coming from subproblems and
+    # from ProblemInputs/ProblemOutputs are handled correctly
+    if driver != None and driver['type'] == 'optimizer':
+        for objective in six.itervalues(driver['objectives']):
+            if objective["source"][0] in mdao_config.get('subProblems', {}):
+                unknown_name = subProblemOutputMeta[objective["source"][0]][objective["source"][1]]
+                top.driver.add_objective("{}.{}".format(objective["source"][0], unknown_name))
+            else:
                 top.driver.add_objective(str('.'.join(objective['source'])))
 
-            for constraint in six.itervalues(driver['constraints']):
-                if constraint['source'][0] in mdao_config['drivers']:
-                    # References the driver; need to get the path to the design var
-                    constraintPath = get_desvar_path(constraint['source'][1])
-                else:
-                    constraintPath = str('.'.join(constraint['source']))
+        for constraint in six.itervalues(driver['constraints']):
+            if constraint['source'][0] in mdao_config['drivers']:
+                # References the driver; need to get the path to the design var
+                constraintPath = get_desvar_path(constraint['source'][1])
+            elif constraint['source'][0] in mdao_config.get('subProblems', {}):
+                unknown_name = subProblemOutputMeta[objective.source[0]][objective.source[1]]
+                constraintPath = "{}.{}".format(objective.source[0], unknown_name)
+            else:
+                constraintPath = str('.'.join(constraint['source']))
 
-                if 'RangeMin' in constraint and 'RangeMax' in constraint:
-                    top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'], upper=constraint['RangeMax'])
-                elif 'RangeMin' in constraint and 'RangeMax' not in constraint:
-                    top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'])
-                elif 'RangeMin' not in constraint and 'RangeMax' in constraint:
-                    top.driver.add_constraint(constraintPath, upper=constraint['RangeMax'])
-                else:
-                    pass  # TODO: No min or max provided with constraint; warn or fail here?
+            if 'RangeMin' in constraint and 'RangeMax' in constraint:
+                top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'], upper=constraint['RangeMax'])
+            elif 'RangeMin' in constraint and 'RangeMax' not in constraint:
+                top.driver.add_constraint(constraintPath, lower=constraint['RangeMin'])
+            elif 'RangeMin' not in constraint and 'RangeMax' in constraint:
+                top.driver.add_constraint(constraintPath, upper=constraint['RangeMax'])
+            else:
+                pass  # TODO: No min or max provided with constraint; warn or fail here?
 
-        top.setup()
-        # from openmdao.devtools.debug import dump_meta
-        # dump_meta(top.root)
-        yield top
-    finally:
-        for recorder in recorders:
-            recorder.close()
+    def add_recorders():
+        recorders = []
+        design_var_map = {get_desvar_path(designVariable): designVariable for designVariable in driver['designVariables']}
+        objective_map = {'{}.{}'.format(objective['source'][0], objective['source'][1]): objective_name for objective_name, objective in six.iteritems(driver['objectives'])}
+        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver.get('intermediateVariables', {}))}
+        constants_map = {}
+        for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
+            constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
+
+        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
+
+        unknowns_map = design_var_map
+        unknowns_map.update(objective_map)
+        unknowns_map.update(intermediate_var_map)
+        unknowns_map.update(constants_map)
+        unknowns_map.update(constraints_map)
+
+        new_unknowns_map = {}
+        # Locate/fix any unknowns that point to subproblem outputs
+        for unknown_path, unknown_name in six.iteritems(unknowns_map):
+            split_path = unknown_path.split('.') # TODO: Can component names include '.'? If so, this breaks
+            if split_path[0] in subProblemOutputMeta:
+                split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
+                new_path = '.'.join(split_path)
+                new_unknowns_map[new_path] = unknown_name
+            else:
+                new_unknowns_map[unknown_path] = unknown_name
+
+        unknowns_map = new_unknowns_map
+
+        for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
+            if recorder['type'] == 'DriverCsvRecorder':
+                mode = 'wb'
+                if RestartRecorder.is_restartable(original_dir):
+                    mode = 'ab'
+                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
+                if mode == 'ab':
+                    recorder._wrote_header = True
+            elif recorder['type'] == 'AllCsvRecorder':
+                mode = 'wb'
+                recorder = CsvRecorder(out=open(recorder['filename'], mode))
+            elif recorder['type'] == 'CouchDBRecorder':
+                recorder = CouchDBRecorder(recorder.get('url', 'http://localhost:5984/'), recorder['run_id'])
+                recorder.options['record_params'] = True
+                recorder.options['record_unknowns'] = True
+                recorder.options['record_resids'] = False
+                recorder.options['includes'] = list(unknowns_map.keys())
+            else:
+                mod_name = '.'.join(recorder['type'].split('.')[:-1])
+                class_name = recorder['type'].split('.')[-1]
+                recorder = getattr(importlib.import_module(mod_name), class_name)()
+
+            top.driver.add_recorder(recorder)
+        return recorders
+
+    if is_subproblem:
+        recorders = []
+
+        # print("SubProblemInputs:", subProblemInputs)
+        # print("SubProblemOutputs:", subProblemOutputs)
+
+        # print("InputMeta:", inputMeta)
+        # print("OutputMeta:", outputMeta)
+
+        subProblem = SubProblem(top, params=subProblemInputs, unknowns=subProblemOutputs)
+
+        yield (subProblem, inputMeta, outputMeta)
+    else:
+        recorders = add_recorders()
+
+        try:
+            top.setup()
+            # from openmdao.devtools.debug import dump_meta
+            # dump_meta(top.root)
+
+            # for subproblemName in six.iterkeys(mdao_config['subProblems']):
+            #     subProblem = top.root.find_subsystem(subproblemName)
+            #     subProblem._problem.root.dump(verbose=True)
+
+            # top.root.dump(verbose=True)
+            yield top
+        finally:
+            for recorder in recorders:
+                recorder.close()
+
+class PassThroughComponent(Component):
+    '''
+    OpenMDAO component which passes through its inputs to its
+    outputs, unmodified.
+    '''
+    def __init__(self):
+        super(PassThroughComponent, self).__init__()
+
+    def add_var(self, *args, **kwargs):
+        self.add_param(*args, **kwargs)
+        argsList = list(args)
+        argsList[0] = argsList[0] + "_out" # Need to suffix name to avoid name collision
+        self.add_output(*argsList, **kwargs)
+
+    def solve_nonlinear(self, params, unknowns, resids):
+        for name in six.iterkeys(params):
+            unknowns[name + "_out"] = params[name]
+
+# For a given problem_input dict, gets the initial value (as a decoded Python object) and
+# pass_by_obj flag (returned as a tuple)
+def get_problem_input_value(problem_input):
+    initial_value = 0.0
+    pass_by_obj = False
+
+    if "value" in problem_input:
+        initial_value_str = problem_input["value"]
+        initial_value = eval(initial_value_str, globals())
+
+    if "pass_by_obj" in problem_input:
+        pass_by_obj = problem_input["pass_by_obj"]
+
+    return (initial_value, pass_by_obj)

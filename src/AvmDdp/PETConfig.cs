@@ -55,6 +55,7 @@ namespace AVM.DDP
         }
         public Dictionary<string, Component> components;
         public Dictionary<string, Driver> drivers;
+        public Dictionary<string, SubProblem> subProblems;
         public List<Recorder> recorders;
 
         public class Recorder
@@ -76,5 +77,26 @@ namespace AVM.DDP
         public string PETName;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string MgaFilename;
+    }
+
+    public class SubProblem
+    {
+        public class ProblemInput
+        {
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string[] outerSource; //Source of this ProblemInput from outside the subproblem (i.e. one level up), relative to the enclosing problem
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string[] innerSource; //Source of this ProblemInput from inside the subproblem (i.e. from the driver), relative to this problem
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public string value;
+            public bool pass_by_obj;
+        }
+
+        public Dictionary<string, ProblemInput> problemInputs; //Map of problem inputs (by name) to their sources
+        public Dictionary<string, string[]> problemOutputs; //Map of problem outputs (by name) to their source (relative to this subproblem)
+
+        public Dictionary<string, PETConfig.Component> components;
+        public Dictionary<string, PETConfig.Driver> drivers;
+        public Dictionary<string, SubProblem> subProblems;
     }
 }

@@ -315,6 +315,21 @@ namespace DynamicsTeamTest.Projects
             Assert.False(result, "CyPhyPET should have failed, but did not.");
         }
 
+        [Fact]
+        [Trait("Model", "MSD_PET_RuleFailure")]
+        [Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
+        public void PET_Fail_TooManyConnectionsToInput()
+        {
+            string outputDir = "TooManyConnectionsToInput";
+            string petExperimentPath = "/@Examples|kind=Testing|relpos=0/@PETRuleFailures|kind=ParametricExplorationFolder|relpos=0/@TooManyConnectionsToInput|kind=ParametricExploration";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
+
+            Assert.False(result, "CyPhyPET should have failed, but did not.");
+        }
+
+
         //[Fact]
         //[Trait("Model", "MSD_PET_RuleFailure")]
         //[Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
@@ -679,7 +694,7 @@ namespace DynamicsTeamTest.Projects
             Assert.False(result, "CyPhyPET should have failed, but did not.");
         }
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "MSD_PET_RuleFailure")]
         [Trait("PCC", "MSD_PET_RuleFailure")]
         public void PCC_for_MSD()

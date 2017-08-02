@@ -29,12 +29,29 @@ namespace CyPhyMasterInterpreter.Rules
             this.m_details.AddRange(this.ExactlyOneDriver());
         }
 
+        public static IEnumerable<CyPhy.ParametricExploration> getParametricExplorationsRecursively(CyPhy.ParametricExploration exp)
+        {
+            Queue<CyPhy.ParametricExploration> exps = new Queue<ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration>();
+            exps.Enqueue(exp);
+            while (exps.Count > 0)
+            {
+                exp = exps.Dequeue();
+                yield return exp;
+                foreach (var sub in exp.Children.ParametricExplorationCollection)
+                {
+                    exps.Enqueue(sub);
+                }
+            }
+
+        }
+
         protected IEnumerable<ContextCheckerResult> TestBenchReferences()
         {
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();
 
-            var testBenchRefCount = this.parametricExploration.Children.TestBenchRefCollection.Count();
-            testBenchRefCount += this.parametricExploration.Children.ParametricTestBenchCollection.Count();
+            var allParametricExplorations = getParametricExplorationsRecursively(this.parametricExploration).ToList();
+            var testBenchRefCount = allParametricExplorations.SelectMany(pe => pe.Children.TestBenchRefCollection).Count();
+            testBenchRefCount += allParametricExplorations.SelectMany(pe => pe.Children.ParametricTestBenchCollection).Count();
 
             if (testBenchRefCount == 0)
             {
@@ -48,7 +65,7 @@ namespace CyPhyMasterInterpreter.Rules
                 results.Add(feedback);
             }
 
-            foreach (var testBenchRef in this.parametricExploration.Children.TestBenchRefCollection)
+            foreach (var testBenchRef in allParametricExplorations.SelectMany(pe => pe.Children.TestBenchRefCollection))
             {
                 // check test benches
                 if (testBenchRef.Referred.TestBenchType == null)

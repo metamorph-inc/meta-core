@@ -93,9 +93,6 @@ namespace CyPhyMdaoAddOn
                     return;
                 if (subject.MetaBase.Name == "TestBenchRef")
                 {
-                    // set the port label lenght 0
-                    // FIXME: why not just change it in the meta?
-                    (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
                     if (subject as MgaReference != null)
                     {
                         UpdateColor((subject as MgaReference).Referred);
@@ -104,7 +101,6 @@ namespace CyPhyMdaoAddOn
                 else if (subject.MetaBase.Name == "Optimizer")
                 {
                     (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
-                    UpdateColor(subject as MgaFCO);
                 }
                 else if (subject.MetaBase.Name == "VariableSweep")
                 {
@@ -125,26 +121,20 @@ namespace CyPhyMdaoAddOn
                 {
                     // set the src custom formula's name to the specified name
                     // in the ValueFlow attribute field
-                    MgaConnection ValueFlow = subject as MgaConnection;
-                    foreach (MgaConnPoint cp in ValueFlow.ConnPoints)
+                    MgaSimpleConnection ValueFlow = subject as MgaSimpleConnection;
+                    var src = ValueFlow.Src;
+                    if (src.Meta.Name == "CustomFormula")
                     {
-                        if (cp.ConnRole == "src")
+                        foreach (MgaAttribute attr in ValueFlow.Attributes)
                         {
-                            if (cp.Target.Meta.Name == "CustomFormula")
+                            if (attr.Meta.Name == "FormulaVariableName")
                             {
-                                foreach (MgaAttribute attr in ValueFlow.Attributes)
+                                if (string.IsNullOrEmpty(attr.StringValue) == false)
                                 {
-                                    if (attr.Meta.Name == "FormulaVariableName")
-                                    {
-                                        if (string.IsNullOrEmpty(attr.StringValue) == false)
-                                        {
-                                            cp.Target.Name = attr.StringValue;
-                                            break;
-                                        }
-                                    }
+                                    src.Name = attr.StringValue;
+                                    break;
                                 }
                             }
-                            break;
                         }
                     }
                 }
@@ -245,11 +235,6 @@ namespace CyPhyMdaoAddOn
                         color = "0xffad5b";
                         borderColor = "0xa52a00";
                     }
-                }
-                else if (subject.Meta.Name == "Optimizer")
-                {
-                    color = "0xff6820";
-                    borderColor = "0x8b0000";
                 }
 
                 subject.RegistryValue["color"] = color;
