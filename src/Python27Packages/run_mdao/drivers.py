@@ -4,6 +4,8 @@ import numpy
 import itertools
 import traceback
 import os
+import os.path
+import errno
 
 from run_mdao.restart_recorder import RestartRecorder
 
@@ -50,8 +52,11 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         # Make sure self.original_dir exists (if this was instantiated from a subproblem, it might not)
         try:
             os.makedirs(self.original_dir)
-        except OSError:
-            pass # Directory already exists
+        except OSError as e:
+            if e.errno == errno.EEXIST and os.path.isdir(self.original_dir):
+                pass
+            else:
+                raise
 
         self.use_restart = True
 

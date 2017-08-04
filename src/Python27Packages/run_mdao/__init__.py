@@ -17,7 +17,7 @@ from run_mdao.enum_mapper import EnumMapper
 from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver
 from run_mdao.restart_recorder import RestartRecorder
 
-from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, ExecComp, Component
+from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, Component
 
 from openmdao.core.mpi_wrap import MPI
 
@@ -160,13 +160,13 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
     root = top.root = Group()
     recorder = None
     driver_params = {'original_dir': original_dir}
-    if driver != None:
+    if driver is not None:
         eval(compile(driver['details'].get('Code', ''), '<driver Code>', 'exec'), globals(), driver_params)
 
     def get_desvar_path(designVariable):
         return 'designVariable.{}'.format(designVariable)
 
-    if driver != None:
+    if driver is not None:
         if driver['type'] == 'optimizer':
             if driver.get('details', {}).get('OptimizationFunction') == 'Custom':
                 class_path = driver['details']['OptimizationClass'].split('.')
@@ -204,7 +204,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             top.driver = PCC.pcc_driver.PCCdriver(**driver_params)
         else:
             raise ValueError('Unsupported driver type %s' % driver['type'])
-        
+
         driver_vars = []
         for var_name, var in six.iteritems(driver['designVariables']):
             if var.get('type', 'double') == 'double':
@@ -284,7 +284,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
     subProblemOutputMeta = {}
     for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
         subProblemDir = os.path.join(original_dir, subProblemName)
-        
+
         with with_problem(subProblemConfig, subProblemDir, is_subproblem=True) as (subProblem, inputMeta, outputMeta):
             root.add(subProblemName, subProblem)
             subProblemInputMeta[subProblemName] = inputMeta
@@ -308,12 +308,11 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
                 #   this ProblemInput, but might have to refer to something outside the
                 #   subproblem
                 (initial_value, pass_by_obj) = get_problem_input_value(problemInput)
-                
+
                 root.add(name, IndepVarComp(name, initial_value, pass_by_obj=pass_by_obj))
                 path = "{0}.{0}".format(name)
                 subProblemInputs.append(path)
                 inputMeta[name] = path
-
 
         # TODO: Handle direct connection between ProblemInput and ProblemOutput (single-element Source)
         # TODO: Pass-through ExecComps to allow direct ProblemInput->ProblemOutput connections to behave
@@ -349,7 +348,25 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
                 if source[0] in mdao_config['drivers']:
                     # TODO: If it's legal for this desvar to also point to a ProblemInput,
                     # we need to create a PassThroughComponent just like above
-                    path = get_desvar_path(source[1])
+                    this_driver = mdao_config['drivers'][source[0]]
+
+                    if source[1] in this_driver.get('designVariables', {}):
+                        path = get_desvar_path(source[1])
+                    else: # Source is an objective, ivar, or constraint; need to get the actual source
+                        if source[1] in this_driver.get('objectives', {}):
+                            driver_output_type = 'objectives'
+                        elif source[1] in this_driver.get('constraints', {}):
+                            driver_output_type = 'constraints'
+                        elif source[1] in this_driver.get('intermediateVariables', {}):
+                            driver_output_type = 'intermediateVariables'
+                        else:
+                            raise ValueError('Driver output "{}"" not found'.format(source[1]))
+                        real_source = this_driver[driver_output_type][source[1]]['source']
+                        if real_source[0] in mdao_config['subProblems']:
+                            unknown_name = subProblemOutputMeta[real_source[0]][real_source[1]]
+                            path = '{}.{}'.format(real_source[0], unknown_name)
+                        else:
+                            path = '{}.{}'.format(real_source[0], real_source[1])
                 elif source[0] in mdao_config['subProblems']:
                     unknown_name = subProblemOutputMeta[source[0]][source[1]]
                     path = '{}.{}'.format(source[0], unknown_name)
@@ -367,7 +384,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
                     # Points to a top-level ProblemInput; look up what design variable it points to and reference that IVC
                     problemInputName = source[0]
                     if problemInputName in inputMeta:
-                        root.connect(inputMeta[problemInputName],  '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
+                        root.connect(inputMeta[problemInputName], '{}.{}'.format(component_name, _get_param_name(parameter_name, component.get('type'))))
                     else:
                         # TODO: Warn or fail if name isn't found?
                         print("WARNING: Missing problem input reference")
@@ -393,7 +410,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
                 if len(source) == 1 and is_subproblem:
                     problemInputName = source[0]
                     if problemInputName in inputMeta:
-                        root.connect(inputMeta[problemInputName],  '{}.{}'.format(subProblemName, subProblemInputPath))
+                        root.connect(inputMeta[problemInputName], '{}.{}'.format(subProblemName, subProblemInputPath))
                     else:
                         # TODO: Warn or fail if name isn't found?
                         print("WARNING: Missing problem input reference")
@@ -413,7 +430,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
     # TODO: Make sure objectives/constraints coming from subproblems and
     # from ProblemInputs/ProblemOutputs are handled correctly
-    if driver != None and driver['type'] == 'optimizer':
+    if driver is not None and driver['type'] == 'optimizer':
         for objective in six.itervalues(driver['objectives']):
             if objective["source"][0] in mdao_config.get('subProblems', {}):
                 unknown_name = subProblemOutputMeta[objective["source"][0]][objective["source"][1]]
@@ -460,7 +477,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
         new_unknowns_map = {}
         # Locate/fix any unknowns that point to subproblem outputs
         for unknown_path, unknown_name in six.iteritems(unknowns_map):
-            split_path = unknown_path.split('.') # TODO: Can component names include '.'? If so, this breaks
+            split_path = unknown_path.split('.')
             if split_path[0] in subProblemOutputMeta:
                 split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
                 new_path = '.'.join(split_path)
@@ -525,23 +542,26 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             for recorder in recorders:
                 recorder.close()
 
+
 class PassThroughComponent(Component):
     '''
     OpenMDAO component which passes through its inputs to its
     outputs, unmodified.
     '''
+
     def __init__(self):
         super(PassThroughComponent, self).__init__()
 
     def add_var(self, *args, **kwargs):
         self.add_param(*args, **kwargs)
         argsList = list(args)
-        argsList[0] = argsList[0] + "_out" # Need to suffix name to avoid name collision
+        argsList[0] = argsList[0] + "_out"  # Need to suffix name to avoid name collision
         self.add_output(*argsList, **kwargs)
 
     def solve_nonlinear(self, params, unknowns, resids):
         for name in six.iterkeys(params):
             unknowns[name + "_out"] = params[name]
+
 
 # For a given problem_input dict, gets the initial value (as a decoded Python object) and
 # pass_by_obj flag (returned as a tuple)
