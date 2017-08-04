@@ -659,6 +659,10 @@ namespace CyPhyPET
             };
 
             config.MgaFilename = mainParameters.CurrentFCO.Project.ProjectConnStr.Substring("MGA=".Length);
+            if (Path.IsPathRooted(config.MgaFilename))
+            {
+                config.MgaFilename = Path.GetFullPath(config.MgaFilename);
+            }
             if (mainParameters.SelectedConfig != null)
             {
                 config.SelectedConfigurations = new string[] { mainParameters.SelectedConfig }.ToList();
@@ -681,7 +685,7 @@ namespace CyPhyPET
             PET rootGenerator = null;
             foreach (var exploration in allParametricExplorations)
             {
-                var petGenerator = new PET((MgaFCO)exploration.Impl, this.Logger);
+                var petGenerator = new PET((MgaFCO)root.Impl, (MgaFCO)exploration.Impl, this.Logger);
                 generatorMap[exploration] = petGenerator;
                 if (rootGenerator == null)
                 {

@@ -31,8 +31,12 @@ namespace CyPhyPET
         private enum DriverType { PCC, Optimizer, ParameterStudy };
         private DriverType theDriver;
         private CyPhy.ParametricExploration pet;
+        private MgaFCO rootPET;
         public string outputDirectory { get; set; }
         private string testBenchOutputDir;
+
+        public static readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
+        public static readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
 
         private PETConfig _config;
         public PETConfig config
@@ -104,10 +108,11 @@ namespace CyPhyPET
 
         }
 
-        public PET(MgaFCO currentFCO, CyPhyGUIs.GMELogger logger)
+        public PET(MgaFCO rootPET, MgaFCO currentFCO, CyPhyGUIs.GMELogger logger)
         {
             this.Logger = logger;
             this.pet = CyPhyClasses.ParametricExploration.Cast(currentFCO);
+            this.rootPET = rootPET;
         }
 
         public void Initialize()
@@ -492,20 +497,21 @@ namespace CyPhyPET
 
         private string[] GetSourcePath(MgaReference refe, MgaFCO port)
         {
-            MgaConnPoint sources;
+            IEnumerable<MgaConnPoint> sources;
             if (refe != null)
             {
-                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => cp.References != null && cp.References.Count > 0 && cp.References[1].ID == refe.ID && cp.ConnRole == "dst").FirstOrDefault();
+                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => cp.References != null && cp.References.Count > 0 && cp.References[1].ID == refe.ID && cp.ConnRole == "dst");
             }
             else
             {
-                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => (cp.References == null || cp.References.Count == 0) && cp.ConnRole == "dst").FirstOrDefault();
+                sources = port.PartOfConns.Cast<MgaConnPoint>().Where(cp => (cp.References == null || cp.References.Count == 0) && cp.ConnRole == "dst");
             }
-            if (sources == null)
+            sources = sources.Where(s => getAncestors(s.Owner).Select(x => x.ID).Contains(rootPET.ID));
+            if (sources.Count() == 0)
             {
                 return null;
             }
-            var source = (MgaSimpleConnection)sources.Owner;
+            var source = (MgaSimpleConnection)sources.First().Owner;
             // top-level ParametricExploration: ignore top-level ProblemInput and ProblemOutputs
             if (config != null &&
                 source.Src.ParentModel.ID == pet.ID &&
@@ -857,9 +863,6 @@ namespace CyPhyPET
                 subProblem.problemOutputs.Add(output.Name, GetSourcePath(null, (MgaFCO)output.Impl));
             }
         }
-
-        public static readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
-        public static readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
 
         private static ISet<string> GetDerivedTypeNames(Type type)
         {
