@@ -51,8 +51,6 @@ namespace CyPhyPET.Rules
             this.Success = true;
             if (rootContext.Meta.Name == "ParametricExploration")
             {
-                ReportFeedBack(Global.UniqueNames(ParametricExplorationChecker.getParametricExplorationsRecursively(ISIS.GME.Dsml.CyPhyML.Classes.ParametricExploration.Cast(rootContext)).SelectMany(pe => pe.Children.TestBenchRefCollection)),
-                    rootContext, "UniqueTestBenchnames", "TestBench names should be unique");
                 ReportFeedBack(Global.OneAndOnlyOneDriver(rootContext), rootContext, "OneAndOnlyOneDriver", "There should be one and only one driver.");
             }
 
@@ -61,7 +59,8 @@ namespace CyPhyPET.Rules
                 //this.Logger.WriteInfo("Child to be checked : {0}", child.Meta.Name);
                 if (child.Meta.Name == "ParametricExploration")
                 {
-                    ReportFeedBack(Global.UniqueTestBenchRefNames(rootContext), child, "UniqueTestBenchRefNames", "TestBenchReferences should have unique names");
+                    ReportFeedBack(Global.UniqueTestBenchRefNames(child), child, "UniqueTestBenchRefNames", "TestBenchReferences should have unique names");
+                    ReportFeedBack(Global.CheckComponentName(child), child, "ValidComponentName", "Name must be valid");
                 }
                 else if (child.Meta.Name == "TestBenchRef")
                 {
@@ -87,8 +86,13 @@ namespace CyPhyPET.Rules
                 {
                     ReportFeedBack(Global.CheckProblemOutput(child), child, "CheckProblemOutput", "Checks rules for a ProblemOutput");
                 }
+                else if (PET.petWrapperTypes.Contains(child.Meta.Name))
+                {
+                    ReportFeedBack(Global.CheckComponentName(child), child, "ValidComponentName", "Name must be valid");
+                }
             }
         }
+
 
         private void ReportFeedBack(IEnumerable<RuleFeedbackBase> feedBacks, IMgaFCO context, string ruleName, string ruleDescription)
         {

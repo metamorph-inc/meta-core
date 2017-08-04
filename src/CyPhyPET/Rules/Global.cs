@@ -13,11 +13,13 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using CyPhyCOMInterfaces;
 using System.Globalization;
 using ISIS.GME.Common.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace CyPhyPET.Rules
 {
     public class Global : RuleBase
     {
+        static readonly string NAME_EXPLANATION = "Names must start with an underscore or letter, and may contain only letters, numbers, or underscores";
 
         [CheckerRule("OneAndOnlyOneDriver", Description = "There should be one and only one driver.")]
         [Tags("PET")]
@@ -97,6 +99,26 @@ namespace CyPhyPET.Rules
             return UniqueTestBenchRefNames(pet);
         }
 
+        // from openmdao group.py
+        static readonly Regex namecheck_rgx = new Regex("^" + "[_a-zA-Z][_a-zA-Z0-9]*" + "$");
+        public static IEnumerable<RuleFeedbackBase> CheckComponentName(MgaFCO context)
+        {
+            var result = new List<RuleFeedbackBase>();
+
+            if (namecheck_rgx.Match(context.Name).Success == false)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = NAME_EXPLANATION
+                };
+                feedback.InvolvedObjectsByRole.Add(context);
+                result.Add(feedback);
+            }
+
+            return result;
+        }
+
         public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
         {
             var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
@@ -138,13 +160,27 @@ namespace CyPhyPET.Rules
                 feedback.InvolvedObjectsByRole.Add(child);
                 result.Add(feedback);
             }
+
+            if (isValidParamOrOutputName(child.Name) == false)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message =
+                        string.Format("Problem Output ({0}) has an invalid name. " + NAME_EXPLANATION, (object)child.Name)
+                };
+
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+
             return result;
         }
 
         internal static IEnumerable<RuleFeedbackBase> CheckProblemInput(MgaFCO child)
         {
             var result = new List<RuleFeedbackBase>();
-            var incomingConnections = child.PartOfConns.Cast<IMgaConnPoint>().Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+            var incomingConnections = Enumerable.Cast<IMgaConnPoint>(child.PartOfConns).Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
                 .Cast<IMgaSimpleConnection>();
             if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() > 1)
             {
@@ -153,7 +189,7 @@ namespace CyPhyPET.Rules
                     FeedbackType = FeedbackTypes.Error,
                     Message = string.Format("ProblemInput may have only one incoming connection at the same level of hierarchy")
                 };
-                feedback.InvolvedObjectsByRole.Add(child);
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
                 result.Add(feedback);
             }
             if (incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() > 1)
@@ -163,7 +199,7 @@ namespace CyPhyPET.Rules
                     FeedbackType = FeedbackTypes.Error,
                     Message = string.Format("ProblemInput may have only one incoming connection from the parent ParametricExploration")
                 };
-                feedback.InvolvedObjectsByRole.Add(child);
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
                 result.Add(feedback);
             }
             if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() == 1 &&
@@ -175,6 +211,19 @@ namespace CyPhyPET.Rules
                     FeedbackType = FeedbackTypes.Error,
                     Message = string.Format("ProblemInput must be connected to a Design Variable") // TODO: if it is connected one hierarchy level up
                 };
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
+                result.Add(feedback);
+            }
+
+            if (isValidParamOrOutputName(child.Name) == false)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message =
+                        string.Format("Problem Input ({0}) has an invalid name. " + NAME_EXPLANATION, (object)child.Name)
+                };
+
                 feedback.InvolvedObjectsByRole.Add(child);
                 result.Add(feedback);
             }
@@ -373,14 +422,13 @@ namespace CyPhyPET.Rules
 
                         if (tbParam != null)
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbParam.Name)) == false)
+                            if (isValidParamOrOutputName(tbParam.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
                                     Message =
-                                        string.Format("Connected Parameter ({0}) contains invalid characters.",
-                                            tbParam.Name)
+                                        string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
@@ -470,12 +518,12 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbMetric.Name)) == false)
+                            if (isValidParamOrOutputName(tbMetric.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metric ({0}) contains invalid characters.", tbMetric.Name)
+                                    Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
@@ -769,12 +817,12 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbParam.Name)) == false)
+                            if (isValidParamOrOutputName(tbParam.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameter ({0}) contains invalid (Python) characters.", tbParam.Name)
+                                    Message = string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
@@ -882,12 +930,12 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbMetric.Name)) == false)
+                            if (isValidParamOrOutputName(tbMetric.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metric ({0}) contains invalid (Python) characters.", tbMetric.Name)
+                                    Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
@@ -1103,54 +1151,12 @@ namespace CyPhyPET.Rules
 
         #endregion
 
-        public static string checkForInvalidCharacters(string childName)
+        // from openmdao component.py
+        static readonly Regex param_output_namecheck_rgx = new Regex("^" + "([_a-zA-Z][_a-zA-Z0-9]*)+(:[_a-zA-Z][_a-zA-Z0-9]*)*" + "$");
+        public static bool isValidParamOrOutputName(string childName)
         {
-            var badCharList = "";
-
-            foreach (char badChar in invalidCharacters)
-            {
-                if (childName.Contains(badChar))
-                {
-                    badCharList = badCharList + badChar;
-                }
-            }
-
-            return badCharList;
+            return param_output_namecheck_rgx.Match(childName).Success;
         }
-
-        public static HashSet<char> invalidCharacters = new HashSet<char>()
-        {
-            {'!'},
-            {'@'},
-            {'#'},
-            {'$'},
-            {'%'},
-            {'^'},
-            {'&'},
-            {'*'},
-            {'('},
-            {')'},
-            {'-'},
-            {'{'},
-            {'}'},
-            {'['},
-            {']'},
-            {'|'},
-            {';'},
-            {':'},
-            {','},
-            {'<'},
-            {'.'},
-            {'>'},
-            {'/'},
-            {'?'},
-            {'~'},
-            {'`'},
-            {'+'},
-            {'='},
-            {' '},
-        };
-
 
     }
 }

@@ -858,8 +858,8 @@ namespace CyPhyPET
             }
         }
 
-        readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
-        // readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
+        public static readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
+        public static readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
 
         private static ISet<string> GetDerivedTypeNames(Type type)
         {
