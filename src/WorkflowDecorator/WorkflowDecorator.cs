@@ -586,8 +586,11 @@ namespace GME.CSharp
 
         #region Mouse events
 
-        public void MouseLeftButtonDoubleClick(uint nFlags, int pointx, int pointy, ulong transformHDC)
+        static readonly int S_DECORATOR_EVENT_NOT_HANDLED = 0x00737002;        public void MouseLeftButtonDoubleClick(uint nFlags, int pointx, int pointy, ulong transformHDC)
         {
+            if (Parameters == null || TaskProgId == null)
+            {
+                throw new COMException("Not handled", S_DECORATOR_EVENT_NOT_HANDLED);            }
             ComComponent c = new ComComponent(TaskProgId);
             Dictionary<string, string> ParametersDict = new Dictionary<string, string>();
             if (string.IsNullOrWhiteSpace(Parameters) == false)
@@ -612,29 +615,26 @@ namespace GME.CSharp
             }).ToList();
 
             myobj.Project.BeginTransactionInNewTerr();
-            if (myobj.IsLibObject || myobj.HasReadOnlyAccess())
+            if (c.isValid == false || myobj.IsLibObject || myobj.HasReadOnlyAccess())
             {
                 myobj.Project.AbortTransaction();
                 return;
             }
             using (ParameterSettingsForm form = new ParameterSettingsForm(parameters, TaskProgId))
             {
-                if (c != null && c.isValid)
+                form.ShowDialog();
+                Dictionary<String, String> d = form.parameters.ToDictionary(p => p.Name, p => p.Value);
+                string serialized = JsonConvert.SerializeObject(d, Formatting.Indented);
+                try
                 {
-                    form.ShowDialog();
-                    Dictionary<String, String> d = form.parameters.ToDictionary(p => p.Name, p => p.Value);
-                    string serialized = JsonConvert.SerializeObject(d, Formatting.Indented);
-                    try
-                    {
-                        Parameters = myobj.StrAttrByName["Parameters"] = serialized;
-                    }
-                    catch
-                    {
-                        myobj.Project.AbortTransaction();
-                        return;
-                    }
-                    myobj.Project.CommitTransaction();
+                    Parameters = myobj.StrAttrByName["Parameters"] = serialized;
                 }
+                catch
+                {
+                    myobj.Project.AbortTransaction();
+                    return;
+                }
+                myobj.Project.CommitTransaction();
             }
         }
 
