@@ -17,7 +17,36 @@ Pre-Conditions
 
 2. A supported version of Creo (see Supported Creo Versions above) must be installed and must work 
    properly on your machine.
+   
+3. Typically this program would be invoked on a computer that has the OpenMETA tool suite installed.  If this
+   is not the case, the x64 version of UDM must be installed.  This is needed because this program uses UDM to 
+   parse xml files.  You can download UDM from http://repo.isis.vanderbilt.edu/downloads/.  Make sure you 
+   install the 64 bit versions (e.g. UDM_x64-....msi).    
 
+Manual Install of CADCreoParametricCreateAssembly.exe 
+--------------------------------------------------------
+NOTE - Normally there is no need to perform a manual install.  The OpenMETA installer 
+       performs of all the necessary setup.  Only do the following steps if OpenMETA is 
+	   not installed and you wish to run CADCreoParametricCreateAssembly.exe as a 
+	   standalone program.
+
+If you would like to install manually, perform the following steps:
+
+1.  Look in the registry for 
+	HKEY_LOCAL_MACHINE\SOFTWARE\META\META_PATH
+	This key would be set if OpenMETA had been installed and would typically be set to:
+	C:\Program Files (x86)\META
+	If it is not present in the registry, you will need to create it in the registry and 
+	set it to the directory of your choosing.  
+	This directory will be refered to as <META_PATH>
+
+2.  Copy the meta-core\bin\CAD\Creo directory from the repository (i.e. GitHub) to <META_PATH>\bin\CAD\
+
+3.  Copy CADCreoParametricCreateAssembly.exe to <META_PATH>\bin\CAD\Creo\bin
+	Note - CADCreoParametricCreateAssembly.exe would have been compiled by
+	the Visual Studio solution CADCreoParametricCreateAssembly.sln.
+
+   
 Manual Creo version selection
 --------------------------------------------------------
 1.  CADCreoParametricCreateAssembly.exe will automatically choose the highest supported version of 
@@ -1033,6 +1062,9 @@ v1.5.18.0  07/16/2017 Modified CommonStructures.h so that it only depends on gen
 			Creo pointers (ProMdl, ProSolid) and assembled features (ProAsmcomp).  Will deal with those anomalies later. 
 			Added error checking to CreateCADEnums.py.  Added CodeGenerationTools.
 			Branch: CAD_030_CommonStructures_Remove_Creo_References_Except_ptrs
+			
+v1.5.19.0 	Removed the dependency on PROE_ISIS_EXTENSIONS.  Now the code is only dependent on the registry 
+			entry META_PATH.
 
 Known Defects
 -------------
