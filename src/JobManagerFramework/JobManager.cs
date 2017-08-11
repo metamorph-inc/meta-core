@@ -287,6 +287,7 @@ namespace JobManagerFramework
         private bool disposed = false;
         public void Dispose()
         {
+            lock (this)
             if (!disposed)
             {
                 disposed = true;
@@ -295,8 +296,12 @@ namespace JobManagerFramework
                     ChannelServices.UnregisterChannel(ServerChannel);
                 }
 
+                this.Configured.Set();
+                JobsToBeStarted.Add(null);
                 SoTTodo.Add(null); //signals SOT thread to terminate
                 this.pool.Dispose();
+                JobsToBeStartedThread.Join();
+                this.Configured.Dispose();
             }
         }
 
@@ -1119,6 +1124,10 @@ except Exception as msg:
             while (true)
             {
                 Action job = JobsToBeStarted.Take();
+                if (job == null)
+                {
+                    return;
+                }
                 try
                 {
                     job.Invoke();

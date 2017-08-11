@@ -96,11 +96,6 @@ namespace JobManagerFramework
         }
         Dictionary<Job.TypeEnum, int> JobCapacities = new Dictionary<Job.TypeEnum, int>();
 
-        ~LocalPool()
-        {
-            Dispose();
-        }
-
         private bool disposed = false;
         /// <summary>
         /// Kills all currently running/pending tasks.

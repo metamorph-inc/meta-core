@@ -235,6 +235,8 @@ namespace JobManager
                     }
                 }
                 Trace.TraceInformation("JobManager is closing");
+                manager.Dispose();
+                manager = null;
             };
             this.Resize += new EventHandler(JobManager_Resize);
             NotifyIcon = new NotifyIcon();
