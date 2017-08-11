@@ -463,7 +463,11 @@ namespace CyPhyMetaLink
             {
                 addon.Project.BeginTransactionInNewTerr();
                 CyPhyML.ComponentAssembly assembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, id);
-                if (assembly == null)
+                if (assembly != null)
+                {
+                    RestartAssemblySyncAtEndOfTransaction(assembly);
+                }
+                else
                 {
                     CyPhyML.Component comp = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, id);
                     if (comp == null)
@@ -475,11 +479,11 @@ namespace CyPhyMetaLink
                     else
                     {
                         var cadModel = CyphyMetaLinkUtils.FindCADModelObject(comp);
-                        //var message = CreateComponentEditMessage(comp, cadModel);
-                        //bridgeClient.SendToMetaLinkBridge(message);
+			// FIXME: Creo side doesn't handle this
+                        // var message = CreateComponentEditMessage(id, comp, cadModel);
+                        // bridgeClient.SendToMetaLinkBridge(message);
                     }
                 }
-                RestartAssemblySyncAtEndOfTransaction(assembly);
                 addon.Project.AbortTransaction();
             }
             catch (Exception ex)

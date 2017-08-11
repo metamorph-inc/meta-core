@@ -324,7 +324,7 @@ namespace CyPhyMetaLink
                         writer.Write(stderrData.ToString());
                         writer.Flush();
                         writer.Close();
-                        GMEConsole.Error.WriteLine(String.Format("CADCreoParametricCreateAssembly exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
+                        GMEConsole.Error.WriteLine(String.Format("CADCreoParametricMetaLink exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
                         SyncControl.Invoke(startupFailedCallback);
                     }
                 }
