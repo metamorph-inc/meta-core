@@ -195,7 +195,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\BridgeClient.h" />
-    <ClInclude Include="..\src\BridgeClientST.h" />
     <ClInclude Include="..\src\FramedEdit.h" />
     <ClInclude Include="..\src\gen\AssemblyInterface.pb.h" />
     <ClInclude Include="..\src\gen\MetaLinkMsg.pb.h" />
@@ -203,7 +202,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\BridgeClient.cc">
     </ClCompile>
-    <ClCompile Include="..\src\BridgeClientST.cc" />
     <ClCompile Include="..\src\FramedEdit.cc">
     </ClCompile>
     <ClCompile Include="..\src\gen\AssemblyInterface.pb.cc">

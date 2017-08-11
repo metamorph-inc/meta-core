@@ -21,9 +21,6 @@
     <ClInclude Include="..\src\gen\MetaLinkMsg.pb.h">
       <Filter>src\gen</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\BridgeClientST.h">
-      <Filter>src</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\BridgeClient.cc">
@@ -37,9 +34,6 @@
     </ClCompile>
     <ClCompile Include="..\src\gen\MetaLinkMsg.pb.cc">
       <Filter>src\gen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\BridgeClientST.cc">
-      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
