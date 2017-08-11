@@ -78,7 +78,7 @@ namespace AVM2CyPhyML
         protected HashSet<KeyValuePair<avm.ValueNode, object>> _avmValueNodeSet = new HashSet<KeyValuePair<ValueNode, object>>();
         private object _messageConsole = null;
 
-        protected readonly Regex cadResourceRegex = new Regex("^(.*)(\\.prt|\\.asm)\\.([0-9]*)$", RegexOptions.IgnoreCase);
+        protected static readonly Regex cadResourceRegex = new Regex("^(.*)(\\.prt|\\.asm)\\.([0-9]*)$", RegexOptions.IgnoreCase);
 
         protected Dictionary<String, CreateMethodProxyBase> _cyPhyMLNameCreateMethodMap = new Dictionary<String, CreateMethodProxyBase>() {
             { typeof(avm.cad.Axis).ToString(),                         CreateMethodProxy<CyPhyMLClasses.Axis>.get_singleton() },
@@ -1860,11 +1860,20 @@ namespace AVM2CyPhyML
 
             cyPhyMLResource.Attributes.Path = avmResource.Path;
             // META-3490 special-case CAD files: CyPhy resource should not contain .1
-            Match m = cadResourceRegex.Match(avmResource.Path);
+            string path = GetCreoFileWithoutVersion(avmResource.Path);
+            cyPhyMLResource.Attributes.Path = path;
+        }
+
+        public static string GetCreoFileWithoutVersion(string resourcePath)
+        {
+            var path = resourcePath;
+            Match m = cadResourceRegex.Match(resourcePath);
             if (m.Success)
             {
-                cyPhyMLResource.Attributes.Path = m.Groups[1].Value + m.Groups[2].Value;
+                path = m.Groups[1].Value + m.Groups[2].Value;
             }
+
+            return path;
         }
 
         private void process(avm.Connector avmConnector)

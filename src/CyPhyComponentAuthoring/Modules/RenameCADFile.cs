@@ -138,7 +138,7 @@ namespace CyPhyComponentAuthoring.Modules
                     cad_extension = FileExtensionType(StartingCadFilename);
 
                     // construct the new file name
-                    RenamedCadFilename = Path.Combine(CadFilenamePath, just_the_name) + cad_extension;
+                    RenamedCadFilename = Path.Combine(CadFilenamePath, just_the_name) + cad_extension + ".1";
                     // -    verify chosen name does not alreay exist
                     if (File.Exists(RenamedCadFilename))
                     {
@@ -171,12 +171,17 @@ namespace CyPhyComponentAuthoring.Modules
                 //- Does the file path chosen match the "Path" attribute of a Resource? 
                 //  - If not, quit. 
                 CyPhy.Resource ResourceObj = null;
+                var resourcePath = ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
+                        AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(StartingCadFilename));
+                // n.b. current dir doesn't matter, we just want to canonicalize .. . / et al
+                resourcePath = Path.GetFullPath(resourcePath);
                 try
                 {
                     ResourceObj = GetCurrentComp().Children.ResourceCollection
-                        .Where(p => p.Attributes.Path == ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE), StartingCadFilename)).First();
+                        .Where(p => Path.GetFullPath(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(p.Attributes.Path))
+                            == resourcePath).First();
                 }
-                catch (Exception ex)
+                catch (InvalidOperationException ex)
                 {
                     if (!test_mode_only)
                     {
@@ -239,36 +244,40 @@ namespace CyPhyComponentAuthoring.Modules
                 // Step 4 - Change that "Path" attribute to the new name. 
                 // change the resource name and path
                 // Path name needs to be relative to component folder
-                string new_path = ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE), RenamedCadFilename);
+                string new_path = ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
+                    AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(RenamedCadFilename));
                 ResourceObj.Attributes.Path = new_path;
 
                 // Step 5 - If the Resource name happens to be the filename, change it too. 
-                if (ResourceObj.Name == Path.GetFileName(StartingCadFilename))
+                if (AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(ResourceObj.Name)
+                    == Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(StartingCadFilename)))
                 {
-                    ResourceObj.Name = Path.GetFileName(RenamedCadFilename);
+                    ResourceObj.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(RenamedCadFilename));
                 }
 
                 // Step 6 - If the CAD Model name happens to be the filename, change it too. 
                 // change the model name
                 CyPhy.CADModel ModelObj = null;
                 bool ModelObjExists = true;
+                var modelObjName = AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(Path.GetFileName(StartingCadFilename));
                 try
                 {
-                    ModelObj = GetCurrentComp().Children.CADModelCollection
-                        .Where(p => p.Name == strip_creo_extension_off_filename(Path.GetFileName(StartingCadFilename))).First();
+                    // FIXME: check that it is connected to ResourceObj
+                    ModelObj = GetCurrentComp().Children.CADModelCollection.Where(p => p.Name == modelObjName).First();
                 }
                 // check if ModelObj exists
-                catch (Exception ex)
+                catch (InvalidOperationException)
                 {
                     ModelObjExists = false;
                     if (!test_mode_only)
                     {
-                        this.Logger.WriteError("No model found with that CAD file name", Path.GetFileNameWithoutExtension(StartingCadFilename), ex.Message);
+                        // this doesn't matter, don't confuse the user
+                        // this.Logger.WriteWarning("Cannot rename CADModel, because there is no CADModel named '{0}'", modelObjName, ex.Message);
                     }
                 }
                 if (ModelObjExists)
                 {
-                    ModelObj.Name = Path.GetFileName(RenamedCadFilename);
+                    ModelObj.Name = AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(Path.GetFileName(RenamedCadFilename));
                 }
             }
             //cleanup
@@ -333,17 +342,5 @@ namespace CyPhyComponentAuthoring.Modules
             return retval;
         }
 
-        // a method that strips off the Creo numeric extension off a filename but leaves it alone if that extension doesn't exist
-        string strip_creo_extension_off_filename(string file_to_strip)
-        {
-            // CAD files will have an extesion of .prt, .asm or .xx where xx is a Creo version number
-            if ((Path.GetExtension(file_to_strip) == ".prt") || (Path.GetExtension(file_to_strip) == ".asm"))
-            {
-                // no Creo extension, just return the filename
-                return file_to_strip;
-            }
-            // strip off the Creo version number
-            return Path.GetFileNameWithoutExtension(file_to_strip);
-        }
     }
 }

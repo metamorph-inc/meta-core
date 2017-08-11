@@ -138,8 +138,6 @@ namespace CyPhyComponentAuthoring.Modules
                     firstProc.StartInfo.Arguments = argstring;
                     this.Logger.WriteDebug("Calling ExtractACM-XMLfromCreoModels.exe with argument string: " + argstring);
 
-                    firstProc.EnableRaisingEvents = true;
-
                     firstProc.Start();
 
                     firstProc.WaitForExit();
@@ -183,10 +181,9 @@ namespace CyPhyComponentAuthoring.Modules
                 {
                     var rf = CyPhyClasses.RootFolder.GetRootFolder(CurrentProj);
 
-                    Dictionary<string, CyPhy.Component> avmidComponentMap = new Dictionary<string, CyPhy.Component>();
                     AVM2CyPhyML.CyPhyMLComponentBuilder newComponent = new AVM2CyPhyML.CyPhyMLComponentBuilder(rf);
                     ProcessedCADModel = newComponent.process(cadmodel, GetCurrentComp());
-                    ProcessedCADModel.Name = Path.GetFileNameWithoutExtension(cadFilename);
+                    ProcessedCADModel.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(cadFilename));
                 }
 
                 // find the largest current Y value so our new elements are added below the existing design elements
@@ -213,7 +210,7 @@ namespace CyPhyComponentAuthoring.Modules
             else if (test_copy_and_path_only)
             {
                 ProcessedCADModel = CyPhyClasses.CADModel.Create(GetCurrentComp());
-                ProcessedCADModel.Name = Path.GetFileNameWithoutExtension(CADpath);
+                ProcessedCADModel.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(CADpath));
             }
 
             #endregion
@@ -319,9 +316,9 @@ namespace CyPhyComponentAuthoring.Modules
 
                     CyPhy.Resource ResourceObj = CyPhyClasses.Resource.Create(GetCurrentComp());
                     ResourceObj.Attributes.ID = Guid.NewGuid().ToString("B");
-                    ResourceObj.Attributes.Path = cadFile;
+                    ResourceObj.Attributes.Path = AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(cadFile);
                     ResourceObj.Attributes.Notes = "CAD Model Import tool added this resource object for the imported CAD file";
-                    ResourceObj.Name = Path.GetFileName(cadFile);
+                    ResourceObj.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(cadFile));
 
                     // layout Resource just to the side of the CAD model
                     foreach (MgaPart item in (ResourceObj.Impl as MgaFCO).Parts)
