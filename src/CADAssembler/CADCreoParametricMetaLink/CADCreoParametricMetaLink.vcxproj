@@ -154,11 +154,6 @@
       <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y/D/F/C "$(TargetPath)" "$(META_PATH)\deploy\CAD_Installs\Proe ISIS Extensions\bin"\
-</Command>
-      <Message>Copy $(TargetName) to deploy\...\bin</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config">
