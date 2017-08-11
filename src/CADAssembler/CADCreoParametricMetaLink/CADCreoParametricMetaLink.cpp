@@ -328,12 +328,13 @@ int main(int argc, char *argv[])
                 if(result)
                 {
                     isis::EditPointer ack(new meta::Edit());
-                    ack->set_guid(edit->guid());
                     for(int i = 0; i < edit->topic_size(); i++)
                     {
+		        // FIXME: need to set notice mode to ack?
                         *(ack->add_topic()) = edit->topic(i);
                     }
-                    metalink_handler.send(ack);
+		    // FIXME: GME side doesn't do anything with this (ie who cares?)
+                    // metalink_handler.send(ack);
                 }
             }
         }
