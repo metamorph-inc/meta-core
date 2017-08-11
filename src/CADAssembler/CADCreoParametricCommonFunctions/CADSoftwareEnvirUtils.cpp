@@ -409,8 +409,8 @@ namespace isis
 			EnvVariableCOMM_MSG_EXE  = getenv ("CREO_PARAMETRIC_COMM_MSG_EXE");
 			if (EnvVariable_INSTALL_PATH == NULL || EnvVariableCOMM_MSG_EXE == NULL )
 			{
-				std::string TempError = "Environment variables CREO_PARAMETRIC_INSTALL_PATH and/or CREO_PARAMETRIC_COMM_MSG_EXE are not set properly.  Please see \"...\\Proe ISIS Extensions\\0Readme - CreateAssembly.txt\" for instructions on how to properly configure your system." +
-					std::string("This file is typically located at \"C:\\Program Files\\META\\Proe ISIS Extensions\".  Alternately, if the system environment variable PROE_ISIS_EXTENSIONS is set, at a cmd prompt enter \"echo %PROE_ISIS_EXTENSIONS%\" to view the file location.");
+				std::string TempError = "Environment variables CREO_PARAMETRIC_INSTALL_PATH and/or CREO_PARAMETRIC_COMM_MSG_EXE are not set properly.  Please see \"...\\0Readme - CreateAssembly.txt\" for instructions on how to properly configure your system." +
+					std::string("This file is typically located at \"C:\\Program Files (x86)\\META\\bin\\CAD\\Creo\\bin\".");
 				throw isis::application_exception(TempError.c_str());
 			}
 			_putenv_s( "PRO_COMM_MSG_EXE",  EnvVariableCOMM_MSG_EXE );

@@ -2539,15 +2539,14 @@ void Create_FEADecks_BatFiles(
 	calculixBatFile_ConvertDeck.open (analysisDirectoryAndBatFileName.c_str(),std::ios::out | std::ios::trunc  );
 
 	calculixBatFile_ConvertDeck << "REM " + in_ProgramName_Version_TimeStamp << std::endl;
-	calculixBatFile_ConvertDeck << "REM	The following system environment variable must be defined:" << std::endl;
-	calculixBatFile_ConvertDeck << "REM	   PROE_ISIS_EXTENSIONS	// typically set to	C:\\Program Files\\Proe ISIS Extensions" << std::endl;
 	calculixBatFile_ConvertDeck << "REM Invoke DeckConverter ( Convert Nastran deck to CalculiX deck)" << std::endl;
+    calculixBatFile_ConvertDeck << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO SET META_PATH=%%B" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo off" << std::endl;
 	calculixBatFile_ConvertDeck	<< std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo Invoke deck conversion from Nastran to CalculiX" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
-	calculixBatFile_ConvertDeck << "\"%PROE_ISIS_EXTENSIONS%\"\\bin\\DeckConverter.exe -i ..\\" + modifiedMeshFileName + " -o " + meshFileName_Calculix << std::endl;
+	calculixBatFile_ConvertDeck << "\"%META_PATH%\\bin\\CAD\\Creo\\bin\\DeckConverter.exe\" -i ..\\" + modifiedMeshFileName + " -o " + meshFileName_Calculix << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo Conversion completed" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;

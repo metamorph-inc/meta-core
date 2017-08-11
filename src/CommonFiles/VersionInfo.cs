@@ -27,7 +27,6 @@ namespace META
         private static string m_GmeVersion = string.Empty;
         private static string m_MetaPath = string.Empty;
 
-        private static string m_ProeISISExtPath = string.Empty;
         private static string m_ProeISISExtVer = string.Empty;
 
         private static string m_PythonVEnvScriptsPath = string.Empty;
@@ -320,64 +319,18 @@ namespace META
             }
         }
 
-        public static string ProeISISExtPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_ProeISISExtPath))
-                {
-                    m_ProeISISExtPath = unknown;
-                    // GET PATH
-                    //Env variable
-                    //PROE_ISIS_EXTENSIONS
-                    string assumedPath = Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
 
-                    if (string.IsNullOrEmpty(assumedPath))
-                    {
-                        //EXE in SVN
-                        //META_SVN\trunk\deploy\CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe
-                        assumedPath = Path.Combine(
-                            MetaPath,
-                            "deploy",
-                            "CAD_Installs",
-                            "Proe ISIS Extensions",
-                            "bin",
-                            "CADCreoParametricCreateAssembly.exe");
-
-                        if (File.Exists(assumedPath))
-                        {
-                            m_ProeISISExtPath = assumedPath;
-                        }
-                    }
-                    else
-                    {
-                        assumedPath = Path.Combine(
-                            assumedPath,
-                            "bin",
-                            "CADCreoParametricCreateAssembly.exe");
-
-                        if (File.Exists(assumedPath))
-                        {
-                            m_ProeISISExtPath = assumedPath;
-                        }
-                    }
-                }
-
-                return m_ProeISISExtPath;
-            }
-        }
-
-        public static string ProeISISExtVer
+        public static string CADCreoParametricCreateAssemblyVersion
         {
             get
             {
                 if (string.IsNullOrEmpty(m_ProeISISExtVer))
                 {
                     m_ProeISISExtVer = unknown;
-                    if (ProeISISExtPath != unknown)
+                    if (MetaPath != unknown)
                     {
-                        m_ProeISISExtVer = FileVersionInfo.
-                            GetVersionInfo(ProeISISExtPath).ProductVersion;
+                        var exePath = Path.Combine(MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricCreateAssembly.exe");
+                        m_ProeISISExtVer = FileVersionInfo.GetVersionInfo(exePath).ProductVersion;
                     }
                 }
                 return m_ProeISISExtVer;

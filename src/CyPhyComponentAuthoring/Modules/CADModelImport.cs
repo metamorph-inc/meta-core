@@ -119,18 +119,10 @@ namespace CyPhyComponentAuthoring.Modules
 
                     Process firstProc = new Process();
 
-                    // NOTE: Process class does not expand environment variables, do it manually
-                    string temp = Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
-                    if (temp == null)
-                    {
-                        this.Logger.WriteError("Please set the PROE_ISIS_EXTENSIONS environment variable");
-                        cleanup(tempXMLfile, true);
-                        return;
-                    }
-                    string path = Path.Combine(temp, "bin\\ExtractACM-XMLfromCreoModels.exe");
+                    string path = Path.Combine(META.VersionInfo.MetaPath, "bin\\CAD\\Creo\\bin\\ExtractACM-XMLfromCreoModels.exe");
                     if (!File.Exists(path))
                     {
-                        this.Logger.WriteError("Cannot find ExtractACM-XMLfromCreoModels.exe - Check if CAD Assembler was built and files installed to PROE_ISIS_EXTENSIONS");
+                        this.Logger.WriteError(String.Format("Cannot find '{0}'", path));
                         throw new Exception("ExtractACM-XMLfromCreoModels.exe not found.");
                     }
 

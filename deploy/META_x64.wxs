@@ -83,7 +83,6 @@
       <Directory Id='ProgramFiles64Folder'>
         <Directory Id='INSTALLDIR64' Name='META'>
           <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
-          <Directory Id='Proe_ISIS_Extensions_x64' Name='Proe ISIS Extensions'/>
         </Directory>
       </Directory>
       <Directory Id='ProgramFilesFolder'>
@@ -153,13 +152,6 @@
     <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
         <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
     </Component>
-
-    <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
-      <Component Id='PROE_ISIS_EXTENSIONS' Guid='{81FF799C-5509-4BAF-A420-82E256556D3A}' Win64='yes'>
-        <Environment Id="PROE_ISIS_EXTENSIONS" Action="set" System="yes" Name="PROE_ISIS_EXTENSIONS" Value="[Proe_ISIS_Extensions_x64]" />
-        <CreateFolder/>
-      </Component>
-    </DirectoryRef>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{C5414B00-7AB4-47F4-85A9-A66ACFF764B2}">
@@ -234,7 +226,7 @@
     <DirectoryRef Id='INSTALLDIR64'>
       <Component Id='META_PATH64' Guid='{f6a44af1-b3ff-4720-b38b-fbc7686fa3b7}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
-          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR64]'/>
+          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
         </RegistryKey>
       </Component>
     </DirectoryRef>
@@ -440,9 +432,8 @@
       </Feature>
 
       <Feature Id='CAD' Title='CAD' Level='1'>
-        <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1' ConfigurableDirectory='INSTALLDIR64'>
-          <ComponentGroupRef Id='Proe_ISIS_Extensions_x64'/>
-          <ComponentRef Id='PROE_ISIS_EXTENSIONS'/>
+        <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1'>
+          <ComponentGroupRef Id='CAD_exes'/>
         </Feature>
       </Feature>
 

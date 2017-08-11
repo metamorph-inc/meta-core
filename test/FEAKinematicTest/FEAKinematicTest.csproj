@@ -81,6 +81,10 @@
       <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
       <Name>CyPhyCOMInterfacesCS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CADCreoTest\CADCreoTest.csproj">
       <Project>{021CB0EC-456B-487D-A74F-AAE8873665EC}</Project>
       <Name>CADCreoTest</Name>

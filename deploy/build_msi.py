@@ -23,10 +23,10 @@ def get_nuget_packages():
     import vc_info
     from xml.etree import ElementTree
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
-    destination_files = [r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe',
-        r'CAD_Installs\Proe ISIS Extensions\0Readme - CreateAssembly.txt',
-        r'CAD_Installs\Proe ISIS Extensions\bin\ExtractACM-XMLfromCreoModels.exe',
-        r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricMetaLink.exe',
+    destination_files = [r'..\bin\CAD\Creo\bin\CADCreoParametricCreateAssembly.exe',
+        r'..\bin\CAD\Creo\0Readme - CreateAssembly.txt',
+        r'..\bin\CAD\Creo\bin\ExtractACM-XMLfromCreoModels.exe',
+        r'..\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe',
         ]
     for filename in destination_files:
         if os.path.isfile(filename):
@@ -98,7 +98,7 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\run_mdao",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\testbenchexecutor",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
-    gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
+    #gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)

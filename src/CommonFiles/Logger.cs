@@ -36,8 +36,7 @@ namespace META
 
             logFileHeader.AppendLine(string.Format("Python27 VE exe: {0}", META.VersionInfo.PythonVEnvExe));
 
-            logFileHeader.AppendLine(string.Format("PROE ISIS Ext. : {0}", META.VersionInfo.ProeISISExtPath));
-            logFileHeader.AppendLine(string.Format("PROE ISIS ver. : {0}", META.VersionInfo.ProeISISExtVer));
+            logFileHeader.AppendLine(string.Format("CreateAssembly v {0}", META.VersionInfo.CADCreoParametricCreateAssemblyVersion));
 
             logFileHeader.AppendLine(string.Format("Username:        {0}", Environment.UserName));
 

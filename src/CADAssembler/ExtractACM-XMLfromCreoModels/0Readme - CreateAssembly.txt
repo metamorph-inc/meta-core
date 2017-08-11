@@ -21,22 +21,10 @@ Pre-Conditions:
    parse xml files.  You can download UDM from http://repo.isis.vanderbilt.edu/downloads/.  Make sure you 
    install the 64 bit versions (e.g. UDM_x64-....msi). 
 
-Install Instructions:
---------------------
-
-1.  Copy the directory "Proe ISIS Extensions" to a local drive.  Typically, "C:\Program Files\META\Proe ISIS Extensions"
-
-2.  Setup the following system environment variable:  
-
-	   Environment Variable		Typically Set To
-	   ---------------------	----------------
-	a) PROE_ISIS_EXTENSIONS 	C:\Program Files\META\Proe ISIS Extensions
-	
-3.  Starting with CADCreoParametricCreateAssembly.exe v1.2.2.0 no environment variables, other than 
-    PROE_ISIS_EXTENSIONS, are necessary.  CADCreoParametricCreateAssembly.exe will automatically 
-    choose the highest version of the CADCreoParametricCreateAssembly.exe supported versions of 
-    Creo (see Supported Creo Versions section above) that is on your machine.  However, there 
-    are cases where you may want to use the environment variables.  For example, if you have 
+Manual Creo version selection
+--------------------------------------------------------
+1.  CADCreoParametricCreateAssembly.exe will automatically choose the highest supported version of 
+    Creo (see Supported Creo Versions above) that is on your computer.  If you have 
     multiple versions of Creo on your machine, then you may want to use the environment variables 
     to specify the version you would like to use.  To specify a particular version of Creo, 
     set the environment variables as follows:
@@ -47,6 +35,7 @@ Install Instructions:
 	b) CREO_PARAMETRIC_INSTALL_PATH	C:\Progra~1\PTC\CREO2~1.0\PARAME~1\
 	c) CREO_PARAMETRIC_COMM_MSG_EXE Template: C:\Program Files\PTC\Creo 2.0\Common Files\<version number>\x86e_win64\obj\pro_comm_msg
 					Example:  C:\Program Files\PTC\Creo 2.0\Common Files\M030\x86e_win64\obj\pro_comm_msg
+
 
 
 Example Bat Files:

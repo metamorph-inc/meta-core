@@ -123,7 +123,7 @@ int main( int argc, char *argv[] )
 	int ExitCode = 0;
 
 	std::string			creoStartCommand;
-	std::string			proeIsisExtensionsDir;
+	std::string			CADToolDir;
 
 	std::string			templateFile_PathAndFileName;
 	std::stringstream	exceptionErrorStringStream;
@@ -218,7 +218,7 @@ int main( int argc, char *argv[] )
 		isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
 															creoExceptInputFromThisProgramAndCreoUI,
 															creoStartCommand,
-															proeIsisExtensionsDir,
+															CADToolDir,
 															templateFile_PathAndFileName );
 
 		std::map<std::string, isis::CADComponentData> CADComponentData_map;
@@ -228,7 +228,7 @@ int main( int argc, char *argv[] )
 		   unsigned int UniqueNameIndex = 1;
 
 		   isis::CreateAssemblyViaInputFile(	programInputArguments,
-												proeIsisExtensionsDir,
+												CADToolDir,
 												programInputArguments.inputXmlFileName,
 												workingDir.generic_string(),
 												programInputArguments.auxiliaryCADDirectory,

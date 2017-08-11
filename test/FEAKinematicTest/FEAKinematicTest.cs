@@ -32,10 +32,9 @@ namespace FEAKinematicTest
             {
                 string metapath = Meta_Path;
                 string abaquspath = Abaqus_Path;
-                string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
                 string adamsDir = System.Environment.GetEnvironmentVariable("ADAMS_PATH");
                 abaqus = System.Environment.GetEnvironmentVariable("abaqus");
-                createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricCreateAssembly.exe");
+                createAssemblyExe = Path.Combine(META.VersionInfo.MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricCreateAssembly.exe");
                 AdamsScript = Path.Combine(metapath ?? "", "bin", "CAD", "Adams", "CreateAdamsModel.py");
                 CADVerifyScript = Path.Combine(metapath ?? "", "bin", "CAD", "TestCADResults.py");
                 FeaScript = Path.Combine(metapath ?? "", "bin", "CAD", "Abaqus", "AbaqusMain.py");
