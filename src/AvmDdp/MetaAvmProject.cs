@@ -794,8 +794,8 @@ namespace AVM.DDP
             Contract.Requires(string.IsNullOrEmpty(fromPath) == false);
             Contract.Requires(string.IsNullOrEmpty(toPath) == false);
 
-            Uri fromUri = new Uri(Path.GetFullPath(fromPath));
-            Uri toUri = new Uri(Path.GetFullPath(toPath));
+            Uri fromUri = new Uri(Path.GetFullPath(fromPath.Replace("%", "%25")), true);
+            Uri toUri = new Uri(Path.GetFullPath(toPath.Replace("%", "%25")), true);
 
             Uri relativeUri = fromUri.MakeRelativeUri(toUri);
             string relativePath = Uri.UnescapeDataString(relativeUri.ToString());
