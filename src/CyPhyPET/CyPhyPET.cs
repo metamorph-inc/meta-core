@@ -1203,17 +1203,17 @@ namespace CyPhyPET
                 return (oldFilename) =>
                 {
                     string mgaDir = Path.GetDirectoryName(Path.GetFullPath(((MgaFCO)fco).Project.ProjectConnStr.Substring("MGA=".Length)));
-                    oldFilename = Path.Combine(mgaDir, oldFilename);
+                    var oldPath = Path.Combine(mgaDir, oldFilename);
                     OpenFileDialog dialog = new OpenFileDialog();
                     dialog.DefaultExt = defaultExt;
                     dialog.CheckFileExists = true;
                     if (String.IsNullOrEmpty(oldFilename) == false
-                        && Directory.Exists(Path.GetDirectoryName(oldFilename)))
+                        && Directory.Exists(Path.GetDirectoryName(oldPath)))
                     {
-                        dialog.InitialDirectory = Path.GetDirectoryName(oldFilename);
-                        if (File.Exists(oldFilename))
+                        dialog.InitialDirectory = Path.GetDirectoryName(oldPath);
+                        if (File.Exists(oldPath))
                         {
-                            dialog.FileName = Path.GetFileName(oldFilename);
+                            dialog.FileName = Path.GetFileName(oldPath);
                             dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
                         }
                     }
