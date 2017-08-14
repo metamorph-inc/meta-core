@@ -39,7 +39,10 @@ namespace isis
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProEngineerStart returned ProError: %s(%d), proe_path: %s,  prodev_text_path: %s", ProToolKitError_string(err).c_str(), err, proe_path, prodev_text_path );
+			sprintf( err_str, "exception : ProEngineerStart returned ProError: %s(%d), proe_path: %s,  prodev_text_path: %s%s", ProToolKitError_string(err).c_str(), err, proe_path, prodev_text_path,
+                (err == PRO_TK_GENERAL_ERROR ? ". Creo may fail to start if the Welcome screen has not been disabled. "
+                    "Start Creo manualy and check \"Do not show again\" in the \"Resource Center\" window. "
+                    "See also https://support.ptc.com/appserver/cs/view/solution.jsp?n=CS116805" : "") );
 			throw isis::application_exception("C06001",err_str); 
 		}
 
