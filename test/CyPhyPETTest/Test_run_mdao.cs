@@ -190,6 +190,46 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void MultiplePETNestingExample()
+        {
+            string outputDir = GetCurrentMethod();
+            string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            //Run CyPhyPET
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, pathPet);
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+            var resultOutputDir = result.Item1.OutputDirectory;
+
+            //Check mdao_config.json
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+            Assert.Equal(new string[] { "x" }, config.subProblems["sub"].subProblems["subsub"].problemInputs["x"].outerSource);
+            Assert.Equal(new string[] { "y" }, config.subProblems["sub"].subProblems["subsub"].problemInputs["y"].outerSource);
+
+            //Run run_mdao
+            string stderr = "<did not start process>";
+            int retcode = Run("This doesn't do anything... I think", resultOutputDir, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            //Check output.csv results
+            var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
+            Assert.True(lines[0] == "GUID,x,y,f_xy", "output.csv header doesn't match expected");
+
+            double[] expectedFxy = new double[] { 7422.0, 2822.0, 3222.0, 2122.0, 22.0, 2922.0, 1822.0, 2222.0, 7622.0 };
+            int index = 0;
+            const double Epsilon = 0.0001;
+            foreach (var line in lines.Skip(1))
+            {
+                var values = line.Split(',');
+                Assert.True((Math.Abs(Convert.ToDouble(values[3]) - expectedFxy[index])) < Epsilon, "output.csv 'f_xy' fields don't match expected");
+                index++;
+            }
+
+            return;
+        }
+
+        [Fact]
         [Trait("THIS", "ONE")]
         public void StringEnumDriver()
         {
