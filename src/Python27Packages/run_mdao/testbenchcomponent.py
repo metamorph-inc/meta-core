@@ -20,7 +20,7 @@ def _get_param_name(param_name, component_type=None):
 
 
 class TestBenchComponent(Component):
-    def __init__(self, name, mdao_config, root):
+    def __init__(self, name, mdao_config, root, subproblem_output_meta):
         super(TestBenchComponent, self).__init__()
         self.name = name
         self.mdao_config = mdao_config
@@ -48,9 +48,22 @@ class TestBenchComponent(Component):
                 self.add_param(_get_param_name(param_name), val=val, binary=True)
                 continue
             elif source_is_not_driver and 'source' in param:
-                source_component = {c.name: c for c in root.components()}[param['source'][0]]
-                val = source_component._init_unknowns_dict[param['source'][-1]]['val']
-                pass_by_obj = source_component._init_unknowns_dict[param['source'][-1]].get('pass_by_obj', False)
+                if len(param['source']) == 1:
+                    # TODO: Single-element source must be a ProblemInput; need to get enough info here for this to work
+                    raise ValueError('ProblemInput sources not supported for TestBenchComponents')
+                else:
+                    if param['source'][0] in mdao_config.get('subProblems', {}):
+                        # Source is a subproblem output; look up its real path, value, and pass_by_obj-ness
+                        source_component = {c.name: c for c in root.components()}[param['source'][0]]
+                        output_name = subproblem_output_meta[param['source'][0]][param['source'][1]]
+                        meta = source_component._problem.root.unknowns._dat[output_name].meta
+                        val = meta['val']
+                        pass_by_obj = meta.get('pass_by_obj', False)
+                    else:
+                        # Source is not a subproblem output; must be a component
+                        source_component = {c.name: c for c in root.components()}[param['source'][0]]
+                        val = source_component._init_unknowns_dict[param['source'][-1]]['val']
+                        pass_by_obj = source_component._init_unknowns_dict[param['source'][-1]].get('pass_by_obj', False)
             elif 'source' in param:
                 source_type = mdao_config['drivers'][param['source'][0]]['designVariables'][param['source'][-1]].get('type')
                 if source_type == 'enum':

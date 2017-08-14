@@ -96,7 +96,7 @@ def run_one(filename, input):
     return run(filename, override_driver=OneInputDriver())
 
 
-def instantiate_component(component, component_name, mdao_config, root):
+def instantiate_component(component, component_name, mdao_config, root, subproblem_output_meta):
     component_type = component.get('type', 'TestBenchComponent')
     if component_type == 'IndepVarComp':
         def get_unknown_val(unknown):
@@ -116,7 +116,7 @@ def instantiate_component(component, component_name, mdao_config, root):
         vars = ((name, get_unknown_val(unknown), get_unknown_meta(unknown)) for name, unknown in six.iteritems(component['unknowns']))
         return IndepVarComp(vars)
     elif component_type == 'TestBenchComponent':
-        tb = TestBenchComponent(component_name, mdao_config, root)
+        tb = TestBenchComponent(component_name, mdao_config, root, subproblem_output_meta)
         # FIXME verify this works properly
         tb.solve_nonlinear = _memoize_solve(tb, tb.solve_nonlinear)
 
@@ -242,44 +242,6 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
 
-    def get_sorted_components():
-        """Apply Tarjan's algorithm to the Components."""
-        visited = {}
-        tbs_sorted = []
-
-        def get_ordinal(name):
-            ordinal = visited.get(name, -1)
-            if ordinal is None:
-                raise ValueError('Loop involving component "{}"'.format(name))
-            if ordinal != -1:
-                return ordinal
-            component = mdao_config['components'][name]
-            visited[name] = None
-            ordinal = 0
-            for source in (param.get('source') for param in component.get('parameters', {}).values()):
-                if not source:
-                    continue
-                if source[0] in mdao_config['drivers']:
-                    continue
-                if source[0] in mdao_config.get('problemInputs', {}):
-                    continue
-                if source[0] in mdao_config.get('subProblems', {}):
-                    continue
-                ordinal = max(ordinal, get_ordinal(source[0]) + 1)
-            visited[name] = ordinal
-            tbs_sorted.append(name)
-            return ordinal
-
-        for component_name in mdao_config['components']:
-            get_ordinal(component_name)
-        return tbs_sorted
-
-    tbs_sorted = get_sorted_components()
-    for component_name in tbs_sorted:
-        component = mdao_config['components'][component_name]
-        mdao_component = instantiate_component(component, component_name, mdao_config, root)
-        root.add(component_name, mdao_component)
-
     subProblemInputMeta = {}
     subProblemOutputMeta = {}
     for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
@@ -375,6 +337,44 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
             subProblemOutputs.append(path)
             outputMeta[name] = path
+
+    def get_sorted_components():
+        """Apply Tarjan's algorithm to the Components."""
+        visited = {}
+        tbs_sorted = []
+
+        def get_ordinal(name):
+            ordinal = visited.get(name, -1)
+            if ordinal is None:
+                raise ValueError('Loop involving component "{}"'.format(name))
+            if ordinal != -1:
+                return ordinal
+            component = mdao_config['components'][name]
+            visited[name] = None
+            ordinal = 0
+            for source in (param.get('source') for param in component.get('parameters', {}).values()):
+                if not source:
+                    continue
+                if source[0] in mdao_config['drivers']:
+                    continue
+                if source[0] in mdao_config.get('problemInputs', {}):
+                    continue
+                if source[0] in mdao_config.get('subProblems', {}):
+                    continue
+                ordinal = max(ordinal, get_ordinal(source[0]) + 1)
+            visited[name] = ordinal
+            tbs_sorted.append(name)
+            return ordinal
+
+        for component_name in mdao_config['components']:
+            get_ordinal(component_name)
+        return tbs_sorted
+
+    tbs_sorted = get_sorted_components()
+    for component_name in tbs_sorted:
+        component = mdao_config['components'][component_name]
+        mdao_component = instantiate_component(component, component_name, mdao_config, root, subProblemOutputMeta)
+        root.add(component_name, mdao_component)
 
     for component_name, component in six.iteritems(mdao_config['components']):
         for parameter_name, parameter in six.iteritems(component.get('parameters', {})):
@@ -520,6 +520,8 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
         # print("InputMeta:", inputMeta)
         # print("OutputMeta:", outputMeta)
+
+        top.setup()
 
         subProblem = SubProblem(top, params=subProblemInputs, unknowns=subProblemOutputs)
 

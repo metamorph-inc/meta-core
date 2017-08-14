@@ -1,0 +1,114 @@
+{
+  "components": {
+    "add2_TestBench": {
+      "parameters": {
+        "z": {
+          "source": [
+            "ParaboloidSubproblem",
+            "parab"
+          ]
+        }
+      },
+      "unknowns": {
+        "z": {}
+      },
+      "details": {
+        "directory": "Add2TestBench"
+      }
+    }
+  },
+  "drivers": {
+    "ParameterStudyDriver": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "b": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        },
+        "a": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        }
+      },
+      "objectives": {
+        "result": {
+          "source": [
+            "add2_TestBench",
+            "z"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=2",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  },
+  "subProblems": {
+    "ParaboloidSubproblem": {
+      "problemInputs": {
+        "a": {
+          "outerSource": [
+            "ParameterStudyDriver",
+            "a"
+          ],
+          "value": "5.5",
+          "pass_by_obj": false
+        },
+        "b": {
+          "outerSource": [
+            "ParameterStudyDriver",
+            "b"
+          ],
+          "value": "5.5",
+          "pass_by_obj": false
+        }
+      },
+      "problemOutputs": {
+        "parab": [
+          "PythonWrapper",
+          "f_xy"
+        ]
+      },
+      "components": {
+        "PythonWrapper": {
+          "parameters": {
+            "y": {
+              "source": [
+                "b"
+              ]
+            },
+            "x": {
+              "source": [
+                "a"
+              ]
+            }
+          },
+          "unknowns": {
+            "f_xy": {}
+          },
+          "details": {
+            "filename": "paraboloid.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {},
+      "subProblems": {}
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv"
+    }
+  ],
+  "SelectedConfigurations": [
+    "TestBenchInputFromSubproblem"
+  ],
+  "PETName": "/Testing/PETHierarchy/TestBenchInputFromSubproblem",
+  "MgaFilename": "C:\\source\\meta-core\\models\\PET_simple_proof-of-concept\\WorkFlow_PET.mga"
+}
