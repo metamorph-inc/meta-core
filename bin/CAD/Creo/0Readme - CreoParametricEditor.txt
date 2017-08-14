@@ -15,7 +15,7 @@ Pre-Conditions:
 Example Invocation:
 -------------------
 
-"C:\Program Files\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -<edit_switch> <input_file> <log_file> -<prompt_switch>
+"C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -<edit_switch> <input_file> <log_file> -<prompt_switch>
 
    where
        <edit_switch>:  Values edit/check
@@ -35,11 +35,11 @@ Example Invocation:
           -exit_prompt -    Prompt before exiting.
           -no_exit_prompt - Do not prompt before exiting.	
 
-e.g. "C:\Program Files\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -edit DatumEditorInput.xml DatumEditorInput.xml.log -exit_prompt 	
+e.g. "C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -edit DatumEditorInput.xml DatumEditorInput.xml.log -exit_prompt
 
 Display Help:
 ------------
-"C:\Program Files\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -help
+"C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricEditor.exe" -help
 
 
 Revision History:

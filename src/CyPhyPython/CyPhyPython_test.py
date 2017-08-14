@@ -1,9 +1,6 @@
 ﻿
 import sys
 import os
-#sys.path.append(r"C:\Program Files\ISIS\Udm\bin")
-#if os.environ.has_key("UDM_PATH"):
-#    sys.path.append(os.path.join(os.environ["UDM_PATH"], "bin"))
 import _winreg as winreg
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
     meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")

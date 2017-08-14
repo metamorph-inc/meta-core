@@ -26,7 +26,7 @@ namespace CyPhy2CAD_CSharp.Template
         public virtual string TransformText()
         {
             this.Write(@"
-REM	See ""C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt"" for the complete setup instructions.
+REM	See ""C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt"" for the complete setup instructions.
 
 set WORKING_DIR="".""
 set ERROR_CODE=0
@@ -137,7 +137,7 @@ if exist %PY_SCRIPT% goto  :PY_FOUND
 echo		Error: Could not find %PY_SCRIPT%.
 echo		Your system is not properly configured to run %PY_SCRIPT%.
 echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
-echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
+echo		which is typically located at ""C:\Program Files (x86)\META\bin\CAD\Creo""
 set ERROR_CODE=2
 set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py.""
 goto :ERROR_SECTION

@@ -33,7 +33,7 @@ Pre-Conditions:
 Install Instructions:
 --------------------
 
-The META installer installs the necessary files.  They are installed in "C:\Program Files\META\bin\CAD".
+The META installer installs the necessary files.  They are installed in "C:\Program Files (x86)\META\bin\CAD".
 The installed files are:
 
    CreateCsysFromStep.py
@@ -44,7 +44,7 @@ The installed files are:
 Example Invocation:
 ------------------- 	
 
-python "C:\Program Files\META\bin\CAD\CreateCsysFromStep.py" –i <input_step_file> –m <model__step_file> –t <model_type>
+python "C:\Program Files (x86)\META\bin\CAD\CreateCsysFromStep.py" -i <input_step_file> -m <model__step_file> -t <model_type>
 
    where:
    
@@ -58,7 +58,7 @@ python "C:\Program Files\META\bin\CAD\CreateCsysFromStep.py" –i <input_step_file
       <model_type> -      This field should be set to Assembly (e.g. -t Assembly) or Part (e.g. -t Part) in accordance
 			  with the model type of <model_step_file>.  The terms Assembly/Part are case insensitive.
 
-e.g. python "C:\Program Files\META\bin\CAD\CreateCsysFromStep.py" –i bracket_CSys.STEP –m  bracket.STEP –t Part
+e.g. python "C:\Program Files (x86)\META\bin\CAD\CreateCsysFromStep.py" -i bracket_CSys.STEP -m  bracket.STEP -t Part
 
 The above example would result in the creation of bracket_CSys.xml.  If bracket_CSys.xml already exists, then 
 the existing bracket_CSys.xml would be renamed to ORIGINAL_bracket_CSys.xml, and a new version of bracket_CSys.xml 

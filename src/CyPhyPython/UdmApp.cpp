@@ -264,7 +264,6 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	else {
 		newpath = path;
 	}
-	//newpath += separator + "C:\\Program Files\\ISIS\\Udm\\bin";
 
 	PySys_SetPath(const_cast<char*>(newpath.c_str()));
 

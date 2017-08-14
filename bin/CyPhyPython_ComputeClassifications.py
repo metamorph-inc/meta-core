@@ -3,9 +3,6 @@ from __future__ import absolute_import
 from __future__ import print_function
 import sys
 import os
-# sys.path.append(r"C:\Program Files\ISIS\Udm\bin")
-# if os.environ.has_key("UDM_PATH"):
-#    sys.path.append(os.path.join(os.environ["UDM_PATH"], "bin"))
 import six.moves.winreg as winreg
 import six
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
