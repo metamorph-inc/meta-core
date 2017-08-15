@@ -1,0 +1,107 @@
+{
+  "components": {
+    "PythonWrapper": {
+      "parameters": {
+        "x": {
+          "source": [
+            "ParameterStudyDriver",
+            "a"
+          ]
+        },
+        "y": {
+          "source": [
+            "ParameterStudyDriver",
+            "b"
+          ]
+        }
+      },
+      "unknowns": {
+        "f_xy": {}
+      },
+      "details": {
+        "filename": "paraboloid.py"
+      },
+      "type": "run_mdao.python_component.PythonComponent"
+    }
+  },
+  "drivers": {
+    "ParameterStudyDriver": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "b": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        },
+        "a": {
+          "RangeMin": 1.0,
+          "RangeMax": 10.0
+        }
+      },
+      "objectives": {
+        "result": {
+          "source": [
+            "TBSubproblem",
+            "res"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=2",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  },
+  "subProblems": {
+    "TBSubproblem": {
+      "problemInputs": {
+        "a": {
+          "outerSource": [
+            "PythonWrapper",
+            "f_xy"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        }
+      },
+      "problemOutputs": {
+        "res": [
+          "add2_TestBench",
+          "z"
+        ]
+      },
+      "components": {
+        "add2_TestBench": {
+          "parameters": {
+            "z": {
+              "source": [
+                "a"
+              ]
+            }
+          },
+          "unknowns": {
+            "z": {}
+          },
+          "details": {
+            "directory": "Add2TestBench"
+          }
+        }
+      },
+      "drivers": {},
+      "subProblems": {}
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv"
+    }
+  ],
+  "SelectedConfigurations": [
+    "TestBenchInputFromProblemInput"
+  ],
+  "PETName": "/Testing/PETHierarchy/TestBenchInputFromProblemInput",
+  "MgaFilename": "C:\\source\\meta-core\\models\\PET_simple_proof-of-concept\\WorkFlow_PET.mga"
+}

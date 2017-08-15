@@ -49,8 +49,17 @@ class TestBenchComponent(Component):
                 continue
             elif source_is_not_driver and 'source' in param:
                 if len(param['source']) == 1:
-                    # TODO: Single-element source must be a ProblemInput; need to get enough info here for this to work
-                    raise ValueError('ProblemInput sources not supported for TestBenchComponents')
+                    # TODO: Single-element source must be a ProblemInput
+                    problemInput = mdao_config['problemInputs'][param['source'][0]]
+                    if 'innerSource' in problemInput and problemInput['innerSource'][0] in mdao_config['drivers']:
+                        source_type = mdao_config['drivers'][problemInput['innerSource'][0]]['designVariables'][problemInput['innerSource'][1]].get('type')
+                        if source_type == 'enum':
+                            val = mdao_config['drivers'][problemInput['innerSource'][0]]['designVariables'][problemInput['innerSource'][1]]['items'][0]
+                            pass_by_obj = True
+                        elif source_type == "int":
+                            val = 0
+                    else:
+                        (val, pass_by_obj) = get_problem_input_value(problemInput)
                 else:
                     if param['source'][0] in mdao_config.get('subProblems', {}):
                         # Source is a subproblem output; look up its real path, value, and pass_by_obj-ness
@@ -159,3 +168,16 @@ class TestBenchComponent(Component):
 
     def jacobian(self, params, unknowns, resids):
         raise Exception('unsupported')
+
+def get_problem_input_value(problem_input):
+    initial_value = 0.0
+    pass_by_obj = False
+
+    if "value" in problem_input:
+        initial_value_str = problem_input["value"]
+        initial_value = eval(initial_value_str, globals())
+
+    if "pass_by_obj" in problem_input:
+        pass_by_obj = problem_input["pass_by_obj"]
+
+    return (initial_value, pass_by_obj)
