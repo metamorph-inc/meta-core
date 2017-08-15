@@ -795,8 +795,14 @@ namespace CyPhyPET
                     }
                     else
                     {
-                        // FIXME don't need parent.Name if parent is ParametricExploration ?
-                        problemInput.outerSource = new string[] { parent.Name, source.Src.Name };
+                        if (parent.Meta.Name == typeof(CyPhy.ParametricExploration).Name)
+                        {
+                            problemInput.outerSource = new string[] { source.Src.Name };
+                        }
+                        else
+                        {
+                            problemInput.outerSource = new string[] { parent.Name, source.Src.Name };
+                        }
                     }
                 }
 
