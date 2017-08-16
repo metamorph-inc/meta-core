@@ -25,7 +25,6 @@ class TestBenchParameter_to_CadAssembly(object):
 
     def __init__(self):
         self.logger = logging.getLogger()
-        self.tbmanifest_param_list = []
 
     def _parse_json(self, filename):
         import json
@@ -49,7 +48,7 @@ class TestBenchParameter_to_CadAssembly(object):
             return str(value)
 
         self.tbmanifest_params = {parameter['Name']: value_to_str(parameter['Value']) for parameter in tbmanifest_dict.get('Parameters', [])}
-        self.logger.info(self.tbmanifest_param_list)
+        self.logger.debug('testbench_manifest parameters: ' + repr(self.tbmanifest_params))
 
         if not os.path.isfile(self.testbench_cadparam_json):
             # There are no CAD parameters, even though there are TestBench parameters, so move along.
@@ -68,7 +67,7 @@ class TestBenchParameter_to_CadAssembly(object):
 
         return instanceguid_param_dict
 
-    def modify_cad_assembly_file(self, statusfile):
+    def modify_cad_assembly_file(self):
         tree = ET.parse(self.local_cadassembly_name)
 
         instanceguid_param_dict = self.populate_cadparam_values()
@@ -78,15 +77,15 @@ class TestBenchParameter_to_CadAssembly(object):
                 self.logger.debug('Found a parent component in CADAssembly.xml [' + str(cc_parent.attrib['DisplayName']) + ']')
                 for cc in cc_parent.findall('CADComponent'):
                     self.logger.debug('Found a component in CADAssembly.xml [' + str(cc.attrib['DisplayName']) + ']')
-                    if cc.attrib['ComponentID'] in instanceguid_param_dict:
-                        guid = cc.attrib['ComponentID']
-                        cadparam_dict_src = instanceguid_param_dict[guid]
+                    guid = cc.attrib['ComponentID']
+                    cadparam_dict_src = instanceguid_param_dict.get(guid)
+                    if cadparam_dict_src is not None:
                         # recurse Found Element Component to find CADParameters
                         for pp in cc.findall('ParametricParameters'):
                             for cp in pp.findall('CADParameter'):
                                 if cp.get('Name') in cadparam_dict_src:
                                     cp.set('Value', str(cadparam_dict_src[cp.get('Name')]))
-                                    statusfile.write('Replaced in XML [%s:%s:%s]\n' % (guid, cp.get('Name'), str(cadparam_dict_src[cp.get('Name')])))
+                                    self.logger.info('Replaced in XML [%s:%s:%s]\n' % (guid, cp.get('Name'), str(cadparam_dict_src[cp.get('Name')])))
 
         for cadparam in self.cadparam_mapping_list:
             _id = cadparam.get('_id')
@@ -94,7 +93,7 @@ class TestBenchParameter_to_CadAssembly(object):
                 value = self.tbmanifest_params[cadparam['TestBenchParameterName']]
                 node = tree.find(".//*[@_id='{}']".format(_id))
                 node.set(cadparam['AttributeName'], value)
-                statusfile.write('Replaced in XML [{} {}:{}:{}]\n'.format(node.tag, _id, cadparam['AttributeName'], value))
+                self.logger.info('Replaced in XML [{} {}:{}:{}]\n'.format(node.tag, _id, cadparam['AttributeName'], value))
 
         tree.write(self.modified_cadassembly_name)
         self.logger.debug('end')
