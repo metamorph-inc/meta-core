@@ -18,7 +18,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public TBCadParameterMapping(CyPhy.CADParameter cadParam,
                                      string tbParamName)
         {
-            ComponentCADParameterName = cadParam.Attributes.ParameterName;
+            ComponentCADParameterName = (cadParam.Attributes.ParameterName == "") ? cadParam.Name : cadParam.Attributes.ParameterName;
+
             if (cadParam.ParentContainer.ParentContainer.Kind == "Component")
                 ComponentInstanceGUID = CyPhyClasses.Component.Cast(cadParam.ParentContainer.ParentContainer.Impl).Attributes.InstanceGUID;
             TestBenchParameterName = tbParamName;
