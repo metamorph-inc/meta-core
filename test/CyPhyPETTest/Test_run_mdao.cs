@@ -230,7 +230,6 @@ namespace CyPhyPETTest
         }
 
         [Fact]
-        [Trait("THIS", "ONE")]
         public void StringEnumDriver()
         {
             string outputDir = GetCurrentMethod();
