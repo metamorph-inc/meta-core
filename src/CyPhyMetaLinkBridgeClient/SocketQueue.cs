@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Collections.Concurrent;
 
 using MetaLinkProtobuf = edu.vanderbilt.isis.meta;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace CyPhyMetaLinkBridgeClient
 {
@@ -22,57 +24,39 @@ namespace CyPhyMetaLinkBridgeClient
         private NetworkStream _networkStream = null;
         private BufferedStream _bufferedNetworkStream = null;
 
-
-        public SocketQueue(/*MgaProject mgaProject*/)
-        {
-        }
-
-        private Socket tryGetSocket()
+        private async Task<Socket> connect()
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //            socket.Blocking = false;
 
             byte[] byteAddress = new byte[] { 127, 0, 0, 1 };
             IPAddress ipAddress = new IPAddress(byteAddress);
-            try
+            var args = new SocketAsyncEventArgs();
+            args.RemoteEndPoint = new IPEndPoint(ipAddress, port);
+            SemaphoreSlim signal = new SemaphoreSlim(0, 1);
+            args.Completed += (sender, e) =>
             {
-                socket.Connect(ipAddress, port);
-            }
-            catch (SocketException socketException)
+                signal.Release();
+            };
+            bool waiting = socket.ConnectAsync(args);
+            if (waiting)
             {
-                if (socketException.ErrorCode == 10035)
-                { // WSAEWOULDBLOCK
-                    bool socketGood = socket.Poll(10000000, SelectMode.SelectWrite);
-                    if (!socketGood) return null;
+                await signal.WaitAsync();
+                if (args.SocketError != SocketError.Success)
+                {
+                    return null;
                 }
             }
+            if (socket.Connected == false)
+            {
+                return null;
+            }
 
             return socket;
         }
 
-        private Socket getSocket()
+        public async Task<bool> establishSocket()
         {
-            Socket socket = null;
-
-            try
-            {
-                socket = tryGetSocket();
-                if (!socket.Connected)
-                    socket = null;
-            }
-            catch (Exception)
-            {
-                socket = null;
-            }
-
-
-            return socket;
-        }
-
-        public bool establishSocket()
-        {
-
-            _socket = getSocket();
+            _socket = await connect();
             if (_socket == null)
             {
                 return false;
@@ -104,31 +88,18 @@ namespace CyPhyMetaLinkBridgeClient
             encodeInteger(stream, (int)number);
         }
 
-        private byte[] getCrc32(byte[] data, long dataLength)
+        private byte[] getCrc32(byte[] data, int dataLength)
         {
             CRC32 crc32 = new CRC32();
             crc32.Initialize();
-            byte[] hash = crc32.ComputeHash(data, 0, (int)dataLength);
+            byte[] hash = crc32.ComputeHash(data, 0, dataLength);
             Array.Reverse(hash);
             return hash;
         }
 
         public bool IsConnected()
         {
-            bool status = false;
-            if (_socket != null)
-            {
-                try
-                {
-                    status = !(_socket.Poll(1, SelectMode.SelectRead) && _socket.Available == 0);
-                }
-                catch (SocketException)
-                {
-                    status = false;
-                }
-            }
-
-            return status;
+            return _socket != null && _socket.Connected;
         }
 
         private void sendMessage(MetaLinkProtobuf.Edit message)
@@ -176,10 +147,7 @@ namespace CyPhyMetaLinkBridgeClient
                     if (_messageQueue.TryTake(out message, 1000, sendThreadCancellation.Token))
                     {
                         sendMessage(message);
-                        if (EditMessageSent != null)
-                        {
-                            EditMessageSent(message);
-                        }
+                        EditMessageSent?.Invoke(message);
                     }
                 }
             }

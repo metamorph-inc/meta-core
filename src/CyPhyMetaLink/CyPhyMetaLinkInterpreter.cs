@@ -22,7 +22,8 @@ using System.Threading;
 using System.Security;
 using System.Drawing;
 using Microsoft.Win32;
-
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace CyPhyMetaLink
 {
@@ -102,7 +103,8 @@ namespace CyPhyMetaLink
 
         public MgaGateway MgaGateway { get; set; }
         public GMEConsole GMEConsole { get; set; }
-        private CyPhyMetaLink.CyPhyMetaLinkAddon propagateAddon;
+        private CyPhyMetaLink.CyPhyMetaLinkAddon metalinkAddon;
+        Task<bool> ConnectToMetaLinkBridgeTask;
 
         public void InvokeEx(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
         {
@@ -115,18 +117,16 @@ namespace CyPhyMetaLink
             {
                 GMEConsole = GMEConsole.CreateFromProject(project);
                 MgaGateway = new MgaGateway(project);
+                ProjectDirectory = Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
 
 
-                propagateAddon = GetPropagateAddon(project);
-                if (propagateAddon == null)
+                metalinkAddon = GetMetaLinkAddon(project);
+                if (metalinkAddon == null)
                 {
-                    GMEConsole.Error.WriteLine("CyPhyMLSync: Unable to contact CyPhyMLPropagate.");
+                    GMEConsole.Error.WriteLine("CyPhyMLSync: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
                     return;
                 }
-                if (propagateAddon.bridgeClient.IsConnectedToBridge() == false)
-                {
-                    ConnectToMetaLinkBridge(project, param);
-                }
+                ConnectToMetaLinkBridgeTask = Task.Run(() => ConnectToMetaLinkBridge(project, param));
 
                 string currentobjKind = null;
                 MgaFCO selectedCADModel = null;
@@ -174,10 +174,8 @@ namespace CyPhyMetaLink
                         return;
                     }
                     bool connected = true;
-                    if (propagateAddon.bridgeClient.IsConnectedToBridge() == false)
-                    {
-                        connected = ConnectToMetaLinkBridge(project, param);
-                    }
+                    ConnectToMetaLinkBridgeTask.Wait();
+                    connected = ConnectToMetaLinkBridgeTask.Result;
                     if (connected)
                     {
                         LinkComponent(component, selectedCADModel);
@@ -187,30 +185,25 @@ namespace CyPhyMetaLink
 
                 if (currentobjKind == null)
                 {
-                    propagateAddon.StartCreoEmpyMode();
+                    bool connected = true;
+                    ConnectToMetaLinkBridgeTask.Wait();
+                    connected = ConnectToMetaLinkBridgeTask.Result;
+                    if (connected)
+                    {
+                        metalinkAddon.StartCreoEmpyMode();
+                    }
                     return;
                 }
 
                 //GMEConsole.Out.WriteLine("Running CyPhySync interpreter...");
 
-                if (propagateAddon.AssemblyID != null)
+                if (metalinkAddon.AssemblyID != null)
                 {
                     GMEConsole.Warning.WriteLine("A ComponentAssembly is already synced");
                 }
                 else
                 {
-                    bool connected = propagateAddon.bridgeClient.IsConnectedToBridge();
-                    if (connected == false)
-                    {
-                        GMEConsole.Info.WriteLine("Connecting to MetaLink Bridge ...");
-
-                        connected = ConnectToMetaLinkBridge(project, param);
-                    }
-
-                    if (connected)
-                    {
-                        StartAssemblySync(project, currentobj, param);
-                    }
+                    StartAssemblySync(project, currentobj, param);
                 }
 
                 //GMEConsole.Out.WriteLine("End of CyPhySync interpreter...");
@@ -261,11 +254,11 @@ namespace CyPhyMetaLink
                 {
                     if (creoMode == CyPhyMetaLink.CyPhyMetaLinkAddon.CreoOpenMode.OPEN_COMPONENT)
                     {
-                        propagateAddon.StartEditingComponent(component, selectedCADModel, createNewComponent);
+                        metalinkAddon.StartEditingComponent(component, selectedCADModel, createNewComponent);
                     }
                     else
                     {
-                        propagateAddon.StartCreoEmpyMode();
+                        metalinkAddon.StartCreoEmpyMode();
                     }
                 }
             }
@@ -286,33 +279,41 @@ namespace CyPhyMetaLink
                 new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry32 },
             })
             {
-            try
-            {
-                    using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, javaKey.view).OpenSubKey(javaKey.key))
+                try
                 {
-                    String currentVersion = baseKey.GetValue("CurrentVersion").ToString();
-                    using (var homeKey = baseKey.OpenSubKey(currentVersion))
-                        return homeKey.GetValue("JavaHome").ToString();
+                    using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, javaKey.view).OpenSubKey(javaKey.key))
+                    {
+                        if (baseKey == null)
+                        {
+                            continue;
+                        }
+                        object currentVersion = baseKey.GetValue("CurrentVersion");
+                        if (currentVersion == null)
+                        {
+                            continue;
+                        }
+                        using (var homeKey = baseKey.OpenSubKey(currentVersion.ToString()))
+                            return homeKey.GetValue("JavaHome").ToString();
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                // no 64-bit Java was found. Will try 64-bit
-            }
+                catch (Exception)
+                {
+                    // no 64-bit Java was found. Will try 64-bit
+                }
             }
 
             return null;
         }
 
-        public bool ConnectToMetaLinkBridge(MgaProject project, int param)
+        public async Task<bool> ConnectToMetaLinkBridge(MgaProject project, int param)
         {
             bool connected = false;
 
-            if (propagateAddon == null)
+            if (metalinkAddon == null)
             {
-                propagateAddon = GetPropagateAddon(project);
+                metalinkAddon = GetMetaLinkAddon(project);
             }
-            if (propagateAddon.EstablishConnection())
+            if (await metalinkAddon.EstablishConnection())
             {
                 connected = true;
             }
@@ -343,46 +344,83 @@ namespace CyPhyMetaLink
                                 FileName = java_exe,
                                 // Arguments = String.Format("-jar \"{0}\" -r \"{1}\"", metaLinkPath, Path.GetTempFileName()),
                                 Arguments = String.Format("-jar \"{0}\"", metaLinkPath),
-                                WindowStyle = ProcessWindowStyle.Minimized,
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                CreateNoWindow = true,
                                 UseShellExecute = false,
+                                RedirectStandardError = true,
+                                RedirectStandardOutput = true,
                             };
 #if DEBUG
                             // startInfo.Arguments += String.Format(" -r \"{0}\"", Path.Combine(Path.GetTempPath, "metalink_recordedmessages.mlp");
 #endif
                             Process metalink = new Process();
                             metalink.StartInfo = startInfo;
+
+                            string logPath = Path.Combine(ProjectDirectory, "log", "MetaLinkBridge_" + Process.GetCurrentProcess().Id.ToString() + ".log");
+                            Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+                            var log = new StreamWriter(logPath);
+                            int streamsClosed = 0;
+                            TaskCompletionSource<bool> bridgeListening = new TaskCompletionSource<bool>();
+
+                            DataReceivedEventHandler handler = (sender, e) =>
+                            {
+                                lock (log)
+                                {
+                                    if (e.Data == null)
+                                    {
+                                        streamsClosed += 1;
+                                        if (streamsClosed == 2)
+                                        {
+                                            log.Close();
+                                            log.Dispose();
+                                        }
+                                        return;
+                                    }
+                                    if (bridgeListening.Task.IsCompleted == false && e.Data.Contains("AssemblyDesignBridgeServer started and listening"))
+                                    {
+                                        bridgeListening.SetResult(true);
+                                    }
+                                    log.WriteLine(e.Data);
+                                }
+                            };
+                            metalink.OutputDataReceived += handler;
+                            metalink.ErrorDataReceived += handler;
+
                             metalink.Start();
-#if DEBUG
                             metalink.BeginErrorReadLine();
                             metalink.BeginOutputReadLine();
-#endif
+
+                            if (Task.WaitAny(new Task[] { bridgeListening.Task }, 20 * 1000) == -1)
+                            {
+                                // throw new TimeoutException();
+                            }
+                            // n.b. ensure that even if GME is killed or crashes, MetaLinkBridge will exit
+                            // this is important because we are reading its output, and it may block when we are not around to read it
+                            IntPtr job = JobObjectPinvoke.AssignProcessToKillOnCloseJob(metalink);
 
                             for (int i = 0; i < 100; i++)
                             {
-                                if (propagateAddon.EstablishConnection())
+                                if (await metalinkAddon.EstablishConnection())
                                 {
                                     connected = true;
                                     break;
                                 }
-                                Thread.Sleep(100);
+                                await Task.Delay(100);
                             }
-                            int WM_SETICON = 0x80;
-                            int ICON_SMALL = 0;
-                            int ICON_BIG = 1;
-                            Icon icon = Properties.Resources.CyPhyMLSync;
-                            IntPtr result = SendMessage(metalink.MainWindowHandle, WM_SETICON, (IntPtr)ICON_SMALL, icon.Handle);
-                            result = SendMessage(metalink.MainWindowHandle, WM_SETICON, (IntPtr)ICON_BIG, icon.Handle);
-                            int WM_SYSCOMMAND = 0x0112;
-                            var SC_MINIMIZE = (IntPtr)0xF020;
-                            SendMessage(metalink.MainWindowHandle, WM_SYSCOMMAND, SC_MINIMIZE, IntPtr.Zero);
                             if (!connected)
                             {
                                 GMEConsole.Error.WriteLine("Failed to start MetaLink Bridge.");
+                                if (metalink.HasExited)
+                                {
+                                    metalink.Kill();
+                                }
                                 metalink.Dispose();
+                                JobObjectPinvoke.CloseHandle(job);
                             }
                             else
                             {
-                                propagateAddon.metalinkBridge = metalink;
+                                metalinkAddon._metalinkBridge = metalink;
+                                metalinkAddon._metalinkBridgeJob = job;
                             }
                         }
                     }
@@ -401,7 +439,14 @@ namespace CyPhyMetaLink
 
         public void StartAssemblySync(MgaProject project, MgaFCO currentobj, int param)
         {
-            propagateAddon.Enable(true);
+            // FIXME: possible race between sending MetaLink Bridge INTEREST and it registering it, and Creo sending its INTEREST
+            // n.b. the tests call StartAssemblySync directly
+            ProjectDirectory = Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
+            if (ConnectToMetaLinkBridgeTask == null)
+            {
+                ConnectToMetaLinkBridgeTask = Task.Run(() => ConnectToMetaLinkBridge(project, param));
+            }
+            metalinkAddon.Enable(true);
 
             CyPhyML.ComponentAssembly topasm = null;
             MgaGateway.PerformInTransaction(delegate
@@ -409,31 +454,38 @@ namespace CyPhyMetaLink
                 topasm = Run(project, currentobj, param);
                 if (topasm != null)
                 {
-                    propagateAddon.AssemblyID = topasm.Guid.ToString();
+                    metalinkAddon.AssemblyID = topasm.Guid.ToString();
                 }
             });
 
+            ConnectToMetaLinkBridgeTask.Wait();
+            if (ConnectToMetaLinkBridgeTask.Result == false)
+            {
+                return;
+            }
+
             if (topasm == null)
             {
-                propagateAddon.AssemblyID = null;
+                metalinkAddon.AssemblyID = null;
                 GMEConsole.Error.WriteLine("No top level assembly can be found. Open an assembly and try again.");
                 return;
             }
             try
             {
-                propagateAddon.CallCyPhy2CADWithTransaction(project,
+                metalinkAddon.CallCyPhy2CADWithTransaction(project,
                                 (topasm.Impl as MgaFCO),
                                 param);
             }
             catch (Exception e)
             {
-                propagateAddon.syncedComponents.Remove(propagateAddon.AssemblyID);
-                propagateAddon.AssemblyID = null;
+                metalinkAddon.syncedComponents.Remove(metalinkAddon.AssemblyID);
+                // FIXME: propagateAddon.LastStartedInstance.Remove
+                metalinkAddon.AssemblyID = null;
                 GMEConsole.Error.Write(e.Message);
             }
         }
 
-        private static CyPhyMetaLink.CyPhyMetaLinkAddon GetPropagateAddon(MgaProject project)
+        private static CyPhyMetaLink.CyPhyMetaLinkAddon GetMetaLinkAddon(MgaProject project)
         {
             CyPhyMetaLink.CyPhyMetaLinkAddon cyPhyMLSyncComponent = null;
             MgaComponents mgaComponents = project.AddOnComponents;
@@ -638,7 +690,6 @@ namespace CyPhyMetaLink
             }
 #endif
 
-            ProjectDirectory = Path.GetDirectoryName(currentobj.Project.ProjectConnStr.Substring("MGA=".Length));
             string workingDir = "MetaLink_" + DateTime.Now.ToString("MMddHHmmss");
             CyPhyMetaLink.SyncedComponentData cdata = new CyPhyMetaLink.SyncedComponentData()
             {
@@ -669,11 +720,178 @@ namespace CyPhyMetaLink
                 }
             }
 
-            propagateAddon.syncedComponents.Add(cdata.Id, cdata);
+            metalinkAddon.syncedComponents.Add(cdata.Id, cdata);
 
             return topasm;
         }
 
         string ProjectDirectory;
     }
+
+
+    public class JobObjectPinvoke
+    {
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SECURITY_ATTRIBUTES
+        {
+            public int nLength;
+            // public unsafe byte* lpSecurityDescriptor;
+            public IntPtr lpSecurityDescriptor;
+            public int bInheritHandle;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct JOBOBJECT_ASSOCIATE_COMPLETION_PORT
+        {
+            public IntPtr CompletionKey;
+            public IntPtr /* HANDLE */ CompletionPort;
+        }
+
+        public enum JOBOBJECTINFOCLASS
+        {
+            // AssociateCompletionPortInformation = 7,
+            // BasicLimitInformation = 2,
+            // BasicUIRestrictions = 4,
+            // EndOfJobTimeInformation = 6,
+            ExtendedLimitInformation = 9,
+            // SecurityLimitInformation = 5,
+            // GroupInformation = 11
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool QueryInformationJobObject(IntPtr hJob, JOBOBJECTINFOCLASS type, ref JOBOBJECT_EXTENDED_LIMIT_INFORMATION limitInfo, Int32 cbJobObjectInfoLength, ref Int32 lpReturnLength);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AssignProcessToJobObject(IntPtr hJob, IntPtr hProcess);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetInformationJobObject(IntPtr hJob,
+           JOBOBJECTINFOCLASS JobObjectInfoClass,
+           /* IntPtr lpJobObjectInfo, */
+           // ref JOBOBJECT_ASSOCIATE_COMPLETION_PORT info,
+           [In] ref JOBOBJECT_EXTENDED_LIMIT_INFORMATION info,
+           uint cbJobObjectInfoLength);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        // static extern IntPtr CreateJobObject([In] ref SECURITY_ATTRIBUTES lpJobAttributes, string lpName);
+        static extern IntPtr CreateJobObject(IntPtr lpJobAttributes, string lpName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr CreateIoCompletionPort(IntPtr FileHandle,
+           IntPtr ExistingCompletionPort, UIntPtr CompletionKey,
+           uint NumberOfConcurrentThreads);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetQueuedCompletionStatus(IntPtr CompletionPort, out uint
+           lpNumberOfBytes, out IntPtr lpCompletionKey, out IntPtr lpOverlapped,
+           uint dwMilliseconds);
+
+        static IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+        const UInt32 INFINITE = 0xFFFFFFFF;
+
+
+        public static IntPtr AssignProcessToKillOnCloseJob(Process process)
+        {
+            IntPtr job = CreateJobObject(IntPtr.Zero, null);
+            if (job == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            var info = new JOBOBJECT_EXTENDED_LIMIT_INFORMATION();
+            int returnLength = 0;
+            if (!QueryInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, Marshal.SizeOf(info), ref returnLength))
+            {
+                CloseHandle(job);
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
+
+            if (!SetInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, (uint)Marshal.SizeOf(info)))
+            {
+                CloseHandle(job);
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            if (!AssignProcessToJobObject(job, process.Handle))
+            {
+                CloseHandle(job);
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            return job;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct NativeOverlapped
+        {
+            private IntPtr InternalLow;
+            private IntPtr InternalHigh;
+            public long Offset;
+            public IntPtr EventHandle;
+        }
+
+        public enum JobObjectMsg : uint
+        {
+            END_OF_JOB_TIME = 1,
+            END_OF_PROCESS_TIME = 2,
+            ACTIVE_PROCESS_LIMIT = 3,
+            ACTIVE_PROCESS_ZERO = 4,
+            NEW_PROCESS = 6,
+            EXIT_PROCESS = 7,
+            ABNORMAL_EXIT_PROCESS = 8,
+            PROCESS_MEMORY_LIMIT = 9,
+            JOB_MEMORY_LIMIT = 10,
+            NOTIFICATION_LIMIT = 11,
+            JOB_CYCLE_TIME_LIMIT = 12,
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct IO_COUNTERS
+        {
+            public UInt64 ReadOperationCount;
+            public UInt64 WriteOperationCount;
+            public UInt64 OtherOperationCount;
+            public UInt64 ReadTransferCount;
+            public UInt64 WriteTransferCount;
+            public UInt64 OtherTransferCount;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct JOBOBJECT_BASIC_LIMIT_INFORMATION
+        {
+            public Int64 PerProcessUserTimeLimit;
+            public Int64 PerJobUserTimeLimit;
+            public Int32 LimitFlags;
+            public UIntPtr MinimumWorkingSetSize;
+            public UIntPtr MaximumWorkingSetSize;
+            public Int32 ActiveProcessLimit;
+            public IntPtr Affinity;
+            public Int32 PriorityClass;
+            public Int32 SchedulingClass;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+        {
+            public JOBOBJECT_BASIC_LIMIT_INFORMATION BasicLimitInformation;
+            public IO_COUNTERS IoInfo;
+            public UIntPtr ProcessMemoryLimit;
+            public UIntPtr JobMemoryLimit;
+            public UIntPtr PeakProcessMemoryUsed;
+            public UIntPtr PeakJobMemoryUsed;
+        }
+
+        const Int32 JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000;
+        const Int32 JOB_OBJECT_LIMIT_BREAKAWAY_OK = 0x00000800;
+    }
+
 }

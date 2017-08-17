@@ -30,10 +30,10 @@ def system(args, dirname=None):
         subprocess.check_call(args, stdout=(sys.stdout if prefs['verbose'] else nulfp), stderr=subprocess.STDOUT, shell=False, cwd=dirname)
 
 def add_wix_to_path():
-    wix_dir = 'WiX.Toolset.2015.3.10.0.1502'
+    wix_dir = 'WiX.3.10.3'
     if not os.path.isdir(os.path.join(_this_dir, 'CAD_Installs', wix_dir)):
-        system([r'..\src\.nuget\nuget.exe', 'install', '-Version', '3.10.0.1502', 'WiX.Toolset.2015'], os.path.join(_this_dir))
-    os.environ['PATH'] = os.path.join(_this_dir, 'CAD_Installs', wix_dir, 'tools\\wix') + ';' + os.environ['PATH']
+        system([r'..\src\.nuget\nuget.exe', 'install', '-Version', '3.10.3', 'WiX'], os.path.join(_this_dir))
+    os.environ['PATH'] = os.path.join(_this_dir, 'CAD_Installs', wix_dir, 'tools') + ';' + os.environ['PATH']
 
 # http://bugs.python.org/issue8277
 class CommentedTreeBuilder(ElementTree.XMLTreeBuilder):

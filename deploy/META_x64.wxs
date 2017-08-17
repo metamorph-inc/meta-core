@@ -38,10 +38,9 @@
       <![CDATA[Installed OR ((VersionNT = 601 AND ServicePackLevel >= 1) OR VersionNT >= 603)]]>
     </Condition>
 
-    <PropertyRef Id="NETFRAMEWORK40FULL"/>
-    <!-- FIXME: WiX 3.10 has WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED -->
-    <Condition Message="This application requires .NET Framework 4.0 Full. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED"/>
+    <Condition Message="This application requires .NET Framework 4.5 or later. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED]]>
     </Condition>
 
     <Condition Message="The installation environment is not correct. Possible cause: running under cygwin ssh with key authentication. Run `passwd -R` and ensure `/cygdrive/c/Windows/System32/whoami.exe` returns the correct username.">
