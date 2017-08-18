@@ -397,7 +397,7 @@ void ModelComplexPart::DrawMarker(Gdiplus::Graphics& g, const wchar_t* s, CPoint
 	using namespace Gdiplus;
 	//g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 	FontFamily family(L"Palatino Linotype");
-	Gdiplus::Font f(&family, 8, FontStyleBold);
+	Gdiplus::Font f(&family, 11, FontStyleBold, Gdiplus::UnitPixel);
 	StringFormat format;
 	format.SetAlignment(StringAlignmentCenter);
 	format.SetLineAlignment(StringAlignmentCenter);
