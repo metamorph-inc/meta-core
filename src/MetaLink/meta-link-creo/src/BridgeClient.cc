@@ -72,8 +72,8 @@ namespace isis {
 		* A dummy edit needs to be added to the out-bound queue to get it to unblock.
 		*/
 		void disconnect() {
-			m_socket.close();
 			this->m_ready = false;
+			m_socket.close();
 		}
 
 	private:
@@ -108,7 +108,12 @@ namespace isis {
 
 		void handle_read_header(const boost::system::error_code& error) {
 			if (error) {
-				isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_read_header " << error.message();
+				if (m_ready == true) {
+					isis_LOG(lg, isis_FILE, isis_ERROR) << "BridgeConnection::handle_read_header " << error.message();
+				}
+				else {
+					// shutting down
+				}
 				return;
 			}
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "Got header!" << '\n' << m_framed_edit.show_input_buffer();

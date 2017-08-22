@@ -16,23 +16,43 @@ namespace DesignSpaceTest
     {
         public ToyDSFixture()
         {
-            string connection;
-            MgaUtils.ImportXMEForTest(
-                Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(this.GetType()).CodeBase.Substring("file:///".Length)),
-                @"..\..\..\..\models\DesignSpace\ToyDS.xme"),
-                out connection);
+            try
+            {
+                string connection;
+                MgaUtils.ImportXMEForTest(
+                    Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(this.GetType()).CodeBase.Substring("file:///".Length)),
+                    @"..\..\..\..\models\DesignSpace\ToyDS.xme"),
+                    out connection);
 
-            Type type = Type.GetTypeFromProgID("Mga.MgaProject");
-            proj = Activator.CreateInstance(type) as MgaProject;
-            proj.OpenEx(connection, "CyPhyML", null);
+                Type type = Type.GetTypeFromProgID("Mga.MgaProject");
+                proj_ = Activator.CreateInstance(type) as MgaProject;
+                proj_.OpenEx(connection, "CyPhyML", null);
+            }
+            catch (Exception e)
+            {
+                this.exception = e;
+            }
         }
 
-        public IMgaProject proj { get; private set; }
+        private Exception exception;
+        private IMgaProject proj_;
+        public IMgaProject proj {
+            get {
+                if (exception != null)
+                {
+                    throw exception;
+                }
+                return proj_;
+            }
+        }
 
         public void Dispose()
         {
-            proj.Save();
-            proj.Close(true);
+            if (exception == null)
+            {
+                proj_.Save();
+                proj_.Close(true);
+            }
         }
     }
 

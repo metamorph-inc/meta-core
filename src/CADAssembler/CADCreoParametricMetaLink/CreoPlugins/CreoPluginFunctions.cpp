@@ -39,7 +39,6 @@ using namespace std;
 // Meta includes
 #include "gen/MetaLinkMsg.pb.h"
 #include "BridgeClient.h"
-#include "BridgeClientST.h"
 #include "CommonDefinitions.h"
 #include "MultiFormatString.h"
 namespace meta = edu::vanderbilt::isis::meta;
@@ -560,17 +559,6 @@ int Resync(ProMdl mdl)
     }
 
     isis::GlobalModelData::Instance.metalinkAssemblyEditorPtr->Clear();
-
-    /*
-    isis::BridgeClientST client(bridgeIP, bridgePort);
-    boost::system::error_code ec = client.connect();
-
-    if (ec.value() != 0)
-    {
-    	ErrorDialog(connectionfailed);
-    	return 0;
-    }
-    */
 
     isis::GlobalModelData::Instance.metalink_handler_ptr->send(edit);
     return 1;

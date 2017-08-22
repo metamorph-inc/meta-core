@@ -1,0 +1,75 @@
+diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
+index 10da714..bc991c8 100644
+--- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
+@@ -4,14 +4,13 @@
+ //    <NameSpace>AssemblyDetails</NameSpace><Collection>List</Collection><codeType>CSharp</codeType><EnableDataBinding>False</EnableDataBinding><EnableLazyLoading>False</EnableLazyLoading><TrackingChangesEnable>False</TrackingChangesEnable><GenTrackingClasses>False</GenTrackingClasses><HidePrivateFieldInIDE>False</HidePrivateFieldInIDE><EnableSummaryComment>False</EnableSummaryComment><VirtualProp>False</VirtualProp><IncludeSerializeMethod>True</IncludeSerializeMethod><UseBaseClass>False</UseBaseClass><GenBaseClass>False</GenBaseClass><GenerateCloneMethod>False</GenerateCloneMethod><GenerateDataContracts>False</GenerateDataContracts><CodeBaseTag>Net20</CodeBaseTag><SerializeMethodName>Serialize</SerializeMethodName><DeserializeMethodName>Deserialize</DeserializeMethodName><SaveToFileMethodName>SaveToFile</SaveToFileMethodName><LoadFromFileMethodName>LoadFromFile</LoadFromFileMethodName><GenerateXMLAttributes>True</GenerateXMLAttributes><EnableEncoding>False</EnableEncoding><AutomaticProperties>False</AutomaticProperties><GenerateShouldSerialize>False</GenerateShouldSerialize><DisableDebug>False</DisableDebug><PropNameSpecified>Default</PropNameSpecified><Encoder>UTF8</Encoder><CustomUsings>iFAB</CustomUsings><ExcludeIncludedTypes>True</ExcludeIncludedTypes><EnableInitializeFields>True</EnableInitializeFields>
+ //  </auto-generated>
+ // ------------------------------------------------------------------------------
+-namespace AssemblyDetails {
++namespace iFAB {
+     using System;
+     using System.Diagnostics;
+     using System.Xml.Serialization;
+     using System.Collections;
+     using System.Xml.Schema;
+     using System.ComponentModel;
+-    using iFAB;
+     using System.IO;
+     using System.Text;
+     using System.Collections.Generic;
+diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
+index a89f339..4432f14 100644
+--- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
+@@ -23,9 +23,9 @@ namespace avm.cyber {
+     [System.Xml.Serialization.XmlRootAttribute(Namespace="cyber", IsNullable=false)]
+     public partial class CyberModel : DomainModel {
+         
+-        private List<Connector> connectorField;
++        private List<avm.modelica.Connector> connectorField;
+         
+-        private List<Parameter> parameterField;
++        private List<avm.modelica.Parameter> parameterField;
+         
+         private ModelType typeField;
+         
+@@ -36,12 +36,13 @@ namespace avm.cyber {
+         private static System.Xml.Serialization.XmlSerializer serializer;
+         
+         public CyberModel() {
+-            this.parameterField = new List<Parameter>();
+-            this.connectorField = new List<Connector>();
++            this.parameterField = new List<avm.modelica.Parameter>();
++            this.connectorField = new List<avm.modelica.Connector>();
+         }
+         
+         [System.Xml.Serialization.XmlElementAttribute("Connector", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+-        public List<Connector> Connector {
++        public List<avm.modelica.Connector> Connector
++        {
+             get {
+                 return this.connectorField;
+             }
+@@ -51,7 +52,8 @@ namespace avm.cyber {
+         }
+         
+         [System.Xml.Serialization.XmlElementAttribute("Parameter", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+-        public List<Parameter> Parameter {
++        public List<avm.modelica.Parameter> Parameter
++        {
+             get {
+                 return this.parameterField;
+             }
+diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
+index a425dee..de44aae 100755
+--- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
+@@ -2394,6 +2394,7 @@ namespace avm {
+     
+     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]
+     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DomainModelPort))]
++    [System.Xml.Serialization.XmlIncludeAttribute(typeof(avm.modelica.Connector))]
+     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+     [System.SerializableAttribute()]
+     [System.ComponentModel.DesignerCategoryAttribute("code")]

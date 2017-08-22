@@ -49,8 +49,8 @@
             this.chbShowDirty = new System.Windows.Forms.CheckBox();
             this.lblCASelected = new System.Windows.Forms.Label();
             this.chbSaveTestBenches = new System.Windows.Forms.CheckBox();
-            this.chbOpenDashboard = new System.Windows.Forms.CheckBox();
             this.chbVerbose = new System.Windows.Forms.CheckBox();
+            this.commandLinkRunParallel = new CyPhyGUIs.CommandLink();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,7 +128,7 @@
             this.lbExportedCAs.Location = new System.Drawing.Point(272, 95);
             this.lbExportedCAs.Name = "lbExportedCAs";
             this.lbExportedCAs.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbExportedCAs.Size = new System.Drawing.Size(248, 368);
+            this.lbExportedCAs.Size = new System.Drawing.Size(248, 316);
             this.lbExportedCAs.TabIndex = 21;
             this.lbExportedCAs.SelectedIndexChanged += new System.EventHandler(this.lbExportedCAs_SelectedIndexChanged);
             this.lbExportedCAs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbExportedCAs_KeyDown);
@@ -239,34 +239,34 @@
             // 
             this.chbSaveTestBenches.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chbSaveTestBenches.AutoSize = true;
-            this.chbSaveTestBenches.Location = new System.Drawing.Point(15, 515);
+            this.chbSaveTestBenches.Location = new System.Drawing.Point(12, 491);
             this.chbSaveTestBenches.Name = "chbSaveTestBenches";
             this.chbSaveTestBenches.Size = new System.Drawing.Size(165, 17);
             this.chbSaveTestBenches.TabIndex = 42;
             this.chbSaveTestBenches.Text = "Damage model for debugging";
             this.chbSaveTestBenches.UseVisualStyleBackColor = true;
             // 
-            // chbOpenDashboard
-            // 
-            this.chbOpenDashboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chbOpenDashboard.AutoSize = true;
-            this.chbOpenDashboard.Location = new System.Drawing.Point(15, 469);
-            this.chbOpenDashboard.Name = "chbOpenDashboard";
-            this.chbOpenDashboard.Size = new System.Drawing.Size(105, 17);
-            this.chbOpenDashboard.TabIndex = 41;
-            this.chbOpenDashboard.Text = "Open dashboard";
-            this.chbOpenDashboard.UseVisualStyleBackColor = true;
-            // 
             // chbVerbose
             // 
             this.chbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chbVerbose.AutoSize = true;
-            this.chbVerbose.Location = new System.Drawing.Point(15, 493);
+            this.chbVerbose.Location = new System.Drawing.Point(12, 469);
             this.chbVerbose.Name = "chbVerbose";
             this.chbVerbose.Size = new System.Drawing.Size(105, 17);
             this.chbVerbose.TabIndex = 101;
             this.chbVerbose.Text = "Verbose console";
             this.chbVerbose.UseVisualStyleBackColor = true;
+            // 
+            // commandLinkRunParallel
+            // 
+            this.commandLinkRunParallel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.commandLinkRunParallel.Location = new System.Drawing.Point(275, 422);
+            this.commandLinkRunParallel.Name = "commandLinkRunParallel";
+            this.commandLinkRunParallel.Size = new System.Drawing.Size(225, 41);
+            this.commandLinkRunParallel.TabIndex = 102;
+            this.commandLinkRunParallel.Text = "Run all configs in parallel";
+            this.commandLinkRunParallel.UseVisualStyleBackColor = true;
+            this.commandLinkRunParallel.Click += new System.EventHandler(this.CommandLinkRunParallel_Click);
             // 
             // ConfigurationSelectionForm
             // 
@@ -275,8 +275,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(534, 562);
+            this.Controls.Add(this.commandLinkRunParallel);
             this.Controls.Add(this.chbVerbose);
-            this.Controls.Add(this.chbOpenDashboard);
             this.Controls.Add(this.lblCASelected);
             this.Controls.Add(this.chbShowDirty);
             this.Controls.Add(this.chbSaveTestBenches);
@@ -327,7 +327,7 @@
         private System.Windows.Forms.ListBox lbExportedCAs;
         private System.Windows.Forms.CheckBox chbPostJobs;
         private System.Windows.Forms.CheckBox chbSaveTestBenches;
-        private System.Windows.Forms.CheckBox chbOpenDashboard;
         private System.Windows.Forms.CheckBox chbVerbose;
-	}
+        private CyPhyGUIs.CommandLink commandLinkRunParallel;
+    }
 }

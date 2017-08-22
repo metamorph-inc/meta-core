@@ -44,6 +44,7 @@
 //model[@name='Configurations'] 58430
 //model[@name='Connector'] 58440
 //model[@name='ConstantSpeed'] 59905
+//model[@name='Constants'] 60359
 //model[@name='CustomGeometry'] 58552
 //model[@name='CyberModel'] 58580
 //model[@name='Cylinder'] 58593
@@ -154,6 +155,8 @@
 //atom[@name='ExecutionTask'] 56821
 //atom[@name='FactorOfSafety'] 56827
 //atom[@name='File'] 56828
+//atom[@name='FileInput'] 60385
+//atom[@name='FileOutput'] 60365
 //atom[@name='Float'] 56832
 //atom[@name='FormalRequirement'] 56833
 //atom[@name='GenericAssociation'] 56837
@@ -201,6 +204,8 @@
 //atom[@name='PointGeometry'] 56934
 //atom[@name='PredefinedBallisticSuite'] 56936
 //atom[@name='PredefinedBlastSuite'] 56938
+//atom[@name='ProblemInput'] 60453
+//atom[@name='ProblemOutput'] 60454
 //atom[@name='ProjectileBallisticThreat'] 56940
 //atom[@name='PropertyConstraint'] 56946
 //atom[@name='Proposition'] 30779
@@ -320,6 +325,7 @@
 //connection[@name='FastenerDesc2Nut'] 57084
 //connection[@name='FastenerPlane'] 57085
 //connection[@name='FeatureMap'] 57086
+//connection[@name='FileResultFlow'] 60366
 //connection[@name='Flow'] 57087
 //connection[@name='Force2Geometry'] 57088
 //connection[@name='ForceLoadParam2Geometry'] 57089
@@ -346,6 +352,10 @@
 //connection[@name='PortComposition'] 57111
 //connection[@name='Pressure2Geometry'] 57112
 //connection[@name='PressureParam2Geometry'] 57113
+//connection[@name='ProblemInputFlowSourceConnection'] 60455
+//connection[@name='ProblemInputFlowTargetConnection'] 60456
+//connection[@name='ProblemOutputFlowSourceConnection'] 60457
+//connection[@name='ProblemOutputFlowTargetConnection'] 60458
 //connection[@name='PropertyConstraintBinding'] 57114
 //connection[@name='RandomParameterDriverMap'] 57115
 //connection[@name='RefCoordSystem2RefCoordSystem'] 57116
@@ -397,6 +407,8 @@
 //model[@name='BallisticTestBench']/role[@name='CriticalComponent'] 57304
 //model[@name='BallisticTestBench']/role[@name='CustomFormula'] 57305
 //model[@name='BallisticTestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 57306
+//model[@name='BallisticTestBench']/role[@name='FileInput'] 60386
+//model[@name='BallisticTestBench']/role[@name='FileOutput'] 60367
 //model[@name='BallisticTestBench']/role[@name='Metric'] 57307
 //model[@name='BallisticTestBench']/role[@name='MetricConstraint'] 57308
 //model[@name='BallisticTestBench']/role[@name='MetricConstraintBinding'] 57309
@@ -436,6 +448,8 @@
 //model[@name='BlastTestBench']/role[@name='Constant'] 57425
 //model[@name='BlastTestBench']/role[@name='CustomFormula'] 57426
 //model[@name='BlastTestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 57427
+//model[@name='BlastTestBench']/role[@name='FileInput'] 60387
+//model[@name='BlastTestBench']/role[@name='FileOutput'] 60368
 //model[@name='BlastTestBench']/role[@name='Metric'] 57428
 //model[@name='BlastTestBench']/role[@name='MetricConstraint'] 57429
 //model[@name='BlastTestBench']/role[@name='MetricConstraintBinding'] 57430
@@ -495,6 +509,8 @@
 //model[@name='CADTestBench']/role[@name='ExtrusionSurface2Component'] 57568
 //model[@name='CADTestBench']/role[@name='FEAComputation2Metric'] 57569
 //model[@name='CADTestBench']/role[@name='Face'] 57570
+//model[@name='CADTestBench']/role[@name='FileInput'] 60388
+//model[@name='CADTestBench']/role[@name='FileOutput'] 60369
 //model[@name='CADTestBench']/role[@name='Force2Geometry'] 57571
 //model[@name='CADTestBench']/role[@name='ForceLoad'] 57572
 //model[@name='CADTestBench']/role[@name='ForceLoadParam'] 57573
@@ -551,6 +567,8 @@
 //model[@name='CFDTestBench']/role[@name='CorrelationSettings'] 57792
 //model[@name='CFDTestBench']/role[@name='CustomFormula'] 57793
 //model[@name='CFDTestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 57794
+//model[@name='CFDTestBench']/role[@name='FileInput'] 60389
+//model[@name='CFDTestBench']/role[@name='FileOutput'] 60370
 //model[@name='CFDTestBench']/role[@name='HydrostaticsSolverSettings'] 57795
 //model[@name='CFDTestBench']/role[@name='Metric'] 57796
 //model[@name='CFDTestBench']/role[@name='MetricConstraint'] 57797
@@ -591,6 +609,8 @@
 //model[@name='CarTestBench']/role[@name='ConstantSpeed'] 59930
 //model[@name='CarTestBench']/role[@name='CustomFormula'] 59931
 //model[@name='CarTestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 59932
+//model[@name='CarTestBench']/role[@name='FileInput'] 60390
+//model[@name='CarTestBench']/role[@name='FileOutput'] 60371
 //model[@name='CarTestBench']/role[@name='Metric'] 59933
 //model[@name='CarTestBench']/role[@name='MetricConstraint'] 59934
 //model[@name='CarTestBench']/role[@name='MetricConstraintBinding'] 59935
@@ -776,6 +796,7 @@
 //model[@name='ConstantSpeed']/role[@name='EndTime'] 59954
 //model[@name='ConstantSpeed']/role[@name='Gear'] 59955
 //model[@name='ConstantSpeed']/role[@name='Speed'] 59956
+//model[@name='Constants']/role[@name='Metric'] 60360
 //model[@name='CustomGeometry']/role[@name='AxisDatumForwarder'] 58556
 //model[@name='CustomGeometry']/role[@name='Circle'] 58557
 //model[@name='CustomGeometry']/role[@name='CoordinateSystemDatumForwarder'] 58558
@@ -865,6 +886,8 @@
 //model[@name='Environment']/role[@name='ModelicaConnector'] 58926
 //model[@name='Environment']/role[@name='ModelicaParameter'] 58927
 //model[@name='Environment']/role[@name='ModelicaRedeclare'] 58928
+//model[@name='ExcelWrapper']/role[@name='FileInput'] 60401
+//model[@name='ExcelWrapper']/role[@name='FileOutput'] 60402
 //model[@name='ExcelWrapper']/role[@name='Metric'] 60070
 //model[@name='ExcelWrapper']/role[@name='Parameter'] 60071
 //model[@name='Extrusion']/role[@name='AxisDatumForwarder'] 58938
@@ -913,6 +936,8 @@
 //model[@name='KinematicTestBench']/role[@name='Contact'] 59062
 //model[@name='KinematicTestBench']/role[@name='CustomFormula'] 59063
 //model[@name='KinematicTestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 59064
+//model[@name='KinematicTestBench']/role[@name='FileInput'] 60391
+//model[@name='KinematicTestBench']/role[@name='FileOutput'] 60372
 //model[@name='KinematicTestBench']/role[@name='GravityLoad'] 59065
 //model[@name='KinematicTestBench']/role[@name='Metric'] 59066
 //model[@name='KinematicTestBench']/role[@name='MetricConstraint'] 59067
@@ -938,6 +963,8 @@
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_BusPortInterface'] 33414
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_Signal'] 33415
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_SignalPort_Ref'] 33416
+//model[@name='MATLABWrapper']/role[@name='FileInput'] 60403
+//model[@name='MATLABWrapper']/role[@name='FileOutput'] 60404
 //model[@name='MATLABWrapper']/role[@name='Metric'] 60093
 //model[@name='MATLABWrapper']/role[@name='Parameter'] 60094
 //model[@name='ManufacturingModel']/role[@name='ManufacturingModelMetric'] 59155
@@ -977,10 +1004,12 @@
 //model[@name='PCCDriver']/role[@name='PCCParameterUniform'] 59239
 //model[@name='ParameterStudy']/role[@name='DesignVariable'] 59248
 //model[@name='ParameterStudy']/role[@name='Objective'] 59249
+//model[@name='ParametricExploration']/role[@name='Constants'] 60361
 //model[@name='ParametricExploration']/role[@name='ConstraintMapping'] 59253
 //model[@name='ParametricExploration']/role[@name='DesignVariableConstraintMapping'] 60228
 //model[@name='ParametricExploration']/role[@name='DriveParameter'] 59254
 //model[@name='ParametricExploration']/role[@name='ExcelWrapper'] 60072
+//model[@name='ParametricExploration']/role[@name='FileResultFlow'] 60383
 //model[@name='ParametricExploration']/role[@name='IntermediateVariableMapping'] 60229
 //model[@name='ParametricExploration']/role[@name='MATLABWrapper'] 60095
 //model[@name='ParametricExploration']/role[@name='ObjectiveMapping'] 59255
@@ -988,6 +1017,13 @@
 //model[@name='ParametricExploration']/role[@name='PCCDriver'] 59257
 //model[@name='ParametricExploration']/role[@name='PCCOutputMapping'] 59258
 //model[@name='ParametricExploration']/role[@name='ParameterStudy'] 59259
+//model[@name='ParametricExploration']/role[@name='ParametricExploration'] 60459
+//model[@name='ParametricExploration']/role[@name='ProblemInput'] 60460
+//model[@name='ParametricExploration']/role[@name='ProblemInputFlowSourceConnection'] 60461
+//model[@name='ParametricExploration']/role[@name='ProblemInputFlowTargetConnection'] 60462
+//model[@name='ParametricExploration']/role[@name='ProblemOutput'] 60463
+//model[@name='ParametricExploration']/role[@name='ProblemOutputFlowSourceConnection'] 60464
+//model[@name='ParametricExploration']/role[@name='ProblemOutputFlowTargetConnection'] 60465
 //model[@name='ParametricExploration']/role[@name='PythonWrapper'] 60096
 //model[@name='ParametricExploration']/role[@name='ResultFlow'] 59260
 //model[@name='ParametricExploration']/role[@name='TestBenchRef'] 59261
@@ -1011,6 +1047,8 @@
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_SignalPort_Ref'] 33682
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_State'] 33683
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_Transition'] 33684
+//model[@name='PythonWrapper']/role[@name='FileInput'] 60405
+//model[@name='PythonWrapper']/role[@name='FileOutput'] 60406
 //model[@name='PythonWrapper']/role[@name='Metric'] 60097
 //model[@name='PythonWrapper']/role[@name='Parameter'] 60098
 //model[@name='Set']/role[@name='TypeRef'] 59307
@@ -1049,6 +1087,8 @@
 //model[@name='TestBench']/role[@name='CustomFormula'] 59371
 //model[@name='TestBench']/role[@name='DesignContainerTopLevelSystemUnderTest'] 59372
 //model[@name='TestBench']/role[@name='Environment'] 59373
+//model[@name='TestBench']/role[@name='FileInput'] 60392
+//model[@name='TestBench']/role[@name='FileOutput'] 60374
 //model[@name='TestBench']/role[@name='InputRangeGuarantee'] 59374
 //model[@name='TestBench']/role[@name='InputRangeGuarantee_BusPortMap_Container'] 59375
 //model[@name='TestBench']/role[@name='InterfaceGeometry'] 59376
@@ -1223,6 +1263,7 @@
 //model[@name='Connector']/aspect[@name='ConnectorAspect'] 32833
 //model[@name='Connector']/aspect[@name='AbstractPortAspect'] 32835
 //model[@name='ConstantSpeed']/aspect[@name='Aspect'] 59970
+//model[@name='Constants']/aspect[@name='Aspect'] 60362
 //model[@name='CustomGeometry']/aspect[@name='SolidModeling'] 32852
 //model[@name='CyberModel']/aspect[@name='Aspect'] 58588
 //model[@name='Cylinder']/aspect[@name='Aspect'] 58601
@@ -1342,6 +1383,7 @@
 //folder[@name='RootFolder']/attrdef[@name='Context'] 56666
 //folder[@name='RootFolder']/attrdef[@name='CopyResults'] 56667
 //folder[@name='RootFolder']/attrdef[@name='CustomFunction'] 56668
+//folder[@name='RootFolder']/attrdef[@name='CustomOptimizer'] 60233
 //folder[@name='RootFolder']/attrdef[@name='CylinderPointLocation'] 56669
 //folder[@name='RootFolder']/attrdef[@name='DOEType'] 56670
 //folder[@name='RootFolder']/attrdef[@name='DValue'] 56671
@@ -1354,6 +1396,7 @@
 //folder[@name='RootFolder']/attrdef[@name='Domain'] 56678
 //folder[@name='RootFolder']/attrdef[@name='Duration'] 56679
 //folder[@name='RootFolder']/attrdef[@name='FEAMode'] 56680
+//folder[@name='RootFolder']/attrdef[@name='FileName'] 60400
 //folder[@name='RootFolder']/attrdef[@name='FullName'] 56681
 //folder[@name='RootFolder']/attrdef[@name='Inactive'] 56682
 //folder[@name='RootFolder']/attrdef[@name='IntervalLength'] 56683
@@ -1565,6 +1608,7 @@
 //atom[@name='PointGeometry']/attrdef[@name='Datum'] 56935
 //atom[@name='PredefinedBallisticSuite']/attrdef[@name='Name'] 56937
 //atom[@name='PredefinedBlastSuite']/attrdef[@name='BlastSuiteName'] 56939
+//atom[@name='ProblemInput']/attrdef[@name='Value'] 60466
 //atom[@name='ProjectileBallisticThreat']/attrdef[@name='Diameter'] 56941
 //atom[@name='ProjectileBallisticThreat']/attrdef[@name='Length'] 56942
 //atom[@name='ProjectileBallisticThreat']/attrdef[@name='Mass'] 56943
@@ -1921,6 +1965,8 @@
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='CriticalComponent'] 57339
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='CustomFormula'] 57340
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 57341
+//model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='FileInput'] 60393
+//model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60375
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='Metric'] 57342
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='MetricConstraint'] 57343
 //model[@name='BallisticTestBench']/aspect[@name='All']/part[@role='MetricConstraintBinding'] 57344
@@ -1996,6 +2042,8 @@
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='Constant'] 57454
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='CustomFormula'] 57455
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 57456
+//model[@name='BlastTestBench']/aspect[@name='All']/part[@role='FileInput'] 60394
+//model[@name='BlastTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60376
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='Metric'] 57457
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='MetricConstraint'] 57458
 //model[@name='BlastTestBench']/aspect[@name='All']/part[@role='MetricConstraintBinding'] 57459
@@ -2086,6 +2134,8 @@
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='ExtrusionSurface2Component'] 57636
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='FEAComputation2Metric'] 57637
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='Face'] 57638
+//model[@name='CADTestBench']/aspect[@name='All']/part[@role='FileInput'] 60395
+//model[@name='CADTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60377
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='Force2Geometry'] 57639
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='ForceLoad'] 57640
 //model[@name='CADTestBench']/aspect[@name='All']/part[@role='ForceLoadParam'] 57641
@@ -2214,6 +2264,8 @@
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='CorrelationSettings'] 57823
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='CustomFormula'] 57824
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 57825
+//model[@name='CFDTestBench']/aspect[@name='All']/part[@role='FileInput'] 60396
+//model[@name='CFDTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60378
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='HydrostaticsSolverSettings'] 57826
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='Metric'] 57827
 //model[@name='CFDTestBench']/aspect[@name='All']/part[@role='MetricConstraint'] 57828
@@ -2291,6 +2343,8 @@
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='ConstantSpeed'] 59999
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='CustomFormula'] 60000
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 60001
+//model[@name='CarTestBench']/aspect[@name='All']/part[@role='FileInput'] 60397
+//model[@name='CarTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60379
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='Metric'] 60002
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='MetricConstraint'] 60003
 //model[@name='CarTestBench']/aspect[@name='All']/part[@role='MetricConstraintBinding'] 60004
@@ -2750,6 +2804,7 @@
 //model[@name='ConstantSpeed']/aspect[@name='Aspect']/part[@role='EndTime'] 60057
 //model[@name='ConstantSpeed']/aspect[@name='Aspect']/part[@role='Gear'] 60058
 //model[@name='ConstantSpeed']/aspect[@name='Aspect']/part[@role='Speed'] 60059
+//model[@name='Constants']/aspect[@name='Aspect']/part[@role='Metric'] 60363
 //model[@name='CustomGeometry']/aspect[@name='SolidModeling']/part[@role='AxisDatumForwarder'] 58568
 //model[@name='CustomGeometry']/aspect[@name='SolidModeling']/part[@role='Circle'] 58569
 //model[@name='CustomGeometry']/aspect[@name='SolidModeling']/part[@role='CoordinateSystemDatumForwarder'] 58570
@@ -2983,6 +3038,8 @@
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaConnector'] 58931
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaParameter'] 58932
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaRedeclare'] 58933
+//model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60407
+//model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60408
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60075
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60076
 //model[@name='Extrusion']/aspect[@name='Aspect']/part[@role='AxisDatumForwarder'] 58946
@@ -3031,6 +3088,8 @@
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='Contact'] 59093
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='CustomFormula'] 59094
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 59095
+//model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='FileInput'] 60398
+//model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='FileOutput'] 60380
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='GravityLoad'] 59096
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='Metric'] 59097
 //model[@name='KinematicTestBench']/aspect[@name='All']/part[@role='MetricConstraint'] 59098
@@ -3092,6 +3151,8 @@
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_BusPortInterface'] 33419
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_Signal'] 33420
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_SignalPort_Ref'] 33421
+//model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60409
+//model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60410
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60150
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60151
 //model[@name='ManufacturingModel']/aspect[@name='ManufacturingAspect']/part[@role='ManufacturingModelMetric'] 59157
@@ -3130,10 +3191,12 @@
 //model[@name='PCCDriver']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCParameterUniform'] 59244
 //model[@name='ParameterStudy']/aspect[@name='TestBenchCompositionAspect']/part[@role='DesignVariable'] 59250
 //model[@name='ParameterStudy']/aspect[@name='TestBenchCompositionAspect']/part[@role='Objective'] 59251
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='Constants'] 60364
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ConstraintMapping'] 59263
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='DesignVariableConstraintMapping'] 60231
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='DriveParameter'] 59264
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ExcelWrapper'] 60077
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='FileResultFlow'] 60384
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='IntermediateVariableMapping'] 60232
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MATLABWrapper'] 60152
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ObjectiveMapping'] 59265
@@ -3141,6 +3204,13 @@
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCDriver'] 59267
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCOutputMapping'] 59268
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ParameterStudy'] 59269
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ParametricExploration'] 60467
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemInput'] 60468
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemInputFlowSourceConnection'] 60469
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemInputFlowTargetConnection'] 60470
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemOutput'] 60471
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemOutputFlowSourceConnection'] 60472
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ProblemOutputFlowTargetConnection'] 60473
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='PythonWrapper'] 60153
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ResultFlow'] 59270
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='TestBenchRef'] 59271
@@ -3163,6 +3233,8 @@
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_SignalPort_Ref'] 33688
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_State'] 33689
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_Transition'] 33690
+//model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60411
+//model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60412
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60154
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60155
 //model[@name='Set']/aspect[@name='TypeAspect']/part[@role='TypeRef'] 59308
@@ -3199,6 +3271,8 @@
 //model[@name='TestBench']/aspect[@name='All']/part[@role='CustomFormula'] 59412
 //model[@name='TestBench']/aspect[@name='All']/part[@role='DesignContainerTopLevelSystemUnderTest'] 59413
 //model[@name='TestBench']/aspect[@name='All']/part[@role='Environment'] 59414
+//model[@name='TestBench']/aspect[@name='All']/part[@role='FileInput'] 60399
+//model[@name='TestBench']/aspect[@name='All']/part[@role='FileOutput'] 60382
 //model[@name='TestBench']/aspect[@name='All']/part[@role='InputRangeGuarantee'] 59415
 //model[@name='TestBench']/aspect[@name='All']/part[@role='InputRangeGuarantee_BusPortMap_Container'] 59416
 //model[@name='TestBench']/aspect[@name='All']/part[@role='InterfaceGeometry'] 59417

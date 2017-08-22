@@ -294,6 +294,7 @@ namespace CyPhy2Modelica_v2
                 {
                     verbosity = 3;
                 }
+                elaborator.UnrollConnectors = false;
                 result = elaborator.RunInTransaction(project, currentobj, selectedobjs, verbosity);
 
                 if (this.result.Traceability == null)

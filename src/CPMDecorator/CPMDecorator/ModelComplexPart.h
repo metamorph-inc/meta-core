@@ -43,8 +43,10 @@ protected:
 	struct ModelButton {
 		std::unique_ptr<Gdiplus::Bitmap> m_bmp;
 		CRect position;
+		void (*callback)(IMgaFCO*);
 	};
 	std::unique_ptr<ModelButton> button;
+	std::unique_ptr<ModelButton> button2;
 
 	std::unique_ptr<Gdiplus::Bitmap> m_bmp;
 

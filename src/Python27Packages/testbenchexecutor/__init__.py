@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-__author__ = 'adam'
 
 import sys
 import os
@@ -8,7 +7,9 @@ import errno
 import json
 import datetime
 import contextlib
-import shlex
+import re
+
+__author__ = 'adam'
 
 
 class NoStepsException(Exception):
@@ -17,6 +18,52 @@ class NoStepsException(Exception):
 
     def __str__(self):
         repr(self.value)
+
+_unquoted_regex = r'^([^" ]+)'
+_space_regex = r'^( |$)+'
+# match a quoted string:
+#  pairs of backslashes (not followed by further pairs and a quote) or
+#  an escaped double-quote or
+#  backslashes not followed by more backslashes or a quote
+#  characters not backslashes or quotes
+# followed by the ending quote (possibly preceded by 2n backslashes)
+_quote_regex = re.compile(r'^"((?:\\\\(?!(?:\\\\)*")|\\"|\\(?!\\|")|[^\\"])*)((?:\\\\)*)(?:"|$)')
+
+
+def parse(command):
+    """Parse command-line according a la CommandLineToArgvW.
+
+    CommandLineToArgvW has a special interpretation of backslash characters when they are followed by a quotation mark character ("), as follows:
+    2n backslashes followed by a quotation mark produce n backslashes followed by a quotation mark.
+    (2n) + 1 backslashes followed by a quotation mark again produce n backslashes followed by a quotation mark.
+    n backslashes not followed by a quotation mark simply produce n backslashes.
+    """
+    ret = []
+    start = 0
+    while start < len(command):
+        arg = ''
+        while True:
+            # this while loops supports args like startunquoted"thenquoted"nowunquoted
+            match = re.search(_space_regex, command[start:])
+            if match:
+                if arg != '':
+                    ret.append(arg)
+                start = start + match.end()
+                break
+
+            match = re.search(_unquoted_regex, command[start:])
+            if match:
+                arg = arg + command[start:start + match.end(1)]
+            else:
+                if not match:
+                    match = re.search(_quote_regex, command[start:])
+                if match:
+                    arg = arg + re.sub(r'((?:\\\\)*)\\"', lambda s: '\\' * (len(s.group(1)) / 2) + '"', match.groups()[0]) + '\\' * (len(match.groups()[1]) / 2)
+                if not match:
+                    raise ValueError('Bug: could not match {!r}'.format(command[start:]))
+
+            start = start + match.end()
+    return ret
 
 
 class TestBenchExecutor(object):
@@ -212,7 +259,7 @@ class TestBenchExecutor(object):
                 invocation = step["Invocation"]
                 if invocation.lower().startswith("python.exe "):
                     invocation = "\"" + sys.executable + "\" " + step["Invocation"][len("python.exe "):]
-                invocation = shlex.split(invocation)
+                invocation = parse(invocation)
                 if os.path.splitext(invocation[0])[1].lower() in ('.cmd', '.bat'):
                     # special-case, since cmd.exe doesn't directly support UNC paths (e.g. shared folders). Scripts should also include "pushd %~dp0"
                     invocation[0] = os.path.join(os.getcwd(), os.path.dirname(self._path_manifest), invocation[0])

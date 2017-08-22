@@ -137,6 +137,7 @@
         <xsd:sequence>
           <xsd:element ecore:name="ExtrusionHeight" ecore:resolveProxies="true" name="ExtrusionHeight" type="cad:PointReference"/>
           <xsd:element ecore:name="ExtrusionSurface" ecore:resolveProxies="true" name="ExtrusionSurface" type="cad:Geometry2D"/>
+          <xsd:element ecore:name="DirectionReferencePoint" ecore:resolveProxies="true" minOccurs="0" name="DirectionReferencePoint" type="cad:PointReference"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

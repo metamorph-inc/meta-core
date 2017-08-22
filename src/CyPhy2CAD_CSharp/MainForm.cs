@@ -167,7 +167,7 @@ namespace CyPhy2CAD_CSharp
                 CadOptionsHolder.AuxiliaryDirectory = "";
                 CadOptionsHolder.OutputDirectory = "";
                 CadOptionsHolder.UseProjectManifest = true;
-                CadOptionsHolder.StepFormats.Add("AP203_E2_Seperate_Part_Files");
+                CadOptionsHolder.StepFormats.Add("AP203_E2_Separate_Part_Files");
                 CadOptionsHolder.StepFormats.Add("AP203_E2_Single_File");
             }
         }        

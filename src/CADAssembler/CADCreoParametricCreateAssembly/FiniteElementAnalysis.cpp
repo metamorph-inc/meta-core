@@ -303,7 +303,7 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 			  j != i->analysisSolvers.end();
 			  ++j )
 		{
-			if ( (j->type != PRO_FEM_FEAS_ABAQUS &&  j->type != PRO_FEM_FEAS_NASTRAN &&  j->type != PRO_FEM_FEAS_PATRAN ) || j->meshType != PRO_FEM_SOLID_MESH || j->elementShapeType != PRO_FEM_MIDPNT_PARABOLIC_FIXED )
+			if ( (j->type != CAD_FEM_FEAS_ABAQUS &&  j->type != CAD_FEM_FEAS_NASTRAN &&  j->type != CAD_FEM_FEAS_PATRAN ) || j->meshType != CAD_FEM_SOLID_MESH || j->elementShapeType != CAD_FEM_MIDPNT_PARABOLIC_FIXED )
 			{
 				TempError += " For FEA analysis, the only supported solver settings are Type=\"ABAQUS/NASTRAN/PATRAN_NASTRAN\", MeshType=\"SOLID\", ShellElementType=\"N/A\", and ElementShapeType=\"MIDPOINT_PARABOLIC_FIXED\"";
 				throw isis::application_exception(TempError.c_str());		
@@ -394,7 +394,7 @@ void RetrieveDatumPointCoordinates( const std::string							&in_AssemblyComponen
 
 	ProModelitem  datum_point;
 	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
-		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, in_CADComponentData_map[in_PartComponentID].modelType,
+		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
 		in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
 	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
 
@@ -612,7 +612,7 @@ void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				
 	{
 		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
 		{
-			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			if ( j.analysisFeatureGeometryType == CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				for each ( const CADFeature &k in j.features )
 				{
@@ -627,7 +627,7 @@ void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				
 	{
 		for each ( const AnalysisGeometryFeature &j in  i.geometry.features )
 		{
-			if ( j.featureGeometryType == CAD_FEATURE_GEOMETRY_POINT )
+			if ( j.analysisFeatureGeometryType == CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				for each ( const CADFeature &k in j.features )
 				{
@@ -734,8 +734,8 @@ void FindPointsOnSurface( 	const std::map<int,isis_CADCommon::GridPoint>		&in_Gr
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface:         " << in_DatumName_PointOnSurface;
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_DatumName_PointOnSurface (x,y,z): " << pointOnSurface_XYZ_In[0] << "  " << pointOnSurface_XYZ_In[1] << "  " << pointOnSurface_XYZ_In[2];
 	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].name:         " << in_CADComponentData_map[in_PartComponentID].name;
-	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].modelHandle:  " << in_CADComponentData_map[in_PartComponentID].modelHandle;
-	isis_LOG(lg, isis_FILE, isis_INFO) << "   *in_CADComponentData_map[in_PartComponentID].p_model:     " << *in_CADComponentData_map[in_PartComponentID].p_model;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[in_PartComponentID].modelHandle:  " << (const void*)in_CADComponentData_map[in_PartComponentID].modelHandle;
+	isis_LOG(lg, isis_FILE, isis_INFO) << "   *in_CADComponentData_map[in_PartComponentID].p_model:     " << (const void*)in_CADComponentData_map[in_PartComponentID].p_model;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Find all Surfaces in Model (i.e. in_CADComponentData_map[in_PartComponentID].modelHandle
@@ -914,12 +914,12 @@ void GetGridPointsWithinAnalysisGeometry(
 
 			// For CAD_GEOMETRY_FACE there should be one and only one datum point
 
-			if ( i->featureGeometryType != CAD_FEATURE_GEOMETRY_POINT )
+			if ( i->analysisFeatureGeometryType != CAD_ANALYSIS_FEATURE_GEOMETRY_POINT )
 			{
 				std::stringstream errorString;
 				errorString <<
-					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have a featureGeometryType of CAD_FEATURE_GEOMETRY_POINT." << std::endl <<
-					"featureGeometryType: " << CADFeatureGeometryType_string(i->featureGeometryType);
+					"Function - " << __FUNCTION__ <<", CAD_GEOMETRY_FACE (i.e. surface) must have a featureGeometryType of CAD_ANALYSIS_FEATURE_GEOMETRY_POINT." << std::endl <<
+					"featureGeometryType: " << CADAnalysisFeatureGeometryType_string(i->analysisFeatureGeometryType);
 				throw isis::application_exception(errorString.str());
 			}
 			if ( i->features.size() != 1 )
@@ -1169,9 +1169,9 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 						  PRO_FEM_ANALYSIS_STRUCTURAL, 
 						  // Old ProFemAnalysisType(i->type) , should use this when mapping poisons ratio to component ID is no longer needed
 						  PRO_FEM_FEAS_NASTRAN,
-						  (*i->analysisSolvers.begin()).meshType,
-						  (*i->analysisSolvers.begin()).shellElementType,
-						  (*i->analysisSolvers.begin()).elementShapeType,
+						  ProAnalysisMeshType_enum((*i->analysisSolvers.begin()).meshType),
+						  ProAnalysisShellElementType_enum((*i->analysisSolvers.begin()).shellElementType),
+						  ProAnalysisElementShapeType_enum((*i->analysisSolvers.begin()).elementShapeType),
 						   MeshUnmodified_PathAndFileName );
 
 		// Read the mesh
@@ -2539,15 +2539,14 @@ void Create_FEADecks_BatFiles(
 	calculixBatFile_ConvertDeck.open (analysisDirectoryAndBatFileName.c_str(),std::ios::out | std::ios::trunc  );
 
 	calculixBatFile_ConvertDeck << "REM " + in_ProgramName_Version_TimeStamp << std::endl;
-	calculixBatFile_ConvertDeck << "REM	The following system environment variable must be defined:" << std::endl;
-	calculixBatFile_ConvertDeck << "REM	   PROE_ISIS_EXTENSIONS	// typically set to	C:\\Program Files\\Proe ISIS Extensions" << std::endl;
 	calculixBatFile_ConvertDeck << "REM Invoke DeckConverter ( Convert Nastran deck to CalculiX deck)" << std::endl;
+    calculixBatFile_ConvertDeck << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO SET META_PATH=%%B" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo off" << std::endl;
 	calculixBatFile_ConvertDeck	<< std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo Invoke deck conversion from Nastran to CalculiX" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
-	calculixBatFile_ConvertDeck << "\"%PROE_ISIS_EXTENSIONS%\"\\bin\\DeckConverter.exe -i ..\\" + modifiedMeshFileName + " -o " + meshFileName_Calculix << std::endl;
+	calculixBatFile_ConvertDeck << "\"%META_PATH%\\bin\\CAD\\Creo\\bin\\DeckConverter.exe\" -i ..\\" + modifiedMeshFileName + " -o " + meshFileName_Calculix << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo Conversion completed" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;

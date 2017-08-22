@@ -28,8 +28,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
         public override void TraverseTestBench(CyPhy.TestBenchType testBenchBase)
         {
-            // META-3195 - CFD needs Inventor format now instead of STL ASCII
-            STLDataExchangeFormats.Add("Inventor");
+            // META-3195 - CFD needs Inventor format now instead of STL - Stereolithography_ASCII
+            NonSTEP_DataExchangeFormats.Add("Inventor");
 
             CyPhy.CFDTestBench testBench = testBenchBase as CyPhy.CFDTestBench;
             if (testBench == null)

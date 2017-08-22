@@ -167,11 +167,11 @@ namespace CyPhyMasterInterpreter.Rules
             if (context.HasReadOnlyAccess())
             {
                 var feedback = new ContextCheckerResult()
-                    {
-                        Success = false,
-                        Subject = context,
-                        Message = string.Format("{0} cannot be read-only.", context.MetaBase.Name)
-                    };
+                {
+                    Success = false,
+                    Subject = context,
+                    Message = string.Format("{0} cannot be read-only.", context.MetaBase.Name)
+                };
 
                 results.Add(feedback);
             }
@@ -204,7 +204,7 @@ namespace CyPhyMasterInterpreter.Rules
             {
                 throw new ArgumentNullException();
             }
-            
+
             ContextChecker contextChecker = null;
 
             // get specialized context checker based on the context type.

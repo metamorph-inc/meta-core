@@ -106,7 +106,6 @@ namespace CyPhyMasterInterpreter.Rules
                 };
 
                 results.Add(feedback);
-
             }
             else if (predefinedBlastSuiteCount + blastModelCount == 1)
             {
@@ -133,7 +132,6 @@ namespace CyPhyMasterInterpreter.Rules
 
                     results.Add(feedback);
                 }
-
             }
             else if (predefinedBlastSuiteCount + blastModelCount > 1)
             {
@@ -171,6 +169,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             return results;
         }
-
     }
 }

@@ -43,7 +43,7 @@
         /// <summary>
         /// Stores a chain of GUID through which references the elaboration happened. Used by MetaLink
         /// </summary>
-        private const string RegistryNameInstanceGuidChain = RegistryNameElaborator + "/" + AttributeNameInstanceGuid + "_Chain";
+        public const string RegistryNameInstanceGuidChain = RegistryNameElaborator + "/" + AttributeNameInstanceGuid + "_Chain";
 
         /// <summary>
         /// Stores a chain of GME IDs through which references the elaboration happened. Might be used in interpreters.
@@ -55,6 +55,8 @@
         /// </summary>
         /// <remarks>NOTE: Will be handy on collapse, but collapse CANNOT be implemented because of MetaLink assumptions.</remarks>
         private const string RegistryNameOriginalReferredID = RegistryNameElaborator + "/ReferredID";
+
+        protected bool UnrollConnectors;
 
         /// <summary>
         /// Gets meta reference id factory.
@@ -82,6 +84,19 @@
         public Dictionary<string, string> Traceability { get; set; }
 
         /// <summary>
+        /// Contains InstanceGUIDs of Components that have been elaborated thus far
+        /// </summary>
+        public ISet<string> ComponentGUIDs { get; set; }
+
+        public Dictionary<MgaFCO, MgaFCO> ComponentCopyMap { get; set; }
+
+        public Elaborator(bool UnrollConnectors)
+        {
+            ComponentCopyMap = new Dictionary<MgaFCO, MgaFCO>();
+            this.UnrollConnectors = UnrollConnectors;
+        }
+
+        /// <summary>
         /// Gets a new instance of an elaborator based on a given context.
         /// </summary>
         /// <param name="subject">Given context</param>
@@ -89,7 +104,7 @@
         /// <returns>A new instance of a context aware elaborator.</returns>
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
-        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.GMELogger logger)
+        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
         {
             if (subject == null)
             {
@@ -112,15 +127,15 @@
                 subject.MetaBase.MetaRef == factory.KinematicTestBenchMeta ||
                 subject.MetaBase.MetaRef == factory.CarTestBenchMeta)
             {
-                elaborator = new TestBenchTypeElaborator(subject);
+                elaborator = new TestBenchTypeElaborator(subject, UnrollConnectors);
             }
             else if (subject.MetaBase.MetaRef == factory.ComponentAssemblyMeta)
             {
-                elaborator = new ComponentAssemblyElaborator(subject);
+                elaborator = new ComponentAssemblyElaborator(subject, UnrollConnectors);
             }
             else if (subject.MetaBase.MetaRef == factory.DesignContainerMeta)
             {
-                elaborator = new DesignContainerElaborator(subject);
+                elaborator = new DesignContainerElaborator(subject, UnrollConnectors);
             }
             else
             {
@@ -150,10 +165,10 @@
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
         /// <exception cref="InvalidCastException">If the created elaborator cannot be casted to the requested type.</exception>
-        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.GMELogger logger)
+        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
             where T : Elaborator
         {
-            return (T)GetElaborator(subject, logger);
+            return (T)GetElaborator(subject, logger, UnrollConnectors);
         }
 
         /// <summary>
@@ -218,11 +233,69 @@
             {
                 this.LogDebug("Creating instance from", referred);
 
+                MgaFCO originalReferred = null;
+                if (UnrollConnectors)
+                {
+                    originalReferred = referred;
+                    MgaFCO referredCopy;
+                    if (ComponentCopyMap.TryGetValue(referred, out referredCopy))
+                    {
+                    }
+                    else
+                    {
+                        // FIXME update traceability
+                        referredCopy = referred.ParentFolder.CopyFCODisp(referred);
+                        ComponentCopyMap[referred] = referredCopy;
+                    }
+                    referred = referredCopy;
+                }
+
                 copiedObj = parentModel.DeriveChildObject(referred, role, true);
+
+                Func<IMgaFCO, int> getRelID = (fco) => {
+                    if (fco.DerivedFrom != null && fco.IsPrimaryDerived == false)
+                    {
+                        // workaround GME bug fixed 2/27/2017
+                        const int RELID_BASE_MAX = 0x07FFFFFF; // Mga.idl
+                        return (~RELID_BASE_MAX & fco.RelID) | (RELID_BASE_MAX & fco.DerivedFrom.RelID);
+
+                    }
+                    return fco.RelID;
+                };
+                Func<MgaFCO, string> getFCORelIds = fco =>
+                {
+                    string ret = "/#" + getRelID(fco);
+                    MgaModel parent = fco.ParentModel;
+                    while (parent != null)
+                    {
+                        ret = "/#" + getRelID(parent) + ret;
+                        parent = parent.ParentModel;
+                    }
+                    return ret;
+                };
 
                 getOriginalChildObject = new Func<MgaFCO, MgaFCO, MgaFCO>((parent, copied) =>
                 {
-                    return copied.DerivedFrom;
+                    if (UnrollConnectors == false)
+                    {
+                        return copied.DerivedFrom;
+                    }
+                    string relPath = getFCORelIds(copied.DerivedFrom).Substring(getFCORelIds(referred).Length);
+                    var ret = (MgaFCO)originalReferred.GetObjectByPathDisp(relPath);
+                    if (ret == null)
+                    {
+                        ret = originalReferred;
+                        // GME bug workaround continued
+                        foreach (var relID in relPath.Substring(2).Split(new[] { "/#" }, StringSplitOptions.None))
+                        {
+                            ret = ret.ChildObjects.Cast<MgaFCO>().Where(f => getRelID(f).ToString() == relID).First();
+                        }
+                        if (ret == null)
+                        {
+                            throw new ArgumentNullException();
+                        }
+                    }
+                    return ret;
                 });
 
                 var guid = reference.StrAttrByName[AttributeNameInstanceGuid];
@@ -276,6 +349,7 @@
                     // push current instance GUID down to all component assembly elements
                     MgaFilter filter = copiedObj.Project.CreateFilter();
                     filter.ObjType = GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL.ToString();
+                    // filter.Kind = "ComponentAssembly";
 
                     foreach (MgaFCO obj in (copiedObj as MgaModel).GetDescendantFCOs(filter))
                     {
@@ -290,6 +364,16 @@
             }
 
             copiedObj.Name = reference.Name;
+            if (reference.Meta.MetaRef == this.Factory.ComponentRefMeta && copiedObj.Meta.MetaRef == this.Factory.ComponentAssemblyMeta)
+            {
+                // TODO what should happen here
+                // var managedGuid = reference.StrAttrByName["ManagedGUID"]; ComponentRef does not have ManagedGUID
+                var managedGuid = reference.StrAttrByName["InstanceGUID"];
+                if (string.IsNullOrEmpty(managedGuid) == false)
+                {
+                //    copiedObj.StrAttrByName["ManagedGUID"] = managedGuid;
+                }
+            }
 
             foreach (MgaPart part in reference.Parts)
             {
@@ -362,7 +446,7 @@
                     this.Traceability.Add(copied.ID, original.ID);
                 }
 
-                if (copied.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                if (!createInstance && copied.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
                 {
                     this.AddRecursivelyTraceability(copied, original);
                 }
@@ -487,14 +571,15 @@
         /// <param name="original">Original object from which the copy was made.</param>
         private void AddRecursivelyTraceability(MgaFCO copied, MgaFCO original)
         {
+            const int RELID_BASE_MAX = 0x7FFFFFF; // Mga.idl
             var componentAssembly = copied as MgaModel;
 
             foreach (MgaFCO child in componentAssembly.ChildFCOs)
             {
-                var originalChild = original.ChildObjectByRelID[child.RelID] as MgaFCO;
+                var originalChild = original.ChildObjectByRelID[child.RelID & (original.IsInstance ? Int32.MaxValue : RELID_BASE_MAX)] as MgaFCO;
                 this.Traceability.Add(child.ID, originalChild.ID);
 
-                if (child.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                if (child.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)
                 {
                     this.AddRecursivelyTraceability(child, originalChild);
                 }

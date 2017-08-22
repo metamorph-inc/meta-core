@@ -11,7 +11,8 @@
     /// </summary>
     public class DesignContainerElaborator : Elaborator
     {
-        public DesignContainerElaborator(MgaModel subject)
+        public DesignContainerElaborator(MgaModel subject, bool UnrollConnectors)
+            : base(UnrollConnectors)
         {
             if (subject == null)
             {
@@ -23,6 +24,7 @@
 
             // initialize collections
             this.Traceability = new Dictionary<string, string>();
+            this.ComponentGUIDs = new HashSet<string>();
             //this.InnerElaborators = new List<ComponentAssemblyElaborator>();
             this.InnerElaborators = new List<Elaborator>();
             this.ComponentAssemblyReferences = new Queue<MgaFCO>();
@@ -111,7 +113,9 @@
                     {
                         continue;
                     }
-                    if (parent.MetaBase.Name == "DecisionGroup")
+                    if (parent.MetaBase.MetaRef == Factory.DecisionGroupMeta || parent.MetaBase.MetaRef == Factory.VisualConstraintMeta
+                        || parent.MetaBase.MetaRef == Factory.And_operatorMeta || parent.MetaBase.MetaRef == Factory.Or_operatorMeta
+                        || parent.MetaBase.MetaRef == Factory.Not_operatorMeta)
                     {
                         // DecisionGroup can hold only ComponentRefs, so we can't do anything with its children (META-3595)
                         continue;
@@ -151,10 +155,12 @@
                         var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, false);
 
                         // prevent circular dependency
-                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger) as ComponentAssemblyElaborator;
+                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger, UnrollConnectors) as ComponentAssemblyElaborator;
 
                         // use only one map
                         innerElaborator.Traceability = this.Traceability;
+                        innerElaborator.ComponentGUIDs = this.ComponentGUIDs;
+                        innerElaborator.ComponentCopyMap = this.ComponentCopyMap;
 
                         // hold only one queue
                         foreach (var item in this.ComponentAssemblyReferences)
@@ -195,10 +201,12 @@
 
                         var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, false);
 
-                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger) as DesignContainerElaborator;
+                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger, UnrollConnectors) as DesignContainerElaborator;
 
                         // use only one map
                         innerElaborator.Traceability = this.Traceability;
+                        innerElaborator.ComponentGUIDs = this.ComponentGUIDs;
+                        innerElaborator.ComponentCopyMap = this.ComponentCopyMap;
 
                         // hold only one queue
                         foreach (var item in this.DesignSpaceReferences)

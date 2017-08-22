@@ -22,6 +22,7 @@
 #include "UIFunctions.h"
 #include "isis_ptc_toolkit_ostream.h"
 #include "CADFactoryAbstract.h"
+#include "AssembleUtils.h"
 
 
 namespace isis
@@ -308,7 +309,8 @@ throw(isis::application_exception)
 void MetaLinkAssemblyEditor::AddComponentToAssembly(
     const std::string                 &in_ComponentInstanceID,
     const std::string                 &in_CreoModelName,
-    ProMdlType                        in_CreoModelType,
+    //ProMdlType                        in_CreoModelType,
+	e_CADMdlType						in_CreoModelType,
     const std::string                &in_MaterialID,
     const std::string                &in_DisplayName,
     e_CADSpecialInstruction            in_SpecialInstruction,
@@ -539,7 +541,7 @@ throw(isis::application_exception)
         //             regenerationSucceeded);
 
         isis_LOG(lg, isis_FILE, isis_INFO) << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
-        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
         isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
         isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                 " << cADComponentData_map_TEMP[in_ComponentInstanceID];
         isis_LOG(lg, isis_FILE, isis_INFO) << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
@@ -585,7 +587,7 @@ throw(isis::application_exception)
     m_CADComponentData_map[parentAssemblyInstanceID].children.push_back(in_ComponentInstanceID);
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* Begin Final Structure - Add the Component *************************";
-    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[in_ComponentInstanceID]:                    " << m_CADComponentData_map[in_ComponentInstanceID];
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* End Final Structure - Add the Component *************************";
@@ -621,7 +623,7 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
     isis::CADComponentData &data = m_CADComponentData_map[in_ConstraintComponentInstanceID];
     data.displayName = newName;
 
-    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, data.modelType);
+    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, ProMdlType_enum(data.modelType));
 
     try
     {
@@ -830,7 +832,7 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
 
     std::string modelNameWithSuffix = AmalgamateModelNameWithSuffix(
                                           m_CADComponentData_map[in_ComponentInstanceID].name,
-                                          m_CADComponentData_map[in_ComponentInstanceID].modelType);
+                                          ProMdlType_enum(m_CADComponentData_map[in_ComponentInstanceID].modelType));
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "Internal data structure parameter values BEFORE modification:";
     for each(CADParameter i in m_CADComponentData_map[in_ComponentInstanceID].parametricParameters)
@@ -1077,8 +1079,7 @@ throw(isis::application_exception)
         //isis::isis_ProDirectoryChange( workingDir_MultiFormat );
         isis::setCreoWorkingDirectory(workingDir_MultiFormat);
 
-        std::string ProeIsisExtensionsDir = getenv("PROE_ISIS_EXTENSIONS");
-        std::string TemplateFile_PathAndFileName =  ProeIsisExtensionsDir + "\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
+        std::string TemplateFile_PathAndFileName = META_PATH() + "\\bin\\CAD\\Creo\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
 
         // Copy template model to the working directory
         isis::CopyFileIsis(TemplateFile_PathAndFileName,  in_ProgramInputArguments.workingDirectory);
@@ -1171,7 +1172,7 @@ bool MetaLinkAssemblyEditor::Clear()
         return false;
     }
 
-    isis_LOG(lg, isis_FILE, isis_INFO) << " top: " << topAssemblyComponentInstanceID << " handle: " << model_handle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << " top: " << topAssemblyComponentInstanceID << " handle: " << (const void*)model_handle;
 
     switch(status = ProMdlEraseAll(model_handle))
     {
@@ -1345,7 +1346,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     {
 		isis_LOG(lg, isis_FILE, isis_DEBUG) << "The ProMdlToModelitem() was successful: "
                               << " id: " <<  modelItem.id
-                              << " owner: " << modelItem.owner
+                              << " owner: " << (const void*)modelItem.owner
                               << " type: " << modelItem.type;
         break;
     }

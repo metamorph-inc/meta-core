@@ -1,0 +1,182 @@
+{
+  "components": {
+    "SaveTime": {
+      "parameters": {
+        "pass_in": {
+          "source": [
+            "ParameterStudy",
+            "x_0"
+          ]
+        }
+      },
+      "unknowns": {
+        "pass_out": {}
+      },
+      "details": {
+        "filename": "savetime.py"
+      },
+      "type": "run_mdao.python_component.PythonComponent"
+    },
+    "MeasureTime": {
+      "parameters": {
+        "finished": {
+          "source": [
+            "OptimizationProblem",
+            "f_xy"
+          ]
+        }
+      },
+      "unknowns": {
+        "time": {}
+      },
+      "details": {
+        "filename": "measuretime.py"
+      },
+      "type": "run_mdao.python_component.PythonComponent"
+    }
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "x_0": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        },
+        "y_0": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "f_xy": {
+          "source": [
+            "OptimizationProblem",
+            "f_xy"
+          ]
+        },
+        "Time": {
+          "source": [
+            "MeasureTime",
+            "time"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples = 2",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  },
+  "subProblems": {
+    "OptimizationProblem": {
+      "problemInputs": {
+        "x_0": {
+          "outerSource": [
+            "SaveTime",
+            "pass_out"
+          ],
+          "innerSource": [
+            "Optimizer",
+            "x"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        },
+        "y_0": {
+          "outerSource": [
+            "ParameterStudy",
+            "y_0"
+          ],
+          "innerSource": [
+            "Optimizer",
+            "y"
+          ],
+          "value": "0.0",
+          "pass_by_obj": false
+        }
+      },
+      "problemOutputs": {
+        "x_f": [
+          "x_0"
+        ],
+        "y_f": [
+          "y_0"
+        ],
+        "f_xy": [
+          "Optimizer",
+          "f_xy"
+        ]
+      },
+      "components": {
+        "Paraboloid": {
+          "parameters": {
+            "y": {
+              "source": [
+                "y_0"
+              ]
+            },
+            "x": {
+              "source": [
+                "x_0"
+              ]
+            }
+          },
+          "unknowns": {
+            "f_xy": {}
+          },
+          "details": {
+            "filename": "paraboloid.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {
+        "Optimizer": {
+          "type": "optimizer",
+          "designVariables": {
+            "x": {
+              "RangeMin": -50.0,
+              "RangeMax": 50.0
+            },
+            "y": {
+              "RangeMin": -50.0,
+              "RangeMax": 50.0
+            }
+          },
+          "objectives": {
+            "f_xy": {
+              "source": [
+                "Paraboloid",
+                "f_xy"
+              ]
+            }
+          },
+          "constraints": {},
+          "intermediateVariables": {},
+          "details": {
+            "Code": "",
+            "CustomOptimizer": "",
+            "OptimizationFunction": "COBYLA"
+          }
+        }
+      },
+      "subProblems": {}
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "OptimizationInitialConditionProfilingOutputConnectedToObjective"
+  ],
+  "PETName": "/Testing/PETHierarchy/OptimizationInitialConditionProfilingOutputConnectedToObjective",
+  "MgaFilename": "C:\\source\\meta-core\\models\\PET_simple_proof-of-concept\\WorkFlow_PET.mga"
+}

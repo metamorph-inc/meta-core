@@ -52,7 +52,7 @@ namespace CyPhyElaborateCS
             /// Using the context menu by right clicking the background of the GME modeling window
             /// </summary>
             GME_BGCONTEXT_START = 18,
-            
+
             /// <summary>
             /// Not used by GME
             /// </summary>
@@ -80,6 +80,9 @@ namespace CyPhyElaborateCS
                 this.componentParameters = new SortedDictionary<string, object>();
             }
         }
+
+        public Boolean UnrollConnectors = false;
+        string[] numericLeafNodes;
 
         /// <summary>
         /// The main entry point of the interpreter. A transaction is already open,
@@ -153,13 +156,13 @@ namespace CyPhyElaborateCS
 
                 // initialize formula evauator
                 formulaEval.Initialize(project);
-                
+
                 // automation means no UI element shall be shown by the interpreter
                 formulaEval.ComponentParameter["automation"] = "true";
-                
+
                 // do not write to the console
                 formulaEval.ComponentParameter["console_messages"] = "off";
-                
+
                 // do not expand nor collapse the model
                 formulaEval.ComponentParameter["expanded"] = "true";
 
@@ -171,6 +174,7 @@ namespace CyPhyElaborateCS
                 try
                 {
                     formulaEval.InvokeEx(project, currentobj, selectedObjs, 128);
+                    numericLeafNodes = (string[])formulaEval.ComponentParameter["numericLeafNodes"];
                     this.Logger.WriteInfo("CyPhyFormulaEvaluator 1.0 finished");
                 }
                 catch (COMException e)
@@ -188,6 +192,41 @@ namespace CyPhyElaborateCS
 
             sw.Stop();
             this.Logger.WriteDebug("Formula evaluator runtime: {0}", sw.Elapsed.ToString("c"));
+
+
+            if (UnrollConnectors)
+            {
+                sw.Restart();
+                this.Logger.WriteInfo("ConnectorUnroller started");
+                try
+                {
+                    var kindCurrentObj = currentobj.MetaBase.Name;
+                    if (kindCurrentObj == "ComponentAssembly")
+                    {
+                        using (Unroller unroller = new Unroller(currentobj.Project, Traceability, Logger))
+                        {
+                            unroller.UnrollComponentAssembly(currentobj as MgaModel);
+                        }
+                    }
+                    else if (kindCurrentObj == "TestBench")
+                    {
+                        using (Unroller unroller = new Unroller(currentobj.Project, Traceability, Logger))
+                        {
+                            unroller.UnrollTestBench(currentobj as MgaModel);
+                        }
+                    }
+
+                    this.Logger.WriteInfo("ConnectorUnroller finished");
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.WriteError("ConnectorUnroller failed. Check log for details.");
+                    this.Logger.WriteDebug(ex.ToString());
+                    success = false;
+                }
+                sw.Stop();
+                this.Logger.WriteDebug("ConnectorUnroller runtime: {0}", sw.Elapsed.ToString("c"));
+            }
 
             this.Logger.WriteInfo("CyPhyElaborate 2.0 finished.");
             System.Windows.Forms.Application.DoEvents();
@@ -325,7 +364,7 @@ namespace CyPhyElaborateCS
             // TODO: is subtype
 
             //// check everything else on demand
-            
+
             return true;
         }
 
@@ -347,8 +386,8 @@ namespace CyPhyElaborateCS
             var beforeElaboration = (currentobj as MgaModel).GetDescendantFCOs(currentobj.Project.CreateFilter()).Count;
 
             // get an elaborator for the current context
-            var elaborator = Elaborator.GetElaborator(currentobj as MgaModel, this.Logger);
-            
+            var elaborator = Elaborator.GetElaborator(currentobj as MgaModel, this.Logger, UnrollConnectors);
+
             // elaborate the entire model starting from the current object
             elaborator.Elaborate();
 
@@ -516,7 +555,7 @@ namespace CyPhyElaborateCS
             return success;
         }
 
-        public static void UpdateMetricsInTestbenchManifest(MgaFCO currentobj, string outputDirectory)
+        public void UpdateMetricsInTestbenchManifest(MgaFCO currentobj, string outputDirectory)
         {
             var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(outputDirectory);
             Dictionary<string, AVM.DDP.MetaTBManifest.Metric> metrics = tbManifest.Metrics.ToDictionary(metric => metric.Name);
@@ -526,7 +565,14 @@ namespace CyPhyElaborateCS
                 AVM.DDP.MetaTBManifest.Metric metric;
                 if (metrics.TryGetValue(metricFco.Name, out metric))
                 {
-                    metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                    if (numericLeafNodes.Contains(metricFco.Name))
+                    {
+                        metric.Value = Double.Parse(metricFco.GetStrAttrByNameDisp("Value"));
+                    }
+                    else
+                    {
+                        metric.Value = metricFco.GetStrAttrByNameDisp("Value");
+                    }
                 }
             }
 

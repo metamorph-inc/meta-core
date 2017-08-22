@@ -35,22 +35,6 @@ void Traverse(const Udm::Object &focusObject)
 	traverser.Traverse(focusObject);
 }
 
-/** \brief Global traverse function that kicks start everything when called in UdmMain. It calls NewTraverse's traverse function. 
-    \param [in] selectedObjects Reference to a set of currently selected objects in GME
-    \return void
-*/
-void Traverse(const std::set<Udm::Object> &selectedObjects)
-{
-	// GMEConsole::Console::writeLine("Traverse(selectedObjects)", MSG_INFO);
-	for (std::set<Udm::Object>::iterator i = selectedObjects.begin(); i != selectedObjects.end(); i++)
-	{
-		Udm::Object udmObj (*i);
-		NewTraverser traverser;
-		traverser.Traverse(udmObj);
-	}
-}
-
-
 /*//////////////////////////////////////////////////////////////////////////////////////
 									New Traverser 
 //////////////////////////////////////////////////////////////////////////////////////*/
@@ -66,12 +50,21 @@ void Traverse(const std::set<Udm::Object> &selectedObjects)
 void NewTraverser::Traverse(const Udm::Object &udmObject)
 {
 	m_BoundingBox = udmObject;
-	set<CyPhyML::ValueFlowTarget> leafNodes;
 	Uml::Class myType = udmObject.type();
 	
 	if (myType == CyPhyML::TestBenchSuite::meta)
 	{
 		CyPhyML::TestBenchSuite tbsuite = CyPhyML::TestBenchSuite::Cast(udmObject);
+		set<CyPhyML::ValueFlowTarget> vtf_Set = tbsuite.ValueFlowTarget_kind_children();
+		for (set<CyPhyML::ValueFlowTarget>::iterator i = vtf_Set.begin(); i != vtf_Set.end(); i++)
+		{
+			CyPhyML::ValueFlowTarget vft(*i);
+			if (this->IsLeafNode(vft))
+			{
+				leafNodes.insert(vft);
+			}
+		}
+
 		this->EvaluateTestBenchSuite(tbsuite);
 	}
 	else
@@ -950,6 +943,10 @@ void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, d
 		GMEConsole::Console::writeLine(message, MSG_ERROR);
 		throw udm_exception (message);
 	}
+	if (leafNodes.find(vfTarget) != leafNodes.end())
+	{
+		numericLeafNodes.emplace_back(vfTarget.name());
+	}
 }
 
 void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, CyPhyML::unit& unitRef, double value)
@@ -1011,7 +1008,9 @@ void NewTraverser::EvaluateLeafNodes(set<CyPhyML::ValueFlowTarget> &leafNodes)
 			this->EvaluatePPC(vfTarget, uvRep);
 		}
 		else if (IsDerivedFrom(vfTarget.type(), CyPhyML::ValueFormula::meta))
+		{
 			this->EvaluateFormula(CyPhyML::ValueFormula::Cast(vfTarget), uvRep);
+		}
 #endif	
 	}
 }
@@ -1123,6 +1122,7 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 				myVURep.actualValue = incomingVURep.actualValue;
 				myVURep.siValue = incomingVURep.siValue;
 				myVURep.strValue = incomingVURep.strValue;
+				// save type here
 				UpdateNamedElementValue(vf, CyPhyML::unit::Cast(Udm::null), myVURep.strValue);
 			}
 			else if (myVURep.unitRep == incomingVURep.unitRep)				// units are compatible
@@ -1265,6 +1265,10 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 			myVURep.type = UnitUtil::ValueUnitRep::DOUBLE;
 			myVURep.siValue = myVURep.actualValue = tmp;	// unconverted value
 			myVURep.siValue = unitUtil.ConvertToSIEquivalent(myUnit, tmp, myVURep.unitRep);		// converted value in terms of SI
+			if (leafNodes.find(vf) != leafNodes.end())
+			{
+				numericLeafNodes.emplace_back(name);
+			}
 		}
 		m_convertedValueFlowTargets_SIMap[vf.uniqueId()] = myVURep;
 		m_allNamedElements2Process.erase(vf);						//NamedElements2Process(vf);

@@ -1,0 +1,19 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Fragment>
+        <DirectoryRef Id="dir_bin_CAD_Creo_bin" />
+        <ComponentGroup Id="CAD_exes">
+            <Component DiskId="4" Directory="dir_bin_CAD_Creo_bin">
+                <File Source="..\bin\CAD\Creo\bin\CADCreoParametricCreateAssembly.exe" />
+            </Component>
+            <Component DiskId="4" Directory="dir_bin_CAD_Creo">
+                <File Source="..\bin\CAD\Creo\0Readme - CreateAssembly.txt" />
+            </Component>
+            <Component DiskId="4" Directory="dir_bin_CAD_Creo_bin">
+                <File Source="..\bin\CAD\Creo\bin\ExtractACM-XMLfromCreoModels.exe" />
+            </Component>
+            <Component DiskId="4" Directory="dir_bin_CAD_Creo_bin">
+                <File Source="..\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe" />
+            </Component>
+        </ComponentGroup>
+</Fragment>
+</Wix>

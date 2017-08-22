@@ -251,7 +251,6 @@ namespace CyPhyPropagateTest
             {
                 throw new TimeoutException();
             }
-            System.Console.WriteLine("aa");
         }
 
         [Fact]
@@ -834,6 +833,19 @@ namespace CyPhyPropagateTest
                     }
                     interpreter.StartAssemblySync(project, testAssemblyHierarchy_2, 128);
                     Application.DoEvents();
+                    // wait for metalink bridge to record addon's interest in assembly
+                    while (true)
+                    {
+                        string line;
+                        if (metalinkOutput.TryTake(out line, 5000) == false)
+                        {
+                            throw new TimeoutException("Timed out waiting for metalink bridge to log 'interest recorded'");
+                        }
+                        if (line.Contains("interest recorded"))
+                        {
+                            break;
+                        }
+                    }
                     var msg = new Edit();
                     msg.mode.Add(Edit.EditMode.POST);
                     msg.origin.Add(origin);
@@ -1029,5 +1041,5 @@ namespace CyPhyPropagateTest
 
 // cd C:\Users\kevin\meta11\META_MetaLink_HullandHook
 // change addcomp.txt topic guids
-// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-client\target\metalink-java-client-1.0.0.jar  -p addcomp.txt
-// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar   -r EditComponent.mlp
+// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-client\target\metalink-java-client-1.1.0.jar  -p addcomp.txt
+// java -jar \Users\kevin\Documents\META_13.15\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar   -r EditComponent.mlp

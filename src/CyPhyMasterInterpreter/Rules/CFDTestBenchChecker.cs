@@ -154,7 +154,7 @@ namespace CyPhyMasterInterpreter.Rules
                     results.Add(feedback);
                 }
             }
-            else if ((calmWaterSolverCount + waveResistanceSolverCount + correlationSettingsCount) == 1 && 
+            else if ((calmWaterSolverCount + waveResistanceSolverCount + correlationSettingsCount) == 1 &&
                       hydrostaticsSolverCount == 1)
             {
                 foreach (var hydrostaticsSolver in this.testBench.Children.HydrostaticsSolverSettingsCollection)
@@ -213,6 +213,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             return results;
         }
-
     }
 }

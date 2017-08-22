@@ -3,7 +3,7 @@
 #include <isis_application_exception.h>
 #include <isis_include_ptc_headers.h>
 #include <AssembleComponents.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <ApplyModelConstraints.h>
 #include <CommonUtilities.h>
 #include <DiagnosticUtilities.h>
@@ -542,14 +542,14 @@ void Add_Subassemblies_and_Parts(
 
 			std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( 
 												in_CADComponentData_map[*itr].name, 
-												in_CADComponentData_map[*itr].modelType );
+												ProMdlType_enum(in_CADComponentData_map[*itr].modelType ));
 
 			//wchar_t  PartName[ISIS_CHAR_BUFFER_LENGTH];
 			//ProStringToWstring(PartName, (char *)(const char *)in_CADComponentData_map[*itr].name );
 
 			isis::isis_ProMdlRetrieve_WithDescriptiveErrorMsg(
 				*itr, in_CADComponentData_map[*itr].name, in_CADComponentData_map[*itr].geometryRepresentation,   // Added arguments
-				in_CADComponentData_map[*itr].name,in_CADComponentData_map[*itr].modelType, p_model);	// Original Arguments
+				in_CADComponentData_map[*itr].name,ProMdlType_enum(in_CADComponentData_map[*itr].modelType), p_model);	// Original Arguments
 				//PartName,in_CADComponentData_map[*itr].modelType, p_model);	// Original Arguments
 
 			ProMatrix identity_matrix = {{ 1.0, 0.0, 0.0, 0.0 }, 
@@ -580,8 +580,8 @@ void Add_Subassemblies_and_Parts(
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  p_model:               " <<  in_CADComponentData_map[*itr].p_model; 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  modelHandle:           "  << in_CADComponentData_map[*itr].modelHandle;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  p_model:               " <<  (const void*)in_CADComponentData_map[*itr].p_model; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  modelHandle:           " << (const void*)in_CADComponentData_map[*itr].modelHandle;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_CADComponentData_map[*itr].assembledFeature.id;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_CADComponentData_map[*itr].assembledFeature.type;
 			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_CADComponentData_map[*itr].specialInstruction );

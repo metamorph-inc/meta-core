@@ -15,18 +15,5 @@ namespace CyPhyMetaLink
         {
             InitializeComponent();
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-        }
-
-        public void Hide()
-        {
-            base.Hide();
-        }
     }
 }

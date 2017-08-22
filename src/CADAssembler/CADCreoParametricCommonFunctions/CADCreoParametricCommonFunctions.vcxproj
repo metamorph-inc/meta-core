@@ -159,6 +159,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClInclude Include="CommonFeatureUtils.h" />
     <ClInclude Include="CommonFunctions.h" />
     <ClInclude Include="CommonUtilities.h" />
+    <ClInclude Include="CreoStringToEnumConversions.h" />
     <ClInclude Include="Disassembler.h" />
     <ClInclude Include="FeatureFactory.h" />
     <ClInclude Include="JointCreo.h" />
@@ -166,9 +167,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClInclude Include="Selector.h" />
     <ClInclude Include="CreoModelToCyphyXML.h" />
     <ClInclude Include="ExteriorShell.h" />
-    <ClInclude Include="MultiFormatString.h" />
     <ClInclude Include="ParametricParameters.h" />
-    <ClInclude Include="StringToEnumConversions.h" />
     <ClInclude Include="TemplateModel.h" />
     <ClInclude Include="UIFunctions.h" />
   </ItemGroup>
@@ -183,6 +182,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClCompile Include="CommonUtilities.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
+    <ClCompile Include="CreoStringToEnumConversions.cpp" />
     <ClCompile Include="JointCreo.cpp" />
     <ClCompile Include="disassembler.cpp" />
     <ClCompile Include="FeatureFactory.cpp" />
@@ -190,15 +190,11 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
     <ClCompile Include="CreoSaveFeatureUtility.cpp" />
     <ClCompile Include="ExteriorShell.cpp" />
     <ClCompile Include="ExteriorShell_PolatedSpace.cpp" />
-    <ClCompile Include="MultiFormatString.cpp" />
     <ClCompile Include="ParametricParameters.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="ExteriorShell_PolatedAxis.cpp" />
     <ClCompile Include="Selector.cpp" />
-    <ClCompile Include="StringToEnumConversions.cpp">
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
     <ClCompile Include="TemplateModel.cpp" />
     <ClCompile Include="UIFunctions.cpp" />
   </ItemGroup>
@@ -213,8 +209,16 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
-    <Import Project="..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.60.0.0\build\native\boost_log_setup-vc110.targets')" />
-    <Import Project="..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.60.0.0\build\native\boost_log-vc110.targets')" />
+    <Import Project="..\..\nuget\boost.1.64.0.0\build\native\boost.targets" Condition="Exists('..\..\nuget\boost.1.64.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\nuget\boost_log-vc110.1.64.0.0\build\native\boost_log-vc110.targets" Condition="Exists('..\..\nuget\boost_log-vc110.1.64.0.0\build\native\boost_log-vc110.targets')" />
+    <Import Project="..\..\nuget\boost_log_setup-vc110.1.64.0.0\build\native\boost_log_setup-vc110.targets" Condition="Exists('..\..\nuget\boost_log_setup-vc110.1.64.0.0\build\native\boost_log_setup-vc110.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\nuget\boost.1.64.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\boost.1.64.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\boost_log-vc110.1.64.0.0\build\native\boost_log-vc110.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\boost_log-vc110.1.64.0.0\build\native\boost_log-vc110.targets'))" />
+    <Error Condition="!Exists('..\..\nuget\boost_log_setup-vc110.1.64.0.0\build\native\boost_log_setup-vc110.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\nuget\boost_log_setup-vc110.1.64.0.0\build\native\boost_log_setup-vc110.targets'))" />
+  </Target>
 </Project>

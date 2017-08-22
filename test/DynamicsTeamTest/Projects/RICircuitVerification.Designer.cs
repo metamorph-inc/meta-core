@@ -73,18 +73,6 @@ namespace DynamicsTeamTest.Projects
 
             Assert.True(result, "CyPhy2Modelica_v2 failed during interpretation with verification workflow.");
         }
-
-        [Fact]
-        [Trait("Model", "RICircuitVerification")]
-        [Trait("CyPhy2Modelica", "RICircuitVerification")]
-        public void QR_RICircuit()
-        {
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-            bool result = CyPhy2ModelicaRunner.Run("QR_RICircuit", mgaFile,
-                    "/@Testing|kind=Testing|relpos=0/@Verification_CA|kind=Testing|relpos=0/@QR|kind=Testing|relpos=0/@RICircuit|kind=TestBench|relpos=0");
-
-            Assert.True(result, "CyPhy2Modelica_v2 failed during interpretation with verification workflow.");
-        }
     }
 }
 

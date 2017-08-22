@@ -755,7 +755,7 @@ void CreateModelNameWithUniqueSuffix(
 			}
 
 			std::string modelNameWithSuffix = 
-				ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
+				ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
 
 			//std::cout << std::endl << "############## ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
 
@@ -777,7 +777,7 @@ void CreateModelNameWithUniqueSuffix(
 			// Check for parametric parts
 			if ( !familyTableModel &&  // Temporaily exclude family table models, see comment above for info on the family table bug.
 				 SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && 
-				 ModelTypesMatch(in_ModelTypeIndicator, i->second.modelType) &&
+				 ModelTypesMatch(in_ModelTypeIndicator, ProMdlType_enum(i->second.modelType)) &&
 				 ( modelsAlreadyEncountered.find(modelNameWithSuffix) !=  modelsAlreadyEncountered.end()))  // Part/Assembly occurs a second time
 			{
 				std::string origNameWithoutFamilyEntry;
@@ -794,7 +794,7 @@ void CreateModelNameWithUniqueSuffix(
 				copyModelDefinition_temp.componentInstanceID = i->first;
 				copyModelDefinition_temp.fromModelName = origNameWithoutFamilyEntry;
 				copyModelDefinition_temp.toModelName = modelName;
-				copyModelDefinition_temp.modelType = i->second.modelType;
+				copyModelDefinition_temp.modelType = ProMdlType_enum(i->second.modelType);
 				out_FromModel_ToModel.push_back(copyModelDefinition_temp);
 
 				//std::cout << std::endl << copyModelDefinition_temp;
@@ -1163,14 +1163,14 @@ void CreateModelNameWithUniqueSuffix(
 	{
 		
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << in_FromModelInstanceData.topAssemblyModelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << (const void*)in_FromModelInstanceData.topAssemblyModelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << in_FromModelInstanceData.modelHandle;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << (const void*)in_FromModelInstanceData.modelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ToModelName:        " << in_ToModelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   From Model assembledFeature: ";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "        id:    "  << in_FromModelInstanceData.assembledFeature.id;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "        owner: "  << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "        owner: "  << (const void*)in_FromModelInstanceData.assembledFeature.owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "        type: "   << FeatureGeometryType_string(in_FromModelInstanceData.assembledFeature.type);
 
 		/////////////////////////////////////
@@ -1203,7 +1203,7 @@ void CreateModelNameWithUniqueSuffix(
 		}
 		//// Test 
 		
-		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.owner: " << in_FromModelInstanceData.assembledFeature.owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.owner: " << (const void*)in_FromModelInstanceData.assembledFeature.owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.id:    " << in_FromModelInstanceData.assembledFeature.id;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "in_FromModelInstanceData.assembledFeature.type:  " << in_FromModelInstanceData.assembledFeature.type;		
 		
@@ -1924,7 +1924,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				{			
 					for each ( ProType k in in_RequiredGeometries[j].geometries)
 					{
-						if ( i.featureGeometryType == k )
+						//if ( i.featureGeometryType == k )
+						if ( FeatureGeometryType_enum(i.featureGeometryType) == k )
+							
 						{
 							++actualCounts[j];
 							break;
@@ -2380,7 +2382,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	
 												in_ComponentInstanceID, // Added arguments
 												in_CADComponentData_map[in_ComponentInstanceID].name, 
-												in_CADComponentData_map[in_ComponentInstanceID].modelType,   
+												ProMdlType_enum(in_CADComponentData_map[in_ComponentInstanceID].modelType),   
 																	//in_ContraintDef.p_base_model, //base_model, // Original arguments
 												model, //base_model, // Original arguments
 												in_FeatureGeometryType, 
@@ -2485,7 +2487,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	k->featureGeometryType,
+																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
 																	componentInstanceIDs_of_PartsReferencedByFeature_set);
@@ -2556,7 +2559,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 								FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																l->componentInstanceID,
 																l->featureName,
-																k->featureGeometryType,
+																FeatureGeometryType_enum(k->featureGeometryType),
+																//k->featureGeometryType,
 																in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																in_out_CADComponentData_map,
 																componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set);
@@ -2578,7 +2582,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	k->featureGeometryType,
+																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
 																	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set);

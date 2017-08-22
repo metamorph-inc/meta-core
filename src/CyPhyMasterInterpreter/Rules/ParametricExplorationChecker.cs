@@ -29,11 +29,29 @@ namespace CyPhyMasterInterpreter.Rules
             this.m_details.AddRange(this.ExactlyOneDriver());
         }
 
+        public static IEnumerable<CyPhy.ParametricExploration> getParametricExplorationsRecursively(CyPhy.ParametricExploration exp)
+        {
+            Queue<CyPhy.ParametricExploration> exps = new Queue<ISIS.GME.Dsml.CyPhyML.Interfaces.ParametricExploration>();
+            exps.Enqueue(exp);
+            while (exps.Count > 0)
+            {
+                exp = exps.Dequeue();
+                yield return exp;
+                foreach (var sub in exp.Children.ParametricExplorationCollection)
+                {
+                    exps.Enqueue(sub);
+                }
+            }
+
+        }
+
         protected IEnumerable<ContextCheckerResult> TestBenchReferences()
         {
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();
 
-            var testBenchRefCount = this.parametricExploration.Children.TestBenchRefCollection.Count();
+            var allParametricExplorations = getParametricExplorationsRecursively(this.parametricExploration).ToList();
+            var testBenchRefCount = allParametricExplorations.SelectMany(pe => pe.Children.TestBenchRefCollection).Count();
+            testBenchRefCount += allParametricExplorations.SelectMany(pe => pe.Children.ParametricTestBenchCollection).Count();
 
             if (testBenchRefCount == 0)
             {
@@ -41,28 +59,13 @@ namespace CyPhyMasterInterpreter.Rules
                 {
                     Success = false,
                     Subject = this.parametricExploration.Impl,
-                    Message = "Parametric exploration no test bench reference. It must have exactly one test bench reference."
+                    Message = "Parametric exploration has no TestBenches, ExcelWrapper, PythonWrappers, or MATLABWrappers. There must be at least one."
                 };
 
                 results.Add(feedback);
             }
-            else if (testBenchRefCount >= 1)
-            {
-                var feedback = new ContextCheckerResult()
-                {
-                    Success = true,
-                    Subject = this.parametricExploration.Children.TestBenchRefCollection.FirstOrDefault().Impl,
-                    Message = "One or more test bench reference found."
-                };
 
-                results.Add(feedback);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-
-            foreach (var testBenchRef in this.parametricExploration.Children.TestBenchRefCollection)
+            foreach (var testBenchRef in allParametricExplorations.SelectMany(pe => pe.Children.TestBenchRefCollection))
             {
                 // check test benches
                 if (testBenchRef.Referred.TestBenchType == null)
@@ -211,6 +214,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             return results;
         }
-
     }
 }

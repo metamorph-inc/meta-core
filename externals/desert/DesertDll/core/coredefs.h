@@ -195,8 +195,8 @@ typedef enum
 //#define new DEBUG_NEW
 //#endif
 
-#define BDD_MAX_PATHS 10000
-#define MAX_CONFIGURATIONS 100000         // how many configurations can we deal with
+#define BDD_MAX_PATHS 100000
+#define MAX_CONFIGURATIONS 1000000         // how many configurations can we deal with
 
 #ifdef DESERT_EXPORTS
 #define DESERT_API __declspec(dllexport)

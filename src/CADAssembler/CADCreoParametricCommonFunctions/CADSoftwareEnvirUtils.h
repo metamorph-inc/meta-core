@@ -19,7 +19,7 @@ namespace isis
 	//			then
 	//				settings are retrieved from system environment variables.
 	//				See  "0Readme - CreateAssembly.txt" for environment variable setup instructions.
-	//				This file is typical located at "C:\Program Files\META\Proe ISIS Extensions\"
+	//				This file is typical located at "C:\Program Files (x86)\META\bin\CAD\Creo\"
 	//
 	//			else
 	//				settings are retrieved from the registry

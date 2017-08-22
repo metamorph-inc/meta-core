@@ -12,7 +12,7 @@
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from $(var.SVNVERSION) ($(var.GITVERSION))'/>
+		Comments='Created from $(var.VCSVERSION) ($(var.VCSHASH))'/>
 
     <Upgrade Id="$(var.UpgradeCode)">
       <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
@@ -44,16 +44,12 @@
       <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
     </Condition>
 
+    <Condition Message="The installation environment is not correct. Possible cause: running under cygwin ssh with key authentication. Run `passwd -R` and ensure `/cygdrive/c/Windows/System32/whoami.exe` returns the correct username.">
+      <![CDATA[Installed OR (WIX_DIR_COMMON_DOCUMENTS <> "")]]>
+    </Condition>
+
     <Property Id='ARPPRODUCTICON' Value='META.ico' />
     <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
-
-    <CustomAction Id="SetDocProps" Return="check" Property="Documentation.5875F5A4_E9AD_421C_BDF1_7E7D36837AEF" Value="[ProgramFilesFolder]META\Documentation"/>
-    <InstallExecuteSequence>
-      <Custom Action="SetDocProps" After="CostInitialize" />
-    </InstallExecuteSequence>
-    <InstallUISequence>
-      <Custom Action="SetDocProps" After="CostInitialize" />
-    </InstallUISequence>
 
     <WixVariable Id="WixUILicenseRtf" Value="..\license.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="WixUiBanner.bmp" />
@@ -87,7 +83,6 @@
       <Directory Id='ProgramFiles64Folder'>
         <Directory Id='INSTALLDIR64' Name='META'>
           <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
-          <Directory Id='Proe_ISIS_Extensions_x64' Name='Proe ISIS Extensions'/>
         </Directory>
       </Directory>
       <Directory Id='ProgramFilesFolder'>
@@ -122,8 +117,6 @@
             <Directory Id='MaterialLibrary' Name='MaterialLibrary'/>
             <Directory Id='Validation' Name='Validation'/>
 
-            <Directory Id='doc' Name='Documentation'/>
-            <!-- <Directory Id='DashboardVisualizer' Name='DashboardVisualizer'/> -->
           </Directory>
         </Directory>
       </Directory>
@@ -142,7 +135,6 @@
       <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x64.msm" DiskId="2" />
       <Merge Id="CRT110x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC110_CRT_x64.msm" DiskId="2" />
-      <Merge Id='DocModule' Language='1033' SourceFile='Documentation.msm' DiskId='2' />
     </DirectoryRef>
 
     <!-- =========================================================== -->
@@ -160,13 +152,6 @@
     <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
         <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
     </Component>
-
-    <DirectoryRef Id='Proe_ISIS_Extensions_x64'>
-      <Component Id='PROE_ISIS_EXTENSIONS' Guid='{81FF799C-5509-4BAF-A420-82E256556D3A}' Win64='yes'>
-        <Environment Id="PROE_ISIS_EXTENSIONS" Action="set" System="yes" Name="PROE_ISIS_EXTENSIONS" Value="[Proe_ISIS_Extensions_x64]" />
-        <CreateFolder/>
-      </Component>
-    </DirectoryRef>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{C5414B00-7AB4-47F4-85A9-A66ACFF764B2}">
@@ -212,6 +197,21 @@
           <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
         </RegistryKey>
       </Component>
+      <Component Id='META_VERSION' Guid='{6e8cae49-ac6d-423f-9d7c-f36d9ae6fcbc}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_VERSION' Type='string' Value='$(var.VERSIONSTR)'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='META_VCSHASH' Guid='{63979997-6993-4d32-b1f7-0db7a37cdf4b}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_VCSHASH' Type='string' Value='$(var.VCSHASH)'/>
+        </RegistryKey>
+      </Component>
+      <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='no'>
+        <RegistryKey Root='HKLM' Key='Software\META'>
+          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VERSIONSTR) ($(var.VCSHASH))'/>
+        </RegistryKey>
+      </Component>
       <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='MAX_DYMOLA_STEP_TIME' Type='integer' Value='3000'/>
@@ -226,7 +226,7 @@
     <DirectoryRef Id='INSTALLDIR64'>
       <Component Id='META_PATH64' Guid='{f6a44af1-b3ff-4720-b38b-fbc7686fa3b7}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
-          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR64]'/>
+          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
         </RegistryKey>
       </Component>
     </DirectoryRef>
@@ -235,6 +235,9 @@
     <ComponentGroup Id="JobManager">
       <Component Directory='INSTALLDIR_BIN' Win64='no'>
         <File Source='..\src\JobManager\JobManager\bin\Release\JobManager.exe'/>
+      </Component>
+      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+        <File Source='..\src\JobManager\JobManager\bin\Release\JobManagerFramework.dll'/>
       </Component>
       <Component Directory='INSTALLDIR_BIN' Win64='no'>
         <File Source='..\3rdParty\System.Data.SQLite\SQLite.Interop.dll'/>
@@ -300,18 +303,6 @@
       <Component Win64='no'>
         <File Source="..\src\bin\desert.dll" />
       </Component>
-      <Component Win64='no'>
-        <File Source="..\src\bin\DesertTool.exe" />
-      </Component>      
-      <Component Id='boost_thread_vc140_mt_1_60.dll' Win64='no'>
-        <File Source="..\src\bin\boost_thread-vc140-mt-1_60.dll" />
-      </Component>
-      <Component Id='boost_system_vc140_mt_1_60.dll' Win64='no'>
-        <File Source="..\src\bin\boost_system-vc140-mt-1_60.dll" />
-      </Component>
-      <Component Id='boost_chrono_vc140_mt_1_60.dll' Win64='no'>
-        <File Source="..\src\bin\boost_chrono-vc140-mt-1_60.dll" />
-      </Component>
     </DirectoryRef>
     
     <Component Directory="INSTALLDIR_BIN" Win64="no">
@@ -346,7 +337,6 @@
       <ComponentRef Id='CyPhyFormulaEvaluator.dll'/>
       <ComponentRef Id='DesignSpaceHelper.dll'/>
       <ComponentRef Id='desert.dll'/>
-      <ComponentRef Id='DesertTool.exe'/>
       <ComponentRef Id='CyPhyCAExporter.dll'/>
       <ComponentRef Id='ComponentLibraryManager.dll'/>
       <ComponentGroupRef Id='ComponentLibraryManagerAddOn'/>
@@ -367,6 +357,9 @@
       <ComponentGroupRef Id='bin'/>
       <ComponentGroupRef Id='analysis_tools'/>
       <ComponentRef Id='META_PATH'/>
+      <ComponentRef Id='META_VERSION'/>
+      <ComponentRef Id='META_VCSHASH'/>
+      <ComponentRef Id='META_FULLVERSION'/>
       <ComponentRef Id='META_PATH64'/>
 
       <ComponentRef Id='MAX_DYMOLA_STEP_TIME'/>
@@ -424,11 +417,6 @@
 
       <ComponentRef Id='ReferenceSwitcher.dll'/>
 
-      <!-- <ComponentRef Id='CyPhyMLUdmCli.dll'/> -->
-      <ComponentRef Id='boost_thread_vc140_mt_1_60.dll'/>
-      <ComponentRef Id='boost_system_vc140_mt_1_60.dll'/>
-      <ComponentRef Id='boost_chrono_vc140_mt_1_60.dll'/>
-
       <ComponentGroupRef Id='Json.NET'/>
 
       <ComponentGroupRef Id='MaterialLibrary'/>
@@ -440,19 +428,12 @@
       <Feature Id='DSE' Title='Design Space Exploration' Level='1'/>
       <Feature Id='Static_Analysis' Title='Statics Analysis' Level='1' />
       <Feature Id='Dynamics_Analysis' Title='Dynamics Analysis' Level='1' />
-      <Feature Id='doc' Title='Documentation' Level='1'>
-        <ComponentGroupRef Id='doc'/>
-      </Feature>
       <Feature Id='models' Title='Example Models' Level='1'>
-        <!-- TODO: storyboard -->
       </Feature>
 
       <Feature Id='CAD' Title='CAD' Level='1'>
-        <!--<ComponentRef Id='CyPhy2CAD.dll'/>-->
-
-        <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1' ConfigurableDirectory='INSTALLDIR64'>
-          <ComponentGroupRef Id='Proe_ISIS_Extensions_x64'/>
-          <ComponentRef Id='PROE_ISIS_EXTENSIONS'/>
+        <Feature Id='Creo_ISIS_Extensions' Title='Creo ISIS Extensions' Level='1'>
+          <ComponentGroupRef Id='CAD_exes'/>
         </Feature>
       </Feature>
 
@@ -468,7 +449,6 @@
       <MergeRef Id='CRT90' />
       <MergeRef Id='CRT90_policy' />
       <MergeRef Id='CRT100' />
-      <MergeRef Id='DocModule' />
     </Feature>
 
     <!-- =========================================================== -->

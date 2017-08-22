@@ -43,7 +43,11 @@ namespace CyPhyMasterInterpreter
         {
             this.Configuration = configuration;
 
-            if (this.OriginalSystemUnderTest.Referred.DesignEntity.ID == configuration.ID)
+            if (this.OriginalSystemUnderTest == null)
+            {
+                // don't need to do anything
+            }
+            else if (this.OriginalSystemUnderTest.Referred.DesignEntity.ID == configuration.ID)
             {
                 this.expandedTestBenchSuite = this.testBenchSuite;
             }
@@ -99,16 +103,11 @@ namespace CyPhyMasterInterpreter
             return workflow;
         }
 
-        public override bool PostToJobManager(JobManagerDispatch manager = null)
+        public override bool PostToJobManager(JobManagerDispatch manager)
         {
             if (this.Interpreters == null)
             {
                 throw new InvalidOperationException("Call RunInterpreters method first.");
-            }
-
-            if (manager == null)
-            {
-                manager = new JobManagerDispatch();
             }
 
             bool success = true;
@@ -121,7 +120,7 @@ namespace CyPhyMasterInterpreter
                 {
                     string workingDirectory = interpreter.MainParameters.OutputDirectory;
 
-                    success = success && manager.EnqueueSoT(workingDirectory);
+                    success = success && manager.EnqueueSoT(workingDirectory, ProjectDirectory);
                 }
             }
 
@@ -137,7 +136,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -145,9 +144,6 @@ namespace CyPhyMasterInterpreter
             }
 
             // TODO: implement this method!
-
-            // FIXME: return fake true for now.
-            return true;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)
@@ -179,5 +175,4 @@ namespace CyPhyMasterInterpreter
             return true;
         }
     }
-
 }

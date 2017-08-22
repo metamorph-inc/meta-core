@@ -118,12 +118,13 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+        public string Acceleration_id { get; } = UtilityHelpers.MakeUdmID();
 
         public override CAD.LoadType ToCADXMLOutput()
         {
             CAD.LoadType loadout = base.ToCADXMLOutput();
             loadout.Acceleration = new CAD.AccelerationType();
-            loadout.Acceleration._id = UtilityHelpers.MakeUdmID();
+            loadout.Acceleration._id = Acceleration_id;
             loadout.Acceleration.Units = Units;
             loadout.Acceleration.x = X;
             loadout.Acceleration.y = Y;
@@ -136,12 +137,13 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
     {
         public double Value { get; set; }
         public string Units { get; set; }
+        public string Pressure_id { get; } = UtilityHelpers.MakeUdmID();
 
         public override CAD.LoadType ToCADXMLOutput()
         {
             CAD.LoadType loadout = base.ToCADXMLOutput();
             loadout.Pressure = new CAD.PressureType();
-            loadout.Pressure._id = UtilityHelpers.MakeUdmID();
+            loadout.Pressure._id = Pressure_id;
             loadout.Pressure.Units = Units;
             loadout.Pressure.Value = Value;
             return loadout;
@@ -158,6 +160,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public double Moment_X { get; set; }
         public double Moment_Y { get; set; }
         public double Moment_Z { get; set; }
+        public string Force_id { get; } = UtilityHelpers.MakeUdmID();
+        public string Moment_id { get; } = UtilityHelpers.MakeUdmID();
 
         public override CAD.LoadType ToCADXMLOutput()
         {
@@ -165,13 +169,13 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             loadout.ForceMoment = new CAD.ForceMomentType();
             loadout.ForceMoment._id = UtilityHelpers.MakeUdmID();
             loadout.ForceMoment.Force = new CAD.ForceType();
-            loadout.ForceMoment.Force._id = UtilityHelpers.MakeUdmID();
+            loadout.ForceMoment.Force._id = Force_id;
             loadout.ForceMoment.Force.Units = ForceUnit;
             loadout.ForceMoment.Force.x = Force_X;
             loadout.ForceMoment.Force.y = Force_Y;
             loadout.ForceMoment.Force.z = Force_Z;
             loadout.ForceMoment.Moment = new CAD.MomentType();
-            loadout.ForceMoment.Moment._id = UtilityHelpers.MakeUdmID();
+            loadout.ForceMoment.Moment._id = Moment_id;
             loadout.ForceMoment.Moment.Units = MomentUnit;
             loadout.ForceMoment.Moment.x = Moment_X;
             loadout.ForceMoment.Moment.y = Moment_Y;

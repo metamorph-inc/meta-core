@@ -11,7 +11,7 @@
 #include <isis_application_exception.h>
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_include_ptc_headers.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MultiFormatString.h>
 #include <GraphicsFunctions.h>
 #include <CommonStructures.h>
@@ -19,6 +19,8 @@
 
 namespace isis
 {
+	std::string  Bool_string( bool in_Bool );
+
 	void setCreoWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception);
 
 	//	Description:

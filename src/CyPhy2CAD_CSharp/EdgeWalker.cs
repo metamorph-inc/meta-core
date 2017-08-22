@@ -463,6 +463,11 @@ namespace CyPhy2CAD_CSharp
                 }
             }
 
+            if (start_id == "-1")
+            {
+                Logger.Instance.AddLogMessage("No referencecoordinatesystem was found. Root component of assembly will be selected arbitrarily.", Severity.Warning);
+            }
+
             int degrees = 6;
             while (start_id == "-1" && degrees > 2)		// if not in RefCoordSystemComponentIDs_in
             {
@@ -535,6 +540,7 @@ namespace CyPhy2CAD_CSharp
 
             if (start_id == "-1")
                 start_id = components.First();
+
 
             foreach (var item in components)
             {

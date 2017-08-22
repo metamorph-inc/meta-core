@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
 	int ExitCode = 0;
 
 	std::string		creoStartCommand;
-	std::string		proeIsisExtensionsDir;
+	std::string		CADToolDir;
 	std::string		workingDir;
 	std::string		cADPartsLibDir;
 	std::string		xmlInputFile_PathAndFileName;

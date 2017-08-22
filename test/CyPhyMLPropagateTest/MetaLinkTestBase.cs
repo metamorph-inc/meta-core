@@ -78,6 +78,7 @@ namespace CyPhyPropagateTest
             }
             catch
             {
+                KillMetaLink();
                 lock (metalinkLogStream)
                     metalinkLogStream.Dispose();
                 throw;
@@ -108,12 +109,14 @@ namespace CyPhyPropagateTest
 
         protected void KillMetaLink()
         {
-            lock (metalink)
+            lock (this)
             {
-                if (metalink.HasExited == false)
+                if (metalink != null && metalink.HasExited == false)
                 {
                     metalink.Kill();
                     metalink.WaitForExit();
+                    metalink.Dispose();
+                    metalink = null;
                 }
             }
         }
@@ -220,6 +223,7 @@ namespace CyPhyPropagateTest
         }
 
         ManualResetEvent metalinkReady;
+        public BlockingCollection<string> metalinkOutput = new BlockingCollection<string>(new ConcurrentQueue<string>());
         protected void StartMetaLinkBridge()
         {
             foreach (string filename in new string[] { "CyPhyPropagateTest_recorded_messages.mlp", "CyPhyPropagateTest_Hull_and_Hook.mga_posttest.mga" })
@@ -227,10 +231,10 @@ namespace CyPhyPropagateTest
                 File.Delete(Path.Combine(TestModelDir, filename));
             }
             string java_exe = Path.Combine(GetJavaInstallationPath(), "bin\\java.exe");
-            string metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar"); // dev machine
+            string metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar"); // dev machine
             if (!File.Exists(metaLinkPath))
             {
-                metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.0.0.jar"); // installed machine
+                metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.1.0.jar"); // installed machine
             }
             // use a random port
             var listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 0);
@@ -241,7 +245,7 @@ namespace CyPhyPropagateTest
 
             ProcessStartInfo info = new ProcessStartInfo()
             {
-                // java -jar C:\Users\meta\Documents\META\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.0.0.jar -p C:\Users\meta\Documents\META_MetaLink_HullandHook\partial-component.mlp -r C:\Users\meta\Documents\META_MetaLink_HullandHook\CyPhyPropagateTest_recorded_messages.mlp
+                // java -jar C:\Users\meta\Documents\META\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar -p C:\Users\meta\Documents\META_MetaLink_HullandHook\partial-component.mlp -r C:\Users\meta\Documents\META_MetaLink_HullandHook\CyPhyPropagateTest_recorded_messages.mlp
                 FileName = java_exe,
                 Arguments = "-jar \"" + metaLinkPath + "\"" +
                     " -P " + SocketQueue.port +
@@ -261,6 +265,7 @@ namespace CyPhyPropagateTest
             metalinkLogStream.AutoFlush = true;
             try
             {
+                // FIXME: look for "exception caught"
                 metalink.ErrorDataReceived += (o, dataArgs) =>
                 {
                     if (dataArgs.Data == null)
@@ -284,16 +289,16 @@ namespace CyPhyPropagateTest
                     {
                         metalinkReady.Set();
                     }
+                    metalinkOutput.Add(dataArgs.Data);
                 };
                 metalink.Start();
                 metalink.BeginOutputReadLine();
                 metalink.BeginErrorReadLine();
             }
-            catch
+            finally
             {
                 lock (metalinkLogStream)
                     metalinkLogStream.Close();
-                throw;
             }
         }
 

@@ -25,7 +25,7 @@ _template = '''<?xml version="1.0" encoding="utf-8"?>
     <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
     <RegistryKey Root='HKLM' Key='Software\GME\Components$backslash${progID}'>
       <RegistryValue Name='Description' Type='string' Value='$componentName'/>
-      <RegistryValue Name='Icon' Type='string' Value='${DllName}.ico'/>
+      <RegistryValue Name='Icon' Type='string' Value='[#${DllName}.ico]'/>
       <RegistryValue Name='Paradigm' Type='string' Value='$paradigmName'/>
       <!-- RegistryValue Name='Tooltip' Type='string' Value='TOOLTIP_TEXT'/ -->
 #if $componentType.find('ADDON') != -1
@@ -42,9 +42,9 @@ _template = '''<?xml version="1.0" encoding="utf-8"?>
 
     </RegistryKey>
   </Component>
-  <!-- <Component Directory="INSTALLDIR_BIN">
+  <Component Directory="INSTALLDIR_BIN">
     <File Source="${ProjectPath}/${DllName}.ico" />
-  </Component> -->
+  </Component>
 </ComponentGroup>
 </Fragment>
 </Wix>

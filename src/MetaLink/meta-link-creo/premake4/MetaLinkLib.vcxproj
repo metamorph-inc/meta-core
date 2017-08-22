@@ -166,7 +166,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\3rdParty\protoc-2.5.0-win32;..\..\..\CADAssembler\CADCommonFunctions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\CADAssembler\CADCommonFunctions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
@@ -175,14 +175,12 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level2</WarningLevel>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>SDKDDKVer.h</ForcedIncludeFiles>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;_SCL_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\3rdParty\protoc-2.5.0-win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
       <OutputFile>$(OutDir)MetaLinkLib.lib</OutputFile>
@@ -196,7 +194,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\BridgeClient.h" />
-    <ClInclude Include="..\src\BridgeClientST.h" />
     <ClInclude Include="..\src\FramedEdit.h" />
     <ClInclude Include="..\src\gen\AssemblyInterface.pb.h" />
     <ClInclude Include="..\src\gen\MetaLinkMsg.pb.h" />
@@ -204,7 +201,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\BridgeClient.cc">
     </ClCompile>
-    <ClCompile Include="..\src\BridgeClientST.cc" />
     <ClCompile Include="..\src\FramedEdit.cc">
     </ClCompile>
     <ClCompile Include="..\src\gen\AssemblyInterface.pb.cc">
@@ -225,8 +221,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
-    <Import Project="..\..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets" Condition="Exists('..\..\..\nuget\protobuf.2.5.0.0\build\native\protobuf.targets')" />
-    <Import Project="..\..\..\nuget\protobuf-vc140.2.5.0.0\build\native\protobuf-vc140.targets" Condition="Exists('..\..\..\nuget\protobuf-vc140.2.5.0.0\build\native\protobuf-vc140.targets')" />
+    <Import Project="..\..\..\nuget\boost.1.64.0.0\build\native\boost.targets" Condition="Exists('..\..\..\nuget\boost.1.64.0.0\build\native\boost.targets')" />
+    <Import Project="..\..\..\nuget\protobuf.2.6.1.1\build\native\protobuf.targets" Condition="Exists('..\..\..\nuget\protobuf.2.6.1.1\build\native\protobuf.targets')" />
+    <Import Project="..\..\..\nuget\protobuf-vc110.2.6.1.1\build\native\protobuf-vc110.targets" Condition="Exists('..\..\..\nuget\protobuf-vc110.2.6.1.1\build\native\protobuf-vc110.targets')" />
   </ImportGroup>
 </Project>

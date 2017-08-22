@@ -18,15 +18,19 @@ namespace CyPhyMasterInterpreter
         {
             this.parametricExploration = parametricExploration;
 
-            this.OriginalSystemUnderTest = parametricExploration
-                .Children
-                .TestBenchRefCollection
-                .FirstOrDefault()
-                .Referred
-                .TestBenchType
-                .Children
-                .TopLevelSystemUnderTestCollection
-                .FirstOrDefault();
+            var tbRef = parametricExploration
+               .Children
+               .TestBenchRefCollection
+               .FirstOrDefault();
+            if (tbRef != null)
+            {
+                this.OriginalSystemUnderTest = tbRef
+                    .Referred
+                    .TestBenchType
+                    .Children
+                    .TopLevelSystemUnderTestCollection
+                    .FirstOrDefault();
+            }
         }
 
         public override MgaModel GetInvokedObject()
@@ -37,6 +41,21 @@ namespace CyPhyMasterInterpreter
         public override MgaModel GetExpandedObject()
         {
             return this.expandedParametricExploration.Impl as MgaModel;
+        }
+
+        public override bool SaveDesign(AVM.DDP.MetaAvmProject projectManifest)
+        {
+            if (this.Configuration == null)
+            {
+                // standalone PET doesn't have design model
+                return true;
+            }
+            return base.SaveDesign(projectManifest);
+        }
+
+        public override void Expand(CyPhy.ParametricExploration parametricExploration)
+        {
+            this.expandedParametricExploration = this.parametricExploration;
         }
 
         public override void Expand(CyPhy.ComponentAssembly configuration)
@@ -99,16 +118,11 @@ namespace CyPhyMasterInterpreter
             return workflow;
         }
 
-        public override bool PostToJobManager(JobManagerDispatch manager = null)
+        public override bool PostToJobManager(JobManagerDispatch manager)
         {
             if (this.Interpreters == null)
             {
                 throw new InvalidOperationException("Call RunInterpreters method first.");
-            }
-
-            if (manager == null)
-            {
-                manager = new JobManagerDispatch();
             }
 
             bool success = true;
@@ -129,15 +143,9 @@ namespace CyPhyMasterInterpreter
                         interpreter.Name;
 
                     title = String.Format("{0}_{1}", interpreterName, this.expandedParametricExploration.Name).Replace(" ", "_");
-                    testbenchName = this.parametricExploration
-                        .Children
-                        .TestBenchRefCollection
-                        .FirstOrDefault()
-                        .Referred
-                        .TestBenchType
-                        .Name;
+                    testbenchName = this.parametricExploration.Name;
 
-                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, interpreter);
+                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, ProjectDirectory, interpreter);
                 }
             }
 
@@ -153,7 +161,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -164,33 +172,13 @@ namespace CyPhyMasterInterpreter
 
             this.EnsureOutputDirectory();
 
-
-            //TODO: review this method - are we doing the right thing? are we doing the thing right?
-            var originalTestBench = this.parametricExploration
-                .Children
-                .TestBenchRefCollection
-                .FirstOrDefault()
-                .Referred
-                .TestBenchType;
-
-
-            var expandedTestBench = this.expandedParametricExploration
-                .Children
-                .TestBenchRefCollection
-                .FirstOrDefault()
-                .Referred
-                .TestBenchType;
-
-
-            var success = project.SaveTestBenchManifest(
-                this.Configuration.Name,
+            project.SaveTestBenchManifest(
+                this.Configuration != null ? this.Configuration.Name : this.parametricExploration.Name,
                 configurationName,
-                expandedTestBench,
+                this.parametricExploration.Name,
+                expandedParametricExploration,
                 this.OutputDirectory,
-                originalTestBench,
                 analysisStartTime);
-
-            return success;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)

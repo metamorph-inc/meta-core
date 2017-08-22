@@ -54,6 +54,8 @@
         /// </summary>
         public event EventHandler<InterpreterProgressEventArgs> InterpreterProgress;
 
+        protected string OriginalCurrentFCOName;
+
         /// <summary>
         /// Gets the interpreters which will be called on the expanded context.
         /// </summary>
@@ -80,7 +82,9 @@
         /// </summary>
         /// <remarks>Original top level system under test will be redirected to this object.</remarks>
         public CyPhy.ComponentAssembly Configuration { get; protected set; }
-        
+
+        public CyPhy.CWC DesignConfiguration { get; protected set; }
+
         /// <summary>
         /// Gets a traceability map for the analysis interpreters between original context and temporary objects
         /// that might be deleted at the end of the execution. Helps to provide valid hyperlinks to the user to 
@@ -93,7 +97,7 @@
                 return this.traceability;
             }
         }
-        
+
         /// <summary>
         /// Gets a set of interpreters that have to be configured.
         /// </summary>
@@ -222,6 +226,7 @@
                 throw new AnalysisModelContextNotSupportedException(string.Format("{0} does not supported", context.MetaBase.Name));
             }
 
+            analysisModelProcessor.OriginalCurrentFCOName = context.Name;
             return analysisModelProcessor;
         }
 
@@ -230,8 +235,7 @@
         /// in the project manifest.
         /// </summary>
         /// <param name="projectManifest">Manifest object of the project.</param>
-        /// <returns>True if the manifest was saved and indexed successfully, otherwise false.</returns>
-        public abstract bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject projectManifest, string configurationName, DateTime analysisStartTime);
+        public abstract void SaveTestBenchManifest(AVM.DDP.MetaAvmProject projectManifest, string configurationName, DateTime analysisStartTime);
 
         /// <summary>
         /// Updates the execution steps in the test bench manifest file based on the Tasks and Execution tasks in the
@@ -271,6 +275,11 @@
         /// </summary>
         /// <param name="configuration">Top level system under test will be redirected to this object.</param>
         public abstract void Expand(CyPhy.ComponentAssembly configuration);
+
+        public virtual void Expand(CyPhy.ParametricExploration parametricExploration)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Posts the generated analysis packages to the JobManager for execution.
@@ -333,6 +342,7 @@
             {
                 throw new ArgumentNullException("configuration");
             }
+            this.DesignConfiguration = configuration;
 
             if (configuration.DstConnections.Config2CACollection.Any())
             {
@@ -419,7 +429,11 @@
 
             this.ThrowIfNotExpanded();
 
-            if (this.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
+            if (this.OriginalSystemUnderTest == null)
+            {
+                return true;
+            }
+            else if (this.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
             {
                 bool success = false;
                 try
@@ -445,7 +459,7 @@
         /// </summary>
         /// <param name="projectManifest">Given project manifest object.</param>
         /// <returns>True if exporting and indexing are successful, otherwise false.</returns>
-        public bool SaveDesign(AVM.DDP.MetaAvmProject projectManifest)
+        public virtual bool SaveDesign(AVM.DDP.MetaAvmProject projectManifest)
         {
             if (projectManifest == null)
             {
@@ -611,6 +625,12 @@
                 interpreter.MainParameters.ProjectDirectory = MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.GetExpandedObject().Project);
                 interpreter.MainParameters.OutputDirectory = this.OutputDirectory;
                 interpreter.MainParameters.VerboseConsole = verboseConsole;
+                interpreter.MainParameters.OriginalCurrentFCOName = OriginalCurrentFCOName;
+                if (this.DesignConfiguration != null)
+                {
+                    interpreter.MainParameters.GeneratedConfigurationModel = this.DesignConfiguration.ParentContainer.Name;
+                    interpreter.MainParameters.SelectedConfig = this.DesignConfiguration.Name;
+                }
 
                 if (passTraceability)
                 {
@@ -809,7 +829,7 @@
                 handler(this, eventArgs);
             }
         }
-        
+
         /// <summary>
         /// Ensures that output directory is not null and creates it if it does not exist already.
         /// </summary>
@@ -831,19 +851,10 @@
         {
             // TODO: review this code
             string outputSubDir = string.Empty;
-            string randomFolderName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
-            HashSet<char> illegalStartChars = new HashSet<char>()
-                {
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-                };
-
-            outputSubDir = Path.Combine(outputDir, randomFolderName);
-
+            string randomFolderName;
             int maxFolders = 0;
 
-            while (illegalStartChars.Contains(randomFolderName.FirstOrDefault()) ||
-                File.Exists(outputSubDir) ||
-                Directory.Exists(outputSubDir))
+            do
             {
                 if (maxFolders++ > 2000000)
                 {
@@ -854,10 +865,13 @@
                             outputDir));
                 }
 
-                randomFolderName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+                randomFolderName = "r" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + "_" +
+                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 
                 outputSubDir = Path.Combine(outputDir, randomFolderName);
-            }
+
+            } while (File.Exists(outputSubDir) ||
+                Directory.Exists(outputSubDir));
 
             return Path.GetFullPath(outputSubDir);
         }

@@ -84,6 +84,10 @@ namespace CyPhyGUIs
         IInterpreterConfiguration config { get; }
         bool ConsoleMessages { get; }
         CyPhyCOMInterfaces.IMgaTraceability GetTraceability();
+
+        string GeneratedConfigurationModel { get; }
+        string SelectedConfig { get; }
+        string OriginalCurrentFCOName { get; }
     }
 
     [Guid("BAEFE1D2-9C3E-408D-86BF-AC06C650CB10"),

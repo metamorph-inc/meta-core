@@ -124,7 +124,7 @@
     <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+    <Reference Include="GME.MGA.Parser, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
@@ -164,11 +164,6 @@
     <Compile Include="ConfigurationSelectionInput.cs" />
     <Compile Include="CyPhyMasterInterpreterAPI.cs" />
     <Compile Include="ExecutionCanceledByUserException.cs" />
-    <Compile Include="index_html.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>index_html.tt</DependentUpon>
-    </Compile>
     <Compile Include="ComponentConfig.cs" />
     <Compile Include="CyPhyMasterInterpreter.cs" />
     <Compile Include="InterpreterProgressEventArgs.cs" />
@@ -216,17 +211,12 @@
     <Content Include="CyPhyMasterInterpreter.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\export_for_dashboard_scoring.py" />
     <None Include="Resources\gather_stat_json.py" />
     <Content Include="Resources\gather_all_logfiles.py" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="AssemblySignature.snk" />
-    <None Include="index_html.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>index_html.cs</LastGenOutput>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -253,6 +243,10 @@
     <ProjectReference Include="..\AvmDdp\AvmDdp.csproj">
       <Project>{8880FD8F-C7DA-4491-908D-778B67057DA0}</Project>
       <Name>AvmDdp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhy2ComponentModel\CyPhy2ComponentModel.csproj">
+      <Project>{e6267d3d-fdaa-4173-a5e7-87b23b46f883}</Project>
+      <Name>CyPhy2ComponentModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>

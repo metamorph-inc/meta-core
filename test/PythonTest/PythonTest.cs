@@ -58,6 +58,8 @@ namespace PythonTest
         public void TestImports()
         {
             var module_names = new string[] {
+                    // Check openmdao.api to be sure bin\Python27\requirements directions were followed re: https://bugs.python.org/issue24960
+                    "openmdao.api",
                     //"isis_meta", not used anywhere
                     "MaterialLibraryInterface",
                     "meta_nrmm",
@@ -65,6 +67,7 @@ namespace PythonTest
                     "py_modelica",
                     "py_modelica_exporter",
                     "run_mdao",
+                    "run_mdao.cad.update_parameters",
                     "testbenchexecutor",
                     "excel_wrapper",
                     "matlab_wrapper",

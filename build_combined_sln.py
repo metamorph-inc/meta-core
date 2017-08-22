@@ -77,7 +77,7 @@ for proj in dep_projects:
     print proj
     if proj not in cyphy_projects:
         dep_projects2.append(sln.AddFromFile(proj, False))
-for vcxproj in (r"3rdParty\ctemplate-1.0\vsprojects\libctemplate\libctemplate.vcxproj", r"src\MetaLink\MetaLink_maven.vcxproj"):
+for vcxproj in (r"src\MetaLink\MetaLink_maven.vcxproj", ):
     dep_projects2.append(sln.AddFromFile(os.path.join(meta_path, vcxproj), False))
     dep_configs[os.path.relpath(vcxproj, "src")] = "Release|Win32"
 dep_projects = dep_projects2

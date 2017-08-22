@@ -85,6 +85,8 @@ namespace GME.CSharp
             sf.LineAlignment = StringAlignment.Center;
 
             // Drawing style
+            // n.b. GME decorators are based on pixels and shouldn't be scaled by DPI changes
+            Font font = new Font(SystemFonts.DefaultFont.FontFamily, 12f, GraphicsUnit.Pixel);
             Pen pen = new Pen(color);
             Brush brush = new SolidBrush(color);
 #if DEBUG
@@ -117,14 +119,24 @@ namespace GME.CSharp
                     string DllFileName = registrar.LocalDllPath[TaskProgId];
                     try
                     {
-                        // TODO: we should read this from the registry...
                         // if the value is ,IDI_COMPICON get the icon from the dll
                         string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
-                        var temp = registrar.get_IconPath(regaccessmode_enum.REGACCESS_USER);
+                        string iconPath = null;
+                        try
+                        {
+                            iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, TaskProgId, "Icon"];
+                        }
+                        catch (COMException)
+                        {
+                        }
 
                         if (File.Exists(iconFileNameGuess))
                         {
                             icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
+                        }
+                        else if (iconPath != null && File.Exists(iconPath))
+                        {
+                            icon = Icon.ExtractAssociatedIcon(iconPath);
                         }
                         else
                         {
@@ -146,7 +158,7 @@ namespace GME.CSharp
 
                 g.DrawString(
                     Content,
-                    SystemFonts.DefaultFont,
+                    font,
                     new SolidBrush(contentColor),
                     new RectangleF(
                         x,
@@ -154,19 +166,6 @@ namespace GME.CSharp
                         g.MeasureString(Content, SystemFonts.DefaultFont).Width,
                         g.MeasureString(Content, SystemFonts.DefaultFont).Height),
                     sf);
-
-                /*
-                g.DrawString(
-                    Parameters,
-                    SystemFonts.DefaultFont,
-                    new SolidBrush(Color.DarkGreen),
-                    new RectangleF(
-                        x,
-                        y + h + 25,
-                        g.MeasureString(Parameters, SystemFonts.DefaultFont).Width,
-                        g.MeasureString(Parameters, SystemFonts.DefaultFont).Height),
-                    sf);
-                 */
             }
             else if (LastMetaKind == "WorkflowRef")
             {
@@ -178,19 +177,31 @@ namespace GME.CSharp
                     if (taskInfo.IsComComponent)
                     {
                         var comComponent = new ComComponent(taskInfo.COMName);
+                        // FIXME cache this per-process for performance
                         if (comComponent.isValid)
                         {
                             MgaRegistrar registrar = new MgaRegistrar();
                             string DllFileName = registrar.LocalDllPath[comComponent.ProgId];
                             try
                             {
-                                // TODO: we should read this from the registry...
                                 // if the value is ,IDI_COMPICON get the icon from the dll
                                 string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
+                                string iconPath = null;
+                                try
+                                {
+                                    iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, taskInfo.COMName, "Icon"];
+                                }
+                                catch (COMException)
+                                {
+                                }
 
                                 if (File.Exists(iconFileNameGuess))
                                 {
                                     icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
+                                }
+                                else if (iconPath != null && File.Exists(iconPath))
+                                {
+                                    icon = Icon.ExtractAssociatedIcon(iconPath);
                                 }
                                 else
                                 {
@@ -230,7 +241,7 @@ namespace GME.CSharp
 
                         if (taskInfo != workflow.Reverse().FirstOrDefault())
                         {
-                            Pen p = new Pen(Color.Black, LineWidth);
+                            Pen p = new Pen(Color.Black, LineWidth * g.DpiX / 96);
                             p.StartCap = LineStartCap;
                             p.EndCap = LineEndCap;
                             int LineStartX = IconStartX + IconWidth;
@@ -263,9 +274,10 @@ namespace GME.CSharp
             }
 
             // Draw the label
-            g.DrawString(name, SystemFonts.DefaultFont, new SolidBrush(labelColor), 
+            g.DrawString(name, font, new SolidBrush(labelColor),
                 new RectangleF(x + w / 2 - LabelSize.Width / 2, y + h + 5, LabelSize.Width, 10), sf);
 
+            font.Dispose();
             sf.Dispose();
             g.Dispose();
         }
@@ -565,8 +577,14 @@ namespace GME.CSharp
 
         #region Mouse events
 
+        static readonly int S_DECORATOR_EVENT_NOT_HANDLED = 0x00737002;
         public void MouseLeftButtonDoubleClick(uint nFlags, int pointx, int pointy, ulong transformHDC)
         {
+            if (Parameters == null || TaskProgId == null)
+            {
+                throw new COMException("Not handled", S_DECORATOR_EVENT_NOT_HANDLED);
+            }
+
             ComComponent c = new ComComponent(TaskProgId);
             Dictionary<string, string> ParametersDict = new Dictionary<string, string>();
             if (string.IsNullOrWhiteSpace(Parameters) == false)
@@ -590,24 +608,27 @@ namespace GME.CSharp
                 Value = x.Value,
             }).ToList();
 
+            myobj.Project.BeginTransactionInNewTerr();
+            if (c.isValid == false || myobj.IsLibObject || myobj.HasReadOnlyAccess())
+            {
+                myobj.Project.AbortTransaction();
+                return;
+            }
             using (ParameterSettingsForm form = new ParameterSettingsForm(parameters, TaskProgId))
             {
-                if (c != null && c.isValid)
+                form.ShowDialog();
+                Dictionary<String, String> d = form.parameters.ToDictionary(p => p.Name, p => p.Value);
+                string serialized = JsonConvert.SerializeObject(d, Formatting.Indented);
+                try
                 {
-                    form.ShowDialog();
-                    Dictionary<String, String> d = form.parameters.ToDictionary(p => p.Name, p => p.Value);
-                    string serialized = JsonConvert.SerializeObject(d, Formatting.Indented);
-                    myobj.Project.BeginTransactionInNewTerr();
-                    try
-                    {
-                        Parameters = myobj.StrAttrByName["Parameters"] = serialized;
-                    }
-                    catch
-                    {
-                        myobj.Project.AbortTransaction();
-                    }
-                    myobj.Project.CommitTransaction();
+                    Parameters = myobj.StrAttrByName["Parameters"] = serialized;
                 }
+                catch
+                {
+                    myobj.Project.AbortTransaction();
+                    return;
+                }
+                myobj.Project.CommitTransaction();
             }
         }
 

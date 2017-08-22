@@ -2,7 +2,7 @@
 #include <CADCommonConstants.h>
 #include <CreoErrorCodes.h>
 #include <MultiFormatString.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include "LoggerBoost.h"
 #include "CommonDefinitions.h"
 #include <UtilCollect.h>
@@ -39,7 +39,10 @@ namespace isis
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProEngineerStart returned ProError: %d, proe_path: %s,  prodev_text_path: %s", err, proe_path, prodev_text_path );
+			sprintf( err_str, "exception : ProEngineerStart returned ProError: %s(%d), proe_path: %s,  prodev_text_path: %s%s", ProToolKitError_string(err).c_str(), err, proe_path, prodev_text_path,
+                (err == PRO_TK_GENERAL_ERROR ? ". Creo may fail to start if the Welcome screen has not been disabled. "
+                    "Start Creo manualy and check \"Do not show again\" in the \"Resource Center\" window. "
+                    "See also https://support.ptc.com/appserver/cs/view/solution.jsp?n=CS116805" : "") );
 			throw isis::application_exception("C06001",err_str); 
 		}
 
@@ -69,7 +72,7 @@ namespace isis
 			const char* extra = "";
 			if (err == PRO_TK_E_NOT_FOUND)
 			{
-				extra = ", Possible causes: 1. No model by this name on load path 2. wrong type 3. a model created with Academic Creo being loaded by Commercial Creo, or vice versa";
+				extra = ", Possible causes: 1. No model by this name on load path 2. wrong type (asm vs prt) 3. a model created with Academic Creo being loaded by Commercial Creo, or vice versa";
 			}
 			sprintf( err_str, "exception : ProMdlRetrieve returned ProError: %s(%d), Model Name: %s  Type: %s%s", ProToolKitError_string(err).c_str(), err, name_narrow, isis::ProMdlType_string(type).c_str(), extra );
 			throw isis::application_exception("C06002",err_str); 
@@ -1926,6 +1929,208 @@ namespace isis
 	}
 
 
+	ProError isis_ProOutputFileMdlnameWrite(	 ProMdl      model,
+                                     const ProFileName name,
+                                     ProImportExportFile   file_type,
+                                     ProAppData  arg1,
+                                     ProAppData  arg2,
+                                     ProAppData  arg3,
+                                     ProAppData  arg4 )
+											throw(isis::application_exception)
+	{
+
+		ProError err = ProOutputFileMdlnameWrite (  model,
+											 (wchar_t *)name,
+											 file_type,
+											 arg1,
+											 arg2,
+											 arg3,
+											 arg4 );
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			isis::MultiFormatString  name_multi( name);
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputFileMdlnameWrite returned ProError: %s(%d), Output File Name: %s",ProToolKitError_string(err).c_str(), err, (const char *)name_multi );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError isis_ProOutputAssemblyConfigurationIsSupported( ProIntf3DExportType file_type,
+           											ProOutputAssemblyConfiguration configuration,
+													ProBoolean*  is_supported)
+													throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputAssemblyConfigurationIsSupported(	file_type,
+           															configuration,
+																	is_supported);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputAssemblyConfigurationIsSupported returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+
+	}
+
+
+	ProError   isis_ProOutputBrepRepresentationAlloc( ProOutputBrepRepresentation* representation)
+														throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputBrepRepresentationAlloc( representation);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputBrepRepresentationAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+
+
+
+
+	ProError   isis_ProOutputBrepRepresentationFlagsSet(
+								ProOutputBrepRepresentation representation,
+								ProBoolean as_wireframe,
+								ProBoolean as_surfaces,
+								ProBoolean as_solid,
+								ProBoolean as_quilts)
+														throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputBrepRepresentationFlagsSet( representation, as_wireframe,
+															 as_surfaces, as_solid, as_quilts);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputBrepRepresentationFlagsSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+	ProError   isis_ProOutputBrepRepresentationFree( ProOutputBrepRepresentation representation)
+																	throw(isis::application_exception)
+	{
+
+		ProError err = ProOutputBrepRepresentationFree( representation);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputBrepRepresentationFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+
+
+	ProError   isis_ProOutputBrepRepresentationIsSupported( ProIntf3DExportType file_type,
+          													ProOutputBrepRepresentation representation,
+															ProBoolean*  is_supported)
+																	throw(isis::application_exception)
+	{
+
+		ProError err = ProOutputBrepRepresentationIsSupported( file_type, representation, is_supported);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputBrepRepresentationIsSupported returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+
+	ProError   isis_ProOutputInclusionWithOptionsSet(	ProOutputInclusion inclusion,
+													double             *parameters,
+													int                config_flags)
+														throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputInclusionWithOptionsSet( inclusion, parameters, config_flags);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputInclusionWithOptionsSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError   isis_ProOutputInclusionAlloc( ProOutputInclusion* inclusion)
+														throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputInclusionAlloc( inclusion);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : isis_ProOutputInclusionAlloc returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+	ProError   isis_ProOutputInclusionFlagsSet( ProOutputInclusion inclusion,
+														 ProBoolean include_datums,
+														 ProBoolean include_blanked,
+														 ProBoolean include_facetted)
+														throw(isis::application_exception)
+	{
+
+		ProError err = ProOutputInclusionFlagsSet( inclusion, include_datums, include_blanked, include_facetted);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputInclusionFlagsSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
+
+	ProError   isis_ProOutputInclusionFree (ProOutputInclusion inclusion)
+														throw(isis::application_exception)
+	{
+
+		ProError err =  ProOutputInclusionFree (inclusion);
+
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProOutputInclusionFree returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06089",err_str);  
+		}
+		return err;
+	}
+
 	ProError isis_ProIntf3DFileWrite(	ProSolid solid,
         								ProIntf3DExportType file_type,
 										ProPath output_file,
@@ -1936,7 +2141,7 @@ namespace isis
         								ProOutputLayerOptions layer_options )
 											throw(isis::application_exception)
 	{
-
+	
 		ProError err = ProIntf3DFileWrite (  solid,
 											 file_type,
 											 output_file,

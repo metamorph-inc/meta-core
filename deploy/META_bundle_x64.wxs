@@ -131,8 +131,8 @@
                   />
 
       <MsiPackage Id="GME"
-                  Name="GME_x64-16.7.22.msi"
-                  DownloadUrl="http://repo.isis.vanderbilt.edu/GME/16.7.22/GME_x64-16.7.22.msi"
+                  Name="GME_x64-17.3.13.msi"
+                  DownloadUrl="http://repo.isis.vanderbilt.edu/GME/17.3.13/GME_x64-17.3.13.msi"
                   Compressed="$(var.Compressed)"
                   Visible="yes"
                   ForcePerMachine="yes"

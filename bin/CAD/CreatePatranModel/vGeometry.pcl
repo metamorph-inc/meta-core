@@ -276,7 +276,7 @@ FUNCTION geometry_Type_toStr ( in_geometry_Type_ID )
 		CASE(ci_GEOMETRY_TYPE_EXTRUSION )
 			return c_GEOMETRY_TYPE_EXTRUSION 				
 		DEFAULT
-			return ""
+			return "ERROR"
 	END SWITCH
 
 END FUNCTION

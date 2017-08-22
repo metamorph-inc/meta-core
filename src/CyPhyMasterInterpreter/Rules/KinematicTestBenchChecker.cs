@@ -24,8 +24,6 @@ namespace CyPhyMasterInterpreter.Rules
             // CAD
             // ??? Any other type?
             // check workflow assumptions
-
         }
-
     }
 }

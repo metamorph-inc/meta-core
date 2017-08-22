@@ -19,13 +19,7 @@
     <ClCompile Include="UdmApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\CyPhyToolbox\UdmGmeUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CyPhyToolbox\FormulaTraverse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UdmFormatter.cpp">
@@ -84,9 +78,6 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="UdmConsole.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CyPhyToolbox\CyPhyElaborate.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="StatusDialog.h">

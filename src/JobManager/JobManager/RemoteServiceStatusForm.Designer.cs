@@ -83,7 +83,7 @@
             this.lblTotalCount.Name = "lblTotalCount";
             this.lblTotalCount.Size = new System.Drawing.Size(25, 13);
             this.lblTotalCount.TabIndex = 5;
-            this.lblTotalCount.Text = "000";
+            this.lblTotalCount.Text = "-";
             this.lblTotalCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblFreeCount
@@ -92,7 +92,7 @@
             this.lblFreeCount.Name = "lblFreeCount";
             this.lblFreeCount.Size = new System.Drawing.Size(25, 13);
             this.lblFreeCount.TabIndex = 4;
-            this.lblFreeCount.Text = "000";
+            this.lblFreeCount.Text = "-";
             this.lblFreeCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblBusyCount
@@ -101,7 +101,7 @@
             this.lblBusyCount.Name = "lblBusyCount";
             this.lblBusyCount.Size = new System.Drawing.Size(25, 13);
             this.lblBusyCount.TabIndex = 3;
-            this.lblBusyCount.Text = "000";
+            this.lblBusyCount.Text = "-";
             this.lblBusyCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTotalNumberLabel
@@ -180,9 +180,12 @@
             this.Controls.Add(this.lblVFStatusLabel);
             this.Controls.Add(this.gbRemoteNodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "RemoteServiceStatusForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Remote Service Status";
             this.gbRemoteNodes.ResumeLayout(false);
             this.gbRemoteNodes.PerformLayout();

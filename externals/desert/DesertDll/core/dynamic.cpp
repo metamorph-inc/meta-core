@@ -582,8 +582,11 @@ CBdd CDynVariableProperty:: MapValuetoBdd(CBdd& parentEnc)
 	{
 		case 1:
 		  propVal = vals.GetHead();
-		case 0:
 		  ret = CBdd::EncodeArith(propVal);
+		  break;
+		case 0:
+		  // FIXME can we use NaN here
+		  ret = CBdd::EncodeArith(0);
 		  break;
 		default:
 		{

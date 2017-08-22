@@ -26,10 +26,7 @@ namespace CyPhy2CAD_CSharp.Template
         public virtual string TransformText()
         {
             this.Write(@"
-REM	The following system environment variable must be set:
-REM	    PROE_ISIS_EXTENSIONS	// typically set to C:\Program Files\META\Proe ISIS Extensions
-REM
-REM	See ""C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt"" for the complete setup instructions.
+REM	See ""C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt"" for the complete setup instructions.
 
 set WORKING_DIR="".""
 set ERROR_CODE=0
@@ -52,42 +49,42 @@ goto :ERROR_SECTION
 
 ""%MetaPath%\bin\Python27\Scripts\Python.exe"" ""%MetaPath%\bin\CAD\CADJobDriver.py"" -assembler ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Assembler));
             
             #line default
             #line hidden
             this.Write(" -mesher ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Mesher));
             
             #line default
             #line hidden
             this.Write(" -analyzer ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Analyzer));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  if (Mode!=null) { 
             
             #line default
             #line hidden
             this.Write("-mode ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Mode));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 28 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 25 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
 }
             
             #line default
@@ -96,28 +93,28 @@ goto :ERROR_SECTION
                     " runCADJob.bat: CADJobDriver.py encountered error during execution, error level " +
                     "is %ERROR_CODE%\"\r\ngoto :ERROR_SECTION\r\n)\r\n\r\n");
             
-            #line 36 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 33 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  if (CallDomainTool!=null) { 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 38 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 35 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(CallDomainTool));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 40 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 37 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 43 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 40 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  if (Automation) { 
             
             #line default
@@ -125,7 +122,7 @@ goto :ERROR_SECTION
             this.Write("@echo off\r\n\r\n\r\nRem ****************************\r\nREM Python Metric Update Script\r" +
                     "\nRem ****************************\r\n\r\nset RESULT_XML_FILE=");
             
-            #line 51 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 48 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComputedMetricsPath));
             
             #line default
@@ -140,7 +137,7 @@ if exist %PY_SCRIPT% goto  :PY_FOUND
 echo		Error: Could not find %PY_SCRIPT%.
 echo		Your system is not properly configured to run %PY_SCRIPT%.
 echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
-echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
+echo		which is typically located at ""C:\Program Files (x86)\META\bin\CAD\Creo""
 set ERROR_CODE=2
 set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py.""
 goto :ERROR_SECTION
@@ -165,7 +162,7 @@ goto :ERROR_SECTION
 )
 ");
             
-            #line 84 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+            #line 81 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  } 
             
             #line default
@@ -175,7 +172,7 @@ goto :ERROR_SECTION
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 95 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+        #line 92 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
   
 public string XMLFileName {get;set;}
 public bool Automation {get;set;}

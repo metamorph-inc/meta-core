@@ -129,7 +129,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desertD.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -177,7 +177,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert_x64D.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Componentd.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -222,7 +222,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -269,7 +269,7 @@
       <AdditionalOptions>/DEF:Component.def %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>desert_x64.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\$(Platform)\lib;$(DESERT_PATH)\3rdParty\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.;$(UDM_PATH)\lib;$(DESERT_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -287,6 +287,7 @@
     <ClCompile Include="..\CyPhyToolbox\DesertFormulaUtil.cpp" />
     <ClCompile Include="..\Desert2CyPhy\Desert2CyPhy.cpp" />
     <ClCompile Include="..\Util\CyPhyUtil.cpp" />
+    <ClCompile Include="crc32.cpp" />
     <ClCompile Include="CyPhy2MorphMatrixFileDlg.cpp" />
     <ClCompile Include="DSESelectorDialog.cpp" />
     <ClCompile Include="MophyMatrixFileDlg.cpp" />
@@ -321,28 +322,6 @@
     <ClCompile Include="XLAutomation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="$(DESERT_PATH)\bin\DesertTool.exe">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <Message>Copying %(Filename)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename)%(Extension);%(Outputs)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)%(Filename)%(Extension);%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </CustomBuild>
-    <CustomBuild Include="$(DESERT_PATH)\bin\DesertToolD.exe">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <Message>Copying %(Filename)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /Y/D/F "%(Identity)" "$(OutDir)\"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\%(Filename)%(Extension);%(Outputs)</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename)%(Extension);%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </CustomBuild>
     <CustomBuild Include="$(DESERT_PATH)\bin\desert.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -478,15 +457,15 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\externals\common-scripts\build_customization\udm.targets" />
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\nuget\boost.1.60.0.0\build\native\boost.targets" Condition="Exists('..\nuget\boost.1.60.0.0\build\native\boost.targets')" />
-    <Import Project="..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets" Condition="Exists('..\nuget\boost_thread-vc140.1.60.0.0\build\native\boost_thread-vc140.targets')" />
-    <Import Project="..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets" Condition="Exists('..\nuget\boost_date_time-vc140.1.60.0.0\build\native\boost_date_time-vc140.targets')" />
-    <Import Project="..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets" Condition="Exists('..\nuget\boost_system-vc140.1.60.0.0\build\native\boost_system-vc140.targets')" />
-    <Import Project="..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets" Condition="Exists('..\nuget\boost_chrono-vc140.1.60.0.0\build\native\boost_chrono-vc140.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties RESOURCE_FILE="Component.rc" />
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+  </Target>
 </Project>

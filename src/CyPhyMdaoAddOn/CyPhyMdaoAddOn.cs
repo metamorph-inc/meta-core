@@ -93,9 +93,6 @@ namespace CyPhyMdaoAddOn
                     return;
                 if (subject.MetaBase.Name == "TestBenchRef")
                 {
-                    // set the port label lenght 0
-                    // FIXME: why not just change it in the meta?
-                    (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
                     if (subject as MgaReference != null)
                     {
                         UpdateColor((subject as MgaReference).Referred);
@@ -104,7 +101,6 @@ namespace CyPhyMdaoAddOn
                 else if (subject.MetaBase.Name == "Optimizer")
                 {
                     (subject as MgaFCO).RegistryValue["portLabelLength"] = "0";
-                    UpdateColor(subject as MgaFCO);
                 }
                 else if (subject.MetaBase.Name == "VariableSweep")
                 {
@@ -125,26 +121,20 @@ namespace CyPhyMdaoAddOn
                 {
                     // set the src custom formula's name to the specified name
                     // in the ValueFlow attribute field
-                    MgaConnection ValueFlow = subject as MgaConnection;
-                    foreach (MgaConnPoint cp in ValueFlow.ConnPoints)
+                    MgaSimpleConnection ValueFlow = subject as MgaSimpleConnection;
+                    var src = ValueFlow.Src;
+                    if (src.Meta.Name == "CustomFormula")
                     {
-                        if (cp.ConnRole == "src")
+                        foreach (MgaAttribute attr in ValueFlow.Attributes)
                         {
-                            if (cp.Target.Meta.Name == "CustomFormula")
+                            if (attr.Meta.Name == "FormulaVariableName")
                             {
-                                foreach (MgaAttribute attr in ValueFlow.Attributes)
+                                if (string.IsNullOrEmpty(attr.StringValue) == false)
                                 {
-                                    if (attr.Meta.Name == "FormulaVariableName")
-                                    {
-                                        if (string.IsNullOrEmpty(attr.StringValue) == false)
-                                        {
-                                            cp.Target.Name = attr.StringValue;
-                                            break;
-                                        }
-                                    }
+                                    src.Name = attr.StringValue;
+                                    break;
                                 }
                             }
-                            break;
                         }
                     }
                 }
@@ -163,22 +153,6 @@ namespace CyPhyMdaoAddOn
             }
             else if ((eventMask & uOBJEVENT_OPENMODEL) != 0)
             {
-            if (subject.MetaBase.Name == "ParametricExploration")
-            {
-                var pet = subject as MgaModel;
-                foreach (MgaModel PCCDriver in pet.GetChildrenOfKind("PCCDriver"))
-                {
-                    var upMethod = PCCDriver.StrAttrByName["PCC_UP_Methods"];
-                    if (upMethod == "UP_MPP" || upMethod == "UP_PCE")
-                    {
-                        GMEConsole.Out.WriteLine("{1}The output of the selected method ({0}) is not compatible with the project analyzer Dashboard.", upMethod, WARNING_BADGE);
-                        if (upMethod == "UP_PCE")
-                        {
-                            GMEConsole.Out.WriteLine("{0}Trying to display such data might require a refresh in order to view other data again.", WARNING_BADGE);
-                        }
-                    }
-                }
-            }
             }
             //MessageBox.Show(eventMask.ToString());
 
@@ -225,16 +199,6 @@ namespace CyPhyMdaoAddOn
             var nbrOfParameters = PCCDriver.ChildFCOs.Cast<MgaFCO>().Where(x => kinds.Contains(x.Meta.Name)).Count();
             var saMethod = PCCDriver.StrAttrByName["PCC_SA_Methods"];
             var upMethod = PCCDriver.StrAttrByName["PCC_UP_Methods"];
-            if (attributeChanged && (upMethod == "UP_MPP" || upMethod == "UP_PCE"))
-            {
-                GMEConsole.Out.WriteLine("{1}The output of the selected method ({0}) is not compatible with the project analyzer Dashboard.", 
-                    upMethod,
-                    WARNING_BADGE);
-                if (upMethod == "UP_PCE")
-                {
-                    GMEConsole.Out.WriteLine("{0}Trying to display such data might require a refresh in order to view other data again.", WARNING_BADGE);
-                }
-            }
             GMEConsole.Out.WriteLine("{2}Iterations : UP : {0}, SA : {1}",
                 this.GetNumberOfIterations(upMethod, nbrOfParameters),
                 this.GetNumberOfIterations(saMethod, nbrOfParameters),
@@ -271,11 +235,6 @@ namespace CyPhyMdaoAddOn
                         color = "0xffad5b";
                         borderColor = "0xa52a00";
                     }
-                }
-                else if (subject.Meta.Name == "Optimizer")
-                {
-                    color = "0xff6820";
-                    borderColor = "0x8b0000";
                 }
 
                 subject.RegistryValue["color"] = color;

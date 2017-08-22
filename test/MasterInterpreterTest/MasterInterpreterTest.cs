@@ -37,7 +37,7 @@ namespace MasterInterpreterTest
         }
     }
 
-    public class Test : IUseFixture<JobManagerFixture>
+    public class Test
     {
         [STAThread]
         static int Main(string[] args)
@@ -50,19 +50,12 @@ namespace MasterInterpreterTest
             return ret;
         }
 
-
         public static string ImportXME2Mga(string projectDir, string xmeFileName)
         {
             var xmePath = Path.Combine("..", "..", "..", "..", "models", "DynamicsTeam", projectDir, xmeFileName);
             string projectConnStr;
             MgaUtils.ImportXMEForTest(xmePath, out projectConnStr);
             return projectConnStr.Substring("MGA=".Length);
-        }
-
-        JobManagerFixture fixture;
-        public void SetFixture(JobManagerFixture data)
-        {
-            fixture = data;
         }
     }
 }

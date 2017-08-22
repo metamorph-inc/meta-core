@@ -1,7 +1,7 @@
 # .\_cad.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:462c18d5b89050fb1b7f8fca1e535af868009675
-# Generated 2015-02-24 12:11:08.849000 by PyXB version 1.2.3
+# Generated 2017-02-15 15:01:22.001000 by PyXB version 1.2.3
 # Namespace cad [xmlns:cad]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:8174f98f-bc50-11e4-b7a1-001b2181d248')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -91,7 +91,7 @@ class CustomGeometryInputOperationEnum (pyxb.binding.datatypes.string, pyxb.bind
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'CustomGeometryInputOperationEnum')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 169, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 170, 2)
     _Documentation = None
 CustomGeometryInputOperationEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=CustomGeometryInputOperationEnum, enum_prefix=None)
 CustomGeometryInputOperationEnum.Union = CustomGeometryInputOperationEnum._CF_enumeration.addEnumeration(unicode_value=u'Union', tag=u'Union')
@@ -107,7 +107,7 @@ class STD_ANON_ (pyxb.binding.basis.STD_list):
     """Simple type that is a list of pyxb.binding.datatypes.anyURI."""
 
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 178, 6)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 179, 6)
     _Documentation = None
 
     _ItemType = pyxb.binding.datatypes.anyURI
@@ -119,7 +119,7 @@ class PartIntersectionEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.en
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'PartIntersectionEnum')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 183, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 184, 2)
     _Documentation = None
 PartIntersectionEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=PartIntersectionEnum, enum_prefix=None)
 PartIntersectionEnum.None_ = PartIntersectionEnum._CF_enumeration.addEnumeration(unicode_value=u'None', tag=u'None_')
@@ -134,7 +134,7 @@ class GeometryQualifierEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.e
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'GeometryQualifierEnum')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 190, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 191, 2)
     _Documentation = None
 GeometryQualifierEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=GeometryQualifierEnum, enum_prefix=None)
 GeometryQualifierEnum.InteriorAndBoundary = GeometryQualifierEnum._CF_enumeration.addEnumeration(unicode_value=u'InteriorAndBoundary', tag=u'InteriorAndBoundary')
@@ -150,7 +150,7 @@ class STD_ANON_2 (pyxb.binding.basis.STD_list):
     """Simple type that is a list of pyxb.binding.datatypes.anyURI."""
 
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 208, 6)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 209, 6)
     _Documentation = None
 
     _ItemType = pyxb.binding.datatypes.anyURI
@@ -334,13 +334,13 @@ class CustomGeometryInput_ (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'CustomGeometryInput')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 163, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 164, 2)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element InputGeometry uses Python identifier InputGeometry
-    __InputGeometry = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'InputGeometry'), 'InputGeometry', '__cad_CustomGeometryInput__InputGeometry', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 165, 6), )
+    __InputGeometry = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'InputGeometry'), 'InputGeometry', '__cad_CustomGeometryInput__InputGeometry', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 166, 6), )
 
     
     InputGeometry = property(__InputGeometry.value, __InputGeometry.set, None, None)
@@ -348,8 +348,8 @@ class CustomGeometryInput_ (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute Operation uses Python identifier Operation
     __Operation = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Operation'), 'Operation', '__cad_CustomGeometryInput__Operation', CustomGeometryInputOperationEnum, required=True)
-    __Operation._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 167, 4)
-    __Operation._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 167, 4)
+    __Operation._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 168, 4)
+    __Operation._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 168, 4)
     
     Operation = property(__Operation.value, __Operation.set, None, None)
 
@@ -369,15 +369,15 @@ class PointReference_ (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'PointReference')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 176, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 177, 2)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Attribute ReferredPoint uses Python identifier ReferredPoint
     __ReferredPoint = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'ReferredPoint'), 'ReferredPoint', '__cad_PointReference__ReferredPoint', STD_ANON_)
-    __ReferredPoint._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 177, 4)
-    __ReferredPoint._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 177, 4)
+    __ReferredPoint._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 178, 4)
+    __ReferredPoint._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 178, 4)
     
     ReferredPoint = property(__ReferredPoint.value, __ReferredPoint.set, None, None)
 
@@ -397,15 +397,15 @@ class PlaneReference_ (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'PlaneReference')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 206, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 207, 2)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Attribute ReferredPlane uses Python identifier ReferredPlane
     __ReferredPlane = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'ReferredPlane'), 'ReferredPlane', '__cad_PlaneReference__ReferredPlane', STD_ANON_2)
-    __ReferredPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 207, 4)
-    __ReferredPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 207, 4)
+    __ReferredPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 208, 4)
+    __ReferredPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 208, 4)
     
     ReferredPlane = property(__ReferredPlane.value, __ReferredPlane.set, None, None)
 
@@ -425,15 +425,15 @@ class GuideDatum_ (_ImportedBinding__avm.ConnectorFeature_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'GuideDatum')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 213, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 214, 2)
     _ElementMap = _ImportedBinding__avm.ConnectorFeature_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.ConnectorFeature_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.ConnectorFeature_
     
     # Attribute Datum uses Python identifier Datum
     __Datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Datum'), 'Datum', '__cad_GuideDatum__Datum', pyxb.binding.datatypes.anyURI, required=True)
-    __Datum._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 216, 8)
-    __Datum._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 216, 8)
+    __Datum._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 217, 8)
+    __Datum._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 217, 8)
     
     Datum = property(__Datum.value, __Datum.set, None, None)
 
@@ -453,15 +453,15 @@ class AssemblyRoot_ (_ImportedBinding__avm.DesignDomainFeature_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'AssemblyRoot')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 220, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 221, 2)
     _ElementMap = _ImportedBinding__avm.DesignDomainFeature_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.DesignDomainFeature_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.DesignDomainFeature_
     
     # Attribute AssemblyRootComponentInstance uses Python identifier AssemblyRootComponentInstance
     __AssemblyRootComponentInstance = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'AssemblyRootComponentInstance'), 'AssemblyRootComponentInstance', '__cad_AssemblyRoot__AssemblyRootComponentInstance', pyxb.binding.datatypes.anyURI, required=True)
-    __AssemblyRootComponentInstance._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 223, 8)
-    __AssemblyRootComponentInstance._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 223, 8)
+    __AssemblyRootComponentInstance._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 224, 8)
+    __AssemblyRootComponentInstance._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 224, 8)
     
     AssemblyRootComponentInstance = property(__AssemblyRootComponentInstance.value, __AssemblyRootComponentInstance.set, None, None)
 
@@ -481,7 +481,7 @@ class KinematicJointSpec_ (_ImportedBinding__avm.ConnectorFeature_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = True
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'KinematicJointSpec')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 227, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 228, 2)
     _ElementMap = _ImportedBinding__avm.ConnectorFeature_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.ConnectorFeature_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.ConnectorFeature_
@@ -549,13 +549,13 @@ class CustomGeometry_ (Geometry_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'CustomGeometry')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 154, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 155, 2)
     _ElementMap = Geometry_._ElementMap.copy()
     _AttributeMap = Geometry_._AttributeMap.copy()
     # Base type is Geometry_
     
     # Element CustomGeometryInput uses Python identifier CustomGeometryInput
-    __CustomGeometryInput = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput'), 'CustomGeometryInput', '__cad_CustomGeometry__CustomGeometryInput', True, pyxb.utils.utility.Location(u'avm.cad.xsd', 158, 10), )
+    __CustomGeometryInput = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput'), 'CustomGeometryInput', '__cad_CustomGeometry__CustomGeometryInput', True, pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10), )
 
     
     CustomGeometryInput = property(__CustomGeometryInput.value, __CustomGeometryInput.set, None, None)
@@ -580,27 +580,27 @@ class RevoluteJointSpec_ (KinematicJointSpec_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'RevoluteJointSpec')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 232, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 233, 2)
     _ElementMap = KinematicJointSpec_._ElementMap.copy()
     _AttributeMap = KinematicJointSpec_._AttributeMap.copy()
     # Base type is KinematicJointSpec_
     
     # Element MinimumRotation uses Python identifier MinimumRotation
-    __MinimumRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MinimumRotation'), 'MinimumRotation', '__cad_RevoluteJointSpec__MinimumRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 236, 10), )
+    __MinimumRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MinimumRotation'), 'MinimumRotation', '__cad_RevoluteJointSpec__MinimumRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10), )
 
     
     MinimumRotation = property(__MinimumRotation.value, __MinimumRotation.set, None, None)
 
     
     # Element DefaultRotation uses Python identifier DefaultRotation
-    __DefaultRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'DefaultRotation'), 'DefaultRotation', '__cad_RevoluteJointSpec__DefaultRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10), )
+    __DefaultRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'DefaultRotation'), 'DefaultRotation', '__cad_RevoluteJointSpec__DefaultRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10), )
 
     
     DefaultRotation = property(__DefaultRotation.value, __DefaultRotation.set, None, None)
 
     
     # Element MaximumRotation uses Python identifier MaximumRotation
-    __MaximumRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MaximumRotation'), 'MaximumRotation', '__cad_RevoluteJointSpec__MaximumRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10), )
+    __MaximumRotation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MaximumRotation'), 'MaximumRotation', '__cad_RevoluteJointSpec__MaximumRotation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10), )
 
     
     MaximumRotation = property(__MaximumRotation.value, __MaximumRotation.set, None, None)
@@ -608,24 +608,24 @@ class RevoluteJointSpec_ (KinematicJointSpec_):
     
     # Attribute AlignmentPlane uses Python identifier AlignmentPlane
     __AlignmentPlane = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'AlignmentPlane'), 'AlignmentPlane', '__cad_RevoluteJointSpec__AlignmentPlane', pyxb.binding.datatypes.anyURI, required=True)
-    __AlignmentPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 240, 8)
-    __AlignmentPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 240, 8)
+    __AlignmentPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 241, 8)
+    __AlignmentPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 241, 8)
     
     AlignmentPlane = property(__AlignmentPlane.value, __AlignmentPlane.set, None, None)
 
     
     # Attribute AlignmentAxis uses Python identifier AlignmentAxis
     __AlignmentAxis = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'AlignmentAxis'), 'AlignmentAxis', '__cad_RevoluteJointSpec__AlignmentAxis', pyxb.binding.datatypes.anyURI, required=True)
-    __AlignmentAxis._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 241, 8)
-    __AlignmentAxis._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 241, 8)
+    __AlignmentAxis._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 242, 8)
+    __AlignmentAxis._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 242, 8)
     
     AlignmentAxis = property(__AlignmentAxis.value, __AlignmentAxis.set, None, None)
 
     
     # Attribute RotationLimitReference uses Python identifier RotationLimitReference
     __RotationLimitReference = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'RotationLimitReference'), 'RotationLimitReference', '__cad_RevoluteJointSpec__RotationLimitReference', pyxb.binding.datatypes.anyURI)
-    __RotationLimitReference._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 242, 8)
-    __RotationLimitReference._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 242, 8)
+    __RotationLimitReference._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 243, 8)
+    __RotationLimitReference._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 243, 8)
     
     RotationLimitReference = property(__RotationLimitReference.value, __RotationLimitReference.set, None, None)
 
@@ -649,27 +649,27 @@ class TranslationalJointSpec_ (KinematicJointSpec_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'TranslationalJointSpec')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 246, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 247, 2)
     _ElementMap = KinematicJointSpec_._ElementMap.copy()
     _AttributeMap = KinematicJointSpec_._AttributeMap.copy()
     # Base type is KinematicJointSpec_
     
     # Element MinimumTranslation uses Python identifier MinimumTranslation
-    __MinimumTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MinimumTranslation'), 'MinimumTranslation', '__cad_TranslationalJointSpec__MinimumTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 250, 10), )
+    __MinimumTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MinimumTranslation'), 'MinimumTranslation', '__cad_TranslationalJointSpec__MinimumTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10), )
 
     
     MinimumTranslation = property(__MinimumTranslation.value, __MinimumTranslation.set, None, None)
 
     
     # Element DefaultTranslation uses Python identifier DefaultTranslation
-    __DefaultTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'DefaultTranslation'), 'DefaultTranslation', '__cad_TranslationalJointSpec__DefaultTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10), )
+    __DefaultTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'DefaultTranslation'), 'DefaultTranslation', '__cad_TranslationalJointSpec__DefaultTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10), )
 
     
     DefaultTranslation = property(__DefaultTranslation.value, __DefaultTranslation.set, None, None)
 
     
     # Element MaximumTranslation uses Python identifier MaximumTranslation
-    __MaximumTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MaximumTranslation'), 'MaximumTranslation', '__cad_TranslationalJointSpec__MaximumTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10), )
+    __MaximumTranslation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'MaximumTranslation'), 'MaximumTranslation', '__cad_TranslationalJointSpec__MaximumTranslation', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10), )
 
     
     MaximumTranslation = property(__MaximumTranslation.value, __MaximumTranslation.set, None, None)
@@ -677,24 +677,24 @@ class TranslationalJointSpec_ (KinematicJointSpec_):
     
     # Attribute AlignmentPlane uses Python identifier AlignmentPlane
     __AlignmentPlane = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'AlignmentPlane'), 'AlignmentPlane', '__cad_TranslationalJointSpec__AlignmentPlane', pyxb.binding.datatypes.anyURI, required=True)
-    __AlignmentPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 254, 8)
-    __AlignmentPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 254, 8)
+    __AlignmentPlane._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 255, 8)
+    __AlignmentPlane._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 255, 8)
     
     AlignmentPlane = property(__AlignmentPlane.value, __AlignmentPlane.set, None, None)
 
     
     # Attribute AlignmentAxis uses Python identifier AlignmentAxis
     __AlignmentAxis = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'AlignmentAxis'), 'AlignmentAxis', '__cad_TranslationalJointSpec__AlignmentAxis', pyxb.binding.datatypes.anyURI, required=True)
-    __AlignmentAxis._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 255, 8)
-    __AlignmentAxis._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 255, 8)
+    __AlignmentAxis._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 256, 8)
+    __AlignmentAxis._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 256, 8)
     
     AlignmentAxis = property(__AlignmentAxis.value, __AlignmentAxis.set, None, None)
 
     
     # Attribute TranslationLimitReference uses Python identifier TranslationLimitReference
     __TranslationLimitReference = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'TranslationLimitReference'), 'TranslationLimitReference', '__cad_TranslationalJointSpec__TranslationLimitReference', pyxb.binding.datatypes.anyURI)
-    __TranslationLimitReference._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 256, 8)
-    __TranslationLimitReference._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 256, 8)
+    __TranslationLimitReference._DeclarationLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 257, 8)
+    __TranslationLimitReference._UseLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 257, 8)
     
     TranslationLimitReference = property(__TranslationLimitReference.value, __TranslationLimitReference.set, None, None)
 
@@ -807,12 +807,20 @@ class ExtrudedGeometry_ (Geometry3D_):
     ExtrusionSurface = property(__ExtrusionSurface.value, __ExtrusionSurface.set, None, None)
 
     
+    # Element DirectionReferencePoint uses Python identifier DirectionReferencePoint
+    __DirectionReferencePoint = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'DirectionReferencePoint'), 'DirectionReferencePoint', '__cad_ExtrudedGeometry__DirectionReferencePoint', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10), )
+
+    
+    DirectionReferencePoint = property(__DirectionReferencePoint.value, __DirectionReferencePoint.set, None, None)
+
+    
     # Attribute GeometryQualifier inherited from {cad}Geometry
     
     # Attribute PartIntersectionModifier inherited from {cad}Geometry
     _ElementMap.update({
         __ExtrusionHeight.name() : __ExtrusionHeight,
-        __ExtrusionSurface.name() : __ExtrusionSurface
+        __ExtrusionSurface.name() : __ExtrusionSurface,
+        __DirectionReferencePoint.name() : __DirectionReferencePoint
     })
     _AttributeMap.update({
         
@@ -827,20 +835,20 @@ class Sphere_ (Geometry3D_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'Sphere')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 144, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 145, 2)
     _ElementMap = Geometry3D_._ElementMap.copy()
     _AttributeMap = Geometry3D_._AttributeMap.copy()
     # Base type is Geometry3D_
     
     # Element SphereCenter uses Python identifier SphereCenter
-    __SphereCenter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'SphereCenter'), 'SphereCenter', '__cad_Sphere__SphereCenter', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 148, 10), )
+    __SphereCenter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'SphereCenter'), 'SphereCenter', '__cad_Sphere__SphereCenter', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10), )
 
     
     SphereCenter = property(__SphereCenter.value, __SphereCenter.set, None, None)
 
     
     # Element SphereEdge uses Python identifier SphereEdge
-    __SphereEdge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'SphereEdge'), 'SphereEdge', '__cad_Sphere__SphereEdge', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10), )
+    __SphereEdge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'SphereEdge'), 'SphereEdge', '__cad_Sphere__SphereEdge', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 150, 10), )
 
     
     SphereEdge = property(__SphereEdge.value, __SphereEdge.set, None, None)
@@ -866,13 +874,13 @@ class Surface_ (Geometry3D_):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'Surface')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 197, 2)
+    _XSDLocation = pyxb.utils.utility.Location(u'avm.cad.xsd', 198, 2)
     _ElementMap = Geometry3D_._ElementMap.copy()
     _AttributeMap = Geometry3D_._AttributeMap.copy()
     # Base type is Geometry3D_
     
     # Element ReferencePlane uses Python identifier ReferencePlane
-    __ReferencePlane = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'ReferencePlane'), 'ReferencePlane', '__cad_Surface__ReferencePlane', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 201, 10), )
+    __ReferencePlane = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'ReferencePlane'), 'ReferencePlane', '__cad_Surface__ReferencePlane', False, pyxb.utils.utility.Location(u'avm.cad.xsd', 202, 10), )
 
     
     ReferencePlane = property(__ReferencePlane.value, __ReferencePlane.set, None, None)
@@ -1294,7 +1302,7 @@ Metric_._Automaton = _BuildAutomaton_2()
 
 
 
-CustomGeometryInput_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'InputGeometry'), Geometry_, scope=CustomGeometryInput_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 165, 6)))
+CustomGeometryInput_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'InputGeometry'), Geometry_, scope=CustomGeometryInput_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 166, 6)))
 
 def _BuildAutomaton_3 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1305,7 +1313,7 @@ def _BuildAutomaton_3 ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(CustomGeometryInput_._UseForTag(pyxb.namespace.ExpandedName(None, u'InputGeometry')), pyxb.utils.utility.Location(u'avm.cad.xsd', 165, 6))
+    symbol = pyxb.binding.content.ElementUse(CustomGeometryInput_._UseForTag(pyxb.namespace.ExpandedName(None, u'InputGeometry')), pyxb.utils.utility.Location(u'avm.cad.xsd', 166, 6))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -1316,7 +1324,7 @@ CustomGeometryInput_._Automaton = _BuildAutomaton_3()
 
 
 
-CustomGeometry_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput'), CustomGeometryInput_, scope=CustomGeometry_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 158, 10)))
+CustomGeometry_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput'), CustomGeometryInput_, scope=CustomGeometry_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10)))
 
 def _BuildAutomaton_4 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1325,12 +1333,12 @@ def _BuildAutomaton_4 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=2L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 158, 10))
+    cc_0 = fac.CounterCondition(min=2L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(CustomGeometry_._UseForTag(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput')), pyxb.utils.utility.Location(u'avm.cad.xsd', 158, 10))
+    symbol = pyxb.binding.content.ElementUse(CustomGeometry_._UseForTag(pyxb.namespace.ExpandedName(None, u'CustomGeometryInput')), pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -1343,11 +1351,11 @@ CustomGeometry_._Automaton = _BuildAutomaton_4()
 
 
 
-RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MinimumRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 236, 10)))
+RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MinimumRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10)))
 
-RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'DefaultRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10)))
+RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'DefaultRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10)))
 
-RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MaximumRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10)))
+RevoluteJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MaximumRotation'), _ImportedBinding__avm.Value_, scope=RevoluteJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10)))
 
 def _BuildAutomaton_5 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1356,26 +1364,26 @@ def _BuildAutomaton_5 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 236, 10))
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
+    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
+    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10))
     counters.add(cc_2)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MinimumRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 236, 10))
+    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MinimumRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'DefaultRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
+    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'DefaultRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MaximumRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
+    symbol = pyxb.binding.content.ElementUse(RevoluteJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MaximumRotation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     transitions = []
@@ -1402,11 +1410,11 @@ RevoluteJointSpec_._Automaton = _BuildAutomaton_5()
 
 
 
-TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MinimumTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 250, 10)))
+TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MinimumTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10)))
 
-TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'DefaultTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10)))
+TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'DefaultTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10)))
 
-TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MaximumTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10)))
+TranslationalJointSpec_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'MaximumTranslation'), _ImportedBinding__avm.Value_, scope=TranslationalJointSpec_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10)))
 
 def _BuildAutomaton_6 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1415,26 +1423,26 @@ def _BuildAutomaton_6 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 250, 10))
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
+    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
+    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10))
     counters.add(cc_2)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MinimumTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 250, 10))
+    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MinimumTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'DefaultTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
+    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'DefaultTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MaximumTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
+    symbol = pyxb.binding.content.ElementUse(TranslationalJointSpec_._UseForTag(pyxb.namespace.ExpandedName(None, u'MaximumTranslation')), pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     transitions = []
@@ -1529,6 +1537,8 @@ ExtrudedGeometry_._AddElement(pyxb.binding.basis.element(pyxb.namespace.Expanded
 
 ExtrudedGeometry_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'ExtrusionSurface'), Geometry2D_, scope=ExtrudedGeometry_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 139, 10)))
 
+ExtrudedGeometry_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'DirectionReferencePoint'), PointReference_, scope=ExtrudedGeometry_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10)))
+
 def _BuildAutomaton_9 ():
     # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_9
@@ -1536,6 +1546,8 @@ def _BuildAutomaton_9 ():
     import pyxb.utils.fac as fac
 
     counters = set()
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10))
+    counters.add(cc_0)
     states = []
     final_update = None
     symbol = pyxb.binding.content.ElementUse(ExtrudedGeometry_._UseForTag(pyxb.namespace.ExpandedName(None, u'ExtrusionHeight')), pyxb.utils.utility.Location(u'avm.cad.xsd', 138, 10))
@@ -1545,21 +1557,32 @@ def _BuildAutomaton_9 ():
     symbol = pyxb.binding.content.ElementUse(ExtrudedGeometry_._UseForTag(pyxb.namespace.ExpandedName(None, u'ExtrusionSurface')), pyxb.utils.utility.Location(u'avm.cad.xsd', 139, 10))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(ExtrudedGeometry_._UseForTag(pyxb.namespace.ExpandedName(None, u'DirectionReferencePoint')), pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10))
+    st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_2)
     transitions = []
     transitions.append(fac.Transition(st_1, [
          ]))
     st_0._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_2, [
+         ]))
     st_1._set_transitionSet(transitions)
+    transitions = []
+    transitions.append(fac.Transition(st_2, [
+        fac.UpdateInstruction(cc_0, True) ]))
+    st_2._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
 ExtrudedGeometry_._Automaton = _BuildAutomaton_9()
 
 
 
 
-Sphere_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'SphereCenter'), PointReference_, scope=Sphere_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 148, 10)))
+Sphere_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'SphereCenter'), PointReference_, scope=Sphere_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10)))
 
-Sphere_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'SphereEdge'), PointReference_, scope=Sphere_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10)))
+Sphere_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'SphereEdge'), PointReference_, scope=Sphere_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 150, 10)))
 
 def _BuildAutomaton_10 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1570,11 +1593,11 @@ def _BuildAutomaton_10 ():
     counters = set()
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(Sphere_._UseForTag(pyxb.namespace.ExpandedName(None, u'SphereCenter')), pyxb.utils.utility.Location(u'avm.cad.xsd', 148, 10))
+    symbol = pyxb.binding.content.ElementUse(Sphere_._UseForTag(pyxb.namespace.ExpandedName(None, u'SphereCenter')), pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(Sphere_._UseForTag(pyxb.namespace.ExpandedName(None, u'SphereEdge')), pyxb.utils.utility.Location(u'avm.cad.xsd', 149, 10))
+    symbol = pyxb.binding.content.ElementUse(Sphere_._UseForTag(pyxb.namespace.ExpandedName(None, u'SphereEdge')), pyxb.utils.utility.Location(u'avm.cad.xsd', 150, 10))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     transitions = []
@@ -1589,7 +1612,7 @@ Sphere_._Automaton = _BuildAutomaton_10()
 
 
 
-Surface_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'ReferencePlane'), PlaneReference_, scope=Surface_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 201, 10)))
+Surface_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'ReferencePlane'), PlaneReference_, scope=Surface_, location=pyxb.utils.utility.Location(u'avm.cad.xsd', 202, 10)))
 
 def _BuildAutomaton_11 ():
     # Remove this helper function from the namespace after it is invoked
@@ -1600,7 +1623,7 @@ def _BuildAutomaton_11 ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(Surface_._UseForTag(pyxb.namespace.ExpandedName(None, u'ReferencePlane')), pyxb.utils.utility.Location(u'avm.cad.xsd', 201, 10))
+    symbol = pyxb.binding.content.ElementUse(Surface_._UseForTag(pyxb.namespace.ExpandedName(None, u'ReferencePlane')), pyxb.utils.utility.Location(u'avm.cad.xsd', 202, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []

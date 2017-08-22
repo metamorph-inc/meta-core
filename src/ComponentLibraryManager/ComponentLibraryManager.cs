@@ -111,6 +111,10 @@ namespace META
             var mp_MgaProject = component.Impl.Project;
             String p_ProjectRoot = ProjectDirectory ?? mp_MgaProject.GetRootDirectoryPath();
             // META-2640 use full path instead of relative project path
+            if (p_ProjectRoot == "")
+            {
+                p_ProjectRoot = ".";
+            }
             p_ProjectRoot = Path.GetFullPath(p_ProjectRoot);
             var lastChar = p_ProjectRoot.Last();
             if (lastChar != '\\' && lastChar != '/')

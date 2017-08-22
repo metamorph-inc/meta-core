@@ -1,8 +1,13 @@
-#ifndef CAD_COMMON_ENUMS_H
-#define	CAD_COMMON_ENUMS_H
+#ifndef CAD_COMMON_DEFINITIONS_H
+#define	CAD_COMMON_DEFINITIONS_H
+#include "isis_application_exception.h"
+
+#pragma warning( disable : 4290 )  // Turn off the warning "C++ exception specification ignored except to indicate a function is not __declspec(nothrow)"
+
 
 namespace isis_CADCommon
 {
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	enum e_CylinderGeometryInclusionSpecifier
 	{
 		GEOMETRY_INCLUDE_END_CAP,   
@@ -15,6 +20,8 @@ namespace isis_CADCommon
 		GEOMETRY_BOUNDARY_ONLY, 
 		GEOMETRY_INTERIOR_ONLY,
 	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
 

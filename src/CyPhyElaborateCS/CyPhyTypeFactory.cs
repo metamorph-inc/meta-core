@@ -33,6 +33,12 @@
             this.CWCMeta = rootMeta.RootFolder.DefinedFCOByName["CWC", true].MetaRef;
             this.ConfigurationsMeta = rootMeta.RootFolder.DefinedFCOByName["Configurations", true].MetaRef;
 
+            this.DecisionGroupMeta = rootMeta.RootFolder.DefinedFCOByName["DecisionGroup", true].MetaRef;
+            this.VisualConstraintMeta = rootMeta.RootFolder.DefinedFCOByName["VisualConstraint", true].MetaRef;
+            this.And_operatorMeta = rootMeta.RootFolder.DefinedFCOByName["And_operator", true].MetaRef;
+            this.Not_operatorMeta = rootMeta.RootFolder.DefinedFCOByName["Not_operator", true].MetaRef;
+            this.Or_operatorMeta = rootMeta.RootFolder.DefinedFCOByName["Or_operator", true].MetaRef;
+
             // will be used to query is derived from relationship
             this.TestInjectionPointsMeta = new HashSet<int>();
             this.TestInjectionPointsMeta.Add(rootMeta.RootFolder.DefinedFCOByName["TestInjectionPoint", true].MetaRef);
@@ -94,6 +100,16 @@
         /// Gets MetaRef id of DesignContainer
         /// </summary>
         public int DesignContainerMeta { get; private set; }
+
+        public int DecisionGroupMeta { get; private set; }
+
+        public int VisualConstraintMeta { get; private set; }
+
+        public int And_operatorMeta { get; private set; }
+
+        public int Or_operatorMeta { get; private set; }
+
+        public int Not_operatorMeta { get; private set; }
 
         /// <summary>
         /// Gets MetaRef id of Configurations

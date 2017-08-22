@@ -37,12 +37,10 @@
     <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA\1.0.1.0__f240a760fe751c2e\GME.MGA.dll</HintPath>
     </Reference>
     <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\..\Windows\assembly\GAC_MSIL\GME.MGA.Meta\1.0.1.0__f240a760fe751c2e\GME.MGA.Meta.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -82,6 +80,10 @@
     <ProjectReference Include="..\..\src\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
       <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
       <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
+      <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
+      <Name>CyPhyGUIs</Name>
     </ProjectReference>
     <ProjectReference Include="..\CADCreoTest\CADCreoTest.csproj">
       <Project>{021CB0EC-456B-487D-A74F-AAE8873665EC}</Project>

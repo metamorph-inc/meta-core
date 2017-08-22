@@ -94,7 +94,7 @@ namespace DynamicsTeamTest.Projects
         }
 
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "DriveLine_v3")]
         [Trait("PCC", "DriveLine_v3")]
         public void FullSpeedForwardMaxSpeed_cfg1()

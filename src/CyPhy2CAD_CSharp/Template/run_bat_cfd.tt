@@ -2,11 +2,7 @@
 <#@ output extension=".cmd" #>
 
 
-
-REM	The following system environment variable must be set:
-REM	    PROE_ISIS_EXTENSIONS	// typically set to C:\Program Files\META\Proe ISIS Extensions
-REM
-REM	See "C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt" for the complete setup instructions.
+REM	See "C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt" for the complete setup instructions.
 
 set WORKING_DIR="."
 set ERROR_CODE=0
@@ -22,7 +18,7 @@ REM Create Creo Assembly
 Rem ****************************
 
 set EXE_FILE_NAME=CADCreoParametricCreateAssembly.exe
-set EXE="%PROE_ISIS_EXTENSIONS%\bin\%EXE_FILE_NAME%"
+set EXE="%MetaPath%\bin\CAD\Creo\bin\%EXE_FILE_NAME%"
 
 set ASSEMBLY_XML_FILE="CADAssembly.xml"
 set LOG_FILE=%ASSEMBLY_XML_FILE%.log
@@ -88,7 +84,7 @@ if exist %PY_SCRIPT% goto  :PY_FOUND
 echo		Error: Could not find %PY_SCRIPT_NAME%.
 echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
 echo		Please see For instructions on how to configure your system, please see "0Readme - CreateAssembly.txt"
-echo		which is typically located at "C:\Program Files\META\Proe ISIS Extensions"
+echo		which is typically located at "C:\Program Files (x86)\META\bin\CAD\Creo"
 set ERROR_CODE=2
 set ERROR_MSG="Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py."
 goto :ERROR_SECTION

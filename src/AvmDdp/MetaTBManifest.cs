@@ -10,6 +10,7 @@ using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace AVM.DDP
 {
@@ -28,7 +29,7 @@ namespace AVM.DDP
             public string Description { get; set; }
             public string Name { get; set; }
             public string Unit { get; set; }
-            public string Value { get; set; }
+            public object Value { get; set; }
             public string ID { get; set; } // GUID for now -- may need to reverse with GMEID
             public string DisplayedName { get; set; }
             public string GMEID { get; set; } // Object ID
@@ -47,6 +48,18 @@ namespace AVM.DDP
         public class Parameter : ValueWithUnit
         {
             public string Range { get; set; }
+        }
+
+        public class FileInput
+        {
+            public string Name;
+            public string FileName;
+        }
+
+        public class FileOutput
+        {
+            public string Name;
+            public string FileName;
         }
 
         public enum StatusEnum
@@ -82,6 +95,7 @@ namespace AVM.DDP
             public string Directory { get; set; }
         }
 
+        [Serializable]
         public class DesignType
         {
             public string Name { get; set; }
@@ -95,16 +109,18 @@ namespace AVM.DDP
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusEnum Status { get; set; }
 
-        public List<Dependency> Dependencies { get; set; }
-        public List<Artifact> Artifacts { get; set; }
-        public List<Artifact> VisualizationArtifacts { get; set; }
+        public List<Dependency> Dependencies { get; set; } = new List<Dependency>();
+        public List<Artifact> Artifacts { get; set; } = new List<Artifact>();
+        public List<Artifact> VisualizationArtifacts { get; set; } = new List<Artifact>();
         public string Created { get; set; }
         public string DesignID { get; set; }
         public string DesignName { get; set; }
         public string CfgID { get; set; }
-        public List<Metric> Metrics { get; set; }
-        public List<Parameter> Parameters { get; set; }
-        public List<Step> Steps { get; set; }
+        public List<Metric> Metrics { get; set; } = new List<Metric>();
+        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public List<FileInput> FileInputs { get; set; } = new List<FileInput>();
+        public List<FileOutput> FileOutputs { get; set; } = new List<FileOutput>();
+        public List<Step> Steps { get; set; } = new List<Step>();
         public string TestBench { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? TierLevel { get; set; }
@@ -115,12 +131,6 @@ namespace AVM.DDP
 
         public MetaTBManifest()
         {         
-            Artifacts = new List<Artifact>();
-            VisualizationArtifacts = new List<Artifact>();
-            Metrics = new List<Metric>();
-            Parameters = new List<Parameter>();
-            Steps = new List<Step>();
-            Dependencies = new List<Dependency>();
         }
 
         protected void CopyManifest(MetaTBManifest other)
@@ -157,10 +167,18 @@ namespace AVM.DDP
             {
                 this.Dependencies.Add(item);
             }
+            foreach (var item in other.FileInputs)
+            {
+                this.FileInputs.Add(item);
+            }
+            foreach (var item in other.FileOutputs)
+            {
+                this.FileOutputs.Add(item);
+            }
         }
 
         public void MakeManifest(
-            CyPhy.TestBenchType testBench,
+            ISIS.GME.Common.Interfaces.FCO testBench,
             string outputDir = "",
             bool update = true)
         {
@@ -181,119 +199,159 @@ namespace AVM.DDP
                 (testBench.Impl as MgaFCO).RegistryValue["TestBenchUniqueName"];
 
             this.Created = DateTime.UtcNow.ToString("o");
+            // FIXME: put design name here...
+            this.DesignName = testBench.Name;
 
             if (testBench is CyPhy.BallisticTestBench)
             {
                 this.TierLevel = (int)(testBench as CyPhy.BallisticTestBench).Attributes.Tier;
             }
 
-            foreach (var item in testBench.Children.MetricCollection)
+            if (testBench is CyPhy.TestBenchType)
             {
-                if (shouldUpdate)
+                var testBenchType = ISIS.GME.Dsml.CyPhyML.Classes.TestBenchType.Cast(testBench.Impl);
+
+                foreach (var item in testBenchType.Children.MetricCollection)
                 {
-                    var oldData = this.Metrics.FirstOrDefault(x => x.ID == item.Guid.ToString());
-                    if (oldData != null)
+                    if (shouldUpdate)
                     {
-                        this.Metrics.Remove(oldData);
-                    }
-                }
-
-                AVM.DDP.MetaTBManifest.Metric metric = new AVM.DDP.MetaTBManifest.Metric();
-                metric.Name = item.Name.Trim();
-                metric.Unit = (item.Impl as MgaReference).Referred == null ?
-                    string.Empty :
-                    (item.Impl as MgaReference).Referred.Name;
-
-                // TODO: add the displayed name
-                metric.Value = item.Attributes.Value;
-                metric.ID = item.Guid.ToString();
-                metric.GMEID = item.ID;
-                metric.Description = item.Attributes.Description;
-                this.Metrics.Add(metric);
-            }
-
-            foreach (var item in testBench.Children.ParameterCollection)
-            {
-                if (shouldUpdate)
-                {
-                    var oldData = this.Parameters.FirstOrDefault(x => x.ID == item.Guid.ToString());
-                    if (oldData != null)
-                    {
-                        this.Parameters.Remove(oldData);
-                    }
-                }
-
-                AVM.DDP.MetaTBManifest.Parameter parameter = new AVM.DDP.MetaTBManifest.Parameter();
-                parameter.Name = item.Name;
-                parameter.Unit = (item.Impl as MgaReference).Referred == null ?
-                    string.Empty :
-                    (item.Impl as MgaReference).Referred.Name;
-
-                parameter.Description = item.Attributes.Description;
-                parameter.GMEID = item.ID;
-                parameter.ID = item.Guid.ToString();
-                parameter.Range = item.Attributes.Range;
-                parameter.Value = item.Attributes.Value;
-                
-                this.Parameters.Add(parameter);
-            }
-
-            // FIX ME: put design name here...
-            this.DesignName = testBench.Name;
-
-            // get designID
-            string designID = null;
-            var tlsut = testBench.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
-            var catlsut = testBench.Children.ComponentAssemblyCollection.FirstOrDefault();
-            if (tlsut != null)
-            {
-                // if it is a reference
-                if (tlsut.Referred.DesignEntity != null)
-                {
-                    designID = tlsut.Referred.DesignEntity.Properties.Guid.ToString("B");
-                    if (tlsut.Referred.DesignEntity is CyPhy.ComponentAssembly)
-                    {
-                        catlsut = tlsut.Referred.ComponentAssembly;
-                        var cid = catlsut.Attributes.ConfigurationUniqueID;
-                        //this.ConfigurationUniqueID = cid;
-
-                        if (string.IsNullOrWhiteSpace(cid))
+                        var oldData = this.Metrics.FirstOrDefault(x => x.ID == item.Guid.ToString());
+                        if (oldData != null)
                         {
-                            cid = Guid.NewGuid().ToString("B");
-                            catlsut.Attributes.ConfigurationUniqueID = cid;
-                        }
-
-                        if (!string.IsNullOrEmpty(cid))
-                        {
-                            try
-                            {
-                                Guid guid = new Guid(cid);
-                                designID = guid.ToString("B");
-                            }
-                            catch (System.FormatException ex)
-                            {
-                                Trace.TraceError("{0} is not a vaild GUID.", cid);
-                                Trace.TraceError(ex.ToString());
-                            }
+                            this.Metrics.Remove(oldData);
                         }
                     }
-                }
-            }
-            else if (catlsut != null)
-            {
-                // if it is an instance
-                var cid = catlsut.Attributes.ConfigurationUniqueID;
 
-                if (!string.IsNullOrEmpty(cid))
+                    AVM.DDP.MetaTBManifest.Metric metric = new AVM.DDP.MetaTBManifest.Metric();
+                    metric.Name = item.Name.Trim();
+                    metric.Unit = (item.Impl as MgaReference).Referred == null ?
+                        string.Empty :
+                        (item.Impl as MgaReference).Referred.Name;
+
+                    // TODO: add the displayed name
+                    metric.Value = item.Attributes.Value;
+                    metric.ID = item.Guid.ToString();
+                    metric.GMEID = item.ID;
+                    metric.Description = item.Attributes.Description;
+                    this.Metrics.Add(metric);
+                }
+
+                foreach (var item in testBenchType.Children.ParameterCollection)
                 {
-                    Guid guid = new Guid(cid);
-                    designID = guid.ToString("B");
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.Parameters.FirstOrDefault(x => x.ID == item.Guid.ToString());
+                        if (oldData != null)
+                        {
+                            this.Parameters.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.Parameter parameter = new AVM.DDP.MetaTBManifest.Parameter();
+                    parameter.Name = item.Name;
+                    parameter.Unit = (item.Impl as MgaReference).Referred == null ?
+                        string.Empty :
+                        (item.Impl as MgaReference).Referred.Name;
+
+                    parameter.Description = item.Attributes.Description;
+                    parameter.GMEID = item.ID;
+                    parameter.ID = item.Guid.ToString();
+                    parameter.Range = item.Attributes.Range;
+                    parameter.Value = item.Attributes.Value;
+
+                    this.Parameters.Add(parameter);
                 }
+
+                foreach (var item in testBenchType.Children.FileInputCollection)
+                {
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.FileInputs.FirstOrDefault(x => x.Name == item.Name);
+                        if (oldData != null)
+                        {
+                            this.FileInputs.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.FileInput fileInput = new AVM.DDP.MetaTBManifest.FileInput();
+                    fileInput.Name = item.Name;
+                    fileInput.FileName = item.Attributes.FileName != "" ? item.Attributes.FileName : fileInput.Name;
+
+                    this.FileInputs.Add(fileInput);
+                }
+
+                foreach (var item in testBenchType.Children.FileOutputCollection)
+                {
+                    if (shouldUpdate)
+                    {
+                        var oldData = this.FileOutputs.FirstOrDefault(x => x.Name == item.Name);
+                        if (oldData != null)
+                        {
+                            this.FileOutputs.Remove(oldData);
+                        }
+                    }
+
+                    AVM.DDP.MetaTBManifest.FileOutput fileOutput = new AVM.DDP.MetaTBManifest.FileOutput();
+                    fileOutput.Name = item.Name;
+                    fileOutput.FileName = item.Attributes.FileName != "" ? item.Attributes.FileName : item.Name;
+
+                    this.FileOutputs.Add(fileOutput);
+                }
+
+                // get designID
+                string designID = null;
+                var tlsut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
+                var catlsut = testBenchType.Children.ComponentAssemblyCollection.FirstOrDefault();
+                if (tlsut != null)
+                {
+                    // if it is a reference
+                    if (tlsut.Referred.DesignEntity != null)
+                    {
+                        designID = tlsut.Referred.DesignEntity.Properties.Guid.ToString("B");
+                        if (tlsut.Referred.DesignEntity is CyPhy.ComponentAssembly)
+                        {
+                            catlsut = tlsut.Referred.ComponentAssembly;
+                            var cid = catlsut.Attributes.ConfigurationUniqueID;
+                            //this.ConfigurationUniqueID = cid;
+
+                            if (string.IsNullOrWhiteSpace(cid))
+                            {
+                                cid = Guid.NewGuid().ToString("B");
+                                catlsut.Attributes.ConfigurationUniqueID = cid;
+                            }
+
+                            if (!string.IsNullOrEmpty(cid))
+                            {
+                                try
+                                {
+                                    Guid guid = new Guid(cid);
+                                    designID = guid.ToString("B");
+                                }
+                                catch (System.FormatException ex)
+                                {
+                                    Trace.TraceError("{0} is not a vaild GUID.", cid);
+                                    Trace.TraceError(ex.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (catlsut != null)
+                {
+                    // if it is an instance
+                    var cid = catlsut.Attributes.ConfigurationUniqueID;
+
+                    if (!string.IsNullOrEmpty(cid))
+                    {
+                        Guid guid = new Guid(cid);
+                        designID = guid.ToString("B");
+                    }
+                }
+
+                // this.CopyTestResults = testBench.Attributes.CopyResults;
+
+                this.DesignID = designID;
             }
-
-            // this.CopyTestResults = testBench.Attributes.CopyResults;
-
-            this.DesignID = designID;
         }
 
         // Use this method in next iteration (13.17)
@@ -481,7 +539,8 @@ namespace AVM.DDP
 
         public void AddAllTasks(
             CyPhy.TestBenchType testBenchType,
-            IEnumerable<global::META.ComComponent> interpreters)
+            IEnumerable<global::META.ComComponent> interpreters,
+            string relativePathToProjectDir)
         {
             Contract.Requires(testBenchType != null);
             Contract.Requires(interpreters != null);
@@ -530,7 +589,8 @@ namespace AVM.DDP
                         var step = new Step();
 
                         step.Description = executionTask.Attributes.Description;
-                        step.Invocation = executionTask.Attributes.Invocation;
+                        // %project_dir% is relative path to MgaExtensions.MgaExtensions.GetProjectDirectoryPath(testBenchType.Impl.Project)
+                        step.Invocation = Regex.Replace(executionTask.Attributes.Invocation, "%project_dir%", relativePathToProjectDir, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
                         step.PreProcess = executionTask.Attributes.PreProcess;
                         step.PostProcess = executionTask.Attributes.PostProcess;
 

@@ -17595,7 +17595,7 @@ n_hidden_nodes= 5</value>
 							</regnode>
 						</regnode>
 						<attribute kind="Code">
-							<value>num_levels=10</value>
+							<value>num_samples=10</value>
 						</attribute>
 						<attribute kind="DOEType" status="meta">
 							<value>Full Factorial</value>
@@ -17711,8 +17711,8 @@ n_hidden_nodes= 5</value>
 								</regnode>
 							</regnode>
 						</regnode>
-						<attribute kind="Code" status="meta">
-							<value></value>
+						<attribute kind="Code">
+							<value>num_samples=1</value>
 						</attribute>
 						<attribute kind="DOEType">
 							<value>Central Composite</value>
@@ -17826,7 +17826,7 @@ n_hidden_nodes= 5</value>
 							</regnode>
 						</regnode>
 						<attribute kind="Code">
-							<value>num_levels = 10</value>
+							<value>num_samples = 10</value>
 						</attribute>
 						<attribute kind="DOEType" status="meta">
 							<value>Full Factorial</value>

@@ -51,13 +51,6 @@ namespace ComponentAndArchitectureTeamTest
             "test",
             "ComponentAuthoringToolTests");
 
-        public static string testpartpath = Path.Combine(
-            META.VersionInfo.MetaPath,
-            "models",
-            "MassSpringDamper",
-            "Creo Files for MSD",
-            "damper.prt.36");
-
         public static string testiconpath = Path.Combine(
             META.VersionInfo.MetaPath,
             "meta",
@@ -92,6 +85,9 @@ namespace ComponentAndArchitectureTeamTest
             testPath,
             "ComponentAuthoringTool.xme"
             );
+        public static string testpartpath = Path.Combine(
+            testPath,
+            "damper.prt.36");
         #endregion
 
         #region Fixture
@@ -181,15 +177,15 @@ namespace ComponentAndArchitectureTeamTest
 
                 // verify results
                 // insure the resource path was created correctly
-                var correct_name = testcomp.Children.ResourceCollection.Where(p => p.Name == "damper.prt.36").First();
-                Assert.True(correct_name.Attributes.Path == "CAD\\damper.prt.36",
-                            String.Format("{0} should have had value {1}; instead found {2}", correct_name.Name, "CAD\\damper.prt.36", correct_name.Attributes.Path)
+                var correct_name = testcomp.Children.ResourceCollection.Where(p => p.Name == "damper.prt").First();
+                Assert.True(correct_name.Attributes.Path == "CAD\\damper.prt",
+                            String.Format("{0} should have had value {1}; instead found {2}", correct_name.Name, "CAD\\damper.prt", correct_name.Attributes.Path)
                             );
                 // insure the part file was copied to the backend folder correctly
                 var getcadmdl = testcomp.Children.CADModelCollection.First();
                 string returnedpath;
                 getcadmdl.TryGetResourcePath(out returnedpath, ComponentLibraryManager.PathConvention.ABSOLUTE);
-                Assert.True(File.Exists(returnedpath),
+                Assert.True(File.Exists(returnedpath + ".36"),
                     String.Format("Could not find the source file for the created resource, got {0}", returnedpath));
             });
             proj.Save();
@@ -359,6 +355,8 @@ namespace ComponentAndArchitectureTeamTest
                 var getcadmdl = testcomp.Children.CADModelCollection.First();
                 string importedpath;
                 getcadmdl.TryGetResourcePath(out importedpath, ComponentLibraryManager.PathConvention.ABSOLUTE);
+                // add in Creo version number
+                importedpath += Path.GetExtension(testpartpath);
 
                 // Rename the CAD file
                 CyPhyComponentAuthoring.Modules.CADFileRename renamecam = new CyPhyComponentAuthoring.Modules.CADFileRename();
@@ -375,6 +373,8 @@ namespace ComponentAndArchitectureTeamTest
                 var renamecadmdl = testcomp.Children.CADModelCollection.First();
                 string renamedpath;
                 renamecadmdl.TryGetResourcePath(out renamedpath, ComponentLibraryManager.PathConvention.ABSOLUTE);
+                // add in Creo version
+                renamedpath += ".1";
                 Assert.True(File.Exists(renamedpath),
                     String.Format("Could not find the renamed CAD file, found {0}", renamedpath));
 

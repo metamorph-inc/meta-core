@@ -78,7 +78,7 @@
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL" />
+    <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -102,9 +102,6 @@
   <ItemGroup>
     <Compile Include="..\..\src\CommonFiles\MgaUtils.cs">
       <Link>MgaUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\CommonFiles\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
     </Compile>
     <Compile Include="DesertTest.cs" />
     <Compile Include="Program.cs" />

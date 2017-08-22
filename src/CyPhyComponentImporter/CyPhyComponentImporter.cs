@@ -208,7 +208,13 @@ namespace CyPhyComponentImporter
             return this.ImportFiles(project, projroot, new string[] { FileName }).Cast<IMgaFCO>().FirstOrDefault();
         }
 
-        public IMgaFCOs ImportFiles(MgaProject project, string projRootPath, string[] FileNames, bool alwaysReplace = false)
+        public IMgaFCO ImportFileAndReplaceComponent(MgaProject project, string projroot, string FileName)
+        {
+            // this function can be called from python
+            return this.ImportFiles(project, projroot, new string[] { FileName }, alwaysReplace: true).Cast<IMgaFCO>().FirstOrDefault();
+        }
+
+        public IMgaFCOs ImportFiles(MgaProject project, string projRootPath, string[] FileNames, bool alwaysReplace = false, bool doNotReplaceAll = false)
         {
             Boolean b_CLMAddOnStatus = META.ComponentLibraryManagerAddOn.GetEnabled(project);
             META.ComponentLibraryManagerAddOn.Enable(false, project);
@@ -226,7 +232,6 @@ namespace CyPhyComponentImporter
             try
             {
                 bool replaceAll = alwaysReplace;
-                bool doNotReplaceAll = false;
                 CyPhy.RootFolder rootFolder = ISIS.GME.Common.Utils.CreateObject<CyPhyClasses.RootFolder>(project.RootFolder as MgaObject);
                 Dictionary<string, CyPhy.Component> avmidComponentMap = getCyPhyMLComponentDictionary_ByAVMID(rootFolder);
                 Dictionary<string, CyPhy.Component> nameComponentMap = getCyPhyMLComponentDictionary_ByName(rootFolder);
@@ -407,7 +412,16 @@ namespace CyPhyComponentImporter
                         CyPhy.Component cyPhyReplaceComponent = null;
 
                         #region Search for Components that should be Replaced by this new one
-                        if (nameComponentMap.TryGetValue(ac_import.Name, out cyPhyReplaceComponent))
+                        bool replaceeFound = false;
+                        if (ac_import.ID != null)
+                        {
+                            replaceeFound = avmidComponentMap.TryGetValue(ac_import.ID, out cyPhyReplaceComponent);
+                        }
+                        if (replaceeFound == false)
+                        {
+                            replaceeFound = nameComponentMap.TryGetValue(ac_import.Name, out cyPhyReplaceComponent);
+                        }
+                        if (replaceeFound)
                         {
                             bool replace = false;
                             if (!doNotReplaceAll && !replaceAll)
@@ -591,6 +605,7 @@ namespace CyPhyComponentImporter
             return importedComponents;
         }
 
+        [ComVisible(false)]
         public List<string> Errors = new List<string>();
 
         private void CheckAndWarnOnSchemaVersion(avm.Component ac_import)
@@ -830,18 +845,17 @@ namespace CyPhyComponentImporter
                 TempDirDestination = Path.Combine(tempPath, Path.GetRandomFileName());
                 Directory.CreateDirectory(TempDirDestination);
 
-                using (var zip = ZipStorer.Open(inputFilePath, FileAccess.Read))
+                using (var zip = new Ionic.Zip.ZipFile(inputFilePath))
                 {
-                    foreach (var record in zip.ReadCentralDir())
+                    foreach (var record in zip.Entries)
                     {
-                        var relDir = Path.GetDirectoryName(record.FilenameInZip);
+                        var relDir = Path.GetDirectoryName(record.FileName);
                         var absDir = Path.Combine(TempDirDestination, relDir);
                         Directory.CreateDirectory(absDir);
 
-                        var absPath = Path.Combine(TempDirDestination, record.FilenameInZip);
-                        zip.ExtractFile(record, absPath);
-                        
-                        ret.Add(record.FilenameInZip);
+                        var absPath = Path.Combine(TempDirDestination, record.FileName);
+                        record.Extract(TempDirDestination, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+                        ret.Add(record.FileName);
                     }
                 }
 

@@ -15,7 +15,7 @@ namespace CyPhy2CAD_CSharp.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+    #line 1 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class run_bat_cfd : run_bat_cfdBase
     {
@@ -27,11 +27,7 @@ namespace CyPhy2CAD_CSharp.Template
         {
             this.Write(@"
 
-
-REM	The following system environment variable must be set:
-REM	    PROE_ISIS_EXTENSIONS	// typically set to C:\Program Files\META\Proe ISIS Extensions
-REM
-REM	See ""C:\Program Files\META\Proe ISIS Extensions\0Readme - CreateAssembly.txt"" for the complete setup instructions.
+REM	See ""C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt"" for the complete setup instructions.
 
 set WORKING_DIR="".""
 set ERROR_CODE=0
@@ -47,7 +43,7 @@ REM Create Creo Assembly
 Rem ****************************
 
 set EXE_FILE_NAME=CADCreoParametricCreateAssembly.exe
-set EXE=""%PROE_ISIS_EXTENSIONS%\bin\%EXE_FILE_NAME%""
+set EXE=""%MetaPath%\bin\CAD\Creo\bin\%EXE_FILE_NAME%""
 
 set ASSEMBLY_XML_FILE=""CADAssembly.xml""
 set LOG_FILE=%ASSEMBLY_XML_FILE%.log
@@ -66,14 +62,14 @@ goto :ERROR_SECTION
 
 %EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% ");
             
-            #line 42 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 38 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (!Automation) { 
             
             #line default
             #line hidden
             this.Write("-p");
             
-            #line 42 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 38 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -110,7 +106,7 @@ goto :ERROR_SECTION
 
 ");
             
-            #line 73 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 69 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (Automation) { 
             
             #line default
@@ -132,7 +128,7 @@ if exist %PY_SCRIPT% goto  :PY_FOUND
 echo		Error: Could not find %PY_SCRIPT_NAME%.
 echo		Your system is not properly configured to run %PY_SCRIPT_NAME%.
 echo		Please see For instructions on how to configure your system, please see ""0Readme - CreateAssembly.txt""
-echo		which is typically located at ""C:\Program Files\META\Proe ISIS Extensions""
+echo		which is typically located at ""C:\Program Files (x86)\META\bin\CAD\Creo""
 set ERROR_CODE=2
 set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py.""
 goto :ERROR_SECTION
@@ -157,7 +153,7 @@ goto :ERROR_SECTION
 )
 ");
             
-            #line 114 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 110 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -167,7 +163,7 @@ goto :ERROR_SECTION
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 126 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+        #line 122 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
   
 public bool Automation {get;set;}
 

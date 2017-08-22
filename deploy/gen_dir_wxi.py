@@ -5,6 +5,10 @@ import hashlib
 import re
 import errno
 import itertools
+import tempfile
+import hashlib
+
+import requests
 
 from xml.etree import ElementTree
 
@@ -123,7 +127,6 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
 def download_file(url, filename):
     if os.path.isfile(filename):
         return
-    import requests
     print('Downloading {} => {}'.format(url, filename))
     if os.path.dirname(filename):
         try:
@@ -132,10 +135,23 @@ def download_file(url, filename):
             if e.errno != errno.EEXIST:
                 raise
     r = requests.get(url, stream=True)
-    with open(filename, 'wb') as f:
+    r.raise_for_status()
+    fd, tmp_path = tempfile.mkstemp()
+    # wix bootstrapper uses SHA1
+    hash = hashlib.sha1()
+    with os.fdopen(fd, 'wb') as f:
         for chunk in r.iter_content(chunk_size=1024):
             if chunk:  # filter out keep-alive new chunks
+                hash.update(chunk)
                 f.write(chunk)
+        # n.b. don't use f.tell(), since it will be wrong for Content-Encoding: gzip
+        downloaded_octets = r.raw._fp_bytes_read
+    if int(r.headers.get('content-length', downloaded_octets)) != downloaded_octets:
+        os.unlink(tmp_path)
+        raise ValueError('Download of {} was truncated: {}/{} bytes'.format(url, downloaded_octets, r.headers['content-length']))
+    else:
+        os.rename(tmp_path, filename)
+        print('  => {} {}'.format(filename, hash.hexdigest()))
 
 
 def download_bundle_deps(bundle_wxs):

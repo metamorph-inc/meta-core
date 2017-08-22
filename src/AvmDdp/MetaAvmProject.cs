@@ -17,6 +17,7 @@ namespace AVM.DDP
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Diagnostics.Contracts;
+    using ISIS.GME.Common.Interfaces;
 
     /// <summary>
     /// TODO: Update summary.
@@ -125,8 +126,15 @@ namespace AVM.DDP
                         new { t = typeof(CyPhy.BlastTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.BlastTestBench.Cast) },
                         new { t = typeof(CyPhy.CADTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.CADTestBench.Cast) },
                         new { t = typeof(CyPhy.CFDTestBench), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(CyPhyClasses.CFDTestBench.Cast) },
-                        new { t = typeof(CyPhy.ParametricExploration), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco => CyPhyClasses.ParametricExploration.Cast(fco)
-                            .Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBench) },
+                        new { t = typeof(CyPhy.ParametricExploration), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco =>
+                        {
+                            var tbRef = CyPhyClasses.ParametricExploration.Cast(fco).Children.TestBenchRefCollection.FirstOrDefault();
+                            if (tbRef == null)
+                            {
+                                return null;
+                            }
+                            return tbRef.Referred.TestBenchType; })
+                        },
                         new { t = typeof(CyPhy.TestBenchSuite), cast = (Func<MgaFCO, CyPhy.TestBenchType>)(fco => CyPhyClasses.ParametricExploration.Cast(fco)
                             .Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBench) },
                     }.ToDictionary(t => t.t.Name, c => c.cast);
@@ -170,48 +178,43 @@ namespace AVM.DDP
             return Directory.CreateDirectory(Path.Combine(this.OutputDirectory, "test-benches")).FullName;
         }
 
-        public bool SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType origialTestBenchType, DateTime analysisStartTime)
+        public void SaveTestBenchManifest(string designName, string configurationName, string testBenchName, FCO expandedTestBenchType, string outputDir, DateTime analysisStartTime)
+        {
+            if (outputDir == null)
+            {
+                throw new ArgumentNullException("outputDirectory");
+            }
+
+            AVM.DDP.MetaTBManifest manifest = new AVM.DDP.MetaTBManifest();
+            manifest.MakeManifest(expandedTestBenchType, outputDir);
+
+            // design name fixture
+            manifest.DesignName = designName;
+
+            // test bench name fixture
+            manifest.TestBench = testBenchName;
+
+            manifest.CfgID = configurationName;
+
+            manifest.Serialize(outputDir);
+
+            this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir, analysisStartTime);
+        }
+
+        public void SaveTestBenchManifest(string designName, string configurationName, CyPhy.TestBenchType expandedTestBenchType, string outputDir, CyPhy.TestBenchType originalTestBenchType, DateTime analysisStartTime)
         {
             if (expandedTestBenchType == null)
             {
                 throw new ArgumentNullException("expandedTestBenchType");
             }
 
-            if (outputDir == null)
+            if (originalTestBenchType == null)
             {
-                throw new ArgumentNullException("outputDirectory");
+                expandedTestBenchType = originalTestBenchType;
             }
 
-            if (origialTestBenchType == null)
-            {
-                expandedTestBenchType = origialTestBenchType;
-            }
-
-            try
-            {
-                AVM.DDP.MetaTBManifest manifest = new AVM.DDP.MetaTBManifest();
-                manifest.MakeManifest(expandedTestBenchType, outputDir);
-
-                // design name fixture
-                manifest.DesignName = designName;
-
-                // test bench name fixture
-                manifest.TestBench = origialTestBenchType.Name;
-
-                manifest.CfgID = configurationName;
-
-                manifest.Serialize(outputDir);
-
-                this.UpdateResultsJson(expandedTestBenchType.Impl as MgaFCO, outputDir);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                // TODO: log exception/store last exception
-                return false;
-            }
-        }
+            SaveTestBenchManifest(designName, configurationName, originalTestBenchType.Name, expandedTestBenchType, outputDir, analysisStartTime);
+         }
 
         public bool SaveTestBench(CyPhy.TestBenchType testBenchType)
         {
@@ -297,6 +300,10 @@ namespace AVM.DDP
                 return false;
             }
             tb = cast(fco);
+            if (tb == null)
+            {
+                return false;
+            }
 
             var tlsut = tb.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
             if (tlsut == null)
@@ -338,7 +345,8 @@ namespace AVM.DDP
         /// <param name="OutputSubDir"></param>
         public void UpdateResultsJson(
             MgaFCO singleFco,
-            string OutputSubDir)
+            string OutputSubDir,
+            DateTime time)
         {
             string jsonFile = Path.Combine(this.GetResultsFolder(), "results.metaresults.json");
             AVM.DDP.MetaResults results = null;
@@ -379,12 +387,15 @@ namespace AVM.DDP
                         Path.GetDirectoryName(jsonFile),
                         Path.Combine(OutputSubDir, AVM.DDP.MetaTBManifest.TESTBENCH_FILENAME)).Replace('\\', '/');
 
-                    thisResult.Time = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+                    thisResult.Time = time.ToString("yyyy-MM-dd HH-mm-ss");
 
-                    thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                    if (string.IsNullOrWhiteSpace(singleFco.RegistryValue["TestBenchUniqueName"]) == false)
+                    {
+                        thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                    }
 
                     Func<MgaFCO, CyPhy.TestBenchType> cast;
-                    if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast))
+                    if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast) && cast(singleFco) != null)
                     {
                         CyPhy.TestBenchType testBench = cast(singleFco);
 
@@ -394,6 +405,7 @@ namespace AVM.DDP
                             if (tlsut.AllReferred is CyPhy.ComponentAssembly)
                             {
                                 var cfg = tlsut.Referred.ComponentAssembly;
+                                //thisResult.Design = cfg.Name + ".metadesign.json";
 
                                 var cid = cfg.Attributes.ConfigurationUniqueID;
                                 //this.ConfigurationUniqueID = cid;
@@ -765,18 +777,6 @@ namespace AVM.DDP
                 var designContainer = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(rootDS);
                 var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(designContainer);
                 design.SaveToFile(Path.GetFullPath(dsFileName));
-
-                // old API
-                //var dsProjectJsonLinkOld = Path.Combine(".", designSpaceFolder, rootDS.Name + ".metadesign.json").Replace('\\', '/');
-                //var dsFileNameOld = Path.Combine(dirName, rootDS.Name + ".metadesign.json");
-
-                //if (avmProj.Project.DesignSpaceModels.Contains(dsProjectJsonLinkOld) == false)
-                //{
-                //    avmProj.Project.DesignSpaceModels.Add(dsProjectJsonLinkOld);
-                //}
-
-                //var designOld = CyPhy2DesignInterchange_ddp1format.CyPhy2DesignInterchange.Convert(designContainer);
-                //designOld.SerializeToFile(Path.GetFullPath(dsFileNameOld));
             }
 
             Directory.SetCurrentDirectory(currentDir);
@@ -794,8 +794,8 @@ namespace AVM.DDP
             Contract.Requires(string.IsNullOrEmpty(fromPath) == false);
             Contract.Requires(string.IsNullOrEmpty(toPath) == false);
 
-            Uri fromUri = new Uri(Path.GetFullPath(fromPath));
-            Uri toUri = new Uri(Path.GetFullPath(toPath));
+            Uri fromUri = new Uri(Path.GetFullPath(fromPath.Replace("%", "%25")), true);
+            Uri toUri = new Uri(Path.GetFullPath(toPath.Replace("%", "%25")), true);
 
             Uri relativeUri = fromUri.MakeRelativeUri(toUri);
             string relativePath = Uri.UnescapeDataString(relativeUri.ToString());

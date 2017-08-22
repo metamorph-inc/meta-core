@@ -1,7 +1,7 @@
 # .\_modelica.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:98f83d5ca0f2d925890a625eebbdfd52bb83d5c7
-# Generated 2015-02-24 12:11:08.849000 by PyXB version 1.2.3
+# Generated 2017-02-15 15:01:22 by PyXB version 1.2.3
 # Namespace modelica [xmlns:modelica]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:8174f98f-bc50-11e4-b7a1-001b2181d248')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'

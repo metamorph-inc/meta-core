@@ -47,7 +47,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             base.TraverseTestBench(testBenchBase);
 
-            //STLDataExchangeFormats.Add("Parasolid");
+            //NonSTEP_DataExchangeFormats.Add("Parasolid");
 
             Name = testBench.Name;
             SimulationStep = testBench.Attributes.SimulationResolution;

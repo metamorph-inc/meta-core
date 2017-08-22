@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="protobuf_init">
+  <PropertyGroup Label="Debug and static and RuntimeLibraryNull" Condition="( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkage-protobuf.ToLower())' == 'static' And ('$(RuntimeLibrary)' == '')">
+    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+  </PropertyGroup>
+  <PropertyGroup Label="Release and static and RuntimeLibraryNull" Condition="( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkage-protobuf.ToLower())' == 'static' And ('$(RuntimeLibrary)' == '')">
+    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+  </PropertyGroup>
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-protobuf Condition="'$(Linkage-protobuf)' == ''">dynamic</Linkage-protobuf>
+    <CallingConvention-protobuf Condition="'$(CallingConvention-protobuf)' == ''">cdecl</CallingConvention-protobuf>
+  </PropertyGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\protobuf-propertiesui-2b290923-2b50-480f-9cc0-22783e25be92.xml" />
+  </ItemGroup>
+  <ItemDefinitionGroup Label="static" Condition="'$(Linkage-protobuf.ToLower())' == 'static'">
+    <ClCompile>
+      <RuntimeLibrary>$(RuntimeLibrary)</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <UsingTask TaskName="protobuf_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="protobuf_init">
+    <protobuf_Contains Text="Linkage-dynamic" Library="protobuf" Value="dynamic" Condition="'$(Linkage-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="Linkage-static" Library="protobuf" Value="static" Condition="'$(Linkage-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="Linkage-ltcg" Library="protobuf" Value="ltcg" Condition="'$(Linkage-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="Linkage-sxs" Library="protobuf" Value="sxs" Condition="'$(Linkage-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="CallingConvention-cdecl" Library="protobuf" Value="cdecl" Condition="'$(CallingConvention-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="CallingConvention-stdcall" Library="protobuf" Value="stdcall" Condition="'$(CallingConvention-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="CallingConvention-fastcall" Library="protobuf" Value="fastcall" Condition="'$(CallingConvention-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="CallingConvention-thiscall" Library="protobuf" Value="thiscall" Condition="'$(CallingConvention-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf" />
+    </protobuf_Contains>
+    <protobuf_Contains Text="CallingConvention-clrcall" Library="protobuf" Value="clrcall" Condition="'$(CallingConvention-protobuf)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-protobuf" />
+    </protobuf_Contains>
+  </Target>
+</Project>

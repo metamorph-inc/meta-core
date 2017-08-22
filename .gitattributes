@@ -5,3 +5,5 @@ proguard-project.txt eol=crlf
 *.sln text eol=crlf
 *.vcxproj text eol=crlf
 *.csproj text eol=crlf
+# "trailing-space" is fine for .md
+*.md text whitespace=space-before-tab

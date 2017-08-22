@@ -413,7 +413,7 @@ namespace DynamicsTeamTest.Projects
         }
 
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "RISimpleFormula")]
         [Trait("PCC", "RISimpleFormula")]
         public void RI_PCC_CA()

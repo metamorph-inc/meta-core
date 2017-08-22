@@ -65,20 +65,6 @@ namespace DynamicsTeamTest.Projects
         [Fact]
         [Trait("Model", "MSDVerification")]
         [Trait("CyPhy2Modelica", "MSDVerification")]
-        public void QR_MSD()
-        {
-            string outputDir = "QR_MSD";
-            string testBenchPath = "/@TestBenches|kind=Testing|relpos=0/@Verification_CA|kind=Testing|relpos=0/@QR|kind=Testing|relpos=0/@MSD|kind=TestBench|relpos=0";
-
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-            bool result = CyPhy2ModelicaRunner.Run(outputDir, mgaFile, testBenchPath);
-
-            Assert.True(result, "CyPhy2Modelica_v2 failed during interpretation with verification workflow.");
-        }
-
-        [Fact]
-        [Trait("Model", "MSDVerification")]
-        [Trait("CyPhy2Modelica", "MSDVerification")]
         public void TestBenches_MSD_CA()
         {
             string outputDir = "TestBenches_MSD_CA";

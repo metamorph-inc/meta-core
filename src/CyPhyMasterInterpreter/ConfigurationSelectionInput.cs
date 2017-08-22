@@ -17,10 +17,11 @@ namespace CyPhyMasterInterpreter
 
         public bool KeepTemporaryModels { get; set; }
 
-        public bool OpenDashboard { get; set; }
-
         public bool VerboseLogging { get; set; }
-        // TODO: add Job Manager Instance selection (maybe url/port number is enough or some kind of descriptor)
+
+        public List<ConfigurationGroupLight> ConfigurationGroups { get; set; }
+
+        public IEnumerable<GMELightObject> UnselectedConfigurations { get; internal set; }
     }
 
     public class ConfigurationSelectionInput
@@ -29,11 +30,6 @@ namespace CyPhyMasterInterpreter
         /// In which context the interpreter is running.
         /// </summary>
         public GMELightObject Context { get; set; }
-
-        /// <summary>
-        /// Top level system under test's referred object.
-        /// </summary>
-        public GMELightObject Target { get; set; }
 
         /// <summary>
         /// Configuration groups.
@@ -143,12 +139,8 @@ namespace CyPhyMasterInterpreter
 
             gmeLightObject.AbsPath = subject.AbsPath;
             gmeLightObject.GMEId = subject.ID;
-            
+
             // TODO: figure out how to show to the user configurations when they have no uniqie names.
-            //// dashboard shows last 4 digit of the guid
-            //var guidStr = new Guid(subject.GetGuidDisp()).ToString();
-            //string guidPortion = guidStr.Substring(guidStr.Length - 4);
-            //gmeLightObject.Name = string.Format("[#{0}] {1}", guidPortion , subject.Name);
 
             gmeLightObject.Name = subject.Name;
             // TODO: set tool tip to ParentName/ObjectName

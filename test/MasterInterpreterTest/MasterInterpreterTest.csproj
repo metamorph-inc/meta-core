@@ -80,15 +80,19 @@
     <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="GME.MGA.Parser, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+    <Reference Include="GME.MGA.Parser, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+    <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -116,7 +120,6 @@
     <Compile Include="FunctionalTests\AnalysisModelProcessors.cs" />
     <Compile Include="FunctionalTests\ContextChecker.cs" />
     <Compile Include="FunctionalTests\GetConfigurations.cs" />
-    <Compile Include="JobManagerFixture.cs" />
     <Compile Include="MasterInterpreterTest.cs" />
     <Compile Include="MBD\MBD.cs" />
     <Compile Include="Project\MasterInterpreter.cs" />
@@ -131,13 +134,33 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+      <Project>{b4b9dc90-2857-4c8e-9bde-47ec4649122b}</Project>
+      <Name>XSD2CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\AvmDdp\AvmDdp.csproj">
+      <Project>{8880fd8f-c7da-4491-908d-778b67057da0}</Project>
+      <Name>AvmDdp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj">
       <Project>{ea9cc9fa-046f-47c6-80d9-a2b1cfe8bbae}</Project>
       <Name>CyPhy2CAD_CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhy2ComponentModel\CyPhy2ComponentModel.csproj">
+      <Project>{e6267d3d-fdaa-4173-a5e7-87b23b46f883}</Project>
+      <Name>CyPhy2ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
+      <Project>{931606c8-6178-4f8c-8e02-9d28c6d79fea}</Project>
+      <Name>CyPhy2DesignInterchange</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
       <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
       <Name>CyPhy2Modelica_v2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{f8627136-5aeb-4501-a0fe-e5642d86827b}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
@@ -147,9 +170,17 @@
       <Project>{C8254F79-337F-420E-BDFA-654843D20F4E}</Project>
       <Name>CyPhyMasterInterpreter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyMLCS\CyPhyMLCS.csproj">
+      <Project>{a7efedc9-9557-4083-a990-efcac684e3c6}</Project>
+      <Name>CyPhyMLCS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyPET\CyPhyPET.csproj">
       <Project>{98831605-E3EF-4A4F-B5E4-092F946DAD53}</Project>
       <Name>CyPhyPET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\JobManagerFramework\JobManagerFramework.csproj">
+      <Project>{59715556-ef7c-4729-9780-3f7ea3fec627}</Project>
+      <Name>JobManagerFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\JobManager\JobManagerLib\JobManagerLib.csproj">
       <Project>{8B9963D3-F23C-4923-84C9-CBD6872105A6}</Project>

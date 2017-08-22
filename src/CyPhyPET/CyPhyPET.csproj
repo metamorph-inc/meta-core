@@ -42,7 +42,7 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ISIS.GME.Common, Version=1.0.1.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+    <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
     </Reference>
@@ -86,6 +86,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDialog.Designer.cs">
+      <DependentUpon>EditDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcelInterop.cs" />
     <Compile Include="PCCPropertyInputDistributionEditor.cs">
       <SubType>Form</SubType>
@@ -159,7 +165,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\index.html" />
     <None Include="Templates\SurrogateAssembly.tt">
       <Generator>TextTemplatingFilePreProcessor</Generator>
       <LastGenOutput>SurrogateAssembly.cs</LastGenOutput>
@@ -180,6 +185,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EditDialog.resx">
+      <DependentUpon>EditDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PCCPropertyInputDistributionEditor.resx">
       <DependentUpon>PCCPropertyInputDistributionEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -212,6 +220,10 @@
     <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CyPhyMasterInterpreter\CyPhyMasterInterpreter.csproj">
+      <Project>{C8254F79-337F-420E-BDFA-654843D20F4E}</Project>
+      <Name>CyPhyMasterInterpreter</Name>
     </ProjectReference>
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>

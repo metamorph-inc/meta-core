@@ -21,7 +21,7 @@ namespace CyPhyMasterInterpreter
 {
     public partial class ConfigurationSelectionForm : Form
     {
-        public ConfigurationSelectionOutput ConfigurationSelectionResult {get; set;}
+        public ConfigurationSelectionOutput ConfigurationSelectionResult { get; set; }
         private ConfigurationSelectionInput m_Input { get; set; }
 
         public ConfigurationSelectionForm(ConfigurationSelectionInput input, bool enableDebugging)
@@ -33,8 +33,7 @@ namespace CyPhyMasterInterpreter
             if (input == null ||
                 input.Context == null ||
                 input.Groups == null ||
-                input.InterpreterNames == null ||
-                input.Target == null)
+                input.InterpreterNames == null)
             {
                 throw new ArgumentNullException();
             }
@@ -44,10 +43,15 @@ namespace CyPhyMasterInterpreter
             this.ConfigurationSelectionResult = new ConfigurationSelectionOutput();
 
             this.chbPostJobs.Checked = Properties.Settings.Default.bPostTojobManager;
-            this.chbOpenDashboard.Checked = Properties.Settings.Default.bOpenDashboard;
             this.chbVerbose.Checked = Properties.Settings.Default.bVerboseLogging;
 
             this.InitForm();
+        }
+
+        private void CommandLinkRunParallel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
         }
 
         public void InitForm()
@@ -78,10 +82,11 @@ namespace CyPhyMasterInterpreter
                 this.chbShowDirty.Enabled = false;
                 this.lbConfigModels.Enabled = false;
                 this.lbConfigModels.BackColor = Color.LightGray;
+                this.commandLinkRunParallel.Enabled = false;
 
                 foreach (var config in this.m_Input.Groups.SelectMany(x => x.Configurations))
                 {
-                    this.AddExportedCAItem(config);
+                    this.AddExportedCAItemQuadratic(config);
                 }
             }
 
@@ -138,23 +143,24 @@ namespace CyPhyMasterInterpreter
         }
 
         /// <summary>
-        /// Non interactive support. This function will show no UI components.
+        /// For non interactive support, this function will show no UI components.
         /// </summary>
         public void SaveSettingsAndResults()
         {
             // save settings
             Properties.Settings.Default.bPostTojobManager = this.chbPostJobs.Checked;
-            Properties.Settings.Default.bOpenDashboard = this.chbOpenDashboard.Checked;
             Properties.Settings.Default.bShowDirty = this.chbShowDirty.Checked;
             Properties.Settings.Default.bVerboseLogging = this.chbVerbose.Checked;
             Properties.Settings.Default.Save();
 
             // prepare our results
             this.ConfigurationSelectionResult.KeepTemporaryModels = this.chbSaveTestBenches.Checked;
-            this.ConfigurationSelectionResult.OpenDashboard = this.chbOpenDashboard.Checked;
             this.ConfigurationSelectionResult.PostToJobManager = this.chbPostJobs.Checked;
             this.ConfigurationSelectionResult.VerboseLogging = this.chbVerbose.Checked;
             this.ConfigurationSelectionResult.SelectedConfigurations = this.lbExportedCAs.SelectedItems.Cast<GMELightObject>().ToArray();
+            var selected = new HashSet<GMELightObject>(this.lbExportedCAs.SelectedItems.Cast<GMELightObject>());
+            this.ConfigurationSelectionResult.UnselectedConfigurations = this.lbExportedCAs.Items.Cast<GMELightObject>().Where(o => selected.Contains(o) == false);
+            this.ConfigurationSelectionResult.ConfigurationGroups = this.lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>().ToList();
         }
 
 
@@ -165,7 +171,7 @@ namespace CyPhyMasterInterpreter
         /// Inserts the configurations in alphabetical order and respects the ordering if the name has numbers.
         /// </summary>
         /// <param name="config">Configuration to insert to configuration list.</param>
-        private void AddExportedCAItem(GMELightObject config)
+        private void AddExportedCAItemQuadratic(GMELightObject config)
         {
             int i = 0;
             for (; i < this.lbExportedCAs.Items.Count; i++)
@@ -178,12 +184,22 @@ namespace CyPhyMasterInterpreter
             this.lbExportedCAs.Items.Insert(i, config);
         }
 
+        public class StrCmpLogicalCompararer : IComparer<String>
+        {
+            public int Compare(string x, string y)
+            {
+                return StrCmpLogicalW(x, y);
+            }
+        }
+
         private void lbConfigModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.lbExportedCAs.Items.Clear();
-            foreach (var group in lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>())
+            int i = 0;
+            foreach (var config in lbConfigModels.SelectedItems.Cast<ConfigurationGroupLight>().SelectMany(group => group.Configurations)
+                .OrderBy(fco => fco.Name, new StrCmpLogicalCompararer()))
             {
-                group.Configurations.ToList().ForEach(x => AddExportedCAItem(x));
+                this.lbExportedCAs.Items.Insert(i++, config);
             }
 
             this.lbExportedCAs.Refresh();
@@ -197,7 +213,7 @@ namespace CyPhyMasterInterpreter
         {
             string newToolTipText = string.Empty;
             int nIdx = this.lbExportedCAs.IndexFromPoint(e.Location);
-            
+
             if (nIdx >= 0 &&
                 nIdx < this.lbExportedCAs.Items.Count)
             {

@@ -2,8 +2,9 @@
 #define  COMMON_STRUCTURES_H
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
+#include "CADStringToEnumConversions.h"
 #include <isis_include_ptc_headers.h>
-#include <StringToEnumConversions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MultiFormatString.h>
 #include <GraphicsFunctions.h>
 #include "JointCreo.h"
@@ -18,6 +19,7 @@
 
 #include <boost/functional/hash.hpp>
 
+typedef               double  MatrixD4x4[4][4];
 
 namespace isis
 {
@@ -42,14 +44,16 @@ namespace isis
 	*/
 	struct ConstraintOffset
 	{
-		ProAsmcompConstrType	offsetAlignmentType; /**< PRO_ASM_ALIGN_OFF, PRO_ASM_MATE_OFF */
+		e_CADAssemblyConstraintType offsetAlignmentType;
+		// ProAsmcompConstrType	offsetAlignmentType; /**< PRO_ASM_ALIGN_OFF, PRO_ASM_MATE_OFF */
 		double					value;
 
 		bool					unitsPresent;				
 		e_CADUnitsDistance		units;				/**<CAD_UNITS_MM, CAD_UNITS_CM, CAD_UNITS_INCH */
 
 		ConstraintOffset()
-			: offsetAlignmentType(PRO_ASM_MATE_OFF), 
+			//: offsetAlignmentType(PRO_ASM_MATE_OFF), 
+			: offsetAlignmentType( CAD_ASM_MATE_OFF),
 			value(0.0),
 			unitsPresent(false), 
 			units(CAD_UNITS_MM) 
@@ -67,10 +71,12 @@ namespace isis
 		std::string			componentInstanceID;
 		//std::string		featureName;
 		MultiFormatString	featureName;
-		ProDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
+		// ProDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
+		e_CADDatumside		featureOrientationType;   /**< PRO_DATUM_SIDE_NONE, PRO_DATUM_SIDE_YELLOW, PRO_DATUM_SIDE_RED */
 
 		ConstraintFeature()
-			:featureOrientationType(PRO_DATUM_SIDE_NONE),
+			//:featureOrientationType(PRO_DATUM_SIDE_NONE),
+			:featureOrientationType(CAD_DATUM_SIDE_NONE),
 			 featureName(PRO_NAME_SIZE - 1)
 		{}
 	};
@@ -83,8 +89,11 @@ namespace isis
 	*/
 	struct ConstraintPair
 	{
-		ProAsmcompConstrType			featureAlignmentType;     // PRO_ASM_ALIGN, PRO_ASM_MATE, PRO_ASM_MATE_OFF, always PRO_ASM_ALIGN for now 
-		ProType							featureGeometryType;      // PRO_SURFACE, PRO_AXIS
+		e_CADAssemblyConstraintType featureAlignmentType;
+		//ProAsmcompConstrType			featureAlignmentType;     // PRO_ASM_ALIGN, PRO_ASM_MATE, PRO_ASM_MATE_OFF, always PRO_ASM_ALIGN for now 
+
+		//ProType							featureGeometryType;      // PRO_SURFACE, PRO_AXIS
+		e_CADFeatureGeometryType		featureGeometryType;
 		e_FeatureInterfaceType			featureInterfaceType;     // CAD_DATUM, CAD_MODEL_INTERFACE, CAD_MODEL_USER_DATA 
 		e_CADTreatConstraintAsAGuide	treatConstraintAsAGuide;  // Means that it would be applied and then removed.  This would establish an initial position for kinematic joints.
 		
@@ -114,7 +123,8 @@ namespace isis
 		{
 			std::string ComponentID;
 			std::string FeatureName;
-			ProType FeatureType;
+			//ProType FeatureType;
+			e_CADFeatureGeometryType FeatureType;
 			bool Provided;
 		};
 		struct Limit
@@ -428,7 +438,7 @@ namespace isis
 															//	CAD_GEOMETRY_NONE
 		std::list<CADFeature>		features;            
 		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
-		e_CADFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
+		e_CADAnalysisFeatureGeometryType	analysisFeatureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
 
 		bool							primaryGeometryQualifierDefined;
 		bool							secondaryGeometryQualifierDefined;
@@ -494,7 +504,7 @@ namespace isis
 //		e_CADGeometryType			geometryType;			// CAD_GEOMETRY_POLYGON, CAD_GEOMETRY_CYLINDER, CAD_GEOMETRY_SPHERE
 //		std::string					componentID;
 //		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
-//		e_CADFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
+//		e_CADAnalysisFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
 //		std::list<std::string>		features;				// actual datum names in the Creo model
 //	};
 
@@ -609,11 +619,15 @@ namespace isis
 
 	struct AnalysisSolver
 	{
-		pro_fem_solver_type			type;
-		e_AnalysisSolutionType	    analysisSolutionType; // ANALYSIS_DECK_BASED, or ANALYSIS_MODEL_BASED, 
-		pro_fem_mesh_type			meshType;
-		pro_fem_shell_mesh_type		shellElementType;
-		pro_fem_elem_shape_type		elementShapeType;
+		//pro_fem_solver_type			type;
+		e_CADAnalysisSolverType			type;
+		e_AnalysisSolutionType			analysisSolutionType; // ANALYSIS_DECK_BASED, or ANALYSIS_MODEL_BASED, 
+		//pro_fem_mesh_type				meshType;
+		e_CADAnalysisMeshType			meshType;
+		//pro_fem_shell_mesh_type		shellElementType;
+		e_CADAnalysisShellElementType	shellElementType;
+		//pro_fem_elem_shape_type		elementShapeType;
+		e_CADAnalysisElementShapeType	elementShapeType;
 	};
 
 	struct CADAnalysisComponentMetrics
@@ -785,12 +799,14 @@ namespace isis
 	struct UnassembledComponent
 	{
 		MultiFormatString			name;					/**<  Part/Assembly name without the suffix. */
-		ProMdlType					modelType;	
+		//ProMdlType				modelType;	
+		e_CADMdlType				modelType;	
 		MultiFormatString			geometryRepresentation;
 		std::string					componentID;
 		/**<  PRO_MDL_PART, PRO_MDL_ASSEMBLY */
 		UnassembledComponent(	const std::string			&in_Name, 
-								ProMdlType					in_ModelType, 
+								//ProMdlType					in_ModelType, 
+								e_CADMdlType					in_ModelType, 
 								const std::string			&in_GeometryRepresentation, 
 								const std::string			&in_ComponentID) : 
 										 name ( in_Name, PRO_NAME_SIZE - 1 ),
@@ -895,14 +911,18 @@ namespace isis
 		std::string					materialID_FromCreoPart;
 		std::string					avmComponentId;			// If applicable, only in component edit mode
 		std::string					cyphyInstanceId;		// If applicable, only in design mode
-		ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
+		//ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
+		e_CADMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */		
 
 		CADSpecialInstruction		specialInstruction;		/**< CAD_SPECIAL_INSTRUCTION_NONE, CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT, CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINTS */
 		// either p_model or modelHandle is not necessary, should review thier uses and eliminate one.
 		ProMdl						*p_model;				/**<  Pointer to the model. */
+		
 		ProSolid					modelHandle;			/**< typedef struct sld_part* ProSolid;  */
 		ProAsmcomp					assembledFeature;		/**< typedef struct pro_model_item  ProAsmcomp; */
-		ProMatrix					initialPosition;		/** initial position, as stored manually in file */
+
+		// ProMatrix				initialPosition;		/** initial position, as stored manually in file */
+		MatrixD4x4					initialPosition;		/** initial position, as stored manually in file */
 		list<int>					componentPaths;			/**< This is the path from the current assembly (i.e. active assembly) to the part/assembly defined by this structure. */
 		std::list<std::string>		children;				/**<  Component IDs of the children. */
 		std::set<std::string>		dependsOn;				/**< Depends on (i.e. constrained to) ComponentIDs. */

@@ -45,6 +45,7 @@ namespace JobManager
             FailedAbortOnServer,
             FailedExecution,
             Failed,
+            FailedAbortByUser,
         }
 
         public abstract StatusEnum Status
@@ -69,6 +70,7 @@ namespace JobManager
         {
             return status == StatusEnum.FailedExecution ||
                    status == StatusEnum.FailedAbortOnServer ||
+                   status == StatusEnum.FailedAbortByUser ||
                    status == StatusEnum.FailedToUploadServer ||
                    status == StatusEnum.FailedToDownload ||
                    status == StatusEnum.Failed;
@@ -100,6 +102,8 @@ namespace JobManager
 
         public abstract SoT CreateSoT();
 
+        public abstract JobCollection CreateAndAddJobCollection();
+
         public List<Job> Jobs { get; set; }
         public List<SoT> SoTs { get; set; }
 
@@ -108,4 +112,17 @@ namespace JobManager
         public abstract void AddSoT(SoT sot);
     }
 
+    /*
+     * JobCollection corresponds to one run of the MasterInterpreter 
+     */
+    public abstract class JobCollection : MarshalByRefObject
+    {
+        public abstract void AddJob(Job job);
+        public abstract void AddSoT(SoT sot);
+        public List<string> ConfigurationNames { get; set; }
+
+        public Dictionary<string, AVM.DDP.MetaTBManifest.DesignType> Designs;
+
+        public abstract void Done();
+    }
 }

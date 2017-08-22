@@ -107,16 +107,9 @@ void CUdmApp::UdmMain(
 			OutputDir = full_path.string();
 		}
 
-		bool elaborateAndCollapse = (Expanded == false);// ( Automation == false );
-		if (focusObject != Udm::null)
-		{
-			FormulaEvaluator(focusObject,elaborateAndCollapse);
-		}
-		else
-		{
-			//traverser.Traverse(selectedObjects);
-			FormulaEvaluator(selectedObjects,elaborateAndCollapse);
-		}
+		NewTraverser traverser;
+		traverser.Traverse(focusObject);
+		numericLeafNodes = traverser.numericLeafNodes;
 
 		string projectRoot;
 		if (CUdmApp::projectDir_SOT != "")
@@ -128,7 +121,6 @@ void CUdmApp::UdmMain(
 		{
 			CUdmApp::GeneratePostProcessingPython(focusObject, projectRoot);
 		}
-
 
 	}
 }

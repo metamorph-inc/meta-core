@@ -16,8 +16,7 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using ISIS.GME.Common.Interfaces;
 using System.Windows.Forms;
 using CyPhySignalBlocksAddOn;
-
-
+using System.Security;
 
 namespace CyPhySignalBlocksAddOn
 {
@@ -53,8 +52,6 @@ namespace CyPhySignalBlocksAddOn
         private GMEConsole GMEConsole { get; set; }
         private MgaProject project;
 
-
-        // test code
         private class LibraryInfo
         {
             public bool attachedLibrary = false;
@@ -345,6 +342,7 @@ namespace CyPhySignalBlocksAddOn
 #if DEBUG
                 GMEConsole.Info.WriteLine("CyPhySignalBlocksAddOn starting up...");
 #endif
+                GMEConsole.Info.WriteLine(String.Format("This is OpenMETA version {0}", META.VersionInfo.MetaVersion));
 
                 //GMEConsole.Info.WriteLine(eventMask.ToString());
                 if (!componentEnabled)
@@ -460,10 +458,13 @@ namespace CyPhySignalBlocksAddOn
                         if (paradigmName != project.MetaName || !guidsEqual)
                         {
                             GMEConsole.Info.WriteLine("Skipping refresh of " + libraryInfo.DisplayName + " because it uses a different metamodel version than the current project.");
-                            throw new Exception();
+                            project.AbortTransaction();
+                            // not true, but don't try again
+                            libraryInfo.attachedLibrary = true;
+                            return;
                         }
 
-                        GMEConsole.Info.WriteLine("Attaching library " + mgaPath);
+                        // GMEConsole.Info.WriteLine("Attaching library " + mgaPath);
                         RootFolder newLibFolder = Common.Classes.RootFolder.GetRootFolder(project).AttachLibrary("MGA=" + mgaPath);
                         DateTime modtime = File.GetLastWriteTimeUtc(mgaPath);
                         ((newLibFolder as ISIS.GME.Common.Classes.RootFolder).Impl as GME.MGA.IMgaFolder).RegistryValue["modtime"] =
@@ -480,9 +481,10 @@ namespace CyPhySignalBlocksAddOn
                     }
                     project.CommitTransaction();
                 }
-                catch
+                catch (Exception e)
                 {
-                   project.AbortTransaction();
+                    GMEConsole.Error.WriteLine("Error refreshing library: " + SecurityElement.Escape(e.Message));
+                    project.AbortTransaction();
                 }
                 finally
                 {

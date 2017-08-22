@@ -5,6 +5,22 @@
 
 namespace isis
 {
+
+	std::ostream& operator <<(std::ostream & out, const bool & value) {
+	    out << Bool_string(value);
+		return out;
+	}
+
+	std::string  Bool_string( bool in_Bool )
+	{
+		if ( in_Bool )
+			return "TRUE";
+		else
+			return "FALSE";
+	}
+
+
+
 	// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
 	// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
 	// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 

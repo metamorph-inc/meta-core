@@ -7,6 +7,7 @@ using DesignConsistencyChecker.DesignRule;
 using CyPhyCOMInterfaces;
 using GME.MGA;
 using GME.CSharp;
+using CyPhyMasterInterpreter.Rules;
 
 namespace CyPhyPET.Rules
 {
@@ -45,15 +46,21 @@ namespace CyPhyPET.Rules
             }
 
             var filter = this.mainParameters.Project.CreateFilter();
-            var childObjects = (this.mainParameters.CurrentFCO as MgaModel).GetDescendantFCOs(filter);
+            var rootContext = (this.mainParameters.CurrentFCO as MgaFCO);
+            var childObjects = ((MgaModel)rootContext).GetDescendantFCOs(filter);
             this.Success = true;
+            if (rootContext.Meta.Name == "ParametricExploration")
+            {
+                ReportFeedBack(Global.OneAndOnlyOneDriver(rootContext), rootContext, "OneAndOnlyOneDriver", "There should be one and only one driver.");
+            }
+
             foreach (MgaFCO child in childObjects)
             {
                 //this.Logger.WriteInfo("Child to be checked : {0}", child.Meta.Name);
                 if (child.Meta.Name == "ParametricExploration")
                 {
-                    ReportFeedBack(Global.OneAndOnlyOneDriver(child), child, "OneAndOnlyOneDriver", "There should be one and only one driver.");
                     ReportFeedBack(Global.UniqueTestBenchRefNames(child), child, "UniqueTestBenchRefNames", "TestBenchReferences should have unique names");
+                    ReportFeedBack(Global.CheckComponentName(child), child, "ValidComponentName", "Name must be valid");
                 }
                 else if (child.Meta.Name == "TestBenchRef")
                 {
@@ -71,8 +78,21 @@ namespace CyPhyPET.Rules
                 {
                     ReportFeedBack(Global.OptimizerSetUpCorrectly(child), child, "OptimizerSetUpCorrectly", "Checks rules for an Optimizer");
                 }
+                else if (child.Meta.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.ProblemInput).Name)
+                {
+                    ReportFeedBack(Global.CheckProblemInput(child), child, "CheckProblemInput", "Checks rules for a ProblemInput");
+                }
+                else if (child.Meta.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.ProblemOutput).Name)
+                {
+                    ReportFeedBack(Global.CheckProblemOutput(child), child, "CheckProblemOutput", "Checks rules for a ProblemOutput");
+                }
+                else if (PET.petWrapperTypes.Contains(child.Meta.Name))
+                {
+                    ReportFeedBack(Global.CheckComponentName(child), child, "ValidComponentName", "Name must be valid");
+                }
             }
         }
+
 
         private void ReportFeedBack(IEnumerable<RuleFeedbackBase> feedBacks, IMgaFCO context, string ruleName, string ruleDescription)
         {

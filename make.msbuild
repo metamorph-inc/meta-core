@@ -19,10 +19,11 @@
     <PropertyGroup>
       <DesertPlatform Condition="'$(Platform)'!='x64'">Win32</DesertPlatform>
     </PropertyGroup>
-    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="Build"/>
+    <MSBuild Projects="externals/desert/desertVS2010.sln" Properties="Configuration=$(Configuration)Unicode;Platform=$(DesertPlatform)" Targets="desert"/>
   </Target>
 
   <Target Name="CyPhyML" DependsOnTargets="CheckEnv;Desert">
+    <Exec Command=".nuget\NuGet.exe restore CyPhyML.sln" WorkingDirectory="src" />
     <ItemGroup>
       <CyPhyMLIcons Include="$(MSBuildThisFileDirectory)meta\CyPhyML\icons\*"/>
     </ItemGroup>
@@ -33,7 +34,7 @@
     <PropertyGroup>
       <CyPhyMLPlatform Condition="'$(Platform)'!='x64'">Mixed Platforms</CyPhyMLPlatform>
     </PropertyGroup>
-    <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH);CreateHardLinksForCopyLocalIfPossible=true" Targets="Build"/>
+    <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH)" Targets="Build"/>
   </Target>
 
   <Target Name="CyPhyMLQudt" DependsOnTargets="CyPhyML">
@@ -42,21 +43,21 @@
 
   <Target Name="MetaLink">
     <Error Text="JAVA_HOME='$(JAVA_HOME)' doesn't exist" Condition="!Exists('$(JAVA_HOME)')"/>
-    <Exec Command="set PATH=$(MSBuildThisFileDirectory)\3rdParty\apache-maven-3.0.5\bin;$(MSBuildThisFileDirectory)\3rdParty\protoc-2.5.0-win32;%PATH%
+    <Exec Command="set PATH=$(MSBuildThisFileDirectory)\3rdParty\apache-maven-3.0.5\bin;%PATH%
     set M2=
     set M2_HOME=
     mvn install
-    " WorkingDirectory="$(MSBuildThisFileDirectory)\src\MetaLink" 
+" WorkingDirectory="$(MSBuildThisFileDirectory)\src\MetaLink" 
     CustomErrorRegularExpression="\[ERROR\]"/>
   </Target>
   
   <Target Name="Install_PythonLibs" DependsOnTargets="">
     <!-- make sure pip works -->
-    <Exec Command="bin\Python27\Scripts\python.exe -m pip freeze >NUL" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+    <Exec Command="bin\Python27\Scripts\python.exe -m pip --disable-pip-version-check freeze >NUL" IgnoreExitCode="false" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
   </Target>
   
   <Target Name="DownloadNuGetPackages">
-    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" IgnoreExitCode="true" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
+    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
   </Target>
   
   <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;DownloadNuGetPackages">

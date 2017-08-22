@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdatePrompt));
             this.DialogText = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -83,8 +84,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.DialogText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "UpdatePrompt";
-            this.Text = "UpdatePrompt";
+            this.Text = "Replace Component or Import as New";
             this.ResumeLayout(false);
             this.PerformLayout();
 

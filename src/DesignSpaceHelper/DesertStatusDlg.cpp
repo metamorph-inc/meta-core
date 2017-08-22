@@ -7,7 +7,6 @@
 #include "DesertStatusDlg.h"
 #include "Splash.h"
 
-#include <boost/thread/thread.hpp>
 #include "DesertThread.h"
 // CDesertStatusDlg dialog
 
@@ -25,7 +24,7 @@ CDesertStatusDlg::CDesertStatusDlg(DesertIface::DesertSystem &dsystem,
 								   DesertUdmMap &inv_des_map,
 					               CWnd* pParent, bool silent, long& configCount):
 											m_notify(0), 
-											m_thrd(0),
+											m_thrd(INVALID_HANDLE_VALUE),
 											m_ds(dsystem),
 											m_constraints(constraints),
 											m_des_map(des_map),
@@ -46,7 +45,7 @@ CDesertStatusDlg::CDesertStatusDlg(DesertIfaceBack::DesertBackSystem &dbacksyste
 								   DesertUdmMap &inv_des_map,
 					 CWnd* pParent, bool silent, long& configCount):
 						m_notify(0), 
-						m_thrd(0),
+						m_thrd(INVALID_HANDLE_VALUE),
 						m_dbs(dbacksystem),
 						m_des_map(des_map),
 						m_inv_des_map(inv_des_map),
@@ -84,6 +83,12 @@ END_MESSAGE_MAP()
 
 // CDesertStatusDlg message handlers
 
+DWORD WINAPI ThreadProc(LPVOID lpParameter)
+{
+	DesertThread* threadData = (DesertThread*)lpParameter;
+	(*threadData)();
+	return 0;
+}
 
 BOOL CDesertStatusDlg::OnInitDialog()
 {
@@ -102,19 +107,23 @@ BOOL CDesertStatusDlg::OnInitDialog()
 	{
 		m_finished = false;
 		m_notify = new Notify(*this, m_maxPrg);
-		m_thrd = new boost::thread(DesertThread(m_ds,m_constraints, m_des_map, m_inv_des_map, m_notify,m_stage, m_configCount));
+		threadData = std::unique_ptr<DesertThread>(new DesertThread(m_ds,m_constraints, m_des_map, m_inv_des_map, m_notify,m_stage, m_configCount));
 	}
 	else if(m_dbs!=Udm::null && m_stage==2)
 	{
 		m_finished = false;
 		m_notify = new Notify(*this, m_maxPrg);
-		m_thrd = new boost::thread(DesertThread(m_dbs,m_des_map, m_inv_des_map, m_notify, m_stage, m_configCount));
+		threadData = std::unique_ptr<DesertThread>(new DesertThread(m_dbs,m_des_map, m_inv_des_map, m_notify, m_stage, m_configCount));
 	}
 	else if(m_ds!=Udm::null && m_dbs!=Udm::null && m_stage==0)
 	{
 	
 	}
-	
+	if (threadData.get())
+	{
+		m_thrd = CreateThread(NULL, 0, ThreadProc, threadData.get(), 0, NULL);
+	}
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -293,12 +302,13 @@ LRESULT CDesertStatusDlg::OnFinished1(WPARAM wp, LPARAM lp)
 		}
 		
 
-	if (m_thrd )
+	if (m_thrd != INVALID_HANDLE_VALUE)
 	{
 		m_fatal = m_notify->m_fail;
 		m_notify->m_quit = true;
 		m_invalidConstraint = m_notify->m_invalidConstraint;
-		m_thrd->join();	
+		WaitForSingleObject(m_thrd, INFINITE);
+		CloseHandle(m_thrd);
 	}	
 
 	CDialog::OnCancel();	
@@ -336,7 +346,7 @@ LRESULT CDesertStatusDlg::OnProgress(WPARAM wp, LPARAM lp)
 //void CDesertStatusDlg::OnBnClickedCcancel()
 //{
 //	// TODO: Add your control notification handler code here
-//	if (m_thrd )
+//	if (m_thrd != INVALID_HANDLE_VALUE)
 //	{
 //		m_notify->m_quit = true;
 //		m_notify->m_cancel = true;
@@ -351,13 +361,14 @@ LRESULT CDesertStatusDlg::OnProgress(WPARAM wp, LPARAM lp)
 void CDesertStatusDlg::OnCancel()
 {
 	// TODO: Add your control notification handler code here
-	if (m_thrd )
+	if (m_thrd != INVALID_HANDLE_VALUE)
 	{
 		m_notify->m_quit = true;
 		m_notify->m_cancel = true;	
 		m_fatal = m_notify->m_fail;
 		m_invalidConstraint = m_notify->m_invalidConstraint;
-		m_thrd->join();
+		WaitForSingleObject(m_thrd, INFINITE);
+		CloseHandle(m_thrd);
 	}
 	//m_notify->finished();
 	m_cancel = true;
@@ -366,7 +377,6 @@ void CDesertStatusDlg::OnCancel()
 
 void CDesertStatusDlg::PostNcDestroy() 
 {
-	delete m_thrd, m_thrd = 0;
 	delete m_notify, m_notify = 0;
 
 	CDialog::PostNcDestroy();

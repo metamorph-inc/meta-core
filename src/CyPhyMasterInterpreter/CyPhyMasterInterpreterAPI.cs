@@ -12,6 +12,7 @@
     using Rules;
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+    using System.Reflection;
 
     /// <summary>
     /// Implements full master interpreter functionality.
@@ -22,46 +23,6 @@
     ComVisible(true)]
     public class CyPhyMasterInterpreterAPI : IDisposable
     {
-        private Action copyDashboard = new Action(() =>
-        {
-            var mutex = new System.Threading.Mutex(false, "OpenMETA_CyPhyMasterInterpreter_dashboard");
-            mutex.WaitOne();
-            try
-            {
-                var sourceDir = VersionInfo.DashboardPath;
-                var destinationDir = Path.Combine("dashboard");
-                var manifestFilename = "manifest.json";
-
-                var manifestSrc = Path.Combine(sourceDir, manifestFilename);
-                var manifestDst = Path.Combine(destinationDir, manifestFilename);
-
-                // read both manifest files
-                if (File.Exists(manifestSrc) &&
-                    File.Exists(manifestDst))
-                {
-                    // compare version number, chance to skip copy
-                    var manifestSrcContent = File.ReadAllText(manifestSrc);
-                    var manifestDstContent = File.ReadAllText(manifestDst);
-                    var manifestSrcObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestSrcContent);
-                    var manifestDstObject = Newtonsoft.Json.JsonConvert.DeserializeObject<DashboardManifest>(manifestDstContent);
-                    if (manifestSrcObject.Version == manifestDstObject.Version)
-                    {
-                        // no need for update/copy
-                        return;
-                    }
-                }
-
-                // TODO: we should put dashboard into the project directory and not into the current working directory.
-                DirectoryCopy(sourceDir, destinationDir, true);
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-                mutex.Dispose();
-            }
-
-        });
-
         private Dictionary<string, CyPhyGUIs.IInterpreterConfiguration> interpreterConfigurations =
             new Dictionary<string, CyPhyGUIs.IInterpreterConfiguration>();
 
@@ -99,6 +60,25 @@
             }
 
             this.Project = project;
+
+            AppDomain.CurrentDomain.AssemblyResolve += LoadFromSameFolder;
+        }
+
+        // MasterInterpreter is loaded via COM with the LoadFrom context. When loading GACed JobManagerLib,
+        // we switch to the standard context (fuslogvw shows "Switch from LoadFrom context to default context"),
+        // which loses the MasterIntepreter dll path.
+        // Tell the AppDomain to look in this folder still
+        static string folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
+        {
+            string assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+            if (!File.Exists(assemblyPath))
+            {
+                return null;
+            }
+            // assume this dll is the right version
+            Assembly assembly = Assembly.LoadFrom(assemblyPath);
+            return assembly;
         }
 
         public CyPhyMasterInterpreterAPI()
@@ -159,10 +139,16 @@
 
         private JobManagerDispatch Manager { get; set; }
 
+        Dictionary<string, AVM.DDP.MetaTBManifest.DesignType> Designs = new Dictionary<string, AVM.DDP.MetaTBManifest.DesignType>();
+
         /// <summary>
         /// True if this class should dispose the logger.
         /// </summary>
         private bool LoggerDisposeRequired { get; set; }
+        [ComVisible(false)]
+        public List<string> ConfigurationNames { get; private set; }
+        [ComVisible(false)]
+        public IEnumerable<GMELightObject> UnselectedConfigurationGroups;
 
         /// <summary>
         /// Disposes the logger if it needs to be disposed.
@@ -174,6 +160,7 @@
             {
                 this.Logger.Dispose();
             }
+            AppDomain.CurrentDomain.AssemblyResolve -= LoadFromSameFolder;
         }
 
         public IMgaFCOs GetConfigurations(IMgaProject project, string gmeId)
@@ -243,21 +230,28 @@
             ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
 
             AnalysisModelProcessor analysisModelProcessor = null;
+            string contextID = null;
 
             this.ExecuteInTransaction(context, () =>
             {
+                contextID = context.ID;
                 analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
                 configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
                 configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
                 configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
 
+                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
+
+                if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                {
+                    configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
+                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
+                    return;
+                }
+
                 configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
                     SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
                     SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
-
-                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
-
-                configurationSelectionInput.Target = GMELightObject.GetGMELightFromMgaObject(analysisModelProcessor.OriginalSystemUnderTest.Impl);
             });
 
             var interpreters = analysisModelProcessor.GetWorkflow();
@@ -277,13 +271,15 @@
                 {
                     selectionForm.SaveSettingsAndResults();
                     dialogResult = System.Windows.Forms.DialogResult.OK;
+                    var selectionResult = selectionForm.ConfigurationSelectionResult;
+                    selectionResult.KeepTemporaryModels = false;
+                    selectionResult.PostToJobManager = false;
                 }
 
                 if (dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
                     var selectionResult = selectionForm.ConfigurationSelectionResult;
                     results.KeepTemporaryModels = selectionResult.KeepTemporaryModels;
-                    results.OpenDashboard = selectionResult.OpenDashboard;
                     results.PostToJobManager = selectionResult.PostToJobManager;
                     results.SelectedConfigurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
 
@@ -299,7 +295,59 @@
 
                             results.SelectedConfigurations.Append(selectedGmeObject as MgaFCO);
                         }
+
+                        this.ConfigurationNames = selectionResult.ConfigurationGroups.SelectMany(group => group.Configurations).Select(fco => fco.Name).ToList();
+                        this.UnselectedConfigurationGroups = selectionResult.UnselectedConfigurations;
                     });
+                }
+                else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ProcessStartInfo info = new ProcessStartInfo()
+                    {
+                        FileName = META.VersionInfo.PythonVEnvExe,
+                        Arguments = String.Format("\"{0}\" \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
+                                this.Project.ProjectConnStr.Substring("MGA=".Length),
+                                contextID),
+                        RedirectStandardError = true,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    Process process = new Process()
+                    {
+                        StartInfo = info,
+                        EnableRaisingEvents = true
+                    };
+                    GME.CSharp.GMEConsole console = GME.CSharp.GMEConsole.CreateFromProject(this.Project);
+                    process.ErrorDataReceived += (sender, data) =>
+                    {
+                        if (String.IsNullOrEmpty(data.Data) == false)
+                        {
+                            console.Error.WriteLine(data.Data);
+                        }
+                    };
+                    process.OutputDataReceived += (sender, data) =>
+                    {
+                        if (String.IsNullOrEmpty(data.Data) == false)
+                        {
+                            console.Info.WriteLine(data.Data);
+                        }
+                    };
+                    process.Exited += (s, o) =>
+                    {
+                        // TODO: check process.ExitCode?
+                        process.Dispose();
+                    };
+                    process.Disposed += (s, o) =>
+                    {
+                        Marshal.ReleaseComObject(console.gme);
+                        console.gme = null;
+                    };
+                    process.Start();
+                    process.StandardInput.Close();
+                    process.BeginErrorReadLine();
+                    process.BeginOutputReadLine();
                 }
                 else
                 {
@@ -363,9 +411,6 @@
 
             this.Logger.WriteDebug("Start main method for master interpreter.");
 
-            this.Logger.WriteDebug("Copying dashboard.");
-            this.copyDashboard.Invoke();
-
             if (this.ProjectManifest == null)
             {
                 this.ExecuteInTransaction(context, () =>
@@ -407,16 +452,6 @@
                     Percent = 0,
                     Context = context.Name,
                     Title = "Starting"
-                });
-            });
-
-            this.ExecuteInTransaction(context, () =>
-            {
-                this.OnMultipleConfigurationProgress(new ProgressCallbackEventArgs()
-                {
-                    Percent = 1,
-                    Context = context.Name,
-                    Title = "Updating local dashboard"
                 });
             });
 
@@ -480,12 +515,31 @@
                 }
             }
 
-            this.Logger.WriteDebug("Generate dashboard script files");
-            this.GenerateDashboardScriptFiles();
-            this.Logger.WriteDebug("Dashboard script files generated");
-
             this.ExecuteInTransaction(context, () =>
             {
+                if (this.Manager != null && this.UnselectedConfigurationGroups != null)
+                {
+                    foreach (var configObj in UnselectedConfigurationGroups)
+                    {
+                        var configuration = this.Project.GetFCOByID(configObj.GMEId);
+                        if (configuration.MetaBase.Name == typeof(CyPhy.CWC).Name)
+                        {
+                            //this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
+                            //analysisModelProcessor.Expand(CyPhyClasses.CWC.Cast(configuration));
+                            //this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
+
+                            var configs = (CyPhy.Configurations)CyPhyClasses.CWC.Cast(configuration).ParentContainer;
+                            var designContainer = (CyPhy.DesignContainer)configs.ParentContainer;
+                            var ddpDesign = GetSelectedDesign(CyPhyClasses.CWC.Cast(configuration), designContainer);
+                            var ddpDesignName = configuration.Name;
+                            Designs.Add(ddpDesignName, ddpDesign);
+                        }
+                        // TODO else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
+
+                    }
+                    this.Manager.JobCollection.Designs = Designs;
+                }
+
                 this.OnMultipleConfigurationProgress(new ProgressCallbackEventArgs()
                 {
                     Percent = 100,
@@ -493,6 +547,10 @@
                     Title = "Finished"
                 });
             });
+            if (this.Manager != null && this.Manager.Started)
+            {
+                Manager.Done();
+            }
 
             this.Results = results.ToArray();
 
@@ -634,60 +692,6 @@
             this.IsCancelled = true;
         }
 
-        public void OpenDashboardWithChrome()
-        {
-            string indexFileName = this.GetIndexFilename();
-
-            // try to get this value better HKLM + 32 vs 64bit...
-            this.Logger.WriteDebug("Requested to dashboard {0} file with chrome");
-
-            // chrome is installed for all users
-            // http://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx#app_exe
-
-            string keyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
-
-            string chromePath = (string)Microsoft.Win32.Registry.GetValue(
-                keyName,
-                "Path",
-                "ERROR: " + keyName + " InstallLocation does not exist!");
-
-            if (chromePath == null || chromePath.StartsWith("ERROR"))
-            {
-                // Installed only for this user
-                keyName = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
-
-                chromePath = (string)Microsoft.Win32.Registry.GetValue(
-                    keyName,
-                    "Path",
-                    "ERROR: " + keyName + " InstallLocation does not exist!");
-            }
-
-            if (chromePath == null || chromePath.StartsWith("ERROR"))
-            {
-                this.Logger.WriteDebug("Chrome was not found on the computer. Searched in {0}",
-                    @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe");
-                this.Logger.WriteWarning("Chrome was not found on your computer. Dashboard will not open.");
-            }
-            else
-            {
-                string chromeExe = Path.Combine(chromePath, "chrome.exe");
-
-                this.Logger.WriteDebug("Chrome found {0}", chromeExe);
-
-                Process p = new Process();
-                p.StartInfo = new ProcessStartInfo()
-                {
-                    Arguments = " --allow-file-access-from-files --new-window \"" + Path.GetFullPath(indexFileName) + "\"",
-                    FileName = chromeExe,
-                    UseShellExecute = false
-                };
-
-                // open dashboard
-                this.Logger.WriteInfo("Opening dashboard, if test bench executions have not finished yet dashboard might be empty. Refresh it after some/all test bench execution finished.");
-                p.Start();
-            }
-        }
-
         protected virtual void OnSingleConfigurationProgress(ProgressCallbackEventArgs e)
         {
             EventHandler<ProgressCallbackEventArgs> handler = this.SingleConfigurationProgress;
@@ -786,7 +790,18 @@
 
                 if (context.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
                 {
-                    testBenchType = CyPhyClasses.ParametricExploration.Cast(context).Children.TestBenchRefCollection.FirstOrDefault().Referred.TestBenchType;
+                    var tbRef = CyPhyClasses.ParametricExploration.Cast(context).Children.TestBenchRefCollection.FirstOrDefault();
+                    if (tbRef != null)
+                    {
+                        testBenchType = tbRef.Referred.TestBenchType;
+                    }
+                    else
+                    {
+                        configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+                        configurations.Append(context as MgaFCO);
+                        configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
+                        return;
+                    }
                 }
                 else if (context.MetaBase.Name == typeof(CyPhy.TestBenchSuite).Name)
                 {
@@ -798,58 +813,61 @@
                     testBenchType = CyPhyClasses.TestBenchType.Cast(context);
                 }
 
-                var referredSut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault().Referred.DesignEntity;
-
-                if (referredSut is CyPhy.ComponentAssembly)
+                if (testBenchType != null)
                 {
-                    configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
-                    configurations.Append(referredSut.Impl as MgaFCO);
-                    configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
-                }
-                else if (referredSut is CyPhy.DesignContainer)
-                {
-                    var configItems = (referredSut as CyPhy.DesignContainer)
-                        .Children
-                        .ConfigurationsCollection;
+                    var referredSut = testBenchType.Children.TopLevelSystemUnderTestCollection.FirstOrDefault().Referred.DesignEntity;
 
-                    foreach (CyPhy.Configurations configItem in configItems)
+                    if (referredSut is CyPhy.ComponentAssembly)
                     {
                         configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+                        configurations.Append(referredSut.Impl as MgaFCO);
+                        configurationGroups.Add(new ConfigurationGroup() { Configurations = configurations });
+                    }
+                    else if (referredSut is CyPhy.DesignContainer)
+                    {
+                        var configItems = (referredSut as CyPhy.DesignContainer)
+                            .Children
+                            .ConfigurationsCollection;
 
-                        foreach (var cwc in configItem.Children.CWCCollection)
+                        foreach (CyPhy.Configurations configItem in configItems)
                         {
-                            if (cwc.DstConnections.Config2CACollection.Any())
+                            configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+
+                            foreach (var cwc in configItem.Children.CWCCollection)
                             {
-                                foreach (var componentAssemblyRef in cwc.DstConnections.Config2CACollection.Select(x => x.DstEnds.ComponentAssemblyRef))
+                                if (cwc.DstConnections.Config2CACollection.Any())
                                 {
-                                    if (componentAssemblyRef.Referred.ComponentAssembly != null)
+                                    foreach (var componentAssemblyRef in cwc.DstConnections.Config2CACollection.Select(x => x.DstEnds.ComponentAssemblyRef))
                                     {
-                                        configurations.Append(componentAssemblyRef.Referred.ComponentAssembly.Impl as MgaFCO);
-                                    }
-                                    else
-                                    {
-                                        this.Logger.WriteWarning("Null reference to generated component assembly for {0} within {1}.", cwc.Name, configItem.Name);
+                                        if (componentAssemblyRef.Referred.ComponentAssembly != null)
+                                        {
+                                            configurations.Append(componentAssemblyRef.Referred.ComponentAssembly.Impl as MgaFCO);
+                                        }
+                                        else
+                                        {
+                                            this.Logger.WriteWarning("Null reference to generated component assembly for {0} within {1}.", cwc.Name, configItem.Name);
+                                        }
                                     }
                                 }
+                                else
+                                {
+                                    // CA exporter will be required to call
+                                    configurations.Append(cwc.Impl as MgaFCO);
+                                }
                             }
-                            else
-                            {
-                                // CA exporter will be required to call
-                                configurations.Append(cwc.Impl as MgaFCO);
-                            }
-                        }
 
-                        configurationGroups.Add(new ConfigurationGroup()
-                        {
-                            Configurations = configurations,
-                            IsDirty = configItem.Attributes.isDirty,
-                            Owner = configItem.Impl as MgaModel
-                        });
+                            configurationGroups.Add(new ConfigurationGroup()
+                            {
+                                Configurations = configurations,
+                                IsDirty = configItem.Attributes.isDirty,
+                                Owner = configItem.Impl as MgaModel
+                            });
+                        }
                     }
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             });
 
@@ -918,14 +936,14 @@
                 {
                     MgaFCO found = null;
 
-                    foreach (MgaSimpleConnection conn in configuration.PartOfConns)
+                    foreach (MgaSimpleConnection conn in configuration.PartOfConns.Cast<MgaConnPoint>().Select(cp => cp.Owner))
                     {
                         if (conn.MetaBase.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.Config2CA).Name)
                         {
                             if ((conn.Dst as MgaReference).Referred != null)
                             {
                                 // pick the first non null exported configuration
-                                found = conn.Dst;
+                                found = (conn.Dst as MgaReference).Referred;
                                 break;
                             }
                         }
@@ -941,6 +959,10 @@
                     }
                 }
                 else if (configuration.MetaBase.Name == typeof(ISIS.GME.Dsml.CyPhyML.Interfaces.ComponentAssembly).Name)
+                {
+                    results.Append(configuration);
+                }
+                else if (configuration.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
                 {
                     results.Append(configuration);
                 }
@@ -960,93 +982,6 @@
             });
 
             return results;
-        }
-
-        private void GenerateDashboardScriptFiles()
-        {
-            if (this.ProjectManifest == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var mutex = new System.Threading.Mutex(false, "OpenMETA_CyPhyMasterInterpreter_dashboard");
-            mutex.WaitOne();
-            try
-            {
-
-                // Generate python scripts if not already there
-                string export_for_dashboard_scoring = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "export_for_dashboard_scoring.py"));
-
-                if (File.Exists(export_for_dashboard_scoring) == false)
-                {
-                    using (StreamWriter writer = new StreamWriter(export_for_dashboard_scoring))
-                    {
-                        writer.WriteLine(Properties.Resources.export_for_dashboard_scoring);
-                    }
-                }
-
-                // Check if the "stats" directory exists; if not, make it
-                string stat_dir_path = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "stats"));
-
-                if (Directory.Exists(stat_dir_path) == false)
-                {
-                    Directory.CreateDirectory(stat_dir_path);
-                }
-
-                string gather_stat_json = Path.GetFullPath(
-                    Path.Combine(stat_dir_path, "gather_stat_json.py"));
-
-                if (File.Exists(gather_stat_json))
-                {
-                    File.Delete(gather_stat_json);
-                }
-
-                using (StreamWriter writer = new StreamWriter(gather_stat_json))
-                {
-                    writer.WriteLine(Properties.Resources.gather_stat_json);
-                }
-
-                // Check if the "log" folder exists; if not, create it
-                string log_folder_path = Path.GetFullPath(
-                    Path.Combine(this.ProjectManifest.OutputDirectory, "log"));
-
-                if (Directory.Exists(log_folder_path) == false)
-                {
-                    Directory.CreateDirectory(log_folder_path);
-                }
-
-                string gather_all_logfiles = Path.GetFullPath(
-                    Path.Combine(log_folder_path, "gather_all_logfiles.py"));
-
-                if (File.Exists(gather_all_logfiles))
-                {
-                    File.Delete(gather_all_logfiles);
-                }
-
-                using (StreamWriter writer = new StreamWriter(gather_all_logfiles))
-                {
-                    writer.WriteLine(Properties.Resources.gather_all_logfiles);
-                }
-
-                index_html index = new index_html();
-                index.ProjectName = Path.GetFileNameWithoutExtension(this.ProjectManifest.Project.CyPhyProjectFileName);
-                index.AvmProjectFileName = Path.GetFileName(this.ProjectManifest.m_filename);
-
-                string indexFileName = this.GetIndexFilename();
-
-                using (StreamWriter writer = new StreamWriter(indexFileName))
-                {
-                    string index_content = index.TransformText();
-                    writer.WriteLine(index_content);
-                }
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-                mutex.Dispose();
-            }
         }
 
         private string GetIndexFilename()
@@ -1137,11 +1072,25 @@
 
             Exception exceptionToThrow = null;
 
+            IAsyncResult createJobManagerResult = null;
             try
             {
                 this.Logger.WriteDebug("Turning off addons for performance reasons: {0}", string.Join(", ", this.addonNames));
                 this.TurnOffAddons(context);
 
+                Action createJobManager = () =>
+                {
+                    this.Manager = new JobManagerDispatch();
+                    this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
+                    this.Manager.JobCollection.ConfigurationNames = this.ConfigurationNames;
+                };
+                if (postToJobManager && this.Manager == null)
+                {
+                    createJobManagerResult = createJobManager.BeginInvoke(null, null);
+                }
+
+                AVM.DDP.MetaTBManifest.DesignType ddpDesign = null;
+                string ddpDesignName = null;
                 this.ExecuteInTransaction(context, () =>
                 {
                     contextName = context.Name;
@@ -1168,7 +1117,6 @@
                         Title = "Expanding"
                     });
 
-                    AVM.DDP.MetaTBManifest.DesignType ddpDesign = null;
                     if (configuration.MetaBase.Name == typeof(CyPhy.CWC).Name)
                     {
                         this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
@@ -1178,11 +1126,20 @@
                         var configs = (CyPhy.Configurations)CyPhyClasses.CWC.Cast(configuration).ParentContainer;
                         var designContainer = (CyPhy.DesignContainer)configs.ParentContainer;
                         ddpDesign = GetSelectedDesign(CyPhyClasses.CWC.Cast(configuration), designContainer);
+                        ddpDesignName = configuration.Name;
                     }
                     else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
                     {
                         this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
                         analysisModelProcessor.Expand(CyPhyClasses.ComponentAssembly.Cast(configuration));
+                        // FIXME: get corresponding CWC and assign ddpDesign = GetSelectedDesign(cwc)
+                        this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
+                    }
+                    else if (configuration.MetaBase.Name == typeof(CyPhy.ParametricExploration).Name)
+                    {
+                        // standalone PET
+                        this.Logger.WriteDebug("{0} was specified as configuration. Start expanding it. {1}", configuration.MetaBase.Name, configuration.AbsPath);
+                        analysisModelProcessor.Expand(CyPhyClasses.ParametricExploration.Cast(configuration));
                         this.Logger.WriteDebug("Expand finished for {0}", configuration.AbsPath);
                     }
                     else
@@ -1195,7 +1152,11 @@
 
                     // design space might be saved multiple times
 
-                    if (analysisModelProcessor.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
+                    if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                    {
+                        this.Logger.WriteDebug("[SKIP] Calling design space exporter, since standalone PET does not have a TestBench");
+                    }
+                    else if (analysisModelProcessor.OriginalSystemUnderTest.AllReferred is CyPhy.DesignContainer)
                     {
                         this.Logger.WriteDebug("Calling design space exporter");
                         bool successDesignSpaceExport = analysisModelProcessor.SaveDesignSpace(this.ProjectManifest);
@@ -1244,22 +1205,11 @@
                     }
 
                     this.Logger.WriteDebug("Saving test bench manifest");
-                    bool successTestBenchManifest = analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
+                    analysisModelProcessor.SaveTestBenchManifest(this.ProjectManifest, configuration.Name, MasterInterpreterStartTime);
 
                     var manifest = AVM.DDP.MetaTBManifest.OpenForUpdate(analysisModelProcessor.OutputDirectory);
                     manifest.Design = ddpDesign;
                     manifest.Serialize(analysisModelProcessor.OutputDirectory);
-
-                    result.Success = result.Success && successTestBenchManifest;
-
-                    if (successTestBenchManifest)
-                    {
-                        this.Logger.WriteDebug("Saving test bench manifest succeeded.");
-                    }
-                    else
-                    {
-                        this.Logger.WriteError("Saving test bench manifest failed.");
-                    }
 
                     this.Logger.WriteDebug("Serializing Project manifest file with updates.");
                     this.ProjectManifest.Serialize();
@@ -1326,16 +1276,21 @@
                             Title = "Posting to Job Manager"
                         });
 
-                        if (this.Manager == null)
+                        if (createJobManagerResult != null)
                         {
                             this.Logger.WriteDebug("Job manager instance is null. Initializing one.");
-                            this.Manager = new JobManagerDispatch();
+                            createJobManager.EndInvoke(createJobManagerResult);
                             this.Logger.WriteDebug("Job manager dispatch is ready to receive jobs");
                         }
 
                         this.Logger.WriteDebug("Posting to the job manager");
                         var postedToJobManager = analysisModelProcessor.PostToJobManager(this.Manager);
                         result.Success = result.Success && postedToJobManager;
+
+                        if (ddpDesign != null)
+                        {
+                            Designs.Add(ddpDesignName, ddpDesign);
+                        }
 
                         if (postedToJobManager)
                         {
@@ -1404,6 +1359,10 @@
             }
             finally
             {
+                if (createJobManagerResult != null)
+                {
+                    createJobManagerResult.AsyncWaitHandle.WaitOne();
+                }
                 // clean up if interpreter is canceled
                 this.ExecuteInTransaction(context, () =>
                 {
@@ -1534,12 +1493,6 @@
                     }
                 }
             });
-        }
-
-        private class DashboardManifest
-        {
-            [Newtonsoft.Json.JsonProperty(PropertyName = "version")]
-            public string Version { get; set; }
         }
     }
 }

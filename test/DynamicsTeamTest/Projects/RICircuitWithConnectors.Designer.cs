@@ -165,7 +165,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(result, "CyPhyPET failed.");
         }
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "RICircuitWithConnectors")]
         [Trait("PCC", "RICircuitWithConnectors")]
         public void RI_PCC_CA()
@@ -179,7 +179,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(result, "CyPhyPET failed.");
         }
 
-        [Fact]
+        [Fact(Skip = "PCC is unimplemented")]
         [Trait("Model", "RICircuitWithConnectors")]
         [Trait("PCC", "RICircuitWithConnectors")]
         public void RI_PCC3Metrics_CA()

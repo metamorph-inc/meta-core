@@ -7,11 +7,6 @@ processes EditPointer objects from a deque.
 Each object is extracted and the proper Creo methods are called.
 */
 
-/**
-For an example using this <b>handler</h> object see "meta-link-main.cpp".
-
-*/
-
 /** the header defining the EditPointer objects */
 #include "gen/MetaLinkMsg.pb.h"
 #include "BridgeClient.h"

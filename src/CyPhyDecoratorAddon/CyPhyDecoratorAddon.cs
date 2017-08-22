@@ -146,7 +146,11 @@ namespace CyPhyDecoratorAddon
 
 					if (subject.MetaBase.Name == "Task" || subject.MetaBase.Name == "ExecutionTask")
 					{
-                        if (string.IsNullOrEmpty((subject as MgaFCO).StrAttrByName["COMName"]) == false)
+                        if (subject.MetaBase.Name == "Task" && string.IsNullOrEmpty((subject as MgaFCO).StrAttrByName["COMName"]) == false)
+                        {
+                            return;
+                        }
+                        if (subject.MetaBase.Name == "ExecutionTask" && string.IsNullOrEmpty((subject as MgaFCO).StrAttrByName["Invocation"]) == false)
                         {
                             return;
                         }
@@ -393,7 +397,6 @@ namespace CyPhyDecoratorAddon
     internal class MgaAtomWrapper
     {
         protected MgaAtom atom;
-        protected string name;
 
         public MgaAtom Atom
         {

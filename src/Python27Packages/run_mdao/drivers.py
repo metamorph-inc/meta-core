@@ -3,6 +3,9 @@ from __future__ import absolute_import
 import numpy
 import itertools
 import traceback
+import os
+import os.path
+import errno
 
 from run_mdao.restart_recorder import RestartRecorder
 
@@ -28,7 +31,7 @@ except AttributeError:
 
 def _get_seed_and_random(seed):
     if seed is None:
-        seed = numpy.random.randint(0, 2**31-1) + numpy.random.randint(0, 2**31-1)
+        seed = numpy.random.randint(0, 2**31 - 1) + numpy.random.randint(0, 2**31 - 1)
     return seed, numpy.random.RandomState(seed)
 
 
@@ -45,6 +48,16 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         super(PredeterminedRunsDriver, self).__init__(*args, **kwargs)
         self.supports['gradients'] = False
         self.original_dir = original_dir
+
+        # Make sure self.original_dir exists (if this was instantiated from a subproblem, it might not)
+        try:
+            os.makedirs(self.original_dir)
+        except OSError as e:
+            if e.errno == errno.EEXIST and os.path.isdir(self.original_dir):
+                pass
+            else:
+                raise
+
         self.use_restart = True
 
     def _setup_communicators(self, comm, parent_dir):
@@ -101,8 +114,8 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
 
             run_sizes, run_offsets = evenly_distrib_idxs(self._num_par_doe,
                                                          len(run_list))
-            job_list = [run_list[o:o+s] for o, s in zip(run_offsets,
-                                                        run_sizes)]
+            job_list = [run_list[o:o + s] for o, s in zip(run_offsets,
+                                                          run_sizes)]
 
         run_list = comm.scatter(job_list, root=0)
         debug('Number of DOE jobs: %s' % len(run_list))
@@ -158,6 +171,8 @@ class UniformDriver(PredeterminedRunsDriver):
     def _build_runlist(self):
         def sample_var(metadata):
             if metadata.get('type', 'double') == 'double':
+                if metadata['lower'] == metadata['upper']:
+                    return metadata['lower']
                 return self.random.uniform(metadata['lower'], metadata['upper'])
             elif metadata.get('type') == 'enum':
                 return self.random.choice(metadata['items'])
@@ -207,6 +222,8 @@ class OptimizedLatinHypercubeDriver(PredeterminedRunsDriver):
         super(OptimizedLatinHypercubeDriver, self).__init__(*args, **kwargs)
         self.qs = [1, 2, 5, 10, 20, 50, 100]  # List of qs to try for Phi_q optimization
         self.num_samples = num_samples
+        if num_samples < 2:
+            raise ValueError('num_samples must be >= 2')
         self.seed = seed
         self.population = population
         self.generations = generations

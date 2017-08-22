@@ -6,9 +6,6 @@
   <PropertyGroup>
     <!-- Some General Paths -->
     <CREO_PARAMETRIC_TOOLKIT_PARENT_DIR Condition="'$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)'==''">C:\Program Files\PTC\Creo 3.0\M060\Common Files</CREO_PARAMETRIC_TOOLKIT_PARENT_DIR>
-    <PROE_ISIS_EXTENSIONS Condition="'$(PROE_ISIS_EXTENSIONS)'==''">$(MSBuildThisFileDirectory)deploy\CAD_Installs\Proe ISIS Extensions\</PROE_ISIS_EXTENSIONS>
-	<CREO_PARAMETRIC_DIR Condition="Exists('C:\Program Files\PTC\Creo 2.0\Parametric')">C:\Program Files\PTC\Creo 2.0\Parametric</CREO_PARAMETRIC_DIR>
-	<CREO_PARAMETRIC_DIR Condition="Exists('C:\Program Files\PTC\Creo 3.0\M060\Parametric')">C:\Program Files\PTC\Creo 3.0\M060\Parametric</CREO_PARAMETRIC_DIR>
   </PropertyGroup>
   
   <Target Name="MetaLink">
@@ -23,11 +20,11 @@
   <Target Name="Build" DependsOnTargets="LoadNuGetPackages" >
     <Error Text="CREO_PARAMETRIC_TOOLKIT_PARENT_DIR='$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)' doesn't exist" Condition="!Exists('$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)')"/>
     <MSBuild Projects="$(MSBuildThisFileDirectory)\src\CADAssembler\All_CAD.sln" Targets="Build" Properties="Configuration=Release;Platform=x64;CREO_PARAMETRIC_TOOLKIT_PARENT_DIR=$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR);VisualStudioVersion=11.0;PlatformToolset=v110"/>
-    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_DIR)\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricCreateAssembly.exe&quot;"
+    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricCreateAssembly.exe&quot;"
         WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
-    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_DIR)\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\ExtractACM-XMLfromCreoModels.exe&quot;"
+    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\ExtractACM-XMLfromCreoModels.exe&quot;"
         WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
-    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_DIR)\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricMetaLink.exe&quot;"
+    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricMetaLink.exe&quot;"
         WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
   </Target>
   
@@ -35,22 +32,24 @@
   </Target>
 
   <Target Name="Push_CADCreoParametricCreateAssembly_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricCreateAssembly\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricCreateAssembly\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
 
   <Target Name="Push_ExtractACM-XMLfromCreoModels_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe ExtractACM-XMLfromCreoModels\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe ExtractACM-XMLfromCreoModels\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
   
   <Target Name="Push_CADCreoParametricMetaLink_NuGet">
-    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricMetaLink\build_nuget_package.py pack_nuget push_nuget"
+    <Exec Command="cmd /c ..\..\bin\Python27\Scripts\Python.exe CADCreoParametricMetaLink\build_nuget_package.py pack_nuget"
         WorkingDirectory="$(MSBuildThisFileDirectory)src\CADAssembler" IgnoreExitCode="false"/>
   </Target>
   
 
-  <Target Name="Push_All_NuGet" DependsOnTargets="Push_CADCreoParametricCreateAssembly_NuGet;Push_ExtractACM-XMLfromCreoModels_NuGet;Push_CADCreoParametricMetaLink_NuGet" />
+  <Target Name="Pack_NuGet" DependsOnTargets="Push_CADCreoParametricCreateAssembly_NuGet;Push_ExtractACM-XMLfromCreoModels_NuGet;Push_CADCreoParametricMetaLink_NuGet" />
+
+  <Target Name="Push_All_NuGet" DependsOnTargets="Pack_NuGet" />
 
   <!-- deprecated -->
   <Target Name="Push_NuGet" DependsOnTargets="Push_All_NuGet"/>

@@ -13,7 +13,6 @@
 
 #include <fstream>
 #include <iterator>
-#include <boost/regex.hpp>
 #include <string>
 #include <set>
 #include <iostream>

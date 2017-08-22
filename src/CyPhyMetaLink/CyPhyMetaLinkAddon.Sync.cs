@@ -67,6 +67,7 @@ namespace CyPhyMetaLink
         public CyPhyMetaLinkBridgeClient.MetaLinkBridgeClient bridgeClient = new CyPhyMetaLinkBridgeClient.MetaLinkBridgeClient();
 
         // Data maintained for synced components
+        [ComVisible(false)]
         public readonly Dictionary<string, SyncedComponentData> syncedComponents = new Dictionary<string, SyncedComponentData>();
 
         // right now, support syncing only one ComponentAssembly
@@ -237,11 +238,10 @@ namespace CyPhyMetaLink
                 return;
             }
 
-            string proeIsisExtensionsDir = System.Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
-            string createAssemblyExe = Path.Combine(proeIsisExtensionsDir ?? "", "bin", "CADCreoParametricMetaLink.exe");
+            string createAssemblyExe = Path.Combine(META.VersionInfo.MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricMetaLink.exe");
             if (File.Exists(createAssemblyExe) == false)
             {
-                GMEConsole.Error.WriteLine("CADCreoParametricMetaLink.exe could not be found");
+                GMEConsole.Error.WriteLine(String.Format("Could not find CADCreoParametricMetaLink.exe at '{0}'", createAssemblyExe));
                 return;
             }
             if (workingDir == null)
@@ -322,7 +322,7 @@ namespace CyPhyMetaLink
                         writer.Write(stderrData.ToString());
                         writer.Flush();
                         writer.Close();
-                        GMEConsole.Error.WriteLine(String.Format("CADCreoParametricCreateAssembly exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
+                        GMEConsole.Error.WriteLine(String.Format("CADCreoParametricMetaLink exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
                         SyncControl.Invoke(startupFailedCallback);
                     }
                 }

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JobManagerModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="JobManagerModelStoreContainer">
+          <EntitySet Name="SavedJobs" EntityType="JobManagerModel.Store.SavedJobs" store:Type="Tables" />
+        </EntityContainer>
+        <EntityType Name="SavedJobs">
+          <Key>
+            <PropertyRef Name="JobName" />
+          </Key>
+          <Property Name="Title" Type="nvarchar" Nullable="false" />
+          <Property Name="WorkingDirectory" Type="nvarchar" Nullable="false" />
+          <Property Name="RunCommand" Type="nvarchar" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" Nullable="false" />
+          <Property Name="JobName" Type="nvarchar" Nullable="false" />
+          <Property Name="VFUrl" Type="nvarchar" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JobManagerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="JobManagerEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SavedJobs" EntityType="JobManagerModel.SavedJob" />
+        </EntityContainer>
+        <EntityType Name="SavedJob">
+          <Key>
+            <PropertyRef Name="JobName" />
+          </Key>
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="2147483647" Unicode="true" FixedLength="false" />
+          <Property Name="WorkingDirectory" Type="String" Nullable="false" MaxLength="2147483647" Unicode="true" FixedLength="false" />
+          <Property Name="RunCommand" Type="String" Nullable="false" MaxLength="2147483647" Unicode="true" FixedLength="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="2147483647" Unicode="true" FixedLength="false" />
+          <Property Name="JobName" Type="String" Nullable="false" MaxLength="2147483647" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="VFUrl" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JobManagerModelStoreContainer" CdmEntityContainer="JobManagerEntities1">
+          <EntitySetMapping Name="SavedJobs"><EntityTypeMapping TypeName="JobManagerModel.SavedJob"><MappingFragment StoreEntitySet="SavedJobs">
+                <ScalarProperty Name="VFUrl" ColumnName="VFUrl" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="WorkingDirectory" ColumnName="WorkingDirectory" />
+            <ScalarProperty Name="RunCommand" ColumnName="RunCommand" />
+            <ScalarProperty Name="Status" ColumnName="Status" />
+            <ScalarProperty Name="JobName" ColumnName="JobName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="SaveJobs">
+        <EntityTypeShape EntityType="JobManagerModel.SavedJob" Width="1.5" PointX="0.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

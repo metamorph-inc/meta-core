@@ -51,6 +51,7 @@ namespace CyPhy2CAD_CSharp
             GMEIDJointIDMap = new Dictionary<string, string>();
         }
 
+
         public void CreateFlatData(CyPhy.ComponentAssembly cyphyasm)
         {
             List<CyPhy.Component> regular = new List<CyPhy.Component>();
@@ -60,6 +61,21 @@ namespace CyPhy2CAD_CSharp
             FindComponents(cyphyasm, regular, size2fitcomponents);
 
             ProcessComponents(regular, size2fitcomponents, cyphyasm);
+            ProcessReferenceCoordinateSystems(cyphyasm);
+        }
+
+        public void ProcessReferenceCoordinateSystems(CyPhy.ComponentAssembly cyphyasm)
+        {
+            if (cyphyasm != null)
+            {
+                // [4] Find ReferenceCoordinateComponents
+                foreach (CyPhy.ReferenceCoordinateSystem refCoord in cyphyasm.Children.ReferenceCoordinateSystemCollection)
+                {
+                    ReferenceCoordinateSystemTraversal traverser = new ReferenceCoordinateSystemTraversal(refCoord);
+                    referenceCoordComponents.AddRange(traverser.referenceCoordComponents);
+                }
+
+            }
         }
 
         private void ProcessComponents(List<CyPhy.Component> regular, List<CyPhy.Component> size2fitcomponents, CyPhy.ComponentAssembly cyphyasm)
@@ -112,21 +128,24 @@ namespace CyPhy2CAD_CSharp
                 CreateEdges(item.Value, cyphyasm);
             }
 
-            if (cyphyasm != null)
-            {
-                // [4] Find ReferenceCoordinateComponents
-                foreach (CyPhy.ReferenceCoordinateSystem refCoord in cyphyasm.Children.ReferenceCoordinateSystemCollection)
-                {
-                    ReferenceCoordinateSystemTraversal traverser = new ReferenceCoordinateSystemTraversal(refCoord);
-                    referenceCoordComponents.AddRange(traverser.referenceCoordComponents);
-                }
+            // R. Owens 1/18/2017
+            // The following code was moved to ProcessReferenceCoordinateSystems
+            // This is because there are cases where ProcessReferenceCoordinateSystems should be called independent
+            // of calling process components
+            //if (cyphyasm != null)
+            //{
+            //    // [4] Find ReferenceCoordinateComponents
+            //    foreach (CyPhy.ReferenceCoordinateSystem refCoord in cyphyasm.Children.ReferenceCoordinateSystemCollection)
+            //    {
+            //        ReferenceCoordinateSystemTraversal traverser = new ReferenceCoordinateSystemTraversal(refCoord);
+            //        referenceCoordComponents.AddRange(traverser.referenceCoordComponents);
+            //    }
+            //}
 
-            }
-
-            if (referenceCoordComponents.Count == 0)
-            {
-                Logger.Instance.AddLogMessage("No referencecoordinatesystem was found. Root component of assembly will be selected arbitrarily.", Severity.Warning);
-            }
+            //if (referenceCoordComponents.Count == 0)
+            //{
+            //    Logger.Instance.AddLogMessage("No referencecoordinatesystem was found. Root component of assembly will be selected arbitrarily.", Severity.Warning);
+            //}
 
             // [5] Print Assembly
             PrintAssembly();
@@ -347,6 +366,22 @@ namespace CyPhy2CAD_CSharp
 
             bool asmprocessed = false;
 
+
+            var toplevelSUT = testBench.Children.ComponentAssemblyCollection.FirstOrDefault();     // should be an instance b/c elaborate was called earlier
+            // CyPhy2CAD_CSharp::ProcessCAD already validated that toplevelSUT != null.  Check again in case some removes the check in  CyPhy2CAD_CSharp::ProcessCAD
+            if (toplevelSUT != null)
+            {
+                // We must cover the case where the TestBench (TB) only consists of TestInjectionPoints that are 
+                // only Components and not ComponentAssemblies.  The following code in this function does not accomodate
+                // that case.  Adding the ReferenceCoordinateSystems now will assure that if a ReferenceCoordinateSystem is set for 
+                // a Component (i.e. part not assembly) that the ReferenceCoordinateSystem will be used and will force that 
+                // component to be added first.
+                // Also, note that the FindStartingComponent function ignores components with ReferenceCoordinateSystems if those components
+                // are not actually referenced by the TB.  In other words, adding ReferenceCoordinateSystems to 
+                // CyPhy2CAD_CSharp::referenceCoordComponents that are not actually referenced by the TB is not a problem.
+                ProcessReferenceCoordinateSystems(toplevelSUT);
+            }
+
             foreach (var tip in testBench.Children.TestInjectionPointCollection)
             {
                 if (tip.Referred != null)
@@ -374,6 +409,7 @@ namespace CyPhy2CAD_CSharp
                                        asmregular,
                                        asmsize2fitcomponents);
                         ProcessComponents(asmregular, asmsize2fitcomponents, componentAsm);
+                        ProcessReferenceCoordinateSystems(componentAsm);
                         asmprocessed = true;
                     }
                     else

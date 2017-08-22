@@ -440,102 +440,30 @@ mem_resize_block(p, new_size)
 /* This code used if we're using malloc and free. */
 
 #if defined(USE_MALLOC_FREE)
-pointer
-#if defined(__STDC__)
-mem_get_block(SIZE_T size)
-#else
-mem_get_block(size)
-     SIZE_T size;
-#endif
+pointer mem_get_block(SIZE_T size)
 {
-  pointer result;
-  void *p;
+	pointer result = malloc(size);
+	if (!result)
+		mem_fatal(_T("mem_resize_block: allocation failed"));
 
-  if (size <= 0)
-    return ((pointer)0);
-
-  p = MALLOC(size + 1);
-
-  result = (void *)((unsigned long)((unsigned long)p + 0x08) & 0xFFFFFFFF8);
-
-  if (!result)
-    mem_fatal(_T("mem_get_block: allocation failed (USE_MALLOC_FREE defined)"));
-
-  printf("result = %x\n", result);
-
-#ifdef WIN32
-  /*
-  (unsigned long)result = (unsigned long)result + 0x08;
-
-  (unsigned long)result = ((unsigned long)result & 0xFFFFFFF8);
-*/
-  if((unsigned long)result & 0x07)  {
-	printf("result = %x\n", result);
-    mem_fatal(_T("mem_get_block: not aligned on 8 byte boundry"));
-  }
-#endif
-  return (result);
+	return result;
 }
 
-void
-#if defined(__STDC__)
-mem_free_block(pointer p)
-#else
-mem_free_block(p)
-     pointer p;
-#endif
+void mem_free_block(pointer p)
 {
-  if (!p)
-    return;
-  FREE(p);
+	if (!p)
+		return;
+	free(p);
 }
 
 
-pointer
-#if defined(__STDC__)
-mem_resize_block(pointer p, SIZE_T new_size)
-#else
-mem_resize_block(p, new_size)
-     pointer p;
-     SIZE_T new_size;
-#endif
+pointer mem_resize_block(pointer p, SIZE_T new_size)
 {
-  void *np;
-  pointer result;
-  SIZE_T old_size;
+	pointer result = realloc(p, new_size);
+	if (!result)
+		mem_fatal(_T("mem_resize_block: reallocation failed"));
 
-  if (!p)
-    return (mem_get_block(new_size));
-  if (new_size <= 0)
-    {
-      mem_free_block(p);
-      return ((pointer)0);
-    }
-
- /* old_size = _msize(p);
-*/
-  printf("old_size = %d\n", old_size);
-
-  /*np = REALLOC(p, new_size+8);
-  */
-
-  result = mem_get_block(new_size);
-
-  if (!result)
-    mem_fatal(_T("mem_resize_block: allocation failed (USE_MALLOC_FREE defined)"));
-
-  /*mem_copy(result, p, old_size);
-*/
-  mem_free_block(p);
-
-#ifdef WIN32
-
-  if((unsigned long)result & 0x07)  {
-	printf("result = %x\n", result);
-    mem_fatal(_T("mem_resize_block: not aligned on 8 byte boundry"));
-  }
-#endif
-  return (result);
+	return result;
 }
 #endif
 

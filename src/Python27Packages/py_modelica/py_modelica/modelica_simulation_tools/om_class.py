@@ -1,6 +1,6 @@
 import os
 import time
-import shutil
+import re
 import datetime
 import logging
 import subprocess
@@ -22,8 +22,7 @@ class OpenModelica(ToolBase):
 
     def __init__(self, model_config, om_home=""):
         """
-        Constructor for OpenModelica class, called before ToolBase's
-        _initialize.
+        Constructor for OpenModelica class, called before ToolBase's _initialize.
 
         This method only makes sure that there is a environment
         OPENMODELICAHOME defined.
@@ -52,8 +51,7 @@ class OpenModelica(ToolBase):
 
     def _write_mos_script(self, log):
         """
-        Writes out .mos-script for translation of the modelica model
-
+        Write out .mos-script for translation of the modelica model.
         """
 
         log.debug("Entered _write_mos_script")
@@ -83,14 +81,12 @@ class OpenModelica(ToolBase):
 
     def _setup_libs_env_vars(self, log):
         """
-        Function adds given library paths to environment-variable OPENMODELICALIBRARY.
+        Add given library paths to environment-variable OPENMODELICALIBRARY.
         Which is updated in os.environ and returned.
 
         If path does not exist on hard-drive it looks for it at; /working_dir/Modelica
         (This is where the packages are put during remote execution.)
-
         """
-
         log.debug('Entered _setup_libs_env_vars')
 
         my_env = os.environ
@@ -126,8 +122,7 @@ class OpenModelica(ToolBase):
 
     def _print_revision_number(self, log):
         """
-        Gets the revision number of the omc-compiler
-
+        Get the revision number of the omc-compiler.
         """
         log.debug("Entered _print_revision_number")
 
@@ -148,58 +143,60 @@ class OpenModelica(ToolBase):
 
     def _translate_modelica_model(self, log, my_env):
         """
-        Calls omc(.exe) to translate the modelica model into c-code.
+        Call omc(.exe) to translate the modelica model into c-code.
 
         """
         os.chdir(self.mo_dir)
 
         command = '"{0}" +q +s "{1}"'.format(os.path.join(self.tool_path, 'omc'), self.mos_file_name)
 
-        t_stamp = time.time()
-        try:
-            return_string = subprocess_call(command, log, my_env)
-        except subprocess.CalledProcessError as err:
-            raise ModelicaCompilationError('OMC could not compile model.', sp_msg=err.returncode)
-        self.translation_time = time.time() - t_stamp
+        # only recompile if there is a .mo file newer than the _init.xml file
+        latest_mtime = -1
+        for root, dirs, files in os.walk('.'):
+            for name in (f for f in files if f.endswith('.mo')):
+                latest_mtime = max(os.stat(os.path.join(root, name)).st_mtime, latest_mtime)
 
-        if os.path.exists(os.path.join(self.mo_dir, self.short_name) + '_init.xml'):
-            self.model_is_compiled = True
+        init_xml_name = os.path.join(self.mo_dir, self.short_name) + '_init.xml'
+
+        if not os.path.isfile(init_xml_name) or os.stat(init_xml_name) < latest_mtime:
+            t_stamp = time.time()
+            try:
+                return_string = subprocess_call(command, log, my_env)
+            except subprocess.CalledProcessError as err:
+                raise ModelicaCompilationError('OMC could not compile model.', sp_msg=err.returncode)
+            self.translation_time = time.time() - t_stamp
+
+            if os.path.exists(os.path.join(self.mo_dir, self.short_name) + '_init.xml'):
+                self.model_is_compiled = True
+            else:
+                msg = 'Subprocess call with command = "{0}" returned with 0, but _init.xml does not '\
+                      'exist - something went wrong during translation of model.'.format(command)
+                raise ModelicaCompilationError(msg, return_string)
         else:
-            msg = 'Subprocess call with command = "{0}" returned with 0, but _init.xml does not '\
-                  'exist - something went wrong during translation of model.'.format(command)
-            raise ModelicaCompilationError(msg, return_string)
-
-        # N.B. this is not used and thus not maintained
-        if not self.working_dir == self.mo_dir:
-            files_to_move = [self.short_name + '.c',
-                             self.short_name + '.makefile',
-                             self.short_name + '.o',
-                             self.short_name + '_functions.c',
-                             self.short_name + '_functions.h',
-                             self.short_name + '_init.xml',
-                             self.short_name + '_records.c',
-                             self.short_name + '_records.o',
-                             '_' + self.short_name + '.h']
-
-            for this_file in files_to_move:
-                dst_file_name = os.path.join(self.working_dir, this_file)
-                if os.path.exists(dst_file_name):
-                    # remove dst file if it already exists
-                    os.remove(dst_file_name)
-                this_file = os.path.join(self.mo_dir, this_file)
-                if os.path.exists(this_file):
-                    shutil.move(this_file, self.working_dir)
+            self.model_is_compiled = True
 
         os.chdir(self.working_dir)
     # end of _translate_modelica_model
 
     def _make_model(self, log):
         """
-        Compiles the generated c-code into an executable
+        Compile the generated c-code into an executable
         """
         if os.name == 'nt':
             # Windows
             # Make model
+
+            # add incremental build support for .c files
+            makefile = open('{0}.makefile'.format(self.short_name)).read()
+            makefile = makefile.replace('.PHONY: $(CFILES)', '# .PHONY: $(CFILES)')
+            makefile = re.sub('^omc_main_target:', 'omc_main_target: {0}$(EXEEXT)\n{0}$(EXEEXT):'.format(self.short_name), makefile, flags=re.MULTILINE)
+            makefile = makefile + """
+%.o: %.c
+\t$(CC) -c $(CPPFLAGS) $(CFLAGS) -MMD -MP -MF $(<:.c=.d) $<
+-include $(CFILES:.c=.d)
+"""
+            with open('Makefile'.format(self.short_name), 'wb') as makefile_out:
+                makefile_out.write(makefile)
 
             # Add %OPENMODELICAHOME%\MinGW\bin to environment variables
             env_var_mingw = os.path.join(os.getenv('OPENMODELICAHOME'), 'mingw', 'bin')
@@ -207,7 +204,7 @@ class OpenModelica(ToolBase):
             # META-3623 make sure this path gets resolved first (prepend rather than append).
             my_env["PATH"] = env_var_mingw + os.pathsep + my_env["PATH"]
             log.debug('Added "{0}" to beginning of env var PATH.'.format(env_var_mingw))
-            command = 'mingw32-make.exe -f {0}.makefile'.format(self.short_name)
+            command = 'mingw32-make.exe -f Makefile omc_main_target'
 
             # compile the c-code
             t_stamp = time.time()
@@ -293,7 +290,7 @@ class OpenModelica(ToolBase):
         if not self.model_is_compiled:
             msg = 'The model was never compiled!'
             log.error(msg)
-            raise ModelicaSimulationError('The model was never compiled!')
+            raise ModelicaSimulationError(msg)
 
         # change current directory to working directory
         os.chdir(self.working_dir)

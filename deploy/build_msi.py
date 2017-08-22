@@ -23,10 +23,10 @@ def get_nuget_packages():
     import vc_info
     from xml.etree import ElementTree
     cad_packages = ElementTree.parse(r'CAD_Installs\packages.config')
-    destination_files = [r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe',
-        r'CAD_Installs\Proe ISIS Extensions\0Readme - CreateAssembly.txt',
-        r'CAD_Installs\Proe ISIS Extensions\bin\ExtractACM-XMLfromCreoModels.exe',
-        r'CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricMetaLink.exe',
+    destination_files = [r'..\bin\CAD\Creo\bin\CADCreoParametricCreateAssembly.exe',
+        r'..\bin\CAD\Creo\0Readme - CreateAssembly.txt',
+        r'..\bin\CAD\Creo\bin\ExtractACM-XMLfromCreoModels.exe',
+        r'..\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe',
         ]
     for filename in destination_files:
         if os.path.isfile(filename):
@@ -63,9 +63,11 @@ def get_nuget_packages():
 def generate_license_rtf():
     with open('../license.rtf', 'wb') as rtf:
         txt = open('../license.txt').read()
-        txt = re.sub('\\n(?!\\n)', '', txt.replace('\r', ''))
+        txt = txt.replace('\r', '')
+        txt = re.sub('([^\\n])\\n(?!\\n)', '\\1 ', txt)
+        txt = re.sub(r'([\\{}])', r'\\\1', txt)
         rtf.write('{\\rtf1\n')
-        rtf.write(txt.replace('\r', '').replace('\n', '\\par\n'))
+        rtf.write(txt.replace('\n\n', '\\par\n'))
         rtf.write('\n}')
 
 
@@ -96,10 +98,9 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\run_mdao",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\testbenchexecutor",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
-    gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
+    #gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\models\MassSpringDamper",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
@@ -109,7 +110,7 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
-    def get_svnversion():
+    def get_vcsversion():
         p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
         return out.strip() or '5'
@@ -119,19 +120,19 @@ def build_msi():
         # if p.returncode:
         #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         # return out
-    svnversion = get_svnversion()
+    vcsversion = get_vcsversion()
 
-    print "SVN version: " + str(get_svnversion())
+    print "VCS version: " + str(vcsversion)
     sourcedir = os.path.relpath(this_dir) + '/'
 
-    def get_gitversion():
+    def get_githash():
         p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
         # if p.returncode:
         #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         return out.strip() or 'unknown'
 
-    gitversion = get_gitversion()
+    vcshash = get_githash()
 
     import glob
     if len(sys.argv[1:]) > 0:
@@ -203,16 +204,11 @@ def build_msi():
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
 
-    version = '14.13.'
-    if 'M' in svnversion:
-        version = version + '1'
-    else:
-        # this will crash for switched or sparse checkouts
-        version = version + str(int(svnversion))
+    version = '14.13.' + str(int(vcsversion))
     print 'Installer version: ' + version
     defines.append(('VERSIONSTR', version))
-    defines.append(('SVNVERSION', svnversion))
-    defines.append(('GITVERSION', gitversion))
+    defines.append(('VCSVERSION', vcsversion))
+    defines.append(('VCSHASH', vcshash))
 
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool()

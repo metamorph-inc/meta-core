@@ -16,6 +16,8 @@ def log(s):
 
 def log_formatted(s):
     print(s)
+
+
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
     import cgi
@@ -58,6 +60,7 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
     with open(__file__, 'r') as this_py:
         with open(os.path.join(output_dir, os.path.basename(__file__)), 'w') as output:
             output.write(this_py.read())
+
 
 # Phase 2: called by OpenMDAO
 if __name__ == '__main__':

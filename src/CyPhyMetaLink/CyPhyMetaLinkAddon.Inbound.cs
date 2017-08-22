@@ -463,7 +463,11 @@ namespace CyPhyMetaLink
             {
                 addon.Project.BeginTransactionInNewTerr();
                 CyPhyML.ComponentAssembly assembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(addon.Project, id);
-                if (assembly == null)
+                if (assembly != null)
+                {
+                    RestartAssemblySyncAtEndOfTransaction(assembly);
+                }
+                else
                 {
                     CyPhyML.Component comp = CyphyMetaLinkUtils.GetComponentByAvmId(addon.Project, id);
                     if (comp == null)
@@ -475,11 +479,11 @@ namespace CyPhyMetaLink
                     else
                     {
                         var cadModel = CyphyMetaLinkUtils.FindCADModelObject(comp);
-                        //var message = CreateComponentEditMessage(comp, cadModel);
-                        //bridgeClient.SendToMetaLinkBridge(message);
+			// FIXME: Creo side doesn't handle this
+                        // var message = CreateComponentEditMessage(id, comp, cadModel);
+                        // bridgeClient.SendToMetaLinkBridge(message);
                     }
                 }
-                RestartAssemblySyncAtEndOfTransaction(assembly);
                 addon.Project.AbortTransaction();
             }
             catch (Exception ex)
@@ -863,7 +867,7 @@ namespace CyPhyMetaLink
                         .SelectMany(child => child.PartOfConns.Cast<MgaConnPoint>().Where(cp => cp.Owner.ParentModel.ID == cyPhyComponent.ID)))
                     {
                         MgaFCO mappedFCO;
-                        if (nameMap.TryGetValue(mapping.Invoke(connPoint.Target), out mappedFCO))
+                        if (nameMap.TryGetValue(mapping(connPoint.Target), out mappedFCO))
                         {
                             if (connPoint.ConnRole == "dst")
                             {
@@ -891,13 +895,24 @@ namespace CyPhyMetaLink
                             ((MgaSimpleConnection)connPoint.Owner).SetSrc(connPoint.References, (MgaFCO)newCADModel.Impl);
                         }
                     }
-                    foreach (MgaPart part in ((MgaFCO)newCADModel.Impl).Parts)
+                    Action<IMgaFCO, IMgaFCO> copyLayout = (oldFco, newFco) => {
+                        foreach (MgaPart part in newFco.Parts)
+                        {
+                            string icon;
+                            int x, y;
+                            oldFco.PartByMetaPart[part.Meta].GetGmeAttrs(out icon, out x, out y);
+                            part.SetGmeAttrs(icon, x, y);
+                        }
+                    };
+                    foreach (var fco in models.Value.Impl.ChildObjects.Cast<MgaFCO>())
                     {
-                        string icon;
-                        int x, y;
-                        ((MgaFCO)models.Value.Impl).PartByMetaPart[part.Meta].GetGmeAttrs(out icon, out x, out y);
-                        part.SetGmeAttrs(icon, x, y);
+                        MgaFCO newFco;
+                        if (nameMap.TryGetValue(mapping(fco), out newFco))
+                        {
+                            copyLayout(fco, newFco);
+                        }
                     }
+                    copyLayout((MgaFCO)models.Value.Impl, (MgaFCO)newCADModel.Impl);
 
                     List<string> existing = new List<string>();
 
@@ -969,15 +984,6 @@ namespace CyPhyMetaLink
                     GMEConsole.Out.WriteLine(String.Format("Updated CADModel definition for <a href=\"mga:{0}\">{1}</a>", newCADModel.ID,
                         SecurityElement.Escape(newCADModel.ParentContainer.Name + "/" + newCADModel.Name)));
                     models.Value.Delete();
-                }
-
-                CyPhy2ComponentModel.CyPhyComponentAutoLayout.LayoutComponent(cyPhyComponent);
-
-                string acmPath;
-                if (ComponentLibraryManager.TryGetOriginalACMFilePath(cyPhyComponent, out acmPath, ComponentLibraryManager.PathConvention.ABSOLUTE))
-                {
-                    avm.Component newComponent = CyPhy2ComponentModel.Convert.CyPhyML2AVMComponent(cyPhyComponent);
-                    CyPhyComponentExporter.CyPhyComponentExporterInterpreter.SerializeAvmComponent(oldComponent, acmPath);
                 }
             }
             finally

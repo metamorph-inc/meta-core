@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\CyPhyML.XML</DocumentationFile>
+    <NoWarn>CS0108</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <DsmlGeneratorParadigm>CyPhyML</DsmlGeneratorParadigm>
@@ -62,7 +63,7 @@
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ISIS.GME.Common, Version=1.0.2.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+    <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ISIS.GME.Common.dll</HintPath>
     </Reference>

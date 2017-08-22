@@ -14,6 +14,8 @@ namespace ComponentAndArchitectureTeamTest
             int ret = Xunit.ConsoleClient.Program.Main(new string[] {
                 Assembly.GetExecutingAssembly().CodeBase.Substring("file:///".Length),
                 //"/noshadow",
+                // [Trait("THIS", "ONE")]
+                // "/trait", "THIS=ONE",
             });
             Console.In.ReadLine();
             return ret;

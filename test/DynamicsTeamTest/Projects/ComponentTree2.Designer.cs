@@ -48,7 +48,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(File.Exists(mgaReference.Substring("MGA=".Length)));
         }
 
-        [Fact]
+        // [Fact]
         [Trait("Model", "ComponentTree2")]
         [Trait("CheckerShouldFail", "ComponentTree2")]
         public void Fail_Testing_RICircuit_CA()
@@ -62,7 +62,7 @@ namespace DynamicsTeamTest.Projects
             Assert.False(result, "CyPhy2Modelica_v2 should have failed, but did not.");
         }
 
-        [Fact]
+        // [Fact]
         [Trait("Model", "ComponentTree2")]
         [Trait("CheckerShouldFail", "ComponentTree2")]
         public void Fail_Testing_RICircuit_CAUsingGroundInResistor()

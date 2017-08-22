@@ -67,6 +67,12 @@
     <ClInclude Include="LoggerBoost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MultiFormatString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CADStringToEnumConversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsFunctions.cpp">
@@ -106,6 +112,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoggerBoost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiFormatString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CADStringToEnumConversions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

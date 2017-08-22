@@ -43,7 +43,7 @@ CLASS vSolid
 	CLASSWIDE INTEGER	count,										@
 						count_temp,									@
 						iD(VIRTUAL)
-						# sol_Element_Type = TETRA4/ TETRA10, see functions FEA_Element_Type_toStr()/FEA_Element_Type_toInt()
+						# sol_Element_Type = TETRA4/ TETRA10, see functions vCommon.FEA_Element_Type_toStr()/FEA_Element_Type_toInt()
 	CLASSWIDE INTEGER	sol_Element_Type(VIRTUAL),					@
 						sol_Mat_ID(VIRTUAL),						@
 						sol_Mesh_Params_ID(VIRTUAL)				
@@ -702,7 +702,7 @@ FUNCTION createSolidMesh()
 	# All elements for all solids must be of the same type (i.e. ci_ELEMENT_TYPE_TETRA4/ci_ELEMENT_TYPE_TETRA10
 	# Just use the setting from the first solid
    IF ( sol_Element_Type(1)	!= vConstants.get_ci_ELEMENT_TYPE_TETRA4() && sol_Element_Type(1) != vConstants.get_ci_ELEMENT_TYPE_TETRA10() ) THEN
-		errorMsg = "Solid elements must be meshed with TETRA4 or TETRA10, Element Type Specified: " // FEA_Element_Type_toStr(sol_Element_Type(1))
+		errorMsg = "Solid elements must be meshed with TETRA4 or TETRA10, Element Type Specified: " // vCommon.FEA_Element_Type_toStr(sol_Element_Type(1))
 		errorLevel = vLogger.get_ci_ERROR()
 		vLogger.addErrorMessage(  errorLevel, functionName, errorMsg )
         RETURN -1

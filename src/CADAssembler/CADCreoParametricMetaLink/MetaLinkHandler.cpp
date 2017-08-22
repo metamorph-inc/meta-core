@@ -29,8 +29,8 @@ namespace isis
 		m_operator(CAD_OPERATOR), m_sequence(1), m_ready(false),
 		m_assembler(assembler_ptr), m_target_id(in_TargetID),
 		m_client(io_service, host, service,
-		boost::bind(&isis::MetaLinkHandler::interest, this, _1, in_InstanceID, in_TargetID),
-		boost::bind(&isis::MetaLinkHandler::process, this, _1)),
+			boost::bind(&isis::MetaLinkHandler::interest, this, _1, in_InstanceID, in_TargetID),
+			boost::bind(&isis::MetaLinkHandler::process, this, _1)),
 		m_network_thread(boost::bind(&boost::asio::io_service::run, &io_service)),
 		m_ioservice(io_service),
 		m_events_mutex(in_events_mutex)
@@ -259,14 +259,13 @@ namespace isis
 		bool MetaLinkHandler::process_AvmComponentPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_select()";
-			bool exp = false;
 			/**
 			* Handle selecting the datums.
 			*/
 			if(! in_Action->has_payload())
 			{
 				isis_LOG(lg, isis_FILE, isis_WARN) << "missing payload on select";
-				return false;
+				return true;
 			}
 			meta::Payload payload = in_Action->payload();
 			std::vector<isis::CADCreateAssemblyError> out_ErrorList;
@@ -288,11 +287,12 @@ namespace isis
 					// Don't freak out this is not the end of the world
 				}
 			}
-			return true;
+			return false;
 		}
 
 		bool MetaLinkHandler::process_AvmComponentPost_insert(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
+			bool had_error = false;
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_insert()";
 			/**
 			* Handle setting the environment.
@@ -356,7 +356,10 @@ namespace isis
 				{
 					meta::CADComponentType component = payload.components(jx);
 					meta::Notice notice = process_AvmComponentInitialize(in_Action->subjectid(), component);
-					*(in_Action->add_notices()) = notice;
+					if (notice.msg() != "No exception.") {
+						had_error = true;
+						*(in_Action->add_notices()) = notice;
+					}
 				}
 			}
 			else
@@ -365,7 +368,7 @@ namespace isis
 				GlobalModelData::Instance.ComponentEdit.avmId = in_Action->subjectid();
 				isis::GlobalModelData::Instance.mode = isis::COMPONENTEDIT;
 			}
-			return true;
+			return had_error;
 		}
 
 		/**
@@ -500,7 +503,11 @@ namespace isis
 		if(! in_Action->has_payload())
 		{
 			isis_LOG(lg, isis_FILE, isis_INFO) << "missing payload on select";
-			return false;
+			meta::Notice notice;
+			notice.set_msg("missing payload on select");
+			notice.set_code("C0001");
+			(*in_Edit->add_notices()) = notice;
+			return true;
 		}
 		meta::Payload payload = in_Action->payload();
 		std::vector<isis::CADCreateAssemblyError> out_ErrorList;
@@ -521,7 +528,7 @@ namespace isis
 					<< "Couldn't select component: " << componentInstanceId;
 			}
 		}
-		return true;
+		return false;
 	}
 	//////////////////////////////////////////////
 	bool MetaLinkHandler::process_AssemblyDesignPost_insert(isis::EditPointer edit, int actionIx, meta::Action *action)
@@ -650,7 +657,7 @@ namespace isis
 		{
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_update,  application_exception: " << ex;
 		}
-		return false;
+		return exp;
 	}
 
 	//////////////////////////////////////////////
@@ -660,7 +667,7 @@ namespace isis
 		bool exp = false;
 		try
 		{
-			return m_assembler->Clear();
+			return !m_assembler->Clear();
 		}
 		catch(isis::application_exception& ex)
 		{
@@ -675,7 +682,7 @@ namespace isis
 		bool exp = false;
 		try
 		{
-			return m_assembler->Clear();
+			return !m_assembler->Clear();
 		}
 		catch(isis::application_exception& ex)
 		{
@@ -730,7 +737,8 @@ namespace isis
 
 			const std::string					creoModelName =			in_component.name();
 			const std::string					componentInstanceID =	in_component.componentid();
-			ProMdlType							creoModelType =			isis::ProMdlType_enum(in_component.type());
+			//ProMdlType						creoModelType =			isis::ProMdlType_enum(in_component.type());
+			e_CADMdlType						creoModelType =			isis::CADMdlType_enum(in_component.type());
 			const std::string					materialID =			in_component.materialid();
 			isis::e_CADSpecialInstruction		specialInstruction =	isis::SpecialInstruction_enum(in_component.specialinstruction());
 
@@ -879,8 +887,10 @@ namespace isis
 					<< isis_EOL << "contraintPair.featuregeometrytype():  " <<	contraintPair.featuregeometrytype()
 					<< isis_EOL << "contraintPair.featureinterfacetype(): " <<	contraintPair.featureinterfacetype();
 
-				creoConstraintPair.featureAlignmentType = isis::ProAsmcompConstrType_enum(contraintPair.featurealignmenttype());
-				creoConstraintPair.featureGeometryType  = isis::FeatureGeometryType_enum(contraintPair.featuregeometrytype());
+				//creoConstraintPair.featureAlignmentType = isis::ProAsmcompConstrType_enum(contraintPair.featurealignmenttype());
+				creoConstraintPair.featureAlignmentType = isis::CADAssemblyConstraintType_enum(contraintPair.featurealignmenttype());
+				// creoConstraintPair.featureGeometryType  = isis::FeatureGeometryType_enum(contraintPair.featuregeometrytype());
+				creoConstraintPair.featureGeometryType  = isis::CADFeatureGeometryType_enum(contraintPair.featuregeometrytype());
 				creoConstraintPair.featureInterfaceType = isis::FeatureInterfaceType_enum(contraintPair.featureinterfacetype());
 
 				edu::vanderbilt::isis::meta::ConstraintFeatureType constraintFeature_A = contraintPair.constraintfeaturea();
@@ -899,13 +909,13 @@ namespace isis
 				isis::ConstraintFeature  creoConstraintFeature_A;
 				creoConstraintFeature_A.componentInstanceID	 =  constraintFeature_A.componentid();
 				creoConstraintFeature_A.featureName			 =  constraintFeature_A.featurename();
-				creoConstraintFeature_A.featureOrientationType =  isis::ProDatumside_enum(constraintFeature_A.featureorientationtype());
+				creoConstraintFeature_A.featureOrientationType =  isis::CADDatumside_enum(constraintFeature_A.featureorientationtype());
 				creoConstraintPair.constraintFeatures.push_back(creoConstraintFeature_A);
 
 				isis::ConstraintFeature  creoConstraintFeature_B;
 				creoConstraintFeature_B.componentInstanceID	 =  constraintFeature_B.componentid();
 				creoConstraintFeature_B.featureName			 =  constraintFeature_B.featurename();
-				creoConstraintFeature_B.featureOrientationType =  isis::ProDatumside_enum(constraintFeature_B.featureorientationtype());
+				creoConstraintFeature_B.featureOrientationType =  isis::CADDatumside_enum(constraintFeature_B.featureorientationtype());
 				creoConstraintPair.constraintFeatures.push_back(creoConstraintFeature_B);
 
 				creoConstraintPairs.push_back(creoConstraintPair);

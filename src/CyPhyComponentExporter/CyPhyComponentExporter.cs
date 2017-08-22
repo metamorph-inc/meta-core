@@ -401,6 +401,8 @@ namespace CyPhyComponentExporter
             GMEConsole.Info.WriteLine("Component Exporter finished");			
         }
 
+        private static Regex InvalidFileNameRegex = new Regex(string.Format("[{0}]", Regex.Escape(new string(Path.GetInvalidFileNameChars()))));
+
         /// <summary>
         /// Given a CyPhy Component, builds a .ZIP-format Component Package, which includes
         /// an ACM version, as well as all artifacts from the component's
@@ -432,14 +434,16 @@ namespace CyPhyComponentExporter
             var componentBuilder = new CyPhyML2AVM.AVMComponentBuilder();
             avmComponent = componentBuilder.CyPhyML2AVMNonStatic(component);
 
+            var safe_component_name = InvalidFileNameRegex.Replace(component.Name, "_");
+
             // Create a ZIP filename
-            String filename = String.Format("{0}.zip", component.Name);
+            String filename = String.Format("{0}.zip", safe_component_name);
             
             // If not unique, try a few different ones
             int counter = 1;
             while (File.Exists(Path.Combine(outputFolder, filename)))
             {
-                filename = String.Format("{0}({1}).zip", component.Name, counter++);
+                filename = String.Format("{0}({1}).zip", safe_component_name, counter++);
             }
 
             String zipFileAbsPath = Path.Combine(outputFolder, filename);
@@ -449,10 +453,19 @@ namespace CyPhyComponentExporter
             })
             {
                 String compDirAbsPath = component.GetDirectoryPath(META.ComponentLibraryManager.PathConvention.ABSOLUTE);
-                foreach (var filePath in Directory
-                                    .EnumerateFiles(compDirAbsPath,"*.*",SearchOption.AllDirectories)
+                IEnumerable<string> filePaths;
+                if (Directory.Exists(compDirAbsPath))
+                {
+                    filePaths = Directory
+                                    .EnumerateFiles(compDirAbsPath, "*.*", SearchOption.AllDirectories)
                                     .Where(f => Path.GetExtension(f).ToLower() != ".acm"
-                                             && Path.GetFileName(f).ToLower() != "componentdata.xml"))
+                                             && Path.GetFileName(f).ToLower() != "componentdata.xml");
+                }
+                else
+                {
+                    filePaths = new string[] { };
+                }
+                foreach (var filePath in filePaths)
                 {
                     String fileRelDir;
                     if (compDirAbsPath.EndsWith("/"))
@@ -490,7 +503,8 @@ namespace CyPhyComponentExporter
                 }
                 // Add the ACM file.
                 SerializeAvmComponent(avmComponent, acmFilePath);
-                zip.AddFile(acmFilePath, "").FileName = String.Format("{0}.acm", component.Name);
+
+                zip.AddFile(acmFilePath, "").FileName = String.Format("{0}.acm", safe_component_name);
 
                 zip.Save();
             }

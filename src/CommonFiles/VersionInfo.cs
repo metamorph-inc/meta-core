@@ -26,17 +26,13 @@ namespace META
         private static string m_MetaVersion = string.Empty;
         private static string m_GmeVersion = string.Empty;
         private static string m_MetaPath = string.Empty;
-        private static string m_DashboardPath = string.Empty;
 
-        private static string m_ProeISISExtPath = string.Empty;
         private static string m_ProeISISExtVer = string.Empty;
 
         private static string m_PythonVEnvScriptsPath = string.Empty;
         private static string m_PythonVEnvPath = string.Empty;
         private static string m_PythonVEnvExe = string.Empty;
         private static string m_PythonVEnvActivate = string.Empty;
-        private static string m_PythonVersion = string.Empty;
-        private static string m_PythonExe = string.Empty;
 
 
         public static string CyPhyMLGuid
@@ -151,7 +147,7 @@ namespace META
         }
 
         /// <summary>
-        /// Gets Meta path from the registry
+        /// Gets Meta version from the registry or source control
         /// </summary>
         public static string MetaVersion
         {
@@ -159,16 +155,32 @@ namespace META
             {
                 if (string.IsNullOrEmpty(m_MetaVersion))
                 {
-                    var version = GetVersion("META toolchain");
-
-                    if (version == unknown &&
-                        Directory.Exists(MetaPath))
+                    using (var baseKey = RegistryKey.OpenBaseKey(
+                        RegistryHive.LocalMachine,
+                        RegistryView.Registry32))
                     {
+                        string keyName = @"Software\META";
+                        using (var software_meta = baseKey.OpenSubKey(keyName))
+                        {
+                            if (software_meta != null)
+                            {
+                                string value = @"META_FULLVERSION";
+                                var fullversion = (string)software_meta.GetValue(value, null);
+                                if (string.IsNullOrEmpty(fullversion) == false)
+                                {
+                                    m_MetaVersion = fullversion;
+                                    return m_MetaVersion;
+                                }
+                            }
+                        }
+                    }
+                    {
+                        string version;
                         ProcessStartInfo psi = new ProcessStartInfo()
                         {
-                            Arguments = "info",
+                            Arguments = "describe --dirty --always",
                             CreateNoWindow = true,
-                            FileName = "svn",
+                            FileName = "git",
                             RedirectStandardOutput = true,
                             UseShellExecute = false,
                             WorkingDirectory = MetaPath,
@@ -176,22 +188,28 @@ namespace META
 
                         try
                         {
-                            Process p = Process.Start(psi);
-                            p.WaitForExit();
-                            if (p.ExitCode == 0)
+                            using (Process p = Process.Start(psi))
                             {
-                                var infoXml = p.StandardOutput.ReadToEnd();
-                                version = infoXml;
+                                p.WaitForExit();
+                                if (p.ExitCode == 0)
+                                {
+                                    var infoXml = p.StandardOutput.ReadToEnd();
+                                    version = infoXml;
+                                }
+                                else
+                                {
+                                    version = "unknown";
+                                }
                             }
                         }
                         catch (System.ComponentModel.Win32Exception)
                         {
-                            // SVN doesn't exist. It's okay, let's just move along. 
-                            version = "META is not installed. Source code is NOT under subversion OR command line svn client is not installed! META TOOLS MIGHT NOT BE FULLY FUNCTIONAL.";
+                            // It's okay, let's just move along. 
+                            version = "unknown";
                         }
 
+                        m_MetaVersion = version;
                     }
-                    m_MetaVersion = version;
                 }
                 return m_MetaVersion;
             }
@@ -232,25 +250,6 @@ namespace META
                         unknown);
                 }
                 return m_MetaPath;
-            }
-        }
-
-        /// <summary>
-        /// returns with the virtual python environment's Scripts folder
-        /// </summary>
-        public static string DashboardPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_DashboardPath))
-                {
-                    m_DashboardPath = Path.Combine(
-                        MetaPath,
-                        "bin",
-                        "dashboard");
-                }
-
-                return m_DashboardPath;
             }
         }
 
@@ -320,118 +319,18 @@ namespace META
             }
         }
 
-        public static string PythonExe
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonExe) == false &&
-                    m_PythonExe != unknown)
-                {
-                    return m_PythonExe;
-                }
 
-                m_PythonExe = unknown;
-
-                // Get the system python based on .py file association
-                RegistryKey baseRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Default);
-                string subKey = @"Python.File\shell\open\command";
-                RegistryKey systemPython = baseRegistryKey.OpenSubKey(subKey);
-                if (systemPython != null)
-                {
-                    m_PythonExe = systemPython.GetValue("") as string;
-                }
-
-                return m_PythonExe;
-            }
-        }
-
-        public static string PythonVersion
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonVersion) == false &&
-                    m_PythonVersion != unknown)
-                {
-                    return m_PythonVersion;
-                }
-
-                m_PythonVersion = unknown;
-
-                string pythonDllPath = Path.Combine(
-                    Environment.GetEnvironmentVariable("windir"),
-                    "SysWOW64",
-                    "python27.dll");
-
-                if (File.Exists(pythonDllPath))
-                {
-                    m_PythonVersion = string.Format("{0} {1} {2}",
-                        pythonDllPath,
-                        FileVersionInfo.GetVersionInfo(pythonDllPath).ProductVersion,
-                        GetDllMachineType(pythonDllPath));
-                }
-
-                return m_PythonVersion;
-            }
-        }
-
-        public static string ProeISISExtPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_ProeISISExtPath))
-                {
-                    m_ProeISISExtPath = unknown;
-                    // GET PATH
-                    //Env variable
-                    //PROE_ISIS_EXTENSIONS
-                    string assumedPath = Environment.GetEnvironmentVariable("PROE_ISIS_EXTENSIONS");
-
-                    if (string.IsNullOrEmpty(assumedPath))
-                    {
-                        //EXE in SVN
-                        //META_SVN\trunk\deploy\CAD_Installs\Proe ISIS Extensions\bin\CADCreoParametricCreateAssembly.exe
-                        assumedPath = Path.Combine(
-                            MetaPath,
-                            "deploy",
-                            "CAD_Installs",
-                            "Proe ISIS Extensions",
-                            "bin",
-                            "CADCreoParametricCreateAssembly.exe");
-
-                        if (File.Exists(assumedPath))
-                        {
-                            m_ProeISISExtPath = assumedPath;
-                        }
-                    }
-                    else
-                    {
-                        assumedPath = Path.Combine(
-                            assumedPath,
-                            "bin",
-                            "CADCreoParametricCreateAssembly.exe");
-
-                        if (File.Exists(assumedPath))
-                        {
-                            m_ProeISISExtPath = assumedPath;
-                        }
-                    }
-                }
-
-                return m_ProeISISExtPath;
-            }
-        }
-
-        public static string ProeISISExtVer
+        public static string CADCreoParametricCreateAssemblyVersion
         {
             get
             {
                 if (string.IsNullOrEmpty(m_ProeISISExtVer))
                 {
                     m_ProeISISExtVer = unknown;
-                    if (ProeISISExtPath != unknown)
+                    if (MetaPath != unknown)
                     {
-                        m_ProeISISExtVer = FileVersionInfo.
-                            GetVersionInfo(ProeISISExtPath).ProductVersion;
+                        var exePath = Path.Combine(MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricCreateAssembly.exe");
+                        m_ProeISISExtVer = FileVersionInfo.GetVersionInfo(exePath).ProductVersion;
                     }
                 }
                 return m_ProeISISExtVer;

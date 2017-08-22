@@ -211,7 +211,7 @@ namespace CyPhyMasterInterpreter.Rules
             }
             return result;
         }
-            
+
         /// <summary>
         /// TODO: description what we check...
         /// <para><remarks>Execute within transaction.</remarks></para>
@@ -399,7 +399,7 @@ namespace CyPhyMasterInterpreter.Rules
                 if (referred != null &&
                     referred is GME.MGA.MgaModel)
                 {
-                    var visitedCAs = new HashSet<string>(){ referred.ID };
+                    var visitedCAs = new HashSet<string>() { referred.ID };
                     var referenceFilter = referred.Project.CreateFilter();
                     referenceFilter.Kind = typeof(CyPhy.ComponentRef).Name;
 

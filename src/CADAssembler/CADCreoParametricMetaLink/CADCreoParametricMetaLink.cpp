@@ -23,6 +23,7 @@
 
 //#include "EventLoopMonitor.h"
 #include "GlobalModelData.h"
+#include "AssembleUtils.h"
 
 boost::atomic<bool> producerDone(false);
 boost::atomic<bool> terminateProcess(false);
@@ -108,44 +109,38 @@ void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis:
         config_Pro << std::endl << "pro_material_dir " << isis::CreoMaterialMTLFilesDir_Path();
 
         // protk.dat configuration information
-        const char* proeIsisExt = std::getenv("PROE_ISIS_EXTENSIONS");
-        const char* hudatExt = std::getenv("HUDAT_INSTALLDIR");
-        if(proeIsisExt == NULL)
+        std::string metaPath = isis::META_PATH();
+        if(metaPath == "")
         {
-            std::string msg = "the PROE_ISIS_EXTENSIONS environment parameter is not set";
+            std::string msg = "META_PATH registry value is not set";
             throw isis::application_exception(msg);
         }
-        ::boost::filesystem::path proeIsisExtPath(proeIsisExt);
-        if(! ::boost::filesystem::is_directory(proeIsisExtPath))
+        ::boost::filesystem::path metaPathPath(metaPath);
+        if(! ::boost::filesystem::is_directory(metaPathPath))
         {
             std::stringstream msg;
-            msg << "the PROE_ISIS_EXTENSIONS environment parameter set but no such directory exists: "
-                << proeIsisExtPath.generic_string();
+            msg << "META_PATH registry value is set but no such directory exists: "
+                << metaPathPath.generic_string();
             throw isis::application_exception(msg);
         }
 
-        ::boost::filesystem::path protkPath;
-        if(hudatExt != NULL)
-        {
-            isis_LOG(lg, isis_FILE, isis_INFO) << " HuDat present : using custom protk_hudat.dat (" << hudatExt << ")" << isis_EOL;
-            protkPath = proeIsisExtPath / "plugins" / "protk_hudat.dat";
-            if(! ::boost::filesystem::is_regular_file(protkPath))
-            {
-                std::stringstream msg;
-                msg << "the \"protk_hudat.dat\" file does not exist or is not a regular file: "
-                    << protkPath.string();
-                throw isis::application_exception(msg);
-            }
-            config_Pro << std::endl << "toolkit_registry_file  " << "" << protkPath.string() << "" << std::endl;
-        }
+		if (std::getenv("HUDAT_INSTALLDIR") != NULL)
+		{
+			::boost::filesystem::path protkPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / "protk_hudat.dat";
+			if (::boost::filesystem::is_regular_file(protkPath))
+			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << " HuDat present : using custom protk_hudat.dat (" << protkPath.generic_string() << ")" << isis_EOL;
+				config_Pro << std::endl << "toolkit_registry_file  " << "" << protkPath.string() << "" << std::endl;
+			}
+		}
 
         string treecfgfile = programInputArguments.is_designMode()?"tree_design_edit.cfg":"tree_component_edit.cfg";
 
         // only add the following line to the config when in design mode
-        ::boost::filesystem::path modelTreeConfigPath = proeIsisExtPath / "plugins" / treecfgfile;
+        ::boost::filesystem::path modelTreeConfigPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / treecfgfile;
         if(! ::boost::filesystem::is_regular_file(modelTreeConfigPath))
         {
-            isis_LOG(lg, isis_FILE, isis_WARN) << "the model tree config file file has a problem (existance?): "
+            isis_LOG(lg, isis_FILE, isis_WARN) << "the model tree config file file has a problem (doesn't exist?): "
                                          << modelTreeConfigPath.string();
             config_Pro << std::endl << "# ";
         }
@@ -171,7 +166,7 @@ int main(int argc, char *argv[])
     int ExitCode = 0;
 
     std::string			creoStartCommand;
-    std::string			proeIsisExtensionsDir;
+    std::string			CADToolDir;
 
     std::string			templateFile_PathAndFileName;
     std::stringstream	exceptionErrorStringStream;
@@ -240,7 +235,7 @@ int main(int argc, char *argv[])
 		isis::SetCreoEnvirVariable_RetrieveSystemSettings(programInputArguments.graphicsModeOn,
                 programInputArguments.synchronizeWithCyPhy,
                 creoStartCommand,
-                proeIsisExtensionsDir,
+                CADToolDir,
                 templateFile_PathAndFileName);
 
         std::map<std::string, isis::CADComponentData> CADComponentData_map;
@@ -252,11 +247,10 @@ int main(int argc, char *argv[])
         /////// Start Pro/E /////////
         /////////////////////////////
 
-        const char* proeIsisExt = std::getenv("PROE_ISIS_EXTENSIONS");
         char* creoStartChar = const_cast<char*>(creoStartCommand.c_str());
 
         ::boost::filesystem::current_path(workingDir);
-        std::string textPath=std::string(proeIsisExt)+"plugins\\";
+        std::string textPath = isis::META_PATH() + "\\bin\\CAD\\Creo\\plugins\\";
         isis::isis_ProEngineerStart(creoStartChar, const_cast<char*>(textPath.c_str()));
 
         ProTermFuncSet(ProTermAction);
@@ -328,12 +322,13 @@ int main(int argc, char *argv[])
                 if(result)
                 {
                     isis::EditPointer ack(new meta::Edit());
-                    ack->set_guid(edit->guid());
                     for(int i = 0; i < edit->topic_size(); i++)
                     {
+		        // FIXME: need to set notice mode to ack?
                         *(ack->add_topic()) = edit->topic(i);
                     }
-                    metalink_handler.send(ack);
+		    // FIXME: GME side doesn't do anything with this (ie who cares?)
+                    // metalink_handler.send(ack);
                 }
             }
         }

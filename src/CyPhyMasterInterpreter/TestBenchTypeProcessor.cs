@@ -150,7 +150,6 @@ namespace CyPhyMasterInterpreter
                     throw new AnalysisModelExpandFailedException("ReferenceSwitcher failed.", ex);
                 }
             }
-
         }
 
 
@@ -325,7 +324,9 @@ namespace CyPhyMasterInterpreter
                         continue;
                     }
 
-                    var builtConnections = designEntityRef.DstConnections.BuiltCollection.Count();
+                    // user may have leftovers from running CAExporter then deleting the CA
+                    var builts = designEntityRef.DstConnections.BuiltCollection.Where(x => x.DstEnds.BuiltDesignEntityRef.AllReferred != null);
+                    var builtConnections = builts.Count();
 
                     if (builtConnections == 0)
                     {
@@ -347,18 +348,9 @@ namespace CyPhyMasterInterpreter
 
                     // Get the Built connection and then the BuildDesignEntityRef.
                     // The BuildDesignEntityRef will point to our source object within a Component Assembly / configuration.
-                    foreach (CyPhy.Built built in designEntityRef.DstConnections.BuiltCollection)
+                    foreach (CyPhy.Built built in builts)
                     {
                         var builtDesignEntityRef = built.DstEnds.BuiltDesignEntityRef;
-                        if (builtDesignEntityRef.AllReferred == null)
-                        {
-                            // in case user clears the reference
-
-                            string message = string.Format("Model does not contain traceablity information between the generated configurations and the design space. {0} will not be found in the original design space. Please try to export the configurations again using CAExporter or run the design space exploration tool.", originalTip.Meta.Name);
-
-                            ex = new AnalysisModelTipNotFoundException(message);
-                            continue;
-                        }
 
                         if ((builtDesignEntityRef.AllReferred.Impl as MgaFCO).RootFCO.ID == (sutComponentAssemblyTarget.Impl as MgaFCO).RootFCO.ID)
                         {
@@ -366,11 +358,10 @@ namespace CyPhyMasterInterpreter
                             // TODO: how this would work if it points to a component in a CA which is referred in the design???
                             targetTipByBuilt = builtDesignEntityRef.AllReferred.Impl as MgaFCO;
                         }
-                        
                     }
                 }
             }
-            
+
 
             if (targetTipByBuilt != null)
             {
@@ -520,7 +511,7 @@ namespace CyPhyMasterInterpreter
                             {
                                 throw new ApplicationException(String.Format("Could not parse Parameters for '{0}'", nextTask.Name), ex);
                             }
-                            workflow.Enqueue(component);                            
+                            workflow.Enqueue(component);
 
                             var flow = nextTask.DstConnections.FlowCollection.FirstOrDefault();
                             if (flow == null)
@@ -611,16 +602,11 @@ namespace CyPhyMasterInterpreter
             return null;
         }
 
-        public override bool PostToJobManager(JobManagerDispatch manager = null)
+        public override bool PostToJobManager(JobManagerDispatch manager)
         {
             if (this.Interpreters == null)
             {
                 throw new InvalidOperationException("Call RunInterpreters method first.");
-            }
-
-            if (manager == null)
-            {
-                manager = new JobManagerDispatch();
             }
 
             bool success = true;
@@ -643,7 +629,7 @@ namespace CyPhyMasterInterpreter
                     title = String.Format("{0}_{1}", interpreterName, this.expandedTestBenchType.Name).Replace(" ", "_");
                     testbenchName = this.testBenchType.Name;
 
-                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, interpreter);
+                    success = success && manager.EnqueueJob(runCommand, title, testbenchName, workingDirectory, ProjectDirectory, interpreter);
                 }
             }
 
@@ -659,7 +645,7 @@ namespace CyPhyMasterInterpreter
             return success;
         }
 
-        public override bool SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
+        public override void SaveTestBenchManifest(AVM.DDP.MetaAvmProject project, string configurationName, DateTime analysisStartTime)
         {
             if (project == null)
             {
@@ -670,10 +656,9 @@ namespace CyPhyMasterInterpreter
 
             this.EnsureOutputDirectory();
 
-            bool success = false;
             try
             {
-                success = project.SaveTestBenchManifest(
+                project.SaveTestBenchManifest(
                 this.Configuration.Name,
                 configurationName,
                 this.expandedTestBenchType,
@@ -685,8 +670,6 @@ namespace CyPhyMasterInterpreter
             {
                 throw new AnalysisModelProcessorException("Saving test bench manifest failed.", ex);
             }
-
-            return success;
         }
 
         public override bool SaveTestBench(AVM.DDP.MetaAvmProject project)
@@ -731,14 +714,14 @@ namespace CyPhyMasterInterpreter
         {
             this.ExecuteInTransaction(() =>
             {
-                    try
-                    {
-                        manifest.AddAllTasks(this.testBenchType, this.Interpreters);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new AnalysisModelProcessorException("Updating test bench execution steps failed.", ex);
-                    }
+                try
+                {
+                    manifest.AddAllTasks(this.testBenchType, this.Interpreters, "..\\..");
+                }
+                catch (Exception ex)
+                {
+                    throw new AnalysisModelProcessorException("Updating test bench execution steps failed.", ex);
+                }
             });
 
             return true;

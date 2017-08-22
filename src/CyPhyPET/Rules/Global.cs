@@ -13,11 +13,13 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using CyPhyCOMInterfaces;
 using System.Globalization;
 using ISIS.GME.Common.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace CyPhyPET.Rules
 {
     public class Global : RuleBase
     {
+        static readonly string NAME_EXPLANATION = "Names must start with an underscore or letter, and may contain only letters, numbers, or underscores";
 
         [CheckerRule("OneAndOnlyOneDriver", Description = "There should be one and only one driver.")]
         [Tags("PET")]
@@ -56,7 +58,7 @@ namespace CyPhyPET.Rules
             return result;
         }
 
-#region TestBench
+        #region TestBench
         /// <summary>
         /// Looks if a work-flow with a task is defined in testBench and if so, returns the ProgID defined
         /// in task. If the rules are not fulfilled an empty string is returned.
@@ -97,36 +99,133 @@ namespace CyPhyPET.Rules
             return UniqueTestBenchRefNames(pet);
         }
 
-        public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
+        // from openmdao group.py
+        static readonly Regex namecheck_rgx = new Regex("^" + "[_a-zA-Z][_a-zA-Z0-9]*" + "$");
+        public static IEnumerable<RuleFeedbackBase> CheckComponentName(MgaFCO context)
         {
             var result = new List<RuleFeedbackBase>();
 
-            var cnt = pet.Children.TestBenchRefCollection.Count();
-
-            if (cnt < 1)
+            if (namecheck_rgx.Match(context.Name).Success == false)
             {
                 var feedback = new GenericRuleFeedback()
                 {
                     FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("No TestBenchRef defined; PET requires one TestBenchRef.")
+                    Message = NAME_EXPLANATION
                 };
-
+                feedback.InvolvedObjectsByRole.Add(context);
                 result.Add(feedback);
             }
-            else
+
+            return result;
+        }
+
+        public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
+        {
+            var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
+
+            return UniqueNames(components);
+        }
+
+        public static IEnumerable<RuleFeedbackBase> UniqueNames(IEnumerable<FCO> components)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var dupNames = components.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
+                .Select(group => group.Key);
+            if (dupNames.Count() > 0)
             {
-                var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
-                var dupNames = components.GroupBy(tb => tb.Name).Where(group => group.Count() > 1)
-                    .Select(group => group.Key);
-                if (dupNames.Count() > 0)
+                var feedback = new GenericRuleFeedback()
                 {
-                    var feedback = new GenericRuleFeedback()
-                    {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("PET requires unique names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
-                    };
-                    result.Add(feedback);
-                }
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("PET requires unique names. Duplicate names: {0}", String.Join(",", dupNames.ToArray()))
+                };
+                result.Add(feedback);
+            }
+
+            return result;
+        }
+
+        internal static IEnumerable<RuleFeedbackBase> CheckProblemOutput(MgaFCO child)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var incomingConnections = child.PartOfConns.Cast<IMgaConnPoint>().Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+                .Cast<IMgaSimpleConnection>();
+            if (incomingConnections.Count() != 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = incomingConnections.Count() == 0 ? "ProblemOutput must have one incoming connection" :
+                        "ProblemOutput may not have more than one incoming connection"
+                };
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+
+            if (isValidParamOrOutputName(child.Name) == false)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message =
+                        string.Format("Problem Output ({0}) has an invalid name. " + NAME_EXPLANATION, (object)child.Name)
+                };
+
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
+            }
+
+            return result;
+        }
+
+        internal static IEnumerable<RuleFeedbackBase> CheckProblemInput(MgaFCO child)
+        {
+            var result = new List<RuleFeedbackBase>();
+            var incomingConnections = Enumerable.Cast<IMgaConnPoint>(child.PartOfConns).Where(cp => cp.ConnRole == "dst").Select(cp => cp.Owner)
+                .Cast<IMgaSimpleConnection>();
+            if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection at the same level of hierarchy")
+                };
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
+                result.Add(feedback);
+            }
+            if (incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() > 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput may have only one incoming connection from the parent ParametricExploration")
+                };
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
+                result.Add(feedback);
+            }
+            if (incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).Count() == 1 &&
+                incomingConnections.Where(conn => conn.ParentModel.ID == child.ParentModel.ID).First().Src.Meta.Name != typeof(CyPhy.DesignVariable).Name &&
+                incomingConnections.Where(conn => conn.ParentModel.ID != child.ParentModel.ID).Count() == 1)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message = string.Format("ProblemInput must be connected to a Design Variable") // TODO: if it is connected one hierarchy level up
+                };
+                feedback.InvolvedObjectsByRole.Add((IMgaFCO)child);
+                result.Add(feedback);
+            }
+
+            if (isValidParamOrOutputName(child.Name) == false)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Error,
+                    Message =
+                        string.Format("Problem Input ({0}) has an invalid name. " + NAME_EXPLANATION, (object)child.Name)
+                };
+
+                feedback.InvolvedObjectsByRole.Add(child);
+                result.Add(feedback);
             }
 
             return result;
@@ -248,9 +347,9 @@ namespace CyPhyPET.Rules
             return result;
         }
 
-#endregion
+        #endregion
 
-#region PCC
+        #region PCC
         [CheckerRule("PCCDriverSetUpCorrectly", Description = "Checks all rules for a PCCDriver")]
         [Tags("PET")]
         [ValidContext("PCCDriver")]
@@ -323,14 +422,13 @@ namespace CyPhyPET.Rules
 
                         if (tbParam != null)
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbParam.Name)) == false)
+                            if (isValidParamOrOutputName(tbParam.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
                                     Message =
-                                        string.Format("Connected Parameter ({0}) contains invalid characters.",
-                                            tbParam.Name)
+                                        string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
@@ -404,8 +502,10 @@ namespace CyPhyPET.Rules
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null &&
-                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
+                        if (tbMetricParent != null && (
+                               (tbMetricParent is CyPhy.TestBenchType) == false
+                            && (tbMetricParent is CyPhy.ParametricTestBench) == false
+                            && (tbMetricParent is CyPhy.Constants) == false))
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -418,12 +518,12 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbMetric.Name)) == false)
+                            if (isValidParamOrOutputName(tbMetric.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metric ({0}) contains invalid characters.", tbMetric.Name)
+                                    Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
@@ -631,15 +731,14 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
-#region ParameterStudy
+        #region ParameterStudy
         [CheckerRule("ParameterStudySetUpCorrectly", Description = "Checks rules for a ParameterStudy")]
         [Tags("PET")]
         [ValidContext("ParameterStudy")]
         public static IEnumerable<RuleFeedbackBase> ParameterStudySetUpCorrectly(MgaFCO context)
         {
-            var result = new List<RuleFeedbackBase>();
             var parameterStudy = CyPhyClasses.ParameterStudy.Cast(context);
             return checkMdaoDriverChildren(context);
         }
@@ -687,7 +786,6 @@ namespace CyPhyPET.Rules
             }
 
             var tbParamsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
-            var tbMetricsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
             // Check for connections and names of parameters in the test-bench.
             var rangeLengths = new List<int>();
             foreach (var designVar in designVariables)
@@ -697,8 +795,7 @@ namespace CyPhyPET.Rules
                 rangeLengths.Add(discreteRange);
 
                 var varSweepCollection = designVar.DstConnections.VariableSweepCollection;
-                if (varSweepCollection != null &&
-                    varSweepCollection.Count() == 1)
+                if (varSweepCollection.Count() == 1)
                 {
                     CyPhy.VariableSweep varSweep = varSweepCollection.FirstOrDefault();
                     var tbParam = varSweep.DstEnds.Parameter;
@@ -720,12 +817,12 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbParam.Name)) == false)
+                            if (isValidParamOrOutputName(tbParam.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameter ({0}) contains invalid (Python) characters.", tbParam.Name)
+                                    Message = string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, tbParam.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
@@ -764,14 +861,18 @@ namespace CyPhyPET.Rules
                 else if (varSweepCollection != null &&
                     varSweepCollection.Count() == 0)
                 {
-                    var feedback = new GenericRuleFeedback()
+                    var problemInputs = designVar.DstConnections.ProblemInputFlowSourceConnectionCollection;
+                    if (problemInputs.Count() < 1)
                     {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
-                    };
+                        var feedback = new GenericRuleFeedback()
+                        {
+                            FeedbackType = FeedbackTypes.Error,
+                            Message = string.Format("Driver DesignVariable ({0}) must have at least 1 connection to a Testbench Parameter/Property", designVar.Name)
+                        };
 
-                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                    checkResults.Add(feedback);
+                        feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
+                        checkResults.Add(feedback);
+                    }
                 }
             }
 
@@ -791,17 +892,32 @@ namespace CyPhyPET.Rules
             foreach (var obj in objectives)
             {
                 var objMappingCollection = obj.SrcConnections.ObjectiveMappingCollection;
-                if (objMappingCollection != null &&
-                    objMappingCollection.Count() == 1)
+                var fileFlowCollection = obj.SrcConnections.FileResultFlowCollection;
+                var outputColection = obj.SrcConnections.ProblemOutputFlowTargetConnectionCollection;
+                if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 1)
                 {
-                    CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
-                    var tbMetric = objMap.SrcEnd;
-                    var tb = objMap.GenericSrcEndRef;
+                    FCO tbMetric;
+                    if (objMappingCollection.Count() == 1)
+                    {
+                        CyPhy.ObjectiveMapping objMap = objMappingCollection.FirstOrDefault();
+                        tbMetric = objMap.SrcEnd;
+                    }
+                    else if (outputColection.Count() == 1)
+                    {
+                        tbMetric = outputColection.First().SrcEnd;
+                    }
+                    else
+                    {
+                        var fileFlow = fileFlowCollection.First();
+                        tbMetric = fileFlow.SrcEnd;
+                    }
                     if (tbMetric != null)
                     {
                         var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null &&
-                            ((tbMetricParent is CyPhy.TestBenchType) == false && (tbMetricParent is CyPhy.ParametricTestBench) == false))
+                        if ((tbMetricParent is CyPhy.TestBenchType) == false
+                            && (tbMetricParent is CyPhy.ParametricTestBench) == false
+                            && (tbMetricParent is CyPhy.Constants) == false
+                            && (tbMetricParent is CyPhy.ParametricExploration) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
@@ -814,52 +930,39 @@ namespace CyPhyPET.Rules
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(checkForInvalidCharacters(tbMetric.Name)) == false)
+                            if (isValidParamOrOutputName(tbMetric.Name) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {
                                     FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metric ({0}) contains invalid (Python) characters.", tbMetric.Name)
+                                    Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
                                 };
 
                                 feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                                 checkResults.Add(feedback);
                             }
                         }
-
-                        if (tbMetricsWithConnections.Add(
-                            new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbMetric)) == false)
-                        {
-                            var feedback = new GenericRuleFeedback()
-                            {
-                                FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("TestBench Metric ({0}) must have only 1 connection to a Objective", tbMetric.Name)
-                            };
-
-                            feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
-                            checkResults.Add(feedback);
-                        }
                     }
                 }
-                else if (objMappingCollection != null)
+                else
                 {
-                    if (objMappingCollection.Count() > 1)
+                    if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() > 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("Driver Objective ({0}) must not have multiple connections from Testbench Metrics", obj.Name)
+                            Message = string.Format("Driver Objective ({0}) must not have multiple incoming connections", obj.Name)
                         };
 
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
                         checkResults.Add(feedback);
                     }
-                    else if (objMappingCollection.Count() == 0)
+                    else if (objMappingCollection.Count() + fileFlowCollection.Count() + outputColection.Count() == 0)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Warning,
-                            Message = string.Format("Driver Objective ({0}) does not have a connection from a Testbench Metric", obj.Name)
+                            Message = string.Format("Driver Objective ({0}) does not have an incoming connection", obj.Name)
                         };
 
                         feedback.InvolvedObjectsByRole.Add(obj.Impl as IMgaFCO);
@@ -970,9 +1073,9 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
-#region Optimizer
+        #region Optimizer
         [CheckerRule("OptimizerSetUpCorrectly", Description = "Checks rules for an Optimizer")]
         [Tags("PET")]
         [ValidContext("Optimizer")]
@@ -1046,56 +1149,14 @@ namespace CyPhyPET.Rules
             return attributeCheckResults;
         }
 
-#endregion
+        #endregion
 
-        public static string checkForInvalidCharacters(string childName)
+        // from openmdao component.py
+        static readonly Regex param_output_namecheck_rgx = new Regex("^" + "([_a-zA-Z][_a-zA-Z0-9]*)+(:[_a-zA-Z][_a-zA-Z0-9]*)*" + "$");
+        public static bool isValidParamOrOutputName(string childName)
         {
-            var badCharList = "";
-
-            foreach (char badChar in invalidCharacters)
-            {
-                if (childName.Contains(badChar))
-                {
-                    badCharList = badCharList + badChar;
-                }
-            }
-
-            return badCharList;
+            return param_output_namecheck_rgx.Match(childName).Success;
         }
-
-        public static HashSet<char> invalidCharacters = new HashSet<char>()
-        {
-            {'!'},
-            {'@'},
-            {'#'},
-            {'$'},
-            {'%'},
-            {'^'},
-            {'&'},
-            {'*'},
-            {'('},
-            {')'},
-            {'-'},
-            {'{'},
-            {'}'},
-            {'['},
-            {']'},
-            {'|'},
-            {';'},
-            {':'},
-            {','},
-            {'<'},
-            {'.'},
-            {'>'},
-            {'/'},
-            {'?'},
-            {'~'},
-            {'`'},
-            {'+'},
-            {'='},
-            {' '},
-        };
-
 
     }
 }

@@ -398,6 +398,10 @@ namespace META
 
         public bool DoGUIConfiguration(string projectDir, bool showGUI=true)
         {
+            if (MgaComponent == null)
+            {
+                throw new ApplicationException(Error);
+            }
             bool success = false;
             if (MgaComponent is ICyPhyInterpreter)
             {

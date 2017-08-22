@@ -87,7 +87,7 @@ namespace ComponentAndArchitectureTeamTest
         }
         #endregion
 
-        public void RunFormulaEvaluator(MgaFCO currentobj, bool expanded=true)
+        public string[] RunFormulaEvaluator(MgaFCO currentobj)
         {
             // create formula evaluator type
             // FIXME: calling the elaborator is faster than calling the formula evaluator
@@ -107,15 +107,15 @@ namespace ComponentAndArchitectureTeamTest
             // do not write to the console
             formulaEval.ComponentParameter["console_messages"] = "off";
 
-            // do not expand nor collapse the model
-            formulaEval.ComponentParameter["expanded"] = expanded ? "true" : "false";
-
             // do not generate the post processing python scripts
             // FIXME: Why should we generate them ???
             formulaEval.ComponentParameter["do_not_generate_post_processing"] = "true";
 
             // call the formula evaluator and update all parameters starting from the current object
             formulaEval.InvokeEx(fixture.proj, currentobj, selectedObjs, 16);
+
+            string[] numericLeafNodes = (string[])formulaEval.ComponentParameter["numericLeafNodes"];
+            return numericLeafNodes;
         }
 
         [Fact]
@@ -186,36 +186,6 @@ namespace ComponentAndArchitectureTeamTest
                     return;
                 }
                 Assert.True(false, "FormulaEvaluator should have failed");
-            });
-        }
-
-
-        [Fact]
-        public void DerivedAssembly()
-        {
-            // Find the object we want
-            fixture.proj.PerformInTransaction(delegate
-            {
-                var comp = (MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@ContainsDerived");
-                Assert.NotNull(comp);
-                RunFormulaEvaluator(comp, expanded: false);
-                var prop3 = ((MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@ContainsDerived/@BaseAssembly/@SimpleFormula_Fraction/@Prop3"));
-                Assert.NotNull(prop3);
-                Assert.Equal("8", prop3.get_StrAttrByName("Value"));
-            });
-        }
-
-        [Fact]
-        public void DerivedAssemblyInTestbench()
-        {
-            // Find the object we want
-            fixture.proj.PerformInTransaction(delegate
-            {
-                var comp = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@ContainsDerived");
-                Assert.NotNull(comp);
-                RunFormulaEvaluator(comp, expanded: false);
-                var prop3 = ((MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@ContainsDerived/@BaseAssembly/@SimpleFormula_Fraction/@Prop3"));
-                Assert.NotNull(prop3);
             });
         }
 
@@ -459,10 +429,11 @@ namespace ComponentAndArchitectureTeamTest
             {
                 var sot = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation");
                 Assert.NotNull(sot);
-                RunFormulaEvaluator(sot, expanded: false);
+                string[] numericLeafNodes = RunFormulaEvaluator(sot);
                 var mass_g = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation/@Mass");
                 Assert.NotNull(mass_g);
                 Assert.Equal("10000", mass_g.get_StrAttrByName("Value"));
+                Assert.Equal(new string[] { "Mass" }, numericLeafNodes);
             });
         }
 

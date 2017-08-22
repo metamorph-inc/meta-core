@@ -17,32 +17,40 @@ Pre-Conditions
 
 2. A supported version of Creo (see Supported Creo Versions above) must be installed and must work 
    properly on your machine.
-
-3. Typically this program would be invoked on a computer that has the META tool suite installed.  If this
-   is no the case, the x64 version of UDM must be installed.  This is needed because this program uses UDM to 
+   
+3. Typically this program would be invoked on a computer that has the OpenMETA tool suite installed.  If this
+   is not the case, the x64 version of UDM must be installed.  This is needed because this program uses UDM to 
    parse xml files.  You can download UDM from http://repo.isis.vanderbilt.edu/downloads/.  Make sure you 
-   install the 64 bit versions (e.g. UDM_x64-....msi). 
+   install the 64 bit versions (e.g. UDM_x64-....msi).    
 
-CADCreoParametricCreateAssembly.exe Install Instructions:
+Manual Install of CADCreoParametricCreateAssembly.exe 
 --------------------------------------------------------
-NOTE - Normally there is no need to perform a manual install.  The META installer 
-       performs of all the necessary setup.
+NOTE - Normally there is no need to perform a manual install.  The OpenMETA installer 
+       performs of all the necessary setup.  Only do the following steps if OpenMETA is 
+	   not installed and you wish to run CADCreoParametricCreateAssembly.exe as a 
+	   standalone program.
 
 If you would like to install manually, perform the following steps:
-1.  Copy the directory "Proe ISIS Extensions" to a local drive.  Typically, 
-    "C:\Program Files\META\Proe ISIS Extensions"
 
-2.  Setup the following system environment variable:  
+1.  Look in the registry for 
+	HKEY_LOCAL_MACHINE\SOFTWARE\META\META_PATH
+	This key would be set if OpenMETA had been installed and would typically be set to:
+	C:\Program Files (x86)\META
+	If it is not present in the registry, you will need to create it in the registry and 
+	set it to the directory of your choosing.  
+	This directory will be refered to as <META_PATH>
 
-	   Environment Variable		Typically Set To
-	   ---------------------	----------------
-	a) PROE_ISIS_EXTENSIONS 	C:\Program Files\META\Proe ISIS Extensions
-	
-3.  Starting with CADCreoParametricCreateAssembly.exe v1.2.2.0 no environment variables, other than 
-    PROE_ISIS_EXTENSIONS, are necessary.  CADCreoParametricCreateAssembly.exe will automatically 
-    choose the highest version of the CADCreoParametricCreateAssembly.exe supported versions of 
-    Creo (see Supported Creo Versions above) that is on your computer.  However, there 
-    are cases where you may want to use the environment variables.  For example, if you have 
+2.  Copy the meta-core\bin\CAD\Creo directory from the repository (i.e. GitHub) to <META_PATH>\bin\CAD\
+
+3.  Copy CADCreoParametricCreateAssembly.exe to <META_PATH>\bin\CAD\Creo\bin
+	Note - CADCreoParametricCreateAssembly.exe would have been compiled by
+	the Visual Studio solution CADCreoParametricCreateAssembly.sln.
+
+   
+Manual Creo version selection
+--------------------------------------------------------
+1.  CADCreoParametricCreateAssembly.exe will automatically choose the highest supported version of 
+    Creo (see Supported Creo Versions above) that is on your computer.  If you have 
     multiple versions of Creo on your machine, then you may want to use the environment variables 
     to specify the version you would like to use.  To specify a particular version of Creo, 
     set the environment variables as follows:
@@ -54,13 +62,6 @@ If you would like to install manually, perform the following steps:
 	c) CREO_PARAMETRIC_COMM_MSG_EXE Template: C:\Program Files\PTC\Creo 2.0\Common Files\<version number>\x86e_win64\obj\pro_comm_msg
 					Example:  C:\Program Files\PTC\Creo 2.0\Common Files\M030\x86e_win64\obj\pro_comm_msg
 
-
-Example Bat Files:
------------------
-Example bat files used to invoke assemble_ptc.exe and CADProECreateAssembly.exe follow:
-
-	...\Proe ISIS Extensions\docs\examples\CADProECreateAssembly.bat, example for v1.3.7.0 and later.
- 	
 
 Revision History:
 ----------------
@@ -1036,6 +1037,34 @@ v1.5.12.0  08/17/2016	GitHub Branch: Patran_010_Orient_Surfaces_Properly
 
 v1.5.13.0  08/19/2016	Add support for Tetra4 and Tetra10 in CADAssembly.xml. 
 			R.O.
+
+
+v1.5.14.0  04/27/2017	Started the refactoring to support other CAD systems.  In CommonStructures.h 
+			replaced ProAsmcompConstrType with e_CADAssemblyConstraintType and 
+			ProType with e_CADFeatureGeometryType.  Created the file CADStringToEnumConversions.h/.cpp 
+			to hold the enums common to all CAD systems.  Renamed StringToEnumConversions.h/.cpp to 
+			CreoStringToEnumConversions.h/.cpp to clearly signify that these are Creo enums.
+			CAD_025_Updates_for_Generic_CAD_Interface
+			R.O.
+
+v1.5.15.0  05/11/2017	Added support for exporting DXF format.  Exporting Wavefront is not supported by the toolkit.
+			DXF exports only work with Solid models.  Surface models will result in a DXF file that is empty.
+ 			Switched from using the Creo function ProOutputFileWrite (deprecated as of Creo 3.0) to ProOutputFileMdlnameWrite.
+			R.O.	
+
+
+v1.5.16.0  05/18/2017	Add code (src\CADAssembler\CodeGenerationTools\enums) to programmatically generate enums and link 
+			CAD-specific enums to generic enums.  The generic enums will be the common interface between all CAD systems.
+	
+v1.5.17.0		Someone else changed the version number. Don't know if any changes were actually made.
+
+v1.5.18.0  07/16/2017 Modified CommonStructures.h so that it only depends on generic CAD enums, with the exception of 
+			Creo pointers (ProMdl, ProSolid) and assembled features (ProAsmcomp).  Will deal with those anomalies later. 
+			Added error checking to CreateCADEnums.py.  Added CodeGenerationTools.
+			Branch: CAD_030_CommonStructures_Remove_Creo_References_Except_ptrs
+			
+v1.5.19.0 	Removed the dependency on PROE_ISIS_EXTENSIONS.  Now the code is only dependent on the registry 
+			entry META_PATH.
 
 Known Defects
 -------------

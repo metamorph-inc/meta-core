@@ -8,8 +8,6 @@ using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 
 namespace CyPhyMasterInterpreter.Rules
 {
-
-
     public class BallisticTestBenchChecker : TestBenchTypeChecker<CyPhy.BallisticTestBench>
     {
         // Ballistic
@@ -31,7 +29,7 @@ namespace CyPhyMasterInterpreter.Rules
 
             // case 1
             this.m_details.AddRange(this.HasShotLinesAndAtLeastOneBallisticTarget());
-            
+
             // case 2
             this.m_details.AddRange(this.HasAPredefinedAndNoBallisticTarget());
         }
@@ -39,7 +37,7 @@ namespace CyPhyMasterInterpreter.Rules
         private IEnumerable<ContextCheckerResult> AtLeastOneShotlineModelOrAPredefined()
         {
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();
-            
+
             var hasShotline = this.testBench.Children.ShotlineModelCollection.Any();
             var hasPredefined = this.testBench.Children.PredefinedBallisticSuiteCollection.Any();
 
@@ -82,7 +80,6 @@ namespace CyPhyMasterInterpreter.Rules
                         results.Add(feedback);
                     }
                 }
-                
             }
             else
             {
@@ -104,7 +101,7 @@ namespace CyPhyMasterInterpreter.Rules
             List<ContextCheckerResult> results = new List<ContextCheckerResult>();
             foreach (var ballisticTarget in this.testBench.Children.BallisticTargetCollection)
             {
-               results.AddRange(this.ValidateTestInjectionPoint(ballisticTarget.Impl as MgaReference));
+                results.AddRange(this.ValidateTestInjectionPoint(ballisticTarget.Impl as MgaReference));
             }
             return results;
         }
@@ -259,7 +256,5 @@ namespace CyPhyMasterInterpreter.Rules
 
             return results;
         }
-
-
     }
 }

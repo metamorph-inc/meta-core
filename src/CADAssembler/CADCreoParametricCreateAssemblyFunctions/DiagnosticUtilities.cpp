@@ -1,6 +1,7 @@
 #include <DiagnosticUtilities.h>
 #include <CommonStructures.h>
-#include <StringToEnumConversions.h>
+#include <CommonFunctions.h>
+#include <CreoStringToEnumConversions.h>
 #include <MaterialProperties.h>
 #include <ISISConstants.h>
 #include <CADCommonConstants.h>
@@ -404,7 +405,7 @@ std::set<std::string> NonSizeToFitComponents_ReferencedBy_SizeToFitConstraints(
 //	out_Stream << std::endl << in_Indent << "GeometryType:          " <<  CADGeometryType_string(in_Geometry.geometryType);
 //	out_Stream << std::endl << in_Indent << "ComponentID:           " <<  in_Geometry.componentID;
 //	out_Stream << std::endl << in_Indent << "FeatureInterfaceType:  " <<  FeatureInterfaceType_string(in_Geometry.featureInterfaceType);
-//	out_Stream << std::endl << in_Indent << "FeatureGeometryType:   " <<  CADFeatureGeometryType_string(in_Geometry.featureGeometryType);
+//	out_Stream << std::endl << in_Indent << "FeatureGeometryType:   " <<  CADAnalysisFeatureGeometryType_string(in_Geometry.featureGeometryType);
 //	out_Stream << std::endl << in_Indent << "Features: ";
 //	
 //	for( std::list<std::string>::const_iterator i( in_Geometry.features.begin()); i != in_Geometry.features.end(); ++i )
@@ -456,10 +457,10 @@ void stream_AnalysisInputData( const CADAnalyses &in_CADAnalyses, ostream &out_S
 		out_Stream << std::endl << "      Solver: ";
 		for ( std::list<AnalysisSolver>::const_iterator j( i->analysisSolvers.begin()); j !=  i->analysisSolvers.end(); ++j )
 		{
-			out_Stream << std::endl << "         Type:             " << AnalysisSolverType_string(j->type);
-			out_Stream << std::endl << "         MeshType:         " << AnalysisMeshType_string(j->meshType);
-			out_Stream << std::endl << "         ShellElementType: " << AnalysisShellElementType_string(j->shellElementType);
-			out_Stream << std::endl << "         ElementShapeType: " << AnalysisElementShapeType_string(j->elementShapeType);
+			out_Stream << std::endl << "         Type:             " << ProAnalysisSolverType_string(j->type);
+			out_Stream << std::endl << "         MeshType:         " << ProAnalysisMeshType_string(j->meshType);
+			out_Stream << std::endl << "         ShellElementType: " << ProAnalysisShellElementType_string(j->shellElementType);
+			out_Stream << std::endl << "         ElementShapeType: " << ProAnalysisElementShapeType_string(j->elementShapeType);
 		}
 
 		////////////////////////////////////////////

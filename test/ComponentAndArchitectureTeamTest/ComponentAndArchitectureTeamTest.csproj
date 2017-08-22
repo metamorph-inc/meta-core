@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -83,7 +83,10 @@
     <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL" />
+    <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
+        <SpecificVersion>False</SpecificVersion>
+        <HintPath>..\..\src\CyPhyMLCS\ISIS.GME.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -105,9 +108,6 @@
   <ItemGroup>
     <Compile Include="..\..\src\CommonFiles\MgaUtils.cs">
       <Link>MgaUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\CommonFiles\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
     </Compile>
     <Compile Include="ComponentAuthoringTool.cs" />
     <Compile Include="FormulaEvaluator.cs" />

@@ -58,10 +58,6 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ISIS.GME.Common, Version=1.0.4.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
-      <HintPath>..\..\..\externals\common-scripts\ISIS.GME.Common.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\3rdParty\Json.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -69,21 +65,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
-    <Reference Include="GME, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="GME.Util, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="GME.MGA.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobManagerLib.cs" />
@@ -99,18 +80,6 @@
     <ProjectReference Include="..\..\AvmDdp\AvmDdp.csproj">
       <Project>{8880FD8F-C7DA-4491-908D-778B67057DA0}</Project>
       <Name>AvmDdp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CyPhyGUIs\CyPhyGUIs.csproj">
-      <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
-      <Name>CyPhyGUIs</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CyPhySoT\CyPhySoT.csproj">
-      <Project>{42744B43-DD80-4D4C-AA20-949CA8EAB76E}</Project>
-      <Name>CyPhySoT</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CyPhyMLCS\CyPhyMLCS.csproj">
-      <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
-      <Name>CyPhyMLCS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

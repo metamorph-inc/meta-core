@@ -1,0 +1,50 @@
+{
+  "Status": "OK", 
+  "CopyTestResults": false, 
+  "Parameters": [
+    {
+      "Description": "", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000003", 
+      "Value": 342.0, 
+      "Range": "-inf..inf", 
+      "ID": "2fb16d0e-fff4-4c97-b69d-e1ca576ccef2", 
+      "Unit": "", 
+      "Name": "z"
+    }
+  ], 
+  "TierLevel": 0, 
+  "Artifacts": [], 
+  "VisualizationArtifacts": [], 
+  "DesignName": "add2_TestBench", 
+  "Metrics": [
+    {
+      "GMEID": "id-0067-00000002", 
+      "Description": "", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": 344.0, 
+      "ID": "c033f632-1f6c-498e-8244-328f2275166a", 
+      "Unit": "", 
+      "Name": "z"
+    }
+  ], 
+  "DesignID": "{ec537329-2daf-42cc-b1a7-076d594052a3}", 
+  "Dependencies": [], 
+  "Steps": [
+    {
+      "ExecutionCompletionTimestamp": "2017-08-15T11:38:00.181000", 
+      "Status": "OK", 
+      "Description": null, 
+      "Parameters": [], 
+      "ExecutionStartTimestamp": "2017-08-15T11:37:59.926000", 
+      "PreProcess": null, 
+      "PostProcess": null, 
+      "Invocation": "Python.exe add2_script.py", 
+      "LogFile": "log/log2017-08-15T113759.926000.log", 
+      "Type": null
+    }
+  ], 
+  "TestBench": "add2_TestBench", 
+  "Created": "2015-11-09T20:22:43.8348706Z"
+}

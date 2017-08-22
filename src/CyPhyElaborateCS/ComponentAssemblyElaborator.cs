@@ -17,7 +17,8 @@
         /// </summary>
         /// <param name="subject">Component Assembly object.</param>
         /// <exception cref="ArgumentNullException">If any arguments are null</exception>
-        public ComponentAssemblyElaborator(MgaModel subject)
+        public ComponentAssemblyElaborator(MgaModel subject, bool UnrollConnectors)
+            : base(UnrollConnectors)
         {
             if (subject == null)
             {
@@ -29,6 +30,7 @@
 
             // initialize collections
             this.Traceability = new Dictionary<string, string>();
+            this.ComponentGUIDs = new HashSet<string>();
             this.InnerElaborators = new List<ComponentAssemblyElaborator>();
             this.ComponentAssemblyReferences = new Queue<MgaFCO>();
         }
@@ -79,6 +81,7 @@
         /// </summary>
         public override void Elaborate()
         {
+            SortedDictionary<string, MgaModel> parentsWithDupComponentGuids = new SortedDictionary<string, MgaModel>();
             MgaFilter filter = this.Subject.Project.CreateFilter();
 
             var allObjects = this.Subject.GetDescendantFCOs(filter);
@@ -98,7 +101,20 @@
                     this.Traceability.Add(obj.ID, obj.ID);
                 }
 
-                if (obj is MgaReference)
+                if (obj is MgaModel)
+                {
+                    var model = obj as MgaModel;
+                    if (model.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                    {
+                        var managedGuid = model.StrAttrByName["ManagedGUID"];
+                        if (string.IsNullOrEmpty(managedGuid) == false)
+                        {
+                            // copiedObj.StrAttrByName["ManagedGUID"] = managedGuid;
+                            // model.RegistryValue[RegistryNameInstanceGuidChain] = model.RegistryValue[RegistryNameInstanceGuidChain] + managedGuid;
+                        }
+                    }
+                }
+                else if (obj is MgaReference)
                 {
                     var reference = obj as MgaReference;
                     if (reference.Referred == null)
@@ -119,7 +135,24 @@
                         GME.MGA.Meta.objtype_enum type;
                         reference.GetParent(out parent, out type);
 
-                        var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, true);
+                        var instanceGuid = reference.GetStrAttrByNameDisp("InstanceGUID");
+                        if (string.IsNullOrWhiteSpace(instanceGuid))
+                        {
+                            instanceGuid = new Guid(reference.GetGuidDisp()).ToString("D");
+                            reference.SetStrAttrByNameDisp("InstanceGUID", instanceGuid);
+                        }
+                        if (parent is MgaModel)
+                        {
+                            instanceGuid = ((MgaModel)parent).RegistryValue[RegistryNameInstanceGuidChain] + instanceGuid;
+                            bool dupComponentGuid = !this.ComponentGUIDs.Add(instanceGuid);
+                            if (dupComponentGuid)
+                            {
+                                LogDebug("Duplicate ID " + instanceGuid, reference);
+                                parentsWithDupComponentGuids[parent.AbsPath] = parent as MgaModel;
+                            }
+                        }
+
+                        var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, createInstance: true);
 
                         // delete reference
                         reference.DestroyObject();
@@ -155,10 +188,12 @@
                         var copied = this.SwitchReferenceToModel(parent as MgaModel, reference, false);
 
                         // prevent circular dependency
-                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger) as ComponentAssemblyElaborator;
+                        var innerElaborator = Elaborator.GetElaborator(copied, this.Logger, UnrollConnectors) as ComponentAssemblyElaborator;
 
                         // use only one map
                         innerElaborator.Traceability = this.Traceability;
+                        innerElaborator.ComponentGUIDs = this.ComponentGUIDs;
+                        innerElaborator.ComponentCopyMap = this.ComponentCopyMap;
 
                         // hold only one queue
                         foreach (var item in this.ComponentAssemblyReferences)
@@ -172,6 +207,37 @@
 
                         // delete reference
                         reference.DestroyObject();
+                    }
+                }
+            }
+
+            // FIXME: it is possible for a parentWithDupComponentGuid to contain child CAs that need to be deduped also
+            string lastPath = null;
+            foreach (var ent in parentsWithDupComponentGuids)
+            {
+                if (lastPath != null)
+                {
+                    if (ent.Key.StartsWith(lastPath))
+                    {
+                        continue;
+                    }
+                }
+                lastPath = ent.Key;
+                var model = ent.Value;
+                allObjects = model.GetDescendantFCOs(filter);
+
+                var parentGuid = model.ParentModel != null ? model.ParentModel.RegistryValue[RegistryNameInstanceGuidChain] : null;
+                // parent model should contain the concatenated InstanceGUID
+                string guidConcat = (parentGuid ?? "") + new Guid(model.GetGuidDisp()).ToString("D");
+                foreach (MgaFCO obj in allObjects)
+                {
+                    if (obj.MetaBase.MetaRef == this.Factory.ComponentMeta)
+                    {
+                        obj.SetStrAttrByNameDisp("InstanceGUID", guidConcat + obj.GetStrAttrByNameDisp("InstanceGUID"));
+                    }
+                    if (obj.MetaBase.MetaRef == this.Factory.ComponentAssemblyMeta)
+                    {
+                        obj.RegistryValue[RegistryNameInstanceGuidChain] = guidConcat;
                     }
                 }
             }

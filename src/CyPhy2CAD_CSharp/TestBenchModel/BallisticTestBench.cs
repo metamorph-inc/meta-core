@@ -138,8 +138,8 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
         public override void TraverseTestBench(CyPhy.TestBenchType testBenchBase)
         {
             string stepFormat = "AP203_E2_Single_File";
-            if (!DataExchangeFormats.Contains(stepFormat))
-                DataExchangeFormats.Add(stepFormat);
+            if (!STEP_DataExchangeFormats.Contains(stepFormat, StringComparer.OrdinalIgnoreCase))
+                STEP_DataExchangeFormats.Add(stepFormat);
 
             CyPhy.BallisticTestBench testBench = testBenchBase as CyPhy.BallisticTestBench;
             if (testBench == null)

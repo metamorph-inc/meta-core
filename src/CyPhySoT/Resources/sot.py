@@ -211,8 +211,6 @@ def run_sot(sot):
     selectedobj = win32com.client.DispatchEx("Mga.MgaFCOs")
     sotInterpreter.InvokeEx(project.project, current_fco, selectedobj, 0)
     
-    # TODO: Link generated summary.report.json files to dashboard.
-    
     print 'Done.'
     return 0
     
