@@ -332,7 +332,10 @@ class OpenModelica(ToolBase):
             return_string = '\n'.join(f_in.readlines())
             log.info("Simulation output : {0}".format(return_string))
 
-        if not os.path.exists(self.result_mat):
+        if sim_process.returncode != 0:
+            msg = 'Subprocess call with command = "{0}" exited with code {1}'.format(command, sim_process.returncode)
+            raise ModelicaSimulationError(msg, return_string)
+        elif not os.path.exists(self.result_mat):
             msg = 'Subprocess call with command = "{0}" returned with 0, but the result '\
                   '.mat-file does not exist'.format(command)
             raise ModelicaSimulationError(msg, return_string)
