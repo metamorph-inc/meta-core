@@ -912,11 +912,14 @@ namespace CyPhyPET
         {
             var results = new List<PCCInputDistribution>();
 
-            var jsonFile = Path.Combine(this.outputDirectory, this.testBenchOutputDir, "CyPhy", "PCCProperties.json");
-            if (File.Exists(jsonFile))
+            if (testBenchOutputDir != null)
             {
-                this.Logger.WriteInfo("Found defined PCC-Properties for the DynamicTestBench.");
-                results = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PCCInputDistribution>>(File.ReadAllText(jsonFile));
+                var jsonFile = Path.Combine(this.outputDirectory, this.testBenchOutputDir, "CyPhy", "PCCProperties.json");
+                if (File.Exists(jsonFile))
+                {
+                    this.Logger.WriteInfo("Found defined PCC-Properties for the DynamicTestBench.");
+                    results = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PCCInputDistribution>>(File.ReadAllText(jsonFile));
+                }
             }
 
             return results;
