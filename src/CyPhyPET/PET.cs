@@ -28,7 +28,7 @@ namespace CyPhyPET
         public CyPhyGUIs.GMELogger Logger { get; set; }
         public bool Success = false;
 
-        private enum DriverType { PCC, Optimizer, ParameterStudy };
+        private enum DriverType { None, PCC, Optimizer, ParameterStudy };
         private DriverType theDriver;
         private CyPhy.ParametricExploration pet;
         private MgaFCO rootPET;
@@ -37,6 +37,7 @@ namespace CyPhyPET
 
         public static readonly ISet<string> testbenchtypes = GetDerivedTypeNames(typeof(CyPhy.TestBenchType));
         public static readonly ISet<string> petWrapperTypes = GetDerivedTypeNames(typeof(CyPhy.ParametricTestBench));
+        public Dictionary<string, string> PCCPropertyInputDistributions { get; set; }
 
         private PETConfig _config;
         public PETConfig config
@@ -121,7 +122,6 @@ namespace CyPhyPET
             if (this.pet.Children.PCCDriverCollection.Count() == 1)
             {
                 this.theDriver = DriverType.PCC;
-                throw new ApplicationException("PCC is unimplemented");
             }
             else if (this.pet.Children.OptimizerCollection.Count() == 1)
             {
@@ -564,7 +564,9 @@ namespace CyPhyPET
             // Generate Driver
             if (this.theDriver == DriverType.PCC)
             {
-                // FIXME
+                // this.Label = " && PCC" + JobManager.Job.LabelVersion;
+                // TODO convert this to code in python -m run_mdao
+                this.GeneratePCCScripts();
             }
             else if (this.theDriver == DriverType.Optimizer)
             {
@@ -614,6 +616,126 @@ namespace CyPhyPET
 
         # region DriverTypes
 
+        /// <summary>
+        /// Generates PCC scripts
+        /// </summary>
+        private PCC.RootObject GeneratePCCScripts()
+        {
+            var pccDriverCfgFile = "PCCDriverconfigs.json";
+            var PCCDriver = this.pet.Children.PCCDriverCollection.FirstOrDefault();
+
+            var upMethod = PCCDriver.Attributes.PCC_UP_Methods;
+            int upMethodNum;
+
+            switch (upMethod)
+            {
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Monte_Carlo_Simulation__UP_MCS_:
+                    upMethodNum = 1;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Taylor_Series_Approximation__UP_TS_:
+                    upMethodNum = 2;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Most_Probable_Point_Method__UP_MPP_:
+                    this.Logger.WriteWarning("The output from Most Probable Point Method is not compatible with the project analyzer Dashboard.");
+                    upMethodNum = 3;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Full_Factorial_Numerical_Integration__UP_FFNI_:
+                    upMethodNum = 4;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Univariate_Dimension_Reduction_Method__UP_UDR_:
+                    upMethodNum = 5;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_UP_Methods_enum.Polynomial_Chaos_Expansion__UP_PCE_:
+                    this.Logger.WriteWarning("The output from Polynomial Chaos Expansion is not compatible with the project analyzer Dashboard.");
+                    this.Logger.WriteWarning("Trying to display such data might require a refresh in order to view other data again.");
+                    upMethodNum = 6;
+                    break;
+                default:
+                    upMethodNum = 0;
+                    break;
+            }
+
+            var saMethod = PCCDriver.Attributes.PCC_SA_Methods;
+            int saMethodNum;
+
+            switch (saMethod)
+            {
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_SA_Methods_enum.Sobol_method__SA_SOBOL_:
+                    saMethodNum = 7;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_SA_Methods_enum.FAST_method__SA_FAST_:
+                    saMethodNum = 9;
+                    break;
+                case CyPhyClasses.PCCDriver.AttributesClass.PCC_SA_Methods_enum.EFAST_method__SA_EFAST_:
+                    saMethodNum = 10;
+                    break;
+                default:
+                    saMethodNum = 0;
+                    break;
+            }
+
+            // Generate input config file for OSU code
+
+            var pccConfig = this.BuildUpPCCConfiguration(PCCDriver.Name, PCCDriver, upMethodNum, saMethodNum);
+
+            List<string> objectives = new List<string>();
+            List<string> designVariabels = new List<string>();
+
+            foreach (var item in pccConfig.Configurations.Configuration.PCCInputArguments.PCCMetrics)
+            {
+                objectives.Add("TestBench." + item.TestBenchMetricName);
+            }
+
+            foreach (var item in pccConfig.Configurations.Configuration.PCCInputArguments.StochasticInputs.InputDistributions)
+            {
+                designVariabels.Add("TestBench." + item.TestBenchParameterNames.FirstOrDefault());
+            }
+
+            // Add registry defied inputdistributions for Properties in Components
+            var PCCPropertyInputs = TryToObtainDyanmicsProperties();
+            foreach (var pccProperty in PCCPropertyInputs)
+            {
+                this.Logger.WriteDebug("Adding Property Input Distribution, Name : {0}, Distribution : {1}", pccProperty.Name, pccProperty.Distribution);
+                // TODO: Can multiple testbench names be handled correctly? For now only use the first.
+                var testBenchParameterName = pccProperty.TestBenchParameterNames.FirstOrDefault();
+                pccProperty.TestBenchParameterNames.Clear();
+                pccProperty.TestBenchParameterNames.Add(testBenchParameterName);
+                this.PCCPropertyInputDistributions.Add(pccProperty.Name, testBenchParameterName);
+                pccConfig.Configurations.Configuration.PCCInputArguments.StochasticInputs.InputDistributions.Add(pccProperty);
+            }
+
+            PETConfig.Driver driver = new PETConfig.Driver()
+            {
+                type = "PCCDriver",
+                details = new Dictionary<string, object>(),
+                designVariables = new Dictionary<string, PETConfig.DesignVariable>(),
+                constraints = new Dictionary<string, PETConfig.Constraint>(),
+                intermediateVariables = new Dictionary<string, PETConfig.Parameter>(),
+                objectives = new Dictionary<string, PETConfig.Parameter>(),
+            };
+            this.config.drivers.Add(PCCDriver.Name, driver);
+            driver.details["Configurations"] = pccConfig.Configurations;
+
+            foreach (var designVariable in PCCDriver.Children.PCCParameterCollection)
+            {
+                var configVariable = new PETConfig.DesignVariable();
+                driver.designVariables.Add(designVariable.Name, configVariable);
+            }
+            foreach (var objective in PCCDriver.Children.PCCOutputCollection)
+            {
+                var sourcePath = GetSourcePath(null, (MgaFCO)objective.Impl);
+                if (sourcePath != null)
+                {
+                    driver.objectives.Add(objective.Name, new PETConfig.Parameter()
+                    {
+                        source = sourcePath
+                    });
+                }
+            }
+
+            return pccConfig;
+        }
+
         #endregion
 
         #region TestBenchTypes
@@ -642,6 +764,166 @@ namespace CyPhyPET
         #endregion
 
         # region HelperMethods
+
+        private PCC.RootObject BuildUpPCCConfiguration(string driverName, CyPhy.PCCDriver PCCDriver, int upMethodNum, int saMethodNum)
+        {
+            PCC.RootObject rootConfig = new PCC.RootObject();
+            PCC.Configurations configs = new PCC.Configurations();
+            configs.Configuration = new PCC.Configuration();
+            configs.Configuration.Parts = new List<PCC.Part>();
+            PCC.Part part = new PCC.Part();
+            PCC.PCCInputArguments pccInputArgs = new PCC.PCCInputArguments();
+
+            part.ModelConfigFileName = "test_bench_model_config.json";
+            part.ToolConfigFileName = "test_bench_tool_config.json";
+            configs.Configuration.Parts.Add(part);
+            configs.Configuration.Name = driverName;
+            configs.Configuration.ID = PCCDriver.ID;
+            configs.Configuration.PCCInputArguments = new PCC.PCCInputArguments();
+            pccInputArgs = configs.Configuration.PCCInputArguments;
+            pccInputArgs.InputIDs = new List<string>();
+            pccInputArgs.OutputIDs = new List<string>();
+            pccInputArgs.StochasticInputs = new PCC.StochasticInputs();
+            pccInputArgs.StochasticInputs.InputDistributions = new List<PCCInputDistribution>();
+            pccInputArgs.PCCMetrics = new List<PCC.PCCMetric>();
+
+            foreach (var item in PCCDriver.Children.PCCParameterCollection)
+            {
+                //pccInputArgs.InputIDs.Add(item.ID);
+                PCCInputDistribution inputDist = new PCCInputDistribution();
+
+                if (item is CyPhy.PCCParameterNormal)
+                {
+                    inputDist.Distribution = "NORM";
+                    inputDist.Param1 = (item as CyPhy.PCCParameterNormal).Attributes.Mean;
+                    inputDist.Param2 = (item as CyPhy.PCCParameterNormal).Attributes.StandardDeviation;
+                }
+                else if (item is CyPhy.PCCParameterUniform)
+                {
+                    inputDist.Distribution = "UNIF";
+                    inputDist.Param1 = (item as CyPhy.PCCParameterUniform).Attributes.LowLimit;
+                    inputDist.Param2 = (item as CyPhy.PCCParameterUniform).Attributes.HighLimit;
+                }
+                else if (item is CyPhy.PCCParameterLNormal)
+                {
+                    inputDist.Distribution = "LNORM";
+                    inputDist.Param1 = (item as CyPhy.PCCParameterLNormal).Attributes.Shape;
+                    inputDist.Param2 = (item as CyPhy.PCCParameterLNormal).Attributes.LogScale;
+                }
+                else if (item is CyPhy.PCCParameterBeta)
+                {
+                    inputDist.Distribution = "BETA";
+                    inputDist.Param1 = (item as CyPhy.PCCParameterBeta).Attributes.Shape1;
+                    inputDist.Param2 = (item as CyPhy.PCCParameterBeta).Attributes.Shape2;
+                    inputDist.Param3 = (item as CyPhy.PCCParameterBeta).Attributes.LowLimit;
+                    inputDist.Param4 = (item as CyPhy.PCCParameterBeta).Attributes.HighLimit;
+                }
+
+                foreach (var driveParameter in item.DstConnections.DriveParameterCollection)
+                {
+                    inputDist.TestBenchParameterNames.Add(driveParameter.DstEnd.Name);
+                }
+
+                //inputDist.ID = inputDist.ID == null ? item.ID : inputDist.ID;
+                inputDist.ID = item.ID;
+                inputDist.Name = item.Name;
+                pccInputArgs.StochasticInputs.InputDistributions.Add(inputDist);
+            }
+
+            pccInputArgs.StochasticInputs.InputDistributions = pccInputArgs.StochasticInputs.InputDistributions.OrderBy(p => p.TestBenchParameterNames.FirstOrDefault()).ToList();
+            foreach (var item in pccInputArgs.StochasticInputs.InputDistributions)
+            {
+                pccInputArgs.InputIDs.Add(item.ID);
+            }
+
+            foreach (var item in PCCDriver.Children.PCCOutputCollection)
+            {
+                //pccInputArgs.OutputIDs.Add(item.ID);
+
+                if (item.Attributes.TargetPCCValue == 0)
+                {
+                    this.Logger.WriteWarning("TargetPCCValue is set to zero. Is this correct?");
+                }
+
+                var pccMetric = new PCC.PCCMetric();
+                pccMetric.ID = item.ID;
+
+                var sourcePath = GetSourcePath(null, (MgaFCO) item.Impl);
+
+                pccMetric.TestBenchMetricName = sourcePath[1];
+                pccMetric.Name = sourcePath[0] + "." + pccMetric.TestBenchMetricName;
+
+                pccMetric.PCC_Spec = item.Attributes.TargetPCCValue;  // Could this ever present a problem?
+
+                var metricLimits = new PCC.Limits();
+
+                double dMin = double.NegativeInfinity;
+                double dMax = double.PositiveInfinity;
+
+                if (double.TryParse(item.Attributes.MinValue, out dMin) == false)
+                {
+                    // using min infinity
+                    this.Logger.WriteWarning("MinValue must be 'Infinity,' '-Infinity,' or a double.");
+                }
+
+                if (double.TryParse(item.Attributes.MaxValue, out dMax) == false)
+                {
+                    // using max infinity
+                    this.Logger.WriteWarning("MaxValue must be 'Infinity,' '-Infinity,' or a double.");
+                }
+
+                metricLimits.Min = dMin;
+                metricLimits.Max = dMax;
+                metricLimits.op = null; // "min/max/avg/none";       //
+                metricLimits.minrange = null; // "value or n/a";     // TODO: add these 3 attributes to the PCCOutput component in CyPhy
+                metricLimits.maxrange = null; //"value or n/a";     //
+                pccMetric.Limits = metricLimits;
+
+                pccInputArgs.PCCMetrics.Add(pccMetric);
+            }
+
+            pccInputArgs.PCCMetrics = pccInputArgs.PCCMetrics.OrderBy(m => m.TestBenchMetricName).ToList();
+
+            foreach (var item in pccInputArgs.PCCMetrics)
+            {
+                pccInputArgs.OutputIDs.Add(item.ID);
+            }
+
+            pccInputArgs.Methods = new List<int>();
+            if (upMethodNum > 0)
+            {
+                pccInputArgs.Methods.Add(upMethodNum);
+            }
+
+            if (saMethodNum > 0)
+            {
+                pccInputArgs.Methods.Add(saMethodNum);
+            }
+
+            rootConfig = new PCC.RootObject()
+            {
+                Configurations = configs
+            };
+
+            return rootConfig;
+        }
+
+        private List<PCCInputDistribution> TryToObtainDyanmicsProperties()
+        {
+            var results = new List<PCCInputDistribution>();
+
+            if (testBenchOutputDir != null)
+            {
+                var jsonFile = Path.Combine(this.outputDirectory, this.testBenchOutputDir, "CyPhy", "PCCProperties.json");
+                if (File.Exists(jsonFile))
+                {
+                    this.Logger.WriteInfo("Found defined PCC-Properties for the DynamicTestBench.");
+                    results = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PCCInputDistribution>>(File.ReadAllText(jsonFile));
+                }
+            }
+
+            return results;
+        }
 
         public void GenerateCode(CyPhy.ExcelWrapper excel)
         {

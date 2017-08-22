@@ -160,6 +160,7 @@ namespace JobManager
             this.toolStripStatusLabel = new SpringLabel();
             this.toolStripStatusLabel.Text = "Loading";
             this.statusStrip1.Items.Add(this.toolStripStatusLabel);
+            this.lvJobQueue.DoubleClick += showInExplorerToolStripMenuItem_Click;
 
             this.remoteServiceStatusForm = new RemoteServiceStatusForm();
 
