@@ -8,7 +8,7 @@ import estimate_complexity
 from model_calls import run_list
 import logging
 
-def UP_UDR(driver):
+def UP_UDR(problem, driver):
 # Uses the UDR method for UP
 
     methd = 'UDR'
@@ -67,7 +67,7 @@ def UP_UDR(driver):
 #                G_s[k, j] = run_model(driver, X)
                 values.append(X)
 
-    out = iter(run_list(driver, values))
+    out = iter(run_list(problem, driver, values))
     G_mu = out.next()
     for k,inputname in enumerate(driver._json_tree['Configurations']['Configuration']['PCCInputArguments']['StochasticInputs']['InputDistributions']):
         for j in  range(0,nodes[k]):

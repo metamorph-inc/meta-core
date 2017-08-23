@@ -5,7 +5,7 @@ import estimate_complexity
 import taylorseries
 from model_calls import run_list
 
-def UP_TS(driver):
+def UP_TS(problem, driver):
     # Uses the TS method for UP
 
     # ----------------------  Setup  ---------------------------
@@ -50,7 +50,7 @@ def UP_TS(driver):
 #        G = lambda x: run_model(driver, x)
         values = [mu]
         values.extend(taylorseries.pretaylorseries(mu, delta*array(sigma), inpt))
-        out = iter(run_list(driver, values))
+        out = iter(run_list(problem, driver, values))
         G_mean = out.next()
         G = lambda x: out.next()
         F1 = taylorseries.taylorseries(G, mu, delta*array(sigma), inpt, otpt)

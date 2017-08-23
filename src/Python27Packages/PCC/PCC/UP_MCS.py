@@ -6,7 +6,7 @@ import estimate_complexity
 from model_calls import run_list
 
 
-def UP_MCS(driver):
+def UP_MCS(problem, driver):
     # Uses the MCS method for UP
 
     mu      = [inp.get_I_mu() for inp in driver.inputs]
@@ -53,7 +53,7 @@ def UP_MCS(driver):
 #        for i in range(nMCS):
 #            print 'Running simulation', i+1, 'of', nMCS, 'with inputs', value[i]
 #            out[i] = run_model(driver, value[i])
-        out = run_list(driver, value)
+        out = run_list(problem, driver, value)
 
     limstate = asarray(limstate)
     limstate1 = asarray(kron(limstate[:, 0], ones(nMCS))).reshape(otpt, nMCS).transpose()

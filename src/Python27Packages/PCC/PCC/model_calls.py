@@ -41,7 +41,7 @@ def run_model(driver, input):
     return array(output)
 
 
-def run_list(driver, inputs):
+def run_list(problem, driver, inputs):
     if driver.TestMotor:    # test the motor design instead of an external model
         outputs = []
         for i in inputs:
@@ -60,6 +60,7 @@ def run_list(driver, inputs):
         recorder = InMemoryRecorder()
         recorder.startup(driver.root)
         driver.recorders.append(recorder)
+        problem.setup()
         driver.runlist = [zip(driver.inputNames, input) for input in inputs]
 
         if UseParallel:
@@ -73,7 +74,7 @@ def run_list(driver, inputs):
             # Force use of only cluster hosts by adding this requirement.
             driver.extra_resources = dict(allocator='PCCCluster')
 
-        super(driver.__class__, driver).run(driver)
+        super(driver.__class__, driver).run(problem)
 
         outputs = []
         for c in recorder.iters:
@@ -81,9 +82,15 @@ def run_list(driver, inputs):
             output = []
             missing = object()
             for name in driver.outputNames:
-                unknown = unknowns.get(name, missing)
+                path = name.split(".")
+                if len(path) > 1 and path[0] in driver.subproblem_output_meta:
+                    real_name = driver.subproblem_output_meta[path[0]][path[1]]
+                    real_path = "{}.{}".format(path[0], real_name)
+                else:
+                    real_path = name
+                unknown = unknowns.get(real_path, missing)
                 if unknown is missing:
-                    raise Exception('No outputs from simulator matching requested output \'{0}\'. Available outputs: {1}'.format(name, unknowns.keys()))
+                    raise Exception('No outputs from simulator matching requested output \'{0}\'. Available outputs: {1}'.format(real_path, unknowns.keys()))
                 if unknown is None:
                     # FIXME upgrade OpenMDAO, and the testbench should throw AnalysisException
                     raise Exception('No value from simulator matching requested output \'{0}\'. Perhaps the testbench failed')

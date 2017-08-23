@@ -5,7 +5,7 @@ import SRC_regress
 from model_calls import run_list
 import logging
 
-def SA_EFAST(driver):
+def SA_EFAST(problem, driver):
 
     #[SI,STI] = EFAST(K,WANTEDN)
     # First order and total effect indices for a given model computed with
@@ -135,7 +135,7 @@ def SA_EFAST(driver):
 #                    print 'Running simulation on test',sim,'of',total_sims
 #                    Y[p] = run_model(driver, array(X[p])[0])
                     values.append(array(X[p])[0])
-                Y = run_list(driver, values)
+                Y = run_list(problem, driver, values)
 
             # Subtract the average value.
             Y = Y - kron(mean(Y,0), ones((N, 1)))

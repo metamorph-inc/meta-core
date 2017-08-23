@@ -25,9 +25,11 @@ import jsonout
 
 class PCCdriver(PredeterminedRunsDriver):
 
-    def __init__(self, Configurations, **kwargs):
+    def __init__(self, Configurations, _run_mdao_subproblem_output_meta = {}, **kwargs):
         super(PCCdriver, self).__init__(**kwargs)
         self.use_restart = False
+        
+        self.subproblem_output_meta = _run_mdao_subproblem_output_meta
 
         self._raw_data = {}     # Keep original outputs of the component model
         self._json_tree = {}    # Store json data into here
@@ -258,7 +260,7 @@ class PCCdriver(PredeterminedRunsDriver):
 #        new_path = os.path.abspath(os.path.join(model_file_dir, '..', 'summary.testresults.json'))
 #        shutil.copy(summary_report_path, new_path)
 
-    def run(self, driver):
+    def run(self, problem):
 ##        ## ******************** SET UP THE MODEL HERE ****************************
 ##        #*************************************************************************
 ##        #
@@ -339,37 +341,37 @@ class PCCdriver(PredeterminedRunsDriver):
 
             if method == 1:   # MCS: Monte Carlo Simulation
                 self.method_name = 'MCS'
-                self.results = UP_MCS(self)
+                self.results = UP_MCS(problem, self)
             elif method == 2:   # TS: Taylor Series Approximation
                 self.method_name = 'TS'
-                self.results = UP_TS(self)
+                self.results = UP_TS(problem, self)
             elif method == 3:   # MPP: Most Probable Point Method
                 self.method_name = 'MPP'
-                self.results = UP_MPP(self)
+                self.results = UP_MPP(problem, self)
             elif method == 4:   # FFNI: Full Factorial Numerical Integration
                 self.method_name = 'FFNI'
-                self.results = UP_FFNI(self)
+                self.results = UP_FFNI(problem, self)
             elif method == 5:   # UDR: Univariate Dimension Reduction Method
                 self.method_name = 'UDR'
-                self.results = UP_UDR(self)
+                self.results = UP_UDR(problem, self)
             elif method == 6:   # PCE: Polynomial Chaos Expansion
                 self.method_name = 'PCE'
-                self.results = UP_PCE(self)
+                self.results = UP_PCE(problem, self)
             elif method == 7:   # Sobols Method (SOBOL)
                 self.method_name = 'SOBOL'
-                self.results = SA_SOBOL(self)
+                self.results = SA_SOBOL(problem, self)
             # elif method == 8:   # Morris Screening Method (MORRIS)
                 # self.method_name = 'MORRIS'
-                # self.results = SA_MORRIS(self)
+                # self.results = SA_MORRIS(problem, self)
             elif method == 9:   # FAST Method (FAST)
                 self.method_name = 'FAST'
-                self.results = SA_FAST(self)
+                self.results = SA_FAST(problem, self)
             elif method == 10:   # Extended FAST Method (EFAST)
                 self.method_name = 'EFAST'
-                self.results = SA_EFAST(self)
+                self.results = SA_EFAST(problem, self)
             elif method == 11:   # DPCE: Dakota implementation of Polynomial Chaos Expansion
                 self.method_name = 'DPCE'
-                self.results = UP_DPCE(self)
+                self.results = UP_DPCE(problem, self)
             else:
                 print 'attempting to execute illegal method', method
                 logging.error('attempting to execute illegal method %d', method)
