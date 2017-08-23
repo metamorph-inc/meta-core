@@ -230,6 +230,20 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void DuplicatePETNamesExample()
+        {
+            string outputDir = GetCurrentMethod();
+            string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+
+            //Run CyPhyPET
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, pathPet);
+            Assert.False(result.Item2.Success, "CyPhyPET did not fail as expected. It should produce a Duplicate names error in the MGE Console.");
+
+            return;
+        }
+
+        [Fact]
         [Trait("THIS", "ONE")]
         public void StringEnumDriver()
         {
@@ -525,7 +539,7 @@ namespace CyPhyPETTest
                 System.Reflection.Assembly.GetAssembly(typeof(Workflow_PET_Test)).CodeBase.Substring("file:///".Length),
                 //"/noshadow",
                 // [Trait("THIS", "ONE")]
-                // "/trait", "THIS=ONE",
+                //"/trait", "THIS=ONE",
             });
             Console.In.ReadLine();
             //System.Console.Out.WriteLine("HEllo World");
