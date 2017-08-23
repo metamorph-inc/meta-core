@@ -412,30 +412,31 @@ namespace CyPhyPET.Rules
                 }
 
                 var driveParamCollection = param.DstConnections.DriveParameterCollection;
-                if (driveParamCollection != null &&
-                    driveParamCollection.Any())
+                var problemInputFlowSourceConnection = param.DstConnections.ProblemInputFlowSourceConnectionCollection;
+                if (problemInputFlowSourceConnection.Count() + driveParamCollection.Count() > 0)
                 {
-                    foreach (var driveParam in driveParamCollection)
+                    foreach (var driveParam in driveParamCollection.Concat<ISIS.GME.Common.Interfaces.Connection>(problemInputFlowSourceConnection))
                     {
-                        var tbParam = driveParam.DstEnds.Parameter;
+                        var source = driveParam.GenericDstEnd;
                         var tb = driveParam.GenericDstEndRef;
 
-                        if (tbParam != null)
+                        if (isValidParamOrOutputName(source.Name) == false)
                         {
-                            if (isValidParamOrOutputName(tbParam.Name) == false)
+                            var feedback = new GenericRuleFeedback()
                             {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message =
-                                        string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, tbParam.Name)
-                                };
+                                FeedbackType = FeedbackTypes.Error,
+                                Message =
+                                    string.Format("Connected Parameter ({0}) has an invalid name. " + NAME_EXPLANATION, source.Name)
+                            };
 
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
+                            feedback.InvolvedObjectsByRole.Add(source.Impl as IMgaFCO);
+                            checkResults.Add(feedback);
+                        }
 
-                            var value = tbParam.Attributes.Value;
+                        if (source.Kind == typeof(CyPhy.Parameter).Name)
+                        {
+                            // FIXME: if source.Kind == ProblemInput, follow where it goes and perform this check
+                            var value = CyPhyClasses.Parameter.Cast(source.Impl).Attributes.Value;
                             double dummy;
                             if (value != "" && double.TryParse(value, out dummy) == false)
                             {
@@ -444,25 +445,25 @@ namespace CyPhyPET.Rules
                                     FeedbackType = FeedbackTypes.Error,
                                     Message =
                                         string.Format("Connected Parameter {0} has a value, '{1}', that is not real.",
-                                            tbParam.Name, value)
+                                            source.Name, value)
                                 };
 
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
+                                feedback.InvolvedObjectsByRole.Add(source.Impl as IMgaFCO);
                                 checkResults.Add(feedback);
                             }
+                        }
 
-                            if (tbParamsWithConnections.Add(
-                             new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbParam)) == false)
+                        if (tbParamsWithConnections.Add(
+                         new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, source)) == false)
+                        {
+                            var feedback = new GenericRuleFeedback()
                             {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Parameter ({0}) must have only 1 connection from a PCCDriverParameter", tbParam.Name)
-                                };
+                                FeedbackType = FeedbackTypes.Error,
+                                Message = string.Format("Parameter ({0}) must have only 1 connection from a PCCDriverParameter", source.Name)
+                            };
 
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
+                            feedback.InvolvedObjectsByRole.Add(source.Impl as IMgaFCO);
+                            checkResults.Add(feedback);
                         }
                     }
 
@@ -492,43 +493,27 @@ namespace CyPhyPET.Rules
                 }
 
                 var pccOutputMappingCollection = output.SrcConnections.PCCOutputMappingCollection;
-                if (pccOutputMappingCollection != null &&
+                var problemOutputFlowCollection = output.SrcConnections.ProblemOutputFlowTargetConnectionCollection;
+
+                if (problemOutputFlowCollection.Count() +
                     pccOutputMappingCollection.Count() == 1)
                 {
-                    CyPhy.PCCOutputMapping pccOutputMap = pccOutputMappingCollection.FirstOrDefault();
-                    var tbMetric = pccOutputMap.SrcEnd;
+                    var pccOutputMap = (ISIS.GME.Common.Interfaces.Connection)pccOutputMappingCollection.FirstOrDefault() ?? problemOutputFlowCollection.FirstOrDefault();
+                    var tbMetric = pccOutputMap.GenericSrcEnd;
                     var tb = pccOutputMap.GenericSrcEndRef;
 
                     if (tbMetric != null)
                     {
-                        var tbMetricParent = tbMetric.ParentContainer;
-                        if (tbMetricParent != null && (
-                               (tbMetricParent is CyPhy.TestBenchType) == false
-                            && (tbMetricParent is CyPhy.ParametricTestBench) == false
-                            && (tbMetricParent is CyPhy.Constants) == false))
+                        if (isValidParamOrOutputName(tbMetric.Name) == false)
                         {
                             var feedback = new GenericRuleFeedback()
                             {
                                 FeedbackType = FeedbackTypes.Error,
-                                Message = string.Format("Driver Output ({0}) must have a connection from a Testbench Metric.", output.Name)
+                                Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
                             };
 
-                            feedback.InvolvedObjectsByRole.Add(output.Impl as IMgaFCO);
+                            feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
                             checkResults.Add(feedback);
-                        }
-                        else
-                        {
-                            if (isValidParamOrOutputName(tbMetric.Name) == false)
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Metric ({0}) has an invalid name. " + NAME_EXPLANATION, tbMetric.Name)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbMetric.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
                         }
                         if (tbMetricsWithConnections.Add(
                             new Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(tb, tbMetric)) == false)
@@ -544,13 +529,13 @@ namespace CyPhyPET.Rules
                         }
                     }
                 }
-                else if (pccOutputMappingCollection != null &&
+                else if (problemOutputFlowCollection.Count() +
                     pccOutputMappingCollection.Count() != 1)
                 {
                     var feedback = new GenericRuleFeedback()
                     {
                         FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("Driver Output ({0}) must have (only) 1 connection from a Testbench Metric.", output.Name)
+                        Message = string.Format("Driver Output ({0}) must have exactly 1 connection from a Testbench Metric or Problem Output.", output.Name)
                     };
 
                     feedback.InvolvedObjectsByRole.Add(output.Impl as IMgaFCO);

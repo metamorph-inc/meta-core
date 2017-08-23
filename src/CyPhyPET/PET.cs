@@ -1092,14 +1092,33 @@ namespace CyPhyPET
                 {
                     typeof(CyPhy.Metric).Name,
                     typeof(CyPhy.FileOutput).Name,
-                    // typeof(CyPhy.ProblemOutput)
-                    typeof(CyPhy.DesignVariable).Name
+                    // not a "real" source: typeof(CyPhy.ProblemOutput)
+                    typeof(CyPhy.DesignVariable).Name,
+                    typeof(CyPhy.PCCParameterLNormal).Name,
+                    typeof(CyPhy.PCCParameterNormal).Name,
+                    typeof(CyPhy.PCCParameterUniform).Name,
+                    typeof(CyPhy.PCCParameterBeta).Name
                 });
-                var desVarSources = realSources.Where(s => s.Meta.Name == typeof(CyPhy.DesignVariable).Name);
+                var driverTypes = new HashSet<string>()
+                {
+                    typeof(CyPhy.DesignVariable).Name,
+                    typeof(CyPhy.PCCParameterLNormal).Name,
+                    typeof(CyPhy.PCCParameterNormal).Name,
+                    typeof(CyPhy.PCCParameterUniform).Name,
+                    typeof(CyPhy.PCCParameterBeta).Name
+                };
+                var desVarSources = realSources.Where(s => driverTypes.Contains(s.Meta.Name));
                 if (desVarSources.Count() > 0)
                 {
                     var desVar = desVarSources.First();
-                    SetProblemInputValueFromDesignVariable(problemInput, desVar);
+                    if (desVar.Meta.Name == typeof(CyPhy.DesignVariable).Name)
+                    {
+                        SetProblemInputValueFromDesignVariable(problemInput, desVar);
+                    }
+                    else
+                    {
+                        SetProblemInputValueFromPCCParameter(problemInput, desVar);
+                    }
                 }
                 else
                 {
@@ -1177,6 +1196,31 @@ namespace CyPhyPET
                 problemInput.value = FormatDoubleForPython((double)(configDesignVariable.RangeMin +
                     (configDesignVariable.RangeMax - configDesignVariable.RangeMin) / 2));
                 problemInput.pass_by_obj = false;
+            }
+        }
+
+        private static void SetProblemInputValueFromPCCParameter(SubProblem.ProblemInput problemInput, MgaFCO param)
+        {
+            string kind = param.Meta.Name;
+            if (kind == typeof(CyPhy.PCCParameterBeta).Name)
+            {
+                var beta = CyPhyClasses.PCCParameterBeta.Cast(param);
+                problemInput.value = FormatDoubleForPython(beta.Attributes.HighLimit);
+            }
+            else if (kind == typeof(CyPhy.PCCParameterBeta).Name)
+            {
+                var lnormal = CyPhyClasses.PCCParameterLNormal.Cast(param);
+                problemInput.value = FormatDoubleForPython(lnormal.Attributes.LogScale);
+            }
+            else if (kind == typeof(CyPhy.PCCParameterNormal).Name)
+            {
+                var normal = CyPhyClasses.PCCParameterNormal.Cast(param);
+                problemInput.value = FormatDoubleForPython(normal.Attributes.Mean);
+            }
+            else if (kind == typeof(CyPhy.PCCParameterUniform).Name)
+            {
+                var beta = CyPhyClasses.PCCParameterUniform.Cast(param);
+                problemInput.value = FormatDoubleForPython(beta.Attributes.LowLimit);
             }
         }
 
