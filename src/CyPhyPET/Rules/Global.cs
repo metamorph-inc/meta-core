@@ -121,7 +121,13 @@ namespace CyPhyPET.Rules
 
         public static IEnumerable<RuleFeedbackBase> UniqueTestBenchRefNames(CyPhy.ParametricExploration pet)
         {
-            var components = pet.Children.TestBenchRefCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection);
+            var components = pet.Children.TestBenchRefCollection
+                .Concat<ISIS.GME.Common.Interfaces.FCO>(pet.Children.ParametricTestBenchCollection)
+                .Concat(pet.Children.ConstantsCollection)
+                .Concat(pet.Children.ProblemInputCollection)
+                .Concat(pet.Children.ProblemOutputCollection)
+                .Concat(pet.Children.DriverCollection)
+                .Concat(pet.Children.ParametricExplorationCollection);
 
             return UniqueNames(components);
         }
