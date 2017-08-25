@@ -806,7 +806,8 @@ namespace CyPhyPropagateTest
                     elaborator.InvokeEx(project, GetTestAssembly(project), (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs")), 0);
                     
                     CyPhy2CAD_CSharp.Logger.Instance.Reset();
-                    CyPhy2CAD_CSharp.CADFlatDataCreator datacreator = new CyPhy2CAD_CSharp.CADFlatDataCreator("", Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length)), metalink: true);
+                    CyPhy2CAD_CSharp.CADFlatDataCreator datacreator = new CyPhy2CAD_CSharp.CADFlatDataCreator("", Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length)),
+                        CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum.Creo, metalink: true);
 
                     datacreator.CreateFlatData(assembly);
                     CyPhy2CAD_CSharp.DataRep.CADContainer cadcontainer = datacreator.CreateCADDataContainer(assembly.Guid.ToString(), CyPhy2CAD_CSharp.UtilityHelpers.CleanString2(assembly.Name));

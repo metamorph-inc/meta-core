@@ -82,7 +82,7 @@ namespace CyPhy2CAD_CSharp
                 GenerateCADParameterMapping(tb,
                                             outputdir, new List<object>());
 
-                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory);
+                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory, CadFormat);
                 datacreator.Traceability = this.result.Traceability;
                 datacreator.CreateFlatData(curassembly);
                 DataRep.CADContainer cadcontainer = datacreator.CreateCADDataContainer(curassembly.Attributes.ConfigurationUniqueID,
@@ -139,7 +139,7 @@ namespace CyPhy2CAD_CSharp
                     throw new Exception("There is no elaborated system under test component assembly in the model!");
                 }
 
-                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory);
+                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory, CadFormat);
                 datacreator.Traceability = this.result.Traceability;
                 datacreator.CreateFlatData(tb,
                                            toplevelSUT.Path);
@@ -181,7 +181,7 @@ namespace CyPhy2CAD_CSharp
             else if (curObjMetaBase == "ComponentAssembly")
             {
                 curassembly = CyPhyClasses.ComponentAssembly.Cast(currentobj);
-                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory);
+                CADFlatDataCreator datacreator = new CADFlatDataCreator(debuglogdir, this.mainParameters.ProjectDirectory, CadFormat);
                 datacreator.Traceability = this.result.Traceability;
                 datacreator.CreateFlatData(curassembly);
                 DataRep.CADContainer cadcontainer = datacreator.CreateCADDataContainer(curassembly.Guid.ToString(),

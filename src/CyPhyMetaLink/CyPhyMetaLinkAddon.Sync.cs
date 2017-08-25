@@ -105,6 +105,13 @@ namespace CyPhyMetaLink
 
         // The main message queue
         ConcurrentQueue<MetaLinkProtobuf.Edit> queuedMessages = new ConcurrentQueue<Edit>();
+        public CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum CadFormat
+        {
+            get
+            {
+                return CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum.Creo;
+            }
+        }
 
         public CyPhyMetaLinkAddon()
         {
@@ -573,7 +580,7 @@ namespace CyPhyMetaLink
                 cadSettings._metaLink = true;
 
                 CyPhy2CAD_CSharp.Logger.Instance.Reset();
-                CyPhy2CAD_CSharp.CADFlatDataCreator datacreator = new CyPhy2CAD_CSharp.CADFlatDataCreator(cadSettings.OutputDirectory, GetProjectDir(), metalink: true);
+                CyPhy2CAD_CSharp.CADFlatDataCreator datacreator = new CyPhy2CAD_CSharp.CADFlatDataCreator(cadSettings.OutputDirectory, GetProjectDir(), CadFormat, metalink: true);
 
                 datacreator.CreateFlatData(assembly);
                 CyPhy2CAD_CSharp.DataRep.CADContainer cadcontainer = datacreator.CreateCADDataContainer(assembly.Guid.ToString(), CyPhy2CAD_CSharp.UtilityHelpers.CleanString2(assembly.Name));

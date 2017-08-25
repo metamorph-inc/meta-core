@@ -51,7 +51,7 @@ namespace CyPhy2CAD_CSharp.DataRep
 
     public class CADComponent : CADData
     {
-        public string CADFormat { get; set; }           // creo
+        public CyPhyClasses.CADModel.AttributesClass.FileFormat_enum CADFormat { get; set; }           // creo
         public string ModelName { get; set; }           // cad file name
         public string ModelType { get; set; }           // part, assembly
         public string ModelURI { get; set; }            // if (/CAD/damper.prt) --> uri is CAD/
@@ -85,7 +85,8 @@ namespace CyPhy2CAD_CSharp.DataRep
             }
         }
 
-        public CADComponent(CyPhy.Component cyphycomp, string ProjectDirectory, CyPhyCOMInterfaces.IMgaTraceability Traceability, bool size2fit = false, string format = "Creo")
+        public CADComponent(CyPhy.Component cyphycomp, string ProjectDirectory, bool size2fit = false,
+            CyPhyCOMInterfaces.IMgaTraceability Traceability=null, CyPhyClasses.CADModel.AttributesClass.FileFormat_enum cadFormat = CyPhyClasses.CADModel.AttributesClass.FileFormat_enum.Creo)
         {
             Type = CADDataType.Component;
             StructuralInterfaceNodes = new Dictionary<string, StructuralInterfaceConstraint>();
@@ -95,7 +96,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             AVMID = cyphycomp.Attributes.AVMID;
             RevID = "";
             VersionID = cyphycomp.Attributes.Version;
-            CADFormat = format;
+            CADFormat = cadFormat;
             Name = cyphycomp.Name;
             CadParameters = new List<CADParameter>();
             ModelType = "Part";
@@ -213,13 +214,13 @@ namespace CyPhy2CAD_CSharp.DataRep
         public Task<string> missingFile;
         private void CreateStructuralInterfaceEquivalent(CyPhy.Component cyphycomp)
         {
-            CyPhy.CADModel cadmodel = cyphycomp.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat.ToString() == "Creo");
+            CyPhy.CADModel cadmodel = cyphycomp.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat == CADFormat);
             if (cadmodel != null)
             {
                 string uri;
                 cadmodel.TryGetResourcePath(out uri);
                 char[] start = new char[] { '/', '\\' };
-                if (!String.IsNullOrEmpty(uri))
+                if (!String.IsNullOrEmpty(uri) && CADFormat == CyPhyClasses.CADModel.AttributesClass.FileFormat_enum.Creo)
                 {
                     uri = uri.TrimStart(start);
 

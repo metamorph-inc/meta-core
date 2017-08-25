@@ -24,7 +24,7 @@ namespace CyPhy2CAD_CSharp
         private List<DataRep.CADEdge> regularEdges;
         private List<DataRep.CADEdge> size2fitEdges;
         private List<DataRep.CADComponent> orphans;
-        private const string cadFormat = "Creo";
+        private CyPhyClasses.CADModel.AttributesClass.FileFormat_enum cadFormat = CyPhyClasses.CADModel.AttributesClass.FileFormat_enum.Creo;
         private bool MetaLink;
 
         private List<string> referenceCoordComponents;
@@ -33,7 +33,7 @@ namespace CyPhy2CAD_CSharp
         private List<string> structuralInfProcessed;
         private Dictionary<string, string> GMEIDJointIDMap;
 
-        public CADFlatDataCreator(string outputdir, string projectDirectory, bool metalink = false)
+        public CADFlatDataCreator(string outputdir, string projectDirectory, CyPhyClasses.CADModel.AttributesClass.FileFormat_enum cadFormat, bool metalink = false)
         {
            // messages = new List<Message>();
             regularComponents = new Dictionary<string, DataRep.CADComponent>();
@@ -44,6 +44,7 @@ namespace CyPhy2CAD_CSharp
             referenceCoordComponents = new List<string>();
             OutputDir = outputdir;
             ProjectDirectory = projectDirectory;
+            this.cadFormat = cadFormat;
             errorCnt = 0;
             warningCnt = 0;
             MetaLink = metalink;
@@ -97,14 +98,14 @@ namespace CyPhy2CAD_CSharp
             // [2] Create CADComponent, size2fit, and edges
             foreach (var item in regular)
             {
-                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, Traceability: Traceability);
+                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, Traceability: Traceability, cadFormat: cadFormat);
                 this.regularComponents[item.ID] = component;
                 missingFiles.Add(component.missingFile);
             }
 
             foreach (var item in size2fitcomponents)
             {
-                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, size2fit: true, Traceability: Traceability);
+                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, size2fit: true, Traceability: Traceability, cadFormat: cadFormat);
                 this.size2fitComponents[item.ID] = component;
                 missingFiles.Add(component.missingFile);
             }
@@ -219,8 +220,8 @@ namespace CyPhy2CAD_CSharp
             bool status = true;
             string comppath = cyphycomp.Path;
 
-            CyPhy.CADModel cadmodel = cyphycomp.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat.ToString() == cadFormat);
-            if (cadmodel == null || cadmodel.Attributes.FileFormat.ToString() != cadFormat)
+            CyPhy.CADModel cadmodel = cyphycomp.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat == cadFormat);
+            if (cadmodel == null)
             {
                 Logger.Instance.AddLogMessage("Component is missing CADModel object, it will be excluded from assembly xml: [" + comppath + "]", Severity.Normal);
                 return false;

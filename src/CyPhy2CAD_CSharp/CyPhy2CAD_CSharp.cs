@@ -16,6 +16,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using CyPhyGUIs;
 using META;
+using CyPhyMLClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 
 namespace CyPhy2CAD_CSharp
 {
@@ -643,6 +644,14 @@ namespace CyPhy2CAD_CSharp
             get
             {
                 return (typeof(CyPhy2CADSettings).GetCustomAttributes(typeof(ProgIdAttribute), false)[0] as ProgIdAttribute).Value;
+            }
+        }
+
+        public CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum CadFormat
+        {
+            get
+            {
+                return CyPhyMLClasses.CADModel.AttributesClass.FileFormat_enum.Creo;
             }
         }
     }
