@@ -1077,7 +1077,7 @@ namespace CyPhyPET
                     }
                     else
                     {
-                        if (parent.Meta.Name == typeof(CyPhy.ParametricExploration).Name)
+                        if (parent.ID == this.pet.ParentContainer.ID)
                         {
                             problemInput.outerSource = new string[] { source.Src.Name };
                         }

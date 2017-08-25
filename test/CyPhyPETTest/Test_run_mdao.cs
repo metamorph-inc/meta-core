@@ -190,6 +190,24 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void SubproblemConnectedToSubproblem()
+        {
+
+            string outputDir = GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@PETHierarchy/@SubproblemConnectedToSubproblem";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal(new string[] { "sub1", "out" }, config.subProblems["sub2"].problemInputs["in"].outerSource);
+        }
+
+        [Fact]
         public void MultiplePETNestingExample()
         {
             string outputDir = GetCurrentMethod();
@@ -230,7 +248,6 @@ namespace CyPhyPETTest
         }
 
         [Fact]
-        [Trait("THIS", "ONE")]
         public void StringEnumDriver()
         {
             string outputDir = GetCurrentMethod();
