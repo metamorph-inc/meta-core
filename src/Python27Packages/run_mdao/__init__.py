@@ -163,6 +163,9 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
     if driver is not None:
         eval(compile(driver['details'].get('Code', ''), '<driver Code>', 'exec'), globals(), driver_params)
 
+    subProblemInputMeta = {}
+    subProblemOutputMeta = {}
+
     def get_desvar_path(designVariable):
         return 'designVariable.{}'.format(designVariable)
 
@@ -201,6 +204,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
         elif driver['type'] == 'PCCDriver':
             import PCC.pcc_driver
             driver_params.update(driver['details'])
+            driver_params["_run_mdao_subproblem_output_meta"] = subProblemOutputMeta
             top.driver = PCC.pcc_driver.PCCdriver(**driver_params)
         else:
             raise ValueError('Unsupported driver type %s' % driver['type'])
@@ -242,8 +246,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
 
-    subProblemInputMeta = {}
-    subProblemOutputMeta = {}
+    
     for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
         subProblemDir = os.path.join(original_dir, subProblemName)
 

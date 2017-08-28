@@ -11,7 +11,7 @@ import hermite
 from sympy import N, symbols
 from model_calls import run_list
 
-def UP_PCE(driver):
+def UP_PCE(problem, driver):
     # Uses the PCE method for UP
     
     # This routine has been updated as part of refactoring code before the port
@@ -90,7 +90,7 @@ def UP_PCE(driver):
             T_L = Dist.Dist(stvars, node[j], inpt)         
 #            G_s[j] = run_model(driver, T_L)
             values.append(T_L)
-        G_s = run_list(driver, values)
+        G_s = run_list(problem, driver, values)
 
     indx = 0
     bn = zeros((sum(P), otpt))

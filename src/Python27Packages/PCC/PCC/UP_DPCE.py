@@ -8,7 +8,7 @@ import subprocess
 import multiprocessing
 
 
-def UP_DPCE(driver):
+def UP_DPCE(problem, driver):
     # Uses the Dakota PCE method for UP
 
     # ----------------------  Setup  ---------------------------

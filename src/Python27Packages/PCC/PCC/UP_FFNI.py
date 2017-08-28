@@ -7,7 +7,7 @@ import estimate_complexity
 import itertools  #for fullfact function
 from model_calls import run_list
 
-def UP_FFNI(driver):
+def UP_FFNI(problem, driver):
 
     # Uses the FFNI method for UP
 
@@ -62,7 +62,7 @@ def UP_FFNI(driver):
 #            print 'Running simulation',i+1,'of',pts
 #            G_s[i] = run_model(driver, x[i])
             # G_s[i] = modelica.RunModelica(x[i], modelname, properties)
-        G_s = run_list(driver, x)
+        G_s = run_list(problem, driver, x)
 
     G_mean = zeros(otpt)
     G_kurt = zeros(otpt)

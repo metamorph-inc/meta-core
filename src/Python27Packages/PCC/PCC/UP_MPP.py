@@ -6,7 +6,7 @@ from scipy.stats import norm
 from mvncdf import mvstdnormcdf
 from model_calls import run_list
 
-def UP_MPP(driver):
+def UP_MPP(problem, driver):
     # Uses the MPP method for UP    
     
     # This routine has been updated as part of refactoring code before the port
@@ -42,7 +42,7 @@ def UP_MPP(driver):
     
     # ----------------------  Model  ---------------------------
 
-    G_temp = lambda x: run_list(driver, x)
+    G_temp = lambda x: run_list(problem, driver, x)
     Tinv = lambda x: Dist.Dist(stvars, x, inpt)
    
     #USING THE HASOFER-LIND ALGORITHM  

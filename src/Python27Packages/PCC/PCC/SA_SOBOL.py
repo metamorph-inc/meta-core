@@ -6,7 +6,7 @@ import LHS
 from model_calls import run_list
 from copy import copy, deepcopy
 
-def SA_SOBOL(driver):
+def SA_SOBOL(problem, driver):
     # Uses the Sobel Method for SA.
     # Input:
     # inpt : no. of input factors
@@ -85,7 +85,7 @@ def SA_SOBOL(driver):
             values.extend(list(XMC))
 
     if krig != 1:
-        out = iter(run_list(driver, values))
+        out = iter(run_list(problem, driver, values))
         for i in range(nSOBOL):
             YXMA[i] = out.next()
         for i in range(nSOBOL):

@@ -3,7 +3,7 @@ from scipy.stats import beta,norm,lognorm,uniform
 import SRC_regress
 from model_calls import run_list
 
-def SA_FAST(driver):
+def SA_FAST(problem, driver):
     
     # First order indicies for a given model computed with Fourier Amplitude Sensitivity Test (FAST).
     # R. I. Cukier, C. M. Fortuin, Kurt E. Shuler, A. G. Petschek and J. H. Schaibly.
@@ -91,7 +91,7 @@ def SA_FAST(driver):
 #            print 'Running simulation on test',p+1,'of',N
 #            Y[p] = run_model(driver, array(X[p])[0])
             values.append(array(X[p])[0])
-        Y = run_list(driver, values)
+        Y = run_list(problem, driver, values)
 
     # Computation of Fourier coefficients.
     AC = zeros((N, otpt))# initially zero
