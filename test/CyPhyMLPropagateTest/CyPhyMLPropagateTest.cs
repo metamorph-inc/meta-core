@@ -499,6 +499,20 @@ namespace CyPhyPropagateTest
                 (project, propagate, interpreter) =>
                 {
                     {
+                        MgaFCO assembly;
+                        project.BeginTransactionInNewTerr();
+                        try
+                        {
+                            assembly = GetTestAssembly(project);
+                        }
+                        finally
+                        {
+                            project.AbortTransaction();
+                        }
+
+                        interpreter.StartAssemblySync(project, assembly, 128);
+                        Application.DoEvents();
+
                         Edit msg = new Edit()
                         {
                             editMode = Edit.EditMode.POST,
@@ -546,6 +560,20 @@ namespace CyPhyPropagateTest
                 (project, propagate, interpreter) =>
                 {
                     {
+                        MgaFCO assembly;
+                        project.BeginTransactionInNewTerr();
+                        try
+                        {
+                            assembly = GetTestAssembly(project);
+                        }
+                        finally
+                        {
+                            project.AbortTransaction();
+                        }
+
+                        interpreter.StartAssemblySync(project, assembly, 128);
+                        Application.DoEvents();
+
                         Edit msg = new Edit()
                         {
                             editMode = Edit.EditMode.POST,

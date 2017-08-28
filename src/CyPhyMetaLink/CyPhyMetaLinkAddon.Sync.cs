@@ -28,6 +28,7 @@ using System.Security;
 using Newtonsoft.Json;
 using System.Reflection;
 using META;
+using System.Threading.Tasks;
 
 namespace CyPhyMetaLink
 {
@@ -49,16 +50,9 @@ namespace CyPhyMetaLink
         public delegate void FailureCallback();
         public FailureCallback StartupFailureCallback
         {
-            get
-            {
-                return startupFailedCallback;
-            }
-            set
-            {
-                startupFailedCallback = value;
-            }
+            get;
+            set;
         }
-        private FailureCallback startupFailedCallback;
 
         private MgaAddOn addon;
         private bool componentEnabled = true;
@@ -80,32 +74,31 @@ namespace CyPhyMetaLink
         private SyncedComponentData LastStartedInstance;
 
         // Counter to assign instance IDs. Strictly increasing.
-        public static int IdCounter;
+        public static Int64 IdCounter = (Int64)Process.GetCurrentProcess().Id * 100000;
 
-        private Process _metalinkBridge;
-        public Process metalinkBridge
+        public Process _metalinkBridge;
+        public IntPtr _metalinkBridgeJob;
+        void CloseMetaLinkBridge()
         {
-            set
+            if (_metalinkBridge != null)
             {
-                if (_metalinkBridge != null)
+
+                if (_metalinkBridge.HasExited == false)
                 {
-                    if (_metalinkBridge.MainWindowHandle != IntPtr.Zero)
-                    {
-                        int WM_CLOSE = 0x0010;
-                        PostMessage(metalinkBridge.MainWindowHandle, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-                    }
-                    _metalinkBridge.Dispose();
-                    _metalinkBridge = null;
+                    // FIXME bug when user starts GME 1+metalink, GME 2+metalink, then closes GME 1
+                    _metalinkBridge.Kill();
                 }
-                _metalinkBridge = value;
-            }
-            get
-            {
-                return _metalinkBridge;
+                _metalinkBridge.Dispose();
+                _metalinkBridge = null;
+                if (_metalinkBridgeJob != IntPtr.Zero)
+                {
+                    JobObjectPinvoke.CloseHandle(_metalinkBridgeJob);
+                    _metalinkBridgeJob = IntPtr.Zero;
+                }
             }
         }
 
-        // A proxy control to maintain a separate message queue for TCP/IO communication
+        // A proxy control to maintain a separate message queue for TCP communication
         System.Windows.Forms.Control SyncControl;
 
         // The main message queue
@@ -127,7 +120,7 @@ namespace CyPhyMetaLink
                     //componentEditMessages.Clear();
                     interests.Clear();
                     AssemblyID = null;
-                    metalinkBridge = null;
+                    CloseMetaLinkBridge();
                     if (console.gme != null)
                     {
                         // Marshal.FinalReleaseComObject(console.gme); is this needed?
@@ -163,6 +156,7 @@ namespace CyPhyMetaLink
                             }
                         }
                         syncedComponents.Clear();
+                        designIdToCadAssemblyXml.Clear();
                     }
                 }
             });
@@ -323,7 +317,7 @@ namespace CyPhyMetaLink
                         writer.Flush();
                         writer.Close();
                         GMEConsole.Error.WriteLine(String.Format("CADCreoParametricMetaLink exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
-                        SyncControl.Invoke(startupFailedCallback);
+                        SyncControl.Invoke(StartupFailureCallback);
                     }
                 }
             };
@@ -359,6 +353,7 @@ namespace CyPhyMetaLink
                         SendDisinterest(true, LastStartedInstance.InstanceId);
                     }
                     syncedComponents.Remove(LastStartedInstance.Id);
+                    // FIXME designIdToCadAssemblyXml.Remove(
                 }
                 finally
                 {
@@ -393,10 +388,9 @@ namespace CyPhyMetaLink
             return ret;
         }
 
-        public bool EstablishConnection()
+        public Task<bool> EstablishConnection()
         {
-            bool ret = bridgeClient.EstablishConnection(EditMessageReceived, ConnectionClosed);
-            return ret;
+            return bridgeClient.EstablishConnection(EditMessageReceived, ConnectionClosed);
         }
 
         public void CallCyPhy2CADWithTransaction(MgaProject project, MgaFCO toplevelAssembly, int param)
@@ -640,6 +634,8 @@ namespace CyPhyMetaLink
             object browser = GetBrowser();
             if (browser != null)
             {
+                // FIXME don't attempt if project was closed
+                // if (item.Project.ProjectStatus
                 try
                 {
                     browser.GetType().InvokeMember("HighlightItem", System.Reflection.BindingFlags.InvokeMethod, null, browser, new object[] { item, highlight });

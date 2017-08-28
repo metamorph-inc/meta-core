@@ -200,6 +200,7 @@ namespace CyPhyMetaLink
                     Guid componentAssemblyID = Guid.Parse(cdata.Id);
 
                     syncedComponents.Remove(componentAssemblyID.ToString());
+                    designIdToCadAssemblyXml.Remove(componentAssemblyID.ToString());
                     SendDisinterest(true, cdata.InstanceId);
                     addon.Project.BeginTransactionInNewTerr();
                     try
@@ -1118,7 +1119,7 @@ namespace CyPhyMetaLink
                     SyncControl = null;
                 });
                 addon = null;
-                metalinkBridge = null;
+                CloseMetaLinkBridge();
             }
             if (@event == globalevent_enum.APPEVENT_XML_IMPORT_BEGIN)
             {

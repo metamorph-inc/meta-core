@@ -15,6 +15,7 @@ using Microsoft.Win32.SafeHandles;
 using Microsoft.Win32;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace CyPhyPropagateTest
 {
@@ -172,7 +173,8 @@ namespace CyPhyPropagateTest
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
                             interpreter.MgaGateway = new MgaGateway(project);
 
-                            interpreter.ConnectToMetaLinkBridge(project, 128);
+                            var task = Task.Run(async () => await interpreter.ConnectToMetaLinkBridge(project, 128));
+                            task.Wait();
                             propagate.bridgeClient.SocketQueue.EditMessageReceived += msg => addonMessagesQueue.Add(msg);
                             testAction(project, propagate, interpreter);
                         }
@@ -320,20 +322,23 @@ namespace CyPhyPropagateTest
             receivedMessages = new List<Edit>();
             receivedMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
             sentMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
-            testingClient.EstablishConnection(msg =>
-                {
-                    lock (receivedMessages)
+            Task<bool> startClient = Task.Run(async () =>
+                await testingClient.EstablishConnection(msg =>
                     {
-                        receivedMessages.Add(msg);
+                        lock (receivedMessages)
+                        {
+                            receivedMessages.Add(msg);
+                        }
+                        receivedMessagesQueue.Add(msg);
+                    },
+                    connectionClosed: exc => KillMetaLink(),
+                    EditMessageSent: msg =>
+                    {
+                        sentMessagesQueue.Add(msg);
                     }
-                    receivedMessagesQueue.Add(msg);
-                },
-                connectionClosed: exc => KillMetaLink(),
-                EditMessageSent: msg =>
-                {
-                    sentMessagesQueue.Add(msg);
-                }
+                )
             );
+            startClient.Wait();
         }
 
         protected void WaitForAllMetaLinkMessages()

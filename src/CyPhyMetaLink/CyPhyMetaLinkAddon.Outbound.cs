@@ -162,29 +162,19 @@ namespace CyPhyMetaLink
                 GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(subject.Project);
             }
 
-
-            uint uOBJEVENT_ATTR = 0;
-            uint uOBJEVENT_CONNECTED = 0;
+            uint uOBJEVENT_ATTR = (uint)objectevent_enum.OBJEVENT_ATTR;
+            // uOBJEVENT_CONNECTED = (uint)objectevent_enum.OBJEVENT_CONNECTED;
             uint uOBJEVENT_CREATED = 0;
-            uint uOBJEVENT_PROPERTIES = 0;
-            uint uOBJEVENT_OPENMODEL = 0;
-            uint uOBJEVENT_CLOSEMODEL = 0;
-            uint uOBJEVENT_NEWCHILD = 0;
-            uint uOBJEVENT_PRE_STATUS = 0;
-            uint uOBJEVENT_PRE_DESTROYED = 0;
-
-            unchecked { uOBJEVENT_ATTR = (uint)objectevent_enum.OBJEVENT_ATTR; }
-            unchecked { uOBJEVENT_CONNECTED = (uint)objectevent_enum.OBJEVENT_CONNECTED; }
             unchecked { uOBJEVENT_CREATED = (uint)objectevent_enum.OBJEVENT_CREATED; }
-            unchecked { uOBJEVENT_PROPERTIES = (uint)objectevent_enum.OBJEVENT_PROPERTIES; }
-            unchecked { uOBJEVENT_OPENMODEL = (uint)objectevent_enum.OBJEVENT_OPENMODEL; }
-            unchecked { uOBJEVENT_CLOSEMODEL = (uint)objectevent_enum.OBJEVENT_CLOSEMODEL; }
-            unchecked { uOBJEVENT_NEWCHILD = (uint)objectevent_enum.OBJEVENT_NEWCHILD; }
-            unchecked { uOBJEVENT_PRE_STATUS = (uint)objectevent_enum.OBJEVENT_PRE_STATUS; }
-            unchecked { uOBJEVENT_PRE_DESTROYED = (uint)objectevent_enum.OBJEVENT_PRE_DESTROYED; }
-            uint uOBJEVENT_REFERENCED = unchecked((uint)objectevent_enum.OBJEVENT_REFERENCED);
-            uint uOBJEVENT_DESTROYED = unchecked((uint)objectevent_enum.OBJEVENT_DESTROYED);
-            uint uOBJEVENT_RELATION = unchecked((uint)objectevent_enum.OBJEVENT_RELATION);
+            uint uOBJEVENT_PROPERTIES = (uint)objectevent_enum.OBJEVENT_PROPERTIES;
+            uint uOBJEVENT_OPENMODEL = (uint)objectevent_enum.OBJEVENT_OPENMODEL;
+            // uOBJEVENT_CLOSEMODEL = (uint)objectevent_enum.OBJEVENT_CLOSEMODEL;
+            // uOBJEVENT_NEWCHILD = (uint)objectevent_enum.OBJEVENT_NEWCHILD;
+            uint uOBJEVENT_PRE_STATUS = (uint)objectevent_enum.OBJEVENT_PRE_STATUS;
+            uint uOBJEVENT_PRE_DESTROYED = (uint)objectevent_enum.OBJEVENT_PRE_DESTROYED;
+            // uint uOBJEVENT_REFERENCED = (uint)objectevent_enum.OBJEVENT_REFERENCED;
+            uint uOBJEVENT_DESTROYED = (uint)objectevent_enum.OBJEVENT_DESTROYED;
+            uint uOBJEVENT_RELATION = (uint)objectevent_enum.OBJEVENT_RELATION;
 
 
             // TODO: Handle object events (OR eventMask with the members of objectevent_enum)
