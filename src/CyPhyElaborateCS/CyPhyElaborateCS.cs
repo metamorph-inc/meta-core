@@ -455,9 +455,10 @@ namespace CyPhyElaborateCS
                 if (this.Logger == null)
                 {
                     this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
-                    this.Logger.LoggingLevel = this.Logger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
+                    this.Logger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
                         CyPhyGUIs.SmartLogger.MessageType_enum.Warning :
                         CyPhyGUIs.SmartLogger.MessageType_enum.Info;
+                    this.Logger.LoggingLevel = SmartLogger.MessageType_enum.Info;
                     shouldDisposeLogger = true;
                 }
 
@@ -512,7 +513,7 @@ namespace CyPhyElaborateCS
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.WriteDebug(ex.ToString());
+                    this.Logger.WriteInfo(ex.ToString());
                     success = false;
                 }
                 finally
