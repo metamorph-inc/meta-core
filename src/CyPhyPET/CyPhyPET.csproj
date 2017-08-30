@@ -205,10 +205,6 @@
       <Project>{8880fd8f-c7da-4491-908d-778b67057da0}</Project>
       <Name>AvmDdp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj">
-      <Project>{EA9CC9FA-046F-47C6-80D9-A2B1CFE8BBAE}</Project>
-      <Name>CyPhy2CAD_CSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj">
       <Project>{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}</Project>
       <Name>CyPhy2Modelica_v2</Name>

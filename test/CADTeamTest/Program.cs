@@ -12,6 +12,8 @@ namespace CADTeamTest
             int ret = Xunit.ConsoleClient.Program.Main(new string[] {
                 System.Reflection.Assembly.GetAssembly(typeof(CADTeamTest.CADTests)).CodeBase.Substring("file:///".Length),
                 //"/noshadow",
+                // [Trait("THIS", "ONE")]
+                // "/trait", "THIS=ONE",
             });
             Console.In.ReadLine();
             return 0;

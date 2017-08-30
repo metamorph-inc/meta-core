@@ -309,25 +309,32 @@ namespace CADTeamTest
 
             string ProjectConnStr;
             MgaUtils.ImportXMEForTest(XmePath, Path.Combine(OutputDir, Path.GetFileNameWithoutExtension(XmePath) + "_CADtest.mga"), out ProjectConnStr);
+            CyPhy2CADRun.CopyDirectory(Path.Combine(Path.GetDirectoryName(XmePath), "components"), Path.Combine(Path.Combine(OutputDir, "components")));
 
             MgaProject project = new MgaProject();
             bool ro_mode;
             project.Open(ProjectConnStr, out ro_mode);
+            try
+            {
 
+                // testbenchpath doesn't work:(
+                var terr = project.BeginTransactionInNewTerr();
+                var testObj = project.RootFolder.GetObjectByPathDisp("/@Generated_configurations/MyMassSpringDamper/Config1/MyMassSpringDamper_cfg_broken");
+                project.AbortTransaction();
 
-            // testbenchpath doesn't work:(
-            var terr = project.BeginTransactionInNewTerr();
-            var testObj = project.RootFolder.GetObjectByPathDisp("/@Generated_configurations/MyMassSpringDamper/Config1/MyMassSpringDamper_cfg_broken");
-            project.AbortTransaction();
+                bool status = CyPhy2CADRun.Run(Path.GetDirectoryName(XmePath), project, (MgaFCO)testObj, false);
 
-            bool status = CyPhy2CADRun.Run(OutputDir, project, (MgaFCO)testObj, false);
+                string logfilename = Path.Combine(OutputDir, "log", CyPhy2CAD_CSharp.Logger.LogFileName);
 
-            string logfilename = Path.Combine(OutputDir, "log", CyPhy2CAD_CSharp.Logger.LogFileName);
+                StreamReader r = new StreamReader(logfilename);
+                string logcontent = r.ReadToEnd();
 
-            StreamReader r = new StreamReader(logfilename);
-            string logcontent = r.ReadToEnd();
-
-            Assert.True(logcontent.Contains("badname"));
+                Assert.True(logcontent.Contains("badname"));
+            }
+            finally
+            {
+                project.Close(abort: true);
+            }
 
         }
 

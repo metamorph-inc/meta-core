@@ -10,12 +10,10 @@ namespace CADTeamTest
 {
     public static class CyPhy2CADRun
     {
-        private static void CopyDirectory(string strSource, string strDestination)
+        internal static void CopyDirectory(string strSource, string strDestination)
         {
-            if (!Directory.Exists(strDestination))
-            {
-                Directory.CreateDirectory(strDestination);
-            }
+            Directory.CreateDirectory(strDestination);
+            Directory.CreateDirectory(strSource);
             DirectoryInfo dirInfo = new DirectoryInfo(strSource);
             FileInfo[] files = dirInfo.GetFiles();
             foreach (FileInfo tempfile in files)
@@ -40,15 +38,15 @@ namespace CADTeamTest
             return workingDir;
         }
 
-        public static bool Run(string outputdirname, MgaProject project, MgaFCO testObj, bool copycomponents)
+        public static bool Run(string originalProjectDir, MgaProject project, MgaFCO testObj, bool copycomponents)
         {
             bool status = true;
             try
             {
-
+                var outputdirname = GetProjectDir(project);
                 if (copycomponents)
                 {
-                    CopyDirectory(Path.Combine(GetProjectDir(project),"components"), Path.Combine(outputdirname, "components"));
+                    CopyDirectory(Path.Combine(originalProjectDir, "components"), Path.Combine(outputdirname, "components"));
                 }
 
                 var interpreter = new CyPhy2CAD_CSharp.CyPhy2CAD_CSharpInterpreter();
@@ -82,8 +80,10 @@ namespace CADTeamTest
 
         }
 
-        public static bool Run(string outputdirname, string xmePath, string absPath, bool copycomponents = false, bool deletedir = true)
+        public static bool Run(string outputdirname, string xmePath, string absPath, bool copycomponents = true, bool deletedir = true)
         {
+            xmePath = Path.GetFullPath(xmePath);
+            outputdirname = Path.GetFullPath(outputdirname);
             bool status = true;
             string ProjectConnStr;
             if (deletedir && Directory.Exists(outputdirname))
@@ -104,7 +104,7 @@ namespace CADTeamTest
                 var testObj = project.ObjectByPath[absPath] as MgaFCO;
                 project.AbortTransaction();
 
-                return Run(outputdirname, project, testObj, copycomponents);
+                return Run(Path.GetDirectoryName(xmePath), project, testObj, copycomponents);
             }
             catch(Exception)
             {

@@ -15,6 +15,8 @@ using GME.MGA;
 using GME.CSharp;
 using GME;
 using GME.MGA.Meta;
+using System.Threading.Tasks;
+using System.Security.Permissions;
 
 namespace CyPhy2CAD_CSharp.DataRep
 {
@@ -71,6 +73,7 @@ namespace CyPhy2CAD_CSharp.DataRep
         public static readonly string MakeOrBuyParamStr = "procurement__make_or_buy";
         public static readonly string SpecialInstrParamStr = "SPECIALINSTRUCTIONS";
 
+        private CyPhyCOMInterfaces.IMgaTraceability Traceability;
         protected List<CAD.ElementType> CadElementsList;
         protected List<TestBenchModel.TBComputation> pointCoordinatesList;
         public List<TestBenchModel.TBComputation> PointCoordinatesList
@@ -81,7 +84,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             }
         }
 
-        public CADComponent(CyPhy.Component cyphycomp, string ProjectDirectory, bool size2fit = false, string format = "Creo")
+        public CADComponent(CyPhy.Component cyphycomp, string ProjectDirectory, CyPhyCOMInterfaces.IMgaTraceability Traceability, bool size2fit = false, string format = "Creo")
         {
             Type = CADDataType.Component;
             StructuralInterfaceNodes = new Dictionary<string, StructuralInterfaceConstraint>();
@@ -102,6 +105,7 @@ namespace CyPhy2CAD_CSharp.DataRep
             HyperLink = cyphycomp.ToHyperLink();
             CadElementsList = new List<CAD.ElementType>();
             pointCoordinatesList = new List<TestBenchModel.TBComputation>();
+            this.Traceability = Traceability;
 
             CreateStructuralInterfaceEquivalent(cyphycomp);
 
@@ -179,6 +183,32 @@ namespace CyPhy2CAD_CSharp.DataRep
             }
         }
 
+        string CheckFileExists(string compName, string relPath, string path)
+        {
+            path = Path.GetFullPath(path);
+            var dir = Path.GetDirectoryName(path);
+            IEnumerable<string> files;
+            try
+            {
+                files = Directory.EnumerateFiles(dir);
+            }
+            catch (IOException)
+            {
+                // e.g. DirectoryNotFoundException
+                files = new string[] { };
+            }
+            foreach (var filename in files)
+            {
+                if (path.Equals(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(filename), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return null;
+                }
+            }
+
+            return String.Format("Component {0} depends on '{1}', but it does not exist on disk", compName, relPath);
+        }
+
+        public Task<string> missingFile;
         private void CreateStructuralInterfaceEquivalent(CyPhy.Component cyphycomp)
         {
             CyPhy.CADModel cadmodel = cyphycomp.Children.CADModelCollection.FirstOrDefault(x => x.Attributes.FileFormat.ToString() == "Creo");
@@ -190,6 +220,10 @@ namespace CyPhy2CAD_CSharp.DataRep
                 if (!String.IsNullOrEmpty(uri))
                 {
                     uri = uri.TrimStart(start);
+
+                    string absPath;
+                    cadmodel.TryGetResourcePath(out absPath, ComponentLibraryManager.PathConvention.ABSOLUTE);
+                    missingFile  = Task.Run(() => CheckFileExists(cyphycomp.ToHyperLink(Traceability), uri, absPath));
 
                     // META-1382
                     //ModelName = UtilityHelpers.CleanString2(Path.GetFileNameWithoutExtension(uri));

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Xunit;
 using GME.MGA.Parser;
 using System.Reflection;
+using System.Linq;
 
 namespace ComponentImporterUnitTests
 {
@@ -45,6 +46,11 @@ namespace ComponentImporterUnitTests
                 this._project.EnableAutoAddOns(true);
                 this._project.Create("MGA=" + Path.Combine(this.Directory , "test.mga"), "CyPhyML");
                 new MgaParserClass().ParseProject(this._project, Path.Combine(this.Directory, "CADGeometry.xme"));
+                var signalBlocks = this._project.AddOnComponents.Cast<IMgaComponent>().Where(addon => addon.ComponentName.Contains("SignalBlocksAddOn")).FirstOrDefault();
+                if (signalBlocks == null)
+                {
+                    throw new Exception("Could not find SignalBlocksAddon. Maybe you need to enable it?");
+                }
                 this._project.Notify(globalevent_enum.GLOBALEVENT_OPEN_PROJECT_FINISHED);
                 Application.DoEvents();
                 Application.DoEvents();

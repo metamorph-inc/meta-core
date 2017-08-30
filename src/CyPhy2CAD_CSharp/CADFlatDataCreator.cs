@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+using System.Threading.Tasks;
 
 namespace CyPhy2CAD_CSharp
 {
@@ -92,18 +93,29 @@ namespace CyPhy2CAD_CSharp
                 return;
             }
 
+            List<Task<string>> missingFiles = new List<Task<string>>();
             // [2] Create CADComponent, size2fit, and edges
             foreach (var item in regular)
             {
-                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory);
+                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, Traceability: Traceability);
                 this.regularComponents[item.ID] = component;
-
+                missingFiles.Add(component.missingFile);
             }
 
             foreach (var item in size2fitcomponents)
             {
-                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, size2fit: true);
+                DataRep.CADComponent component = new DataRep.CADComponent(item, ProjectDirectory: this.ProjectDirectory, size2fit: true, Traceability: Traceability);
                 this.size2fitComponents[item.ID] = component;
+                missingFiles.Add(component.missingFile);
+            }
+
+            foreach (var task in missingFiles.Where(t => t != null))
+            {
+                task.Wait();
+                if (task.Result != null)
+                {
+                    Logger.Instance.AddLogMessage(task.Result, Severity.Error);
+                }
             }
 
             foreach (var component in regularComponents)
