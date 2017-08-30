@@ -5,7 +5,7 @@
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_include_ptc_headers.h>
 //#include "AssemblyInterface.hxx"
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <string>
 #include <list>
 #include <map>

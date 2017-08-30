@@ -4,7 +4,8 @@
 #include <BuildAssembly.h>
 #include <DiagnosticUtilities.h>
 #include <ISISConstants.h>
-#include <XMLToProEStructures.h>
+#include <cc_XMLtoCADStructures.h>
+#include <cc_CommonUtilities.h>
 #include <ProEStructuresUtils.h>
 #include <Metrics.h>
 #include "CADEnvironmentSettings.h"
@@ -499,16 +500,22 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
-								modelInstanceData_temp.modelHandle				= out_CADComponentData_map[model_def.componentInstanceID].modelHandle;
-								modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;			
-								modelInstanceData_temp.topAssemblyModelHandle	= out_CADComponentData_map[i->assemblyComponentID].modelHandle;
+								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
+
+								//modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;			
+								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
+								//modelInstanceData_temp.assembledFeature.id   =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
+								//modelInstanceData_temp.assembledFeature.owner =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
+								modelInstanceData_temp.assembledFeature = getProAsmcomp(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature);
+								
+								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
 								modelInstanceData_temp.componentPaths			= out_CADComponentData_map[model_def.componentInstanceID].componentPaths;
 								isis::MultiFormatString  CopyToPartName_temp(model_def.toModelName);
 
 								ProMdl     renamedModelHandle;
 								Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
-								out_CADComponentData_map[model_def.componentInstanceID].modelHandle = (ProSolid)renamedModelHandle;
-								out_CADComponentData_map[model_def.componentInstanceID].p_model = (ProMdl*)&renamedModelHandle;
+								out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+								out_CADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
 
 
 								// Must fix the children assembledFeature to point to the new parent (new owner)
@@ -518,6 +525,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 								} 
 							}
 						}
+
 
 						// For testing
 						//isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].modelHandle);
@@ -530,16 +538,22 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
-								modelInstanceData_temp.modelHandle				= out_CADComponentData_map[model_def.componentInstanceID].modelHandle;
-								modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;			
-								modelInstanceData_temp.topAssemblyModelHandle	= out_CADComponentData_map[i->assemblyComponentID].modelHandle;
+								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
+								//modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;		
+								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
+								//modelInstanceData_temp.assembledFeature.id   =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
+								//modelInstanceData_temp.assembledFeature.owner =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
+								modelInstanceData_temp.assembledFeature = getProAsmcomp(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature);
+
+
+								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
 								modelInstanceData_temp.componentPaths			= out_CADComponentData_map[model_def.componentInstanceID].componentPaths;
 								isis::MultiFormatString  CopyToPartName_temp(model_def.toModelName);
 
 								ProMdl     renamedModelHandle;
 								Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
-								out_CADComponentData_map[model_def.componentInstanceID].modelHandle = (ProSolid)renamedModelHandle;
-								out_CADComponentData_map[model_def.componentInstanceID].p_model = (ProMdl*)&renamedModelHandle;
+								out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+								out_CADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
 
 								// For testing
 								//isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].modelHandle);
@@ -560,7 +574,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, PRO_PATH_SIZE - 1);
 						isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
 
-						isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].modelHandle);
+						isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
 
 						// Change back to the working dir
 						isis::setCreoWorkingDirectory( workingDir_MultiFormat );

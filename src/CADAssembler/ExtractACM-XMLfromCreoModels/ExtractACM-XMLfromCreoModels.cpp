@@ -78,6 +78,7 @@
 #include "CreoModelToCyphyXML.h"
 
 #include "CommonFeatureUtils.h"
+#include <cc_CommonUtilities.h>
 
 
 ProError ProTermAction( ProeTerminationStatus term_type )

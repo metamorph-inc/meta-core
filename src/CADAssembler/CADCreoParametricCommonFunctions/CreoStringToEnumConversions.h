@@ -49,6 +49,9 @@ namespace isis
 	std::string ProMdlType_string( e_CADMdlType in_Enum )
 										throw (isis::application_exception);
 
+	e_CADMdlType CADMdlType_enum( ProMdlType in_Enum )
+										throw (isis::application_exception);
+
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	ProType FeatureGeometryType_enum( const std::string &in_String)
@@ -61,6 +64,9 @@ namespace isis
 										throw (isis::application_exception);
 
 	std::string FeatureGeometryType_string( e_CADFeatureGeometryType in_Enum )
+										throw (isis::application_exception);
+
+	e_CADFeatureGeometryType CADFeatureGeometryType_enum( ProType in_Enum )
 										throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +83,9 @@ namespace isis
 	std::string ProAsmcompConstrType_string( e_CADAssemblyConstraintType in_Enum )
 										throw (isis::application_exception);
 
+	e_CADAssemblyConstraintType CADAssemblyConstraintType_enum( ProAsmcompConstrType in_Enum )
+										throw (isis::application_exception);
+
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	ProDatumside ProDatumside_enum( const std::string &in_String)
@@ -89,6 +98,9 @@ namespace isis
 										throw (isis::application_exception);
 
 	std::string ProDatumside_string( e_CADDatumside in_Enum )
+										throw (isis::application_exception);
+
+	e_CADDatumside CADDatumside_enum( ProDatumside in_Enum )
 										throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +117,9 @@ namespace isis
 	std::string ProAnalysisSolverType_string( e_CADAnalysisSolverType in_Enum )
 										throw (isis::application_exception);
 
+	e_CADAnalysisSolverType CADAnalysisSolverType_enum( pro_fem_solver_type in_Enum )
+										throw (isis::application_exception);
+
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	pro_fem_mesh_type ProAnalysisMeshType_enum( const std::string &in_String)
@@ -117,6 +132,9 @@ namespace isis
 										throw (isis::application_exception);
 
 	std::string ProAnalysisMeshType_string( e_CADAnalysisMeshType in_Enum )
+										throw (isis::application_exception);
+
+	e_CADAnalysisMeshType CADAnalysisMeshType_enum( pro_fem_mesh_type in_Enum )
 										throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +151,9 @@ namespace isis
 	std::string ProAnalysisShellElementType_string( e_CADAnalysisShellElementType in_Enum )
 										throw (isis::application_exception);
 
+	e_CADAnalysisShellElementType CADAnalysisShellElementType_enum( pro_fem_shell_mesh_type in_Enum )
+										throw (isis::application_exception);
+
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	pro_fem_elem_shape_type ProAnalysisElementShapeType_enum( const std::string &in_String)
@@ -145,6 +166,9 @@ namespace isis
 										throw (isis::application_exception);
 
 	std::string ProAnalysisElementShapeType_string( e_CADAnalysisElementShapeType in_Enum )
+										throw (isis::application_exception);
+
+	e_CADAnalysisElementShapeType CADAnalysisElementShapeType_enum( pro_fem_elem_shape_type in_Enum )
 										throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////

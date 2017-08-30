@@ -4,6 +4,7 @@
 #include <CADCommonConstants.h>
 #include <CommonFunctions.h>
 #include "ProIntf3Dexport.h"
+#include <cc_CommonUtilities.h>
 
 namespace isis
 {

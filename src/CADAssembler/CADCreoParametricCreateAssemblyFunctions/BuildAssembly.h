@@ -2,7 +2,7 @@
 #define BUILD_ASSEMBLY_H
 //#include <AssemblyInterface.hxx>
 #include <isis_application_exception.h>
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <AssembleUtils.h>
 #include <map>
 #include "CadFactoryAbstract.h"
@@ -29,7 +29,7 @@ void BuildAssembly(
 void CopyModels(const std::vector<CopyModelDefinition>	&in_FromModel_ToModel )
 																	throw (isis::application_exception);
 
-void ReadInitialPositions(std::map<string, double*> &out_positions, const std::string &in_filename);
+void ReadInitialPositions(std::map<std::string, double*> &out_positions, const std::string &in_filename);
 
 
 void Add_Subassemblies_and_Parts( 
@@ -37,7 +37,7 @@ void Add_Subassemblies_and_Parts(
 		ProMdl								in_p_asm,
 		const std::string					&	in_ParentName,
 		const std::list<std::string>		&	in_Components,
-		std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+		std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 		int									&in_out_addedToAssemblyOrdinal)
 					throw (isis::application_exception);
 

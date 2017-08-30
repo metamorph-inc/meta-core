@@ -704,6 +704,7 @@ namespace isis
 		CAD_ASSEMBLY,
 		CAD_FEATURE,
 		CAD_EDGE,
+		CAD_FEATURE_GEOMETRY_TYPE_INVALID,
 	};
 
 	e_CADFeatureGeometryType CADFeatureGeometryType_enum( const std::string &in_String)

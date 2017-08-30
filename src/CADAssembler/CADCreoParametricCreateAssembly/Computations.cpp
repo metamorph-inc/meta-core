@@ -2,6 +2,7 @@
 #include <Computations.h>
 #include <CADPostProcessingParameters.h>
 #include <CADAnalysisMetaData.h>
+#include <cc_CommonUtilities.h>
 #include <Metrics.h>
 #include <CFDAnalysis.h>
 #include <SurvivabilityAnalysis.h>
@@ -300,7 +301,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 			RetrieveUnits_withDescriptiveErrorMsg( 
 							in_CADComponentData_map[i.first].componentID,
 							in_CADComponentData_map[i.first].name,
-							in_CADComponentData_map[i.first].modelHandle, 
+							in_CADComponentData_map[i.first].cADModel_hdl, 
 							distanceUnit_ShortName,		distanceUnit_LongName, 
 							massUnit_ShortName,			massUnit_LongName, 
 							forceUnit_ShortName,			forceUnit_LongName, 
@@ -970,7 +971,7 @@ void CreateXMLFile_RequestedMetrics(
 			// This code is based on UgGeomInterferCheck.c (located in the PTC installed examples)
 			ProInterferenceInfo   *interf_info_arr;
 		 
-			ProAssembly assembly = static_cast<ProAssembly>( in_CADComponentData_map[in_ComponentInstanceID].modelHandle);
+			ProAssembly assembly = static_cast<ProAssembly>( in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl);
 
 			isis_ProFitGlobalinterferenceCompute(	assembly,
 													//PRO_FIT_SUB_ASSEMBLY,  Not sure
@@ -987,7 +988,7 @@ void CreateXMLFile_RequestedMetrics(
 
 			interferenceReport_file << std::endl << "Assembly Name: " << 
 				(std::string)in_CADComponentData_map[in_ComponentInstanceID].name << "." << 
-				ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType);
+				CADMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType);
 			// WARNING UpdateReportJson_CAD.py uses "MetricID:" and "InterferenceCount:".  Do NOT change these strings
 			// without updating UpdateReportJson_CAD.py
 			interferenceReport_file << std::endl << "MetricID: " << in_CADComputation.metricID; 

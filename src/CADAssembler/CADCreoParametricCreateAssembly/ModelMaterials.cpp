@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "ModelMaterials.h"
+#include <cc_CommonUtilities.h>
 #include <isis_include_ptc_headers.h>
 #include <isis_ptc_toolkit_functions.h>
 #include <stdlib.h>
@@ -9,15 +11,15 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// If a current material is not set in the Creo model, then the functions in this file will not work; and 
 	// therefore, throw an exception if the current material is not set.
-	void TestRetrievingCurrentMaterial (	const std::string							&in_AssemblyComponentID, 
-											std::map<string, isis::CADComponentData>	&in_CADComponentData_map) 
+	void TestRetrievingCurrentMaterial (	const std::string								&in_AssemblyComponentID, 
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 													throw (isis::application_exception)
 	{
 		try
 		{
 			// Get current material
 			ProMaterial currentMaterial;
-			isis::isis_ProMaterialCurrentGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, &currentMaterial );
+			isis::isis_ProMaterialCurrentGet( static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), &currentMaterial );
 		}
 		catch (isis::application_exception &e )
 		{
@@ -31,8 +33,8 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// If the current material does not have the properties needed by FEA, then some of functions in this file 
 	// will not work; and therefore, throw an exception.
-	void TestIfCurrentMaterialHasNeededFEAProperties (	const std::string							&in_AssemblyComponentID, 
-														std::map<string, isis::CADComponentData>	&in_CADComponentData_map)
+	void TestIfCurrentMaterialHasNeededFEAProperties (	const std::string								&in_AssemblyComponentID, 
+														std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
 														throw (isis::application_exception)
 	{
 		std::string materialPropertyType;
@@ -40,10 +42,10 @@ namespace isis
 		{
 			// Get current material
 			ProMaterial currentMaterial;
-			isis::isis_ProMaterialCurrentGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, &currentMaterial );	
+			isis::isis_ProMaterialCurrentGet( static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), &currentMaterial );	
 			ProModelitem  currentMaterialModelItem;
 		
-			isis_ProModelitemByNameInit ( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, PRO_RP_MATERIAL, currentMaterial.matl_name, &currentMaterialModelItem );
+			isis_ProModelitemByNameInit ( in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl, PRO_RP_MATERIAL, currentMaterial.matl_name, &currentMaterialModelItem );
 
 			ProParamvalue materialValue;
 			ProUnititem   materialUnit;
@@ -278,12 +280,12 @@ namespace isis
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void AddTokenMaterialIdentifier(const std::string							&in_AssemblyComponentID, 
-									std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-									const std::string							&in_MaterialName,
-									double										in_MaterialTokenNumber ) 
+	void AddTokenMaterialIdentifier(const std::string								&in_AssemblyComponentID, 
+									std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
+									const std::string								&in_MaterialName,
+									double											in_MaterialTokenNumber ) 
 	{
-		ProSolid part = in_out_CADComponentData_map[in_AssemblyComponentID].modelHandle;
+		ProSolid part = static_cast<ProSolid>(in_out_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl);
 
 		// Get current material
 		ProMaterial material;
@@ -317,9 +319,9 @@ namespace isis
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateUniquelyNamedMaterials_impl( 
-					const std::string							&in_AssemblyComponentID, 
-					std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map, // in_out_CADComponentData_map modified by AddTokenMaterialIdentifier
-					double										&in_out_MaterialTokenNumber )
+					const std::string								&in_AssemblyComponentID, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, // in_out_CADComponentData_map modified by AddTokenMaterialIdentifier
+					double											&in_out_MaterialTokenNumber )
 																throw (isis::application_exception)
 	{
 
@@ -335,7 +337,7 @@ namespace isis
 		double decrement = -.00001;
 		
 		char buffer[64];
-		for ( std::list<string>::const_iterator i (in_out_CADComponentData_map[in_AssemblyComponentID].children.begin());
+		for ( std::list<std::string>::const_iterator i (in_out_CADComponentData_map[in_AssemblyComponentID].children.begin());
 		  i != in_out_CADComponentData_map[in_AssemblyComponentID].children.end();
 		  ++i )
 		{
@@ -344,10 +346,10 @@ namespace isis
 
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO)  << "CreateUniquelyNamedMaterials_impl: " << 
-				isis_EOL << "   Material:    "  << materialName <<
-				isis_EOL << "   Model Name:  " << in_out_CADComponentData_map[*i].name <<
-				isis_EOL << "   Model Type:  " << isis::ProMdlType_string(in_out_CADComponentData_map[*i].modelType) << 
-				isis_EOL << "   modelHandel: " <<    (const void*)in_out_CADComponentData_map[*i].modelHandle;
+				isis_EOL << "   Material:     "  << materialName <<
+				isis_EOL << "   Model Name:   " << in_out_CADComponentData_map[*i].name <<
+				isis_EOL << "   Model Type:   " << isis::CADMdlType_string(in_out_CADComponentData_map[*i].modelType) << 
+				isis_EOL << "   cADModel_hdl: " <<    (const void*)in_out_CADComponentData_map[*i].cADModel_hdl;
 
 			if ( materialName.size() >= PRO_NAME_SIZE )
 			{
@@ -361,9 +363,9 @@ namespace isis
 			{
 				TestRetrievingCurrentMaterial (	*i,	in_out_CADComponentData_map ); 
 				TestIfCurrentMaterialHasNeededFEAProperties(*i,	in_out_CADComponentData_map );
-				CreateMaterial(in_out_CADComponentData_map[*i].modelHandle, materialName );
-				SetMaterialPropertiesToBeTheSameAsCurrentMaterial(in_out_CADComponentData_map[*i].modelHandle, materialName );
-				SetMaterial_to_CurrentMaterial( in_out_CADComponentData_map[*i].modelHandle, materialName );
+				CreateMaterial(static_cast<ProSolid>(in_out_CADComponentData_map[*i].cADModel_hdl), materialName );
+				SetMaterialPropertiesToBeTheSameAsCurrentMaterial(static_cast<ProSolid>(in_out_CADComponentData_map[*i].cADModel_hdl), materialName );
+				SetMaterial_to_CurrentMaterial( static_cast<ProSolid>(in_out_CADComponentData_map[*i].cADModel_hdl), materialName );
 				AddTokenMaterialIdentifier( *i, in_out_CADComponentData_map, materialName, in_out_MaterialTokenNumber );
 				
 				in_out_MaterialTokenNumber += decrement;
@@ -384,8 +386,8 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateUniquelyNamedMaterials( 
-					const std::string							&in_AssemblyComponentID, 
-					std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map) // in_out_CADComponentData_map modified by AddTokenMaterialIdentifier
+					const std::string								&in_AssemblyComponentID, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) // in_out_CADComponentData_map modified by AddTokenMaterialIdentifier
 																	throw (isis::application_exception)
 
 	{
@@ -446,7 +448,7 @@ void RetrieveMaterial(	const std::string &in_ModelName,
 			{
 				try
 				{
-					isis::isis_ProMaterialCurrentGet( in_CADComponentData_map[i].modelHandle, &material );
+					isis::isis_ProMaterialCurrentGet( static_cast<ProSolid>(in_CADComponentData_map[i].cADModel_hdl), &material );
 
 					char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
 					materialName = ProWstringToString( stringBuffer, material.matl_name );	
@@ -472,7 +474,7 @@ void RetrieveMaterial(	const std::string &in_ModelName,
 					errorNotFoundMaterials << std::endl <<
 					"  Component Instance ID: " <<  in_CADComponentData_map[i].componentID << std::endl << 
 					"  Component Name: " <<  in_CADComponentData_map[i].name <<  std::endl << 
-					"  Component Type: " <<  ProMdlType_string(in_CADComponentData_map[i].modelType)  <<  std::endl << 
+					"  Component Type: " <<  CADMdlType_string(in_CADComponentData_map[i].modelType)  <<  std::endl << 
 					"  Exception: " <<  ex.what() << std::endl;
 				}
 			}

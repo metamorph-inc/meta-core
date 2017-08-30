@@ -20,7 +20,7 @@
 #include <boost/filesystem.hpp>
 #include "LoggerBoost.h"
 #include "CommonDefinitions.h"
-
+#include <cc_CommonUtilities.h>
 //#include "EventLoopMonitor.h"
 #include "GlobalModelData.h"
 #include "AssembleUtils.h"

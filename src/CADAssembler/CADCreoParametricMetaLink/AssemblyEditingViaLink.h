@@ -2,6 +2,7 @@
 #define ASSEMBLY_EDITING_VIA_LINK_H
 #include <InputArgumentsParser.h>
 #include <boost/smart_ptr.hpp>
+#include <isis_include_ptc_headers.h>
 #include "CADFactoryAbstract.h"
 
 namespace isis

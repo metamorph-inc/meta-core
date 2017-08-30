@@ -3,7 +3,7 @@
 
 namespace isis
 {
-	const string METRICS_FILE_ERROR_string = "METRICS FILE ERROR";
+	const std::string METRICS_FILE_ERROR_string = "METRICS FILE ERROR";
 
 	/*! \file Metrics.h 
     \brief This file declares a function (OutputCADMetricsToXML) that outputs an XML file with metrics about assemblies and detail parts.

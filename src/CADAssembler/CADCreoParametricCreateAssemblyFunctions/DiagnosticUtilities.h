@@ -4,9 +4,10 @@
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
 #include <isis_include_ptc_headers.h>
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <list>
 #include <iostream>
+#include <ostream>
 #include <map>
 //#include "AssemblyInterface.hxx"
 
@@ -24,7 +25,7 @@ void stream_PopulateOneConstraintInConstraintStructure(
 	ProDatumside in_added_model_datum_side,		// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 	ProAsmcompConstrType	in_constraint_type, // enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 	double		 in_offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
-	ostream &out_Stream);
+	std::ostream &out_Stream);
 
 void stream_PopulateOneConstraintInConstraintStructure_2(
 	ProSolid	 *in_assembly_model,			// typedef struct sld_part* ProSolid;
@@ -38,7 +39,7 @@ void stream_PopulateOneConstraintInConstraintStructure_2(
 	ProAsmcompConstrType	in_constraint_type, // enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 	double		 in_offset_between_datums,		// This is only used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 	bool		flip_orientation,	
-	ostream &out_Stream);
+	std::ostream &out_Stream);
 
 
 
@@ -57,26 +58,26 @@ int ComputeNumberOfComponents(  std::map<std::string, CADComponentData> &in_Comp
 
 
 void stream_CADComponentData_map( const std::map<std::string, isis::CADComponentData> &in_CADComponentData_map,
-									    ostream &clog );
+									    std::ostream &clog );
 
 
 void stream_AssemblyCADComponentData( const std::string					&in_AssemblyComponentID, 
-					std::map<string, isis::CADComponentData>			&in_CADComponentData_map,
-					 ostream											&out_Stream, 
+					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					std::ostream											&out_Stream, 
 					 bool												in_OutputChildren = true,
 					 int												in_AssemblyLevel = 1  );
 
 
-void stream_AnalysisInputData( const CADAnalyses &in_CADAnalyses, ostream &out_Stream )
+void stream_AnalysisInputData( const CADAnalyses &in_CADAnalyses, std::ostream &out_Stream )
 																			throw (isis::application_exception);
 
 
-void stream_MaterialsData(const std::map<std::string, Material>	&in_Materials, ostream &out_Stream )
+void stream_MaterialsData(const std::map<std::string, Material>	&in_Materials, std::ostream &out_Stream )
 																			throw (isis::application_exception);
 
 
 std::set<std::string> NonSizeToFitComponents_ReferencedBy_SizeToFitConstraints( 
-								std::map<string, isis::CADComponentData>	&in_CADComponentData_map )
+								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																			throw (isis::application_exception);
 
 } // END namespace isis

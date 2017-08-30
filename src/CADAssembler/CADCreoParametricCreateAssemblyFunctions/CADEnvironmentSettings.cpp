@@ -1,5 +1,6 @@
 #include "CADEnvironmentSettings.h"
 #include "CADSoftwareEnvirUtils.h"
+#include <cc_CommonUtilities.h>
 #include <CommonUtilities.h>
 #include <windows.h>
 #include "WindowsFunctions.h"

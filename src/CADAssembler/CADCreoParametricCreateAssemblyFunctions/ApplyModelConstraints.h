@@ -8,7 +8,7 @@
 #include <CreoStringToEnumConversions.h>
 #include <BuildAssembly.h>
 #include <AssembleComponents.h>
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include "CadFactoryAbstract.h"
 
 using namespace std;

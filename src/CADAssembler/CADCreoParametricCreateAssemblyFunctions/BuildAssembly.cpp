@@ -5,14 +5,14 @@
 #include <AssembleComponents.h>
 #include <CreoStringToEnumConversions.h>
 #include <ApplyModelConstraints.h>
-#include <CommonUtilities.h>
+#include <cc_CommonUtilities.h>
 #include <DiagnosticUtilities.h>
 #include <CADCommonConstants.h>
 #include <ISISConstants.h>
 // #include <FiniteElementAnalysis.h>
 #include <SetCADModelParameters.h>
 #include <CommonFunctions.h>
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <ToolKitPassThroughFunctions.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -542,7 +542,7 @@ void Add_Subassemblies_and_Parts(
 
 			std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( 
 												in_CADComponentData_map[*itr].name, 
-												ProMdlType_enum(in_CADComponentData_map[*itr].modelType ));
+												in_CADComponentData_map[*itr].modelType);
 
 			//wchar_t  PartName[ISIS_CHAR_BUFFER_LENGTH];
 			//ProStringToWstring(PartName, (char *)(const char *)in_CADComponentData_map[*itr].name );
@@ -571,17 +571,23 @@ void Add_Subassemblies_and_Parts(
 			// in_CADComponentData_map[itr->ComponentID()].ComponentID =	itr->ComponentID();
 			// in_CADComponentData_map[itr->ComponentID()].Name =			itr->Name;
 
-			in_CADComponentData_map[*itr].p_model = p_model;
-			in_CADComponentData_map[*itr].modelHandle =	(ProSolid)*p_model;
-			in_CADComponentData_map[*itr].assembledFeature = assembled_feat_handle;
+			in_CADComponentData_map[*itr].cADModel_ptr_ptr = p_model;
+			in_CADComponentData_map[*itr].cADModel_hdl =	(ProSolid)*p_model;
+			
+			//in_CADComponentData_map[*itr].assembledFeature = assembled_feat_handle;
+			//in_CADComponentData_map[*itr].assembledFeature.type = CADFeatureGeometryType_enum(assembled_feat_handle.type);
+			//in_CADComponentData_map[*itr].assembledFeature.id = assembled_feat_handle.id;
+			//in_CADComponentData_map[*itr].assembledFeature.owner = assembled_feat_handle.owner;
+			in_CADComponentData_map[*itr].assembledFeature = getCADAssembledFeature(assembled_feat_handle);
+
 			in_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
 			in_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
 
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  p_model:               " <<  (const void*)in_CADComponentData_map[*itr].p_model; 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  modelHandle:           " << (const void*)in_CADComponentData_map[*itr].modelHandle;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_ptr_ptr:      " <<  (const void*)in_CADComponentData_map[*itr].cADModel_ptr_ptr; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_hdl:          "  << (const void*)in_CADComponentData_map[*itr].cADModel_hdl;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_CADComponentData_map[*itr].assembledFeature.id;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_CADComponentData_map[*itr].assembledFeature.type;
 			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_CADComponentData_map[*itr].specialInstruction );
@@ -685,7 +691,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 
 			
 			Add_Subassemblies_and_Parts( in_factory,
-										in_CADComponentData_map[in_AssemblyComponentID].modelHandle, 
+										in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl, 
 										 in_CADComponentData_map[in_AssemblyComponentID].name,  
 										 Single_SIZE_TO_FIT_Component, 
 										 in_CADComponentData_map,
@@ -712,7 +718,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 
 			// Can constrain this SIZE_TO_FIT component
 			isis::ApplyModelConstraints( in_factory,
-											&in_CADComponentData_map[in_AssemblyComponentID].modelHandle, //ProSolid	 in_assembly_model,
+											reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
 											in_AssemblyComponentID,
 											Single_SIZE_TO_FIT_Component,
 											in_AllowUnconstrainedModels,
@@ -912,7 +918,7 @@ void AssembleCADComponent(
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Created Assembly: " << in_out_CADComponentData_map[in_AssemblyComponentID].name;
 
-	in_out_CADComponentData_map[in_AssemblyComponentID].modelHandle = (ProSolid)p_asm;
+	in_out_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl = (ProSolid)p_asm;
 	in_out_CADComponentData_map[in_AssemblyComponentID].addedToAssemblyOrdinal = in_out_addedToAssemblyOrdinal++;
 
 	// *************************************
@@ -1137,7 +1143,7 @@ void AssembleCADComponent(
 			  ++i_regen )
 			{
 				local_RegenerationSucceeded = true;
-				RegenerateModel( in_out_CADComponentData_map[*i_regen].modelHandle,
+				RegenerateModel( static_cast<ProSolid>(in_out_CADComponentData_map[*i_regen].cADModel_hdl),
 								 in_out_CADComponentData_map[*i_regen].name,
 								 in_out_CADComponentData_map[*i_regen].componentID,
 								 local_RegenerationSucceeded, false);

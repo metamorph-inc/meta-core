@@ -17,7 +17,7 @@ namespace isis
 	};
 
 	void BuildList_ComponentsRequiringBoundingBoxes( 
-					std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 					std::list<std::string>						&out_componentsRequiringBoundingBoxes )
 																	throw (isis::application_exception);
 
