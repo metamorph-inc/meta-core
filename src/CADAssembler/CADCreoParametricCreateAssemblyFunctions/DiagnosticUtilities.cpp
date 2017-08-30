@@ -1,5 +1,5 @@
 #include <DiagnosticUtilities.h>
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <CommonFunctions.h>
 #include <CreoStringToEnumConversions.h>
 #include <MaterialProperties.h>
@@ -205,7 +205,7 @@ void stream_SingleCADComponentData( const std::string					&in_ComponentID,
 			"   MaterialID (FromCreoPart): " << in_CADComponentData_map[in_ComponentID].materialID_FromCreoPart <<  std::endl <<
 			//"   SpecialInstruction:        " << isis::SpecialInstruction_string(in_CADComponentData_map[in_ComponentID].specialInstruction) <<  std::endl <<
 			"   SpecialInstruction:        " << in_CADComponentData_map[in_ComponentID].specialInstruction <<  std::endl <<
-			"   modelHandle:               " << in_CADComponentData_map[in_ComponentID].modelHandle <<  std::endl <<
+			"   cADModel_hdl:              " << in_CADComponentData_map[in_ComponentID].cADModel_hdl <<  std::endl <<
 			"   assembledFeature.id:       " << in_CADComponentData_map[in_ComponentID].assembledFeature.id <<  std::endl <<
 			"   assembledFeature.type:     " << in_CADComponentData_map[in_ComponentID].assembledFeature.type <<  std::endl <<
 			"   assembledFeature.owner:    " << in_CADComponentData_map[in_ComponentID].assembledFeature.owner <<  std::endl <<

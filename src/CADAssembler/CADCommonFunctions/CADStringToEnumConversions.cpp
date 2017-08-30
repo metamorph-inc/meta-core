@@ -1921,11 +1921,12 @@ namespace isis
 		else if	(strUpper.compare("ASSEMBLY") == 0 ) return CAD_ASSEMBLY;
 		else if	(strUpper.compare("FEATURE") == 0 ) return CAD_FEATURE;
 		else if	(strUpper.compare("EDGE") == 0 ) return CAD_EDGE;
+		else if	(strUpper.compare("INVALID") == 0 ) return CAD_FEATURE_GEOMETRY_TYPE_INVALID;
 
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"SURFACE   PLANE   AXIS   POINT   CSYS   PART   ASSEMBLY   FEATURE   EDGE";
+			"SURFACE   PLANE   AXIS   POINT   CSYS   PART   ASSEMBLY   FEATURE   EDGE   INVALID";
 		throw isis::application_exception(errorString);
 	}
 
@@ -1961,11 +1962,14 @@ namespace isis
 			case CAD_EDGE:
 				return "EDGE";
 				break;
+			case CAD_FEATURE_GEOMETRY_TYPE_INVALID:
+				return "INVALID";
+				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"CAD_SURFACE   CAD_DATUM_PLANE   CAD_AXIS   CAD_POINT   CAD_CSYS   CAD_PART   CAD_ASSEMBLY   CAD_FEATURE   CAD_EDGE";
+					"CAD_SURFACE   CAD_DATUM_PLANE   CAD_AXIS   CAD_POINT   CAD_CSYS   CAD_PART   CAD_ASSEMBLY   CAD_FEATURE   CAD_EDGE   CAD_FEATURE_GEOMETRY_TYPE_INVALID";
 				throw isis::application_exception(errorString);
 		}
 	}

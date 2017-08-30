@@ -88,6 +88,7 @@
 #include "WindowsFunctions.h"
 #include <AssemblyCreationViaInputFile.h>
 #include "InputArgumentsParser.h"
+#include <cc_CommonUtilities.h>
 #include <MiscellaneousFunctions.h>
 #include <sstream>
 #include "LoggerBoost.h"
@@ -268,8 +269,8 @@ int main( int argc, char *argv[] )
 		bool addLineFeed = false;
 		if ( isis::FileExists( failedTxtFileName.c_str() )) addLineFeed = true;
 
-		ofstream failedTxtFileStream;
-		failedTxtFileStream.open (failedTxtFileName, ios::app );
+		std::ofstream failedTxtFileStream;
+		failedTxtFileStream.open (failedTxtFileName, std::ios::app );
 		if ( failedTxtFileStream.is_open() )
 		{
 			if ( addLineFeed ) failedTxtFileStream << std::endl;

@@ -14,7 +14,7 @@ namespace isis{
 		CadAssemblies.topLevelAssemblies.clear();
 		CadAssemblies.unassembledComponents.clear();
 		ComponentEdit.avmId.clear();
-		ComponentEdit.mdl = 0;
+		ComponentEdit.cADModel_ptr = 0;
 		ComponentEdit.resourceId.clear();
 	}
 
@@ -30,14 +30,14 @@ namespace isis{
 
 	ProSolid GlobalModelData::GetTopModel()
 	{
-		return CadComponentData[CadAssemblies.topLevelAssemblies.begin()->assemblyComponentID].modelHandle;
+		return static_cast<ProSolid>(CadComponentData[CadAssemblies.topLevelAssemblies.begin()->assemblyComponentID].cADModel_hdl);
 	}
 
 	ProSolid GlobalModelData::GetModelFromGuid(const std::string &guid)
 	{
 		for (std::map<std::string, isis::CADComponentData>::const_iterator it = CadComponentData.begin(); it != CadComponentData.end(); ++it)
 		{
-			if (it->second.componentID==guid) return it->second.modelHandle;
+			if (it->second.componentID==guid) return static_cast<ProSolid>(it->second.cADModel_hdl);
 		}
 		return 0;
 	}
@@ -53,7 +53,7 @@ namespace isis{
 		for (std::map<std::string, isis::CADComponentData>::const_iterator it = CadComponentData.begin(); it != CadComponentData.end(); ++it)
 		{
 			isis::CADComponentData candidate = it->second;
-			if (candidate.modelHandle != sld) continue;
+			if (candidate.cADModel_hdl != sld) continue;
 			return candidate.componentID;
 		}
 		return "";
@@ -114,7 +114,7 @@ namespace isis{
 	{
 		for (std::map<std::string, isis::CADComponentData>::const_iterator it = CadComponentData.begin(); it != CadComponentData.end(); ++it)
 		{
-			if (it->second.modelHandle==sld) return it->second.avmComponentId;
+			if (it->second.cADModel_hdl==sld) return it->second.avmComponentId;
 		}
 		return "";
 	}

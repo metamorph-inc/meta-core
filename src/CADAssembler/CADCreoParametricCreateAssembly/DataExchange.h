@@ -18,12 +18,12 @@ namespace isis
 				const std::string									&in_ComponentID,  // Could be an assembly or part
 				const std::string									&in_WORKING_DIR,
 				const std::list<DataExchangeSpecification>          &in_DataExchangeSpecifications,
-				std::map<string, isis::CADComponentData>			&in_CADComponentData_map,
+				std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
 				bool												in_LogProgress )
 																throw (isis::application_exception);
 
 	void ExportRasterImage(	const std::string									&in_AssemblyComponentID, 
-						std::map<string, isis::CADComponentData>			&in_CADComponentData_map )
+						std::map<std::string, isis::CADComponentData>			&in_CADComponentData_map )
 																throw (isis::application_exception);
 
 	//bool SeparateSTEPPartFilesSpecified(const  std::list<DataExchangeSpecification> &in_DataExchangeSpecifications);

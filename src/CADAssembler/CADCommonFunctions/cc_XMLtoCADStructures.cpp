@@ -1,5 +1,5 @@
-#include "XMLToProEStructures.h"
-#include "DiagnosticUtilities.h"
+#include "cc_XMLtoCADStructures.h"
+//#include "DiagnosticUtilities.h"
 #include <iostream>
 #include "LoggerBoost.h"
 #include "CommonDefinitions.h"
@@ -7,14 +7,14 @@
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
 //#include <ISISVersionNumber.h>
-#include <CommonUtilities.h>
+#include "cc_CommonUtilities.h"
 #endif
 
 #include "UdmBase.h"
 #include "AssemblyInterface.h"
-#include <CreoStringToEnumConversions.h>
-#include <MaterialProperties.h>
-#include <CADCommonConstants.h>
+#include "CADStringToEnumConversions.h"
+//#include <MaterialProperties.h>
+#include "CADCommonConstants.h"
 
 #include <deque>
 #include <vector>
@@ -43,8 +43,11 @@ void stream_IndentedAssemblyTree( vector<AssemblyInterface::CADComponent> &cadCo
 		try{
 			out_Stream << std::endl << in_Indent <<  std::string(ci->Name())  << "  " << std::string(ci->ComponentID());
 
-			ProMdlType pro_model_type = isis::ProMdlType_enum( ci->Type());
-			if ( pro_model_type == PRO_MDL_ASSEMBLY) 
+			//ProMdlType pro_model_type = isis::ProMdlType_enum( ci->Type());
+			//if ( pro_model_type == PRO_MDL_ASSEMBLY) 
+
+			e_CADMdlType cad_model_type = isis::CADMdlType_enum( ci->Type());
+			if ( cad_model_type == CAD_MDL_ASSEMBLY) 
 			{
 				vector<AssemblyInterface::CADComponent> childCADComponentVector = ci->CADComponent_kind_children();
 				stream_IndentedAssemblyTree( childCADComponentVector,
@@ -151,8 +154,10 @@ void stream_AssemblyTree( vector<AssemblyInterface::CADComponent>		&in_CADCompon
 				} // END for ( AssemblyType::CADComponent_type::Constraint_type::Pair_const_iterator k(j->Pair().begin());
 			}  // for ( AssemblyType::CADComponent_type::Constraint_type::Pair_const_iterator k(j->Pair().begin());
 
-			ProMdlType pro_model_type = isis::ProMdlType_enum( ci->Type());
-			if ( pro_model_type == PRO_MDL_ASSEMBLY) 
+			//ProMdlType pro_model_type = isis::ProMdlType_enum( ci->Type());
+			// if ( pro_model_type == PRO_MDL_ASSEMBLY) 
+			e_CADMdlType pro_model_type = isis::CADMdlType_enum( ci->Type());
+			if ( pro_model_type == CAD_MDL_ASSEMBLY) 
 			{
 				vector<AssemblyInterface::CADComponent>	subAssembly = ci->CADComponent_kind_children();
 				stream_AssemblyTree( subAssembly,

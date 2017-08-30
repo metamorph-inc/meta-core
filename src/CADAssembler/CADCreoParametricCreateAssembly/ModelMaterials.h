@@ -1,5 +1,9 @@
 #ifndef MODEL_MATERIALS_H
 #define MODEL_MATERIALS_H
+#include <string>
+#include <map>
+#include <cc_CommonStructures.h>
+#include <isis_include_ptc_headers.h>
 
 namespace isis
 {

@@ -4,7 +4,7 @@
 
 #include <string>
 #include "Joint.h"
-#include "CommonStructures.h"
+#include "cc_CommonStructures.h"
 #include <boost/smart_ptr.hpp>
 
 /**
@@ -28,7 +28,7 @@ public:
 	virtual std::vector<Joint::pair_t>  extract_joint_pair_vector
 		(const std::string in_component_id,
 		 std::vector<ConstraintPair> in_component_pair_vector,
-		 std::map<string, isis::CADComponentData> &	in_CADComponentData_map)
+		 std::map<std::string, isis::CADComponentData> &	in_CADComponentData_map)
 		 = 0;
 
 	/**

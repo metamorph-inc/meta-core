@@ -16,10 +16,10 @@ namespace isis
 																	throw (isis::application_exception);
 
 	void RetrieveDatumPointCoordinates( const std::string							&in_AssemblyComponentID,
-									const std::string							&in_PartComponentID,
-									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-									const MultiFormatString						&in_DatumName,
-									CADPoint									&out_CADPoint);
+									const std::string								&in_PartComponentID,
+									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+									const MultiFormatString							&in_DatumName,
+									CADPoint										&out_CADPoint);
 
 
 	// Pre-Conditions

@@ -1,4 +1,5 @@
 #include <ApplyModelConstraints.h>
+#include <CommonFunctions.h>
 #include <BuildAssembly.h>
 #include <AssembleComponents.h>
 #include <DiagnosticUtilities.h>
@@ -12,6 +13,7 @@
 #include "AssemblyOptions.h"
 #include "DatumRefResolver.h"
 #include "GraphicsFunctions.h"
+#include "JointCreo.h"
 
 /*
 Notes:
@@ -1563,7 +1565,13 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 	////////////////////////////////
 	isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree);
 
-	isis::isis_ProFeatureElemtreeExtract (	&in_CADComponentData_map[in_ComponentID].assembledFeature,
+	ProAsmcomp					assembledFeature_temp;
+	//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+	//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+	//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 	
+	assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+	
+	isis::isis_ProFeatureElemtreeExtract (	&assembledFeature_temp,
 											&assembly_comp_path,
 											PRO_FEAT_EXTRACT_NO_OPTS,
 											&elem_tree );
@@ -1721,15 +1729,24 @@ void SetConstraints (	ProSolid									&in_TopAssembly,
 
 	ProErrorlist p_errors;
 
+
 	isis::isis_ProFeatureWithoptionsRedefine(
 				// &assembly_comp_path,
 				NULL,  
-				&in_CADComponentData_map[in_ComponentID].assembledFeature,
+				//&in_CADComponentData_map[in_ComponentID].assembledFeature,
+				&assembledFeature_temp,
 				elem_tree,
 				opts,
 				//PRO_REGEN_NO_FLAGS,
 				PRO_REGEN_FORCE_REGEN,
 				&p_errors);
+
+	// zzzz Did the above function change assembledFeature_temp,  the documentation says no, but not so sure
+	// If it did change it, we will need to do something like the following:
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.type = CADFeatureGeometryType_enum(assembledFeature_temp.type);
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.id = assembledFeature_temp.id;
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.owner = assembledFeature_temp.owner; 
+
 
 	// Verify if regeneration succeeded
 	ProSolidRegenerationStatus s;
@@ -2058,7 +2075,15 @@ void SetConstraints_2 (
 	////////////////////////////////
 	isis::isis_ProElementAlloc(PRO_E_FEATURE_TREE, &elem_tree);
 
-	isis::isis_ProFeatureElemtreeExtract (	&in_CADComponentData_map[in_ComponentID].assembledFeature,
+	ProAsmcomp					assembledFeature_temp;			
+	//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+	//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+	//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 	
+	assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+
+
+	isis::isis_ProFeatureElemtreeExtract (	//&in_CADComponentData_map[in_ComponentID].assembledFeature,
+											&assembledFeature_temp,
 											&assembly_comp_path,
 											PRO_FEAT_EXTRACT_NO_OPTS,
 											&elem_tree );
@@ -2216,13 +2241,22 @@ void SetConstraints_2 (
 	isis::isis_ProFeatureWithoptionsRedefine(
 				// &assembly_comp_path,
 				NULL,  
-				&in_CADComponentData_map[in_ComponentID].assembledFeature,
+				//&in_CADComponentData_map[in_ComponentID].assembledFeature,
+				&assembledFeature_temp,
 				elem_tree,
 				opts,
 				//PRO_REGEN_NO_FLAGS,
 				PRO_REGEN_FORCE_REGEN,
 				//PRO_REGEN_UPDATE_INSTS,
 				&p_errors);
+
+
+	// zzzz Did the above function change assembledFeature_temp,  the documentation says no, but not so sure
+	// If it did change it, we will need to do something like the following:
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.type = CADFeatureGeometryType_enum(assembledFeature_temp.type);
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.id = assembledFeature_temp.id;
+	//in_CADComponentData_map[in_ComponentID].assembledFeature.owner = assembledFeature_temp.owner; 
+
 
 	// Verify if regeneration succeeded
 	ProSolidRegenerationStatus s;
@@ -3136,7 +3170,7 @@ void SetConstraint_AllowAssumptions ( ProAsmcomppath *assem_path,  ProAsmcomp *i
 	{
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\nAllowAssumptions already set to: " << ConstraintAllowAssumptionse_string(in_AllowAssumptions) << ".  For:";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Feature ID: " << in_ProAsmcomp->id;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Owner:      " << (const void*) in_ProAsmcomp->owner;
+		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Owner:      " << (const void*)in_ProAsmcomp->owner;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n   Type:       " << FeatureGeometryType_string(in_ProAsmcomp->type);
 		
 	}
@@ -3401,11 +3435,10 @@ void Populate_PerSetConstraintDefinitions(
 
 		out_PerSetConstraintDefinitions.clear();
 
-		ProAsmcomp		added_model_assembled_feature;
-
-		const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
-		added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
-
+		//ProAsmcomp		added_model_assembled_feature;
+		//const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
+		//added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
+	
 		for (	std::vector<ConstraintData>::const_iterator j(in_ConstraintDefinition.constraints.begin());
 				j != in_ConstraintDefinition.constraints.end();
 				++j )
@@ -3515,7 +3548,7 @@ void Populate_PerSetConstraintDefinitions(
 				
 				ContraintFeatureDefinition_2 cFDef;
 
-				cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].modelHandle;
+				cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].cADModel_hdl;
 				cFDef.base_model_name =						in_CADComponentData_map[base_model_component_instance_ID].name;
 				cFDef.base_model_type =						ProMdlType_enum(in_CADComponentData_map[base_model_component_instance_ID].modelType);
 				cFDef.base_model_component_instance_ID =	base_model_component_instance_ID;
@@ -3524,7 +3557,7 @@ void Populate_PerSetConstraintDefinitions(
 				cFDef.added_model_type =					ProMdlType_enum(in_CADComponentData_map[added_model_component_instance_ID].modelType);
 				cFDef.added_model_component_instance_ID =	added_model_component_instance_ID;
 
-				cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].modelHandle;
+				cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].cADModel_hdl;
 				cFDef.base_model_path_list		= base_model_path_list;			// list of Creo feature IDs leading to the part/assembly
 				cFDef.added_model_path_list		= added_model_path_list;		// list of Creo feature IDs  leading to the part/assembly
 				cFDef.pro_datum_type			= pro_datum_type;				// enum PRO_SURFACE, PRO_AXIS
@@ -4095,6 +4128,14 @@ bool Apply_CADDatum_ModelConstraints_2(
 
 	ConstraintOrder constraintOrder_temp = constraintOrder;
 
+
+	ProAsmcomp					assembledFeature_temp;			
+	//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+	//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+	//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
+	assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+
+
 	for each ( int i in constraintOrder.constraintDefinitionOrder )
 	{
 		// We need to apply all PerSetConstraintDefinitions individually.  This is necessary because for the case
@@ -4126,7 +4167,10 @@ bool Apply_CADDatum_ModelConstraints_2(
 					true,	// Treat as a user-defined joint  
 						warnings );
 
-			isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+
+
+			// isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+			isis::isis_ProAsmcompRegenerate( &assembledFeature_temp, PRO_B_TRUE);
 			
 			// The following isis_ProSolidRegenerate is required.  The axes would not be collinear without this regeneration.
 			try
@@ -4149,7 +4193,9 @@ bool Apply_CADDatum_ModelConstraints_2(
 											perSetConstraintDefinitions );
 	
 			// Delete the constraints
-			isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+
+			isis::isis_ProAsmcompConstrRemove (	&assembledFeature_temp, -1 );
+			//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
 		}
 	}
 
@@ -4206,9 +4252,18 @@ bool Apply_CADDatum_ModelConstraints_2(
 			}
 		}
 
-		isis::isis_ProAsmcompPositionGet (&in_CADComponentData_map[in_ComponentID].assembledFeature, position);
+
+		ProAsmcomp					assembledFeature_temp;			
+		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
+		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+
+		//isis::isis_ProAsmcompPositionGet (&in_CADComponentData_map[in_ComponentID].assembledFeature, position);
+		isis::isis_ProAsmcompPositionGet (&assembledFeature_temp, position);
 		// Delete the constraints
-		isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+		//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+		isis::isis_ProAsmcompConstrRemove (	&assembledFeature_temp, -1 );
 
 	} // END if ( hasAGuideConstraint )
 
@@ -4268,12 +4323,20 @@ bool Apply_CADDatum_ModelConstraints_2(
 					
 		Populate_c_id_table(in_CADComponentData_map[in_ComponentID].componentPaths, c_id_table, c_id_table_size );
 				
-		isis::isis_ProAsmcomppathInit (in_CADComponentData_map[in_ComponentID].modelHandle,	//ProSolid   p_solid_handle
+		isis::isis_ProAsmcomppathInit (static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl),	//ProSolid   p_solid_handle
 							c_id_table,			// ProIdTable 
 							c_id_table_size,	// table_size 
 							&comp_path);		// ProAsmcomppath *p_handle
 
-		isis::isis_ProAsmcompPositionSet (&comp_path, &in_CADComponentData_map[in_ComponentID].assembledFeature,  position);	
+		ProAsmcomp					assembledFeature_temp;			
+		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
+		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+
+		//isis::isis_ProAsmcompPositionSet (&comp_path, &in_CADComponentData_map[in_ComponentID].assembledFeature,  position);
+		isis::isis_ProAsmcompPositionSet (&comp_path, &assembledFeature_temp,  position);
+
 	}
 
 	return stop;
@@ -4362,12 +4425,13 @@ bool Apply_CADDatum_ModelConstraints(
 													in_CADComponentData_map );
 			
 
-			ProAsmcomp		added_model_assembled_feature;
-			
-			
-	
-			const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
-			added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
+			// Needed for the commented out code below
+			//ProAsmcomp		added_model_assembled_feature;	
+			//const isis::CADComponentData &ComponentAssembledInfo_temp = in_CADComponentData_map[in_ComponentID];
+			////added_model_assembled_feature = ComponentAssembledInfo_temp.assembledFeature;
+			//added_model_assembled_feature.type =	FeatureGeometryType_enum(ComponentAssembledInfo_temp.assembledFeature.type);
+			//added_model_assembled_feature.id   =	                         ComponentAssembledInfo_temp.assembledFeature.id;
+			//added_model_assembled_feature.owner =	                         ComponentAssembledInfo_temp.assembledFeature.owner; 	
 
 
 			ProAsmcompconstraint* constraints;
@@ -4542,7 +4606,7 @@ bool Apply_CADDatum_ModelConstraints(
 						//MultiFormatString		added_model_name;
 						//ProType					added_model_type;
 
-						cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].modelHandle;
+						cFDef.p_base_model =						(ProMdl)in_CADComponentData_map[base_model_component_instance_ID].cADModel_hdl;
 						cFDef.base_model_name =						in_CADComponentData_map[base_model_component_instance_ID].name;
 						cFDef.base_model_type =						ProMdlType_enum(in_CADComponentData_map[base_model_component_instance_ID].modelType);
 						cFDef.base_model_component_instance_ID =	base_model_component_instance_ID;
@@ -4551,7 +4615,7 @@ bool Apply_CADDatum_ModelConstraints(
 						cFDef.added_model_type =					ProMdlType_enum(in_CADComponentData_map[added_model_component_instance_ID].modelType);
 						cFDef.added_model_component_instance_ID =	added_model_component_instance_ID;
 
-						cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].modelHandle;
+						cFDef.p_added_model =						(ProMdl)in_CADComponentData_map[added_model_component_instance_ID].cADModel_hdl;
 						cFDef.base_model_path_list		= base_model_path_list;			// list of Creo feature IDs leading to the part/assembly
 						cFDef.added_model_path_list		= added_model_path_list;		// list of Creo feature IDs  leading to the part/assembly
 						cFDef.pro_datum_type			= pro_datum_type;				// enum PRO_SURFACE, PRO_AXIS
@@ -4582,6 +4646,13 @@ bool Apply_CADDatum_ModelConstraints(
 			ProMessageDisplay(L"msg_user.txt", "USER %0s", msg.c_str());
 			isis_LOG(lg, isis_FILE, isis_ERROR) << msg;*/
 
+
+			ProAsmcomp					assembledFeature_temp;			
+			//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
+			//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
+			//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 		
+			//assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+
 			// 1st round of setup: install guides and the 1st kinematic joint as non-kinematic ones to establish the initial position
 			if (!in_IgnoreGuides)
 			{
@@ -4601,9 +4672,14 @@ bool Apply_CADDatum_ModelConstraints(
 				// Regenerate placement of the assembled model
 				int i = 5;
 				ProSolidRegenerationStatus s = PRO_SOLID_FAILED_REGENERATION;
+
+
+
+
 				while (i > 0 && s == PRO_SOLID_FAILED_REGENERATION)
 				{
-					isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+					//isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+					isis::isis_ProAsmcompRegenerate( &assembledFeature_temp, PRO_B_TRUE);
 
 					// Verify if regeneration succeeded
 					ProSolidRegenerationstatusGet((ProSolid)(in_assembly_model), &s);
@@ -4636,7 +4712,8 @@ bool Apply_CADDatum_ModelConstraints(
 
 
 				// Remove all of the constraints
-				isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+				//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+				isis::isis_ProAsmcompConstrRemove (	&assembledFeature_temp, -1 );
 
 				// Set the transformation matrix
 				/*
@@ -4683,7 +4760,8 @@ bool Apply_CADDatum_ModelConstraints(
 				{
 					ProSolidRegenerate(in_assembly_model, PRO_REGEN_NO_RESOLVE_MODE);
 				} else {
-					isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+					//isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+					isis::isis_ProAsmcompRegenerate( &assembledFeature_temp, PRO_B_TRUE);
 				}
 
 				// Verify if regeneration succeeded

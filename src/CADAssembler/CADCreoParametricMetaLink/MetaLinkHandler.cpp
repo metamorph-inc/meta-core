@@ -5,6 +5,7 @@
 #include "google/protobuf/text_format.h"
 #include "CreoPlugins\CreoPluginFunctions.h"
 #include "GlobalModelData.h"
+#include <cc_CommonUtilities.h>
 
 
 namespace meta = edu::vanderbilt::isis::meta;
@@ -29,8 +30,8 @@ namespace isis
 		m_operator(CAD_OPERATOR), m_sequence(1), m_ready(false),
 		m_assembler(assembler_ptr), m_target_id(in_TargetID),
 		m_client(io_service, host, service,
-			boost::bind(&isis::MetaLinkHandler::interest, this, _1, in_InstanceID, in_TargetID),
-			boost::bind(&isis::MetaLinkHandler::process, this, _1)),
+		boost::bind(&isis::MetaLinkHandler::interest, this, _1, in_InstanceID, in_TargetID),
+		boost::bind(&isis::MetaLinkHandler::process, this, _1)),
 		m_network_thread(boost::bind(&boost::asio::io_service::run, &io_service)),
 		m_ioservice(io_service),
 		m_events_mutex(in_events_mutex)
@@ -259,13 +260,14 @@ namespace isis
 		bool MetaLinkHandler::process_AvmComponentPost_select(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_select()";
+			bool exp = false;
 			/**
 			* Handle selecting the datums.
 			*/
 			if(! in_Action->has_payload())
 			{
 				isis_LOG(lg, isis_FILE, isis_WARN) << "missing payload on select";
-				return true;
+				return false;
 			}
 			meta::Payload payload = in_Action->payload();
 			std::vector<isis::CADCreateAssemblyError> out_ErrorList;
@@ -287,12 +289,11 @@ namespace isis
 					// Don't freak out this is not the end of the world
 				}
 			}
-			return false;
+			return true;
 		}
 
 		bool MetaLinkHandler::process_AvmComponentPost_insert(isis::EditPointer in_Edit, int in_ActionIx, meta::Action *in_Action)
 		{
-			bool had_error = false;
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_AvmComponentPost_insert()";
 			/**
 			* Handle setting the environment.
@@ -356,10 +357,7 @@ namespace isis
 				{
 					meta::CADComponentType component = payload.components(jx);
 					meta::Notice notice = process_AvmComponentInitialize(in_Action->subjectid(), component);
-					if (notice.msg() != "No exception.") {
-						had_error = true;
-						*(in_Action->add_notices()) = notice;
-					}
+					*(in_Action->add_notices()) = notice;
 				}
 			}
 			else
@@ -368,7 +366,7 @@ namespace isis
 				GlobalModelData::Instance.ComponentEdit.avmId = in_Action->subjectid();
 				isis::GlobalModelData::Instance.mode = isis::COMPONENTEDIT;
 			}
-			return had_error;
+			return true;
 		}
 
 		/**
@@ -503,11 +501,7 @@ namespace isis
 		if(! in_Action->has_payload())
 		{
 			isis_LOG(lg, isis_FILE, isis_INFO) << "missing payload on select";
-			meta::Notice notice;
-			notice.set_msg("missing payload on select");
-			notice.set_code("C0001");
-			(*in_Edit->add_notices()) = notice;
-			return true;
+			return false;
 		}
 		meta::Payload payload = in_Action->payload();
 		std::vector<isis::CADCreateAssemblyError> out_ErrorList;
@@ -528,7 +522,7 @@ namespace isis
 					<< "Couldn't select component: " << componentInstanceId;
 			}
 		}
-		return false;
+		return true;
 	}
 	//////////////////////////////////////////////
 	bool MetaLinkHandler::process_AssemblyDesignPost_insert(isis::EditPointer edit, int actionIx, meta::Action *action)
@@ -657,7 +651,7 @@ namespace isis
 		{
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: MetaLinkHandler::process_AssemblyDesignPost_update,  application_exception: " << ex;
 		}
-		return exp;
+		return false;
 	}
 
 	//////////////////////////////////////////////
@@ -667,7 +661,7 @@ namespace isis
 		bool exp = false;
 		try
 		{
-			return !m_assembler->Clear();
+			return m_assembler->Clear();
 		}
 		catch(isis::application_exception& ex)
 		{
@@ -682,7 +676,7 @@ namespace isis
 		bool exp = false;
 		try
 		{
-			return !m_assembler->Clear();
+			return m_assembler->Clear();
 		}
 		catch(isis::application_exception& ex)
 		{
@@ -1264,9 +1258,9 @@ namespace isis
 				string idupper = boost::to_upper_copy(in_component.datums(i).id());
 				datumnamemap[idupper] = in_component.datums(i).displayname();
 			}
-			ProSolidFeatVisit(ProMdlToSolid(GlobalModelData::Instance.ComponentEdit.mdl), DatumNameVisit, NULL, &datumnamemap);
+			ProSolidFeatVisit(ProMdlToSolid(GlobalModelData::Instance.ComponentEdit.cADModel_ptr), DatumNameVisit, NULL, &datumnamemap);
 
-			ProError status = ProTreetoolRefresh(GlobalModelData::Instance.ComponentEdit.mdl);
+			ProError status = ProTreetoolRefresh(GlobalModelData::Instance.ComponentEdit.cADModel_ptr);
 
 			// Refresh the model tree component
 			switch(status)

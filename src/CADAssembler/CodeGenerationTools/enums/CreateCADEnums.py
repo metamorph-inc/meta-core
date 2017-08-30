@@ -307,6 +307,14 @@ def WriteEnums(in_FileHandles_h_dict, in_FileHandles_cpp_dict, in_Enums_list, in
             f_h.write(
                 '\n\tstd::string ' + enumData_itr.functionName + '_string( ' + in_out_EnumsLinked_list[index_linked].enumInputArgumentType + ' in_Enum )')
             f_h.write('\n\t\t\t\t\t\t\t\t\t\tthrow (isis::application_exception);')
+            f_h.write('\n')
+
+
+            # _CADFeatureGeometryType CADFeatureGeometryType_enum( ProType in_Enum )
+            functionName_temp = in_out_EnumsLinked_list[index_linked].enumInputArgumentType.lstrip('e_')
+            f_h.write(
+                '\n\t' + in_out_EnumsLinked_list[index_linked].enumInputArgumentType + ' ' + functionName_temp + '_enum( ' + in_out_EnumsLinked_list[index_linked].enumReturnType + ' in_Enum )')
+            f_h.write('\n\t\t\t\t\t\t\t\t\t\tthrow (isis::application_exception);')
 
 
             # ProAsmcompConstrType ProAsmcompConstrType_enum( e_CADAssemblyConstraintType in_Enum )
@@ -353,6 +361,32 @@ def WriteEnums(in_FileHandles_h_dict, in_FileHandles_cpp_dict, in_Enums_list, in
             f_cpp.write('\n\t\t\tthrow isis::application_exception(errorString);	')
             f_cpp.write('\n\t\t}')
             f_cpp.write('\n\t}')
+
+
+            # _CADFeatureGeometryType CADFeatureGeometryType_enum( ProType in_Enum )
+
+            f_cpp.write('\n')
+            f_cpp.write(
+                '\n\t' + in_out_EnumsLinked_list[index_linked].enumInputArgumentType + ' ' + functionName_temp + '_enum( ' + in_out_EnumsLinked_list[index_linked].enumReturnType + ' in_Enum )')
+            f_cpp.write('\n\t\t\t\t\t\t\t\t\t\tthrow (isis::application_exception)')
+            f_cpp.write('\n\t{')
+            f_cpp.write('\n\t\tswitch ( in_Enum )')
+            f_cpp.write('\n\t\t{')
+            acceptableEnums = ""
+            for enumToSrings_itr in in_out_EnumsLinked_list[index_linked].commoneEnumToSpecificEnum:
+                f_cpp.write('\n\t\t\tcase ' + enumToSrings_itr.value_2 + ':')
+                f_cpp.write('\n\t\t\t\treturn ' + enumToSrings_itr.value_1 + ';')
+                f_cpp.write('\n\t\t\t\tbreak;')
+                acceptableEnums += enumToSrings_itr.value_2 + '   '
+            f_cpp.write('\n\t\t\tdefault:')
+            f_cpp.write('\n\t\t\t\tstd::stringstream errorString;')
+            f_cpp.write('\n\t\t\t\terrorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<')
+            f_cpp.write('\n\t\t\t\t\t", which is an erroneous value. Allowed values are: " <<')
+            f_cpp.write('\n\t\t\t\t\t"' + acceptableEnums.strip() + '";')
+            f_cpp.write('\n\t\t\t\tthrow isis::application_exception(errorString);')
+            f_cpp.write('\n\t\t}')
+            f_cpp.write('\n\t}')
+
 
             in_out_EnumsLinked_list[index_linked].writtenToFile = True
 

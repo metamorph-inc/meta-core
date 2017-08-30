@@ -2,7 +2,7 @@
 #include "CreoMetaDataExporter.h"
 #include "CreoMetaData.h"
 #include "ProSolid.h"
-#include "CommonStructures.h"
+#include "cc_CommonStructures.h"
 #include "CreoPlugins\CreoPluginFunctions.h"
 #include <ostream>
 #include <iomanip>

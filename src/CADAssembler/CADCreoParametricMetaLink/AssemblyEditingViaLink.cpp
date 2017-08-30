@@ -7,7 +7,7 @@
 #include <AssembleUtils.h>
 #include <ParametricParameters.h>
 #include <ApplyModelConstraints.h>
-#include <XMLToProEStructures.h>
+#include <cc_XMLtoCADStructures.h>
 #include <ProEStructuresUtils.h>
 #include <ProWindows.h>
 #include <ProMdl.h>
@@ -22,7 +22,7 @@
 #include "UIFunctions.h"
 #include "isis_ptc_toolkit_ostream.h"
 #include "CADFactoryAbstract.h"
-#include "AssembleUtils.h"
+#include <cc_CommonUtilities.h>
 
 
 namespace isis
@@ -83,7 +83,7 @@ throw(isis::application_exception)
     ProSelection selection;
 
     std::map<std::string, isis::CADComponentData>::const_iterator parentIx = m_CADComponentData_map.find(topAssemblyComponentInstanceID);
-    ProMdl top_handle = parentIx->second.modelHandle;
+    ProMdl top_handle = parentIx->second.cADModel_hdl;
 
     std::map<std::string, isis::CADComponentData>::const_iterator componentIx = m_CADComponentData_map.find(in_ComponentInstanceId);
     if(componentIx == m_CADComponentData_map.end())
@@ -109,7 +109,7 @@ throw(isis::application_exception)
     }
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "highlight the component";
-    ProMdl component_handle = componentIx->second.modelHandle;
+    ProMdl component_handle = componentIx->second.cADModel_hdl;
     switch(status = ProMdlToModelitem(component_handle, &selectedComponent))
     {
     case PRO_TK_NO_ERROR:
@@ -526,7 +526,7 @@ throw(isis::application_exception)
         //isis_LOG(lg, isis_FILE, isis_INFO)  << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
 
         isis::Add_Subassemblies_and_Parts(*m_cadfactory,
-                                          m_CADComponentData_map[parentAssemblyInstanceID].modelHandle,
+                                          m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl,
                                           m_CADComponentData_map[parentAssemblyInstanceID].name,
                                           toAddComponentInstanceIDs,
                                           cADComponentData_map_TEMP,
@@ -541,7 +541,7 @@ throw(isis::application_exception)
         //             regenerationSucceeded);
 
         isis_LOG(lg, isis_FILE, isis_INFO) << "*********** Begin Temp Structure - Call to Creo SDK to Add the Component **************";
-        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+        isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl;
         isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
         isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                 " << cADComponentData_map_TEMP[in_ComponentInstanceID];
         isis_LOG(lg, isis_FILE, isis_INFO) << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
@@ -574,9 +574,9 @@ throw(isis::application_exception)
         // The exception could have been because the Creo model was not found or because a parameter was not found.
         // For the latter case, the model would have been added to the assembly and we need to delete it.
         // The ProMdlDelete will not throw an exception if the model could not be found.
-        if(cADComponentData_map_TEMP[in_ComponentInstanceID].p_model != 0)
+        if(cADComponentData_map_TEMP[in_ComponentInstanceID].cADModel_ptr_ptr != 0)
         {
-            ProMdlDelete(cADComponentData_map_TEMP[in_ComponentInstanceID].p_model);
+            ProMdlDelete(cADComponentData_map_TEMP[in_ComponentInstanceID].cADModel_ptr_ptr);
         }
         throw;
     }
@@ -587,7 +587,7 @@ throw(isis::application_exception)
     m_CADComponentData_map[parentAssemblyInstanceID].children.push_back(in_ComponentInstanceID);
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* Begin Final Structure - Add the Component *************************";
-    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].modelHandle;
+    isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle:      " << (const void*)m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[parentAssemblyInstanceID].modelHandle.name: " << m_CADComponentData_map[parentAssemblyInstanceID].name;
     isis_LOG(lg, isis_FILE, isis_INFO) << "m_CADComponentData_map[in_ComponentInstanceID]:                    " << m_CADComponentData_map[in_ComponentInstanceID];
     isis_LOG(lg, isis_FILE, isis_INFO) << "******************* End Final Structure - Add the Component *************************";
@@ -623,11 +623,11 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
     isis::CADComponentData &data = m_CADComponentData_map[in_ConstraintComponentInstanceID];
     data.displayName = newName;
 
-    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, ProMdlType_enum(data.modelType));
+    std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix(data.name, data.modelType);
 
     try
     {
-        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.p_model, CYPHY_NAME, CAD_STRING, data.displayName);
+        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, data.displayName);
     }
     catch(isis::application_exception &ex)
     {
@@ -737,7 +737,7 @@ throw(isis::application_exception)
     isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map[in_ConstraintComponentInstanceID];
 
     ApplyModelConstraints(*m_cadfactory,
-                          &m_CADComponentData_map[topAssemblyComponentInstanceID].modelHandle,
+                          reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
 						  m_CADComponentData_map[topAssemblyComponentInstanceID].name,
                           componentIDsToBeConstrained,
                           true,
@@ -832,7 +832,7 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
 
     std::string modelNameWithSuffix = AmalgamateModelNameWithSuffix(
                                           m_CADComponentData_map[in_ComponentInstanceID].name,
-                                          ProMdlType_enum(m_CADComponentData_map[in_ComponentInstanceID].modelType));
+                                          m_CADComponentData_map[in_ComponentInstanceID].modelType);
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "Internal data structure parameter values BEFORE modification:";
     for each(CADParameter i in m_CADComponentData_map[in_ComponentInstanceID].parametricParameters)
@@ -844,12 +844,12 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
     for each(CADParameter i in in_Parameters)
     {
         SetParametricParameter(modelNameWithSuffix,
-                               m_CADComponentData_map[in_ComponentInstanceID].p_model,
+                               m_CADComponentData_map[in_ComponentInstanceID].cADModel_ptr_ptr,
                                i.name, i.type, i.value);
     }
 
     bool regenerationSucceeded;
-    isis::RegenerateModel(m_CADComponentData_map[in_ComponentInstanceID].modelHandle,
+    isis::RegenerateModel(static_cast<ProSolid>(m_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl),
                           m_CADComponentData_map[in_ComponentInstanceID].name,
                           m_CADComponentData_map[in_ComponentInstanceID].componentID,
                           regenerationSucceeded);
@@ -948,9 +948,9 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
     //ProMdl p_model;
     //isis::isis_ProMdlRetrieve( m_CADComponentData_map[topAssemblyComponentInstanceID].name,PRO_MDL_ASSEMBLY, &p_model);
 
-    isis::isis_ProMdlDisplay(m_CADComponentData_map[topAssemblyComponentInstanceID].modelHandle);
+    isis::isis_ProMdlDisplay(m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl);
 
-    isis::isis_ProMdlWindowGet(m_CADComponentData_map[topAssemblyComponentInstanceID].modelHandle, &windowID);
+    isis::isis_ProMdlWindowGet(m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl, &windowID);
 
     isis::isis_ProWindowActivate(windowID);
     isis_ProWindowCurrentSet(windowID);
@@ -1079,7 +1079,7 @@ throw(isis::application_exception)
         //isis::isis_ProDirectoryChange( workingDir_MultiFormat );
         isis::setCreoWorkingDirectory(workingDir_MultiFormat);
 
-        std::string TemplateFile_PathAndFileName = META_PATH() + "\\bin\\CAD\\Creo\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
+       std::string TemplateFile_PathAndFileName = META_PATH() + "\\bin\\CAD\\Creo\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;
 
         // Copy template model to the working directory
         isis::CopyFileIsis(TemplateFile_PathAndFileName,  in_ProgramInputArguments.workingDirectory);
@@ -1161,10 +1161,10 @@ bool MetaLinkAssemblyEditor::Clear()
     ProError status;
     stringstream msg("ClearAssembly");
 
-    ProMdl model_handle = m_CADComponentData_map[topAssemblyComponentInstanceID].modelHandle;
+    ProMdl model_handle = m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl;
     if(model_handle == NULL)
     {
-        model_handle = GlobalModelData::Instance.ComponentEdit.mdl;
+        model_handle = GlobalModelData::Instance.ComponentEdit.cADModel_ptr;
     }
     if(model_handle == NULL)
     {
@@ -1336,7 +1336,7 @@ void MetaLinkAssemblyEditor::InitAvmComponent(const std::string in_AvmComponentI
     }
 
     isis::GlobalModelData::Instance.mode = isis::COMPONENTEDIT;
-    isis::GlobalModelData::Instance.ComponentEdit.mdl = m_AvmComponentModel;
+    isis::GlobalModelData::Instance.ComponentEdit.cADModel_ptr = m_AvmComponentModel;
 
     // get the model-item from the model
     ProModelitem modelItem;

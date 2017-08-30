@@ -4,26 +4,28 @@
 // The following should only be defined for testing.  Do not put this in SVN with this macro defined.
 //#define TEST_META_LINK
 
+#include <string>
+#include <map>
 namespace isis
 {
-void Test_CreateAssembly(std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+void Test_CreateAssembly(std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                          isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor,
                          std::string &out_ParentAssemblyInstanceID)
 throw(isis::application_exception);
 
 void Test_AddComponentToAssembly(const std::string &in_ParentAssemblyInstanceID,
-                                 std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                                 std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                                  isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor)
 throw(isis::application_exception);
 
 void Test_ModifyParameters(const std::string &in_ParentAssemblyInstanceID,
-                           std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                           std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                            isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
 throw(isis::application_exception);
 
 // Before calling Test_ConstrainComponent, you must first call Test_AddComponentToAssembly
 void Test_ConstrainComponent(const std::string &in_ParentAssemblyInstanceID,
-                             std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                             std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                              isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
 throw(isis::application_exception);
 

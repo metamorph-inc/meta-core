@@ -73,6 +73,21 @@
     <ClInclude Include="CADStringToEnumConversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cc_CommonStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_CommonUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_XMLtoCADStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsFunctions.cpp">
@@ -118,6 +133,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CADStringToEnumConversions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_CommonStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_CommonUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_XMLtoCADStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

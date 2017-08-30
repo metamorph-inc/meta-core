@@ -1,5 +1,5 @@
 #include <AssembleUtils.h>
-#include <CommonUtilities.h>
+#include <cc_CommonUtilities.h>
 #include <CADCommonConstants.h>
 #include <CommonFeatureUtils.h>
 //#include "WindowsHDependentCommonFunctions.h"
@@ -304,7 +304,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 	*/
 	RetrieveTranformationMatrix_Assembly_to_Child (  
-							in_CADComponentData_map[in_AssemblyComponentID].modelHandle,
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
 							in_ChildComponentPaths, 
 							in_bottom_up,
 							out_TransformationMatrix ); 
@@ -958,7 +958,7 @@ void CreateModelNameWithUniqueSuffix(
 				// Fill out the assemblyHierarchy
 				CreoModelAssemblyAttributes assemblyHierarchy;
 
-				isis::RetrieveAssemblyHierarchyInformation(  in_out_CADComponentData_map[i].modelHandle, false, assemblyHierarchy );
+				isis::RetrieveAssemblyHierarchyInformation(  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl), false, assemblyHierarchy );
 
 				std::stringstream str;
 				stream_AssemblyHierarchy (assemblyHierarchy, str);
@@ -976,12 +976,12 @@ void CreateModelNameWithUniqueSuffix(
 					ProSimprep proSimprep_temp;
 					ProError	proError_temp  = ProSimprepInit ((wchar_t*)(const wchar_t*) in_out_CADComponentData_map[i].geometryRepresentation,
 														  -1,
-														   in_out_CADComponentData_map[i].modelHandle,
+														  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
 														  &proSimprep_temp );
 
 					if ( proError_temp == PRO_TK_NO_ERROR )  // Found simplified rep.
 					{
-						ProMdl ProMdl_temp = in_out_CADComponentData_map[i].modelHandle;
+						ProMdl ProMdl_temp = in_out_CADComponentData_map[i].cADModel_hdl;
 						AssemblySimplifiedRep_RetrieveModelInclusionStatus ( 
 									ProMdl_temp,
 									proSimprep_temp,
@@ -1023,11 +1023,16 @@ void CreateModelNameWithUniqueSuffix(
 						cADComponentData_temp.dataInitialSource = INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS;
 						cADComponentData_temp.name = j.modelname;
 						cADComponentData_temp.modelType = j.modelType;
-						cADComponentData_temp.modelHandle = j.p_solid_handle;
+						cADComponentData_temp.cADModel_hdl = j.p_solid_handle;
 						cADComponentData_temp.cyPhyComponent = false;
 						cADComponentData_temp.componentID = nonCyPhyComponentID.str();
 						cADComponentData_temp.parentComponentID = i;
-						cADComponentData_temp.assembledFeature = j.proAsmcomp;
+
+						//cADComponentData_temp.assembledFeature = j.proAsmcomp;
+						//cADComponentData_temp.assembledFeature.type = CADFeatureGeometryType_enum(j.proAsmcomp.type);
+						//cADComponentData_temp.assembledFeature.id = j.proAsmcomp.id;
+						//cADComponentData_temp.assembledFeature.owner = j.proAsmcomp.owner;		
+						cADComponentData_temp.assembledFeature = getCADAssembledFeature( j.proAsmcomp );
 						
 						cADComponentData_temp.componentPaths = in_out_CADComponentData_map[i].componentPaths;
 						cADComponentData_temp.componentPaths.push_back( j.proAsmcomp.id );					
@@ -1265,7 +1270,7 @@ void CreateModelNameWithUniqueSuffix(
 				try
 				{
 					ComputeBoundingBox(		CAD_PRO_SOLID_OUTLINE_COMPUTE,
-											in_CADComponentData_map[in_ComponentInstanceID].modelHandle,
+											static_cast<ProSolid>(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl),
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1,
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2,
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz);
@@ -1278,7 +1283,7 @@ void CreateModelNameWithUniqueSuffix(
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
 
 					ComputeBoundingBox(		CAD_PRO_SOLID_OUTLINE_GET,
-											in_CADComponentData_map[in_ComponentInstanceID].modelHandle,
+											static_cast<ProSolid>(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl),
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1,
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2,
 											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz);
@@ -2365,7 +2370,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 		ProAsmcomppath	comp_path;
-		isis::Retrieve_ProAsmcomppath_WithExceptions(	in_CADComponentData_map[in_TopAssemblyComponentInstanceID].modelHandle, 
+		isis::Retrieve_ProAsmcomppath_WithExceptions(	static_cast<ProSolid>(in_CADComponentData_map[in_TopAssemblyComponentInstanceID].cADModel_hdl), 
 														in_CADComponentData_map[in_ComponentInstanceID].componentPaths, 
 														comp_path );
 
@@ -2717,7 +2722,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		
 			ProAsmcomppath asmcomppath;
 
-			Retrieve_ProAsmcomppath_WithExceptions( in_out_CADComponentData_map[i].modelHandle,
+			Retrieve_ProAsmcomppath_WithExceptions( static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
 													in_out_CADComponentData_map[i].componentPaths,
 													asmcomppath);
 
@@ -2730,7 +2735,16 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 			ProElement						ElemTree;
 
-			RetrieveCreoElementTreeConstraints(	in_out_CADComponentData_map[i].assembledFeature,
+
+			ProAsmcomp					assembledFeature_temp;			
+			//assembledFeature_temp.type =	FeatureGeometryType_enum(in_out_CADComponentData_map[i].assembledFeature.type);
+			//assembledFeature_temp.id   =	                         in_out_CADComponentData_map[i].assembledFeature.id;
+			//assembledFeature_temp.owner =	                         in_out_CADComponentData_map[i].assembledFeature.owner; 
+			assembledFeature_temp = getProAsmcomp( in_out_CADComponentData_map[i].assembledFeature);
+
+
+			RetrieveCreoElementTreeConstraints(	//in_out_CADComponentData_map[i].assembledFeature,
+												assembledFeature_temp,
 												asmcomppath,
 												assembledFeatureDefinition,
 												ElemTree);
@@ -2834,7 +2848,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 			// Only free this after using assembledFeatureDefinition. assembledFeatureDefinition is
 			// invalid after ProFeatureElemtreeFree
-			ProFeatureElemtreeFree(&in_out_CADComponentData_map[i].assembledFeature, ElemTree);									
+			//ProFeatureElemtreeFree(&in_out_CADComponentData_map[i].assembledFeature, ElemTree);	
+			ProFeatureElemtreeFree(&assembledFeature_temp, ElemTree);	
 		}
 
 	}

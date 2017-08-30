@@ -103,9 +103,9 @@ namespace isis
 	// pointing upward; the azimuth angle would be from the negative z axis clockwise around the y axis, where 
 	// clockwise would be looking from a positive y coordinate onto the x-y plane. 
 	void ComputeShotLine( const Shotline &in_Shotline, 
-						  const std::string							&in_AssemblyComponentID,
-						  std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-						  isis_CADCommon::CADCommon_Shotline		&out_CADCommon_Shotline )
+						  const std::string								&in_AssemblyComponentID,
+						  std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						  isis_CADCommon::CADCommon_Shotline			&out_CADCommon_Shotline )
 	{
 		double azimuth_radians;
 		double elevation_radians;

@@ -9,7 +9,7 @@
 #include "ApplyModelConstraints.h"
 #include <ISISConstants.h>
 #include <ToolKitPassThroughFunctions.h>
-#include <CommonUtilities.h>
+#include <cc_CommonUtilities.h>
 
 namespace isis {
 namespace cad {

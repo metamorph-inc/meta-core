@@ -4,7 +4,7 @@
 // To edit, modify src\CADAssembler\CodeGenerationTools\enums\CreateCADEnums_InputFile.txt and run CreateCADEnums.bat.
 
 #include <CreoStringToEnumConversions.h>
-#include <CommonUtilities.h>
+#include <cc_CommonUtilities.h>
 #include <CADCommonConstants.h>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
@@ -169,6 +169,29 @@ namespace isis
 		}
 	}
 
+	e_CADMdlType CADMdlType_enum( ProMdlType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_MDL_UNUSED:
+				return CAD_MDL_UNUSED;
+				break;
+			case PRO_MDL_ASSEMBLY:
+				return CAD_MDL_ASSEMBLY;
+				break;
+			case PRO_MDL_PART:
+				return CAD_MDL_PART;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_MDL_UNUSED   PRO_MDL_ASSEMBLY   PRO_MDL_PART";
+				throw isis::application_exception(errorString);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	ProType FeatureGeometryType_enum( const std::string &in_String)
 										throw (isis::application_exception)
@@ -184,11 +207,12 @@ namespace isis
 		else if	(strUpper.compare("ASSEMBLY") == 0 ) return PRO_ASSEMBLY;
 		else if	(strUpper.compare("FEATURE") == 0 ) return PRO_FEATURE;
 		else if	(strUpper.compare("EDGE") == 0 ) return PRO_EDGE;
+		else if	(strUpper.compare("INVALID") == 0 ) return PRO_TYPE_INVALID;
 
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"SURFACE   PLANE   AXIS   POINT   CSYS   PART   ASSEMBLY   FEATURE   EDGE";
+			"SURFACE   PLANE   AXIS   POINT   CSYS   PART   ASSEMBLY   FEATURE   EDGE   INVALID";
 		throw isis::application_exception(errorString);
 	}
 
@@ -224,11 +248,14 @@ namespace isis
 			case PRO_EDGE:
 				return "EDGE";
 				break;
+			case PRO_TYPE_INVALID:
+				return "INVALID";
+				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"PRO_SURFACE   PRO_DATUM_PLANE   PRO_AXIS   PRO_POINT   PRO_CSYS   PRO_PART   PRO_ASSEMBLY   PRO_FEATURE   PRO_EDGE";
+					"PRO_SURFACE   PRO_DATUM_PLANE   PRO_AXIS   PRO_POINT   PRO_CSYS   PRO_PART   PRO_ASSEMBLY   PRO_FEATURE   PRO_EDGE   PRO_TYPE_INVALID";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -265,11 +292,14 @@ namespace isis
 			case CAD_EDGE:
 				return PRO_EDGE;
 				break;
+			case CAD_FEATURE_GEOMETRY_TYPE_INVALID:
+				return PRO_TYPE_INVALID;
+				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"CAD_SURFACE   CAD_DATUM_PLANE   CAD_AXIS   CAD_POINT   CAD_CSYS   CAD_PART   CAD_ASSEMBLY   CAD_FEATURE   CAD_EDGE";
+					"CAD_SURFACE   CAD_DATUM_PLANE   CAD_AXIS   CAD_POINT   CAD_CSYS   CAD_PART   CAD_ASSEMBLY   CAD_FEATURE   CAD_EDGE   CAD_FEATURE_GEOMETRY_TYPE_INVALID";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -289,6 +319,50 @@ namespace isis
 			errorString << ex.tostring() << std::endl << "Function - " << __FUNCTION__ << 
 					", failed to convert e_CADFeatureGeometryType to FeatureGeometryType_string";
 			throw isis::application_exception(errorString);	
+		}
+	}
+
+	e_CADFeatureGeometryType CADFeatureGeometryType_enum( ProType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_SURFACE:
+				return CAD_SURFACE;
+				break;
+			case PRO_DATUM_PLANE:
+				return CAD_DATUM_PLANE;
+				break;
+			case PRO_AXIS:
+				return CAD_AXIS;
+				break;
+			case PRO_POINT:
+				return CAD_POINT;
+				break;
+			case PRO_CSYS:
+				return CAD_CSYS;
+				break;
+			case PRO_PART:
+				return CAD_PART;
+				break;
+			case PRO_ASSEMBLY:
+				return CAD_ASSEMBLY;
+				break;
+			case PRO_FEATURE:
+				return CAD_FEATURE;
+				break;
+			case PRO_EDGE:
+				return CAD_EDGE;
+				break;
+			case PRO_TYPE_INVALID:
+				return CAD_FEATURE_GEOMETRY_TYPE_INVALID;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_SURFACE   PRO_DATUM_PLANE   PRO_AXIS   PRO_POINT   PRO_CSYS   PRO_PART   PRO_ASSEMBLY   PRO_FEATURE   PRO_EDGE   PRO_TYPE_INVALID";
+				throw isis::application_exception(errorString);
 		}
 	}
 
@@ -504,6 +578,32 @@ namespace isis
 		}
 	}
 
+	e_CADAssemblyConstraintType CADAssemblyConstraintType_enum( ProAsmcompConstrType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_ASM_MATE:
+				return CAD_ASM_MATE;
+				break;
+			case PRO_ASM_MATE_OFF:
+				return CAD_ASM_MATE_OFF;
+				break;
+			case PRO_ASM_ALIGN:
+				return CAD_ASM_ALIGN;
+				break;
+			case PRO_ASM_ALIGN_OFF:
+				return CAD_ASM_ALIGN_OFF;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_ASM_MATE   PRO_ASM_MATE_OFF   PRO_ASM_ALIGN   PRO_ASM_ALIGN_OFF";
+				throw isis::application_exception(errorString);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	ProDatumside ProDatumside_enum( const std::string &in_String)
 										throw (isis::application_exception)
@@ -585,6 +685,29 @@ namespace isis
 			errorString << ex.tostring() << std::endl << "Function - " << __FUNCTION__ << 
 					", failed to convert e_CADDatumside to ProDatumside_string";
 			throw isis::application_exception(errorString);	
+		}
+	}
+
+	e_CADDatumside CADDatumside_enum( ProDatumside in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_DATUM_SIDE_NONE:
+				return CAD_DATUM_SIDE_NONE;
+				break;
+			case PRO_DATUM_SIDE_YELLOW:
+				return CAD_DATUM_SIDE_YELLOW;
+				break;
+			case PRO_DATUM_SIDE_RED:
+				return CAD_DATUM_SIDE_RED;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_DATUM_SIDE_NONE   PRO_DATUM_SIDE_YELLOW   PRO_DATUM_SIDE_RED";
+				throw isis::application_exception(errorString);
 		}
 	}
 
@@ -675,6 +798,32 @@ namespace isis
 			errorString << ex.tostring() << std::endl << "Function - " << __FUNCTION__ << 
 					", failed to convert e_CADAnalysisSolverType to ProAnalysisSolverType_string";
 			throw isis::application_exception(errorString);	
+		}
+	}
+
+	e_CADAnalysisSolverType CADAnalysisSolverType_enum( pro_fem_solver_type in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_FEM_FEAS_NASTRAN:
+				return CAD_FEM_FEAS_NASTRAN;
+				break;
+			case PRO_FEM_FEAS_ANSYS:
+				return CAD_FEM_FEAS_ANSYS;
+				break;
+			case PRO_FEM_FEAS_ABAQUS:
+				return CAD_FEM_FEAS_ABAQUS;
+				break;
+			case PRO_FEM_FEAS_PATRAN:
+				return CAD_FEM_FEAS_PATRAN;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_FEM_FEAS_NASTRAN   PRO_FEM_FEAS_ANSYS   PRO_FEM_FEAS_ABAQUS   PRO_FEM_FEAS_PATRAN";
+				throw isis::application_exception(errorString);
 		}
 	}
 
@@ -781,6 +930,38 @@ namespace isis
 		}
 	}
 
+	e_CADAnalysisMeshType CADAnalysisMeshType_enum( pro_fem_mesh_type in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_FEM_SOLID_MESH:
+				return CAD_FEM_SOLID_MESH;
+				break;
+			case PRO_FEM_SHELL_MESH:
+				return CAD_FEM_SHELL_MESH;
+				break;
+			case PRO_FEM_MIXED_MESH:
+				return CAD_FEM_MIXED_MESH;
+				break;
+			case PRO_FEM_QUILT_MESH:
+				return CAD_FEM_QUILT_MESH;
+				break;
+			case PRO_FEM_BOUNDARY_MESH:
+				return CAD_FEM_BOUNDARY_MESH;
+				break;
+			case PRO_FEM_BAR_MESH:
+				return CAD_FEM_BAR_MESH;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_FEM_SOLID_MESH   PRO_FEM_SHELL_MESH   PRO_FEM_MIXED_MESH   PRO_FEM_QUILT_MESH   PRO_FEM_BOUNDARY_MESH   PRO_FEM_BAR_MESH";
+				throw isis::application_exception(errorString);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	pro_fem_shell_mesh_type ProAnalysisShellElementType_enum( const std::string &in_String)
 										throw (isis::application_exception)
@@ -857,6 +1038,26 @@ namespace isis
 			errorString << ex.tostring() << std::endl << "Function - " << __FUNCTION__ << 
 					", failed to convert e_CADAnalysisShellElementType to ProAnalysisShellElementType_string";
 			throw isis::application_exception(errorString);	
+		}
+	}
+
+	e_CADAnalysisShellElementType CADAnalysisShellElementType_enum( pro_fem_shell_mesh_type in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_FEM_SHELL_MESH_TRIANGLE:
+				return CAD_FEM_SHELL_MESH_TRIANGLE;
+				break;
+			case PRO_FEM_SHELL_MESH_QUADRANGLE:
+				return CAD_FEM_SHELL_MESH_QUADRANGLE;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_FEM_SHELL_MESH_TRIANGLE   PRO_FEM_SHELL_MESH_QUADRANGLE";
+				throw isis::application_exception(errorString);
 		}
 	}
 
@@ -938,6 +1139,29 @@ namespace isis
 			errorString << ex.tostring() << std::endl << "Function - " << __FUNCTION__ << 
 					", failed to convert e_CADAnalysisElementShapeType to ProAnalysisElementShapeType_string";
 			throw isis::application_exception(errorString);	
+		}
+	}
+
+	e_CADAnalysisElementShapeType CADAnalysisElementShapeType_enum( pro_fem_elem_shape_type in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case PRO_FEM_MIDPNT_LINEAR:
+				return CAD_FEM_MIDPNT_LINEAR;
+				break;
+			case PRO_FEM_MIDPNT_PARABOLIC:
+				return CAD_FEM_MIDPNT_PARABOLIC;
+				break;
+			case PRO_FEM_MIDPNT_PARABOLIC_FIXED:
+				return CAD_FEM_MIDPNT_PARABOLIC_FIXED;
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"PRO_FEM_MIDPNT_LINEAR   PRO_FEM_MIDPNT_PARABOLIC   PRO_FEM_MIDPNT_PARABOLIC_FIXED";
+				throw isis::application_exception(errorString);
 		}
 	}
 

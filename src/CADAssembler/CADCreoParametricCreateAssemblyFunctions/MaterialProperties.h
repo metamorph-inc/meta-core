@@ -2,7 +2,7 @@
 #define  MATERIAL_PROPERTIES_H
 
 #include "isis_application_exception.h"
-#include "CommonStructures.h"
+#include "cc_CommonStructures.h"
 
 namespace isis
 {

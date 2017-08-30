@@ -96,11 +96,9 @@
     <ClCompile Include="ApplyModelConstraints.cpp" />
     <ClCompile Include="AssembleComponents.cpp" />
     <ClCompile Include="AssembleUtils.cpp" />
-    <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp" />
     <ClCompile Include="AssemblyOptions.cpp" />
     <ClCompile Include="BuildAssembly.cpp" />
     <ClCompile Include="CADEnvironmentSettings.cpp" />
-    <ClCompile Include="CommonStructures.cpp" />
     <ClCompile Include="CADFactoryCreo.cpp" />
     <ClCompile Include="DatumRefResolver.cpp" />
     <ClCompile Include="DiagnosticUtilities.cpp" />
@@ -110,19 +108,15 @@
     <ClCompile Include="ProEStructuresUtils.cpp" />
     <ClCompile Include="SetCADModelParameters.cpp" />
     <ClCompile Include="ToolKitPassThroughFunctions.cpp" />
-    <ClCompile Include="XMLToProEStructures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\generated\CAD\generated\CreoMetaData.h" />
     <ClInclude Include="ApplyModelConstraints.h" />
     <ClInclude Include="AssembleComponents.h" />
     <ClInclude Include="AssembleUtils.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h" />
     <ClInclude Include="AssemblyOptions.h" />
     <ClInclude Include="BuildAssembly.h" />
     <ClInclude Include="CADEnvironmentSettings.h" />
-    <ClInclude Include="CommonStructures.h" />
     <ClInclude Include="CADFactoryCreo.h" />
     <ClInclude Include="DatumRefResolver.h" />
     <ClInclude Include="DiagnosticUtilities.h" />
@@ -132,7 +126,6 @@
     <ClInclude Include="ProEStructuresUtils.h" />
     <ClInclude Include="SetCADModelParameters.h" />
     <ClInclude Include="ToolKitPassThroughFunctions.h" />
-    <ClInclude Include="XMLToProEStructures.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\meta\CAD\CAD.vcxproj">

@@ -1,7 +1,8 @@
 #ifndef ASSEMBLE_UTILS_H
 #define ASSEMBLE_UTILS_H
-#include <CommonStructures.h>
+#include <cc_CommonStructures.h>
 #include <isis_application_exception.h>
+#include <isis_include_ptc_headers.h>
 #include <fstream>
 #include <map>
 #include <unordered_map>
@@ -46,18 +47,18 @@ namespace isis
 														const std::list<int> &in_base_model_path_list, 
 														ProAsmcomppath &out_base_comp_path)  throw (isis::application_exception);
 	
-	void Populate_c_id_table( const list<int> &in_path_list, ProIdTable out_c_id_table, int &out_c_id_table_size );
+	void Populate_c_id_table( const std::list<int> &in_path_list, ProIdTable out_c_id_table, int &out_c_id_table_size );
 
 	void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const std::string  &in_AssemblyComponentID,
-							const list<int>	   &in_ChildComponentPaths,
+							const std::list<int>	   &in_ChildComponentPaths,
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							ProBoolean   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid	   &in_assembly_model,
-							const list<int>	   &in_ChildComponentPaths, 
+							const std::list<int>	   &in_ChildComponentPaths, 
 							ProBoolean   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
@@ -315,7 +316,7 @@ void CreateModelNameWithUniqueSuffix(
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void OrganizeMetricsBasedOnComponentIDs( 
-							const list<CADComputation>							&in_Metrics,
+							const std::list<CADComputation>							&in_Metrics,
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
 							std::set<std::string>								&out_ComponentIDs_set );
 
@@ -339,7 +340,7 @@ void CreateModelNameWithUniqueSuffix(
 
 		// Information from the top assembly to the instance
 		ProSolid			topAssemblyModelHandle;
-		list<int>			componentPaths;
+		std::list<int>			componentPaths;
 		
 	};
 

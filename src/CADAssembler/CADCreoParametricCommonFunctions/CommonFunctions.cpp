@@ -5,7 +5,7 @@
 
 namespace isis
 {
-
+	/**
 	std::ostream& operator <<(std::ostream & out, const bool & value) {
 	    out << Bool_string(value);
 		return out;
@@ -18,6 +18,7 @@ namespace isis
 		else
 			return "FALSE";
 	}
+	**/
 
 
 
@@ -260,6 +261,28 @@ namespace isis
 		FeatureID_to_SimplifiedRepData_map_temp.erase(FeatureID_to_SimplifiedRepData_map_temp.begin(),FeatureID_to_SimplifiedRepData_map_temp.end());
 
 		isis_ProSimprepdataFree( &simpRepData);
+	}
+
+	ProAsmcomp getProAsmcomp(const CADAssembledFeature &in_CADAssembledFeature )
+	{
+		ProAsmcomp ProAsmcomp_temp;
+		ProAsmcomp_temp.type =	FeatureGeometryType_enum(in_CADAssembledFeature.type);
+		ProAsmcomp_temp.id   =	                         in_CADAssembledFeature.id;
+		ProAsmcomp_temp.owner =	                         in_CADAssembledFeature.owner; 
+
+		return ProAsmcomp_temp;
+
+	}
+
+	CADAssembledFeature getCADAssembledFeature( const ProAsmcomp &in_ProAsmcomp )
+	{
+		CADAssembledFeature CADAssembledFeature_temp;
+
+		CADAssembledFeature_temp.type	= CADFeatureGeometryType_enum(in_ProAsmcomp.type);
+		CADAssembledFeature_temp.id		= in_ProAsmcomp.id;
+		CADAssembledFeature_temp.owner	= in_ProAsmcomp.owner;	
+
+		return CADAssembledFeature_temp;
 	}
 
 

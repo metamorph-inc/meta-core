@@ -10,6 +10,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCreateAssembly", "CADCreoParametricCreateAssembly\CADCreoParametricCreateAssembly.vcxproj", "{CF4A3F5A-6ABD-46EC-BEF1-63369A9F3EC4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCommonFunctions", "CADCommonFunctions\CADCommonFunctions.vcxproj", "{9438FDE8-A6E2-41E7-8523-250484CB4981}"
+	ProjectSection(ProjectDependencies) = postProject
+		{062CB7D2-7C7D-45CA-97C4-33DD720CD9B1} = {062CB7D2-7C7D-45CA-97C4-33DD720CD9B1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCommonFunctions", "CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj", "{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}"
 EndProject

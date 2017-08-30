@@ -23,7 +23,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 		// to avoid dereferencing
 		CADComponentData *cadata = &in_CADComponentData_map[*t];
 
-		std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( cadata->name, ProMdlType_enum(cadata->modelType) );
+		std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( cadata->name, cadata->modelType );
 		
 
 		if ( cadata->parametricParametersPresent )
@@ -34,13 +34,13 @@ void ApplyParametricParameters( std::list<std::string>                          
 			{
 				isis_LOG(lg, isis_FILE, isis_INFO) << "Set Component Parameter: ";
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   ModelNameWithSuffix: " << ModelNameWithSuffix;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[*t].p_model: " << (const void*)cadata->p_model;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[*t].cADModel_ptr_ptr: " << (const void*)cadata->cADModel_ptr_ptr;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->name:   " <<	p->name;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->type:   " <<	CADParameterType_string(p->type);
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->value:  " <<	p->value;
 				try 
 				{
-					SetParametricParameter( ModelNameWithSuffix, cadata->p_model, p->name, p->type, p->value);
+					SetParametricParameter( ModelNameWithSuffix, cadata->cADModel_ptr_ptr, p->name, p->type, p->value);
 
 				} catch (isis::application_exception &ex)
 				{
@@ -56,7 +56,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 			{
 				try{
 					i--;
-					isis_ProSolidRegenerate((ProSolid)cadata->modelHandle, PRO_REGEN_NO_RESOLVE_MODE);
+					isis_ProSolidRegenerate((ProSolid)cadata->cADModel_hdl, PRO_REGEN_NO_RESOLVE_MODE);
 					break;
 				} catch (isis::application_exception &ex)
 				{
@@ -83,7 +83,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 				{
 					cadata->displayName	= cadata->displayName.substr(0, MAX_STRING_PARAMETER_LENGTH-3)+"...";
 				}
-				isis::SetParametricParameter( FORCE_KEY, ModelNameWithSuffix, cadata->p_model, CYPHY_NAME, CAD_STRING, cadata->displayName);
+				isis::SetParametricParameter( FORCE_KEY, ModelNameWithSuffix, cadata->cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, cadata->displayName);
 			} catch (isis::application_exception &ex)
 			{
 				out_ErrorList.push_back(CADCreateAssemblyError(ex.what(), CADCreateAssemblyError_Severity_Warning));

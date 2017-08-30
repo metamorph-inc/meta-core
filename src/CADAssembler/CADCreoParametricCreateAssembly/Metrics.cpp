@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <GraphicsFunctions.h>
 #include "Joint.h"
-
+#include <cc_CommonUtilities.h>
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
 #include <ISISVersionNumber.h>
@@ -477,7 +477,7 @@ void Populate_Single_MetricComponent(
 		RetrieveUnits_withDescriptiveErrorMsg( 
 						in_CADComponentData_map[in_ComponentID].componentID,
 						in_CADComponentData_map[in_ComponentID].name,
-						in_CADComponentData_map[in_ComponentID].modelHandle, 
+						in_CADComponentData_map[in_ComponentID].cADModel_hdl, 
 						distanceUnit_ShortName,		distanceUnit_LongName, 
 						massUnit_ShortName,			massUnit_LongName, 
 						forceUnit_ShortName,			forceUnit_LongName, 
@@ -540,7 +540,7 @@ void Populate_Single_MetricComponent(
 			try
 			{ // zzzz Material need to check for 
 				RetrieveMaterial(	in_CADComponentData_map[in_ComponentID].name,
-									in_CADComponentData_map[in_ComponentID].modelHandle, material_temp );
+									static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl), material_temp );
 			}
 			catch (...)
 			{
@@ -901,14 +901,14 @@ void Populate_Assemblies(
 						errorString << std::endl << "Redundant sort key for a child of: "
 						"  Component Instance ID: " <<  in_ComponentID << std::endl << 
 						"  Model Name:            " <<  in_CADComponentData_map[in_ComponentID].name <<  std::endl << 
-						"  Model Type:            " <<  ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)  <<  std::endl << 
+						"  Model Type:            " <<  CADMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)  <<  std::endl << 
 						"  Children:              ";
 						for each ( const std::string &j in in_CADComponentData_map[in_ComponentID].children ) 
 						{
 							errorString << std::endl <<
 							"     Component Instance ID: " <<  in_ComponentID << std::endl << 
 							"     Model Name:   " <<  in_CADComponentData_map[j].name <<  std::endl << 
-							"     Model Type:   " <<  ProMdlType_string(in_CADComponentData_map[j].modelType) <<  std::endl << 
+							"     Model Type:   " <<  CADMdlType_string(in_CADComponentData_map[j].modelType) <<  std::endl << 
 							"	  Sort Ordinal: " <<  in_CADComponentData_map[j].addedToAssemblyOrdinal;
 						}
 						throw isis::application_exception(errorString.str());
@@ -963,7 +963,7 @@ void Assign_MetricIDs_To_Components(
 																						throw (isis::application_exception)
 {
 	std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix( in_out_CADComponentData_map[in_ComponentID].name, 
-																	 ProMdlType_enum(in_out_CADComponentData_map[in_ComponentID].modelType ));
+																	 in_out_CADComponentData_map[in_ComponentID].modelType);
 
 	if ( ( in_out_CADComponentData_map[in_ComponentID].parametricParametersPresent )  || 
 		 ( in_out_CADComponentData_map[in_ComponentID].specialInstruction == CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT ) ||

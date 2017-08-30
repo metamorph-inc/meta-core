@@ -1,12 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCreateAssembly", "CADCreoParametricCreateAssembly\CADCreoParametricCreateAssembly.vcxproj", "{CF4A3F5A-6ABD-46EC-BEF1-63369A9F3EC4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8B88C487-8F58-4622-997B-B0BA84F8B881} = {8B88C487-8F58-4622-997B-B0BA84F8B881}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCommonFunctions", "CADCommonFunctions\CADCommonFunctions.vcxproj", "{9438FDE8-A6E2-41E7-8523-250484CB4981}"
+	ProjectSection(ProjectDependencies) = postProject
+		{062CB7D2-7C7D-45CA-97C4-33DD720CD9B1} = {062CB7D2-7C7D-45CA-97C4-33DD720CD9B1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCommonFunctions", "CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj", "{49C0C132-DFD9-47E4-A860-01FD6E34AC3A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -19,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAD", "..\..\meta\CAD\CAD.v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoParametricCreateAssemblyFunctions", "CADCreoParametricCreateAssemblyFunctions\CADCreoParametricCreateAssemblyFunctions.vcxproj", "{081F0B37-FDA9-4921-A171-8B3FEAA0FDD3}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F23B1B7B-3223-4310-B3E2-0281CBB655EA} = {F23B1B7B-3223-4310-B3E2-0281CBB655EA}
+		{9438FDE8-A6E2-41E7-8523-250484CB4981} = {9438FDE8-A6E2-41E7-8523-250484CB4981}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADCreoUtils", "CADCreoUtils\CADCreoUtils.vcxproj", "{8B88C487-8F58-4622-997B-B0BA84F8B881}"

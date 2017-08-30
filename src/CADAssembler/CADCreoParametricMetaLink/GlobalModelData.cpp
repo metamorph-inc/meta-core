@@ -14,7 +14,7 @@ void GlobalModelData::Clear()
     CadAssemblies.topLevelAssemblies.clear();
     CadAssemblies.unassembledComponents.clear();
     ComponentEdit.avmId.clear();
-    ComponentEdit.mdl = 0;
+    ComponentEdit.cADModel_ptr = 0;
     ComponentEdit.resourceId.clear();
     mode = UNDEFINEDMODE;
 }
@@ -31,7 +31,7 @@ void GlobalModelData::UnLock()
 
 ProSolid GlobalModelData::GetTopModel()
 {
-    return CadComponentData[CadAssemblies.topLevelAssemblies.begin()->assemblyComponentID].modelHandle;
+    return static_cast<ProSolid>(CadComponentData[CadAssemblies.topLevelAssemblies.begin()->assemblyComponentID].cADModel_hdl);
 }
 
 ProSolid GlobalModelData::GetModelFromGuid(const std::string &guid)
@@ -40,7 +40,7 @@ ProSolid GlobalModelData::GetModelFromGuid(const std::string &guid)
     {
         if(it->second.componentID==guid)
         {
-            return it->second.modelHandle;
+            return static_cast<ProSolid>(it->second.cADModel_hdl);
         }
     }
     return 0;
@@ -57,7 +57,7 @@ std::string GlobalModelData::GetGuidFromModel(ProSolid sld)
     for(std::map<std::string, isis::CADComponentData>::const_iterator it = CadComponentData.begin(); it != CadComponentData.end(); ++it)
     {
         isis::CADComponentData candidate = it->second;
-        if(candidate.modelHandle != sld)
+        if(candidate.cADModel_hdl != sld)
         {
             continue;
         }

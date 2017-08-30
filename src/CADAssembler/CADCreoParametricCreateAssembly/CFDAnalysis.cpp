@@ -4,6 +4,7 @@
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
 #include <ToolKitPassThroughFunctions.h>
+#include <cc_CommonUtilities.h>
 #include <sstream>
 #include <JsonHelper.h>
 #include <boost/filesystem.hpp>
@@ -342,7 +343,7 @@ namespace isis
 
 		isis::hydrostatic::ExteriorShell ex_shell("default");
 		isis::hydrostatic::PolatedSpace::ptr hydrostatic;
-		ProMdl top = m_CADComponentData_map[ m_TopLevelAssemblyData.assemblyComponentID ].modelHandle;
+		ProMdl top = m_CADComponentData_map[ m_TopLevelAssemblyData.assemblyComponentID ].cADModel_hdl;
 		ex_shell.set_working_solid(static_cast<ProSolid>(top));
 
 		ProError rc;

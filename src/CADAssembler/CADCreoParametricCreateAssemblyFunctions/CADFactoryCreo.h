@@ -34,7 +34,7 @@ public:
 	std::vector< Joint::pair_t >  extract_joint_pair_vector
 		(const std::string in_component_id,
 		 std::vector<ConstraintPair> in_vector,
-		 std::map<string, isis::CADComponentData> &	in_map);
+		 std::map<std::string, isis::CADComponentData> &	in_map);
 
 	/**
 	The void pointer is CAD system specific.
