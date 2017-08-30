@@ -29,6 +29,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using META;
 using System.Threading.Tasks;
+using CyPhyMetaLinkBridgeClient;
 
 namespace CyPhyMetaLink
 {
@@ -253,7 +254,7 @@ namespace CyPhyMetaLink
             }
 
             string logfile = Path.Combine(GetProjectDir(), "log", Path.ChangeExtension("MetaLink_CreoCreateAssembly_" + Path.GetRandomFileName(), "log"));
-            string arguments = String.Format("-v debug -g -s 127.0.0.1:15150 -w \"{0}\" -l \"{1}\" {2}, -id {3}", workingDir, logfile, exeparams, syncedCompData.InstanceId);
+            string arguments = String.Format("-v debug -g -s 127.0.0.1:{4} -w \"{0}\" -l \"{1}\" {2}, -id {3}", workingDir, logfile, exeparams, syncedCompData.InstanceId, SocketQueue.port);
             arguments += " -d " + guid;
 
             ProcessStartInfo info = new ProcessStartInfo()

@@ -170,6 +170,7 @@ namespace CyPhyPropagateTest
                             CyPhyMetaLink.CyPhyMetaLinkAddon propagate = (CyPhyMetaLink.CyPhyMetaLinkAddon)project.AddOnComponents.Cast<IMgaComponent>().Where(comp => comp is CyPhyMetaLink.CyPhyMetaLinkAddon).FirstOrDefault();
                             CyPhyMetaLink.CyPhyMetalinkInterpreter interpreter = new CyPhyMetaLink.CyPhyMetalinkInterpreter();
                             propagate.TestMode = true;
+                            propagate.TestMode_NoAutomaticCreoStart = true;
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
                             interpreter.MgaGateway = new MgaGateway(project);
 
@@ -265,20 +266,35 @@ namespace CyPhyPropagateTest
             FileStream outlog = File.Open(Path.Combine(TestModelDir, "CyPhyPropagateTest_stdout.txt"), FileMode.Create, FileAccess.Write, FileShare.Read);
             metalinkLogStream = new StreamWriter(outlog, Encoding.UTF8);
             metalinkLogStream.AutoFlush = true;
+            int metalinkLogStreamNo = 2;
+            System.Action outputClosed = () =>
+            {
+                metalinkLogStreamNo--;
+                if (metalinkLogStreamNo == 0)
+                {
+                    metalinkLogStream.Close();
+                }
+            };
             try
             {
                 // FIXME: look for "exception caught"
                 metalink.ErrorDataReceived += (o, dataArgs) =>
                 {
                     if (dataArgs.Data == null)
+                    {
+                        outputClosed();
                         return;
+                    }
                     Console.Error.WriteLine(dataArgs.Data);
                 };
                 metalinkReady = new ManualResetEvent(false);
                 metalink.OutputDataReceived += (o, dataArgs) =>
                 {
                     if (dataArgs.Data == null)
+                    {
+                        outputClosed();
                         return;
+                    }
                     Console.Out.WriteLine(dataArgs.Data);
                     lock (metalinkLogStream)
                     {
@@ -299,8 +315,6 @@ namespace CyPhyPropagateTest
             }
             finally
             {
-                lock (metalinkLogStream)
-                    metalinkLogStream.Close();
             }
         }
 

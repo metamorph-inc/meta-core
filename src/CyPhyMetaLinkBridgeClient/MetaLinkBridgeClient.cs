@@ -11,13 +11,15 @@ namespace CyPhyMetaLinkBridgeClient
 {
     public sealed class MetaLinkBridgeClient
     {
-        private const string Host = "127.0.0.1";
-        private const string Port = "15150";
         private SocketQueue _socketQueue = null;
         public SocketQueue SocketQueue { get { return _socketQueue; } }
         private Thread _socketSendQueueThread = null;
         private Thread _socketReceiveThread = null;
         private object lockObject = new Object();
+
+        public MetaLinkBridgeClient()
+        {
+        }
 
         Task<bool> _establishSocket;
         public async Task<bool> EstablishConnection(Action<MetaLinkProtobuf.Edit> EditMessageReceived, Action<Exception> connectionClosed, Action<MetaLinkProtobuf.Edit> EditMessageSent = null)
