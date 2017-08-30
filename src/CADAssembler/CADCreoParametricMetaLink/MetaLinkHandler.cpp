@@ -366,6 +366,14 @@ namespace isis
 				GlobalModelData::Instance.ComponentEdit.avmId = in_Action->subjectid();
 				isis::GlobalModelData::Instance.mode = isis::COMPONENTEDIT;
 			}
+			if (had_error == false)
+			{
+				meta::Notice notice;
+				notice.set_noticemode(meta::Notice_NoticeMode_DONE);
+				notice.set_msg("No exception.");
+				notice.set_code("C00000");
+				*(in_Action->add_notices()) = notice;
+			}
 			return true;
 		}
 

@@ -110,7 +110,7 @@ namespace CyPhyMetaLink
                     }
                 }
             }
-            if (!TestMode && message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.INTEREST, MetaLinkProtobuf.Edit.EditMode.NOTICE }))
+            if (!TestMode_NoAutomaticCreoStart && message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.INTEREST, MetaLinkProtobuf.Edit.EditMode.NOTICE }))
             {
                 // Start Creo in design editing mode
                 if (message.notices.Count == 1 && message.notices[0].noticeMode == Notice.NoticeMode.ACK)

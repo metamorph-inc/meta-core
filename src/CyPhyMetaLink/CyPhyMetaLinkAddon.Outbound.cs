@@ -1052,6 +1052,7 @@ namespace CyPhyMetaLink
 
 
             // [2]
+            // FIXME CyPhy2CAD derives this from the extension of the Resource
             creomodeltype = creocadmodel.Attributes.FileType.ToString().ToUpper();
 
             MetaLinkProtobuf.CADComponentType Component_msg = new MetaLinkProtobuf.CADComponentType

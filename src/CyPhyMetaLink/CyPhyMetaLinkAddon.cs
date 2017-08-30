@@ -18,6 +18,7 @@ namespace CyPhyMetaLink
     {
         // Used in automated tests, no UI activity if on
         public bool TestMode;
+        public bool TestMode_NoAutomaticCreoStart;
 
         // The latest (current) configuration
         MetaLinkConfiguration Configuration;

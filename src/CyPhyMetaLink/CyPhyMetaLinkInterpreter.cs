@@ -126,7 +126,7 @@ namespace CyPhyMetaLink
                     GMEConsole.Error.WriteLine("CyPhyMLSync: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
                     return;
                 }
-                ConnectToMetaLinkBridgeTask = Task.Run(() => ConnectToMetaLinkBridge(project, param));
+                ConnectToMetaLinkBridge(project, param);
 
                 string currentobjKind = null;
                 MgaFCO selectedCADModel = null;
@@ -305,7 +305,14 @@ namespace CyPhyMetaLink
             return null;
         }
 
-        public async Task<bool> ConnectToMetaLinkBridge(MgaProject project, int param)
+
+        public Task<bool> ConnectToMetaLinkBridge(MgaProject project, int param)
+        {
+            ConnectToMetaLinkBridgeTask = Task.Run(() => _ConnectToMetaLinkBridge(project, param));
+            return ConnectToMetaLinkBridgeTask;
+        }
+
+        private async Task<bool> _ConnectToMetaLinkBridge(MgaProject project, int param)
         {
             bool connected = false;
 
@@ -444,7 +451,7 @@ namespace CyPhyMetaLink
             ProjectDirectory = Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
             if (ConnectToMetaLinkBridgeTask == null)
             {
-                ConnectToMetaLinkBridgeTask = Task.Run(() => ConnectToMetaLinkBridge(project, param));
+                ConnectToMetaLinkBridge(project, param);
             }
             metalinkAddon.Enable(true);
 

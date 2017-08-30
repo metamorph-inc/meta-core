@@ -10,6 +10,7 @@ using GME.MGA;
 using System.Diagnostics;
 using CyPhyPropagateTest;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace CyPhyPropagateTest
 {
@@ -71,7 +72,7 @@ namespace CyPhyPropagateTest
                         project.BeginTransactionInNewTerr();
                         var component = ISIS.GME.Dsml.CyPhyML.Classes.Component.Cast((MgaModel)project.RootFolder.ObjectByPath[testComponentPath]);
                         var cadModel = component.Children.CADModelCollection.First();
-                        propagate.TestMode = true;
+                        propagate.TestMode_NoAutomaticCreoStart = false;
                         propagate.StartupFailureCallback = this.ExeStartupFailed;
                         project.AbortTransaction();
                         propagate.StartEditingComponent(component, (MgaFCO)cadModel.Impl, false);
@@ -120,7 +121,7 @@ namespace CyPhyPropagateTest
                         project.BeginTransactionInNewTerr();
                         var assembly = ISIS.GME.Dsml.CyPhyML.Classes.ComponentAssembly.Cast((MgaModel)project.RootFolder.ObjectByPath[testAssemblyPath]);
                         project.AbortTransaction();
-                        propagate.TestMode = true;
+                        propagate.TestMode_NoAutomaticCreoStart = false;
                         propagate.StartupFailureCallback = this.ExeStartupFailed;
                         interpreter.StartAssemblySync(project, (MgaFCO)assembly.Impl, 128);
                     }
@@ -168,7 +169,7 @@ namespace CyPhyPropagateTest
                         project.BeginTransactionInNewTerr();
                         var assembly = ISIS.GME.Dsml.CyPhyML.Classes.ComponentAssembly.Cast((MgaModel)project.RootFolder.ObjectByPath[testAssemblyPath2]);
                         project.AbortTransaction();
-                        propagate.TestMode = true;
+                        propagate.TestMode_NoAutomaticCreoStart = false;
                         propagate.StartupFailureCallback = this.ExeStartupFailed;
                         interpreter.StartAssemblySync(project, (MgaFCO)assembly.Impl, 128);
                     }
