@@ -97,7 +97,10 @@ namespace CyPhyMetaLink
                     {
                         if (notice.noticeMode == Notice.NoticeMode.DONE)
                         {
-                            GMEConsole.Info.WriteLine("Done response from Meta-Link: " + notice.msg);
+                            if (notice.msg != "No exception.")
+                            {
+                                GMEConsole.Info.WriteLine("Done response from Meta-Link: " + notice.msg);
+                            }
                         }
                         else if (notice.noticeMode == Notice.NoticeMode.ACK)
                         {
@@ -393,6 +396,9 @@ namespace CyPhyMetaLink
                 {
                     GMEConsole.Warning.WriteLine("Error during processing connect message: " + ex.Message);
                 }
+            }
+            else if (message.mode.SequenceEqual(new[] { Edit.EditMode.POST, Edit.EditMode.NOTICE }))
+            {
             }
             else
             {
@@ -852,7 +858,6 @@ namespace CyPhyMetaLink
                 {
                     var builder = new AVM2CyPhyML.CyPhyMLComponentBuilder(CyPhyMLClasses.RootFolder.GetRootFolder(models.Value.Impl.Project));
                     var newCADModel = builder.process((avm.cad.CADModel)models.Key, cyPhyComponent);
-                    newCADModel.Attributes.FileType = models.Value.Attributes.FileType; // META-1680 this is not set by the Component Importer. Assume it hasn't changed
                     // wire new Datums to CyPhy model, delete old CADModel
                     Func<MgaFCO, string> mapping = x =>
                     {
@@ -1059,8 +1064,6 @@ namespace CyPhyMetaLink
                 {
                     res.Attributes.Path = Path.Combine("CAD", res.Name);
                 }
-
-                CyphyMetaLinkUtils.SetCADModelTypesFromFilenames(createdComp);
 
                 RefreshManufacturingResources(createdComp, Path.Combine(createdComp.GetDirectoryPath(), "Manufacturing"));
 

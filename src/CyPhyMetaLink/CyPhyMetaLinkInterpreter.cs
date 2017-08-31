@@ -363,6 +363,7 @@ namespace CyPhyMetaLink
                             Process metalink = new Process();
                             metalink.StartInfo = startInfo;
 
+
                             string logPath = Path.Combine(ProjectDirectory, "log", "MetaLinkBridge_" + Process.GetCurrentProcess().Id.ToString() + ".log");
                             Directory.CreateDirectory(Path.GetDirectoryName(logPath));
                             var log = new StreamWriter(logPath);
@@ -416,7 +417,10 @@ namespace CyPhyMetaLink
                             }
                             if (!connected)
                             {
-                                GMEConsole.Error.WriteLine("Failed to start MetaLink Bridge.");
+                                if (GMEConsole != null)
+                                {
+                                    GMEConsole.Error.WriteLine("Failed to start MetaLink Bridge.");
+                                }
                                 if (metalink.HasExited)
                                 {
                                     metalink.Kill();
@@ -433,13 +437,19 @@ namespace CyPhyMetaLink
                     }
                     else
                     {
-                        GMEConsole.Error.WriteLine("Meta-Link Bridge executable is missing. Please check that Meta-Link Bridge is installed.");
+                        if (GMEConsole != null)
+                        {
+                            GMEConsole.Error.WriteLine("Meta-Link Bridge executable is missing. Please check that Meta-Link Bridge is installed.");
+                        }
                     }
                 }
             }
             if (connected)
             {
-                GMEConsole.Info.WriteLine("Established connection to MetaLink Bridge.");
+                if (GMEConsole != null)
+                {
+                    GMEConsole.Info.WriteLine("Established connection to MetaLink Bridge.");
+                }
             }
             return connected;
         }

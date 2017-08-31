@@ -1045,15 +1045,19 @@ namespace CyPhyMetaLink
 #endif
             }
 
-            if (creomodelname != "")
-            {
-                creomodelname = Path.GetFileNameWithoutExtension(creomodelname);
-            }
+            creomodelname = Path.GetFileNameWithoutExtension(creomodelname);
 
 
             // [2]
-            // FIXME CyPhy2CAD derives this from the extension of the Resource
-            creomodeltype = creocadmodel.Attributes.FileType.ToString().ToUpper();
+            creomodeltype = CyPhyMLClasses.CADModel.AttributesClass.FileType_enum.Part.ToString().ToUpperInvariant();
+            if (Resource_L.Count > 0)
+            {
+                var resource = Resource_L.First();
+                if (Path.GetExtension(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(resource.Attributes.Path)).ToUpperInvariant() == ".ASM")
+                {
+                    creomodeltype = CyPhyMLClasses.CADModel.AttributesClass.FileType_enum.Assembly.ToString().ToUpperInvariant();
+                }
+            }
 
             MetaLinkProtobuf.CADComponentType Component_msg = new MetaLinkProtobuf.CADComponentType
             {

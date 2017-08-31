@@ -42,34 +42,6 @@ namespace CyPhyMetaLink
             }
         }
 
-        public static void SetCADModelTypesFromFilenames(CyPhyML.Component c)
-        {
-            foreach (CyPhyML.CADModel cadModel in c.Children.CADModelCollection)
-            {
-                List<ISIS.GME.Common.Interfaces.FCO> resources = new List<ISIS.GME.Common.Interfaces.FCO>();
-                foreach (var usesResource in cadModel.DstConnections.UsesResourceCollection)
-                {
-                    resources.Add(usesResource.DstEnd);
-                }
-                foreach (var usesResource in cadModel.SrcConnections.UsesResourceCollection)
-                {
-                    resources.Add(usesResource.SrcEnd);
-                }
-                foreach (var resource in resources.Where(f => f.Impl.MetaBase.Name == "Resource")
-                    .Select(f => CyPhyMLClasses.Resource.Cast(f.Impl)))
-                {
-                    if (resource.Attributes.Path.EndsWith(".prt") || resource.Attributes.Path.EndsWith(".PRT"))
-                    {
-                        cadModel.Attributes.FileType = CyPhyMLClasses.CADModel.AttributesClass.FileType_enum.Part;
-                    }
-                    if (resource.Attributes.Path.EndsWith(".asm") || resource.Attributes.Path.EndsWith(".ASM"))
-                    {
-                        cadModel.Attributes.FileType = CyPhyMLClasses.CADModel.AttributesClass.FileType_enum.Assembly;
-                    }
-                }
-            }
-        }
-
         public static String GetResourceID(CyPhyML.CADModel cadModel)
         {
             // Starting with the DomainModel object, we'll find a Resource object to which it has a relation.

@@ -2440,14 +2440,6 @@ namespace AVM2CyPhyML
                         if (_avmCyPhyMLObjectMap.ContainsKey(avmResource))
                         {
                             CyPhyMLClasses.UsesResource.Connect(cyPhyMLDomainModel, _avmCyPhyMLObjectMap[avmResource] as CyPhyML.Resource);
-                            if (cyPhyMLDomainModel is CyPhyML.CADModel)
-                            {
-                                var cyPhyCadModel = (CyPhyML.CADModel)cyPhyMLDomainModel;
-                                if (avmResource.Path.EndsWith(".asm"))
-                                {
-                                    cyPhyCadModel.Attributes.FileType = CyPhyMLClasses.CADModel.AttributesClass.FileType_enum.Assembly;
-                                }
-                            }
                         }
                     }
                 }

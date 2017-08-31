@@ -252,14 +252,6 @@ namespace CyPhy2CAD_CSharp.DataRep
                     Logger.Instance.AddLogMessage("CADModel Resource Path information unavailable for component [" + cyphycomp.Path + "," + DisplayID + "]!", Severity.Warning);
                 }
 
-                // META-1917: probably needs to be removed later b/c CAD Model Type attribute will be removed from metamodel
-                if (String.IsNullOrEmpty(ModelType))
-                {
-                    Logger.Instance.AddLogMessage("Creo file extension can not be deduced from CADModel Resource Path for component [" + Name + "," + DisplayID + "], using CAD Model Type attribute instead!", Severity.Warning);
-                    ModelType = cadmodel.Attributes.FileType.ToString();
-                }
-                // end META-1917
-
                 ModelURI = uri.Length > 0 ? Path.GetDirectoryName(uri) : "";
                 //ModelType = cadmodel.Attributes.FileType.ToString();
 
