@@ -42,6 +42,7 @@ namespace CyPhyPropagateTest
         protected BlockingCollection<Edit> addonMessagesQueue = new System.Collections.Concurrent.BlockingCollection<Edit>(new ConcurrentQueue<Edit>());
         protected MetaLinkBridgeClient testingClient;
         protected Process metalink;
+        protected IntPtr metalinkJob;
         protected StreamWriter metalinkLogStream;
 
 
@@ -112,12 +113,17 @@ namespace CyPhyPropagateTest
         {
             lock (this)
             {
-                if (metalink != null && metalink.HasExited == false)
+                if (metalink != null)
                 {
-                    metalink.Kill();
+                    if (metalink.HasExited == false)
+                    {
+                        metalink.Kill();
+                    }
                     metalink.WaitForExit();
                     metalink.Dispose();
                     metalink = null;
+                    CyPhyMetaLink.JobObjectPinvoke.CloseHandle(metalinkJob);
+                    metalinkJob = IntPtr.Zero;
                 }
             }
         }
@@ -310,6 +316,7 @@ namespace CyPhyPropagateTest
                     metalinkOutput.Add(dataArgs.Data);
                 };
                 metalink.Start();
+                metalinkJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(metalink);
                 metalink.BeginOutputReadLine();
                 metalink.BeginErrorReadLine();
             }

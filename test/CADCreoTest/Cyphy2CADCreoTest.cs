@@ -70,14 +70,23 @@ namespace CADCreoTest
             createAssembly.StartInfo = info;
 
             createAssembly.Start();
+            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
 
-            bool exited = createAssembly.WaitForExit(45000);
-            if (!exited)
+            try
             {
-                createAssembly.Kill();
-                createAssembly.WaitForExit();
+                bool exited = createAssembly.WaitForExit(45000);
+                if (!exited)
+                {
+                    createAssembly.Kill();
+                    createAssembly.WaitForExit();
+                }
+
+                Assert.True(exited);
             }
-            Assert.True(exited);
+            finally
+            {
+                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+            }
 
             Assert.Equal(createAssembly.ExitCode, 0);
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
@@ -115,13 +124,23 @@ namespace CADCreoTest
 
             createAssembly.Start();
 
-            bool exited = createAssembly.WaitForExit(45000);
-            if (!exited)
+            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
+
+            try
             {
-                createAssembly.Kill();
-                createAssembly.WaitForExit();
+                bool exited = createAssembly.WaitForExit(45000);
+                if (!exited)
+                {
+                    createAssembly.Kill();
+                    createAssembly.WaitForExit();
+                }
+
+                Assert.True(exited);
             }
-            Assert.True(exited);
+            finally
+            {
+                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+            }
 
             Assert.Equal(createAssembly.ExitCode, 0);
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
@@ -161,14 +180,23 @@ namespace CADCreoTest
             createAssembly.StartInfo = info;
 
             createAssembly.Start();
+            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
 
-            bool exited = createAssembly.WaitForExit(45000);
-            if (!exited)
+            try
             {
-                createAssembly.Kill();
-                createAssembly.WaitForExit();
+                bool exited = createAssembly.WaitForExit(45000);
+                if (!exited)
+                {
+                    createAssembly.Kill();
+                    createAssembly.WaitForExit();
+                }
+
+                Assert.True(exited);
             }
-            Assert.True(exited);
+            finally
+            {
+                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+            }
 
             Assert.Equal(createAssembly.ExitCode, 0);
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
