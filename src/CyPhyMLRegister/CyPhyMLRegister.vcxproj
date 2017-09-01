@@ -43,10 +43,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>..\..\generated\CyPhyML\models\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>..\..\generated\CyPhyML\models\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -87,15 +85,15 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo msbuild_please_rerun_this___why_are_newly_added_additional_dependencies_not_added_to_tracking_log &gt;nul
 cd $(META_PATH)\meta\CyPhyML
 set PYTHONPATH=$(META_PATH)\meta\CyPhyML
-"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
+"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(META_PATH)\generated\CyPhyML\models\treeIconsMarker"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Adding treeIcon registry nodes to CyPhyML</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\treeIconsMarker</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\generated\CyPhyML\models\treeIconsMarker</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo msbuild_please_rerun_this___why_are_newly_added_additional_dependencies_not_added_to_tracking_log &gt;nul
 cd $(META_PATH)\meta\CyPhyML
 set PYTHONPATH=$(META_PATH)\meta\CyPhyML
-"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(IntDir)\treeIconsMarker"</Command>
+"$(META_PATH)\bin\Python27\Scripts\python.exe" add_folder_treeIcons.py "%(FullPath)" &amp;&amp; echo treeIconsAdded &gt; "$(META_PATH)\generated\CyPhyML\models\treeIconsMarker"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Adding treeIcon registry nodes to CyPhyML</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\treeIconsMarker</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(META_PATH)\generated\CyPhyML\models\treeIconsMarker</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(META_PATH)\meta\CyPhyML\add_folder_treeIcons.py</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(META_PATH)\meta\CyPhyML\add_folder_treeIcons.py</AdditionalInputs>
     </CustomBuild>
