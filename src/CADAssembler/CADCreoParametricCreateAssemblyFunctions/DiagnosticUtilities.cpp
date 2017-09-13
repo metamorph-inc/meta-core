@@ -4,7 +4,7 @@
 #include <CreoStringToEnumConversions.h>
 #include <MaterialProperties.h>
 #include <ISISConstants.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <iostream>
 #include <set>
 #include <iterator>
@@ -202,7 +202,7 @@ void stream_SingleCADComponentData( const std::string					&in_ComponentID,
 			"   Name:                      " << in_CADComponentData_map[in_ComponentID].name << std::endl <<
 			"   Type:                      " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType) <<  std::endl <<
 			"   MaterialID (FromCyPhy):    " << in_CADComponentData_map[in_ComponentID].materialID_FromCyPhy <<  std::endl <<
-			"   MaterialID (FromCreoPart): " << in_CADComponentData_map[in_ComponentID].materialID_FromCreoPart <<  std::endl <<
+			"   MaterialID (FromCreoPart): " << in_CADComponentData_map[in_ComponentID].materialID_FromCADPart <<  std::endl <<
 			//"   SpecialInstruction:        " << isis::SpecialInstruction_string(in_CADComponentData_map[in_ComponentID].specialInstruction) <<  std::endl <<
 			"   SpecialInstruction:        " << in_CADComponentData_map[in_ComponentID].specialInstruction <<  std::endl <<
 			"   cADModel_hdl:              " << in_CADComponentData_map[in_ComponentID].cADModel_hdl <<  std::endl <<

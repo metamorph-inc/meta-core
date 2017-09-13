@@ -1,7 +1,7 @@
 #ifndef TEST_FUNCTIONS_H
 #define TEST_FUNCTIONS_H
 #include "isis_application_exception.h"
-#include "GraphicsFunctions.h"
+#include "cc_GraphicsFunctions.h"
 #include "cppunit\Test.h"
 #include "cppunit\TestSuite.h"
 #include "cppunit\extensions\HelperMacros.h"

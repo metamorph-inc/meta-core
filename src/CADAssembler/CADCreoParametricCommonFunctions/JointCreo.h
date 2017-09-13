@@ -2,7 +2,7 @@
 
 #include <ProToolkit.h>
 #include <ProFeature.h>
-#include "Joint.h"
+#include "cc_Joint.h"
 
 namespace isis {
 namespace cad {

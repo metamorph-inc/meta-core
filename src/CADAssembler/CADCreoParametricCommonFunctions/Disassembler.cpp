@@ -7,8 +7,7 @@
 #include <ProAsmcomp.h>
 #include <ProUtil.h>
 
-#include <CommonDefinitions.h>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 namespace isis {
 namespace creo {

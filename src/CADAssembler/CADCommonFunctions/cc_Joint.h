@@ -10,8 +10,7 @@
 #include "e3ga.h"
 #include <boost/assign/list_of.hpp>
 
-#include "CommonDefinitions.h"
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 namespace isis {
 namespace cad {

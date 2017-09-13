@@ -4,8 +4,8 @@
 #include <CADMetrics.h>
 #include <ToolKitPassThroughFunctions.h>
 #include <iomanip>
-#include <GraphicsFunctions.h>
-#include "Joint.h"
+#include <cc_GraphicsFunctions.h>
+#include "cc_Joint.h"
 #include <cc_CommonUtilities.h>
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H

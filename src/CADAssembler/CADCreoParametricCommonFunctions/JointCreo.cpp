@@ -13,7 +13,7 @@
 #include <ProFeature.h>
 #include <ostream>
 #include <isis_application_exception.h>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 namespace isis {
 namespace cad {

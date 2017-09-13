@@ -1,4 +1,4 @@
-#include "MultiFormatString.h"
+#include "cc_MultiFormatString.h"
 #include <sstream>
 #include <wchar.h>
 
@@ -41,7 +41,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool ExceededMaxStringLength( const std::string &in_String, int in_MaxNumberChars )
 	{
-		if ( in_MaxNumberChars == CREO_STRING_DO_NOT_CHECK_NUM_CHARS )
+		if ( in_MaxNumberChars == CAD_STRING_DO_NOT_CHECK_NUM_CHARS )
 		{
 			return false;
 		}
@@ -56,7 +56,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool ExceededMaxStringLength( const char *in_NarrowCharArray, int in_MaxNumberChars )
 	{
-		if ( in_MaxNumberChars == CREO_STRING_DO_NOT_CHECK_NUM_CHARS )
+		if ( in_MaxNumberChars == CAD_STRING_DO_NOT_CHECK_NUM_CHARS )
 		{
 			return false;
 		}
@@ -72,7 +72,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool ExceededMaxStringLength( const wchar_t *in_WideCharArray, int in_MaxNumberChars )
 	{
-		if ( in_MaxNumberChars == CREO_STRING_DO_NOT_CHECK_NUM_CHARS )
+		if ( in_MaxNumberChars == CAD_STRING_DO_NOT_CHECK_NUM_CHARS )
 		{
 			return false;
 		}

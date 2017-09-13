@@ -1,9 +1,8 @@
-#include "JsonHelper.h"
+#include "cc_JsonHelper.h"
 
-#include "MiscellaneousFunctions.h"
+#include "cc_MiscellaneousFunctions.h"
 
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

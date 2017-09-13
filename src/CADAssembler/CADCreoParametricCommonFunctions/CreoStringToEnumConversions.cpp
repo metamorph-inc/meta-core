@@ -5,7 +5,7 @@
 
 #include <CreoStringToEnumConversions.h>
 #include <cc_CommonUtilities.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 

@@ -5,11 +5,10 @@
 #include <cc_CommonStructures.h>
 #include <ostream>
 #include <iostream>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 #include <CommonUtilities.h>
 #include <FiniteElementAnalysis.h>
 #include <AssembleUtils.h>
 #include <Computations.h>
 #include <ModelMaterials.h>
-#include "CommonDefinitions.h"
 

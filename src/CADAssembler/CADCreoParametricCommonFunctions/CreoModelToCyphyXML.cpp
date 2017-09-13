@@ -5,7 +5,7 @@
 #include "ProFeatType.h"
 #include "ProParameter.h"
 #include "ProAsmcomp.h"
-#include "CommonDefinitions.h"
+#include "cc_CommonDefinitions.h"   
 
 // Boost-related includes
 #include <boost/program_options.hpp>

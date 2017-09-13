@@ -1,4 +1,4 @@
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>

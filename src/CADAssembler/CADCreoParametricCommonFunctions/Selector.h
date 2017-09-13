@@ -8,8 +8,7 @@
 #include <ProReference.h>
 #include <ProDtmPln.h>
 
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 #include <string>
 #include <vector>

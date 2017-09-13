@@ -24,7 +24,7 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 #include <AssembleUtils.h>
 
 #include "CADEnvironmentSettings.h"
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 
 #include <InputArgumentsParser.h>
 #include <AssemblyEditingViaLink.h>
@@ -44,7 +44,7 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 
 #include <boost/atomic.hpp>
 #include <boost/thread/mutex.hpp>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 #include "gen/MetaLinkMsg.pb.h"
 #include "EventLoopMonitor.h"

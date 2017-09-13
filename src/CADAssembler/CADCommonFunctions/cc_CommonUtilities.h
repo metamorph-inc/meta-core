@@ -1,5 +1,5 @@
 /*! \file CommonUtilities.h
-    \brief  Common utilities used by Creo CAD applications.
+    \brief  Common utilities used byCAD applications.
 
 	Common utilities that support operations such as copying, deleting... files/models.
 */

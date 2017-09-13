@@ -1,8 +1,7 @@
 #include <CommonFeatureUtils.h>
 #include <CreoStringToEnumConversions.h>
-#include "CommonDefinitions.h"
 #include <iomanip>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 //#include "ProFeatType.h"
 namespace isis

@@ -7,7 +7,7 @@
 #include <ApplyModelConstraints.h>
 #include <cc_CommonUtilities.h>
 #include <DiagnosticUtilities.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <ISISConstants.h>
 // #include <FiniteElementAnalysis.h>
 #include <SetCADModelParameters.h>
@@ -20,8 +20,7 @@
 #include <iterator>
 #include <algorithm>
 #include <sstream>
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 #include "ProAssembly.h"
 #include "CreoModelMetaData.h"
 #include "AssemblyOptions.h"

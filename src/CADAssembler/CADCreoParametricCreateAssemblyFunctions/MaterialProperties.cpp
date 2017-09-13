@@ -18,8 +18,7 @@
 #include <iterator>
 #include <boost/regex.hpp>
 #include <stdlib.h>
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 
 namespace isis

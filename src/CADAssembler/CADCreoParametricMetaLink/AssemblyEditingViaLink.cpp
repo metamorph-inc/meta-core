@@ -23,6 +23,7 @@
 #include "isis_ptc_toolkit_ostream.h"
 #include "CADFactoryAbstract.h"
 #include <cc_CommonUtilities.h>
+#include <cc_CommonDefinitions.h>
 
 
 namespace isis

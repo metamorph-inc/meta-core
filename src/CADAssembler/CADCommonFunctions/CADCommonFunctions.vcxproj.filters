@@ -19,58 +19,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphicsFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Nastran.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MiscellaneousFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="isis_application_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CADCommonDefinitions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RelativePath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CADCommonConstants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SurvivabilityJasonWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="c3ga.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="e3ga.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Joint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoggerBoost.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MultiFormatString.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CADStringToEnumConversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cc_CommonStructures.h">
@@ -88,51 +46,51 @@
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cc_CommonDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_CommonConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_StringToEnumConversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_MiscellaneousFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_WindowsFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_GraphicsFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_MultiFormatString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_Joint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_JsonHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_LoggerBoost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_Nastran.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_SurvivabilityJasonWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GraphicsFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Nastran.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MiscellaneousFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="isis_application_exception.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RelativePath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SurvivabilityJasonWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonDefinitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="c3ga.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="e3ga.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Joint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LoggerBoost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MultiFormatString.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CADStringToEnumConversions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cc_CommonStructures.cpp">
@@ -145,6 +103,39 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_CommonDefinitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_StringToEnumConversions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_MiscellaneousFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_WindowsFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_GraphicsFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_MultiFormatString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_Joint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_JsonHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_LoggerBoost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_Nastran.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_SurvivabilityJasonWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

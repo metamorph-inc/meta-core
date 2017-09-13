@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <DataExchange.h>
 #include <ToolKitPassThroughFunctions.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <CommonFunctions.h>
 #include "ProIntf3Dexport.h"
 #include <cc_CommonUtilities.h>

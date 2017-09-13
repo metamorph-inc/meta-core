@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <SurvivabilityAnalysis.h>
-#include "SurvivabilityJasonWriter.h"
+#include "cc_SurvivabilityJasonWriter.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 

@@ -6,6 +6,7 @@
 #include "CreoPlugins\CreoPluginFunctions.h"
 #include "GlobalModelData.h"
 #include <cc_CommonUtilities.h>
+#include <cc_CommonDefinitions.h>
 
 
 namespace meta = edu::vanderbilt::isis::meta;
@@ -179,7 +180,6 @@ namespace isis
 
 	/**
 	The passive topic "ISIS.METALINK.CAD.PASSIVE".
-
 	This topic indicates that the CADAssembler is waiting to be given some work to perform.
 	The protobuf schema to carries arguments, "mode" and an "identifer".
 	It will also use an "action" -> START as well.
@@ -202,15 +202,12 @@ namespace isis
 			return false;
 		}
 		// std::string passiveTopic = edit->topic(0);
-
 		isis::EditPointer editPtr(new meta::Edit());
 		editPtr->add_mode(meta::Edit_EditMode_INTEREST);
 		editPtr->set_editmode(meta::Edit_EditMode_INTEREST);
-
 		boost::uuids::uuid guid = boost::uuids::random_generator()();
 		editPtr->set_guid(boost::uuids::to_string(guid));
 		editPtr->add_origin(m_operator);
-
 		for(int actionIx=0; actionIx < edit->actions_size(); ++actionIx)
 		{
 			std::string majorMode;
@@ -225,7 +222,6 @@ namespace isis
 				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): wrong action mode specified, action mode: " << action->actionmode();
 				continue;
 			}
-
 			/*if(! action->has_interest())
 			{
 				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): switch action has no interest";
@@ -242,14 +238,11 @@ namespace isis
 				isis_LOG(lg, isis_FILE, isis_WARN) << "MetaLinkHandler::process_PassivePost(): switch action has no identifier";
 				continue;
 			}
-
 			for(int topix=0; topix < interest.topic_size(); ++topix)
 			{
 				editPtr->add_topic(interest.topic(topix));
 			}
-
 			editPtr->add_topic(interest.uid(0));
-
 			isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkHandler::process_PassivePost(): posting interest";
 			m_client.send(editPtr);*/
 		}
@@ -479,7 +472,6 @@ namespace isis
 
 	//////////////////////////////////////////////
 	/**
-
 	editMode: POST
 	topic: "ISIS.METALINK.CADASSEMBLY"
 	topic: "13a4c47c-39ce-44e0-8732-b946e8821ec7"
@@ -493,7 +485,6 @@ namespace isis
 	}
 	}
 	}
-
 	By the time this method is called the first part of the edit has been processed.
 	This method is responsible for processing a SELECT action.
 	*/
@@ -1322,4 +1313,3 @@ namespace isis
 	//////////////////////////////////////////////
 
 } // namespace isis
-

@@ -1,7 +1,7 @@
 #include "CADSoftwareEnvirUtils.h"
 #include <cc_CommonUtilities.h>
 #include <windows.h>
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 //#include <malloc.h>
 #include <iostream>
 //#include <vector>

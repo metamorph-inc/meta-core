@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include <Nastran.h>
-#include <GraphicsFunctions.h>
+#include <cc_Nastran.h>
+#include <cc_GraphicsFunctions.h>
 #include <MaterialProperties.h>
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
@@ -8,7 +8,7 @@
 #include <CADAnalysisMetaData.h>
 #include <ToolKitPassThroughFunctions.h>
 
-#include "MiscellaneousFunctions.h"
+#include "cc_MiscellaneousFunctions.h"
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include <CreoStringToEnumConversions.h>
@@ -1252,7 +1252,7 @@ void CreateFEADeck(	const std::map<std::string, Material>			&in_Materials,
 			{
 				std::cout << std::endl << " Material Key: " << ir_p_to_c->first << "  ComponentID: " << ir_p_to_c->second;
 
-				std::string materialName = in_CADComponentData_map[ir_p_to_c->second].materialID_FromCreoPart;
+				std::string materialName = in_CADComponentData_map[ir_p_to_c->second].materialID_FromCADPart;
 
 				std::cout << std::endl << " Material Name: " <<  materialName;
 
@@ -2169,13 +2169,13 @@ void CreateXMLFile_FEAPostProcessingParameters(
 				isis::AnalysisMaterialProperties_Allowables  materialPropertiesAllowables; 
 				//std::string tempMatierialID = in_CADComponentData_map[i].materialID_FromInputXML;
 
-				std::string tempMatierialID = in_CADComponentData_map[i].materialID_FromCreoPart;
+				std::string tempMatierialID = in_CADComponentData_map[i].materialID_FromCADPart;
 
 				isis_LOG(lg, isis_FILE, isis_INFO) << "Material Info: ";
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: "  << i;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Name:        "  <<  in_CADComponentData_map[i].name;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   MaterialId:            "  <<  tempMatierialID;
-				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[i].materialID_FromCreoPart: " << in_CADComponentData_map[i].materialID_FromCreoPart;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   in_CADComponentData_map[i].materialID_FromCADPart: " << in_CADComponentData_map[i].materialID_FromCADPart;
 
 				isis::ComputeAllowableStressLevels(	numberOfCycles,in_Materials[tempMatierialID].analysisMaterialProperties, 
 											materialPropertiesAllowables );
@@ -2240,7 +2240,7 @@ void FEA_AnalysisMetaData_Add_SubAssemblies_Parts(
 
 	out_ComponentRoot.Name() = in_CADComponentData_map[in_ComponentInstanceID].name;
 	out_ComponentRoot.ComponentInstanceID() = in_CADComponentData_map[in_ComponentInstanceID].componentID;
-	out_ComponentRoot.MaterialID() = in_CADComponentData_map[in_ComponentInstanceID].materialID_FromCreoPart;
+	out_ComponentRoot.MaterialID() = in_CADComponentData_map[in_ComponentInstanceID].materialID_FromCADPart;
 
 	if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == PRO_MDL_PART )
 	{
@@ -2401,7 +2401,7 @@ void CreateXMLFile_FEA_AnalysisMetaData(
 			}
 
 			componentRoot.ComponentInstanceID() = in_CADComponentData_map[j].componentID;
-			componentRoot.MaterialID() = in_CADComponentData_map[j].materialID_FromCreoPart;
+			componentRoot.MaterialID() = in_CADComponentData_map[j].materialID_FromCADPart;
 		}
 
 		*/

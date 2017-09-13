@@ -1,6 +1,5 @@
 #include <CommonFunctions.h>
 #include <string>
-#include "CommonDefinitions.h"
 
 
 namespace isis

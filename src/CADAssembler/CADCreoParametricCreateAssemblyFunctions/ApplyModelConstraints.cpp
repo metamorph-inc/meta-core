@@ -5,14 +5,13 @@
 #include <DiagnosticUtilities.h>
 #include <AssembleUtils.h>
 #include <ToolKitPassThroughFunctions.h> 
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 #include <boost/algorithm/string.hpp>
 #define PRO_USE_VAR_ARGS
 #include "ProMessage.h"
 #include "AssemblyOptions.h"
 #include "DatumRefResolver.h"
-#include "GraphicsFunctions.h"
+#include "cc_GraphicsFunctions.h"
 #include "JointCreo.h"
 
 /*

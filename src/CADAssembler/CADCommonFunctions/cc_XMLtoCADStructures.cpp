@@ -1,8 +1,7 @@
 #include "cc_XMLtoCADStructures.h"
 //#include "DiagnosticUtilities.h"
 #include <iostream>
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
@@ -12,9 +11,9 @@
 
 #include "UdmBase.h"
 #include "AssemblyInterface.h"
-#include "CADStringToEnumConversions.h"
+#include "cc_StringToEnumConversions.h"
 //#include <MaterialProperties.h>
-#include "CADCommonConstants.h"
+#include "cc_CommonConstants.h"
 
 #include <deque>
 #include <vector>
@@ -22,7 +21,7 @@
 #include <string>
 #include <sstream>
 
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 #define ISIS_CYPHY_2_CAD_DLL_MIN_VERSION_FUNCTIONS "1.2.0.0"
 
@@ -209,12 +208,12 @@ void SetCADComponentLevelAttributes( const AssemblyInterface::CADComponent	 &in_
 	
 	out_CADComponentData_map[ID].componentID	= in_XML_CADComponent.ComponentID();
 	string compname = in_XML_CADComponent.Name();
-	if (compname.size()>ISIS_CREO_MAX_NAME_SIZE)
+	if (compname.size()>ISIS_CAD_MAX_NAME_SIZE)
 	{
 		std::stringstream errorString;
 		errorString <<
 		"The input xml file contains a component name that is longer than the maximum allowable length of "  
-		<< ISIS_CREO_MAX_NAME_SIZE << " characters."
+		<< ISIS_CAD_MAX_NAME_SIZE << " characters."
 		<< std::endl << "   Component Name:          " << (string)in_XML_CADComponent.Name()
 		<< std::endl << "   Component ID:            " << out_CADComponentData_map[ID].componentID
 		<< std::endl << "   To locate the error, search for the Component ID in the input xml file.";
@@ -403,12 +402,12 @@ void SetConstraintAttributes( const AssemblyInterface::CADComponent	 &in_XML_CAD
 						throw isis::application_exception(errorString.str());
 				}
 
-				if ( Cst_Feature.featureName.size() > ISIS_CREO_MAX_NAME_SIZE )
+				if ( Cst_Feature.featureName.size() > ISIS_CAD_MAX_NAME_SIZE )
 				{
 					std::stringstream errorString;
 					errorString <<
 						"When parsing the input xml file, encountered a feature name that is longer than the maximum allowable length of "  
-						<< ISIS_CREO_MAX_NAME_SIZE << " characters."
+						<< ISIS_CAD_MAX_NAME_SIZE << " characters."
 						<< std::endl << "Feature Name:          " << Cst_Feature.featureName
 						<< std::endl << "Component ID:          " << Cst_Feature.componentInstanceID
 						<< std::endl << "To locate the error, search for the Component ID in the input xml file.";
@@ -1870,7 +1869,8 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 								data.connectors.push_back(connector);
 								//isis_LOG(lg, isis_FILE, isis_WARN) << "Connector added. Component: " << (std::string)id << "Connector: " << connector.id;
 							}
-						} catch (std::out_of_range &ex)
+						//} catch (std::out_of_range &ex)
+						} catch (std::out_of_range)
 						{
 							isis_LOG(lg, isis_FILE, isis_WARN) << "FromXMLFile_PopulateCADComponentAssemblyAndMap(): Component not found in map, id:" << (std::string)it->ID();
 						}
