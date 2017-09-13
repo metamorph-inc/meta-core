@@ -465,7 +465,7 @@ ClData ClFunction::PCMOr(ClContext& c, ClCallPars *p)
 ClData ClConstraint::Eval(ClContext& c) const
 {
 	if (cpars && cpars->GetCount()>0)
-	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), __FILE__, __LINE__);
+	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), _T(__FILE__), __LINE__);
 	
 	if (!cexpr) 
 		throw new CDesertException(_T("ClConstraint::Eval(ClContext& c) : cexpr is NULL!"));
@@ -477,7 +477,7 @@ ClData ClConstraint::Eval(ClContext& c) const
 ClData ClFormula::Eval(ClContext& c) const
 {
 	if (cpars && cpars->GetCount()>0)
-	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), __FILE__, __LINE__);
+	Todo(_T("ClConstraint::Eval"), _T("<%s:%d> tbd skn cpars"), _T(__FILE__), __LINE__);
 	
 	if (!cexpr) 
 		throw new CDesertException(_T("ClConstraint::Eval(ClContext& c) : cexpr is NULL!"));
@@ -2097,7 +2097,7 @@ ClData ClPostfixCall::Eval(ClContext& c) const
 		//throw new CDesertException(false, buf);
 		return ClData();
 	case stdCallOp:
-		buf.Format( _T("ClPostfixCall::Eval <%s:%d> operation not implemented"), __FILE__, __LINE__ );
+		buf.Format( _T("ClPostfixCall::Eval <%s:%d> operation not implemented"), _T(__FILE__), __LINE__);
 		c.SetError(true, buf);
 		//throw new CDesertException(false, buf);
 		return ClData();
