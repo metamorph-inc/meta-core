@@ -389,7 +389,9 @@ bdd_and_step(bddm, f, g)
   {
 	/* both f and g are mtbdd constant - logical-and is undefined */
 	  /* error condition */
-    return ((bdd)0);
+	  // this may help with debugging:
+	  // return (BDD_ZERO(bddm));
+	  return ((bdd)0);
   }
   /* f and g are not constant. */
   if (BDD_SAME_OR_NEGATIONS(f, g))

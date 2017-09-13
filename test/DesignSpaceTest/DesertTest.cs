@@ -175,6 +175,16 @@ namespace DesignSpaceTest
             }, null);
         }
 
+        [Fact]
+        void TestDesert_DesignContainer_Alt_Constraint()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Alt_Constraint", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
         private MgaProject project { get { return (MgaProject)fixture.proj; } }
 
         ToyDSFixture fixture;

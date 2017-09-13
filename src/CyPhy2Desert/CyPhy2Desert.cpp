@@ -1257,7 +1257,9 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 		{
 			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(cyphy_com);
 			if ((std::string)dc.ContainerType() == "Optional") {
-				expr += " or " + std::string("children(\"null\").") + std::string(src_vf_end.name()) + "()";
+				expr += " or " +
+					DFUtil::getRelativePath(src_vf_end, src_vf_end_parent.GetParent(), cyphy_com) +
+					std::string("children(\"null\").") + std::string(src_vf_end.name()) + "()";
 			}
 			else if ((std::string)dc.ContainerType() == "Alternative") {
 				// FIXME tbd
