@@ -6,7 +6,6 @@
 
 #include <fstream>
 #include <string>
-using namespace std;
 
 #ifdef _UNICODE
 typedef std::wstring tstring;

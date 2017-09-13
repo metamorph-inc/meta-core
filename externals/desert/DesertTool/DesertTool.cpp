@@ -652,14 +652,15 @@ BOOL CDesertToolApp::InitInstance()
 			} // eo multiRun
 
 			fprintf(fdDcif, "</DesertConfigurations>\n");
-			fflush(fdDcif);
 			fclose(fdDcif);
 
 		}//eo try
 		catch (CDesertException *e)
 		{
-			fprintf(fdDcif, "</DesertConfigurations>\n");
-			fflush(fdDcif);
+			if (ftell(fdDcif))
+			{
+				fprintf(fdDcif, "</DesertConfigurations>\n");
+			}
 			fclose(fdDcif);
 
 			e->ReportError();
@@ -668,12 +669,15 @@ BOOL CDesertToolApp::InitInstance()
 		}
 		catch (udm_exception e)
 		{
-			fprintf(fdDcif, "</DesertConfigurations>\n");
-			fflush(fdDcif);
+			if (ftell(fdDcif))
+			{
+				fprintf(fdDcif, "</DesertConfigurations>\n");
+			}
 			fclose(fdDcif);
 
 			if (m_lpCmdLine && command_arg_ok)
-				std::cerr << std::string("Udm exception: ") + e.what();
+				// FIXME: we are /SUBSYSTEM:WINDOWS; this likely won't go anywhere
+				std::cerr << std::string("Udm exception: ") + e.what() << std::endl;
 			else
 				AfxMessageBox(CString("Udm exception: ") + CString(e.what()));
 			//	throw e;
