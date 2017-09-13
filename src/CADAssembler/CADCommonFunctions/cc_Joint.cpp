@@ -2,8 +2,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "Joint.h"
-#include "GraphicsFunctions.h"
+#include "cc_Joint.h"
+#include "cc_GraphicsFunctions.h"
 
 #include "c3ga.h"
 

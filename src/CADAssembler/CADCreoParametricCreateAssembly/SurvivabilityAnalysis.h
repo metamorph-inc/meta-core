@@ -1,7 +1,7 @@
 #ifndef SURVIVABILITY_ANALYSIS_H
 #define SURVIVABILITY_ANALYSIS_H
 
-#include <GraphicsFunctions.h>
+#include <cc_GraphicsFunctions.h>
 
 namespace isis
 {

@@ -10,7 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/crc.hpp> 
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 using boost::uint8_t;
 using boost::uint32_t;

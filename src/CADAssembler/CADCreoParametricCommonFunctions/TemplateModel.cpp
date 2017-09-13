@@ -1,11 +1,10 @@
 
 #include <TemplateModel.h>
 
-#include "CommonDefinitions.h"
 #include <ProMdlUnits.h>
 #include <ProUtil.h>
 #include <ProWstring.h>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 namespace isis {
 namespace creo {

@@ -11,13 +11,12 @@
 #include "CADEnvironmentSettings.h"
 #include <DataExchange.h>
 //#include "WindowsHDependentCommonFunctions.h"
-#include "WindowsFunctions.h"
-#include <MultiFormatString.h>
+#include "cc_WindowsFunctions.h"
+#include <cc_MultiFormatString.h>
 #include <CommonFunctions.h>
 #include <SurvivabilityAnalysis.h>
 #include <CFDAnalysis.h>
 #include <MaterialProperties.h>
-#include "CADFactoryCreo.h"
 #include <sstream>
 #include <fstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -30,8 +29,9 @@ namespace isis
 {
 
 
-void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              &in_ProgramInputArguments,
-								 const std::string								&in_CADToolDir,
+void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
+								 const isis::ProgramInputArguments              &in_ProgramInputArguments,
+								 const std::string								&in_CADExtensionsDir,
 								 const std::string								&in_XMLInputFile_PathAndFileName,
 								 const std::string								&in_WorkingDirector,
 								 const std::string								&in_CADPartsLibDir,
@@ -52,7 +52,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 	}
 #endif
 
-	cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
+	//cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 	
 
 	//bool Pro_E_Running = false;
@@ -305,6 +305,10 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 		isis::IfFileExists_DeleteFile( configPro_PathAndFileName);
 		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" isis::IfFileExists_DeleteFile( searchMetaPro_PathAndFileName);
 
+
+
+		//isis::cad::DataContainer 
+
 		////////////////////////////////////////////////
 		// Write config.pro 
 		///////////////////////////////////////////////
@@ -407,7 +411,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			//////////////////////////
 			// Build the Assembly
 			//////////////////////////
-			isis::BuildAssembly(	*cad_factory, 
+			isis::BuildAssembly(	in_factory, 
 									i->assemblyComponentID, 
 									in_WorkingDirector, 
 									true, 
@@ -604,7 +608,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				if (  CompleteTheHierarchyForLeafAssemblies )  // The hierarchy would have been completed previously.
 				{
 					//ResolveAssemblyConstraints_AddMarkersToMap( 
-					//										*cad_factory, 
+					//										in_factory, 
 					//										assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs,
 					//										featureIDs_to_ComponentInstanceID_hashtable,
 					//										out_CADComponentData_map );
@@ -614,7 +618,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 					isis::VisitComponents( i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps );
 
 					PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
-															*cad_factory, 
+															in_factory, 
 															assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps.listOfComponentIDs,
 															featureIDs_to_ComponentInstanceID_hashtable,
 															out_CADComponentData_map );
@@ -631,7 +635,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				//	defined in a leaf assembly where the markers for the joint would only be valid in the context of the complete assembly.	
 				//	In other words, the prismatic joint would allow the datums defining the joints to move based on the position of 
 				//	connecting parts in the assembly.
-				PopulateMap_with_Junctions_per_InputXMLConstraints(*cad_factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, out_CADComponentData_map, true );
+				PopulateMap_with_Junctions_per_InputXMLConstraints(in_factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, out_CADComponentData_map, true );
 
 				// This must be after the call to PopulateMap_with_Junctions_per_InputXMLConstraints
 				PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints (	
@@ -687,7 +691,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "*** END Begin Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
 
-			/* Old Metrics outpu should not be here because it applies to all assemblies
+			/* Old Metrics output should not be here because it applies to all assemblies
 			/////////////////////////////////////////////
 			// Output Metrics File
 			/////////////////////////////////////////////
@@ -812,7 +816,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 			// CFD Run
 			////////////////
 			if ( cFDAnalysisRun) {
-				CFD_Driver( isis::V1, in_CADToolDir, 
+				CFD_Driver( isis::V1, in_CADExtensionsDir, 
 					in_WorkingDirector, *i, out_CADComponentData_map );
 			}
 
@@ -832,7 +836,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				//for each ( std::string i_temp in assembllyComponenteIDs.listOfComponentIDs ) 
 				//{
 				//	std::cout << std::endl << "Material Info, Component Instance ID: " << i_temp <<
-				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCreoPart <<
+				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCADPart <<
 				//		"  Retrieved Material: " << componentID_to_MaterialName_map[i_temp];
 				//}
 
@@ -842,10 +846,10 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				{
 					if ( out_CADComponentData_map[mat_pair.first].modelType == PRO_MDL_PART )
 					{
-						out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart = mat_pair.second;
+						out_CADComponentData_map[mat_pair.first].materialID_FromCADPart = mat_pair.second;
 						materialNames.insert(mat_pair.second);
 
-						if ( isis::ConvertToUpperCase(out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart) !=
+						if ( isis::ConvertToUpperCase(out_CADComponentData_map[mat_pair.first].materialID_FromCADPart) !=
 							isis::ConvertToUpperCase(out_CADComponentData_map[mat_pair.first].materialID_FromCyPhy) )
 						{
 							materialMisMatchFound = true;
@@ -855,8 +859,8 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 								"  Component Name:        " <<  out_CADComponentData_map[mat_pair.first].name << std::endl << 
 								"  Component Type:        " <<  ProMdlType_string(out_CADComponentData_map[mat_pair.first].modelType) <<  std::endl << 
 								"  CyPhy Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCyPhy  <<  std::endl << 
-								"  Creo Material Name:    " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart  <<  std::endl << 
-								"  Using Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCreoPart << std::endl;
+								"  Creo Material Name:    " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCADPart  <<  std::endl << 
+								"  Using Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCADPart << std::endl;
 
 							isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << errorString.str();
 
@@ -870,7 +874,7 @@ void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              
 				//for each ( std::string i_temp in assembllyComponenteIDs.listOfComponentIDs ) 
 				//{
 				//	std::cout << std::endl << "Material Info, Component Instance ID: " << i_temp <<
-				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCreoPart <<
+				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCADPart <<
 				//		"  Retrieved Material: " << componentID_to_MaterialName_map[i_temp];
 				//}			
 	

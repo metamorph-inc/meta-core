@@ -1,9 +1,8 @@
 #include "AssemblyOptions.h"
 #include "boost\algorithm\string.hpp"
 #include <boost\lexical_cast.hpp>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 #include <vector>
-#include "CommonDefinitions.h"
 
 namespace isis{
 

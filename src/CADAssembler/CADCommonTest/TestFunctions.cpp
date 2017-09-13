@@ -5,8 +5,8 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include "GraphicsFunctions.h"
-#include "Nastran.h"
+#include "cc_GraphicsFunctions.h"
+#include "cc_Nastran.h"
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>

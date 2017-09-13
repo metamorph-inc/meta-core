@@ -10,8 +10,9 @@ namespace isis
 
 const std::string ASSEMBLE_PTC_VERSION = ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS;
 
-void CreateAssemblyViaInputFile( const isis::ProgramInputArguments              &in_ProgramInputArguments,
-								 const std::string								&in_CADToolDir,
+void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
+								 const isis::ProgramInputArguments              &in_ProgramInputArguments,
+								 const std::string								&in_CADExtensionsDir,
 								 const std::string								&in_XMLInputFile_PathAndFileName,
 								 const std::string								&in_WorkingDirector,
 								 const std::string								&in_CADPartsLibDir,

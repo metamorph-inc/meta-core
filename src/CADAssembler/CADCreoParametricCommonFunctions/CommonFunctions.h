@@ -12,8 +12,8 @@
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_include_ptc_headers.h>
 #include <CreoStringToEnumConversions.h>
-#include <MultiFormatString.h>
-#include <GraphicsFunctions.h>
+#include <cc_MultiFormatString.h>
+#include <cc_GraphicsFunctions.h>
 #include <cc_CommonStructures.h>
 #include <string>
 

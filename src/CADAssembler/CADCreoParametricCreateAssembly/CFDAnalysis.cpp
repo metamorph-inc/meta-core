@@ -6,7 +6,7 @@
 #include <ToolKitPassThroughFunctions.h>
 #include <cc_CommonUtilities.h>
 #include <sstream>
-#include <JsonHelper.h>
+#include <cc_JsonHelper.h>
 #include <boost/filesystem.hpp>
 #include <ExteriorShell.h>
 
@@ -138,7 +138,7 @@ namespace isis
 	class CFD_Analyzer {
 	public:
 		CFD_Analyzer( 	
-						const std::string								    &in_CADToolDir,  // Contains template for hydrostatics.json
+						const std::string								    &in_CADExtensionsDir,  // Contains template for hydrostatics.json
 						const std::string									&in_WorkingDirectory,
 						const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
@@ -151,7 +151,7 @@ namespace isis
 		void analyze_v0();
 		void analyze_v1();
 
-		const ::boost::filesystem::path     m_CADToolDir;
+		const ::boost::filesystem::path     m_CADExtensionsDir;
 		const ::boost::filesystem::path     m_WorkingDirectory;
 		const isis::TopLevelAssemblyData					& m_TopLevelAssemblyData;
 		std::map<std::string, isis::CADComponentData>		& m_CADComponentData_map;
@@ -410,14 +410,14 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	CFD_Analyzer::CFD_Analyzer(	
-		const std::string								    &in_CADToolDir,  // Contains template for hydrostatics.json
+		const std::string								    &in_CADExtensionsDir,  // Contains template for hydrostatics.json
 		const std::string									&in_WorkingDirectory,
 		const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
 		std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 					throw (isis::application_exception) 
 	:	//m_fileLogger(isis_FILE_CHANNEL),
 		//m_fileAndConsoleLogger(isis_FILE_AND_CONSOLE_CHANNEL),
-		m_CADToolDir(m_CADToolDir), m_WorkingDirectory(in_WorkingDirectory),
+		m_CADExtensionsDir(m_CADExtensionsDir), m_WorkingDirectory(in_WorkingDirectory),
 		m_hydrostaticsFile_fileNameOnly("hydrostatics.json"),
 		m_hydrostaticsFile_PathAndFileName(in_WorkingDirectory + "\\" + m_hydrostaticsFile_fileNameOnly),
 
@@ -430,14 +430,14 @@ namespace isis
 		ProError rc;
 		std::stringstream errorString;
 		isis_LOG(lg, isis_FILE, isis_INFO)
-			<< " extensions dir = " << m_CADToolDir << isis_EOL
+			<< " extensions dir = " << m_CADExtensionsDir << isis_EOL
 			<< " working dir = " << m_WorkingDirectory << isis_EOL
 			<< " working path = " << m_hydrostaticsFile_PathAndFileName << isis_EOL
 			;
 
-		if (! ::boost::filesystem::exists(m_CADToolDir) ) {
+		if (! ::boost::filesystem::exists(m_CADExtensionsDir) ) {
 			errorString <<  "directory not found "
-				<< "[" << m_CADToolDir << "]";
+				<< "[" << m_CADExtensionsDir << "]";
 			throw isis::application_exception(errorString.str());
 		}
 	}
@@ -459,7 +459,7 @@ namespace isis
 		//////////////////////////////////////////////////////////////////////////////
 		// Copy hydrostatics.json template to the working dir
 		//////////////////////////////////////////////////////////////////////////////	
-		::boost::filesystem::path hydrostaticsFileTemplate__PathAndFileName = m_CADToolDir 
+		::boost::filesystem::path hydrostaticsFileTemplate__PathAndFileName = m_CADExtensionsDir 
 			/ "templates" /  m_hydrostaticsFile_fileNameOnly;
 		::boost::system::error_code ec;
 		::boost::filesystem::copy(hydrostaticsFileTemplate__PathAndFileName, 

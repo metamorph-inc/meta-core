@@ -1,10 +1,10 @@
 #ifndef  CC_COMMON_STRUCTURES_H
 #define  CC_COMMON_STRUCTURES_H
 #include "isis_application_exception.h"
-#include "CADStringToEnumConversions.h"
-#include "MultiFormatString.h"
-#include "GraphicsFunctions.h"
-#include "Joint.h"   
+#include "cc_StringToEnumConversions.h"
+#include "cc_MultiFormatString.h"
+#include "cc_GraphicsFunctions.h"
+#include "cc_Joint.h"   
 #include <iostream>
 #include <ostream>
 #include <list>
@@ -195,7 +195,7 @@ namespace isis
 
 		// The local joint position will not be used at this time. The local position could be set with the current code for the 
 		// added .prt/.asm but not for the constrained-to .prts/.asms when there was more than one constrained-to .prts/.asms.  
-		// This is because the Joint (see Joint.h, Joint::pair_t infer_joint_pair(std::vector<Joint::pair_t> in_joints) 
+		// This is because the Joint (see cc_Joint.h, Joint::pair_t infer_joint_pair(std::vector<Joint::pair_t> in_joints) 
 		// class computes the location, orientation, and rotation in the .prt/.asm  coordinate system.  If a .prt/.asm was 
 		// constrained to more than one .prt/.asm the Joint class could not compute the correct joint type because the datums 
 		// would be miss-oriented because they would be in the coordinate system of the particular .prt/.asm and not 
@@ -483,7 +483,7 @@ namespace isis
 
 	struct AnalysisGeometry
 	{	
-		std::list<AnalysisGeometryFeature>		features;	// actual datum names in the Creo model
+		std::list<AnalysisGeometryFeature>		features;	// actual datum names in the CAD model
 
 		// GeometryPerEntireComponent_componentInstanceIDs applies to thermal HeatGeneration 
 		// only. HeatGeneration QVOL type is applied to all elements (e.g. Tetra elements)
@@ -518,7 +518,7 @@ namespace isis
 //		std::string					componentID;
 //		e_FeatureInterfaceType		featureInterfaceType;	// CAD_DATUM 
 //		e_CADAnalysisFeatureGeometryType	featureGeometryType;	// POINT, maybe other type later. for now points define polygons, lines, and spheres
-//		std::list<std::string>		features;				// actual datum names in the Creo model
+//		std::list<std::string>		features;				// actual datum names in the CAD model
 //	};
 
 	struct AnalysisConstraint
@@ -807,7 +807,7 @@ namespace isis
     \brief Structure containing the bulk of the data about a part/assembly.
 
     This structure contains meta data about a component, the list of children, the set of dependences, and 
-	the address/handle of the Creo part/assembly.  
+	the address/handle of the CAD part/assembly.  
 	*/
 	struct UnassembledComponent
 	{
@@ -919,9 +919,9 @@ namespace isis
 		int							metricID;
 		std::string					parentComponentID;
 		MultiFormatString			name;					/**<  Part/Assembly name without the suffix. */
-		std::string					displayName;			/**<  Name to display in Creo */
+		std::string					displayName;			/**<  Name to display in CAD application */
 		std::string					materialID_FromCyPhy;
-		std::string					materialID_FromCreoPart;
+		std::string					materialID_FromCADPart;
 		std::string					avmComponentId;			// If applicable, only in component edit mode
 		std::string					cyphyInstanceId;		// If applicable, only in design mode
 		//ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
@@ -958,8 +958,8 @@ namespace isis
 
 		bool						cyPhyComponent;
 
-		MultiFormatString			geometryRepresentation;  // Simplified representations in Creo, e.g. Featured_Rep, Defeatured_rep
-															 // if the Creo Model does not have this rep, then the active rep in the Creo
+		MultiFormatString			geometryRepresentation;  // Simplified representations in CAD, e.g. Featured_Rep, Defeatured_rep
+															 // if the CAD Model does not have this rep, then the active rep in the CAD
 															 // model would be used.
 		BoundingBox					boundingBox;
 
@@ -1053,7 +1053,7 @@ namespace isis
 
 
 
-	// Standardized on SI(mm)(Creo millimeter Newton Second) units as follows:
+	// Standardized on SI(mm)(CAD millimeter Newton Second) units as follows:
 	//		Force	N
 	//		Stress	MPa
 	//		Length	mm

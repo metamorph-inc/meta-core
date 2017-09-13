@@ -56,7 +56,7 @@
 
 #include "CADEnvironmentSettings.h"
 #include "InputArgumentsParser.h"
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 #include <ISISVersionNumber.h>
 
 #include <string>
@@ -125,7 +125,7 @@ int main( int argc, char *argv[] )
 	int ExitCode = 0;
 
 	std::string			creoStartCommand; 
-	std::string			CADToolDir;
+	std::string			CADExtensionsDir;
 
 	std::string			templateFile_PathAndFileName;
 	std::stringstream	exceptionErrorStringStream;
@@ -167,7 +167,7 @@ int main( int argc, char *argv[] )
 		isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
 															creoAcceptInputFromThisProgramAndCreoUI,
 															creoStartCommand,
-															CADToolDir,
+															CADExtensionsDir,
 															templateFile_PathAndFileName );
 
 // STEP 3: Start Creo in async mode

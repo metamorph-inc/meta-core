@@ -1,8 +1,7 @@
 
 #include "FeatureFactory.h"
 
-#include <CommonDefinitions.h>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 #include "Selector.h"
 

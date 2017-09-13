@@ -1,5 +1,5 @@
-#ifndef ISIS_CREO_STRING_H
-#define ISIS_CREO_STRING_H
+#ifndef CC_MULTI_FORMAT_STRING_H
+#define CC_MULTI_FORMAT_STRING_H
 
 #include "isis_application_exception.h"
 #include <string>
@@ -9,7 +9,7 @@
 namespace isis
 {
 
-	const int CREO_STRING_DO_NOT_CHECK_NUM_CHARS = -999999;
+	const int CAD_STRING_DO_NOT_CHECK_NUM_CHARS = -999999;
 
 	// Description:
 	//	This function creates a representation of a string based on passing a constructor one of the following types:
@@ -37,13 +37,13 @@ namespace isis
 		public:
 
 			MultiFormatString( 
-						int	in_MaxNumberChars = CREO_STRING_DO_NOT_CHECK_NUM_CHARS);
+						int	in_MaxNumberChars = CAD_STRING_DO_NOT_CHECK_NUM_CHARS);
 			MultiFormatString( const	std::string &in_String,
-						int		in_MaxNumberChars = CREO_STRING_DO_NOT_CHECK_NUM_CHARS);
+						int		in_MaxNumberChars = CAD_STRING_DO_NOT_CHECK_NUM_CHARS);
 			MultiFormatString( const char		*in_charArray,
-						int		in_MaxNumberChars = CREO_STRING_DO_NOT_CHECK_NUM_CHARS);
+						int		in_MaxNumberChars = CAD_STRING_DO_NOT_CHECK_NUM_CHARS);
 			MultiFormatString( const wchar_t	*in_charArray,
-						int		in_MaxNumberChars = CREO_STRING_DO_NOT_CHECK_NUM_CHARS);
+						int		in_MaxNumberChars = CAD_STRING_DO_NOT_CHECK_NUM_CHARS);
 
 			// The following line will invoke "operator const char* ()"
 			// std::cout << std::endl << MultiFormatString_1;

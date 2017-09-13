@@ -1,12 +1,11 @@
 #include "ParametricParameters.h"
 #include <cc_CommonUtilities.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include "isis_ptc_toolkit_ostream.h"
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 
 namespace isis

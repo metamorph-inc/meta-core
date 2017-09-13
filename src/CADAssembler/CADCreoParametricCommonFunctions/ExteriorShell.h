@@ -1,9 +1,8 @@
 #pragma once
 
 
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
-#include "CommonDefinitions.h"
 
 #include <set>
 #include <map>

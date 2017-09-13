@@ -86,7 +86,7 @@ namespace isis
 			"   Name:                      " << in_AssembledInfo.name << std::endl <<
 			"   Type:                      " << isis::CADMdlType_string(in_AssembledInfo.modelType) <<  std::endl <<
 			"   MaterialID (FromCyPhy):    " << in_AssembledInfo.materialID_FromCyPhy <<  std::endl <<
-			"   MaterialID (FromCreoPart): " << in_AssembledInfo.materialID_FromCreoPart <<  std::endl <<
+			"   MaterialID (FromCreoPart): " << in_AssembledInfo.materialID_FromCADPart <<  std::endl <<
 			//"   SpecialInstruction:        " << isis::SpecialInstruction_string(in_AssembledInfo.specialInstruction) <<  std::endl <<
 			"   SpecialInstruction:        " << in_AssembledInfo.specialInstruction <<  std::endl <<
 			"   Representation:            " << in_AssembledInfo.geometryRepresentation <<  std::endl <<

@@ -1,10 +1,9 @@
 #include <isis_ptc_toolkit_functions.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <CreoErrorCodes.h>
-#include <MultiFormatString.h>
+#include <cc_MultiFormatString.h>
 #include <CreoStringToEnumConversions.h>
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 #include <UtilCollect.h>
 
 // extern "C" FILE* PTApplsUnicodeFopen(const char *filename, const char *mode);

@@ -85,14 +85,14 @@
 
 #include "CADEnvironmentSettings.h"
 //#include "WindowsHDependentCommonFunctions.h"
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 #include <AssemblyCreationViaInputFile.h>
 #include "InputArgumentsParser.h"
 #include <cc_CommonUtilities.h>
-#include <MiscellaneousFunctions.h>
+#include <cc_MiscellaneousFunctions.h>
 #include <sstream>
-#include "LoggerBoost.h"
-
+#include "cc_LoggerBoost.h"
+#include "CADFactoryCreo.h"
 #include <boost/asio.hpp>
 //#include <boost/bind.hpp>
 #include <boost/smart_ptr.hpp>
@@ -124,7 +124,7 @@ int main( int argc, char *argv[] )
 	int ExitCode = 0;
 
 	std::string			creoStartCommand;
-	std::string			CADToolDir;
+	std::string			CADExtensionsDir;
 
 	std::string			templateFile_PathAndFileName;
 	std::stringstream	exceptionErrorStringStream;
@@ -219,7 +219,7 @@ int main( int argc, char *argv[] )
 		isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
 															creoExceptInputFromThisProgramAndCreoUI,
 															creoStartCommand,
-															CADToolDir,
+															CADExtensionsDir,
 															templateFile_PathAndFileName );
 
 		std::map<std::string, isis::CADComponentData> CADComponentData_map;
@@ -228,8 +228,11 @@ int main( int argc, char *argv[] )
 
 		   unsigned int UniqueNameIndex = 1;
 
-		   isis::CreateAssemblyViaInputFile(	programInputArguments,
-												CADToolDir,
+		   isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
+
+		   isis::CreateAssemblyViaInputFile(	*cad_factory,
+												programInputArguments,
+												CADExtensionsDir,
 												programInputArguments.inputXmlFileName,
 												workingDir.generic_string(),
 												programInputArguments.auxiliaryCADDirectory,

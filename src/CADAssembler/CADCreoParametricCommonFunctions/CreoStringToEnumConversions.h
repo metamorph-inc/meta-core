@@ -20,7 +20,7 @@
 #include <isis_include_ptc_headers.h>
 #include <string>
 #include <iostream>
-#include <CADStringToEnumConversions.h>
+#include <cc_StringToEnumConversions.h>
 
 using namespace std;
 

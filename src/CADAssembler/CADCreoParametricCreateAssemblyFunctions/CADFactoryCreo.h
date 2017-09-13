@@ -45,6 +45,10 @@ public:
 		  const std::string &	in_id, 
 		  std::map<std::string, isis::CADComponentData> &	in_map);
 
+
+
+	//virtual void SetupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception);
+
 };
 
 class CadFactoryCreo : public CadFactoryAbstract

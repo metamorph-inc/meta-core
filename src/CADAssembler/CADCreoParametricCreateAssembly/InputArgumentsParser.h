@@ -11,7 +11,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include <iostream>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 
 // Taken from the files on the META SVN
@@ -57,19 +57,18 @@ const std::string LOG_VERBOSITY_ALERT = "alert";
 //
 struct ProgramInputArguments
 {
-       bool                graphicsModeOn;            // default false
-       std::string         inputXmlFileName;          // could be the file name or the path and file name
-       std::string         workingDirectory;          // could be the complete path or a relative path
-       std::string         logFileName;               // could be the file name or the path and file name
-	   //log4cpp::Priority::PriorityLevel   logVerbosity;  // the log level for the root log category
-	   isis_LogSeverityLevel	   logVerbosity;
-       std::string         logConfigFile;             // the file name for the log configuration 
-       bool                promptBeforeExiting;       // default false
-	   std::string         auxiliaryCADDirectory;     // empty string by default - could be complete path or relative path
-	   bool                synchronizeWithCyPhy;      // Default false
-	   std::string         majorMode;                 // {"design", "component"}
-       std::string         syncConnectionString;      // If this is populated, then synchronizeWithCyPhy must be true.
-	   std::string		   designID;				  // this is used by MetaLink to associate Creo session with a CyPhy Design 
+       bool						graphicsModeOn;            // default false
+       std::string				inputXmlFileName;          // could be the file name or the path and file name
+       std::string				workingDirectory;          // could be the complete path or a relative path
+       std::string				logFileName;               // could be the file name or the path and file name
+	   isis_LogSeverityLevel	logVerbosity;
+       std::string				logConfigFile;             // the file name for the log configuration 
+       bool						promptBeforeExiting;       // default false
+	   std::string				auxiliaryCADDirectory;     // empty string by default - could be complete path or relative path
+	   bool						synchronizeWithCyPhy;      // Default false
+	   std::string				majorMode;                 // {"design", "component"}
+       std::string				syncConnectionString;      // If this is populated, then synchronizeWithCyPhy must be true.
+	   std::string				designID;				   // this is used by MetaLink to associate CyPhy session with a CyPhy Design 
  
        ProgramInputArguments(): graphicsModeOn(false), promptBeforeExiting(false), 
 		   logFileName("cad-assembler.log"), logVerbosity(isis_INFO), logConfigFile(""),

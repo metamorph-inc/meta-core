@@ -3,9 +3,9 @@
 #include <string>
 #include <CreoStringToEnumConversions.h>
 #include <ParametricParameters.h>
-#include "CommonDefinitions.h"
+#include "cc_CommonDefinitions.h"
 #include <map>
-#include "LoggerBoost.h"
+#include "cc_LoggerBoost.h"
 
 
 namespace isis

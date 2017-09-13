@@ -96,8 +96,8 @@ def WriteDoNotEditMsg(in_FileHandle):
 def WriteCAD_h_Header(in_FileHandle):
     f = in_FileHandle
     WriteDoNotEditMsg(f)
-    f.write('#ifndef CAD_STRING_TO_ENUM_CONVERSIONS_H')
-    f.write('\n#define	CAD_STRING_TO_ENUM_CONVERSIONS_H')
+    f.write('#ifndef CC_STRING_TO_ENUM_CONVERSIONS_H')
+    f.write('\n#define CC_STRING_TO_ENUM_CONVERSIONS_H')
     f.write('\n')
     f.write('\n#include "isis_application_exception.h"')
     f.write('\n#include <string>')
@@ -111,9 +111,9 @@ def WriteCAD_h_Header(in_FileHandle):
 def WriteCAD_cpp_Header(in_FileHandle):
     f = in_FileHandle
     WriteDoNotEditMsg(f)
-    f.write('#include "CADStringToEnumConversions.h"')
+    f.write('#include "cc_StringToEnumConversions.h"')
     f.write('\n#include <boost/algorithm/string/case_conv.hpp>')
-    f.write('\n#include "CADCommonConstants.h"')
+    f.write('\n#include "cc_CommonConstants.h"')
     f.write('\n')
     f.write('\nusing namespace std;')
     f.write('\n')
@@ -141,7 +141,7 @@ def WriteCreo_h_Header (in_FileHandle):
     f.write('\n#include <isis_include_ptc_headers.h>')
     f.write('\n#include <string>')
     f.write('\n#include <iostream>')
-    f.write('\n#include <CADStringToEnumConversions.h>')
+    f.write('\n#include <cc_StringToEnumConversions.h>')
     f.write('\n')
     f.write('\nusing namespace std;')
     f.write('\n')
@@ -153,8 +153,8 @@ def WriteCreo_cpp_Header(in_FileHandle):
     f = in_FileHandle
     WriteDoNotEditMsg(f)
     f.write('#include <CreoStringToEnumConversions.h>')
-    f.write('\n#include <CommonUtilities.h>')
-    f.write('\n#include <CADCommonConstants.h>')
+    f.write('\n#include <cc_CommonUtilities.h>')
+    f.write('\n#include <cc_CommonConstants.h>')
     f.write('\n#include <sstream>')
     f.write('\n#include <boost/algorithm/string.hpp>')	
     f.write('\n')

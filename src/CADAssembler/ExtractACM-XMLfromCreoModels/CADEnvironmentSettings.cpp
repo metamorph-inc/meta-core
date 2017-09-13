@@ -2,7 +2,7 @@
 #include "CADSoftwareEnvirUtils.h"
 #include <CommonUtilities.h>
 #include <windows.h>
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 #include <malloc.h>
 //#include <stdio.h>
 #include <iostream>
@@ -30,7 +30,7 @@ namespace isis
 	void SetCreoEnvirVariable_RetrieveSystemSettings(	bool			in_graphicsModeOn,
 														bool			in_CreoExceptInputFromThisProgramAndCreoUI,
 														std::string		&out_CreoStartCommand,
-														std::string		&out_CADToolDir,	
+														std::string		&out_CADExtensionsDir,	
 														std::string		&out_TemplateFile_PathAndFileName ) 
 																					throw (isis::application_exception)
 	{
@@ -53,14 +53,14 @@ namespace isis
 		isis::SetupCreoEnvironmentVariables(	in_graphicsModeOn,
 												in_CreoExceptInputFromThisProgramAndCreoUI,
 												out_CreoStartCommand);
-        out_CADToolDir = META_PATH() + "\\bin\\CAD\\Creo";
-		out_TemplateFile_PathAndFileName =  out_CADToolDir + "\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;	
+        out_CADExtensionsDir = META_PATH() + "\\bin\\CAD\\Creo";
+		out_TemplateFile_PathAndFileName =  out_CADExtensionsDir + "\\templates\\" + isis::TEMPLATE_MODEL_NAME_METRIC + isis::TEMPLATE_MODEL_NAME_METRIC_SUFFIX;	
 
 		/////////////////////////////
 		// Log Resulting Settings
 		/////////////////////////////
 		//std::clog << std::endl << std::endl << "************** Begin Environment Variables and System Settings *****************";
-		//std::clog << std::endl << "CADToolDir:                    "	<< out_CADToolDir; 
+		//std::clog << std::endl << "CADExtensionsDir:                    "	<< out_CADExtensionsDir; 
 		//std::clog << std::endl << "CreoStartCommand:              "	<< out_CreoStartCommand; 
 		//std::clog << std::endl << "PRO_COMM_MSG_EXE:              "	<<  getenv ("PRO_COMM_MSG_EXE"); 
 		//std::clog << std::endl << "TemplateFile_PathAndFileName:  "	<< out_TemplateFile_PathAndFileName; 

@@ -19,7 +19,7 @@
 
 #include "CADEnvironmentSettings.h"
 #include "InputArgumentsParser.h"
-#include "WindowsFunctions.h"
+#include "cc_WindowsFunctions.h"
 
 #include <string>
 #include <sstream>

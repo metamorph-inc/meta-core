@@ -1,12 +1,11 @@
 #include <ToolKitPassThroughFunctions.h>
-#include <CADCommonConstants.h>
+#include <cc_CommonConstants.h>
 #include <CreoStringToEnumConversions.h>
-#include <MultiFormatString.h>
+#include <cc_MultiFormatString.h>
 #include <cc_CommonUtilities.h>
 #include <cc_CommonStructures.h>
 #include <sstream>
-#include "LoggerBoost.h"
-#include "CommonDefinitions.h"
+#include "cc_LoggerBoost.h"
 
 namespace isis
 {

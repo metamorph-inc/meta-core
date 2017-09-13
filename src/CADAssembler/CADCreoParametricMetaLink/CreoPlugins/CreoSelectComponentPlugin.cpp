@@ -8,7 +8,7 @@ Pro/Toolkit includes
 /*--------------------------------------------------------------------*\
 Meta includes
 \*--------------------------------------------------------------------*/
-#include "CommonDefinitions.h"
+//#include "CommonDefinitions.h"
 #include "GlobalModelData.h"
 #include "TestError.h"
 #include "CreoPlugins.h"
