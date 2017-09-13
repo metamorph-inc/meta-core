@@ -330,7 +330,13 @@ namespace META
                     if (MetaPath != unknown)
                     {
                         var exePath = Path.Combine(MetaPath, "bin", "CAD", "Creo", "bin", "CADCreoParametricCreateAssembly.exe");
-                        m_ProeISISExtVer = FileVersionInfo.GetVersionInfo(exePath).ProductVersion;
+                        try
+                        {
+                            m_ProeISISExtVer = FileVersionInfo.GetVersionInfo(exePath).ProductVersion;
+                        }
+                        catch (FileNotFoundException)
+                        {
+                        }
                     }
                 }
                 return m_ProeISISExtVer;
