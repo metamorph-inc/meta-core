@@ -1253,9 +1253,9 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 
 		std::string expr = "constraint formula_" + increaseCounter() + "_" + propname + " () {"
 			+ DFUtil::getRelativePath(src_vf_end, src_vf_end_parent, cyphy_com) + std::string(src_vf_end.name()) + "()";
-		if (cyphy_com.type() == CyPhyML::DesignContainer::meta)
+		if (src_vf.GetParent().type() == CyPhyML::DesignContainer::meta)
 		{
-			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(cyphy_com);
+			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(src_vf.GetParent());
 			if ((std::string)dc.ContainerType() == "Optional") {
 				expr += " or " +
 					DFUtil::getRelativePath(src_vf_end, src_vf_end_parent.GetParent(), cyphy_com) +
