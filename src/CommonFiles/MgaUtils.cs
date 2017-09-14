@@ -16,14 +16,19 @@ namespace GME.MGA
 
         public static void ImportXMEForTest(string xmePath, string mgaPath, out string connectionString)
         {
+            connectionString = "MGA=" + mgaPath;
             if (File.Exists(mgaPath))
             {
+                // for faster debug cycles, skip importing .xme
+                // if (xmePath.Contains("ToyDS.xme") && File.GetLastWriteTimeUtc(xmePath) < File.GetLastWriteTimeUtc(mgaPath))
+                // {
+                //     return;
+                // }
                 // delete the file if exists.
                 // it could be a test to check if the importer has generated the mga file or not.
                 File.Delete(mgaPath);
             }
 
-            connectionString = "MGA=" + mgaPath;
             ImportXME(xmePath, mgaPath);
         }
 
