@@ -1631,6 +1631,15 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 				currExpr = (std::string)propertCon.name() + "()" + expr;
 			else
 				currExpr = "children(\""+UdmUtil::ExtractName(propParent)+"\")."+(std::string)propertCon.name() + "()" + expr;
+			if (Uml::IsDerivedFrom(cyphy_container.type(), CyPhyML::DesignContainer::meta))
+			{
+				auto dc = CyPhyML::DesignContainer::Cast(cyphy_container);
+				if (dc.ContainerType() == "Optional")
+				{
+					// if optional is not selected, constraint doesn't matter
+					currExpr = std::string("implementedBy() = children(\"null\") or ") + currExpr;
+				}
+			}
 
 			DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
 			dsConstraint.name() = dsconName;
