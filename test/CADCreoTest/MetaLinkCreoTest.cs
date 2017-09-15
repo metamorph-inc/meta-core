@@ -24,34 +24,6 @@ namespace CyPhyPropagateTest
             this.fixture = fixture;
         }
 
-        public static void KillCreo()
-        {
-            try
-            {
-	            Process[] proc = Process.GetProcessesByName("xtop");
-                if (proc.Length != 0)
-                {
-                    proc[0].Kill();
-                    proc[0].WaitForExit();
-                }
-                proc = Process.GetProcessesByName("nmsd");
-                if (proc.Length != 0)
-                {
-                    proc[0].Kill();
-                    proc[0].WaitForExit();
-                }
-                proc = Process.GetProcessesByName("CADCreoParametricMetaLink");
-                if (proc.Length != 0)
-                {
-                    proc[0].Kill();
-                    proc[0].WaitForExit();
-                }
-            }
-            catch (Exception)
-
-            {
-            }
-        }
 
         private void ExeStartupFailed()
         {
@@ -61,7 +33,6 @@ namespace CyPhyPropagateTest
         [Fact]
         public void TestStartupComponent()
         {
-            KillCreo();
             SetupTest();
 
             RunCyPhyMLSync(
@@ -89,7 +60,7 @@ namespace CyPhyPropagateTest
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
-                        while (addonMessagesQueue.TryTake(out e))
+                        while (addonMessagesQueue.TryTake(out e, 500))
                         {
                             if (e.actions.Count > 0 && e.actions[0].notices.Count > 0)
                             {
@@ -104,13 +75,11 @@ namespace CyPhyPropagateTest
                     Assert.True(success);
                 }
             );
-            KillCreo();
         }
 
         [Fact]
         public void TestStartupAssembly()
         {
-            KillCreo();
             SetupTest();
 
             RunCyPhyMLSync(
@@ -137,7 +106,7 @@ namespace CyPhyPropagateTest
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
-                        while (addonMessagesQueue.TryTake(out e))
+                        while (addonMessagesQueue.TryTake(out e, 500))
                         {
                             if (e.actions.Count > 0 && e.actions[0].notices.Count > 0)
                             {
@@ -152,13 +121,11 @@ namespace CyPhyPropagateTest
                     Assert.True(success);
                 }
             );
-            KillCreo();
         }
 
         [Fact]
         public void TestStartupAssemblyHierarchy()
         {
-            KillCreo();
             SetupTest();
 
             RunCyPhyMLSync(
@@ -185,7 +152,7 @@ namespace CyPhyPropagateTest
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
-                        while (addonMessagesQueue.TryTake(out e))
+                        while (addonMessagesQueue.TryTake(out e, 500))
                         {
                             if (e.actions.Count > 0 && e.actions[0].notices.Count > 0)
                             {
@@ -200,7 +167,6 @@ namespace CyPhyPropagateTest
                     Assert.True(success);
                 }
             );
-            KillCreo();
         }
     }
 }

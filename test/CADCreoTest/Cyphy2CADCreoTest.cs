@@ -44,7 +44,6 @@ namespace CADCreoTest
         [Fact]
         public void BallisticTB_Creo()
         {
-            CyPhyPropagateTest.MetaLinkCreoTest.KillCreo();
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\CADTeam\MSD_CAD.xme");
             string TestbenchPath = "/@MyTestBenches|kind=Testing|relpos=0/@TestBench_Config|kind=Testing|relpos=0/@Ballistic|kind=Testing|relpos=0/@Custom_Ballistics_Valid|kind=BallisticTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "BallisticTB_Custom_Valid");
@@ -96,7 +95,6 @@ namespace CADCreoTest
         [Fact]
         public void KinematicTB_Creo_4Bar()
         {
-            CyPhyPropagateTest.MetaLinkCreoTest.KillCreo();
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\MBD\MBD.xme");
             string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@Kinematics|kind=Testing|relpos=0/@Kinematic_FourBar|kind=KinematicTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "Kinematic_FourBar");
@@ -153,7 +151,6 @@ namespace CADCreoTest
         [Fact]
         public void KinematicTB_Creo_Excavator()
         {
-            CyPhyPropagateTest.MetaLinkCreoTest.KillCreo();
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\MBD\MBD.xme");
             string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@Kinematics|kind=Testing|relpos=0/@Kinematic_Excavator|kind=KinematicTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "Kinematic_Excavator");

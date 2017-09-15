@@ -110,21 +110,29 @@ namespace FEAKinematicTest
             process.StartInfo = info;
 
             process.Start();
+            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(process);
 
-            bool exited = process.WaitForExit(timeout);
-            if (!exited)
+            bool exited = false;
+            try
             {
-                process.Kill();
-                process.WaitForExit();
+                exited = process.WaitForExit(timeout);
+                if (!exited)
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                }
+                exitcode = process.ExitCode;
             }
-            exitcode = process.ExitCode;
+            finally
+            {
+                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+            }
 
             return exited;
         }
 
         public string SetupTestAndRunCAD(string XmePath, string TestbenchPath, string dirName, string asmName)
         {
-            CyPhyPropagateTest.MetaLinkCreoTest.KillCreo();
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), dirName);
             bool status = CADTeamTest.CyPhy2CADRun.Run(OutputDir, XmePath, TestbenchPath, true);
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedAsmFile)), "Failed to generate " + CADTeamTest.CADTests.generatedAsmFile);
@@ -147,7 +155,6 @@ namespace FEAKinematicTest
         [Fact]
         public void KinematicTB_4Bar()
         {
-            CyPhyPropagateTest.MetaLinkCreoTest.KillCreo();
             string XmePath = Path.GetFullPath(@"..\..\..\..\models\MBD\MBD.xme");
             string TestbenchPath = "/@Testing|kind=Testing|relpos=0/@Kinematics|kind=Testing|relpos=0/@Kinematic_FourBar|kind=KinematicTestBench|relpos=0";
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "Kinematic_FourBar");

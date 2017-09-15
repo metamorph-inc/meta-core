@@ -818,6 +818,23 @@ namespace CyPhyMetaLink
 
         public static IntPtr AssignProcessToKillOnCloseJob(Process process)
         {
+            IntPtr job = CreateKillOnCloseJob();
+            AssignProcessToJobObject(process, job);
+
+            return job;
+        }
+
+        public static void AssignProcessToJobObject(Process process, IntPtr job)
+        {
+            if (!AssignProcessToJobObject(job, process.Handle))
+            {
+                CloseHandle(job);
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
+
+        public static IntPtr CreateKillOnCloseJob()
+        {
             IntPtr job = CreateJobObject(IntPtr.Zero, null);
             if (job == IntPtr.Zero)
             {
@@ -833,11 +850,6 @@ namespace CyPhyMetaLink
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
 
             if (!SetInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, (uint)Marshal.SizeOf(info)))
-            {
-                CloseHandle(job);
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-            if (!AssignProcessToJobObject(job, process.Handle))
             {
                 CloseHandle(job);
                 throw new Win32Exception(Marshal.GetLastWin32Error());

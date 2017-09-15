@@ -324,6 +324,10 @@ namespace CyPhyMetaLink
             };
             LastStartedInstance = syncedCompData;
             createAssembly.Start();
+            if (TestMode_CreoJobObject != IntPtr.Zero)
+            {
+                JobObjectPinvoke.AssignProcessToJobObject(createAssembly, TestMode_CreoJobObject);
+            }
             createAssembly.BeginOutputReadLine();
             createAssembly.BeginErrorReadLine();
             createAssembly.StandardInput.Close();
