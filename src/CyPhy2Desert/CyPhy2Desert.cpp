@@ -1227,8 +1227,8 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 	}
 	std::string propname = UdmUtil::ExtractName(prop);
 
-	if(src_vfs.size()>1)
-		throw udm_exception("It cannot have more than one source ValueFlow if it has one end of Property/Parameter.");
+	if (src_vfs.size()>1)
+		throw udm_exception("<a href=\"mga:" + UdmGme::UdmId2GmeId(prop.uniqueId()) + "\">" + propname + "</a> cannot have more than one source ValueFlow if it has one end of Property/Parameter.");
 
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(desert_elem);
 	updatevpMap(vp, prop, cyphy_com);
