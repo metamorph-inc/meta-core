@@ -1589,9 +1589,9 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 			Udm::SmartDataNetwork ai(AssemblyInterface::diagram);
 			
 			if ( in_InputFormat == XML_DEFINED_BY_FILE )
-				ai.OpenExisting(in_AssemblyDefinitionXML.c_str(),"AssemblyInterface", Udm::CHANGES_PERSIST_ALWAYS);
+				ai.OpenExisting(in_AssemblyDefinitionXML.c_str(),"AssemblyInterface", Udm::CHANGES_LOST_DEFAULT);
 			else
-				ai.OpenExistingFromString((string)in_AssemblyDefinitionXML,"AssemblyInterface", Udm::CHANGES_PERSIST_ALWAYS);
+				ai.OpenExistingFromString((string)in_AssemblyDefinitionXML,"AssemblyInterface", Udm::CHANGES_LOST_DEFAULT);
 
 			AssemblyInterface::Assemblies Assemblies_ptr = AssemblyInterface::Assemblies::Cast(ai.GetRootObject());		
 
