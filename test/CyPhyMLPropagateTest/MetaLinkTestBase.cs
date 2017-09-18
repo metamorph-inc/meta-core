@@ -32,7 +32,7 @@ namespace CyPhyPropagateTest
         {
             get
             {
-                return Path.Combine(Path.GetTempPath(), "CyPhyMLTest_TestModel");
+                return Path.Combine(Path.GetTempPath(), "CyPhyMLTest_" + this.GetType().Name);
             }
         }
 
