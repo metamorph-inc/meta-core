@@ -246,6 +246,7 @@ models/ComponentsAndArchitectureTeam/ComponentLibraryManager_AddOn/
 models/ComponentsAndArchitectureTeam/FormulaEvaluator/FormulaEvaluator_test.mga
 models/ComponentsAndArchitectureTeam/FormulaEvaluator/log/
 models/DesignSpace/Refactorer_test.mga
+models/DesignSpace/ToyDS.mga
 models/DesignSpace/ToyDS_test.mga
 models/DesignSpace/log/
 models/DynamicsTeam/CLM_Light/CLM_Light_test.mga
@@ -579,6 +580,7 @@ test/InterchangeTest/DesignInterchangeTest/ImportTestUnits/ValueFlow/ValueFlow_t
 test/InterchangeTest/DesignInterchangeTest/ImportTestUnits/ValueFlow/log/
 test/nunit_results.xml
 test/results/
+test/ModelTest/temp/
 externals/desert/DesertBackCompare/ReleaseUnicode/
 externals/desert/ReleaseUnicode/
 models/DynamicsTeam/RISimpleFormula/NonScalarParamsProps_ParamCA/

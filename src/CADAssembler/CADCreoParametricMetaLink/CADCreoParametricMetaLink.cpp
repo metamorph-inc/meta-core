@@ -15,6 +15,7 @@
 #include <ISISVersionNumber.h>
 #include "CADFactoryAbstract.h"
 #include "CADFactoryCreo.h"
+#include "CreoErrorCodes.h"
 #include <AssembleUtils.h>
 
 #include <boost/filesystem.hpp>
@@ -308,6 +309,13 @@ int main(int argc, char *argv[])
         while(!terminateProcess)
         {
             ProEventProcess();
+            ProErr err;
+            if ((err = ProEngineerStatusGet()) != PRO_TK_NO_ERROR)
+            {
+                exceptionErrorStringStream << "Creo exited abnormally: " << isis::ProToolKitError_string(err).c_str();
+                ExitCode = -4;
+                break;
+            }
             if(programInputArguments.inputXmlFileName.size()!=0 && !inputFileProcessed)
             {
                 metalink_handler.CreateAssembly(programInputArguments.inputXmlFileName);

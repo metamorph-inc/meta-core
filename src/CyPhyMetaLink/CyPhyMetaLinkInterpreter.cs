@@ -389,6 +389,7 @@ namespace CyPhyMetaLink
                                         bridgeListening.SetResult(true);
                                     }
                                     log.WriteLine(e.Data);
+                                    // log.Flush();
                                 }
                             };
                             metalink.OutputDataReceived += handler;

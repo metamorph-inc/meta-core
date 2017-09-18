@@ -160,6 +160,7 @@ namespace isis
 		//////////////////////////////////////////////////////////////////
 		std::vector<std::string> subKeys_vec;
 		RetrieveRegistryListOfSubkeys( hKey, subKeys_vec );
+		RegCloseKey(hKey);
 
 		std::vector<std::string> versionNumber_vec;
 		for ( std::vector<std::string>::const_iterator i(subKeys_vec.begin()); i != subKeys_vec.end(); ++i )
@@ -207,6 +208,7 @@ namespace isis
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		subKeys_vec.clear();
 		RetrieveRegistryListOfSubkeys( hKey, subKeys_vec );
+		RegCloseKey(hKey);
 
 		if ( subKeys_vec.size() == 0 )
 		{
@@ -259,6 +261,7 @@ namespace isis
 		// Get InstallDir
 		////////////////////////////////
 		std::string installDir = RetrieveRegistryStringValue( hKey, "InstallDir" );
+		RegCloseKey(hKey);
 
 		if ( commonFilesLocation.size() == 0 )
 		{
