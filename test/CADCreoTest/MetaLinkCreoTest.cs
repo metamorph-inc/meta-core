@@ -11,11 +11,12 @@ using System.Diagnostics;
 using CyPhyPropagateTest;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace CyPhyPropagateTest
 {
 
-    public class MetaLinkCreoTest : MetaLinkTestBase, IUseFixture<CADCreoTest.Cyphy2CADCreoTest.MetaLinkFixture>
+    public class MetaLinkCreoTest : MetaLinkTestBase, IUseFixture<CADCreoTest.Cyphy2CADCreoTest.MetaLinkFixture>, IDisposable
     {
         private CADCreoTest.Cyphy2CADCreoTest.MetaLinkFixture fixture;
 
@@ -24,10 +25,20 @@ namespace CyPhyPropagateTest
             this.fixture = fixture;
         }
 
+        protected BlockingCollection<string> errors = new System.Collections.Concurrent.BlockingCollection<string>(new ConcurrentQueue<string>());
 
         private void ExeStartupFailed()
         {
-            Assert.True(false, "CADCreoParametricMetaLink.exe returned with error.");
+            errors.Add("CADCreoParametricMetaLink.exe returned with error.");
+        }
+
+        private void ThrowDeferredErrors()
+        {
+            string error;
+            if (errors.TryTake(out error))
+            {
+                Assert.True(false, error);
+            }
         }
 
         [Fact]
@@ -57,6 +68,7 @@ namespace CyPhyPropagateTest
                     bool success = false;
                     do
                     {
+                        ThrowDeferredErrors();
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
@@ -71,7 +83,7 @@ namespace CyPhyPropagateTest
                                 }
                             }
                         }
-                    } while (ts.TotalSeconds < 45 && !success);
+                    } while (ts.TotalSeconds < 90 && !success);
                     Assert.True(success);
                 }
             );
@@ -103,6 +115,7 @@ namespace CyPhyPropagateTest
                     bool success = false;
                     do
                     {
+                        ThrowDeferredErrors();
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
@@ -117,7 +130,7 @@ namespace CyPhyPropagateTest
                                 }
                             }
                         }
-                    } while (ts.TotalSeconds < 45 && !success);
+                    } while (ts.TotalSeconds < 90 && !success);
                     Assert.True(success);
                 }
             );
@@ -149,6 +162,7 @@ namespace CyPhyPropagateTest
                     bool success = false;
                     do
                     {
+                        ThrowDeferredErrors();
                         Application.DoEvents();
                         ts = DateTime.Now - t1;
                         Edit e;
@@ -163,10 +177,15 @@ namespace CyPhyPropagateTest
                                 }
                             }
                         }
-                    } while (ts.TotalSeconds < 45 && !success);
+                    } while (ts.TotalSeconds < 90 && !success);
                     Assert.True(success);
                 }
             );
+        }
+
+        public void Dispose()
+        {
+            errors.Dispose();
         }
     }
 }

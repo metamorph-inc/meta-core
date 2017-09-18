@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Xunit;
 using System.Diagnostics;
+using System.Threading;
 
 namespace CADCreoTest
 {
@@ -51,44 +52,8 @@ namespace CADCreoTest
             bool status = CADTeamTest.CyPhy2CADRun.Run(OutputDir, XmePath, TestbenchPath, true);
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedAsmFile)), "Failed to generate " + CADTeamTest.CADTests.generatedAsmFile);
 
-            ProcessStartInfo info = new ProcessStartInfo()
-            {
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                RedirectStandardInput = false,
-                UseShellExecute = false,
-                WindowStyle = ProcessWindowStyle.Normal,
-                CreateNoWindow = false,
-                FileName = fixture.createAssemblyExe,
-                Arguments = "-w . -i CADAssembly.xml",
-                WorkingDirectory = OutputDir
-                // TODO -p ?
-            };
+            RunCreateAssembly(OutputDir);
 
-            Process createAssembly = new Process();
-            createAssembly.StartInfo = info;
-
-            createAssembly.Start();
-            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
-
-            try
-            {
-                bool exited = createAssembly.WaitForExit(45000);
-                if (!exited)
-                {
-                    createAssembly.Kill();
-                    createAssembly.WaitForExit();
-                }
-
-                Assert.True(exited);
-            }
-            finally
-            {
-                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
-            }
-
-            Assert.Equal(createAssembly.ExitCode, 0);
-            Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
             Assert.True(File.Exists(Path.Combine(OutputDir,"mymassspringdamper_1.asm.2")));
         }
 
@@ -103,45 +68,7 @@ namespace CADCreoTest
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedAsmFile)), "Failed to generate " + CADTeamTest.CADTests.generatedAsmFile);
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedMBDFile)), "Failed to generate " + CADTeamTest.CADTests.generatedMBDFile);
 
-            ProcessStartInfo info = new ProcessStartInfo()
-            {
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                RedirectStandardInput = false,
-                UseShellExecute = false,
-                WindowStyle = ProcessWindowStyle.Normal,
-                CreateNoWindow = false,
-                FileName = fixture.createAssemblyExe,
-                Arguments = "-w . -i CADAssembly.xml",
-                WorkingDirectory = OutputDir
-                // TODO -p ?
-            };
-
-            Process createAssembly = new Process();
-            createAssembly.StartInfo = info;
-
-            createAssembly.Start();
-
-            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
-
-            try
-            {
-                bool exited = createAssembly.WaitForExit(45000);
-                if (!exited)
-                {
-                    createAssembly.Kill();
-                    createAssembly.WaitForExit();
-                }
-
-                Assert.True(exited);
-            }
-            finally
-            {
-                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
-            }
-
-            Assert.Equal(createAssembly.ExitCode, 0);
-            Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
+            RunCreateAssembly(OutputDir);
             Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
             //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID","SystemUnderTest_1_asm.x_t")));
             Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
@@ -159,11 +86,20 @@ namespace CADCreoTest
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedAsmFile)), "Failed to generate " + CADTeamTest.CADTests.generatedAsmFile);
             Assert.True(File.Exists(Path.Combine(OutputDir, CADTeamTest.CADTests.generatedMBDFile)), "Failed to generate " + CADTeamTest.CADTests.generatedMBDFile);
 
+            RunCreateAssembly(OutputDir);
+            Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
+            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
+            Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
+            Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
+        }
+
+        private void RunCreateAssembly(string OutputDir)
+        {
             ProcessStartInfo info = new ProcessStartInfo()
             {
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                RedirectStandardInput = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Normal,
                 CreateNoWindow = false,
@@ -176,31 +112,57 @@ namespace CADCreoTest
             Process createAssembly = new Process();
             createAssembly.StartInfo = info;
 
+            ManualResetEvent outputDone = new ManualResetEvent(false);
+            createAssembly.OutputDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    Console.Out.WriteLine(e.Data);
+                }
+                else
+                {
+                    outputDone.Set();
+                }
+            };
+            var errorDone = new ManualResetEvent(false);
+            createAssembly.ErrorDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    Console.Error.WriteLine(e.Data);
+                }
+                else
+                {
+                    errorDone.Set();
+                }
+            };
+
             createAssembly.Start();
             IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
 
             try
             {
-                bool exited = createAssembly.WaitForExit(45000);
+                createAssembly.StandardInput.Close();
+                createAssembly.BeginErrorReadLine();
+                createAssembly.BeginOutputReadLine();
+
+                bool exited = createAssembly.WaitForExit(90000);
                 if (!exited)
                 {
                     createAssembly.Kill();
                     createAssembly.WaitForExit();
                 }
-
-                Assert.True(exited);
+                outputDone.WaitOne(1000);
+                errorDone.WaitOne(1000);
+                Assert.True(exited, "CADCreoParametricCreateAssembly did not exit within 90 seconds");
             }
             finally
             {
                 CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
             }
 
-            Assert.Equal(createAssembly.ExitCode, 0);
+            Assert.True(createAssembly.ExitCode == 0, string.Format("CADCreoParametricCreateAssembly failed with code {0}", createAssembly.ExitCode));
             Assert.True(VerifyCADAssemblerLog(Path.Combine(OutputDir, "log", "cad-assembler.log")));
-            Assert.True(File.Exists(Path.Combine(OutputDir, "systemundertest_1.asm.2")));
-            //Assert.True(File.Exists(Path.Combine(OutputDir, "PARASOLID", "SystemUnderTest_1_asm.x_t")));
-            Assert.True(File.Exists(Path.Combine(OutputDir, "ComputedValues.xml")));
-            Assert.True(File.Exists(Path.Combine(OutputDir, "CADAssembly_metrics.xml")));
         }
 
         public static bool VerifyCADAssemblerLog(string logfile)
