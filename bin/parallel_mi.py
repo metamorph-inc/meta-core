@@ -5,6 +5,7 @@ import sys
 import os
 import os.path
 import errno
+import uuid
 import subprocess
 
 import imp
@@ -110,7 +111,9 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
     master_exe_path = os.path.join(meta_path, 'bin', 'CyPhyMasterExe.exe')
     if not os.path.isfile(master_exe_path):
         master_exe_path = os.path.join(meta_path, r'src\CyPhyMasterExe\bin\Release\CyPhyMasterExe.exe')
+    job_collection_id = str(uuid.uuid4())
     master_exe_args = [master_exe_path,
+        "--job-collection-id", job_collection_id,
         focusObject.convert_udm2gme().Project.ProjectConnStr,
         focusObject.convert_udm2gme().AbsPath]
     cwc_paths = [cwc.convert_udm2gme().AbsPath for cwc in cwcs]
@@ -163,6 +166,10 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
             messages_condition.wait(1)
 
     # start_pdb()
+    args = [master_exe_path,
+        "--job-collection-id", job_collection_id,
+        "--send-job-collection-done"]
+    subprocess.check_call(args)
     log('Parallel Master Interpreter finished')
 
 

@@ -36,6 +36,17 @@
             "CyPhySignalBlocksAddOn"
         };
 
+        private string JobCollectionID = new Guid().ToString("D");
+        public void SetJobCollectionID(string id)
+        {
+            JobCollectionID = id;
+        }
+
+        private bool SendJobCollectionDone = true;
+        public void SetSendJobCollectionDone(bool SendJobCollectionDone)
+        {
+            this.SendJobCollectionDone = SendJobCollectionDone;
+        }
 
         public void Initialize(MgaProject project, CyPhyGUIs.GMELogger logger = null)
         {
@@ -547,7 +558,7 @@
                     Title = "Finished"
                 });
             });
-            if (this.Manager != null && this.Manager.Started)
+            if (this.SendJobCollectionDone && this.Manager != null && this.Manager.Started)
             {
                 Manager.Done();
             }
@@ -1080,7 +1091,7 @@
 
                 Action createJobManager = () =>
                 {
-                    this.Manager = new JobManagerDispatch();
+                    this.Manager = new JobManagerDispatch(JobCollectionID);
                     this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
                     this.Manager.JobCollection.ConfigurationNames = this.ConfigurationNames;
                 };
