@@ -18,6 +18,7 @@ namespace AVM.DDP
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Diagnostics.Contracts;
     using ISIS.GME.Common.Interfaces;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// TODO: Update summary.
@@ -152,7 +153,10 @@ namespace AVM.DDP
 
             if (saveToFile)
             {
-                File.WriteAllText(filename, json);
+                using (new MutexWrapper(filename))
+                {
+                    File.WriteAllText(filename, json);
+                }
             }
 
             return json;
@@ -348,107 +352,98 @@ namespace AVM.DDP
             string OutputSubDir,
             DateTime time)
         {
-            string jsonFile = Path.Combine(this.GetResultsFolder(), "results.metaresults.json");
+            string jsonFile = Path.GetFullPath(Path.Combine(this.GetResultsFolder(), "results.metaresults.json"));
             AVM.DDP.MetaResults results = null;
-            using (System.Threading.Mutex jsonFileMutex = new System.Threading.Mutex(false, "results_metaresults_mutex"))
+            using (new MutexWrapper(jsonFile))
             {
-                jsonFileMutex.WaitOne();
-                try
+                if (File.Exists(jsonFile))
                 {
-                    if (File.Exists(jsonFile))
+                    string content = "";
+                    using (StreamReader reader = new StreamReader(jsonFile))
                     {
-                        string content = "";
-                        using (StreamReader reader = new StreamReader(jsonFile))
-                        {
-                            content = reader.ReadToEnd();
-                        }
-
-                        try
-                        {
-                            results = JsonConvert.DeserializeObject<AVM.DDP.MetaResults>(content);
-                        }
-                        catch (Newtonsoft.Json.JsonReaderException ex)
-                        {
-                            // Will this cause problems if we run it from the job manager??? Should we only log it istead?
-                            throw new Exception(string.Format("{0} file is probably malformed. Not a valid json. {1}{2}", Path.GetFullPath(jsonFile), Environment.NewLine, ex.Message));
-                        }
-
-                        // TODO: remove broken links
-                    }
-                    else
-                    {
-                        results = new AVM.DDP.MetaResults();
+                        content = reader.ReadToEnd();
                     }
 
-                    AVM.DDP.MetaResults.Result thisResult = new AVM.DDP.MetaResults.Result();
-
-                    thisResult.Summary = MakeRelativePath(
-                        Path.GetDirectoryName(jsonFile),
-                        Path.Combine(OutputSubDir, AVM.DDP.MetaTBManifest.TESTBENCH_FILENAME)).Replace('\\', '/');
-
-                    thisResult.Time = time.ToString("yyyy-MM-dd HH-mm-ss");
-
-                    if (string.IsNullOrWhiteSpace(singleFco.RegistryValue["TestBenchUniqueName"]) == false)
+                    try
                     {
-                        thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                        results = JsonConvert.DeserializeObject<AVM.DDP.MetaResults>(content);
+                    }
+                    catch (Newtonsoft.Json.JsonReaderException ex)
+                    {
+                        // Will this cause problems if we run it from the job manager??? Should we only log it istead?
+                        throw new Exception(string.Format("{0} file is probably malformed. Not a valid json. {1}{2}", Path.GetFullPath(jsonFile), Environment.NewLine, ex.Message));
                     }
 
-                    Func<MgaFCO, CyPhy.TestBenchType> cast;
-                    if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast) && cast(singleFco) != null)
-                    {
-                        CyPhy.TestBenchType testBench = cast(singleFco);
+                    // TODO: remove broken links
+                }
+                else
+                {
+                    results = new AVM.DDP.MetaResults();
+                }
 
-                        var tlsut = testBench.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
-                        if (tlsut != null)
+                AVM.DDP.MetaResults.Result thisResult = new AVM.DDP.MetaResults.Result();
+
+                thisResult.Summary = MakeRelativePath(
+                    Path.GetDirectoryName(jsonFile),
+                    Path.Combine(OutputSubDir, AVM.DDP.MetaTBManifest.TESTBENCH_FILENAME)).Replace('\\', '/');
+
+                thisResult.Time = time.ToString("yyyy-MM-dd HH-mm-ss");
+
+                if (string.IsNullOrWhiteSpace(singleFco.RegistryValue["TestBenchUniqueName"]) == false)
+                {
+                    thisResult.TestBench = singleFco.RegistryValue["TestBenchUniqueName"] + ".testbench.json";
+                }
+
+                Func<MgaFCO, CyPhy.TestBenchType> cast;
+                if (TestbenchAndCompositeTypes.TryGetValue(singleFco.Meta.Name, out cast) && cast(singleFco) != null)
+                {
+                    CyPhy.TestBenchType testBench = cast(singleFco);
+
+                    var tlsut = testBench.Children.TopLevelSystemUnderTestCollection.FirstOrDefault();
+                    if (tlsut != null)
+                    {
+                        if (tlsut.AllReferred is CyPhy.ComponentAssembly)
                         {
-                            if (tlsut.AllReferred is CyPhy.ComponentAssembly)
+                            var cfg = tlsut.Referred.ComponentAssembly;
+                            //thisResult.Design = cfg.Name + ".metadesign.json";
+
+                            var cid = cfg.Attributes.ConfigurationUniqueID;
+                            //this.ConfigurationUniqueID = cid;
+
+                            if (string.IsNullOrWhiteSpace(cid))
                             {
-                                var cfg = tlsut.Referred.ComponentAssembly;
-                                //thisResult.Design = cfg.Name + ".metadesign.json";
+                                cid = Guid.NewGuid().ToString("B");
+                                cfg.Attributes.ConfigurationUniqueID = cid;
+                            }
 
-                                var cid = cfg.Attributes.ConfigurationUniqueID;
-                                //this.ConfigurationUniqueID = cid;
-
-                                if (string.IsNullOrWhiteSpace(cid))
+                            if (!string.IsNullOrEmpty(cid))
+                            {
+                                try
                                 {
-                                    cid = Guid.NewGuid().ToString("B");
-                                    cfg.Attributes.ConfigurationUniqueID = cid;
+                                    Guid guid = new Guid(cid);
+                                    thisResult.DesignID = guid.ToString("B");
                                 }
-
-                                if (!string.IsNullOrEmpty(cid))
+                                catch (System.FormatException ex)
                                 {
-                                    try
-                                    {
-                                        Guid guid = new Guid(cid);
-                                        thisResult.DesignID = guid.ToString("B");
-                                    }
-                                    catch (System.FormatException ex)
-                                    {
-                                        Trace.TraceError("{0} is not a vaild GUID.", cid);
-                                        Trace.TraceError(ex.ToString());
-                                    }
+                                    Trace.TraceError("{0} is not a vaild GUID.", cid);
+                                    Trace.TraceError(ex.ToString());
                                 }
                             }
                         }
                     }
-
-                    results.Results.Add(thisResult);
-
-                    var dirname = Path.GetDirectoryName(jsonFile);
-                    if (Directory.Exists(dirname) == false)
-                    {
-                        Directory.CreateDirectory(dirname);
-                    }
-
-                    using (StreamWriter writer = new StreamWriter(jsonFile))
-                    {
-                        writer.WriteLine(JsonConvert.SerializeObject(results, Newtonsoft.Json.Formatting.Indented));
-                    }
                 }
-                finally
+
+                results.Results.Add(thisResult);
+
+                var dirname = Path.GetDirectoryName(jsonFile);
+                if (Directory.Exists(dirname) == false)
                 {
-                    jsonFileMutex.ReleaseMutex();
-                    jsonFileMutex.Dispose();
+                    Directory.CreateDirectory(dirname);
+                }
+
+                using (StreamWriter writer = new StreamWriter(jsonFile))
+                {
+                    writer.WriteLine(JsonConvert.SerializeObject(results, Newtonsoft.Json.Formatting.Indented));
                 }
             }
         }
@@ -464,9 +459,9 @@ namespace AVM.DDP
                 Directory.CreateDirectory(testBenchPath);
             }
 
-            string jsonFileName = Path.Combine(
+            string jsonFileName = Path.GetFullPath(Path.Combine(
                 testBenchPath,
-                testBench.Name + ".testbench.json");
+                testBench.Name + ".testbench.json"));
 
             AVM.DDP.MetaTestBench metaTestBench = new AVM.DDP.MetaTestBench();
             metaTestBench.Name = testBench.Name;
@@ -530,26 +525,17 @@ namespace AVM.DDP
                 // TODO: Metric2Requirement Link connection
             }
 
-            using (System.Threading.Mutex jsonFileMutex = new System.Threading.Mutex(false, "results_metaresults_mutex"))
+            using (new MutexWrapper(jsonFileName))
             {
-                jsonFileMutex.WaitOne();
-                try
+                using (StreamWriter writer = new StreamWriter(jsonFileName))
                 {
-                    using (StreamWriter writer = new StreamWriter(jsonFileName))
-                    {
-                        writer.WriteLine(JsonConvert.SerializeObject(
-                            metaTestBench,
-                            Newtonsoft.Json.Formatting.Indented,
-                            new JsonSerializerSettings()
-                            {
-                                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                            }));
-                    }
-                }
-                finally
-                {
-                    jsonFileMutex.ReleaseMutex();
-                    jsonFileMutex.Dispose();
+                    writer.WriteLine(JsonConvert.SerializeObject(
+                        metaTestBench,
+                        Newtonsoft.Json.Formatting.Indented,
+                        new JsonSerializerSettings()
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                        }));
                 }
             }
 
@@ -653,29 +639,28 @@ namespace AVM.DDP
         {
             MetaAvmProject avmProj = new MetaAvmProject();
 
-            string currentDir = Environment.CurrentDirectory;
-
-            if (Directory.Exists(outputDirectory) == false)
-                Directory.CreateDirectory(outputDirectory);
-
-            Directory.SetCurrentDirectory(outputDirectory);
+            outputDirectory = Path.GetFullPath(outputDirectory);
+            Directory.CreateDirectory(outputDirectory);
 
             string avmProjFileName = Path.GetFullPath(Path.Combine(outputDirectory, "manifest.project.json"));
 
-            if (File.Exists(avmProjFileName))
+            using (new MutexWrapper(avmProjFileName))
             {
-                string sjson = "{}";
-                using (StreamReader reader = new StreamReader(avmProjFileName))
+                if (File.Exists(avmProjFileName))
                 {
-                    sjson = reader.ReadToEnd();
+                    string sjson = "{}";
+                    using (StreamReader reader = new StreamReader(avmProjFileName))
+                    {
+                        sjson = reader.ReadToEnd();
 
-                    try
-                    {
-                        avmProj = JsonConvert.DeserializeObject<AVM.DDP.MetaAvmProject>(sjson);
-                    }
-                    catch (Newtonsoft.Json.JsonReaderException ex)
-                    {
-                        throw new Exception(string.Format("{0} file is probably malformed. Not a valid json. {1}{2}", Path.GetFullPath(avmProjFileName), Environment.NewLine, ex.Message));
+                        try
+                        {
+                            avmProj = JsonConvert.DeserializeObject<AVM.DDP.MetaAvmProject>(sjson);
+                        }
+                        catch (Newtonsoft.Json.JsonReaderException ex)
+                        {
+                            throw new Exception(string.Format("{0} file is probably malformed. Not a valid json. {1}{2}", Path.GetFullPath(avmProjFileName), Environment.NewLine, ex.Message));
+                        }
                     }
                 }
             }
@@ -747,22 +732,25 @@ namespace AVM.DDP
             avmProj.Project.Requirements.id = reqId;
             avmProj.Project.Requirements.text = reqText;
 
-            string dirName = Path.GetFullPath(Path.Combine(outputDirectory, "requirements"));
+            string dirName = Path.Combine(outputDirectory, "requirements");
 
             if (Directory.Exists(dirName) == false)
             {
                 Directory.CreateDirectory(dirName);
                 string requFileName = Path.GetFullPath(Path.Combine(dirName, "requirements.json"));
 
-                if (File.Exists(requFileName) == false)
+                using (new MutexWrapper(requFileName))
                 {
-                    using (StreamWriter writer = new StreamWriter(requFileName))
+                    if (File.Exists(requFileName) == false)
                     {
-                        // default requirement
-                        writer.WriteLine(@"{");
-                        writer.WriteLine("    \"name\": \"Undefined\",");
-                        writer.WriteLine("    \"children\": []");
-                        writer.WriteLine(@"}");
+                        using (StreamWriter writer = new StreamWriter(requFileName))
+                        {
+                            // default requirement
+                            writer.WriteLine(@"{");
+                            writer.WriteLine("    \"name\": \"Undefined\",");
+                            writer.WriteLine("    \"children\": []");
+                            writer.WriteLine(@"}");
+                        }
                     }
                 }
             }
@@ -770,10 +758,7 @@ namespace AVM.DDP
             string designSpaceFolder = "design-space";
             dirName = Path.GetFullPath(Path.Combine(outputDirectory, designSpaceFolder));
 
-            if (Directory.Exists(dirName) == false)
-            {
-                Directory.CreateDirectory(dirName);
-            }
+            Directory.CreateDirectory(dirName);
 
             if (rootDS != null)
             {
@@ -787,10 +772,12 @@ namespace AVM.DDP
                 }
                 var designContainer = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(rootDS);
                 var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(designContainer);
-                design.SaveToFile(Path.GetFullPath(dsFileName));
+                using (new MutexWrapper(dsFileName))
+                {
+                    design.SaveToFile(dsFileName);
+                }
             }
 
-            Directory.SetCurrentDirectory(currentDir);
             return avmProj;
         }
 
@@ -817,6 +804,30 @@ namespace AVM.DDP
             }
 
             return relativePath.Replace('/', Path.DirectorySeparatorChar);
+        }
+    }
+
+    public class MutexWrapper : IDisposable
+    {
+        static string regexSearch = new string(Path.GetInvalidFileNameChars());
+        static Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+        private static string CreateName(string name)
+        {
+            return r.Replace(name, "");
+        }
+
+        System.Threading.Mutex jsonFileMutex;
+        public MutexWrapper(string name)
+        {
+            jsonFileMutex = new System.Threading.Mutex(false, CreateName(name));
+            jsonFileMutex.WaitOne();
+        }
+
+        public void Dispose()
+        {
+            jsonFileMutex.ReleaseMutex();
+            jsonFileMutex.Dispose();
+
         }
     }
 }
