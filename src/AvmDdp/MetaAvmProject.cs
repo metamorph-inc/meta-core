@@ -350,8 +350,7 @@ namespace AVM.DDP
         {
             string jsonFile = Path.Combine(this.GetResultsFolder(), "results.metaresults.json");
             AVM.DDP.MetaResults results = null;
-            bool createdNew;
-            using (System.Threading.Mutex jsonFileMutex = new System.Threading.Mutex(false, "results_metaresults_mutex", out createdNew))
+            using (System.Threading.Mutex jsonFileMutex = new System.Threading.Mutex(false, "results_metaresults_mutex"))
             {
                 jsonFileMutex.WaitOne();
                 try
@@ -531,15 +530,27 @@ namespace AVM.DDP
                 // TODO: Metric2Requirement Link connection
             }
 
-            using (StreamWriter writer = new StreamWriter(jsonFileName))
+            using (System.Threading.Mutex jsonFileMutex = new System.Threading.Mutex(false, "results_metaresults_mutex"))
             {
-                writer.WriteLine(JsonConvert.SerializeObject(
-                    metaTestBench,
-                    Newtonsoft.Json.Formatting.Indented,
-                    new JsonSerializerSettings()
+                jsonFileMutex.WaitOne();
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(jsonFileName))
                     {
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                    }));
+                        writer.WriteLine(JsonConvert.SerializeObject(
+                            metaTestBench,
+                            Newtonsoft.Json.Formatting.Indented,
+                            new JsonSerializerSettings()
+                            {
+                                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                            }));
+                    }
+                }
+                finally
+                {
+                    jsonFileMutex.ReleaseMutex();
+                    jsonFileMutex.Dispose();
+                }
             }
 
             return jsonFileName;
