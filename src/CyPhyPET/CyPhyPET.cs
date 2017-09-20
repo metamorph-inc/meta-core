@@ -663,6 +663,9 @@ namespace CyPhyPET
             {
                 config.MgaFilename = Path.GetFullPath(config.MgaFilename);
             }
+
+            var root = CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO);
+            var allParametricExplorations = ParametricExplorationChecker.getParametricExplorationsRecursively(root);
             if (mainParameters.SelectedConfig != null)
             {
                 config.SelectedConfigurations = new string[] { mainParameters.SelectedConfig }.ToList();
@@ -670,6 +673,17 @@ namespace CyPhyPET
             else
             {
                 config.SelectedConfigurations = new string[] { mainParameters.OriginalCurrentFCOName }.ToList();
+
+                foreach (var exploration in allParametricExplorations)
+                {
+                    foreach (var testBenchRef in exploration.Children.TestBenchRefCollection.OrderBy(x => x.Guid))
+                    {
+                        foreach (var sut in testBenchRef.Referred.TestBenchType.Children.TopLevelSystemUnderTestCollection)
+                        {
+                            config.SelectedConfigurations = new string[] { sut.GenericReferred.Name }.ToList();
+                        }
+                    }
+                }
             }
             config.GeneratedConfigurationModel = mainParameters.GeneratedConfigurationModel;
             config.PETName = "/" + string.Join("/", PET.getAncestors(mainParameters.CurrentFCO, stopAt: mainParameters.CurrentFCO.Project.RootFolder)
@@ -679,8 +693,6 @@ namespace CyPhyPET
             // 2) Get the type of test-bench and call any dependent interpreters
             //var graph = CyPhySoT.CyPhySoTInterpreter.UpdateDependency((MgaModel)this.mainParameters.CurrentFCO, this.Logger);
 
-            var root = CyPhyClasses.ParametricExploration.Cast(this.mainParameters.CurrentFCO);
-            var allParametricExplorations = ParametricExplorationChecker.getParametricExplorationsRecursively(root);
             Dictionary<CyPhy.ParametricExploration, PET> generatorMap = new Dictionary<CyPhy.ParametricExploration, PET>();
             PET rootGenerator = null;
             foreach (var exploration in allParametricExplorations)
