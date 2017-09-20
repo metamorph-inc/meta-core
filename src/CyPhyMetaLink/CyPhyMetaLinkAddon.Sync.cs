@@ -48,7 +48,7 @@ namespace CyPhyMetaLink
         [DllImport("user32.dll")]
         static extern IntPtr PostMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
 
-        public delegate void FailureCallback();
+        public delegate void FailureCallback(string stderr, string logfilePath);
         public FailureCallback StartupFailureCallback
         {
             get;
@@ -313,12 +313,13 @@ namespace CyPhyMetaLink
                     if (GMEConsole != null && createAssembly.ExitCode != 0)
                     {
                         string errlog = "CADCreoParametricCreateAssembly_err.log";
-                        StreamWriter writer = new StreamWriter(errlog);
-                        writer.Write(stderrData.ToString());
-                        writer.Flush();
-                        writer.Close();
+                        using (StreamWriter writer = new StreamWriter(errlog))
+                        {
+                            writer.Write(stderrData.ToString());
+                            writer.Close();
+                        }
                         GMEConsole.Error.WriteLine(String.Format("CADCreoParametricMetaLink exited with code {0}, the logfile is {1}", createAssembly.ExitCode, errlog));
-                        SyncControl.Invoke(StartupFailureCallback);
+                        SyncControl.Invoke((System.Action)(() => StartupFailureCallback(stderrData.ToString(), logfile)));
                     }
                 }
             };
@@ -337,7 +338,7 @@ namespace CyPhyMetaLink
         }
 
         // Callback invoked if the executable startup has failed
-        private void ExeStartupFailed()
+        private void ExeStartupFailed(string stderr, string logfilePath)
         {
             // Unhighlight tree and remove item from synced components
             if (LastStartedInstance != null)

@@ -27,9 +27,12 @@ namespace CyPhyPropagateTest
 
         protected BlockingCollection<string> errors = new System.Collections.Concurrent.BlockingCollection<string>(new ConcurrentQueue<string>());
 
-        private void ExeStartupFailed()
+        private void ExeStartupFailed(string stderr, string logfilePath)
         {
-            errors.Add("CADCreoParametricMetaLink.exe returned with error.");
+            Console.Error.WriteLine(stderr);
+            var logContents = File.ReadAllText(logfilePath, Encoding.UTF8);
+            Console.Error.WriteLine(logContents);
+            errors.Add(string.Format("CADCreoParametricMetaLink.exe returned with error:\n{0}\n{1}", stderr, logContents));
         }
 
         private void ThrowDeferredErrors()
