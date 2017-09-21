@@ -1060,9 +1060,9 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 		CyPhyML::Constant tmp = CyPhyML::Constant::Cast(vf);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		val = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		val = buf;
 	}
 	else if (vfType == CyPhyML::ValueFlowTypeSpecification::meta)
 	{
@@ -1645,8 +1645,37 @@ void NewTraverser::EvaluateCADParameters()
 			{
 				// Try to get unit from reference
 				if (ci->getReferencedObject() != Udm::null)
+				{
 					cyphy_unit = CyPhyML::unit::Cast(ci->getReferencedObject());
+				}
 
+			}
+			// if unit is not specified, assume mm kg s deg
+			if (cyphy_unit == Udm::null && unit_name == "")
+			{
+				auto lengthRep = UnitUtil::DimensionRep::zeroes;
+				lengthRep.length = 1;
+				if (incomingVURep.unitRep == lengthRep)
+				{
+					unit_name = "mm";
+				}
+
+				auto massRep = UnitUtil::DimensionRep::zeroes;
+				massRep.mass = 1;
+				if (incomingVURep.unitRep == massRep)
+				{
+					unit_name = "kg";
+				}
+
+				auto timeRep = UnitUtil::DimensionRep::zeroes;
+				timeRep.time = 1;
+				if (incomingVURep.unitRep == timeRep)
+				{
+					unit_name = "s";
+				}
+
+				auto angleRep = UnitUtil::DimensionRep::zeroes;
+				// FIXME: default to deg
 			}
 			if (cyphy_unit == Udm::null && unit_name != "")
 			{
@@ -1657,7 +1686,6 @@ void NewTraverser::EvaluateCADParameters()
 					GMEConsole::Console::writeLine(message, MSG_ERROR);
 					throw udm_exception (message);
 				}
-		
 			}
 			
 			if (cyphy_unit != Udm::null)
@@ -2047,9 +2075,9 @@ string NewTraverser::GetVftUnitAndValue(const CyPhyML::ValueFlowTarget& vft, Uni
 		CyPhyML::Constant tmp = CyPhyML::Constant::Cast(vft);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		val = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		val = buf;
 	}
 	else if (vft_type == CyPhyML::ValueFlowTypeSpecification::meta)
 	{
@@ -2095,9 +2123,9 @@ std::string NewTraverser::NonRealValueFixture( CyPhyML::ValueFlowTarget &vft, st
 		auto tmp = CyPhyML::Constant::Cast(vft);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		strValue = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		strValue = buf;
 	}
 
 	if (strValue != "")
