@@ -306,13 +306,21 @@ int main(int argc, char *argv[])
 
         bool inputFileProcessed = false;
 
-        while(!terminateProcess)
+        while (true)
         {
             ProEventProcess();
+            if (terminateProcess)
+            {
+                break;
+            }
             ProErr err;
             if ((err = ProEngineerStatusGet()) != PRO_TK_NO_ERROR)
             {
-                exceptionErrorStringStream << "Creo exited abnormally: " << isis::ProToolKitError_string(err).c_str();
+				if (terminateProcess)
+				{
+					break;
+				}
+				exceptionErrorStringStream << "Creo exited abnormally: " << isis::ProToolKitError_string(err).c_str();
                 ExitCode = -4;
                 break;
             }
@@ -396,6 +404,13 @@ int main(int argc, char *argv[])
             std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
         }
 
+    }
+    else
+    {
+        if(Logging_Set_Up)
+        {
+            isis_LOG(lg, isis_FILE, isis_INFO) << "Normal exit" << std::endl;
+        }
     }
 
 
