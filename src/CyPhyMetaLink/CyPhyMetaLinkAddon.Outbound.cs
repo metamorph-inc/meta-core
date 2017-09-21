@@ -272,6 +272,26 @@ namespace CyPhyMetaLink
                             }
                         }
                     }
+
+                    string kind = subject.MetaBase.Name;
+                    if ( // (eventMask & uOBJEVENT_RELATION)
+                        (kind == "Property" ||
+                        kind == "Parameter"))
+                    {
+                        // Does this parameter belong to the Meta-Linked assembly?
+
+                        var parent = ((IMgaFCO)subject).ParentModel;
+                        if (parent != null && parent.MetaBase.Name == typeof(CyPhyML.ComponentAssembly).Name)
+                        {
+                            var caParent = CyPhyMLClasses.ComponentAssembly.Cast(parent);
+                            if (CyphyMetaLinkUtils.GetContainingAssemblies(caParent).Where(ca => syncedComponents.ContainsKey(ca.Guid.ToString())).Count() > 0)
+                            {
+                                var syncedAssembly = CyphyMetaLinkUtils.GetComponentAssemblyByGuid(subject.Project, AssemblyID);
+                                RestartAssemblySyncAtEndOfTransaction(syncedAssembly);
+                            }
+                        }
+
+                    }
                 }
             }
 
@@ -350,23 +370,12 @@ namespace CyPhyMetaLink
                         kind == "Metric")
                     {
                         // Does this parameter belong to the Meta-Linked assembly?
-                        if (kind == "Property")
+
+                        var parent = ((IMgaFCO)subject).ParentModel;
+                        if (parent != null && parent.MetaBase.Name == typeof(CyPhyML.ComponentAssembly).Name)
                         {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Property.Cast(subject).ParentContainer.Guid.ToString()))
-                            {
-                                return;
-                            }
-                        }
-                        else if (kind == "Parameter")
-                        {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Parameter.Cast(subject).ParentContainer.Guid.ToString()))
-                            {
-                                return;
-                            }
-                        }
-                        else if (kind == "Metric")
-                        {
-                            if (!syncedComponents.ContainsKey(CyPhyMLClasses.Metric.Cast(subject).ParentContainer.Guid.ToString()))
+                            var caParent = CyPhyMLClasses.ComponentAssembly.Cast(parent);
+                            if (CyphyMetaLinkUtils.GetContainingAssemblies(caParent).Where(ca => syncedComponents.ContainsKey(ca.Guid.ToString())).Count() == 0)
                             {
                                 return;
                             }
