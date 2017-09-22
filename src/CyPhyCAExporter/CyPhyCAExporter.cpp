@@ -8,9 +8,9 @@
 
 
 CyPhyCAExporter::CyPhyCAExporter(CyPhyML::ComponentAssemblies &cyphy_cas, CyPhyML::CWC &cyphy_cwc, bool cyphy_flatten)
-	:ca_folder(cyphy_cas), cwc(cyphy_cwc), flatten(cyphy_flatten)
+	:ca_folder(cyphy_cas), cwc(cyphy_cwc), flatten(cyphy_flatten), copiedObjectsToOriginals(new std::map<Udm::Object, Udm::Object>())
+
 {
-	container2caMap.clear();
 }
 
 void CyPhyCAExporter::createComponentAssembly()
@@ -26,6 +26,7 @@ void CyPhyCAExporter::createComponentAssembly()
 		CyPhyML::Configurations cfgs = cwc.Configurations_parent();
 		rootDC = cfgs.DesignContainer_parent();	
 		ca_model = CyPhyML::ComponentAssembly::Create(ca_folder);
+		(*copiedObjectsToOriginals)[ca_model] = cwc;
 		ca_model.ConfigurationUniqueID() = cwc.ID();
 		ca_model.ID() = rootDC.ID();
 		//ca_model.name() = (std::string)rootDC.name()+"_"+(std::string)cwc.name();
@@ -36,6 +37,7 @@ void CyPhyCAExporter::createComponentAssembly()
 		container2caMap[rootDC] = ca_model;
 
 		caref = CyPhyML::ComponentAssemblyRef::Create(cfgs);
+		(*copiedObjectsToOriginals)[caref] = ca_model;
 		caref.ref() = ca_model;
 		caref.name() = ca_model.name();
 		CyPhyML::Config2CA cfg2ca = CyPhyML::Config2CA::Create(cfgs);
@@ -98,6 +100,7 @@ void CyPhyCAExporter::createComponentAssembly()
 				if (ca != Udm::null)
 				{
 					CyPhyML::BuiltDesignEntityRef bder = CyPhyML::BuiltDesignEntityRef::Create(cwc);
+					(*copiedObjectsToOriginals)[bder] = *i;
 					bder.name() = (*i).name();
 					bder.ref() = ca;
 					CyPhyML::Built b = CyPhyML::Built::Create(cwc);
@@ -110,6 +113,7 @@ void CyPhyCAExporter::createComponentAssembly()
 			if (comref != Udm::null)
 			{
 				CyPhyML::BuiltDesignEntityRef bder = CyPhyML::BuiltDesignEntityRef::Create(cwc);
+				(*copiedObjectsToOriginals)[bder] = *i;
 				bder.name() = (*i).name();
 				bder.ref() = comref;
 				CyPhyML::Built b = CyPhyML::Built::Create(cwc);
@@ -155,6 +159,7 @@ void CyPhyCAExporter::init(CyPhyML::DesignContainer &container,CyPhyML::Componen
 			if((genSemantics == "Normal" && !flatten) || genSemantics == "AsCA")
 			{
 				CyPhyML::ComponentAssembly newca = CyPhyML::ComponentAssembly::Create(ca);
+				(*copiedObjectsToOriginals)[newca] = dcon;
 				newca.name() = dcon.name();
 				newca.ID() = dcon.ID();
 				newca.position() = dcon.position();
@@ -854,12 +859,14 @@ CyPhyML::ComponentRef CyPhyCAExporter::createComponentRef(CyPhyML::DesignElement
     {
         // Use Alternative container name and position for all selected
         // component name in the componentAssembly
+		(*copiedObjectsToOriginals)[comref] = from_parent;
 		comref.name() = from_parent.name();
         comref.position() = from_parent.position();
     }
 	else
     {
         // if the parent is Optional or Compound
+		(*copiedObjectsToOriginals)[comref] = from_com;
 		comref.name() = from_com.name();
         comref.position() = from_com.position();
     }
@@ -888,6 +895,7 @@ CyPhyML::ComponentRef CyPhyCAExporter::createComponentRef(CyPhyML::ComponentRef 
     {
         // Use Alternative container name and position for all selected
         // component name in the componentAssembly
+		(*copiedObjectsToOriginals)[comref] = from_com;
         comref.name() = std::string(from_parent.name()) + "__" + std::string(from_com.name());
         comref.position() = from_parent.position();
     }
@@ -895,6 +903,7 @@ CyPhyML::ComponentRef CyPhyCAExporter::createComponentRef(CyPhyML::ComponentRef 
     {
         // if the parent is Optional or Compound
         // keep the name as it is in the design space
+		(*copiedObjectsToOriginals)[comref] = from_ref;
 		comref.name() = from_ref.name();
         comref.position() = from_ref.position();
     }

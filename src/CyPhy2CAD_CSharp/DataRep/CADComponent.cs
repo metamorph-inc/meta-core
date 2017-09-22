@@ -225,7 +225,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
                     string absPath;
                     cadmodel.TryGetResourcePath(out absPath, ComponentLibraryManager.PathConvention.ABSOLUTE);
-                    missingFile  = Task.Run(() => CheckFileExists(cyphycomp.ToHyperLink(Traceability), uri, absPath));
+                    var hyperlink = cyphycomp.ToHyperLink(Traceability);
+                    missingFile  = Task.Run(() => CheckFileExists(hyperlink, uri, absPath));
 
                     // META-1382
                     //ModelName = UtilityHelpers.CleanString2(Path.GetFileNameWithoutExtension(uri));

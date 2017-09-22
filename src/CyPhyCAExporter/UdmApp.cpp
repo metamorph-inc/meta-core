@@ -17,12 +17,12 @@
 #include "UmlExt.h"
 #include "UdmStatic.h"
 
+#include "../CyPhyElaborate/CyPhyElaborateTraceability.h"
+
 using namespace Uml;
 using namespace Udm;
 
 using namespace CyPhyML;
-
-CString CUdmApp::mgaPath = "";
 
 std::string getFileNameNoExt(const std::string &fullpath)
 {
@@ -306,6 +306,7 @@ void CUdmApp::UdmMain(
 				CyPhyCAExporter dexport(ca_folder, CyPhyML::CWC::Cast(to_cwc_obj), flatten);
 				dexport.showGui = param != GME_SILENT_MODE;
 				dexport.createComponentAssembly();
+				traceability.Attach(new CyPhyElaborateTraceability(std::unique_ptr<std::map<Udm::Object, Udm::Object> >(std::move(dexport.copiedObjectsToOriginals))));
 
 				//outDN.SaveAs(outfile);
 				outDN.CloseWithUpdate();
@@ -384,6 +385,7 @@ void CUdmApp::UdmMain(
 					dexport.createComponentAssembly();
 					std::string addlog("ComponentAssembly "+appendObjLink(dexport.getComponentAssembly())+"  generated for "+appendObjLink(cwc));
 					GMEConsole::Console::Out::writeLine(addlog);
+					traceability.Attach(new CyPhyElaborateTraceability(std::unique_ptr<std::map<Udm::Object, Udm::Object> >(std::move(dexport.copiedObjectsToOriginals))));
 
 								
 //#ifdef _DEBUG

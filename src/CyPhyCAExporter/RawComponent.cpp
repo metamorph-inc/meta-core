@@ -66,9 +66,9 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 									IMgaFCOs *selectedobjs,  long param)
 {
-
+	CUdmApp udmApp;
 	// Calling the user's initialization function
-	if(CUdmApp::Initialize())
+	if(udmApp.Initialize())
 	{
 		return S_FALSE;
 	}
@@ -163,7 +163,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 		CString mgaFilePath = connString;
 		int e = mgaFilePath.ReverseFind('\\');
-		CUdmApp::mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());			
+		udmApp.mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());
 
 		// Setting up Udm
 #ifdef _DYNAMIC_META
@@ -315,7 +315,10 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 #else
 			// Calling the main entry point
-			CUdmApp::UdmMain(&dngBackend,currentObject,selectedObjects,param,ccpProject);
+			udmApp.UdmMain(&dngBackend,currentObject,selectedObjects,param,ccpProject);
+
+			traceability = udmApp.traceability;
+
 			// Closing backend
 			dngBackend.CloseWithUpdate();
 			if (!(status & 8))
@@ -440,6 +443,13 @@ STDMETHODIMP RawComponent::ObjectsInvokeEx( IMgaProject *project,  IMgaObject *c
 
 // implement application specific parameter-mechanism in these functions:
 STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
+	if (wcscmp(L"traceability", name) == 0)
+	{
+		if (traceability)
+		{
+			CComVariant(traceability).Detach(pVal);
+		}
+	}
 	return S_OK;
 }
 
