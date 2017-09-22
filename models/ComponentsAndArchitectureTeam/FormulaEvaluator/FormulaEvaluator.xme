@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C1062740-88FC-4190-A854-6F1BC302626E}" cdate="Fri Sep 22 16:56:57 2017" mdate="Fri Sep 22 16:56:57 2017" version="" metaguid="{3EF7D31C-84F2-0F54-1DE1-727298671826}" metaversion="$Rev: 29910 $" metaname="CyPhyML">
+<project guid="{75A48CBF-C5BA-499F-875F-BD9A92D75F05}" cdate="Fri Sep 22 16:56:57 2017" mdate="Fri Sep 22 16:56:57 2017" version="" metaguid="{3EF7D31C-84F2-0F54-1DE1-727298671826}" metaversion="$Rev: 29910 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -5717,7 +5717,7 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 				</connection>
 			</model>
 		</folder>
-		<folder id="id-006a-00000004" relid="0x12" childrelidcntr="0x4" kind="ComponentAssemblies" guid="{7228ab60-fdbe-46d0-8e37-4e81f1359d2d}">
+		<folder id="id-006a-00000004" relid="0x12" childrelidcntr="0x6" kind="ComponentAssemblies" guid="{7228ab60-fdbe-46d0-8e37-4e81f1359d2d}">
 			<name>ComponentAssemblies</name>
 			<model id="id-0065-00000015" kind="ComponentAssembly" guid="{1f918c71-6f5a-4b5a-9aee-91d074684b15}" relid="0x1" childrelidcntr="0x3">
 				<name>BaseAssembly</name>
@@ -6104,7 +6104,7 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					<connpoint role="src" target="id-0067-00000037"/>
 				</connection>
 			</model>
-			<model id="id-0065-00000019" kind="ComponentAssembly" guid="{b6fb1829-4e18-48dd-8def-1975dd8a3e6e}" relid="0x4" childrelidcntr="0xf">
+			<model id="id-0065-00000019" kind="ComponentAssembly" guid="{b6fb1829-4e18-48dd-8def-1975dd8a3e6e}" relid="0x4" childrelidcntr="0x19">
 				<name>IntoReferences</name>
 				<attribute kind="Cardinality" status="meta">
 					<value></value>
@@ -6128,7 +6128,7 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					<value>designs\p5usqtnyf2y</value>
 				</attribute>
 				<model id="id-0065-0000001a" kind="ComponentAssembly" role="ComponentAssembly" guid="{83a9c1d5-105a-436f-b573-f5ae33e93459}" relid="0x1" childrelidcntr="0x3">
-					<name>Asm</name>
+					<name>Asm1</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="AbstractPortAspect" status="undefined">
@@ -6357,6 +6357,236 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 						<connpoint role="src" target="id-0067-00000051"/>
 					</connection>
 				</model>
+				<model id="id-0065-00000050" kind="ComponentAssembly" role="ComponentAssembly" guid="{fc16b76c-abc5-404c-91e4-1d18f141639b}" relid="0x16" childrelidcntr="0x3">
+					<name>Asm2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="AbstractPortAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,483</value>
+							</regnode>
+						</regnode>
+						<regnode name="BondGraphAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="Car" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="ConnectorAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="DynamicsAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="ModelicaAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="PcbLayoutAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="RFAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="SchematicAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="SimulinkAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="SimulinkAspect2" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="SystemCAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>364,154</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ConfigurationUniqueID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID">
+						<value>7</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Path">
+						<value>designs\i1pdvm53imx</value>
+					</attribute>
+					<reference id="id-0067-00000064" kind="Parameter" role="Parameter" guid="{02ba6a77-ecb0-4959-8337-208a90e944d0}" relid="0x3" referred="id-0065-0000004d">
+						<name>LowerProp</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>28,140</value>
+								</regnode>
+							</regnode>
+							<regnode name="BehaviorModelsAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+							<regnode name="ManufacturingAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+							<regnode name="SimulinkAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+							<regnode name="SolidModeling" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+							<regnode name="SystemCAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+							<regnode name="ValueFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,168</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ComputationType" status="meta">
+							<value>Addition</value>
+						</attribute>
+						<attribute kind="DataType" status="meta">
+							<value>String</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Description" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Dimension" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Disable" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ManagedGUID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Range" status="meta">
+							<value>-inf..inf</value>
+						</attribute>
+						<attribute kind="Type" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Value">
+							<value>6.7946</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000065" kind="ComponentRef" role="ComponentRef" guid="{31c0c660-0888-4c15-b87d-7c45ff30098f}" relid="0x1" referred="id-0065-0000004b">
+						<name>Panel</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="All" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>287,49</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Cardinality" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID">
+							<value>8</value>
+						</attribute>
+						<attribute kind="InstanceGUID">
+							<value>31c0c660-0888-4c15-b87d-7c45ff30098f</value>
+						</attribute>
+						<attribute kind="NumAssociatedConfigs" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-0000006f" kind="ValueFlow" role="ValueFlow" guid="{12881d09-87cf-4a7c-ba47-249cada3e377}" relid="0x2">
+						<name>ValueFlow</name>
+						<attribute kind="FormulaVariableName" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="dst" target="id-0067-0000004d" refs="id-0067-00000065"/>
+						<connpoint role="src" target="id-0067-00000064"/>
+					</connection>
+				</model>
 				<atom id="id-0066-00000019" kind="CustomFormula" role="CustomFormula" guid="{58b2b74d-4f35-4917-9fcf-7c6b3ceb9dba}" relid="0x2">
 					<name>CustomFormula</name>
 					<regnode name="PartRegs" status="undefined">
@@ -6484,13 +6714,13 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 				</reference>
 				<reference id="id-0067-00000052" kind="Property" role="Property" guid="{28d15ec0-b6f1-4791-b624-ff6921d8bf20}" relid="0x8" referred="id-0065-0000004d">
-					<name>Derived_1</name>
+					<name>Derived_Prop_1</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>42,238</value>
+								<value>14,245</value>
 							</regnode>
 						</regnode>
 						<regnode name="SimulinkAspect" status="undefined">
@@ -6631,13 +6861,13 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 				</reference>
 				<reference id="id-0067-00000056" kind="Property" role="Property" guid="{ab4e6ca5-1eac-4c48-99bc-a15fd40cfaa8}" relid="0xa" referred="id-0065-0000004d">
-					<name>Derived_2</name>
+					<name>Derived_Prop_2</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>42,287</value>
+								<value>14,287</value>
 							</regnode>
 						</regnode>
 						<regnode name="SimulinkAspect" status="undefined">
@@ -6706,13 +6936,13 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 				</reference>
 				<reference id="id-0067-00000057" kind="ComponentRef" role="ComponentRef" guid="{ceded118-c061-4897-bcb5-4947f2e84add}" relid="0xc" referred="id-0065-0000004b">
-					<name>Panel</name>
+					<name>PanelA</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>357,364</value>
+								<value>357,161</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -6730,13 +6960,13 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 				</reference>
 				<reference id="id-0067-00000058" kind="Property" role="Property" guid="{014b7124-38c6-42bb-84fe-af13e06e3e4b}" relid="0xd" referred="id-0065-0000004d">
-					<name>Derived_3</name>
+					<name>Derived_Prop_3</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>42,343</value>
+								<value>14,329</value>
 							</regnode>
 						</regnode>
 						<regnode name="SimulinkAspect" status="undefined">
@@ -6799,6 +7029,201 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 					<attribute kind="Type">
 						<value>https://ecascade.atuinlab.com/v1/config/a^3yy/param/fcs_panel_length</value>
+					</attribute>
+					<attribute kind="Value">
+						<value>33</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000061" kind="Parameter" role="Parameter" guid="{40f01639-53de-4859-b973-31be1f6fba28}" relid="0x10">
+					<name>Derived_Param_1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,420</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Range" status="meta">
+						<value>-inf..inf</value>
+					</attribute>
+					<attribute kind="Type" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value">
+						<value>33</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000062" kind="Parameter" role="Parameter" guid="{ad4b409c-f7e8-4da7-bcd6-8f839f3bca37}" relid="0x12">
+					<name>Derived_Param_2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,462</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Range" status="meta">
+						<value>-inf..inf</value>
+					</attribute>
+					<attribute kind="Type" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Value">
+						<value>33</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000063" kind="ComponentRef" role="ComponentRef" guid="{5ce04076-5365-4d8b-884e-cb82377a8572}" relid="0x13" referred="id-0065-0000004b">
+					<name>PanelB</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,378</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID">
+						<value>6</value>
+					</attribute>
+					<attribute kind="InstanceGUID">
+						<value>5ce04076-5365-4d8b-884e-cb82377a8572</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000066" kind="Parameter" role="Parameter" guid="{f7100839-62d0-4aba-8acf-2f0a6316b4d1}" relid="0x18">
+					<name>Derived_Param_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,504</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,434</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Range" status="meta">
+						<value>-inf..inf</value>
+					</attribute>
+					<attribute kind="Type" status="meta">
+						<value></value>
 					</attribute>
 					<attribute kind="Value">
 						<value>33</value>
@@ -6871,6 +7296,50 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					</attribute>
 					<connpoint role="src" target="id-0066-00000019"/>
 					<connpoint role="dst" target="id-0067-00000058"/>
+				</connection>
+				<connection id="id-0068-0000006c" kind="ValueFlow" role="ValueFlow" guid="{1d45f2f8-b425-4656-8d03-a379d52d96c8}" relid="0x11">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000061"/>
+				</connection>
+				<connection id="id-0068-0000006d" kind="ValueFlow" role="ValueFlow" guid="{3f41a4e1-2f68-46bd-9311-6d26ada6f88a}" relid="0x14">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>We</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000062"/>
+				</connection>
+				<connection id="id-0068-0000006e" kind="ValueFlow" role="ValueFlow" guid="{36016c30-3378-40ef-a2a8-5e6483556287}" relid="0x15">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0067-0000004d" refs="id-0067-00000063"/>
+					<connpoint role="src" target="id-0067-00000062"/>
+				</connection>
+				<connection id="id-0068-00000071" kind="ValueFlow" role="ValueFlow" guid="{a204b741-1ad6-4ad0-b18e-22bc66e59c61}" relid="0x19">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0067-00000064"/>
+					<connpoint role="src" target="id-0067-00000066"/>
 				</connection>
 			</model>
 		</folder>

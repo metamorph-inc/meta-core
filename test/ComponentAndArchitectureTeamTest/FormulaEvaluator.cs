@@ -512,18 +512,19 @@ namespace ComponentAndArchitectureTeamTest
                 RunFormulaEvaluator(fcoAsm);
 
                 var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
-                var derived_1 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_1");
-                Assert.Equal("5", derived_1.Attributes.Value);
 
-                var derived_2 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_2");
-                Assert.Equal("5", derived_2.Attributes.Value);
+                var parameters = asm.Children.ParameterCollection.Where(p => p.Name.StartsWith("Derived"))
+                                    .Union(asm.Children.ComponentAssemblyCollection.SelectMany(ca => ca.Children.ParameterCollection));
+                foreach (var param in parameters)
+                {
+                    Assert.Equal("5", param.Attributes.Value);
+                }
 
-                var lowerProp = asm.Children.ComponentAssemblyCollection.First()
-                                   .Children.PropertyCollection.First(p => p.Name == "LowerProp");
-                Assert.Equal("5", lowerProp.Attributes.Value);
-
-                var derived_3 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_3");
-                Assert.Equal("5", derived_3.Attributes.Value);
+                var props = asm.Children.PropertyCollection.Where(p => p.Name.StartsWith("Derived"));
+                foreach (var prop in props)
+                {
+                    Assert.Equal("5", prop.Attributes.Value);
+                }
             });
         }
     }
