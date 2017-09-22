@@ -4,6 +4,7 @@ from __future__ import print_function
 import sys
 import os
 import os.path
+import json
 import errno
 import uuid
 import subprocess
@@ -123,7 +124,17 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
     messages_condition = threading.Condition()
 
     conn_str = focusObject.convert_udm2gme().Project.ProjectConnStr
-    test_jobmanager_running(mga_dir=os.path.dirname(conn_str[len('MGA='):]))
+    mga_dir = os.path.dirname(conn_str[len('MGA='):])
+    test_jobmanager_running(mga_dir=mga_dir)
+    results_metaresults = os.path.join(mga_dir, 'results', 'results.metaresults.json')
+    if not os.path.isfile(results_metaresults):
+        try:
+            os.makedirs(os.path.dirname(results_metaresults))
+        except OSError as exception:
+            if exception.errno != errno.EEXIST:
+                raise
+        with open(results_metaresults, 'w') as results:
+            results.write(json.dumps({"Results": []}))
 
     def message(msg):
         with messages_condition:
