@@ -508,7 +508,7 @@ namespace ComponentAndArchitectureTeamTest
         {
             fixture.proj.PerformInTransaction(delegate
             {
-                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@HierarchyWithRef");
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@IntoReferences");
                 RunFormulaEvaluator(fcoAsm);
 
                 var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
@@ -521,6 +521,9 @@ namespace ComponentAndArchitectureTeamTest
                 var lowerProp = asm.Children.ComponentAssemblyCollection.First()
                                    .Children.PropertyCollection.First(p => p.Name == "LowerProp");
                 Assert.Equal("5", lowerProp.Attributes.Value);
+
+                var derived_3 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_3");
+                Assert.Equal("5", derived_3.Attributes.Value);
             });
         }
     }

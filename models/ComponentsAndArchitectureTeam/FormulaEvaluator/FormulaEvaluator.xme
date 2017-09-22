@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{5E9D7BE9-7A2E-47E8-B898-87520B666DC3}" cdate="Fri Sep 22 16:56:57 2017" mdate="Fri Sep 22 16:56:57 2017" version="" metaguid="{3EF7D31C-84F2-0F54-1DE1-727298671826}" metaversion="$Rev: 29910 $" metaname="CyPhyML">
+<project guid="{C1062740-88FC-4190-A854-6F1BC302626E}" cdate="Fri Sep 22 16:56:57 2017" mdate="Fri Sep 22 16:56:57 2017" version="" metaguid="{3EF7D31C-84F2-0F54-1DE1-727298671826}" metaversion="$Rev: 29910 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -6104,8 +6104,8 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 					<connpoint role="src" target="id-0067-00000037"/>
 				</connection>
 			</model>
-			<model id="id-0065-00000019" kind="ComponentAssembly" guid="{b6fb1829-4e18-48dd-8def-1975dd8a3e6e}" relid="0x4" childrelidcntr="0xb">
-				<name>HierarchyWithRef</name>
+			<model id="id-0065-00000019" kind="ComponentAssembly" guid="{b6fb1829-4e18-48dd-8def-1975dd8a3e6e}" relid="0x4" childrelidcntr="0xf">
+				<name>IntoReferences</name>
 				<attribute kind="Cardinality" status="meta">
 					<value></value>
 				</attribute>
@@ -6364,7 +6364,7 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 						<regnode name="All" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>308,315</value>
+								<value>308,294</value>
 							</regnode>
 						</regnode>
 						<regnode name="SimulinkAspect" status="undefined">
@@ -6705,8 +6705,110 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 						<value>33</value>
 					</attribute>
 				</reference>
+				<reference id="id-0067-00000057" kind="ComponentRef" role="ComponentRef" guid="{ceded118-c061-4897-bcb5-4947f2e84add}" relid="0xc" referred="id-0065-0000004b">
+					<name>Panel</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>357,364</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Cardinality" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ID">
+						<value>1</value>
+					</attribute>
+					<attribute kind="InstanceGUID">
+						<value>ceded118-c061-4897-bcb5-4947f2e84add</value>
+					</attribute>
+					<attribute kind="NumAssociatedConfigs" status="meta">
+						<value></value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000058" kind="Property" role="Property" guid="{014b7124-38c6-42bb-84fe-af13e06e3e4b}" relid="0xd" referred="id-0065-0000004d">
+					<name>Derived_3</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="All" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,343</value>
+							</regnode>
+						</regnode>
+						<regnode name="SimulinkAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,427</value>
+							</regnode>
+						</regnode>
+						<regnode name="SolidModeling" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,427</value>
+							</regnode>
+						</regnode>
+						<regnode name="SystemCAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,427</value>
+							</regnode>
+						</regnode>
+						<regnode name="ValueFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,427</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>eE</value>
+					</regnode>
+					<attribute kind="ComputationType" status="meta">
+						<value>Addition</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Description" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Dimension" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Disable" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="ID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IsProminent" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="ManagedGUID" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Tolerance" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Type">
+						<value>https://ecascade.atuinlab.com/v1/config/a^3yy/param/fcs_panel_length</value>
+					</attribute>
+					<attribute kind="Value">
+						<value>33</value>
+					</attribute>
+				</reference>
 				<connection id="id-0068-0000003d" kind="ValueFlow" role="ValueFlow" guid="{d66c48c8-cc38-4a90-8cb0-725e2a9d4d5e}" relid="0x4">
 					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
 					<attribute kind="FormulaVariableName" status="meta">
 						<value></value>
 					</attribute>
@@ -6740,13 +6842,35 @@ UnspecifiedUnit should have 360 after FormulaEval</value>
 				<connection id="id-0068-00000061" kind="ValueFlow" role="ValueFlow" guid="{8d51b068-53dc-416f-a5d0-32b89d819d25}" relid="0xb">
 					<name>ValueFlow</name>
 					<regnode name="autorouterPref" isopaque="yes">
-						<value>e</value>
+						<value>eW</value>
 					</regnode>
 					<attribute kind="FormulaVariableName" status="meta">
 						<value></value>
 					</attribute>
 					<connpoint role="src" target="id-0066-00000019"/>
 					<connpoint role="dst" target="id-0067-00000056"/>
+				</connection>
+				<connection id="id-0068-00000062" kind="ValueFlow" role="ValueFlow" guid="{2d8041cb-fcda-4ca2-a0d8-2df13ef63dad}" relid="0xe">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>E</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="dst" target="id-0067-0000004d" refs="id-0067-00000057"/>
+					<connpoint role="src" target="id-0067-00000058"/>
+				</connection>
+				<connection id="id-0068-00000063" kind="ValueFlow" role="ValueFlow" guid="{6a28e6f4-a98c-4bf2-82ae-c20e9af2da00}" relid="0xf">
+					<name>ValueFlow</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>eW</value>
+					</regnode>
+					<attribute kind="FormulaVariableName" status="meta">
+						<value></value>
+					</attribute>
+					<connpoint role="src" target="id-0066-00000019"/>
+					<connpoint role="dst" target="id-0067-00000058"/>
 				</connection>
 			</model>
 		</folder>
