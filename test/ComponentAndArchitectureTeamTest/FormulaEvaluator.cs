@@ -502,5 +502,26 @@ namespace ComponentAndArchitectureTeamTest
                 Assert.Equal(srcProp.Attributes.Value, dstParam.Attributes.Value);
             });
         }
+
+        [Fact]
+        public void HierarchyWithRef()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@HierarchyWithRef");
+                RunFormulaEvaluator(fcoAsm);
+
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+                var derived_1 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_1");
+                Assert.Equal("5", derived_1.Attributes.Value);
+
+                var derived_2 = asm.Children.PropertyCollection.First(p => p.Name == "Derived_2");
+                Assert.Equal("5", derived_2.Attributes.Value);
+
+                var lowerProp = asm.Children.ComponentAssemblyCollection.First()
+                                   .Children.PropertyCollection.First(p => p.Name == "LowerProp");
+                Assert.Equal("5", lowerProp.Attributes.Value);
+            });
+        }
     }
 }
