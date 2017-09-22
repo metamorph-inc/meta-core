@@ -105,7 +105,7 @@ namespace CyPhyElaborateCS
         public bool Main(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, ComponentStartMode startMode)
         {
             this.Logger.WriteInfo("CyPhyElaborate 2.0 started.");
-            System.Windows.Forms.Application.DoEvents();
+            PumpMessages();
 
             bool success = this.Check(currentobj);
             if (success == false)
@@ -124,7 +124,7 @@ namespace CyPhyElaborateCS
             {
                 this.Logger.WriteError(ex.Message);
                 this.Logger.WriteError("CyPhyElaborate 2.0 finished with errors.");
-                System.Windows.Forms.Application.DoEvents();
+                PumpMessages();
 
                 // make sure we abort the transaction
                 throw ex;
@@ -133,7 +133,7 @@ namespace CyPhyElaborateCS
             {
                 this.Logger.WriteError(ex.Message);
                 this.Logger.WriteError("CyPhyElaborate 2.0 finished with errors.");
-                System.Windows.Forms.Application.DoEvents();
+                PumpMessages();
 
                 throw ex;
             }
@@ -229,9 +229,17 @@ namespace CyPhyElaborateCS
             }
 
             this.Logger.WriteInfo("CyPhyElaborate 2.0 finished.");
-            System.Windows.Forms.Application.DoEvents();
+            PumpMessages();
 
             return success;
+        }
+
+        private static void PumpMessages()
+        {
+            // FIXME: it is only safe to pump messages if the GME window is diables, eg in MI progressDialog.ShowWithDisabledMainWindow
+            // otherwise, the user could click on e.g. the ObjectInspector, which assumes no tx is open
+            // FIXME: we should require clients to tell us if it is safe to pump messages here. Disable for now
+            // System.Windows.Forms.Application.DoEvents();
         }
 
         #region Temporary Testing Code
