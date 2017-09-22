@@ -125,7 +125,6 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
 
     conn_str = focusObject.convert_udm2gme().Project.ProjectConnStr
     mga_dir = os.path.dirname(conn_str[len('MGA='):])
-    test_jobmanager_running(mga_dir=mga_dir)
     results_metaresults = os.path.join(mga_dir, 'results', 'results.metaresults.json')
     if not os.path.isfile(results_metaresults):
         try:
@@ -135,6 +134,8 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
                 raise
         with open(results_metaresults, 'w') as results:
             results.write(json.dumps({"Results": []}))
+
+    test_jobmanager_running(mga_dir=mga_dir)
 
     def message(msg):
         with messages_condition:
