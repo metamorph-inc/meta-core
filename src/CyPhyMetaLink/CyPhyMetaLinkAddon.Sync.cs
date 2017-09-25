@@ -526,9 +526,9 @@ namespace CyPhyMetaLink
                 List<string> errorList = new List<string>();
                 if (!VerifyAssembly(assembly, errorList))
                 {
-                    System.Windows.Forms.MessageBox.Show("Model verification failed for Meta-Link and it may not work properly for this model.", "Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                     foreach (string s in errorList)
                         GMEConsole.Warning.WriteLine(s);
+                    System.Windows.Forms.MessageBox.Show("Model verification failed for Meta-Link and it may not work properly for this model.", "Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 }
                 SyncedComponentData syncedCompData;
                 if (!syncedComponents.TryGetValue(assembly.Guid.ToString(), out syncedCompData))
