@@ -400,7 +400,7 @@ void NewTraverser::FindLeafNodes(const CyPhyML::ValueFlowTarget &rootNode, set<C
 		this->m_visitedNodes[rootNode.uniqueId()] = 1;
 
 	set<CyPhyML::ValueFlow> dstVF_Set = rootNode.dstValueFlow();
-	for (set<CyPhyML::ValueFlow>::iterator i = dstVF_Set.begin(); i != dstVF_Set.end(); i++)
+	for (set<CyPhyML::ValueFlow>::iterator i = dstVF_Set.begin(); i != dstVF_Set.end(); )
 	{
 		CyPhyML::ValueFlow dst_vf(*i);
 		CyPhyML::ValueFlowTarget dst_vfTarget = dst_vf.dstValueFlow_end();
@@ -411,8 +411,16 @@ void NewTraverser::FindLeafNodes(const CyPhyML::ValueFlowTarget &rootNode, set<C
 		//	DY 11/22/11: Do not follow ValueFlow outside of Bounding Box
 		Udm::Object dst_vf_Parent = dst_vf.GetParent();
 		if (myParent == m_BoundingBox && dst_vf_Parent != m_BoundingBox)
+		{
+			dstVF_Set.erase(i++);
 			continue;
-		//
+		}
+		if (*dst_vf.dstValueFlow_refport_parent() != Udm::null)
+		{
+			dstVF_Set.erase(i++);
+			continue;
+		}
+		++i;
 
 		map<long, int>::iterator  j = this->m_visitedNodes.find(dst_vfTarget.uniqueId());
 		if (j != this->m_visitedNodes.end())
@@ -582,7 +590,15 @@ bool NewTraverser::IsLeafNode(const CyPhyML::ValueFlowTarget &vft)
 				}
 			}
 			else
-				outCount = dstVFs.size();
+			{
+				for (auto dstVF = dstVFs.begin(); dstVF != dstVFs.end(); ++dstVF)
+				{
+					if (*dstVF->dstValueFlow_refport_parent() == Udm::null)
+					{
+						outCount++;
+					}
+				}
+			}
 		}
 	}
 
@@ -954,6 +970,10 @@ void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, C
 	std::string valueStr;
 	to_string(valueStr, value);
 	UpdateNamedElementValue(vfTarget, unitRef, valueStr);
+	if (leafNodes.find(vfTarget) != leafNodes.end())
+	{
+		numericLeafNodes.emplace_back(vfTarget.name());
+	}
 }
 
 void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, CyPhyML::unit& unitRef, std::string valueStr)

@@ -438,6 +438,21 @@ namespace ComponentAndArchitectureTeamTest
         }
 
         [Fact]
+        public void CADComputation_NoUnit()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var sot = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation_NoUnit");
+                Assert.NotNull(sot);
+                string[] numericLeafNodes = RunFormulaEvaluator(sot);
+                var mass_g = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation_NoUnit/@Mass");
+                Assert.NotNull(mass_g);
+                Assert.Equal("10", mass_g.get_StrAttrByName("Value"));
+                Assert.Equal(new string[] { "Mass" }, numericLeafNodes);
+            });
+        }
+
+        [Fact]
         public void StringValue()
         {
             fixture.proj.PerformInTransaction(delegate
@@ -508,7 +523,10 @@ namespace ComponentAndArchitectureTeamTest
         {
             fixture.proj.PerformInTransaction(delegate
             {
-                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath("/@ComponentAssemblies/@IntoReferences");
+                var path = "/@ComponentAssemblies/@IntoReferences";
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+
                 RunFormulaEvaluator(fcoAsm);
 
                 var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
@@ -527,5 +545,26 @@ namespace ComponentAndArchitectureTeamTest
                 }
             });
         }
+
+        [Fact]
+        public void DriveHigherLevel_RunFormulaEvalHere()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var path = "/@ComponentAssemblies/@DriveHigherLevel/@RunFormulaEvalHere";
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+
+                RunFormulaEvaluator(fcoAsm);
+
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+
+                foreach (var param in asm.Children.PropertyCollection)
+                {
+                    Assert.Equal("20", param.Attributes.Value);
+                }
+            });
+        }
+
     }
 }
