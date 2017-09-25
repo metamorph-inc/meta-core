@@ -50,6 +50,7 @@ namespace CyPhyMasterInterpreter
 
         private void CommandLinkRunParallel_Click(object sender, EventArgs e)
         {
+            SaveSettingsAndResults();
             this.DialogResult = DialogResult.Yes;
             this.Close();
         }

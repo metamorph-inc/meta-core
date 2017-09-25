@@ -13,6 +13,7 @@
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Reflection;
+    using System.Security;
 
     /// <summary>
     /// Implements full master interpreter functionality.
@@ -313,12 +314,26 @@
                 }
                 else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                 {
+                    var selectionResult = selectionForm.ConfigurationSelectionResult;
+                    string ids;
+                    if (selectionResult.UnselectedConfigurations.Count() != 0)
+                    {
+                        ids = "--ids " + String.Join(",", selectionResult.SelectedConfigurations.Select(x => x.GMEId));
+                    }
+                    else
+                    {
+                        ids = "--configuration-id " + selectionResult.ConfigurationGroups.Select(fco => fco.Owner.GMEId).Single();
+                    }
+
+
                     ProcessStartInfo info = new ProcessStartInfo()
                     {
                         FileName = META.VersionInfo.PythonVEnvExe,
-                        Arguments = String.Format("\"{0}\" \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
+                        Arguments = String.Format("\"{0}\" {3} \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
                                 this.Project.ProjectConnStr.Substring("MGA=".Length),
-                                contextID),
+                                contextID,
+                                // FIXME will fail if command-line length exceeds 32k
+                                ids),
                         RedirectStandardError = true,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
@@ -331,24 +346,44 @@
                         EnableRaisingEvents = true
                     };
                     GME.CSharp.GMEConsole console = GME.CSharp.GMEConsole.CreateFromProject(this.Project);
+                    int streamsOpen = 2;
+                    Action streamClosed = () =>
+                    {
+                        lock (this)
+                        {
+                            streamsOpen--;
+                            if (streamsOpen == 0)
+                            {
+                                process.Dispose();
+                            }
+                        }
+                    };
                     process.ErrorDataReceived += (sender, data) =>
                     {
                         if (String.IsNullOrEmpty(data.Data) == false)
                         {
-                            console.Error.WriteLine(data.Data);
+                            console.Error.WriteLine(SecurityElement.Escape(data.Data));
+                        }
+                        else
+                        {
+                            streamClosed();
                         }
                     };
                     process.OutputDataReceived += (sender, data) =>
                     {
                         if (String.IsNullOrEmpty(data.Data) == false)
                         {
-                            console.Info.WriteLine(data.Data);
+                            console.Info.WriteLine(SecurityElement.Escape(data.Data));
+                        }
+                        else
+                        {
+                            streamClosed();
                         }
                     };
                     process.Exited += (s, o) =>
                     {
                         // TODO: check process.ExitCode?
-                        process.Dispose();
+                        // process.Dispose();
                     };
                     process.Disposed += (s, o) =>
                     {

@@ -264,7 +264,7 @@
             this.commandLinkRunParallel.Name = "commandLinkRunParallel";
             this.commandLinkRunParallel.Size = new System.Drawing.Size(225, 41);
             this.commandLinkRunParallel.TabIndex = 102;
-            this.commandLinkRunParallel.Text = "Run all configs in parallel";
+            this.commandLinkRunParallel.Text = "Run in parallel";
             this.commandLinkRunParallel.UseVisualStyleBackColor = true;
             this.commandLinkRunParallel.Click += new System.EventHandler(this.CommandLinkRunParallel_Click);
             // 

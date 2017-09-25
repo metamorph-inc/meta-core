@@ -63,6 +63,7 @@ namespace CyPhyMasterExe
 
                         // summarize results
                         master.WriteSummary(results);
+                        System.Environment.Exit(results.Where(r => r.Success == false).Count());
                     }
                 }
                 finally
