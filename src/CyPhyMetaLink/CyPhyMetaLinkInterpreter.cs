@@ -208,6 +208,14 @@ namespace CyPhyMetaLink
 
                 //GMEConsole.Out.WriteLine("End of CyPhySync interpreter...");
             }
+            catch (AggregateException e)
+            {
+                foreach (var exception in e.InnerExceptions)
+                {
+                    GMEConsole.Error.WriteLine(exception.Message);
+                }
+                throw new ApplicationException(e.InnerException.Message, e.InnerException);
+            }
             finally
             {
                 MgaGateway = null;
