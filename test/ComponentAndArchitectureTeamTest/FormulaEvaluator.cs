@@ -87,10 +87,9 @@ namespace ComponentAndArchitectureTeamTest
         }
         #endregion
 
-        public string[] RunFormulaEvaluator(MgaFCO currentobj)
+        public string[] RunFormulaEvaluator(MgaFCO currentobj, string automation = "true")
         {
             // create formula evaluator type
-            // FIXME: calling the elaborator is faster than calling the formula evaluator
             Type typeFormulaEval = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyFormulaEvaluator");
             IMgaComponentEx formulaEval = Activator.CreateInstance(typeFormulaEval) as IMgaComponentEx;
 
@@ -102,7 +101,7 @@ namespace ComponentAndArchitectureTeamTest
             formulaEval.Initialize(fixture.proj);
 
             // automation means no UI element shall be shown by the interpreter
-            formulaEval.ComponentParameter["automation"] = "true";
+            formulaEval.ComponentParameter["automation"] = automation;
 
             // do not write to the console
             formulaEval.ComponentParameter["console_messages"] = "off";
@@ -515,6 +514,33 @@ namespace ComponentAndArchitectureTeamTest
                 var srcProp = comp.Children.PropertyCollection.First(p => p.Name == "Property");
                 var dstParam = CyPhyClasses.ModelicaParameter.Cast(comp.Impl.ObjectByPath["/@ModelicaModel/@Parameter"]);
                 Assert.Equal(srcProp.Attributes.Value, dstParam.Attributes.Value);
+            });
+        }
+
+
+        [Fact]
+        public void BaseAssembly()
+        {
+            MgaFCO fcoAsm = null;
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var path = "/@ComponentAssemblies/@BaseAssembly";
+                fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+            });
+
+            RunFormulaEvaluator(fcoAsm, "false");
+
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+                var outMetric = asm.Children.MetricCollection.Single(p => p.Name == "OutMetric");
+                Assert.Equal("100", outMetric.Attributes.Value);
+                var outParamater = asm.Children.ParameterCollection.Single(p => p.Name == "OutParameter");
+                Assert.Equal("100", outParamater.Attributes.Value);
+
+                Assert.Equal(1, asm.Children.ComponentRefCollection.Count());
+                Assert.Equal(0, asm.Children.ComponentCollection.Count());
             });
         }
 

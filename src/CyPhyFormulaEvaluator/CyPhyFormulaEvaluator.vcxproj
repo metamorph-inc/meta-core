@@ -275,6 +275,7 @@
     <ClCompile Include="UdmApp.cpp" />
     <ClCompile Include="UdmConsole.cpp" />
     <ClCompile Include="UdmFormatter.cpp" />
+    <ClCompile Include="UpdateParametersInNewTransaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Component.def" />

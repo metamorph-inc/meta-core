@@ -38,13 +38,9 @@ using namespace std;
 #include <boost/filesystem.hpp>
 #include "UnitUtil.h"
 
-__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+void RunCyPhyElaborate_ComputePropertyValues(IMgaFCO *currentobj);
 
-bool ConsoleMessagesOn;
-bool Automation;
-bool DoNotGeneratePostProcessing;
-string OutputDir = "";
-string ExceptionMessage = "";
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
 
 // this method is called after all the generic initialization is done
 // this should be empty, unless application-specific initialization is needed
@@ -87,7 +83,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 									IMgaFCOs *selectedobjs,  long param) 
 {
 	// Calling the user's initialization function
-	if(CUdmApp::Initialize())
+	if(app.Initialize())
 	{
 		return S_FALSE;
 	}
@@ -96,6 +92,11 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	
 	try
 	{
+		if (Automation == false) {
+			RunCyPhyElaborate_ComputePropertyValues(currentobj);
+			return S_OK;
+		}
+
 		// Setting up the console
 		if (ConsoleMessagesOn) {
 			GMEConsole::Console::setupConsole(ccpProject);
@@ -122,174 +123,63 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		//COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
 		// Setting up Udm
-#ifdef _DYNAMIC_META
-	#ifdef _DYNAMIC_META_DOM
-			// Loading the meta for the project
-			UdmDom::DomDataNetwork  ddnMeta(Uml::diagram);
-			Uml::Diagram theUmlDiagram;
-
-			// Opening the XML meta of the project
-			ddnMeta.OpenExisting(META_PATH,"uml.dtd", Udm::CHANGES_LOST_DEFAULT);
-
-			// Casting the DataNetwork to diagram
-			theUmlDiagram = Uml::Diagram::Cast(ddnMeta.GetRootObject());
-
-			// Creating the UDM diagram
-			Udm::UdmDiagram udmDataDiagram;
-			udmDataDiagram.dgr = &theUmlDiagram;
-			udmDataDiagram.init = dummy;
-
-	#elif defined _DYNAMIC_META_STATIC
-			// Loading the meta for the project
-			Udm::SmartDataNetwork  dnsMeta(Uml::diagram);
-			Uml::Diagram theUmlDiagram;
-
-			// Opening the static meta of the project
-			dnsMeta.OpenExisting(META_PATH, "", Udm::CHANGES_LOST_DEFAULT);
-
-			// Casting the DataNetwork to diagram
-			theUmlDiagram = Uml::Diagram::Cast(dnsMeta.GetRootObject());
-
-			// Creating the UDM diagram
-			Udm::UdmDiagram udmDataDiagram;
-			udmDataDiagram.dgr = &theUmlDiagram;
-			udmDataDiagram.init = dummy;
-
-	#else
-			#error "Neither _DYNAMIC_META_DOM or _DYNAMIC_META_STATIC defined for dynamic loading"
-	#endif
-			// Loading the project
-			UdmGme::GmeDataNetwork dngBackend(udmDataDiagram);
-
-#else
 		using namespace META_NAMESPACE;
 
 		// Loading the project
 		UdmGme::GmeDataNetwork dngBackend(META_NAMESPACE::diagram);
 
-#endif
 		try
 		{
 			long status;
 			COMTHROW(ccpProject->get_ProjectStatus(&status));
+			bool startedTx = false;
 			if (!(status & 8))
+			{
 				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
+				startedTx = true;
+			}
 			// Opening backend
 			try {
-			dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
+				dngBackend.OpenExisting(ccpProject, Udm::CHANGES_LOST_DEFAULT, true);
 
-			CComBSTR bstrPath;
-			COMTHROW(ccpProject->get_ProjectConnStr(&bstrPath));
-			CUdmApp::projectDir = CStringA(bstrPath);
+				CComBSTR bstrPath;
+				COMTHROW(ccpProject->get_ProjectConnStr(&bstrPath));
+				app.projectDir = CStringA(bstrPath);
 
-			CComPtr<IMgaFCO> ccpFocus(currentobj);
-			Udm::Object currentObject;
-			if(ccpFocus)
-			{
-				currentObject=dngBackend.Gme2Udm(ccpFocus);
-			}
-
-			std::set<Udm::Object> selectedObjects;
-
-			CComPtr<IMgaFCOs> ccpSelObject(selectedobjs);
-
-			MGACOLL_ITERATE(IMgaFCO,ccpSelObject){
-				Udm::Object currObj;
-				if(MGACOLL_ITER)
+				CComPtr<IMgaFCO> ccpFocus(currentobj);
+				Udm::Object currentObject;
+				if(ccpFocus)
 				{
-					currObj=dngBackend.Gme2Udm(MGACOLL_ITER);
+					currentObject=dngBackend.Gme2Udm(ccpFocus);
 				}
-			 selectedObjects.insert(currObj);
-			}MGACOLL_ITERATE_END;
 
-#ifdef _ACCESS_MEMORY
-			// Creating Cache
-	#ifdef _DYNAMIC_META
-			Udm::SmartDataNetwork dnsCacheBackend(udmDataDiagram);
-	#else
-			Udm::SmartDataNetwork dnsCacheBackend(META_NAMESPACE::diagram);
-	#endif
+				std::set<Udm::Object> selectedObjects;
 
-			const Uml::Class & safeType = Uml::SafeTypeContainer::GetSafeType(dngBackend.GetRootObject().type());
+				CComPtr<IMgaFCOs> ccpSelObject(selectedobjs);
 
-			dnsCacheBackend.CreateNew("tmp.mem","",safeType, Udm::CHANGES_LOST_DEFAULT);
-
-			Udm::Object nullObject(&Udm::_null);
-			UdmUtil::copy_assoc_map copyAssocMap;
-			copyAssocMap[currentObject]=nullObject; // currentObject may be null object
-
-			std::set<Udm::Object>::iterator p_CurrSelObject;
-			for(p_CurrSelObject=selectedObjects.begin();
-				p_CurrSelObject!=selectedObjects.end();p_CurrSelObject++)
-			{
-					std::pair<Udm::Object const, Udm::Object> item(*p_CurrSelObject, nullObject);
-
-					std::pair<UdmUtil::copy_assoc_map::iterator, bool> insRes = copyAssocMap.insert(item);
-
-					if (!insRes.second)
+				MGACOLL_ITERATE(IMgaFCO,ccpSelObject){
+					Udm::Object currObj;
+					if(MGACOLL_ITER)
 					{
-						assert(false);
+						currObj=dngBackend.Gme2Udm(MGACOLL_ITER);
 					}
+				 selectedObjects.insert(currObj);
+				}MGACOLL_ITERATE_END;
 
-			}
+				// Calling the main entry point
+				app.UdmMain(&dngBackend, currentObject, selectedObjects, param);
+				// Closing backend
+				dngBackend.CloseWithUpdate();
 
-			// Copying from GME to memory
-			UdmUtil::CopyObjectHierarchy(
-				dngBackend.GetRootObject().__impl(),
-				dnsCacheBackend.GetRootObject().__impl(),
-				&dnsCacheBackend,
-				copyAssocMap);
-
-			// Searching for focus object
-			Udm::Object currentObjectCache;
-			UdmUtil::copy_assoc_map::iterator currObject = copyAssocMap.find(currentObject);
-			if (currObject != copyAssocMap.end()) // It is in the map
-			{
-				currentObjectCache=currObject->second;
-			}
-
-
-			// Searching for selected objects
-			std::set<Udm::Object> selectedObjectsCache;
-
-			for( p_CurrSelObject=selectedObjects.begin();
-				p_CurrSelObject!=selectedObjects.end();p_CurrSelObject++)
-			{
-				Udm::Object object;
-				UdmUtil::copy_assoc_map::iterator currSelObjectIt = copyAssocMap.find(*p_CurrSelObject);
-				if (currSelObjectIt != copyAssocMap.end()) // It is in the map
-				{
-					object=currSelObjectIt->second;
-					selectedObjectsCache.insert(object);
+				if (startedTx) {
+					ccpProject->CommitTransaction();
 				}
-			}
-
-
-			// Closing GME backend
-			dngBackend.CloseNoUpdate();
-
-			// Calling the main entry point
-			CUdmApp::UdmMain(&dnsCacheBackend,currentObjectCache,selectedObjectsCache,param);
-			// Close cache backend
-			dnsCacheBackend.CloseNoUpdate();
-
-#else
-			// Calling the main entry point
-			app.UdmMain(&dngBackend, currentObject, selectedObjects, param);
-			// Closing backend
-			dngBackend.CloseWithUpdate();
-
-
-			if (!(status & 8))
-				ccpProject->CommitTransaction();
 			} catch (...) {
-				if (!(status & 8))
+				if (startedTx) {
 					ccpProject->AbortTransaction();
+				}
 				throw;
 			}
-
-#endif
-
 		}
 		catch(udm_exception &exc)
 		{
@@ -314,6 +204,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 	}
 	catch (const _com_error&)
 	{
+		GMEConsole::Console::gmeoleapp = 0;
 		throw;
 	}
 	catch(...)
@@ -485,7 +376,7 @@ void RawComponent::UpdateParameters()
 				boost::filesystem::path p(value);
 				value = p.make_preferred().parent_path().string();
 			}
-			CUdmApp::projectDir_SOT = value;
+			app.projectDir_SOT = value;
 		}
 	}
 }

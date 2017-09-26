@@ -428,6 +428,50 @@ namespace CyPhyElaborateCS
 
         public CyPhyCOMInterfaces.IMgaTraceability Traceability { get; set; }
 
+        [ComVisible(true)]
+        public void ComputePropertyValues(object o)
+        {
+            MgaFCO fco = (MgaFCO)o;
+            ISet<string> kinds = new HashSet<string>()
+            {
+                "Property",
+                "Parameter",
+                "Metric",
+            };
+            var project = fco.Project;
+            List<Tuple<string, string>> assignments = new List<Tuple<string, string>>();
+            MgaGateway gateway = new MgaGateway(fco.Project);
+            gateway.PerformInTransaction(() =>
+            {
+                var descendents = (fco as MgaModel).GetDescendantFCOs(fco.Project.CreateFilter());
+
+                bool success = RunInTransaction(fco.Project, fco, null, 128);
+                if (success == false)
+                {
+                    throw new ApplicationException("Evaluation failed");
+                }
+                foreach (IMgaFCO descendent in descendents)
+                {
+                    if (descendent.Status != (int)objectstatus_enum.OBJECT_EXISTS)
+                    {
+                        continue;
+                    }
+                    if (kinds.Contains(descendent.Meta.Name) == false)
+                    {
+                        continue;
+                    }
+                    assignments.Add(new Tuple<string, string>(descendent.ID, descendent.GetStrAttrByNameDisp("Value")));
+                }
+            }, abort: true);
+            gateway.PerformInTransaction(() =>
+            {
+                foreach (var assignment in assignments)
+                {
+                    project.GetFCOByID(assignment.Item1).SetStrAttrByNameDisp("Value", assignment.Item2);
+                }
+            }, abort: false);
+        }
+
         [ComVisible(false)]
         public CyPhyGUIs.GMELogger Logger { get; set; }
 

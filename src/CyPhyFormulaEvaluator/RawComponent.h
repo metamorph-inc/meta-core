@@ -23,29 +23,27 @@ class RawComponent {
 // Insert your application specific member and method definitions here
 public:
 	std::map<std::string, _variant_t> componentParameters;
-	std::string delimiter;
 	CUdmApp app;
+
+	bool ConsoleMessagesOn;
+	bool DoNotGeneratePostProcessing;
+	string OutputDir;
+	string ExceptionMessage;
+	bool Automation;
 
 	void UpdateParameters();
 
 	RawComponent()
+		: app(Automation, DoNotGeneratePostProcessing, OutputDir)
 	{
-		delimiter = ";\n";
-		std::string Value = "";
 		// initialize component parameters
-		componentParameters.clear();
 		//componentParameters["key"]            = _variant_t("value");
 		componentParameters["name"]             = _variant_t("Formula evaluator interpreter");
 
-		Value.erase();
-		Value += "Calculates all formulas and assign calculated values to Parameter/Property/Metric, etc.\n";
-		componentParameters["description"]      = _variant_t(Value.c_str());
-
-		componentParameters["help"]             = _variant_t("Help string message. Usage: TBA...");
 		componentParameters["console_messages"] = _variant_t("on");
 		componentParameters["output_dir"]       = _variant_t("");
 		componentParameters["automation"]       = _variant_t("false");
-		componentParameters["expanded"]         = _variant_t("false");
+		// componentParameters["expanded"]         = _variant_t("false");
 		componentParameters["do_not_generate_post_processing"] = _variant_t("false");
 		componentParameters["runCommand"]       = _variant_t("main_post_process.py testbench_manifest.json");  // JS modified to allow batch from Master T/Job Processor
 		componentParameters["labels"]       = _variant_t(L""); // empty string means use default label

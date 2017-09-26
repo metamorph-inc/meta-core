@@ -9,14 +9,6 @@
 #include "boost\filesystem.hpp"
 
 using namespace std;
-extern bool Automation;
-extern bool Expanded;
-extern bool DoNotGeneratePostProcessing;
-extern string OutputDir;
-extern string ExceptionMessage;
-
-string CUdmApp::projectDir = "";
-string CUdmApp::projectDir_SOT = "";
 
 /*********************************************************************************/
 /* Initialization function. The framework calls it before preparing the backend. */
@@ -25,7 +17,6 @@ string CUdmApp::projectDir_SOT = "";
 /*********************************************************************************/
 int CUdmApp::Initialize()
 {
-	// TODO: Your initialization code comes here...
 	return 0;
 }
 
@@ -74,37 +65,14 @@ void CUdmApp::UdmMain(
 		{
 			std::string msg = "No model open. Please open a Component, TestComponent, ComponentAssembly, or Testbench and try again.";
 
-			if (Automation)
-			{
-				throw udm_exception(msg);
-			}
-			else
-			{
-				GMEConsole::Console::writeLine(msg, MSG_ERROR);
-				return;
-			}
+			throw udm_exception(msg);
 		}
 
 		if (focusObject.isLibObject() == true)
 		{
 			std::string msg = "Cannot run FormulaEvaluator on Library Objects.";
 
-			if (Automation)
-			{
-				throw udm_exception(msg);
-			}
-			else
-			{
-				GMEConsole::Console::writeLine(msg, MSG_ERROR);
-				return;
-			}
-		}
-
-		//FormulaTraverse traverser;
-		if (Automation == false)
-		{			
-			boost::filesystem::path full_path( boost::filesystem::current_path() );
-			OutputDir = full_path.string();
+			throw udm_exception(msg);
 		}
 
 		NewTraverser traverser;
@@ -117,9 +85,9 @@ void CUdmApp::UdmMain(
 		else
 			projectRoot = CUdmApp::projectDir.substr(string("MGA=").length()).substr(0,CUdmApp::projectDir.find_last_of('\\') - string("MGA=").length() + 1);
 
-		if (DoNotGeneratePostProcessing == false)
+		if (OutputDir != "" && DoNotGeneratePostProcessing == false)
 		{
-			CUdmApp::GeneratePostProcessingPython(focusObject, projectRoot);
+			GeneratePostProcessingPython(focusObject, projectRoot);
 		}
 
 	}

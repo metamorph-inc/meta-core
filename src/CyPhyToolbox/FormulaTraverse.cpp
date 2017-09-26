@@ -20,8 +20,6 @@
 std::wstring wstringFromUTF8(const std::string& utf8);
 std::wstring wstringFromUTF8(const Udm::StringAttr& attr);
 
-//extern string OutputDir;
-
 /** \brief Global traverse function that kicks start everything when called in UdmMain. It calls NewTraverse's traverse function.
     \param [in] focusObject Reference to currently opened model in GME
     \param [in] selectedObjects Reference to a set of currently selected objects in GME  
