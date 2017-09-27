@@ -148,6 +148,10 @@ def run(filename, override_driver=None):
         return top
 
 
+def get_desvar_path(designVariable):
+    return 'designVariable.{}'.format(designVariable)
+
+
 @contextlib.contextmanager
 def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False):
     # TODO: can we support more than one driver
@@ -165,9 +169,6 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
     subProblemInputMeta = {}
     subProblemOutputMeta = {}
-
-    def get_desvar_path(designVariable):
-        return 'designVariable.{}'.format(designVariable)
 
     if driver is not None:
         if driver['type'] == 'optimizer':
@@ -246,7 +247,6 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
 
-    
     for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
         subProblemDir = os.path.join(original_dir, subProblemName)
 
@@ -317,7 +317,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
                     if source[1] in this_driver.get('designVariables', {}):
                         path = get_desvar_path(source[1])
-                    else: # Source is an objective, ivar, or constraint; need to get the actual source
+                    else:  # Source is an objective, ivar, or constraint; need to get the actual source
                         if source[1] in this_driver.get('objectives', {}):
                             driver_output_type = 'objectives'
                         elif source[1] in this_driver.get('constraints', {}):

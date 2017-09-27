@@ -7,6 +7,7 @@ import os
 import os.path
 import errno
 
+import run_mdao
 from run_mdao.restart_recorder import RestartRecorder
 
 from openmdao.util.array_util import evenly_distrib_idxs
@@ -37,7 +38,7 @@ def _get_seed_and_random(seed):
 
 class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
 
-    def __init__(self, original_dir, num_samples=5, *args, **kwargs):
+    def __init__(self, original_dir, num_samples=None, *args, **kwargs):
         if type(self) == PredeterminedRunsDriver:
             raise Exception('PredeterminedRunsDriver is an abstract class')
         if MPI:
@@ -440,3 +441,20 @@ def _mmlhs(x_start, population, generations):
             x_best = x_improved
 
     return x_best
+
+
+class CsvDriver(PredeterminedRunsDriver):
+    def __init__(self, original_dir, filename, *args, **kwargs):
+        super(CsvDriver, self).__init__(original_dir=original_dir, *args, **kwargs)
+        self.use_restart = False
+        self.filename = filename
+
+    def _deserialize_or_create_runlist(self):
+        runlist = []
+        with open(self.filename, 'rU') as csv_input:
+            import csv
+            reader = csv.reader(csv_input)
+            header = next(iter(reader))
+            for values in reader:
+                runlist.append(zip(map(run_mdao.get_desvar_path, header), values))
+            return runlist
