@@ -17,12 +17,25 @@ namespace CyPhyMasterExe
         {
             try
             {
+                bool noJobCollectionDone = false;
                 // parse command line arguments
                 string jobCollectionId = new Guid().ToString("D");
-                if (args[0] == "--job-collection-id")
+                while (true)
                 {
-                    jobCollectionId = args[1];
-                    args = args.Skip(2).ToArray();
+                    if (args[0] == "--job-collection-id")
+                    {
+                        jobCollectionId = args[1];
+                        args = args.Skip(2).ToArray();
+                    }
+                    else if (args[0] == "--no-job-collection-done")
+                    {
+                        noJobCollectionDone = true;
+                        args = args.Skip(1).ToArray();
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 if (args[0] == "--send-job-collection-done")
                 {
@@ -51,6 +64,10 @@ namespace CyPhyMasterExe
                     using (var master = new CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI(project))
                     {
                         master.SetJobCollectionID(jobCollectionId);
+                        if (noJobCollectionDone == true)
+                        {
+                            master.SetSendJobCollectionDone(false);
+                        }
                         // create a configuration for the run
                         var configLight = new CyPhyMasterInterpreter.ConfigurationSelectionLight();
                         configLight.ContextId = originalSubjectID;

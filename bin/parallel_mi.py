@@ -122,6 +122,7 @@ def invoke(focusObject, rootObject, componentParameters, dn=None, **kwargs):
         master_exe_path = os.path.join(meta_path, r'src\CyPhyMasterExe\bin\Release\CyPhyMasterExe.exe')
     job_collection_id = str(uuid.uuid4())
     master_exe_args = [master_exe_path,
+        "--no-job-collection-done",
         "--job-collection-id", job_collection_id,
         focusObject.convert_udm2gme().Project.ProjectConnStr,
         focusObject.convert_udm2gme().AbsPath]
