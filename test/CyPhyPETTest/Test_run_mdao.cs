@@ -395,6 +395,24 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void NoDesignVariables()
+        {
+            string outputDir = GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@" + GetCurrentMethod();
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal("num_samples = 1", config.drivers["ParameterStudy"].details["Code"]);
+            Assert.Equal("Uniform", config.drivers["ParameterStudy"].details["DOEType"]);
+        }
+
+        [Fact]
         public void Constants_fail_array()
         {
             var path_pet = "/@Testing/@ParametricExploration/@TestConstants_fail_array";
