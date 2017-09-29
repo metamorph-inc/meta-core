@@ -206,7 +206,8 @@
             this.Logger.WriteDebug("Getting configurations for context");
 
             IMgaFCOs configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
-            foreach (var config in this.GetConfigurationGroups(context).SelectMany(x => x.Configurations.Cast<MgaFCO>()))
+            CyPhy.DesignContainer designContainer;
+            foreach (var config in this.GetConfigurationGroups(context, out designContainer).SelectMany(x => x.Configurations.Cast<MgaFCO>()))
             {
                 configurations.Append(config);
             }
@@ -238,38 +239,44 @@
                 Context = context
             };
 
-            var configurationGroups = this.GetConfigurationGroups(context);
-            ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
-
-            AnalysisModelProcessor analysisModelProcessor = null;
+            CyPhy.DesignContainer designContainer;
             string contextID = null;
 
-            this.ExecuteInTransaction(context, () =>
+            Func<ConfigurationSelectionInput> getInput = () =>
             {
-                contextID = context.ID;
-                analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
-                configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
-                configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
-                configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
+                var configurationGroups = this.GetConfigurationGroups(context, out designContainer);
+                ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
+                configurationSelectionInput.designContainer = designContainer;
 
-                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
-
-                if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                AnalysisModelProcessor analysisModelProcessor = null;
+                this.ExecuteInTransaction(context, () =>
                 {
-                    configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
-                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
-                    return;
-                }
+                    contextID = context.ID;
+                    analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
+                    configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
+                    configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
+                    configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
 
-                configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
-                    SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
-                    SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
-            });
+                    configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
 
-            var interpreters = analysisModelProcessor.GetWorkflow();
-            configurationSelectionInput.InterpreterNames = interpreters.Select(x => x.Name).ToArray();
+                    if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                    {
+                        configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
+                            SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
+                        return;
+                    }
 
-            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(configurationSelectionInput, enableDebugging))
+                    configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
+                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
+                        SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
+                });
+
+                var interpreters = analysisModelProcessor.GetWorkflow();
+                configurationSelectionInput.InterpreterNames = interpreters.Select(x => x.Name).ToArray();
+                return configurationSelectionInput;
+            };
+
+            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(getInput, enableDebugging))
             {
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
                 if (this.IsInteractive)
@@ -820,12 +827,13 @@
             return this.ProjectManifest;
         }
 
-        private ConfigurationGroup[] GetConfigurationGroups(IMgaModel context)
+        private ConfigurationGroup[] GetConfigurationGroups(IMgaModel context, out CyPhy.DesignContainer designContainer)
         {
             if (context == null)
             {
                 throw new ArgumentNullException();
             }
+            CyPhy.DesignContainer designContainer_ = null;
 
             List<ConfigurationGroup> configurationGroups = new List<ConfigurationGroup>();
             IMgaFCOs configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
@@ -871,7 +879,8 @@
                     }
                     else if (referredSut is CyPhy.DesignContainer)
                     {
-                        var configItems = (referredSut as CyPhy.DesignContainer)
+                        designContainer_ = (CyPhy.DesignContainer)referredSut;
+                        var configItems = designContainer_
                             .Children
                             .ConfigurationsCollection;
 
@@ -917,6 +926,7 @@
                 }
             });
 
+            designContainer = designContainer_;
             return configurationGroups.ToArray();
         }
 

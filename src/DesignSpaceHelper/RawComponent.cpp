@@ -71,6 +71,7 @@ STDMETHODIMP RawComponent::InvokeEx(IMgaProject *project,  IMgaFCO *currentobj,
 
 HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool applyConstraintsInNoninteractive)
 {
+	CUdmApp app;
 
 	CComPtr<IMgaProject>ccpProject(project);
 	long prefmask;
@@ -109,7 +110,10 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 	{
 		// Setting up the console
 		  GMEConsole::Console::setupConsole(ccpProject);
-		  GMEConsole::Console::clear();
+		  if (clearConsole == true)
+		  {
+			  GMEConsole::Console::clear();
+		  }
 		  char currdate[128];
 		  char currtime[128];
 		  _strdate( currdate);
@@ -151,13 +155,13 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 			int e = mgaFilePath.ReverseFind('\\');
 			//	if(e != -1)
 			{
-				CUdmApp::mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());
+				app.mgaPath = mgaFilePath.Mid(4, mgaFilePath.GetLength());
 			}
 		}
 		else {
 			mgaFilePath = mgaFilePath.Right(mgaFilePath.GetLength() - wcslen(L"MGX=\""));
 			mgaFilePath = mgaFilePath.Left(mgaFilePath.Find(L"\"", 0));
-			CUdmApp::mgaPath = mgaFilePath;
+			app.mgaPath = mgaFilePath;
 		}
 
 		// Setting up Udm
@@ -182,7 +186,7 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 			}
 
 			// Calling the main entry point
-			CUdmApp::UdmMain(&dngBackend,currentObject, interactive ? 0 : 128, applyConstraintsInNoninteractive);
+			app.UdmMain(&dngBackend,currentObject, interactive ? 0 : 128, applyConstraintsInNoninteractive);
 			// Closing backend
 			dngBackend.CloseWithUpdate();
 			//if(!CUdmApp::isvalid)
@@ -301,6 +305,10 @@ STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
 }
 
 STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
+	if (wcscmp(name, L"clearConsole") == 0)
+	{
+		this->clearConsole = newVal.boolVal != VARIANT_FALSE;
+	}
 	return S_OK;
 }
 
