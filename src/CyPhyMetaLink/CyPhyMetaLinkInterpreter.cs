@@ -123,7 +123,7 @@ namespace CyPhyMetaLink
                 metalinkAddon = GetMetaLinkAddon(project);
                 if (metalinkAddon == null)
                 {
-                    GMEConsole.Error.WriteLine("CyPhyMLSync: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
+                    GMEConsole.Error.WriteLine("MetaLink: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
                     return;
                 }
                 ConnectToMetaLinkBridge(project, param);
@@ -720,7 +720,7 @@ namespace CyPhyMetaLink
             CyPhyMetaLink.SyncedComponentData cdata = new CyPhyMetaLink.SyncedComponentData()
             {
                 Type = SyncedComponentData.EditType.Design,
-                WorkingDir = Path.Combine(ProjectDirectory, workingDir),
+                WorkingDir = Path.Combine(ProjectDirectory, "metalink",  workingDir),
                 Id = topasm.Guid.ToString(),
                 InstanceId = (CyPhyMetaLinkAddon.IdCounter++).ToString()
             };
