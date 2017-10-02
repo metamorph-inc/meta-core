@@ -685,10 +685,13 @@ namespace CyPhyPET
                     }
                 }
             }
+
             config.GeneratedConfigurationModel = mainParameters.GeneratedConfigurationModel;
             config.PETName = "/" + string.Join("/", PET.getAncestors(mainParameters.CurrentFCO, stopAt: mainParameters.CurrentFCO.Project.RootFolder)
-                .Skip(mainParameters.SelectedConfig != null ? 1 : 0) // HACK: MI inserts a "Temporary" folder for design space SUTs
-                .getTracedObjectOrSelf(mainParameters.GetTraceability()).Select(obj => obj.Name).Reverse()) + "/" + mainParameters.OriginalCurrentFCOName;
+                .getTracedObjectOrSelf(mainParameters.GetTraceability())
+                // MI inserts a "Temporary" folder for design space SUTs. Skip it
+                .Distinct(new FCOComparer())
+                .Select(obj => obj.Name).Reverse()) + "/" + mainParameters.OriginalCurrentFCOName;
 
             // 2) Get the type of test-bench and call any dependent interpreters
             //var graph = CyPhySoT.CyPhySoTInterpreter.UpdateDependency((MgaModel)this.mainParameters.CurrentFCO, this.Logger);
@@ -756,7 +759,7 @@ namespace CyPhyPET
                     else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
                     {
                         interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, outputFolder);
-                        this.UpdateSuccess("Assuming call to CAD successful : ", true);
+                        this.UpdateSuccess("CyPhy2CAD : ", interpreterSuccess);
                     }
                     else
                     {
@@ -1584,4 +1587,16 @@ namespace CyPhyPET
         }
     }
 
+    public class FCOComparer : IEqualityComparer<IMgaObject>
+    {
+        public bool Equals(IMgaObject x, IMgaObject y)
+        {
+            return x.Project == y.Project && x.ID == y.ID;
+        }
+
+        public int GetHashCode(IMgaObject obj)
+        {
+            return obj.ID.GetHashCode();
+        }
+    }
 }
