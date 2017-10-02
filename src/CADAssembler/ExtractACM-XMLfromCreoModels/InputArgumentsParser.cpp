@@ -154,7 +154,7 @@ void ParseInputArguments(  int                        in_argc,
 		//   2) we have the three required arguments (w, i, l)
 		// These are enforced when we call the notify function later.
 		// First test if the "help" argument was called
-        if (vm.count("h"))
+        if (vm.count("h") || vm.count("c") == 0)
 		{
             std::stringstream stream;
 			// Earlier, we created two option groups, groupedOptions and visibleOptions, and 
