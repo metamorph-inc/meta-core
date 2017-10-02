@@ -122,7 +122,7 @@ namespace CyPhyMasterInterpreter
 
         private void ShowOrHideDesertLinks()
         {
-            if (this.lbConfigModels.Items.Count == 0)
+            if (this.m_Input.IsDesignSpace == true && this.lbConfigModels.Items.Count == 0)
             {
                 this.linkLabelRunDesert.Visible = true;
                 this.linkLabelRunDesertAllConfigs.Visible = true;
