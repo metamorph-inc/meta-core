@@ -11,6 +11,7 @@ import contextlib
 import itertools
 import numpy
 import six
+from collections import defaultdict
 
 from run_mdao.csv_recorder import MappingCsvRecorder, CsvRecorder
 from run_mdao.enum_mapper import EnumMapper
@@ -471,22 +472,27 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
         constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
 
-        unknowns_map = design_var_map
-        unknowns_map.update(objective_map)
-        unknowns_map.update(intermediate_var_map)
-        unknowns_map.update(constants_map)
-        unknowns_map.update(constraints_map)
+        unknowns_map = defaultdict(list)
+        def add_to_unknowns(map):
+            for key, val in six.iteritems(map):
+                unknowns_map[key].append(val)
+        add_to_unknowns(design_var_map)
+        add_to_unknowns(objective_map)
+        add_to_unknowns(intermediate_var_map)
+        add_to_unknowns(constants_map)
+        add_to_unknowns(constraints_map)
 
-        new_unknowns_map = {}
+        new_unknowns_map = defaultdict(list)
         # Locate/fix any unknowns that point to subproblem outputs
-        for unknown_path, unknown_name in six.iteritems(unknowns_map):
-            split_path = unknown_path.split('.')
-            if split_path[0] in subProblemOutputMeta:
-                split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
-                new_path = '.'.join(split_path)
-                new_unknowns_map[new_path] = unknown_name
-            else:
-                new_unknowns_map[unknown_path] = unknown_name
+        for unknown_path, unknown_names in six.iteritems(unknowns_map):
+            for unknown_name in unknown_names:
+                split_path = unknown_path.split('.')
+                if split_path[0] in subProblemOutputMeta:
+                    split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
+                    new_path = '.'.join(split_path)
+                    new_unknowns_map[new_path].append(unknown_name)
+                else:
+                    new_unknowns_map[unknown_path].append(unknown_name)
 
         unknowns_map = new_unknowns_map
 

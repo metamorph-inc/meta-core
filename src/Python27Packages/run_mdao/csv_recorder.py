@@ -79,7 +79,7 @@ class MappingCsvRecorder(BaseRecorder):
             if self._include_id:
                 id = ['GUID']
             self.writer.writerow(id + list(self.params_map.values()) +
-                [v for k, v in six.iteritems(self.unknowns_map) if isinstance(unknowns[k], FileRef) is False])
+                [h for k, v in six.iteritems(self.unknowns_map) if (isinstance(unknowns[k], FileRef) is False) for h in v])
             self._wrote_header = True
 
         id = []
@@ -95,13 +95,16 @@ class MappingCsvRecorder(BaseRecorder):
 
         def do_mapping(map_, values):
             return [v for v in (munge(values[key]) for key in map_) if v is not None]
-        self.writer.writerow(id + do_mapping(self.params_map, params) + do_mapping(self.unknowns_map, unknowns))
+
+        def do_multimapping(map_, values):
+            return [v for v in (munge(values[key]) for key, v in six.iteritems(map_) for _ in v) if v is not None]
+        self.writer.writerow(id + do_mapping(self.params_map, params) + do_multimapping(self.unknowns_map, unknowns))
 
         if self._include_id:
             # write FileRefs to artifacts/GUID/mapped_name
             for name, fileref in ((n, fr) for n, fr in six.iteritems(dict(unknowns)) if isinstance(fr, FileRef)):
-                mapped_name = self.unknowns_map.get(name)
-                if mapped_name is not None:
+                mapped_names = self.unknowns_map.get(name, [])
+                for mapped_name in mapped_names:
                     with fileref.open('rb') as artifact:
                         directory = os.path.join(self.artifacts_directory, six.text_type(id[0]))
                         try:
