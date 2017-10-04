@@ -201,7 +201,8 @@ class OpenModelica(ToolBase):
             # Add %OPENMODELICAHOME%\MinGW\bin to environment variables
             my_env = os.environ
             for path in (r'mingw\bin', # OpenModelica 1.9.1, 1.9.3
-                    r'tools\msys\mingw32\bin'):  # OpenModelica 1.11.0
+                    r'tools\msys\mingw32\bin',  # OpenModelica 1.11.0 32bit
+                    r'tools\msys\mingw64\bin'):  # OpenModelica 1.11.0 64bit
                 env_var_mingw = os.path.join(os.getenv('OPENMODELICAHOME'), path)
                 # META-3623 make sure this path gets resolved first (prepend rather than append).
                 my_env["PATH"] = env_var_mingw + os.pathsep + my_env["PATH"]
@@ -310,7 +311,7 @@ class OpenModelica(ToolBase):
         # FIX for OM 1.9.4, add \bin to path.
         # Add %OPENMODELICAHOME%\bin to environment variables
         env_var_bin = os.path.join(os.getenv('OPENMODELICAHOME'), 'bin')
-        my_env = os.environ
+        my_env = dict(os.environ)
         my_env["PATH"] = env_var_bin + os.pathsep + my_env["PATH"]
         log.debug('Added "{0}" to beginning of env var PATH.'.format(env_var_bin))
 
