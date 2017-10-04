@@ -187,16 +187,9 @@ int main( int argc, char *argv[] )
 // STEP 4: Open the file
 			ProMdl mdl;
 			isis::MultiFormatString partstr(getpartname(programInputArguments.inputCADFileName));
-			err = ProMdlRetrieve((wchar_t*)(const wchar_t*)partstr, fileISasm(programInputArguments.inputCADFileName)?PRO_MDL_ASSEMBLY:PRO_MDL_PART, &mdl);
+			isis_ProMdlRetrieve(partstr, fileISasm(programInputArguments.inputCADFileName) ? PRO_MDL_ASSEMBLY : PRO_MDL_PART, &mdl);
 
 // STEP 5: Request creo give us an output XML for use in CyPhy
-			if(err)
-			{
-				std::stringstream errorString;
-				errorString << "Error starting Creo parametric - Unable to convert file.  Check license server reachability or input file validity.";
-				throw isis::application_exception(errorString);
-			}
-
 			std::string xmlbuffer = isis::CreoModelToCyphyXML(mdl);
 
 			if(xmlbuffer=="")
