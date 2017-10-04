@@ -136,7 +136,7 @@ def instantiate_component(component, component_name, mdao_config, root, subprobl
         return component_instance
 
 
-def run(filename, override_driver=None):
+def run(filename, override_driver=None, append_csv=False):
     """Run OpenMDAO on an mdao_config."""
     original_dir = os.path.dirname(os.path.abspath(filename))
     if MPI:
@@ -144,7 +144,7 @@ def run(filename, override_driver=None):
     else:
         with open(filename, 'r') as mdao_config_json:
             mdao_config = json.loads(mdao_config_json.read())
-    with with_problem(mdao_config, original_dir, override_driver) as top:
+    with with_problem(mdao_config, original_dir, override_driver, append_csv=append_csv) as top:
         top.run()
         return top
 
@@ -154,7 +154,7 @@ def get_desvar_path(designVariable):
 
 
 @contextlib.contextmanager
-def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False):
+def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False, append_csv=False):
     # TODO: can we support more than one driver
     if len(mdao_config['drivers']) == 0:
         driver = None
@@ -499,10 +499,11 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
         for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
             if recorder['type'] == 'DriverCsvRecorder':
                 mode = 'wb'
-                if RestartRecorder.is_restartable(original_dir):
+                exists = os.path.isfile(recorder['filename'])
+                if RestartRecorder.is_restartable(original_dir) or append_csv:
                     mode = 'ab'
                 recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
-                if mode == 'ab':
+                if (append_csv and exists) or mode == 'ab':
                     recorder._wrote_header = True
             elif recorder['type'] == 'AllCsvRecorder':
                 mode = 'wb'

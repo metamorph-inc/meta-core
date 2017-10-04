@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('filename', nargs='?', default='mdao_config.json')
     parser.add_argument('--one-component', help='component name')
     parser.add_argument('--desvar-input', help='design variable csv input')
+    parser.add_argument('--append-csv', action='store_true', help='append to CSV instead of overwriting')
 
     args = parser.parse_args()
 
@@ -44,5 +45,7 @@ if __name__ == '__main__':
         if args.desvar_input:
             original_dir = os.path.dirname(os.path.abspath(args.filename))
             run_kwargs['override_driver'] = CsvDriver(original_dir, args.desvar_input)
+
+        run_kwargs['append_csv'] = args.append_csv
 
         run_mdao.run(args.filename, **run_kwargs)
