@@ -115,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreoImportTest.cs" />
     <Compile Include="Cyphy2CADCreoTest.cs" />
     <Compile Include="MetaLinkCreoTest.cs" />
     <Compile Include="Program.cs" />

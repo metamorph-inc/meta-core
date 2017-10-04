@@ -13,6 +13,20 @@ namespace CADCreoTest
     {
         CadAssemblyFixture fixture;
 
+        public class ExtractACMXMLFixture
+        {
+            public readonly string extractXmlExe;
+
+            public ExtractACMXMLFixture()
+            {
+                extractXmlExe = Path.Combine(META.VersionInfo.MetaPath, "bin", "CAD", "Creo", "bin", "ExtractACM-XMLfromCreoModels.exe");
+                if (File.Exists(extractXmlExe) == false)
+                {
+                    throw new FileNotFoundException(string.Format("ExtractACM-XMLfromCreoModels.exe is not installed at {0}.", extractXmlExe));
+                }
+            }
+        }
+
         public class MetaLinkFixture
         {
             public readonly string createAssemblyExe;
