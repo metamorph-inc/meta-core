@@ -126,9 +126,9 @@
             this.Initialize(project, logger);
         }
 
-        public event EventHandler<ProgressCallbackEventArgs> SingleConfigurationProgress;
+        public event Action<ProgressCallbackEventArgs> SingleConfigurationProgress;
 
-        public event EventHandler<ProgressCallbackEventArgs> MultipleConfigurationProgress;
+        public event Action<ProgressCallbackEventArgs> MultipleConfigurationProgress;
 
         public bool IsInteractive { get; set; }
 
@@ -745,22 +745,39 @@
             this.IsCancelled = true;
         }
 
+        Dictionary<dynamic, Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>> progressCallbacks = new Dictionary<dynamic, Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>>();
+        /*
+        cb should be IDispatch equivalent of:
+        public interface ProgressCallback
+        {
+            void SingleConfigurationProgress(ProgressCallbackEventArgs e);
+            void MultipleConfigurationProgress(ProgressCallbackEventArgs e);
+        }
+        */
+        public void AddProgressCallback(dynamic cb)
+        {
+            var cbs = new Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>((a) => cb.SingleConfigurationProgress(a),
+                (a) => cb.MultipleConfigurationProgress(a));
+            SingleConfigurationProgress += cbs.Item1;
+            MultipleConfigurationProgress += cbs.Item2;
+            progressCallbacks[cb] = cbs;
+        }
+
+        public void RemoveProgressCallback(dynamic cb)
+        {
+            SingleConfigurationProgress -= progressCallbacks[cb].Item1;
+            MultipleConfigurationProgress -= progressCallbacks[cb].Item2;
+            progressCallbacks.Remove(cb);
+        }
+
         protected virtual void OnSingleConfigurationProgress(ProgressCallbackEventArgs e)
         {
-            EventHandler<ProgressCallbackEventArgs> handler = this.SingleConfigurationProgress;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.SingleConfigurationProgress?.Invoke(e);
         }
 
         protected virtual void OnMultipleConfigurationProgress(ProgressCallbackEventArgs e)
         {
-            EventHandler<ProgressCallbackEventArgs> handler = this.MultipleConfigurationProgress;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.MultipleConfigurationProgress?.Invoke(e);
         }
 
         private static void DirectoryCopy(
