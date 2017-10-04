@@ -165,14 +165,18 @@
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h" />
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h" />
     <ClInclude Include="c3ga.h" />
+    <ClInclude Include="cc_AssemblyOptions.h" />
     <ClInclude Include="cc_CommonConstants.h" />
     <ClInclude Include="cc_CommonDefinitions.h" />
     <ClInclude Include="cc_CommonStructures.h" />
     <ClInclude Include="cc_CommonUtilities.h" />
+    <ClInclude Include="cc_CreateAssemblyInputArgumentsParser.h" />
+    <ClInclude Include="cc_ExtractACMInputArgumentsParser.h" />
     <ClInclude Include="cc_GraphicsFunctions.h" />
     <ClInclude Include="cc_Joint.h" />
     <ClInclude Include="cc_JsonHelper.h" />
     <ClInclude Include="cc_LoggerBoost.h" />
+    <ClInclude Include="cc_MetaLinkInputArgumentsParser.h" />
     <ClInclude Include="cc_MiscellaneousFunctions.h" />
     <ClInclude Include="cc_MultiFormatString.h" />
     <ClInclude Include="cc_Nastran.h" />
@@ -187,13 +191,17 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp" />
     <ClCompile Include="c3ga.cpp" />
+    <ClCompile Include="cc_AssemblyOptions.cpp" />
     <ClCompile Include="cc_CommonDefinitions.cpp" />
     <ClCompile Include="cc_CommonStructures.cpp" />
     <ClCompile Include="cc_CommonUtilities.cpp" />
+    <ClCompile Include="cc_CreateAssemblyInputArgumentsParser.cpp" />
+    <ClCompile Include="cc_ExtractACMInputArgumentsParser.cpp" />
     <ClCompile Include="cc_GraphicsFunctions.cpp" />
     <ClCompile Include="cc_Joint.cpp" />
     <ClCompile Include="cc_JsonHelper.cpp" />
     <ClCompile Include="cc_LoggerBoost.cpp" />
+    <ClCompile Include="cc_MetaLinkInputArgumentsParser.cpp" />
     <ClCompile Include="cc_MiscellaneousFunctions.cpp" />
     <ClCompile Include="cc_MultiFormatString.cpp" />
     <ClCompile Include="cc_Nastran.cpp" />

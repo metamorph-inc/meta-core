@@ -165,7 +165,6 @@
     <ClCompile Include="AssemblyCreationViaInputFile.cpp" />
     <ClCompile Include="CFDAnalysis.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
-    <ClCompile Include="InputArgumentsParser.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -190,7 +189,6 @@
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
     <ClInclude Include="CFDAnalysis.h" />
     <ClInclude Include="GlobalModelData.h" />
-    <ClInclude Include="InputArgumentsParser.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SurvivabilityAnalysis.h" />
     <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h" />

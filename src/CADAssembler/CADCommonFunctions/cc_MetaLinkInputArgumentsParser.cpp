@@ -1,14 +1,13 @@
 // File: ParseInputARguments.cpp
 // Author: Kevin Zeillmann
-// Last Modified: 6/3/13
+// Last Modified: 9/28/2017
 // Description: This file provides the definition of the ProgramInputArguments
 //   operator<< function to let it output debug information, and it contains
 //   the definition of the ParseInputArguments function for use in the
 //   CADCreoParametricCreateAssembly program.
 
-#include "stdafx.h"
-#include "InputArgumentsParser.h"
-#include "AssemblyOptions.h"
+#include "cc_MetaLinkInputArgumentsParser.h"
+#include "cc_AssemblyOptions.h"
 
 namespace isis
 {
@@ -17,7 +16,7 @@ namespace isis
 //  for now, since this code will likely not be modular and used for other programs
 // Overriding the << operator allows us to print the object to cout or any other
 //  useful output stream for debugging
-std::ostream& operator<<(std::ostream & in_stream, const ProgramInputArguments &in_args)
+std::ostream& operator<<(std::ostream & in_stream, const MetaLinkInputArguments &in_args)
 {
     in_stream << "graphicsModeOn = "		<< in_args.graphicsModeOn << std::endl;
     in_stream << "inputXmlFileName = "		<< in_args.inputXmlFileName << std::endl;
@@ -29,27 +28,27 @@ std::ostream& operator<<(std::ostream & in_stream, const ProgramInputArguments &
     in_stream << "syncConnectionString = "	<< in_args.syncConnectionString << std::endl;
     in_stream << "designID = "				<< in_args.designID << std::endl;
     in_stream << "majorMode = "				<< in_args.majorMode << std::endl;
-	in_stream << "instanceId = "				<< in_args.instanceID << std::endl;
+	in_stream << "instanceId = "			<< in_args.instanceID << std::endl;
     return in_stream;
 }
 
 
-bool ProgramInputArguments::is_designMode() const
+bool MetaLinkInputArguments::is_designMode() const
 {
     return this->majorMode == MAJOR_MODE_DESIGN;
 }
 
-bool ProgramInputArguments::is_componentMode() const
+bool MetaLinkInputArguments::is_componentMode() const
 {
     return this->majorMode == MAJOR_MODE_COMPONENT;
 }
 
-bool ProgramInputArguments::is_passiveMode() const
+bool MetaLinkInputArguments::is_passiveMode() const
 {
     return this->majorMode == MAJOR_MODE_PASSIVE;
 }
 
-void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const in_argv[])
+void MetaLinkInputArguments::ParseInputArguments(int in_argc, const char *const in_argv[])
 
 {
     //Create a local alias for the boost::program_options namespace to prevent us
@@ -84,19 +83,38 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
         //Begin with the name of the flag, then the value it expects (a single token here),
         // and then the description that will be included in for generated help documentation
 
+
+		visibleOptions.add_options()
+		("w",  po::value<std::string>(),			" (Optional) Default (\".\"),  Working directory.  The directory where the generated files would be persisted.")
+		("i",  po::value<std::string>(),			" (Optional) Input XML file name.  This file (e.g. CADAssembly.xml) defines the CAD assembly definition.")
+		("l",  po::value<std::string>(),			" (Optional) Default (\"MetaLink.log\"), Log file name.")
+		("v",  po::value<std::string>(),			" (Optional) Default (\"inform\"), Log vebosity level {\"debug\" \"inform\" \"warning\" \"error\"}.")
+		("a",  po::value<std::string>(),			" (Optional) Default (\"\"), Auxiliary CAD directory.  Would contain additional CAD parts that are not in component directories.")
+        ("m",  po::value<std::string>()->required()," (Required) Major mode in { \"design\" \"component\" \"passive\" }.")
+		("c",  po::value<std::string>(),			" (Optional) Name of file to concat after generated config.pro")
+		("id", po::value<std::string>()->required()," (Required) Synced component instance ID.")
+        ("s",  po::value<std::string>()->required()," (Required) Connection string (e.g. localhost:4949)"
+													" The optional connection string (e.g. localhost:4949). Not synchronized is the default.")
+		("g",										" (Optional) Default (no graphics), Graphics mode")
+        ("d", po::value<std::string>()->required(),	" (Required) Object ID. For assemblies the DesignID identifies a CyPhy design. \n"
+													" For component mode this is the AVMComponentID. \n"
+													" This is used by MetaLink to associate a Creo session with a CyPhy object. \n"
+													" In the case of passive mode the object identifier is meaningless.")
+		("h",										" (Optional) Help - displays keys along with the usage")
+		;
+
+/***
         visibleOptions.add_options()
-        ("o", po::value<std::string>(), " Assembly Options. Specify options related to assembly here.")
         ("w", po::value<std::string>(), " Working directory.  The directory where the generated files would be persisted.")
-        ("i", po::value<std::string>(), " Input XML file name.  This file defines the CAD assembly definition.")
+		("i", po::value<std::string>(), " Input XML file name.  This file defines the CAD assembly definition.")
         ("l", po::value<std::string>(), " Log file name.")
-        ("v", po::value<std::string>(), " Log vebosity level {\"debug\" \"info\" \"warn\" \"error\"}.")
+        ("v", po::value<std::string>(), " Log vebosity level {\"debug\" \"inform\" \"warn\" \"error\"}.")
         ("a", po::value<std::string>(), " Auxiliary CAD directory.  Would contain CAD parts.")
         ("m", po::value<std::string>(), " Major mode in { \"design\" \"component\" \"passive\" }.")
         ("c", po::value<std::string>(), " User supplied config.pro file location.")
-		("id", po::value<std::string>(), "Crap.")
-        ("s", po::value<std::string>(), " Synchronize Creo with CyPhy.  "
+		("id", po::value<std::string>(), "Synced component instance ID.")
+        ("s", po::value<std::string>(), " Connection string (e.g. localhost:4949)"
          "The optional connection string (e.g. localhost:4949). Not synchronized is the default.")
-        ("p",                           " Prompt before exiting.  Not prompting is the default.")
         ("g",                           " Graphics mode.  No graphics is the default.")
         ("d", po::value<std::string>(), " Object ID. For assemblies the DesignID identifies a CyPhy design. \n"
          "For component mode this is the AVMComponentID. \n"
@@ -104,6 +122,8 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
          "In the case of passive mode the object identifier is meaningless.")
         ("h",                           "Help - displays keys along with the usage")
         ;
+
+**/
         // This seems to be the best way of accomplishing key grouping. We want to allow
         //  the user to group "p" and "g" together on the command line so that they can
         //  use "-gp" or "-pg" to enable both the "-g" and "-p" options.
@@ -177,10 +197,7 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
         {
             workingDirectory = vm["w"].as<std::string>();
         }
-        else
-        {
-            workingDirectory = ".";
-        }
+
 
         // Parameters related to logging.
         if(vm.count("l"))
@@ -204,49 +221,6 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
 				  logVerbosity = isis_INFO;
 			  } 
 
-			/*
-            if(boost::iequals(lv, LOG_VERBOSITY_DEBUG))
-            {
-                logVerbosity = log4cpp::Priority::DEBUG;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_INFO))
-            {
-                logVerbosity = log4cpp::Priority::INFO;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_WARN))
-            {
-                logVerbosity = log4cpp::Priority::WARN;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_ERROR))
-            {
-                logVerbosity = log4cpp::Priority::ERROR;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_CRIT))
-            {
-                logVerbosity = log4cpp::Priority::CRIT;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_ALERT))
-            {
-                logVerbosity = log4cpp::Priority::ALERT;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_FATAL))
-            {
-                logVerbosity = log4cpp::Priority::FATAL;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_EMERG))
-            {
-                logVerbosity = log4cpp::Priority::EMERG;
-            }
-            else if(boost::iequals(lv, LOG_VERBOSITY_NOTSET))
-            {
-                logVerbosity = log4cpp::Priority::NOTSET;
-            }
-            else
-            {
-                std::cerr << "The log level is not recognized" << std::endl;
-                logVerbosity = log4cpp::Priority::NOTSET;
-            }
-			*/
 
         }
         if(vm.count("c"))
@@ -262,7 +236,7 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
         // Again, we insert these directly into the ProgramInputArguments object
         if(vm.count("i"))
         {
-            inputXmlFileName = vm["i"].as<std::string>();
+          inputXmlFileName = vm["i"].as<std::string>();
         }
 
         if(vm.count("d"))
@@ -293,10 +267,6 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
             syncConnectionString = vm["s"].as<std::string>();
         }
 
-        if(vm.count("o"))
-        {
-            AssemblyOptions::Create(vm["o"].as<std::string>());
-        }
     }
     catch(isis::application_exception &e)
     {
@@ -331,14 +301,14 @@ void ProgramInputArguments::ParseInputArguments(int in_argc, const char *const i
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ThrowException_If_InvalidInputArguments(int                        in_argc,
-        const char                 * const in_argv[],
-        const ProgramInputArguments &in_ProgramInputArguments)
-throw(isis::application_exception)
+void MetaLinkInputArguments::ThrowException_If_InvalidInputArguments(
+		int                        in_argc,
+        const char                 * const in_argv[] )
+													throw(isis::application_exception)
 {
-    if(in_ProgramInputArguments.synchronizeWithCyPhy &&  !in_ProgramInputArguments.graphicsModeOn)
+    if(synchronizeWithCyPhy &&  ! graphicsModeOn)
     {
-        std::cout << in_ProgramInputArguments;
+        std::cout << *this;
         std::stringstream errorString;
         errorString << "Input Arguments: " << std::endl;
         for(int i = 0; i < in_argc; ++i)
@@ -349,9 +319,9 @@ throw(isis::application_exception)
         throw isis::application_exception(errorString.str().c_str());
 
     }
-    if(in_ProgramInputArguments.synchronizeWithCyPhy && in_ProgramInputArguments.designID.size() == 0)
+    if( synchronizeWithCyPhy && designID.size() == 0)
     {
-        std::cout << in_ProgramInputArguments;
+        std::cout << *this;
         std::stringstream errorString;
         errorString << "Input Arguments: " << std::endl;
         for(int i = 0; i < in_argc; ++i)

@@ -96,7 +96,6 @@
     <ClCompile Include="ApplyModelConstraints.cpp" />
     <ClCompile Include="AssembleComponents.cpp" />
     <ClCompile Include="AssembleUtils.cpp" />
-    <ClCompile Include="AssemblyOptions.cpp" />
     <ClCompile Include="BuildAssembly.cpp" />
     <ClCompile Include="CADEnvironmentSettings.cpp" />
     <ClCompile Include="CADFactoryCreo.cpp" />
@@ -112,7 +111,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\generated\CAD\generated\CreoMetaData.h" />
     <ClInclude Include="ApplyModelConstraints.h" />
-    <ClInclude Include="AssembleComponents.h" />
     <ClInclude Include="AssembleUtils.h" />
     <ClInclude Include="AssemblyOptions.h" />
     <ClInclude Include="BuildAssembly.h" />

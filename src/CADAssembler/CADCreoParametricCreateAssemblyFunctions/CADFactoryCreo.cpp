@@ -4,12 +4,12 @@
 #include <vector>
 #include <list>
 #include <ProFeature.h>
-#include <CadFactoryCreo.h>
 #include <JointCreo.h>
 #include "ApplyModelConstraints.h"
 #include <ISISConstants.h>
 #include <ToolKitPassThroughFunctions.h>
 #include <cc_CommonUtilities.h>
+#include "CADEnvironmentSettings.h"
 
 namespace isis {
 namespace cad {
@@ -180,6 +180,168 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 	}
 	return elementary_joints;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/**************
+std::string EnvironmentCreo::getCADExtensionsDir() throw (isis::application_exception)
+{
+	std::string META_PATH_str = META_PATH();
+
+	if ( META_PATH_str.length() == 0 )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+					"Registry entry META_PATH not found.  This should typically be in the registry" << std::endl <<
+					"at HKEY_LOCAL_MACHINE\\SOFTWARE\\META.  The META installer creates this registry entry." << std::endl;
+
+		throw isis::application_exception(errorString);	
+	}
+	return META_PATH_str + "\\bin\\CAD\\Creo";
+}
+**************/
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/****
+void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::ProgramInputArguments &programInputArguments)
+{
+		
+	    ofstream config_Pro;
+        ::boost::filesystem::path configPro_PathAndFileName = workingDir / "config.pro";
+        config_Pro.open(configPro_PathAndFileName.string());
+        config_Pro << "override_store_back yes\n";
+        config_Pro << "enable_sociallink NO\n";
+
+        ::boost::filesystem::path searchMetaFileName = "./search_META.pro";
+        if(::boost::filesystem::exists(searchMetaFileName))
+        {
+            config_Pro << "search_path_file " <<  searchMetaFileName.string();
+        }
+
+        ::boost::filesystem::path cadPartsLibDir = programInputArguments.auxiliaryCADDirectory;
+        if(::boost::filesystem::exists(cadPartsLibDir))
+        {
+            config_Pro << std::endl << "search_path " << "\"" << cadPartsLibDir.string() << "\"" << std::endl;
+        }
+
+        config_Pro << std::endl << "pro_material_dir " << isis::CreoMaterialMTLFilesDir_Path();
+
+        // protk.dat configuration information
+        std::string metaPath = isis::META_PATH();
+        if(metaPath == "")
+        {
+            std::string msg = "META_PATH registry value is not set";
+            throw isis::application_exception(msg);
+        }
+        ::boost::filesystem::path metaPathPath(metaPath);
+        if(! ::boost::filesystem::is_directory(metaPathPath))
+        {
+            std::stringstream msg;
+            msg << "META_PATH registry value is set but no such directory exists: "
+                << metaPathPath.generic_string();
+            throw isis::application_exception(msg);
+        }
+
+		if (std::getenv("HUDAT_INSTALLDIR") != NULL)
+		{
+			::boost::filesystem::path protkPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / "protk_hudat.dat";
+			if (::boost::filesystem::is_regular_file(protkPath))
+			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << " HuDat present : using custom protk_hudat.dat (" << protkPath.generic_string() << ")" << isis_EOL;
+				config_Pro << std::endl << "toolkit_registry_file  " << "" << protkPath.string() << "" << std::endl;
+			}
+		}
+
+        string treecfgfile = programInputArguments.is_designMode()?"tree_design_edit.cfg":"tree_component_edit.cfg";
+
+        // only add the following line to the config when in design mode
+        ::boost::filesystem::path modelTreeConfigPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / treecfgfile;
+        if(! ::boost::filesystem::is_regular_file(modelTreeConfigPath))
+        {
+            isis_LOG(lg, isis_FILE, isis_WARN) << "the model tree config file file has a problem (doesn't exist?): "
+                                         << modelTreeConfigPath.string();
+            config_Pro << std::endl << "# ";
+        }
+        else
+        {
+            config_Pro << std::endl;
+        }
+        // config_Pro << "mdl_tree_cfg_file $PROE_ISIS_EXTENSIONS\plugins\tree.cfg" << std::endl;
+        config_Pro << "mdl_tree_cfg_file  " << "" << modelTreeConfigPath.string() << "" << std::endl;
+
+        if(programInputArguments.configPro.length()>0)
+        {
+            ifstream is(programInputArguments.configPro);
+            config_Pro << is.rdbuf();
+            config_Pro << std::endl;
+        }
+
+        config_Pro.close();
+}
+*****/
+/////////////////////////////////////////////////////////////////////////////////////////
+void EnvironmentCreo::setupCADEnvironment(	e_OpenMETAApplication	in_OpenMETAApplication,
+										    const std::string       &in_WorkingDirector,
+											const std::string		&in_AuxiliaryCADDirectory,
+											bool					in_GraphicsModeOn,      
+											bool					in_CADExceptInputFromThisProgramAndCreoUI,
+											std::string				&out_CADStartCommand,	
+											std::string				&out_CADExtensionsDir,
+											std::string				&out_TemplateFile_PathAndFileName ) throw (isis::application_exception)
+{
+
+		SetCreoEnvirVariable_RetrieveSystemSettings(	in_GraphicsModeOn,
+														in_CADExceptInputFromThisProgramAndCreoUI,
+														out_CADStartCommand,
+														out_CADExtensionsDir,	
+														out_TemplateFile_PathAndFileName );
+													
+
+
+
+
+		////////////////////////////////////////////////
+		// Write config.pro 
+		///////////////////////////////////////////////
+
+		if ( in_OpenMETAApplication == OPENMETA_CREATE_ASSEMBLY )
+		{
+
+			std::string configPro_PathAndFileName = in_WorkingDirector + "\\config.pro";
+			// * 1-10-2013 Cphy2CAD now creates the search_META.pro" std::string searchMetaPro_PathAndFileName = workingDir + "\\search_META.pro";
+			isis::IfFileExists_DeleteFile( configPro_PathAndFileName);
+			// * 1-10-2013 Cphy2CAD now creates the search_META.pro" isis::IfFileExists_DeleteFile( searchMetaPro_PathAndFileName);
+
+
+
+			ofstream config_Pro;
+			config_Pro.open (configPro_PathAndFileName );
+			config_Pro << "override_store_back yes\n";
+			std::string searchMetaFileName = ".\\search_META.pro";
+			if ( isis::FileExists( searchMetaFileName.c_str() )) {
+				config_Pro << "search_path_file " <<  searchMetaFileName;
+			}
+
+
+			std::string auxiliaryCADDirectory = in_AuxiliaryCADDirectory;
+
+			if ( auxiliaryCADDirectory.size() > 0 )
+			{
+				// Check if in_AuxiliaryCADDirectory is in double quotes.  If not add double quotes.
+				// This is necessary because Creo Config options with spaces must be enclosed in double quotes.
+				if ( auxiliaryCADDirectory.find("\"")  == string::npos )	auxiliaryCADDirectory = "\"" + auxiliaryCADDirectory + "\"";
+				config_Pro << std::endl << "search_path " <<  auxiliaryCADDirectory;
+			}
+		
+			config_Pro << std::endl << "pro_material_dir " << CreoMaterialMTLFilesDir_Path();
+
+			// add component creo plugin if in graphics mode
+			// config_Pro << std::endl << "toolkit_registry_file  \"" << META_PATH() << "bin\\CAD\\Creo\\plugins\\protk.dat\"";
+
+			config_Pro.close();
+		}
+
+}
+
 
 /*
 void SetupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception)

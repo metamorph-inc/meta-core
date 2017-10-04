@@ -9,7 +9,7 @@
 #include <boost/algorithm/string.hpp>
 #define PRO_USE_VAR_ARGS
 #include "ProMessage.h"
-#include "AssemblyOptions.h"
+#include "cc_AssemblyOptions.h"
 #include "DatumRefResolver.h"
 #include "cc_GraphicsFunctions.h"
 #include "JointCreo.h"

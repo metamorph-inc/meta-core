@@ -7,7 +7,6 @@
 #include <AssembleUtils.h>
 #include "cc_MiscellaneousFunctions.h"
 
-#include "CADEnvironmentSettings.h"
 #include "cc_WindowsFunctions.h"
 #include <AssemblyEditingViaLink.h>
 #include <MetaLinkHandler.h>
@@ -19,9 +18,7 @@
 
 #include <boost/filesystem.hpp>
 #include "cc_LoggerBoost.h"
-//#include "CommonDefinitions.h"
 #include <cc_CommonUtilities.h>
-//#include "EventLoopMonitor.h"
 #include "GlobalModelData.h"
 #include "AssembleUtils.h"
 
@@ -74,6 +71,7 @@ ProError metaParameterModifyAction(ProParameter *param, ProParamvalue *old_value
 }
 
 
+/*****
 void SetupLogging(const std::string logfilename, isis_LogSeverityLevel level)
 
 {
@@ -83,11 +81,11 @@ void SetupLogging(const std::string logfilename, isis_LogSeverityLevel level)
 	init_logging_boost(	true, false, level, isis_INFO, logfilename);
 
 }
+****/
 
-void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::ProgramInputArguments &programInputArguments)
+void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments)
 {
 		
-
 	    ofstream config_Pro;
         ::boost::filesystem::path configPro_PathAndFileName = workingDir / "config.pro";
         config_Pro.open(configPro_PathAndFileName.string());
@@ -173,7 +171,7 @@ int main(int argc, char *argv[])
 
     bool Logging_Set_Up = false;
 
-    isis::ProgramInputArguments  programInputArguments;
+    isis::MetaLinkInputArguments  programInputArguments;
     ::boost::filesystem::path    workingDir;
 
     try
@@ -182,13 +180,13 @@ int main(int argc, char *argv[])
         programInputArguments.ParseInputArguments(argc, argv);
 
         // Setup Boost logging
-        SetupLogging(programInputArguments.logFileName, programInputArguments.logVerbosity);
+        //SetupLogging(programInputArguments.logFileName, programInputArguments.logVerbosity);
+		SetupLogging("", programInputArguments.logFileName, true, false, programInputArguments.logVerbosity, isis_INFO );
 
-        
 
         Logging_Set_Up = true;
 
-        isis::ThrowException_If_InvalidInputArguments(argc, argv, programInputArguments);
+        programInputArguments.ThrowException_If_InvalidInputArguments(argc, argv);
 
         // Must get the complete path to the working directory.  This is necessary because when
         // isis_ProDirectoryChange is called to change to a STEP directory, workingDir must be fully
@@ -232,11 +230,24 @@ int main(int argc, char *argv[])
             throw isis::application_exception(errorString);
         }
 
-		isis::SetCreoEnvirVariable_RetrieveSystemSettings(programInputArguments.graphicsModeOn,
-                programInputArguments.synchronizeWithCyPhy,
-                creoStartCommand,
-                CADExtensionsDir,
-                templateFile_PathAndFileName);
+		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
+
+		environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
+											workingDir.generic_string(),					// in 
+											programInputArguments.auxiliaryCADDirectory,    // Auxiliary CAD Directory
+											programInputArguments.graphicsModeOn,			// in
+											programInputArguments.synchronizeWithCyPhy,		// in
+											creoStartCommand,								// out
+											CADExtensionsDir,								// out
+											templateFile_PathAndFileName);					// out
+  
+
+		//isis::SetCreoEnvirVariable_RetrieveSystemSettings(programInputArguments.graphicsModeOn,
+        //       programInputArguments.synchronizeWithCyPhy,
+        //        creoStartCommand,
+        //        CADExtensionsDir,
+        //        templateFile_PathAndFileName);
 
         std::map<std::string, isis::CADComponentData> CADComponentData_map;
         isis::CADAssemblies CADComponentAssemblies;
@@ -285,7 +296,6 @@ int main(int argc, char *argv[])
 
         ProNotificationSet(PRO_PARAM_MODIFY_POST, (ProFunction)metaParameterModifyAction);
 
-        isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 
         isis::MetaLinkAssemblyEditor::Pointer assembler_ptr(new isis::MetaLinkAssemblyEditor(cad_factory, programInputArguments, isis::GlobalModelData::Instance.CadComponentData));
 

@@ -1,6 +1,6 @@
 #ifndef ASSEMBLY_EDITING_VIA_LINK_H
 #define ASSEMBLY_EDITING_VIA_LINK_H
-#include <InputArgumentsParser.h>
+#include <cc_MetaLinkInputArgumentsParser.h>
 #include <boost/smart_ptr.hpp>
 #include <isis_include_ptc_headers.h>
 #include "CADFactoryAbstract.h"
@@ -22,9 +22,9 @@ public:
     //		object created from this class
     // Post-Conditions:
     //		Instantiated Object
-    MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_cadfactory,
-                           const isis::ProgramInputArguments              &in_ProgramInputArguments,
-                           std::map<std::string, isis::CADComponentData> &in_CADComponentData_map);
+    MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr						in_cadfactory,
+                           const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
+                           std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map);
 
     // Description:
     //      De-Select (remove highlight) for all objects
@@ -162,7 +162,7 @@ private:
     std::string										topAssemblyComponentInstanceID;  // Null if top assembly does not exist (i.e. assembly not created yet).
     unsigned int									m_uniqueNameIndex;
     int											    windowID;
-    const isis::ProgramInputArguments               m_programInputArguments;
+    const isis::MetaLinkInputArguments               m_programInputArguments;
     std::string										designID;
     std::set<std::string>							searchPaths;
     ProMdl                                          m_AvmComponentModel;
@@ -174,7 +174,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
-                             const isis::ProgramInputArguments				&in_ProgramInputArguments,
+                             const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
                              const std::string								&in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
                              const std::string								&in_DesingID,

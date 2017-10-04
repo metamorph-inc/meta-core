@@ -1,34 +1,19 @@
 /*! \file ExtractACM-XMLfromCreoModels.cpp
     \brief The main(...) function for ExtractACM-XMLfromCreoModels.exe
 
-	ExtractACM-XMLfromCreoModels.exe opens an assembly with "Creo Parametric 2.0" (i.e. PTC's ( http://www.ptc.com/ )  parametric solids modeler) 
+	ExtractACM-XMLfromCreoModels.exe opens an assembly with "Creo Parametric 3.0" (i.e. PTC's ( http://www.ptc.com/ )  parametric solids modeler) 
 	and calls ISIS added library functions to export an XML files representing that assembly for use with GME.
 
 	Pre-Conditions:
 
-		1.	"Creo Parametric 1.0 or 2.0" must be installed and functioning properly on your machine.  The license for
+		1.	"Creo Parametric 3.0" must be installed and functioning properly on your machine.  The license for
 			"Creo Parametric" does not need the the Toolkit license.  The toolkit license is only
 			needed during development.
 
-		2.	The environment variables must be set per
-			...META_Trunk_Working\deploy\CAD_Installs\Proe ISIS Extensions\0Readme - CreateAssembly.txt
+		2.	For information on configuring the system, see registry entry META_PATH + bin\CAD\Creo\0Readme - CreateAssembly.txt
 
-		3.	The requirements for the arguments passed to the exe follow:
+		3.	The requirements for the arguments passed to  are defined in cc_ExtractACMInputArgumentsParser.h
 
-				Required
-				-c  input CAD file name.  This file defines the CAD assembly definition for Creo.
-				-x  Output XML file name.  This file defines the CAD assembly definition for GME.
-
-				Optional
-				-p  Prompt before exiting.  Not prompting is the default.
-				-g  Graphics mode.  No graphics is the default.
-				-h  Help, Display keys along with the usage.
-
-				Required Keys: -c, -x
-				Optional Keys: -p, -g
-				Key Order: No particular order required
-				Key Grouping:  -p and -g may be grouped (e.g. -pg)
-				Keys are case insensitive.
 
 	Post-Conditions:
 
@@ -55,7 +40,7 @@
 #include <AssembleUtils.h>
 
 #include "CADEnvironmentSettings.h"
-#include "InputArgumentsParser.h"
+#include "cc_ExtractACMInputArgumentsParser.h"
 #include "cc_WindowsFunctions.h"
 #include <ISISVersionNumber.h>
 
@@ -71,6 +56,10 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <boost/thread/thread.hpp>
+
+#include <boost/filesystem.hpp>
+
 #include <iostream>
 
 #include <boost/filesystem.hpp>
@@ -79,6 +68,8 @@
 
 #include "CommonFeatureUtils.h"
 #include <cc_CommonUtilities.h>
+#include "CADFactoryAbstract.h"
+#include "CADFactoryCreo.h"
 
 
 ProError ProTermAction( ProeTerminationStatus term_type )
@@ -133,7 +124,7 @@ int main( int argc, char *argv[] )
 
 	bool Pro_E_Running = false;
 
-	isis::ProgramInputArguments  programInputArguments;
+	isis::ExtractACMInputArguments  programInputArguments;
 	programInputArguments.logFileName = "DefaultLogFile.log";
 	::boost::filesystem::path    workingDir;
 
@@ -142,7 +133,7 @@ int main( int argc, char *argv[] )
 		cout << "ExtractACM-XMLfromCreoModels "<< ASSEMBLE_PTC_VERSION;
 
 // STEP 1: Parse Input Arguments
-		isis::ParseInputArguments(argc, argv, programInputArguments);
+		programInputArguments.ParseInputArguments(argc, argv);
 
 		promptBeforeExiting = programInputArguments.promptBeforeExiting;
 
@@ -162,20 +153,36 @@ int main( int argc, char *argv[] )
 
 		// configure start string
 		bool graphicsModeOn = programInputArguments.graphicsModeOn?true:false;
-		bool creoAcceptInputFromThisProgramAndCreoUI = programInputArguments.synchronizeWithCyPhy?true:false;
+		//bool creoAcceptInputFromThisProgramAndCreoUI = programInputArguments.synchronizeWithCyPhy?true:false;
 
-		isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
-															creoAcceptInputFromThisProgramAndCreoUI,
-															creoStartCommand,
-															CADExtensionsDir,
-															templateFile_PathAndFileName );
+		
+
+		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
+
+
+
+		environment.setupCADEnvironment(	isis::cad::OPENMETA_EXTRACT_ACM,				// in
+											workingDir.generic_string(),					// in
+											"",												// in     in_AuxiliaryCADDirectory
+											graphicsModeOn,									// in
+											false,											// in    in_CADExceptInputFromThisProgramAndCreoUI
+											creoStartCommand,								// out
+											CADExtensionsDir,								// out
+											templateFile_PathAndFileName );					// out
+
+		//isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
+		//													false, //creoAcceptInputFromThisProgramAndCreoUI,
+		//													creoStartCommand,
+		//													CADExtensionsDir,
+		//													templateFile_PathAndFileName );
 
 // STEP 3: Start Creo in async mode
 			char tempBuffer[1024];
 
 			strcpy(tempBuffer, creoStartCommand.c_str() );
 
-			cout << endl << "Starting Creo-Parametric takes about 10 seconds, be patient..." << endl ;
+			cout << endl << "Starting Creo-Parametric, this takes about 10 seconds..." << endl ;
 
 			ProError err = isis::isis_ProEngineerStart(tempBuffer,"");
 

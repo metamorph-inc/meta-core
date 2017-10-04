@@ -66,7 +66,7 @@ namespace isis
 		/////////////////////////////
 		isis_LOG(lg, isis_FILE, isis_INFO) << "";
 		isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Environment Variables and System Settings *****************";
-		isis_LOG(lg, isis_FILE, isis_INFO) << "CADExtensionsDir:                    "	<< out_CADExtensionsDir; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "CADExtensionsDir:              "	<< out_CADExtensionsDir; 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "CreoStartCommand:              "	<< out_CreoStartCommand; 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "PRO_COMM_MSG_EXE:              "	<<  static_cast<const char*>(getenv ("PRO_COMM_MSG_EXE")); 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "TemplateFile_PathAndFileName:  "	<< out_TemplateFile_PathAndFileName; 

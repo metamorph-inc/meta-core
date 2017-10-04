@@ -30,7 +30,7 @@ namespace isis
 
 
 void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
-								 const isis::ProgramInputArguments              &in_ProgramInputArguments,
+								 const isis::CreateAssemblyInputArguments              &in_ProgramInputArguments,
 								 const std::string								&in_CADExtensionsDir,
 								 const std::string								&in_XMLInputFile_PathAndFileName,
 								 const std::string								&in_WorkingDirector,
@@ -312,7 +312,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		////////////////////////////////////////////////
 		// Write config.pro 
 		///////////////////////////////////////////////
-
+		/***    This is now down in EnvironmentCreo::setupCADEnvironment
 		ofstream config_Pro;
 		config_Pro.open (configPro_PathAndFileName );
 		config_Pro << "override_store_back yes\n";
@@ -336,6 +336,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		// config_Pro << std::endl << "toolkit_registry_file  \"" << META_PATH() << "bin\\CAD\\Creo\\plugins\\protk.dat\"";
 
 		config_Pro.close();
+
+		***/
 
 		/////////////////////////////
 		/////// Start Pro/E /////////

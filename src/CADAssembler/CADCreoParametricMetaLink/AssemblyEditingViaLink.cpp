@@ -34,7 +34,7 @@ namespace isis
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_cadfactory,
-        const isis::ProgramInputArguments              &in_ProgramInputArguments,
+        const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
         std::map<std::string, isis::CADComponentData> &in_CADComponentData_map) :
    // m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
     m_programInputArguments(in_ProgramInputArguments),
@@ -959,7 +959,7 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
-                             const isis::ProgramInputArguments              &in_ProgramInputArguments,
+                             const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
                              const std::string                              &in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
                              const std::string                              &in_DesingID,

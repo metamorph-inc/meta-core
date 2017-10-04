@@ -1,14 +1,14 @@
 // File: ParseInputARguments.cpp
 // Author: Kevin Zeillmann
-// Last Modified: 6/3/13
+// Last Modified: 9/28/2017
 // Description: This file provides the definition of the ProgramInputArguments 
 //   operator<< function to let it output debug information, and it contains
 //   the definition of the ParseInputArguments function for use in the 
 //   CADCreoParametricCreateAssembly program.
 
-#include "stdafx.h"
-#include "InputArgumentsParser.h"
-#include "AssemblyOptions.h"
+//#include "stdafx.h"
+#include "cc_CreateAssemblyInputArgumentsParser.h"
+#include "cc_AssemblyOptions.h"
 
 namespace isis
 {
@@ -17,7 +17,7 @@ namespace isis
 //  for now, since this code will likely not be modular and used for other programs
 // Overriding the << operator allows us to print the object to cout or any other
 //  useful output stream for debugging
-std::ostream& operator<<(std::ostream & in_stream, const ProgramInputArguments &in_args)
+std::ostream& operator<<(std::ostream & in_stream, const CreateAssemblyInputArguments &in_args)
 {
 	in_stream << "graphicsModeOn = "		<< in_args.graphicsModeOn << std::endl;
 	in_stream << "inputXmlFileName = "		<< in_args.inputXmlFileName << std::endl;
@@ -27,28 +27,12 @@ std::ostream& operator<<(std::ostream & in_stream, const ProgramInputArguments &
 	in_stream << "logConfig = "       		<< in_args.logConfigFile << std::endl;
 	in_stream << "promptBeforeExiting = "	<< in_args.promptBeforeExiting << std::endl;
 	in_stream << "auxiliaryCADDirectory = " << in_args.auxiliaryCADDirectory << std::endl;
-	in_stream << "synchronizeWithCyPhy = "	<< in_args.synchronizeWithCyPhy << std::endl;
-	in_stream << "syncConnectionString = "	<< in_args.syncConnectionString << std::endl;
-	in_stream << "designID = "				<< in_args.designID << std::endl;
-	in_stream << "majorMode = "				<< in_args.majorMode << std::endl;
 	return in_stream;
 }
   
-bool ProgramInputArguments::is_designMode() {
-	return this->majorMode == MAJOR_MODE_DESIGN;
-}
-
-bool ProgramInputArguments::is_componentMode() {
-	return this->majorMode == MAJOR_MODE_COMPONENT;
-}
-
-bool ProgramInputArguments::is_passiveMode() {
-	return this->majorMode == MAJOR_MODE_PASSIVE;
-}
-
-void ParseInputArguments(  int                        in_argc,
-                           const char                 * const in_argv[],
-                           ProgramInputArguments      &out_ProgramInputArguments )
+void CreateAssemblyInputArguments::ParseInputArguments(  
+							int								in_argc,
+							const char						* const in_argv[] )
                                                             
 {
 	//Create a local alias for the boost::program_options namespace to prevent us
@@ -68,13 +52,9 @@ void ParseInputArguments(  int                        in_argc,
 
 		// If our program options increase, it might be best to turn ProgramInputArguments
 		//  into a class, and include a reset() method that will do this work for us. 
-		out_ProgramInputArguments.auxiliaryCADDirectory = "";
-		out_ProgramInputArguments.graphicsModeOn = false;
-		out_ProgramInputArguments.promptBeforeExiting = false;
-		out_ProgramInputArguments.synchronizeWithCyPhy = false;
-		out_ProgramInputArguments.syncConnectionString = "";
-		out_ProgramInputArguments.designID = "";
-		out_ProgramInputArguments.designID = MAJOR_MODE_DESIGN;
+		auxiliaryCADDirectory = "";
+		graphicsModeOn = false;
+		promptBeforeExiting = false;
 
 		// We begin by making options groups. Options groups allow us to specify 
 		//  the different kinds of command line options that are available for 
@@ -87,23 +67,15 @@ void ParseInputArguments(  int                        in_argc,
 		// and then the description that will be included in for generated help documentation
 
 		visibleOptions.add_options()
-			("o", po::value<std::string>(), " Assembly Options. Specify options related to assembly here.")
-			("w", po::value<std::string>(), " Working directory.  The directory where the generated files would be persisted.")
-			("i", po::value<std::string>(), " Input XML file name.  This file defines the CAD assembly definition.")
-			("l", po::value<std::string>(), " Log file name.")
-			("v", po::value<std::string>(), " Log vebosity level {\"debug\" \"info\" \"warn\" \"error\"}.")
-			("c", po::value<std::string>(), " Log configuration file name.")
-			("a", po::value<std::string>(), " Auxiliary CAD directory.  Would contain CAD parts.")
-			("m", po::value<std::string>(), " Major mode in { \"design\" \"component\" \"passive\" }.")
-			("s", po::value<std::string>(), " Synchronize Creo with CyPhy.  "
-			                                                  "The optional connection string (e.g. localhost:4949). Not synchronized is the default.")
-			("p",                           " Prompt before exiting.  Not prompting is the default.")
-			("g",                           " Graphics mode.  No graphics is the default.")
-			("d", po::value<std::string>(), " Object ID. For assemblies the DesignID identifies a CyPhy design. \n"
-			                                "For component mode this is the AVMComponentID. \n"
-											"This is used by MetaLink to associate a Creo session with a CyPhy object. \n"
-											"In the case of passive mode the object identifier is meaningless.")
-			("h",                           "Help - displays keys along with the usage")
+			("w", po::value<std::string>(),				" (Optional) Default (\".\"),  Working directory.  The directory where the generated files would be persisted.")
+			("i", po::value<std::string>()->required(), " (Required) Input XML file name.  This file (e.g. CADAssembly.xml) defines the CAD assembly definition.")
+			("l", po::value<std::string>(),				" (Optional) Default (\"cad-assembler.log\"), Log file name.")
+			("v", po::value<std::string>(),				" (Optional) Default (\"inform\"), Log vebosity level {\"debug\" \"inform\" \"warning\" \"error\"}.")
+			("c", po::value<std::string>(),				" (Optional) Default (\"\"), Log configuration file name.  Currently not used. Reserved for future use.")
+			("a", po::value<std::string>(),				" (Optional) Default (\"\"), Auxiliary CAD directory.  Would contain additional CAD parts that are not in component directories.")
+			("p",										" (Optional) Default (no prompting), Prompt before exiting.")
+			("g",										" (Optional) Default (no graphics), Graphics mode")
+			("h",										" (Optional) Help - displays keys along with the usage")
 		;
 		// This seems to be the best way of accomplishing key grouping. We want to allow
 		//  the user to group "p" and "g" together on the command line so that they can
@@ -175,57 +147,32 @@ void ParseInputArguments(  int                        in_argc,
 		// Since we're sure that we'll get a valid string for each of these,
 		//  we can insert these values directly into the ProgramInputArguments object
 		if(vm.count("w")) {
-		  out_ProgramInputArguments.workingDirectory = vm["w"].as<std::string>();
-		} else {
-		  out_ProgramInputArguments.workingDirectory = ".";
+		  workingDirectory = vm["w"].as<std::string>();
 		}
+
 
 		// Parameters related to logging.
 		if(vm.count("l")) {
-		  out_ProgramInputArguments.logFileName = vm["l"].as<std::string>();
+		  logFileName = vm["l"].as<std::string>();
 		}
 		if(vm.count("v")) {
 		  std::string lv = vm["v"].as<std::string>();
 		  if (boost::iequals(lv, LOG_VERBOSITY_DEBUG)) {
-			  out_ProgramInputArguments.logVerbosity = 	isis_DEBUG;
+			  logVerbosity = 	isis_DEBUG;
 		  } else if (boost::iequals(lv, LOG_VERBOSITY_INFO)) {
-			  out_ProgramInputArguments.logVerbosity = isis_INFO;
+			  logVerbosity = isis_INFO;
 		  } else if (boost::iequals(lv, LOG_VERBOSITY_WARN)) {
-			  out_ProgramInputArguments.logVerbosity = isis_WARN;
+			  logVerbosity = isis_WARN;
 		  } else if (boost::iequals(lv, LOG_VERBOSITY_ERROR)) {
-			  out_ProgramInputArguments.logVerbosity = isis_ERROR;
+			  logVerbosity = isis_ERROR;
 		  } else {
 			  std::cerr << "The log level is not recognized.  Setting log level to INFO." << std::endl;
-			  out_ProgramInputArguments.logVerbosity = isis_INFO;
+			  logVerbosity = isis_INFO;
 		  } 
-		  /*
-		  if (boost::iequals(lv, LOG_VERBOSITY_DEBUG)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::DEBUG;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_INFO)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::INFO;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_WARN)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::WARN;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_ERROR)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::ERROR;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_CRIT)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::CRIT;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_ALERT)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::ALERT;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_FATAL)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::FATAL;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_EMERG)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::EMERG;
-		  } else if (boost::iequals(lv, LOG_VERBOSITY_NOTSET)) {
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::NOTSET;
-		  } else {
-			  std::cerr << "The log level is not recognized" << std::endl;
-			  out_ProgramInputArguments.logVerbosity = log4cpp::Priority::NOTSET;
-		  } 
-		  */
 
 		}
 		if(vm.count("c")) {
-		  out_ProgramInputArguments.logConfigFile = vm["c"].as<std::string>();
+		  logConfigFile = vm["c"].as<std::string>();
 		}
 		
 		
@@ -233,44 +180,25 @@ void ParseInputArguments(  int                        in_argc,
 		// Again, we insert these directly into the ProgramInputArguments object
 		if(vm.count("i"))
 		{
-			out_ProgramInputArguments.inputXmlFileName = vm["i"].as<std::string>();	
+			inputXmlFileName = vm["i"].as<std::string>();	
 		}
 
-		if(vm.count("d"))
-		{
-			out_ProgramInputArguments.designID = vm["d"].as<std::string>();
-		}
 		if(vm.count("a"))
 		{
-			out_ProgramInputArguments.auxiliaryCADDirectory = vm["a"].as<std::string>();
+			auxiliaryCADDirectory = vm["a"].as<std::string>();
 		}
 		if(vm.count("p"))
 		{
-			out_ProgramInputArguments.promptBeforeExiting = true;
+			promptBeforeExiting = true;
 		}
 		if(vm.count("g"))
 		{
-			out_ProgramInputArguments.graphicsModeOn = true;
+			graphicsModeOn = true;
 		}
 		if(vm.count("pg") || vm.count("gp"))
 		{
-			out_ProgramInputArguments.graphicsModeOn = true;
-			out_ProgramInputArguments.promptBeforeExiting = true;
-		}
-		//New option added 9/2
-		if(vm.count("m"))
-		{
-			out_ProgramInputArguments.majorMode = vm["m"].as<std::string>();
-		}
-		//New option added 6/3
-		if(vm.count("s"))
-		{
-			out_ProgramInputArguments.synchronizeWithCyPhy = true;
-			out_ProgramInputArguments.syncConnectionString = vm["s"].as<std::string>();
-		}
-		if (vm.count("o"))
-		{
-			AssemblyOptions::Create(vm["o"].as<std::string>());
+			graphicsModeOn = true;
+			promptBeforeExiting = true;
 		}
 
     }
@@ -304,31 +232,56 @@ void ParseInputArguments(  int                        in_argc,
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void ThrowExecption_If_InvalidInputArguments(   int                        in_argc,
-													const char                 * const in_argv[],
-													const ProgramInputArguments &in_ProgramInputArguments)
-																			throw (isis::application_exception)
+	void CreateAssemblyInputArguments::ThrowExecption_If_InvalidInputArguments(   
+													int						in_argc,
+													const char* const		in_argv[])
+																					throw (isis::application_exception)
 	{
 
-		if ( in_ProgramInputArguments.synchronizeWithCyPhy &&  !in_ProgramInputArguments.graphicsModeOn )
-		{		
-			std::cout << in_ProgramInputArguments;
-			std::stringstream errorString;
-			errorString << "Input Arguments: " << std::endl;
-			for ( int i = 0; i < in_argc; ++i) errorString << in_argv[i] << std::string(" ");
-			errorString << std::endl << "Input arguments error, if -s  present then -g must also be present." ;
-			throw isis::application_exception(errorString.str());
+		// Note - Errors could occur for the following reasons;
+		//		1. in_argv does not contain sufficient information
+		//		2. The default values set by the CreateAssemblyInputArguments constructor have been changed.
+		// In either case, we need to catch errors before proceeding
 
-		}
-		if ( in_ProgramInputArguments.synchronizeWithCyPhy && in_ProgramInputArguments.designID.size() == 0 )
-		{
-			std::cout << in_ProgramInputArguments;
+		if ( inputXmlFileName.length() == 0 )
+		{		
+			std::cout << *this;
 			std::stringstream errorString;
-			errorString << "Input Arguments: " << std::endl;
+			errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+					"Input Arguments: " << std::endl;
 			for ( int i = 0; i < in_argc; ++i) errorString << in_argv[i] << std::string(" ");
-			errorString << std::endl << "Input arguments error, if -s  present then -d must also be present." ;
+			errorString << std::endl << "inputXmlFileName not set." ;
 			throw isis::application_exception(errorString.str());
 		}
+
+		if ( workingDirectory.length() == 0 )
+		{		
+			std::cout << *this;
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+						    std::endl << "workingDirectory not set." ;
+			throw isis::application_exception(errorString.str());
+		}
+
+		if ( logFileName.length() == 0 )
+		{		
+			std::cout << *this;
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+						    std::endl << "logFileName not set." ;
+			throw isis::application_exception(errorString.str());
+		}
+
+
+//		if ( in_ProgramInputArguments.synchronizeWithCyPhy && in_ProgramInputArguments.designID.size() == 0 )
+//		{
+//			std::cout << in_ProgramInputArguments;
+//			std::stringstream errorString;
+//			errorString << "Input Arguments: " << std::endl;
+//			for ( int i = 0; i < in_argc; ++i) errorString << in_argv[i] << std::string(" ");
+//			errorString << std::endl << "Input arguments error, if -s  present then -d must also be present." ;
+//			throw isis::application_exception(errorString.str());
+//		}
 	}
 
 

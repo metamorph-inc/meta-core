@@ -23,7 +23,7 @@
 #include "cc_LoggerBoost.h"
 #include "ProAssembly.h"
 #include "CreoModelMetaData.h"
-#include "AssemblyOptions.h"
+#include "cc_AssemblyOptions.h"
 
 using namespace std;
 

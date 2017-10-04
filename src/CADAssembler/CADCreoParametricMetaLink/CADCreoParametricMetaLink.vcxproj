@@ -167,7 +167,6 @@
     <ClCompile Include="CreoPlugins\CreoPlugins.cpp" />
     <ClCompile Include="CreoPlugins\CreoSelectComponentPlugin.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
-    <ClCompile Include="InputArgumentsParser.cpp" />
     <ClCompile Include="MetaLinkHandler.cpp" />
     <ClCompile Include="CADCreoParametricMetaLink.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -181,7 +180,6 @@
     <ClInclude Include="CreoPlugins\CreoPluginFunctions.h" />
     <ClInclude Include="CreoPlugins\CreoPlugins.h" />
     <ClInclude Include="GlobalModelData.h" />
-    <ClInclude Include="InputArgumentsParser.h" />
     <ClInclude Include="MetaLinkHandler.h" />
     <ClInclude Include="ISISVersionNumber.h" />
     <ClInclude Include="stdafx.h" />

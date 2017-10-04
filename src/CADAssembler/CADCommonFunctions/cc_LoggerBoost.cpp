@@ -8,7 +8,9 @@
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/utility/setup/console.hpp>
+#include <boost/filesystem.hpp>
 #include <iomanip> 
+#include <boost/algorithm/string.hpp>
 
 
 isis_boost_logger_type lg;
@@ -105,6 +107,39 @@ void init_logging_boost(	bool				in_include_severity_level_in_msg_file,
 			);
 		}
 	}
+}
+
+void SetupLogging(	const std::string		&in_SubDir,  
+					std::string				&in_Logfilename, 
+					bool					in_include_severity_level_in_msg_file,
+					bool					in_include_severity_level_in_msg_consol,
+					isis_LogSeverityLevel	in_severity_level_file,
+					isis_LogSeverityLevel	in_severity_level_console)
+
+{
+
+	std::string logfilenamepath;
+
+	std::string subDir = in_SubDir;
+	boost::trim(subDir);
+
+	if ( subDir.length() > 0 )
+	{
+		logfilenamepath = subDir + "\\"+ in_Logfilename;
+
+		if ( !boost::filesystem::exists(subDir)) boost::filesystem::create_directory(subDir);
+	}
+	else
+	{
+		logfilenamepath = in_Logfilename;
+	}
+
+	init_logging_boost(	in_include_severity_level_in_msg_file, 
+						in_include_severity_level_in_msg_consol, 
+						in_severity_level_file, 
+						in_severity_level_console, 
+						logfilenamepath);
+
 }
 
 //]

@@ -136,7 +136,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(MSBuildThisFileDirectory)..\x64\Release\CADCreoParametricCreateAssemblyFunctions.lib;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
@@ -150,14 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssembleUtils.cpp" />
-    <ClCompile Include="InputArgumentsParser.cpp" />
     <ClCompile Include="ExtractACM-XMLfromCreoModels.cpp" />
     <ClCompile Include="CADEnvironmentSettings.cpp" />
     <ClCompile Include="ISISConstants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssembleUtils.h" />
-    <ClInclude Include="InputArgumentsParser.h" />
     <ClInclude Include="CADEnvironmentSettings.h" />
     <ClInclude Include="ISISConstants.h" />
     <ClInclude Include="ISISVersionNumber.h" />
@@ -171,6 +169,9 @@
     </ProjectReference>
     <ProjectReference Include="..\CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj">
       <Project>{49c0c132-dfd9-47e4-a860-01fd6e34ac3a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CADCreoParametricCreateAssemblyFunctions\CADCreoParametricCreateAssemblyFunctions.vcxproj">
+      <Project>{081f0b37-fda9-4921-a171-8b3feaa0fdd3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\CADCreoParametricToolkitFunctions\CADCreoParametricToolkitFunctions.vcxproj">
       <Project>{7cfd6932-09b9-4c2d-9483-c70a460e6996}</Project>

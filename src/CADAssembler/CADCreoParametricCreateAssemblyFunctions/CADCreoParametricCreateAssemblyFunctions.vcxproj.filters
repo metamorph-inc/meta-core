@@ -60,9 +60,6 @@
     <ClCompile Include="CADFactoryCreo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AssemblyOptions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DatumRefResolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,9 +69,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssembleUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AssembleComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplyModelConstraints.h">

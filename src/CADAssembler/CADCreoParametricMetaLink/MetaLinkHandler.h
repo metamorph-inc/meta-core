@@ -26,7 +26,7 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 #include "CADEnvironmentSettings.h"
 #include "cc_WindowsFunctions.h"
 
-#include <InputArgumentsParser.h>
+#include <cc_MetaLinkInputArgumentsParser.h>
 #include <AssemblyEditingViaLink.h>
 #include <Test_MetaLink.h>
 #include <sstream>

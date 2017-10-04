@@ -82,6 +82,18 @@
     <ClInclude Include="cc_SurvivabilityJasonWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cc_AssemblyOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_CreateAssemblyInputArgumentsParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_MetaLinkInputArgumentsParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_ExtractACMInputArgumentsParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="isis_application_exception.cpp">
@@ -136,6 +148,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cc_SurvivabilityJasonWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_AssemblyOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_CreateAssemblyInputArgumentsParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_MetaLinkInputArgumentsParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_ExtractACMInputArgumentsParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

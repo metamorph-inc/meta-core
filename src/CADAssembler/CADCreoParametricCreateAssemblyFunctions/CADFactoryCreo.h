@@ -7,6 +7,7 @@ This class provides factories for the
 concrete Creo CAD system.
 */
 #include "CadFactoryAbstract.h"
+#include  <string>
 #include <vector>
 #include <ProSolid.h>
 
@@ -45,16 +46,37 @@ public:
 		  const std::string &	in_id, 
 		  std::map<std::string, isis::CADComponentData> &	in_map);
 
-
-
-	//virtual void SetupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception);
-
 };
+
+
+class  EnvironmentCreo : public IEnvironment {
+	public:
+		// provide the name of the concrete assembler
+		std::string name() { return "EnvironmentCreo";}
+
+		//std::string getCADExtensionsDir() throw (isis::application_exception);
+
+		void setupCADEnvironment(	e_OpenMETAApplication	in_OpenMETAApplication,
+									const std::string       &in_WorkingDirector,
+									const std::string		&in_AuxiliaryCADDirectory,
+									bool					in_GraphicsModeOn,      
+									bool					in_CADExceptInputFromThisProgramAndCreoUI,
+									std::string				&out_CADStartCommand,	
+									std::string				&out_CADExtensionsDir,
+									std::string				&out_TemplateFile_PathAndFileName ) throw (isis::application_exception);
+
+		// This function does any setup that is necessary before invoking the CAD application
+		//virtual void setupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception) = 0;
+};
+
+
+
 
 class CadFactoryCreo : public CadFactoryAbstract
 {
 private:
 	AssemblerCreo assembler;
+	EnvironmentCreo environment;
 
 public:
 	// provide the name of the concrete factory
@@ -63,6 +85,10 @@ public:
 	}
 	IAssembler& get_assembler() {
 		return assembler;
+	};
+
+	IEnvironment& getEnvironment() {
+		return environment;
 	};
 
 };

@@ -46,6 +46,14 @@ void init_logging_boost(	bool				in_include_severity_level_in_msg_file,
 							isis_LogSeverityLevel		in_severity_level_console,
 							const std::string	&in_log_file_name );
 
+
+void SetupLogging(	const std::string		&in_SubDir,  
+					std::string				&in_Logfilename, 
+					bool					in_include_severity_level_in_msg_file,
+					bool					in_include_severity_level_in_msg_consol,
+					isis_LogSeverityLevel	in_severity_level_file,
+					isis_LogSeverityLevel	in_severity_level_console);
+
 namespace isis {
 	template< typename CharT, typename TraitsT, typename AllocatorT, typename T >
 	inline boost::log::basic_formatting_ostream< CharT, TraitsT, AllocatorT >&
