@@ -449,8 +449,13 @@ STDMETHODIMP RawComponent::get_ComponentParameter(BSTR name, VARIANT *pVal) {
 		{
 			CComVariant(traceability).Detach(pVal);
 		}
+		else
+		{
+			CComVariant((IUnknown*)nullptr).Detach(pVal);
+		}
+		return S_OK;
 	}
-	return S_OK;
+	return E_INVALIDARG;
 }
 
 STDMETHODIMP RawComponent::put_ComponentParameter(BSTR name, VARIANT newVal) {
