@@ -168,11 +168,11 @@ goto :ERROR_SECTION
             #line default
             #line hidden
             this.Write("\r\nexit /b 0\r\n\r\n:ERROR_SECTION\r\necho %ERROR_MSG% >>_FAILED.txt\r\necho \"\"\r\necho \"See" +
-                    " Error Log: _FAILED.txt\"\r\nping -n 8 127.0.0.1 > nul\r\nexit /b %ERROR_CODE%\r\n\r\n");
+                    " Error Log: _FAILED.txt\"\r\nexit /b %ERROR_CODE%\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 92 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
+        #line 91 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
   
 public string XMLFileName {get;set;}
 public bool Automation {get;set;}
