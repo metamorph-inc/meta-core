@@ -31,9 +31,6 @@
 #include "UdmApp.h"
 #include <time.h>
 
-// Global config object
-_config config;
-
 //ATL::CComPtr<IGMEOLEApp>GMEConsole::Console::gmeoleapp = NULL;
 
 // this method is called after all the generic initialization is done

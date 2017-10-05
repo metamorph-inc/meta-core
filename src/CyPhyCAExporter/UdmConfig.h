@@ -16,14 +16,4 @@
 #define META_NAMESPACE CyPhyML
 //#define _ACCESS_MEMORY
 
-
-
-struct _config
-{
-	// Global settings
-	std::string metaPath;
-
-};
-extern _config config;
-
 #endif /* UDM_CONFIG_H */

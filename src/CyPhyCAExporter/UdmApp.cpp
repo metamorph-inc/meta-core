@@ -258,7 +258,6 @@ void CUdmApp::UdmMain(
 		if (param != GME_SILENT_MODE)
 		{
 			prgDlg.Create(IDD_PROGRESS_DIALOG);
-			GetStatusDlg(&prgDlg);
 			prgDlg.SetProgress("Preparing to export models...");
 		}
 		

@@ -8,7 +8,7 @@
   <Component Id="CyPhyCAExporter.dll" Directory="INSTALLDIR_BIN">
     <File Id="CyPhyCAExporter.dll" Name="CyPhyCAExporter.dll" KeyPath="yes" Source="$(var.InterpreterBin)\CyPhyCAExporter.dll">
       <TypeLib Id="c79d06f6-52f9-4dfa-9f92-45687c75e18e" Description="MGA Interpreter TypeLibrary CyPhyCAExporter)" Language="0" MajorVersion="1" MinorVersion="0">
-        <Class Id="{E418A48B-8B38-4815-A46D-BDBD62E80DDF}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyCAExporter">
+        <Class Id="{E418A48B-8B38-4815-A46D-BDBD62E80DDF}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyCAExporter" ThreadingModel="apartment">
           <ProgId Id="MGA.Interpreter.CyPhyCAExporter" Description="MGA.Interpreter.CyPhyCAExporter" />
         </Class>
       </TypeLib>
