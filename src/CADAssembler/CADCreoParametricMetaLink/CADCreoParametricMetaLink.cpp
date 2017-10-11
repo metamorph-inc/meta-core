@@ -83,6 +83,8 @@ void SetupLogging(const std::string logfilename, isis_LogSeverityLevel level)
 }
 ****/
 
+/*** Move to the factory
+
 void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments)
 {
 		
@@ -158,6 +160,7 @@ void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis:
 
         config_Pro.close();
 }
+***/
 
 int main(int argc, char *argv[])
 {
@@ -233,15 +236,21 @@ int main(int argc, char *argv[])
 		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
 
-		environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
-											workingDir.generic_string(),					// in 
-											programInputArguments.auxiliaryCADDirectory,    // Auxiliary CAD Directory
-											programInputArguments.graphicsModeOn,			// in
-											programInputArguments.synchronizeWithCyPhy,		// in
+		//environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
+		//									workingDir.generic_string(),					// in 
+		//									programInputArguments.auxiliaryCADDirectory,    // Auxiliary CAD Directory
+		//									programInputArguments.graphicsModeOn,			// in
+		//									programInputArguments.synchronizeWithCyPhy,		// in
+		//									creoStartCommand,								// out
+		//									CADExtensionsDir,								// out
+		//									templateFile_PathAndFileName);					// out
+
+		environment.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName);					// out
   
+
 
 		//isis::SetCreoEnvirVariable_RetrieveSystemSettings(programInputArguments.graphicsModeOn,
         //       programInputArguments.synchronizeWithCyPhy,
@@ -252,7 +261,7 @@ int main(int argc, char *argv[])
         std::map<std::string, isis::CADComponentData> CADComponentData_map;
         isis::CADAssemblies CADComponentAssemblies;
 
-		writeConfigProFile(workingDir, programInputArguments);
+		//writeConfigProFile(workingDir, programInputArguments);
 
         /////////////////////////////
         /////// Start Pro/E /////////

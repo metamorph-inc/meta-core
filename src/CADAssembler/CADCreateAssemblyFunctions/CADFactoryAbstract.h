@@ -6,6 +6,9 @@
 #include "cc_Joint.h"
 #include "cc_CommonStructures.h"
 #include "isis_application_exception.h"
+#include "cc_CreateAssemblyInputArgumentsParser.h"
+#include "cc_MetaLinkInputArgumentsParser.h"
+#include "cc_ExtractACMInputArgumentsParser.h"
 #include <boost/smart_ptr.hpp>
 
 /**
@@ -80,7 +83,7 @@ public:
 	//		After running this command, the API call to run the CAD application should work.
 	//		For Creo this command is isis::isis_ProEngineerStart(...).
 	//
-	//		This program also writes in special files (e.g. configuration files) 
+	//		This program also writes special files (e.g. configuration files) 
 	//		that are needed for the CAD program to run.
 	//
 	// Pre-Conditions:
@@ -95,6 +98,7 @@ public:
 	//		
 	//		If no exceptions, then the CAD environment would be initialized and the out_* variables returned.
 	//
+	/***
 	virtual void setupCADEnvironment(	
 			// The setup can be different for OPENMETA_CREATE_ASSEMBLY vs. OPENMETA_META_LINK
 			e_OpenMETAApplication  in_OpenMETAApplication,
@@ -126,11 +130,62 @@ public:
 			// renames it to the correct name, and adds parts/sub-assemblies.
 			std::string		&out_TemplateFile_PathAndFileName ) throw (isis::application_exception) = 0;
 
+***/
+
+	virtual void setupCADEnvironment(	
+
+			const CreateAssemblyInputArguments &in_CreateAssemblyInputArguments,
+
+			// This is the command or other information that would be passed to the API call that starts the CAD application
+			// e.g. passed to isis::isis_ProEngineerStart(...)
+			std::string		&out_CADStartCommand,	
+
+			// This directory contains the executables, starter CAD models, schemas, and 
+			// templates that are necessary for the CreateAssembly and MetaLink programs to run.
+			// e.g. C:\Program Files (x86)\META\bin\CAD\Creo
+			std::string		&out_CADExtensionsDir,
+
+			// This is the CAD model name of the empty starter assembly (e.g. zzz_template_assy_mmks_creo.asm )
+			// When this program creates a CAD assembly, it copies this assembly to the working directory,
+			// renames it to the correct name, and adds parts/sub-assemblies.
+			std::string		&out_TemplateFile_PathAndFileName ) const throw (isis::application_exception) = 0;
+
+	virtual void setupCADEnvironment(	
+
+			const MetaLinkInputArguments &in_MetaLinkInputArguments,
+
+			// This is the command or other information that would be passed to the API call that starts the CAD application
+			// e.g. passed to isis::isis_ProEngineerStart(...)
+			std::string		&out_CADStartCommand,	
+
+			// This directory contains the executables, starter CAD models, schemas, and 
+			// templates that are necessary for the CreateAssembly and MetaLink programs to run.
+			// e.g. C:\Program Files (x86)\META\bin\CAD\Creo
+			std::string		&out_CADExtensionsDir,
+
+			// This is the CAD model name of the empty starter assembly (e.g. zzz_template_assy_mmks_creo.asm )
+			// When this program creates a CAD assembly, it copies this assembly to the working directory,
+			// renames it to the correct name, and adds parts/sub-assemblies.
+			std::string		&out_TemplateFile_PathAndFileName ) const throw (isis::application_exception) = 0;
 
 
+	virtual void setupCADEnvironment(	
 
-	// This function does any setup that is necessary before invoking the CAD application
-	//virtual void setupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception) = 0;
+			const ExtractACMInputArguments &in_ExtractACMInputArguments,
+
+			// This is the command or other information that would be passed to the API call that starts the CAD application
+			// e.g. passed to isis::isis_ProEngineerStart(...)
+			std::string		&out_CADStartCommand,	
+
+			// This directory contains the executables, starter CAD models, schemas, and 
+			// templates that are necessary for the CreateAssembly and MetaLink programs to run.
+			// e.g. C:\Program Files (x86)\META\bin\CAD\Creo
+			std::string		&out_CADExtensionsDir,
+
+			// This is the CAD model name of the empty starter assembly (e.g. zzz_template_assy_mmks_creo.asm )
+			// When this program creates a CAD assembly, it copies this assembly to the working directory,
+			// renames it to the correct name, and adds parts/sub-assemblies.
+			std::string		&out_TemplateFile_PathAndFileName ) const throw (isis::application_exception) = 0;
 
 };
 

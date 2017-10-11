@@ -13,6 +13,7 @@
 
 #include <iostream>
 #include "cc_LoggerBoost.h"
+#include "cc_ParserCommon.h"
 
 
 // Taken from the files on the META SVN
@@ -36,6 +37,7 @@ namespace isis
 //}
 
 
+/***
 const std::string MAJOR_MODE_DESIGN = "design";
 const std::string MAJOR_MODE_COMPONENT = "component";
 const std::string MAJOR_MODE_PASSIVE = "passive";
@@ -50,6 +52,7 @@ const std::string LOG_VERBOSITY_CRIT = "critical";
 const std::string LOG_VERBOSITY_EMERG = "emergency";
 const std::string LOG_VERBOSITY_NOTICE = "notice";
 const std::string LOG_VERBOSITY_ALERT = "alert";
+****/
 
 // Description: This struct contains the names of the files, directories, and options 
 //  needed to run the CADCreoParametricCreateAssembly.exe application. These data 

@@ -35,9 +35,6 @@ namespace isis
 //}
 
 
-const std::string MAJOR_MODE_DESIGN = "design";
-const std::string MAJOR_MODE_COMPONENT = "component";
-const std::string MAJOR_MODE_PASSIVE = "passive";
 
 // Description: This struct contains the names of the files, directories, and options 
 //  needed to run the CADCreoParametricCreateAssembly.exe application. These data 

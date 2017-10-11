@@ -162,14 +162,20 @@ int main( int argc, char *argv[] )
 
 
 
-		environment.setupCADEnvironment(	isis::cad::OPENMETA_EXTRACT_ACM,				// in
-											workingDir.generic_string(),					// in
-											"",												// in     in_AuxiliaryCADDirectory
-											graphicsModeOn,									// in
-											false,											// in    in_CADExceptInputFromThisProgramAndCreoUI
+		//environment.setupCADEnvironment(	isis::cad::OPENMETA_EXTRACT_ACM,				// in
+		//									workingDir.generic_string(),					// in
+		//									"",												// in     in_AuxiliaryCADDirectory
+		//									graphicsModeOn,									// in
+		//									false,											// in    in_CADExceptInputFromThisProgramAndCreoUI
+		//									creoStartCommand,								// out
+		//									CADExtensionsDir,								// out
+		//									templateFile_PathAndFileName );					// out
+
+		environment.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName );					// out
+
 
 		//isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
 		//													false, //creoAcceptInputFromThisProgramAndCreoUI,

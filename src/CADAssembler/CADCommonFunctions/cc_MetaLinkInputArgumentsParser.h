@@ -11,7 +11,7 @@
 #include <boost/program_options.hpp>
 #include <boost/algorithm/string.hpp>
 #include "cc_LoggerBoost.h"
-
+#include "cc_ParserCommon.h"
 
 // Taken from the files on the META SVN
 // Required to throw isis::application_exception properly in the test files
@@ -38,6 +38,7 @@ const std::string MAJOR_MODE_DESIGN = "design";
 const std::string MAJOR_MODE_COMPONENT = "component";
 const std::string MAJOR_MODE_PASSIVE = "passive";
 
+/****
 const std::string LOG_VERBOSITY_NOTSET = "none";
 const std::string LOG_VERBOSITY_DEBUG = "debug";
 const std::string LOG_VERBOSITY_INFO = "inform";
@@ -48,6 +49,7 @@ const std::string LOG_VERBOSITY_CRIT = "critical";
 const std::string LOG_VERBOSITY_EMERG = "emergency";
 const std::string LOG_VERBOSITY_NOTICE = "notice";
 const std::string LOG_VERBOSITY_ALERT = "alert";
+****/
 
 // Description: This struct contains the names of the files, directories, and options
 //  needed to run the CADCreoParametricCreateAssembly.exe application. These data

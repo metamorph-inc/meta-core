@@ -301,7 +301,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		}
 
 		
-		/***    This is now down in EnvironmentCreo::setupCADEnvironment
+		/***    This is now done in EnvironmentCreo::setupCADEnvironment
 		std::string configPro_PathAndFileName = in_WorkingDirector + "\\config.pro";
 		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" std::string searchMetaPro_PathAndFileName = workingDir + "\\search_META.pro";
 		isis::IfFileExists_DeleteFile( configPro_PathAndFileName);

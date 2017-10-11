@@ -94,6 +94,9 @@
     <ClInclude Include="cc_ExtractACMInputArgumentsParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cc_ParserCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="isis_application_exception.cpp">
