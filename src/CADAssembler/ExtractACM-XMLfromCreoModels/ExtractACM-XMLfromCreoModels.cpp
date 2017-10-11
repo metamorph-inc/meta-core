@@ -150,38 +150,17 @@ int main( int argc, char *argv[] )
 					throw isis::application_exception(errorString);
 		}
 		::boost::filesystem::current_path(workingDir);
-
-		// configure start string
-		bool graphicsModeOn = programInputArguments.graphicsModeOn?true:false;
-		//bool creoAcceptInputFromThisProgramAndCreoUI = programInputArguments.synchronizeWithCyPhy?true:false;
-
 		
 
 		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
 
 
-
-		//environment.setupCADEnvironment(	isis::cad::OPENMETA_EXTRACT_ACM,				// in
-		//									workingDir.generic_string(),					// in
-		//									"",												// in     in_AuxiliaryCADDirectory
-		//									graphicsModeOn,									// in
-		//									false,											// in    in_CADExceptInputFromThisProgramAndCreoUI
-		//									creoStartCommand,								// out
-		//									CADExtensionsDir,								// out
-		//									templateFile_PathAndFileName );					// out
-
 		environment.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName );					// out
 
-
-		//isis::SetCreoEnvirVariable_RetrieveSystemSettings(	graphicsModeOn,
-		//													false, //creoAcceptInputFromThisProgramAndCreoUI,
-		//													creoStartCommand,
-		//													CADExtensionsDir,
-		//													templateFile_PathAndFileName );
 
 // STEP 3: Start Creo in async mode
 			char tempBuffer[1024];

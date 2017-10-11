@@ -57,18 +57,6 @@ class  EnvironmentCreo : public IEnvironment {
 		//std::string getCADExtensionsDir() throw (isis::application_exception);
 
 
-		/***
-		void setupCADEnvironment(	e_OpenMETAApplication	in_OpenMETAApplication,
-									const std::string       &in_WorkingDirector,
-									const std::string		&in_AuxiliaryCADDirectory,
-									bool					in_GraphicsModeOn,      
-									bool					in_CADExceptInputFromThisProgramAndCreoUI,
-									std::string				&out_CADStartCommand,	
-									std::string				&out_CADExtensionsDir,
-									std::string				&out_TemplateFile_PathAndFileName ) throw (isis::application_exception);
-
-		***/
-
 		// This function does any setup that is necessary before invoking the CAD application
 		//virtual void setupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception) = 0;
 
@@ -93,10 +81,6 @@ class  EnvironmentCreo : public IEnvironment {
 			std::string		&out_TemplateFile_PathAndFileName ) const throw (isis::application_exception);
 
 };
-
-
-
-
 
 
 

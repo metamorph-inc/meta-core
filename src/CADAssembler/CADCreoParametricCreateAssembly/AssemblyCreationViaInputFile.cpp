@@ -30,19 +30,12 @@ namespace isis
 
 
 void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
-								 const isis::CreateAssemblyInputArguments              &in_ProgramInputArguments,
+								 const isis::CreateAssemblyInputArguments       &in_ProgramInputArguments,
 								 const std::string								&in_CADExtensionsDir,
-								 const std::string								&in_XMLInputFile_PathAndFileName,
-								 const std::string								&in_WorkingDirector,
-								 const std::string								&in_CADPartsLibDir,
-								 const std::string								&in_LogFile_PathAndFileName,
 								 const std::string								&in_templateFile_PathAndFileName,
 								 const std::string								&in_CreoStartCommand,
 								 const std::string								&in_ProgramName_Version_TimeStamp,
-								 unsigned int									&in_out_UniqueNameIndex,
-								 bool											&out_Pro_E_Running,
-								 isis::CADAssemblies							&out_CADComponentAssemblies,
-								 std::map<std::string, isis::CADComponentData>	&out_CADComponentData_map) 
+								 bool											&out_Pro_E_Running )
 																					throw (isis::application_exception)
 {
 #ifdef DEBUG_BREAKER
@@ -55,6 +48,23 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 	//cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 	
 
+	unsigned int uniqueNameIndex = 1;
+	std::string xMLInputFile_PathAndFileName = in_ProgramInputArguments.inputXmlFileName;
+
+	// Must get the complete path to the working directory.  This is necessary because when
+	// isis_ProDirectoryChange is called to change to a STEP directory, workingDir must be fully
+	// defined so that isis_ProDirectoryChange can be called to return to the original directory.
+	std::string workingDir_string = in_ProgramInputArguments.workingDirectory;
+	::boost::filesystem::path    workingDir_path;
+	workingDir_path = isis::SetupWorkingDirectory( workingDir_string );
+	std::string workingDirector = workingDir_path.generic_string();
+
+	std::string logFile_PathAndFileName = in_ProgramInputArguments.logFileName;
+
+	isis::CADAssemblies cADComponentAssemblies;
+
+	std::map<std::string, isis::CADComponentData> cADComponentData_map;
+
 	//bool Pro_E_Running = false;
 	bool Template_Copied = false;
 	int NonCyPhyID_counter = 0;  // This will be incremented before it is used.
@@ -65,12 +75,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		time_start=time(NULL); /* get current cal time */
 
 		bool regenerationSucceeded_ForAllAssemblies = true;
-		std::string cadPartsLibDir = in_CADPartsLibDir;
+		std::string cadPartsLibDir = in_ProgramInputArguments.auxiliaryCADDirectory;
 
 		// Verify that the XML file exists.
-		if (!isis::FileExists( in_XMLInputFile_PathAndFileName.c_str()))
+		if (!isis::FileExists( xMLInputFile_PathAndFileName.c_str()))
 		{
-			std::string TempError = "Could not find the assembly definition xml file, file name: " + in_XMLInputFile_PathAndFileName;
+			std::string TempError = "Could not find the assembly definition xml file, file name: " + xMLInputFile_PathAndFileName;
 			throw isis::application_exception(TempError.c_str());
 		} 
 
@@ -84,28 +94,28 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		*/
 		FromXMLFile_PopulateCADComponentAssemblyAndMap(
 													XML_DEFINED_BY_FILE,
-													in_XMLInputFile_PathAndFileName,
-													out_CADComponentAssemblies,
-													out_CADComponentData_map,
+													xMLInputFile_PathAndFileName,
+													cADComponentAssemblies,
+													cADComponentData_map,
 													errorList);
 
 
-		if ( out_CADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
+		if ( cADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
 		{
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "*************************** Begin Assembly Creation **************************";
 			std::stringstream informationString;
 			informationString << "No assemblies were created because the input xml file, " 
-					  << std::endl << in_XMLInputFile_PathAndFileName 
+					  << std::endl << xMLInputFile_PathAndFileName 
 					  << ", did not define any assemblies.";
 			isis_LOG(lg, isis_FILE, isis_WARN) << informationString.str();
 
-			if ( out_CADComponentAssemblies.unassembledComponents.size() == 0 )
+			if ( cADComponentAssemblies.unassembledComponents.size() == 0 )
 			{
 				std::stringstream errorString;
 				errorString <<
 						"The input xml file, "
-						 << std::endl << in_XMLInputFile_PathAndFileName 
+						 << std::endl << xMLInputFile_PathAndFileName 
 						 << ", did not define any assemblies nor did it define unassembled parts/sub-assemblies.  "
 						 << std::endl << "The input xml file must specify assemblies and/or unassembled parts/sub-assemblies."; 
 						throw isis::application_exception(errorString.str());
@@ -116,11 +126,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		///////////////////////////////////
 		// Output Requested Metrics file
 		///////////////////////////////////
-		std::string requestedMetricFile_PathAndFileName =  in_WorkingDirector + "\\RequestedMetrics.xml";
+		std::string requestedMetricFile_PathAndFileName =  workingDirector + "\\RequestedMetrics.xml";
 		isis::IfFileExists_DeleteFile( requestedMetricFile_PathAndFileName);
 		isis::CreateXMLFile_RequestedMetrics(	requestedMetricFile_PathAndFileName,
-												out_CADComponentAssemblies.topLevelAssemblies,
-												out_CADComponentData_map );
+												cADComponentAssemblies.topLevelAssemblies,
+												cADComponentData_map );
 
 
 		//////////////////////////////////////////////////
@@ -129,11 +139,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		std::vector<CopyModelDefinition>			fromModel_ToModel;
 
 
-		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_out_UniqueNameIndex, 
+		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
 																	true, 
-																	out_CADComponentData_map, 
+																	cADComponentData_map, 
 																	fromModel_ToModel );
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "";
@@ -150,20 +160,20 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		// A subsequent part of this program will create dummy materials for each part and the dummy materials
 		// will have the name of the form ZZ_FEA_MAT_1_ZZ, ZZ_FEA_MAT_2_ZZ... This will assure that all materials
 		// have a unique name and thus have a separate MAT property in the Nastran deck.
-		// Note - We are assuming if any assembly (out_CADComponentAssemblies) is an analysis run then all 
+		// Note - We are assuming if any assembly (cADComponentAssemblies) is an analysis run then all 
 		// assemblies will be for analaysis purposes.  We will not mix building assembies for analsys purposes
 		// and building assembies for general purposes.
 		
-		bool fEAAnalysisDeckBasedRun		= IsAFEAAnlysisDeckBasedRun(out_CADComponentAssemblies);
-		bool fEAAnalysisAbaqusModelBasedRun	= IsFEAAnalysisAbaqusModelBasedRun(out_CADComponentAssemblies);
+		bool fEAAnalysisDeckBasedRun		= IsAFEAAnlysisDeckBasedRun(cADComponentAssemblies);
+		bool fEAAnalysisAbaqusModelBasedRun	= IsFEAAnalysisAbaqusModelBasedRun(cADComponentAssemblies);
 		bool fEAAnalysisRun = false;
 		if ( fEAAnalysisDeckBasedRun  || fEAAnalysisAbaqusModelBasedRun ) fEAAnalysisRun = true;
-		bool ballisticAnalysisRun				= IsABallisticAnalysisRun(out_CADComponentAssemblies);
-		bool blastAnalysisRun					= IsABlastAnlysisRun(out_CADComponentAssemblies);
-		bool cFDAnalysisRun						= IsACFDAnalysisRun(out_CADComponentAssemblies);
-		bool interferenceRun					= IsAInterferenceRun(out_CADComponentAssemblies);
-		bool hasAssemblyBasedComputations		= HasAssemblyBasedComputations( out_CADComponentAssemblies);
-		bool fillOutMetricsFileForLeafAssemblies = FillOutMetricsFileForLeafAssemblies( out_CADComponentAssemblies.dataExchangeSpecialInstruction);
+		bool ballisticAnalysisRun				= IsABallisticAnalysisRun(cADComponentAssemblies);
+		bool blastAnalysisRun					= IsABlastAnlysisRun(cADComponentAssemblies);
+		bool cFDAnalysisRun						= IsACFDAnalysisRun(cADComponentAssemblies);
+		bool interferenceRun					= IsAInterferenceRun(cADComponentAssemblies);
+		bool hasAssemblyBasedComputations		= HasAssemblyBasedComputations( cADComponentAssemblies);
+		bool fillOutMetricsFileForLeafAssemblies = FillOutMetricsFileForLeafAssemblies( cADComponentAssemblies.dataExchangeSpecialInstruction);
 		
 		bool CompleteTheHierarchyForLeafAssemblies =	false;
 		bool UniquelyNameAllCADModelInstances =			false;
@@ -180,41 +190,41 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			CompleteTheHierarchyForLeafAssemblies = true;
 
 		if ( !CompleteTheHierarchyForLeafAssemblies ) 
-				CompleteTheHierarchyForLeafAssemblies = Get_CompleteTheHierarchyForLeafAssemblies (out_CADComponentAssemblies);
+				CompleteTheHierarchyForLeafAssemblies = Get_CompleteTheHierarchyForLeafAssemblies (cADComponentAssemblies);
 
 		if ( !UniquelyNameAllCADModelInstances ) 
-				UniquelyNameAllCADModelInstances = Get_UniquelyNameAllCADModelInstances (out_CADComponentAssemblies);
+				UniquelyNameAllCADModelInstances = Get_UniquelyNameAllCADModelInstances (cADComponentAssemblies);
 
 		if ( !OutputJointInformation ) 
-				OutputJointInformation = Get_OutputJointInformation (out_CADComponentAssemblies);
+				OutputJointInformation = Get_OutputJointInformation (cADComponentAssemblies);
 
 		if ( OutputJointInformation )
-				ValidateJointInformation = Get_ValidateJointInformation (out_CADComponentAssemblies);
+				ValidateJointInformation = Get_ValidateJointInformation (cADComponentAssemblies);
 
 		if ( fEAAnalysisRun || ballisticAnalysisRun  || blastAnalysisRun || cFDAnalysisRun )
 		{
 			/////////////////////////////////////////////////////
 			// Verify One and only One Assembly per analysis run
 			/////////////////////////////////////////////////////
-			if ( out_CADComponentAssemblies.topLevelAssemblies.size() != 1 )
+			if ( cADComponentAssemblies.topLevelAssemblies.size() != 1 )
 			{
 				std::stringstream errorString;
 				errorString << "One and only one assembly allowed per analysis run (FEA, Ballistic, Blast, or  CFD).  The XML file defines " <<
-				out_CADComponentAssemblies.topLevelAssemblies.size() << std::string(" assemblies.");
+				cADComponentAssemblies.topLevelAssemblies.size() << std::string(" assemblies.");
 					throw isis::application_exception(errorString.str());
 			}
 
-			if ( out_CADComponentAssemblies.unassembledComponents.size() != 0 )
+			if ( cADComponentAssemblies.unassembledComponents.size() != 0 )
 			{
 				std::stringstream errorString;
 				errorString << "Unassembled components were found.  Cannot perform analysis (FEA, Ballistic, Blast, or  CFD) on partial assemblies.  Number of unassembled components: " <<
-				out_CADComponentAssemblies.unassembledComponents.size();
+				cADComponentAssemblies.unassembledComponents.size();
 					throw isis::application_exception(errorString.str());
 			}
 		}
 
 		if ( interferenceRun ) 
-			Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid ( out_CADComponentAssemblies, out_CADComponentData_map);
+			Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid ( cADComponentAssemblies, cADComponentData_map);
 										
 
 		if ( UniquelyNameAllCADModelInstances  )
@@ -229,11 +239,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			// function called later.
  	
 			// Since we already have unique names for parametric parts/assemblies, this will make the non-parametric parts unique.
-			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_out_UniqueNameIndex, 
+			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
 																		e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																		e_SELECT_ALL_MODELS,
 																		false,  
-																		out_CADComponentData_map, 
+																		cADComponentData_map, 
 																		fromModel_ToModel );
 			////////////////////////////
 			// Log Part Copy/Renames
@@ -248,15 +258,15 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		
 
 		// Add the depends-on information to the CADComponentData
-		isis::Add_dependsOn( out_CADComponentData_map );
+		isis::Add_dependsOn( cADComponentData_map );
 
-		//stream_CADComponentData_map(out_CADComponentData_map, clog );
-		//stream_CADComponentData_map(out_CADComponentData_map, cout );
+		//stream_CADComponentData_map(cADComponentData_map, clog );
+		//stream_CADComponentData_map(cADComponentData_map, cout );
 
-		//for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(out_CADComponentAssemblies.topLevelAssemblies.begin());
-		//	  i != out_CADComponentAssemblies.topLevelAssemblies.end();
+		//for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(cADComponentAssemblies.topLevelAssemblies.begin());
+		//	  i != cADComponentAssemblies.topLevelAssemblies.end();
 		//	  ++i )
-		for each( isis::TopLevelAssemblyData i in out_CADComponentAssemblies.topLevelAssemblies)
+		for each( isis::TopLevelAssemblyData i in cADComponentAssemblies.topLevelAssemblies)
 		{
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Tree For a Single Assembly  *****************";
@@ -275,7 +285,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
 			str.clear();
-			stream_AssemblyCADComponentData( i.assemblyComponentID, out_CADComponentData_map, str);
+			stream_AssemblyCADComponentData( i.assemblyComponentID, cADComponentData_map, str);
 			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Entire Component Data Tree (CAD Internal Structures) *****************";
@@ -286,7 +296,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		///////////////////////////////////////////////////////////////////////////////////
 		// Check for Non-Size-To-Fit components being constrained to Size-To-Fit components
 		////////////////////////////////////////////////////////////////////////////////////
-		std::set<std::string> TempIntersection = NonSizeToFitComponents_ReferencedBy_SizeToFitConstraints( out_CADComponentData_map );
+		std::set<std::string> TempIntersection = NonSizeToFitComponents_ReferencedBy_SizeToFitConstraints( cADComponentData_map );
 		if ( TempIntersection.size() > 0 )
 		{
 			string err_str = "Erroneous XML File: A NON_SIZE_TO_FIT component cannot be constrained to a SIZE_TO_FIT component. " +
@@ -302,7 +312,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 		
 		/***    This is now done in EnvironmentCreo::setupCADEnvironment
-		std::string configPro_PathAndFileName = in_WorkingDirector + "\\config.pro";
+		std::string configPro_PathAndFileName = workingDirector + "\\config.pro";
 		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" std::string searchMetaPro_PathAndFileName = workingDir + "\\search_META.pro";
 		isis::IfFileExists_DeleteFile( configPro_PathAndFileName);
 		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" isis::IfFileExists_DeleteFile( searchMetaPro_PathAndFileName);
@@ -360,12 +370,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		//ProPath  WorkingDirPath_wchar;
 		//ProStringToWstring(WorkingDirPath_wchar, (char *)workingDir.c_str() );
 
-		isis::MultiFormatString workingDir_MultiFormat(in_WorkingDirector, PRO_PATH_SIZE - 1);
+		isis::MultiFormatString workingDir_MultiFormat(workingDirector, PRO_PATH_SIZE - 1);
 		//isis::isis_ProDirectoryChange( workingDir_MultiFormat );
 		isis::setCreoWorkingDirectory( workingDir_MultiFormat );
 
 		// Copy template model to the working directory
-		isis::CopyFileIsis( in_templateFile_PathAndFileName,  in_WorkingDirector );
+		isis::CopyFileIsis( in_templateFile_PathAndFileName,  workingDirector );
 		Template_Copied = true;
 
 		// *** If model renames occured
@@ -386,7 +396,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 		if ( isis::DataExchange_Format_Version_InList(	isis::DATA_EXCHANGE_FORMAT_STEP,  
 														isis::AP203_E2_SEPARATE_PART_FILES, 
-														out_CADComponentAssemblies.DataExchangeSpecifications) )
+														cADComponentAssemblies.DataExchangeSpecifications) )
 		{
 			stepFileVersion_ForManufacturing = isis::AP203_E2_SEPARATE_PART_FILES;
 			separateStepPartFilesRequested = true;
@@ -395,7 +405,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		{
 			if ( isis::DataExchange_Format_Version_InList(	isis::DATA_EXCHANGE_FORMAT_STEP,  
 															isis::AP214_SEPARATE_PART_FILES, 
-															out_CADComponentAssemblies.DataExchangeSpecifications) )
+															cADComponentAssemblies.DataExchangeSpecifications) )
 			{
 				stepFileVersion_ForManufacturing = isis::AP214_SEPARATE_PART_FILES;
 				separateStepPartFilesRequested = true;
@@ -405,8 +415,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		////////////////////////////////////////
 		// Build the assemblies
 		////////////////////////////////////////
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(out_CADComponentAssemblies.topLevelAssemblies.begin());
-			  i != out_CADComponentAssemblies.topLevelAssemblies.end();
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(cADComponentAssemblies.topLevelAssemblies.begin());
+			  i != cADComponentAssemblies.topLevelAssemblies.end();
 			  ++i )
 		{
 			bool regenerationSucceeded;
@@ -416,9 +426,9 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			//////////////////////////
 			isis::BuildAssembly(	in_factory, 
 									i->assemblyComponentID, 
-									in_WorkingDirector, 
+									workingDirector, 
 									true, 
-									out_CADComponentData_map, 
+									cADComponentData_map, 
 									regenerationSucceeded, 
 									errorList );		
 			if ( !regenerationSucceeded ) regenerationSucceeded_ForAllAssemblies = false;
@@ -436,7 +446,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 			// Get component count
 			isis::ComponentVistorCountAssemblyComponents  componentVistorCountAssemblyComponents;
-			isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, componentVistorCountAssemblyComponents);
+			isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, componentVistorCountAssemblyComponents);
 
 			// Log component count
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Number of assembled components: " << componentVistorCountAssemblyComponents.numberOfComponents;
@@ -454,13 +464,13 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				// Complete The Hierarchy For Leaf Assemblies
 				//////////////////////////////////////////////
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludingTopAssembly(true);
-				isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_ExcludingTopAssembly );
+				isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludingTopAssembly );
 				// When complete each component may not have a unique name (nor unique file).
 				// They will *all* be present in the map.
 				ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(	
 															assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 															NonCyPhyID_counter,
-															out_CADComponentData_map );
+															cADComponentData_map );
 			}		
 
 			
@@ -474,12 +484,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					// input xml would have uniqeuly named.  Now we need to uniquely name the models that 
 					// would have been added because the hierarchy was completed for leaf assemblies.
 					std::vector<CopyModelDefinition>			fromModel_ToModel_FEA;
-					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_out_UniqueNameIndex, 
+					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
 																	//e_PART_MODEL_TYPE,
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ALL_MODELS,
 																	false,
-																	out_CADComponentData_map, 
+																	cADComponentData_map, 
 																	fromModel_ToModel_FEA );
 
 					////////////////////////////
@@ -507,35 +517,35 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
-								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
+								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(cADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
 
-								//modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;			
-								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
-								//modelInstanceData_temp.assembledFeature.id   =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
-								//modelInstanceData_temp.assembledFeature.owner =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
-								modelInstanceData_temp.assembledFeature = getProAsmcomp(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature);
+								//modelInstanceData_temp.assembledFeature			= cADComponentData_map[model_def.componentInstanceID].assembledFeature;			
+								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(cADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
+								//modelInstanceData_temp.assembledFeature.id   =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
+								//modelInstanceData_temp.assembledFeature.owner =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
+								modelInstanceData_temp.assembledFeature = getProAsmcomp(cADComponentData_map[model_def.componentInstanceID].assembledFeature);
 								
-								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
-								modelInstanceData_temp.componentPaths			= out_CADComponentData_map[model_def.componentInstanceID].componentPaths;
+								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
+								modelInstanceData_temp.componentPaths			= cADComponentData_map[model_def.componentInstanceID].componentPaths;
 								isis::MultiFormatString  CopyToPartName_temp(model_def.toModelName);
 
 								ProMdl     renamedModelHandle;
 								Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
-								out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
-								out_CADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
+								cADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+								cADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
 
 
 								// Must fix the children assembledFeature to point to the new parent (new owner)
-								for each ( std::string i_child in out_CADComponentData_map[model_def.componentInstanceID].children )
+								for each ( std::string i_child in cADComponentData_map[model_def.componentInstanceID].children )
 								{
-									out_CADComponentData_map[i_child].assembledFeature.owner = renamedModelHandle;
+									cADComponentData_map[i_child].assembledFeature.owner = renamedModelHandle;
 								} 
 							}
 						}
 
 
 						// For testing
-						//isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].modelHandle);
+						//isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].modelHandle);
 
 						// Next rename parts
 						for each ( CopyModelDefinition model_def in fromModel_ToModel_FEA )
@@ -545,25 +555,25 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
-								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
-								//modelInstanceData_temp.assembledFeature			= out_CADComponentData_map[model_def.componentInstanceID].assembledFeature;		
-								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
-								//modelInstanceData_temp.assembledFeature.id   =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
-								//modelInstanceData_temp.assembledFeature.owner =	                         out_CADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
-								modelInstanceData_temp.assembledFeature = getProAsmcomp(out_CADComponentData_map[model_def.componentInstanceID].assembledFeature);
+								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(cADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
+								//modelInstanceData_temp.assembledFeature			= cADComponentData_map[model_def.componentInstanceID].assembledFeature;		
+								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(cADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
+								//modelInstanceData_temp.assembledFeature.id   =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
+								//modelInstanceData_temp.assembledFeature.owner =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
+								modelInstanceData_temp.assembledFeature = getProAsmcomp(cADComponentData_map[model_def.componentInstanceID].assembledFeature);
 
 
-								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
-								modelInstanceData_temp.componentPaths			= out_CADComponentData_map[model_def.componentInstanceID].componentPaths;
+								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
+								modelInstanceData_temp.componentPaths			= cADComponentData_map[model_def.componentInstanceID].componentPaths;
 								isis::MultiFormatString  CopyToPartName_temp(model_def.toModelName);
 
 								ProMdl     renamedModelHandle;
 								Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
-								out_CADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
-								out_CADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
+								cADComponentData_map[model_def.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+								cADComponentData_map[model_def.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
 
 								// For testing
-								//isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].modelHandle);
+								//isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].modelHandle);
 
 							}						
 						}
@@ -581,7 +591,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, PRO_PATH_SIZE - 1);
 						isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
 
-						isis::isis_ProMdlSave(out_CADComponentData_map[i->assemblyComponentID].cADModel_hdl);
+						isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
 
 						// Change back to the working dir
 						isis::setCreoWorkingDirectory( workingDir_MultiFormat );
@@ -601,11 +611,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				// See example at http://stackoverflow.com/questions/10405030/c-unordered-map-fail-when-used-with-a-vector-as-key
 				std::unordered_map<IntList, std::string, ContainerHash<IntList>> featureIDs_to_ComponentInstanceID_hashtable;
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly;
-				isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
+				isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
 				Populate_FeatureIDs_to_ComponentInstanceID_hashtable(
 										assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs,
-										out_CADComponentData_map,
+										cADComponentData_map,
 										featureIDs_to_ComponentInstanceID_hashtable);
 
 				if (  CompleteTheHierarchyForLeafAssemblies )  // The hierarchy would have been completed previously.
@@ -614,22 +624,22 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					//										in_factory, 
 					//										assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs,
 					//										featureIDs_to_ComponentInstanceID_hashtable,
-					//										out_CADComponentData_map );
+					//										cADComponentData_map );
 
 					SelectComponentDerivedFromLeafAssembly selectComponentDerivedFromLeafAssembly;
 					isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps(selectComponentDerivedFromLeafAssembly, true);
-					isis::VisitComponents( i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps );
+					isis::VisitComponents( i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps );
 
 					PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
 															in_factory, 
 															assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps.listOfComponentIDs,
 															featureIDs_to_ComponentInstanceID_hashtable,
-															out_CADComponentData_map );
+															cADComponentData_map );
 				}
 
 				SelectComponentInInputXML selectComponentInInputXML;
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents(selectComponentInInputXML, true);
-				isis::VisitComponents( i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents );
+				isis::VisitComponents( i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents );
 
 				//	We must recalculate the junctions here.  The junctions were originally calculated in Apply_CADDatum_ModelConstraints;  
 				//	however, that calculation was just to determine the joint type( revolute, prismatic…).  The actual position 
@@ -638,25 +648,25 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				//	defined in a leaf assembly where the markers for the joint would only be valid in the context of the complete assembly.	
 				//	In other words, the prismatic joint would allow the datums defining the joints to move based on the position of 
 				//	connecting parts in the assembly.
-				PopulateMap_with_Junctions_per_InputXMLConstraints(in_factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, out_CADComponentData_map, true );
+				PopulateMap_with_Junctions_per_InputXMLConstraints(in_factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, cADComponentData_map, true );
 
 				// This must be after the call to PopulateMap_with_Junctions_per_InputXMLConstraints
 				PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints (	
 										i->assemblyComponentID,
 										assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs,
 										featureIDs_to_ComponentInstanceID_hashtable,
-										out_CADComponentData_map );
+										cADComponentData_map );
 
 
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludingTopAssembly(true);
-				isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_ExcludingTopAssembly );
+				isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludingTopAssembly );
 
 				//CheckValidityOfJointInformation
 				if ( ValidateJointInformation ) 
 				{
 					std::vector<std::string> jointErrors;
 					CheckValidityOfJointInformation(	assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
-														out_CADComponentData_map,
+														cADComponentData_map,
 														jointErrors);
 					if ( jointErrors.size() > 0 )
 					{   
@@ -680,7 +690,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				// This must be the last step.
 			    isis::PopulateMap_with_JunctionDataInGlobalCoordinates( i->assemblyComponentID,
 															 assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
-															 out_CADComponentData_map );
+															 cADComponentData_map );
 
 				// Determine
 
@@ -689,7 +699,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "*** BEGIN Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
 			std::stringstream str;
-			stream_AssemblyCADComponentData( i->assemblyComponentID, out_CADComponentData_map, str );
+			stream_AssemblyCADComponentData( i->assemblyComponentID, cADComponentData_map, str );
 			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "*** END Begin Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
@@ -700,15 +710,15 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			/////////////////////////////////////////////
 			if ( regenerationSucceeded_ForAllAssemblies )
 			{
-				std::string MeticsOutputXML_PathAndFileName = in_XMLInputFile_PathAndFileName;	 		
+				std::string MeticsOutputXML_PathAndFileName = xMLInputFile_PathAndFileName;	 		
 					MeticsOutputXML_PathAndFileName.replace(  MeticsOutputXML_PathAndFileName.end() - 4, 
 														MeticsOutputXML_PathAndFileName.end(), "_metrics.xml");  
 					OutputCADMetricsToXML_Driver(	regenerationSucceeded_ForAllAssemblies,
 													OutputJointInformation,
-													out_CADComponentAssemblies,
-													out_CADComponentData_map,  
+													cADComponentAssemblies,
+													cADComponentData_map,  
 													MeticsOutputXML_PathAndFileName,
-													in_LogFile_PathAndFileName );				
+													logFile_PathAndFileName );				
 			}
 			else
 			{
@@ -721,24 +731,24 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			//	Output STEP Files and Manufacturing Manifest
 			////////////////////////////////////////////////	
 			// For testing, un-comment out this code to Export all STEP files
-			//if ( out_CADComponentAssemblies.DataExchangeSpecifications.size() == 0 )
+			//if ( cADComponentAssemblies.DataExchangeSpecifications.size() == 0 )
 			//{
-			//	out_CADComponentAssemblies.DataExchangeSpecifications.push_back(
+			//	cADComponentAssemblies.DataExchangeSpecifications.push_back(
 			//		isis::DataExchangeSpecification(isis::DATA_EXCHANGE_FORMAT_STEP, isis::AP203_SINGLE_FILE ));
-			//	out_CADComponentAssemblies.DataExchangeSpecifications.push_back(
+			//	cADComponentAssemblies.DataExchangeSpecifications.push_back(
 			//		isis::DataExchangeSpecification(isis::DATA_EXCHANGE_FORMAT_STEP, isis::AP203_E2_SINGLE_FILE ));
-			//	out_CADComponentAssemblies.DataExchangeSpecifications.push_back(
+			//	cADComponentAssemblies.DataExchangeSpecifications.push_back(
 			//		isis::DataExchangeSpecification(isis::DATA_EXCHANGE_FORMAT_STEP, isis::AP203_E2_SEPARATE_PART_FILES ));
-			//	out_CADComponentAssemblies.DataExchangeSpecifications.push_back(
+			//	cADComponentAssemblies.DataExchangeSpecifications.push_back(
 			//		isis::DataExchangeSpecification(isis::DATA_EXCHANGE_FORMAT_STEP, isis::AP214_SINGLE_FILE ));
-			//	out_CADComponentAssemblies.DataExchangeSpecifications.push_back(
+			//	cADComponentAssemblies.DataExchangeSpecifications.push_back(
 			//		isis::DataExchangeSpecification(isis::DATA_EXCHANGE_FORMAT_STEP, isis::AP214_SEPARATE_PART_FILES ));
 			//}	
 
 			bool manufacturingManifestUpdated = false; 
 
 			// If FEA run will output data exchange files after the models are renamed for FEA purposes.
-			if ( out_CADComponentAssemblies.DataExchangeSpecifications.size() > 0  )
+			if ( cADComponentAssemblies.DataExchangeSpecifications.size() > 0  )
 			{
 				if ( regenerationSucceeded )
 				{
@@ -749,15 +759,15 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					
 					isis_LOG(lg, isis_FILE, isis_INFO) << "STEP file formats: ";
 
-					for each( isis::DataExchangeSpecification de in out_CADComponentAssemblies.DataExchangeSpecifications)
+					for each( isis::DataExchangeSpecification de in cADComponentAssemblies.DataExchangeSpecifications)
 					{
 						isis_LOG(lg, isis_FILE, isis_INFO) << "   " << isis::DataExchangeVersion_string(de.dataExchangeVersion);
 					}
 					
 					isis::ExportDataExchangeFiles(	 i->assemblyComponentID,
-													in_WorkingDirector,
-													out_CADComponentAssemblies.DataExchangeSpecifications,
-													out_CADComponentData_map,
+													workingDirector,
+													cADComponentAssemblies.DataExchangeSpecifications,
+													cADComponentData_map,
 													true);
 													
 					/////////////////////////////////
@@ -772,7 +782,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 														i->assemblyComponentID, 
 														false, // OnlyUpdateManifestForParts, Since we are now creating STEP files for sub-assemblies, we can update the manufacturing manifest for parts and assemblies.
 														true, // change case of step file to lower case.  By default, when an assembly is saved, the detail part STEP files are all lower case.
-														out_CADComponentData_map );
+														cADComponentData_map );
 						manufacturingManifestUpdated = true;
 					}
 				}
@@ -794,7 +804,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			if ( !manufacturingManifestUpdated )
 			{
 				isis_LOG(lg, isis_FILE, isis_WARN) << "";
-				isis_LOG(lg, isis_FILE, isis_WARN)  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for assembly: " << out_CADComponentData_map[i->assemblyComponentID].name;
+				isis_LOG(lg, isis_FILE, isis_WARN)  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for assembly: " << cADComponentData_map[i->assemblyComponentID].name;
 				isis_LOG(lg, isis_FILE, isis_WARN) << "   For the manufacturing manifest to be updated, all three of the following must be True"; 
 				if (separateStepPartFilesRequested )
 					isis_LOG(lg, isis_FILE, isis_WARN) << "      Separate STEP Part Files Requested = True";
@@ -820,7 +830,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			////////////////
 			if ( cFDAnalysisRun) {
 				CFD_Driver( isis::V1, in_CADExtensionsDir, 
-					in_WorkingDirector, *i, out_CADComponentData_map );
+					workingDirector, *i, cADComponentData_map );
 			}
 
 			///////////////////////
@@ -831,15 +841,15 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 				std::map<std::string, std::string>  componentID_to_MaterialName_map;		 
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly;
-				isis::VisitComponents(i->assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
+				isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 				isis::RetrieveCreoMaterialsNames(	assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs,
-													out_CADComponentData_map,
+													cADComponentData_map,
 													componentID_to_MaterialName_map) ;
 
 				//for each ( std::string i_temp in assembllyComponenteIDs.listOfComponentIDs ) 
 				//{
 				//	std::cout << std::endl << "Material Info, Component Instance ID: " << i_temp <<
-				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCADPart <<
+				//		"  Component Material: " << cADComponentData_map[i_temp].materialID_FromCADPart <<
 				//		"  Retrieved Material: " << componentID_to_MaterialName_map[i_temp];
 				//}
 
@@ -847,23 +857,23 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				std::set<std::string> materialNames;
 				for each ( std::pair<std::string, std::string> mat_pair in componentID_to_MaterialName_map ) 
 				{
-					if ( out_CADComponentData_map[mat_pair.first].modelType == PRO_MDL_PART )
+					if ( cADComponentData_map[mat_pair.first].modelType == PRO_MDL_PART )
 					{
-						out_CADComponentData_map[mat_pair.first].materialID_FromCADPart = mat_pair.second;
+						cADComponentData_map[mat_pair.first].materialID_FromCADPart = mat_pair.second;
 						materialNames.insert(mat_pair.second);
 
-						if ( isis::ConvertToUpperCase(out_CADComponentData_map[mat_pair.first].materialID_FromCADPart) !=
-							isis::ConvertToUpperCase(out_CADComponentData_map[mat_pair.first].materialID_FromCyPhy) )
+						if ( isis::ConvertToUpperCase(cADComponentData_map[mat_pair.first].materialID_FromCADPart) !=
+							isis::ConvertToUpperCase(cADComponentData_map[mat_pair.first].materialID_FromCyPhy) )
 						{
 							materialMisMatchFound = true;
 							std::stringstream errorString;
 							errorString << std::endl << std::endl << "WARNING - Material names (CyPhy/Creo) differ: " << std::endl << 
-								"  Component Instance ID: " <<  out_CADComponentData_map[mat_pair.first].componentID << std::endl << 
-								"  Component Name:        " <<  out_CADComponentData_map[mat_pair.first].name << std::endl << 
-								"  Component Type:        " <<  ProMdlType_string(out_CADComponentData_map[mat_pair.first].modelType) <<  std::endl << 
-								"  CyPhy Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCyPhy  <<  std::endl << 
-								"  Creo Material Name:    " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCADPart  <<  std::endl << 
-								"  Using Material Name:   " <<  out_CADComponentData_map[mat_pair.first].materialID_FromCADPart << std::endl;
+								"  Component Instance ID: " <<  cADComponentData_map[mat_pair.first].componentID << std::endl << 
+								"  Component Name:        " <<  cADComponentData_map[mat_pair.first].name << std::endl << 
+								"  Component Type:        " <<  ProMdlType_string(cADComponentData_map[mat_pair.first].modelType) <<  std::endl << 
+								"  CyPhy Material Name:   " <<  cADComponentData_map[mat_pair.first].materialID_FromCyPhy  <<  std::endl << 
+								"  Creo Material Name:    " <<  cADComponentData_map[mat_pair.first].materialID_FromCADPart  <<  std::endl << 
+								"  Using Material Name:   " <<  cADComponentData_map[mat_pair.first].materialID_FromCADPart << std::endl;
 
 							isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << errorString.str();
 
@@ -872,12 +882,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				}
 				if ( materialMisMatchFound ) 
 					isis_LOG(lg, isis_FILE, isis_WARN) << "Material name(s) in CyPhy differ from material name(s) in the Creo Part(s). See " << 
-					in_LogFile_PathAndFileName << " in the log directory for a listing of the differences.  Search on WARNING.";
+					logFile_PathAndFileName << " in the log directory for a listing of the differences.  Search on WARNING.";
 
 				//for each ( std::string i_temp in assembllyComponenteIDs.listOfComponentIDs ) 
 				//{
 				//	std::cout << std::endl << "Material Info, Component Instance ID: " << i_temp <<
-				//		"  Component Material: " << out_CADComponentData_map[i_temp].materialID_FromCADPart <<
+				//		"  Component Material: " << cADComponentData_map[i_temp].materialID_FromCADPart <<
 				//		"  Retrieved Material: " << componentID_to_MaterialName_map[i_temp];
 				//}			
 	
@@ -885,11 +895,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 				try
 				{
-					isis::ReadMaterialsLibrary( MaterialsLibrary_PathAndFileName(), materialNames, out_CADComponentAssemblies.materials);
+					isis::ReadMaterialsLibrary( MaterialsLibrary_PathAndFileName(), materialNames, cADComponentAssemblies.materials);
 
 					// Log materials
 					isis_LOG(lg, isis_FILE, isis_INFO) << "Materials: ";
-					for each ( std::pair<std::string, isis::Material> i in out_CADComponentAssemblies.materials )
+					for each ( std::pair<std::string, isis::Material> i in cADComponentAssemblies.materials )
 					{
 						isis_LOG(lg, isis_FILE, isis_INFO) << i.second.analysisMaterialProperties;
 					}
@@ -915,10 +925,10 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				{
 					// This writes to ComputedValues.xml, which is in the .\Analysis\Abaqus directory
 					isis::Create_FEADecks_BatFiles( *i,   // TopLevelAssemblyData	
-												out_CADComponentAssemblies.materials, 
-												in_WorkingDirector,
+												cADComponentAssemblies.materials, 
+												workingDirector,
 												in_ProgramName_Version_TimeStamp,
-												out_CADComponentData_map );
+												cADComponentData_map );
 				}
 				else
 				{   // Abaqus Model Based, Patran_Nastran
@@ -938,9 +948,9 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 						std::map<std::string, std::string>        nastranMaterialID_to_CompnentID_map;
 						CreateXMLFile_FEA_AnalysisMetaData( analysisMetaData_PathAndFileName,
 															*i,
-															out_CADComponentAssemblies.materials,
+															cADComponentAssemblies.materials,
 															nastranMaterialID_to_CompnentID_map,
-															out_CADComponentData_map );
+															cADComponentData_map );
 						}
 						catch (isis::application_exception &ex )
 						{
@@ -964,21 +974,21 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			{
 				// This does not write to ComputedValues.xml
 				// The reference plane is written to a json file
-				isis::PopulateBallisticFiles( *i, in_WorkingDirector, out_CADComponentData_map);
+				isis::PopulateBallisticFiles( *i, workingDirector, cADComponentData_map);
 			}
 
 			if ( blastAnalysisRun )
 			{
 				// This does not write to ComputedValues.xml
 				// The reference plane is written to a json file
-				isis::PopulateBlastFiles( *i, in_WorkingDirector, out_CADComponentData_map);
+				isis::PopulateBlastFiles( *i, workingDirector, cADComponentData_map);
 			}
 
 			// This is not needed because the only file needed for CFD in the ComputedValues.xml
 			// is the reference plane, which is created by CreateXMLFile_ComputedValues below
 			//if ( cFDAnalysisRun )
 			//{
-			//	isis::PopulateCFDFiles( *i, in_WorkingDirector, out_CADComponentData_map);
+			//	isis::PopulateCFDFiles( *i, workingDirector, cADComponentData_map);
 			//}
 
 			// WARNING - Do not save the assembly/models after this point.  Doing so will save the temporarily created material.
@@ -988,7 +998,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			//	Output Interference Report
 			//////////////////////////////////	
 	
-			std::string InterferenceReport_PathAndFileName = in_XMLInputFile_PathAndFileName;	 		
+			std::string InterferenceReport_PathAndFileName = xMLInputFile_PathAndFileName;	 		
 			InterferenceReport_PathAndFileName.replace(  InterferenceReport_PathAndFileName.end() - 4, 
 														InterferenceReport_PathAndFileName.end(), "_interference.txt");  
 			// Delete InterferenceReport_PathAndFileName if it exists.  This will assure that an old interference file would not be used. 
@@ -1015,7 +1025,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 								"InterferenceCount CADComputationComponents: " << std::endl;
 								for each ( const CADComputation &k in interferenceCount_CADComputations )
 								{
-									errorString << "Referenced Model Name:        " << out_CADComponentData_map[k.componentID].name << std::endl;;
+									errorString << "Referenced Model Name:        " << cADComponentData_map[k.componentID].name << std::endl;;
 									errorString << "Referenced Model ComponentID: " << k.componentID;
 									errorString << k;
 								}
@@ -1023,8 +1033,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				}
 
 				if ( regenerationSucceeded_ForAllAssemblies && 
-					 out_CADComponentAssemblies.unassembledComponents.size() == 0 &&  
-					 out_CADComponentAssemblies.topLevelAssemblies.size() == 1)
+					 cADComponentAssemblies.unassembledComponents.size() == 0 &&  
+					 cADComponentAssemblies.topLevelAssemblies.size() == 1)
 				{			
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating Interference File";	
@@ -1033,7 +1043,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Populating: " + InterferenceReport_PathAndFileName + ", Note: For large assemblies, this could take several minutes.";
 					try 
 					{
-						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], out_CADComponentData_map );
+						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], cADComponentData_map );
 					}
 
 					catch ( isis::application_exception& ex )
@@ -1061,7 +1071,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					}
 					else
 					{
-						if ( out_CADComponentAssemblies.unassembledComponents.size() != 0 )
+						if ( cADComponentAssemblies.unassembledComponents.size() != 0 )
 						{
 							// Unassembled Components
 							isis_LOG(lg, isis_FILE, isis_WARN) << "";
@@ -1075,34 +1085,34 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 						}
 					}
-				}  // END if ( regenerationSucceeded_ForAllAssemblies && out_CADComponentAssemblies.unassembledComponents.size() == 0 &&  out_CADComponentAssemblies.topLevelAssemblies.size() == 1)
+				}  // END if ( regenerationSucceeded_ForAllAssemblies && cADComponentAssemblies.unassembledComponents.size() == 0 &&  cADComponentAssemblies.topLevelAssemblies.size() == 1)
 
 			}  // END if ( interferenceRun )
 
-		} // for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(out_CADComponentAssemblies.topLevelAssemblies.begin());
+		} // for ( std::list<isis::TopLevelAssemblyData>::const_iterator i(cADComponentAssemblies.topLevelAssemblies.begin());
 
 		/////////////////////////////////////////////
 		// Output Metrics File 
 		/////////////////////////////////////////////
 		// Metrics Files Should be outputted after all assemblies are built.
 		// The functions that follow apply to all assemblies.
-		std::string MeticsOutputXML_PathAndFileName = in_XMLInputFile_PathAndFileName;	 		
+		std::string MeticsOutputXML_PathAndFileName = xMLInputFile_PathAndFileName;	 		
 		MeticsOutputXML_PathAndFileName.replace(  MeticsOutputXML_PathAndFileName.end() - 4, 
 													MeticsOutputXML_PathAndFileName.end(), "_metrics.xml"); 
 		// Delete old metrics file if it exists.  This should be done so that an old metrics file would not be inadvertently used if a
 		// new metrics file was not created.
 		isis::IfFileExists_DeleteFile( MeticsOutputXML_PathAndFileName);
-		if ( regenerationSucceeded_ForAllAssemblies && out_CADComponentAssemblies.unassembledComponents.size() == 0 )
+		if ( regenerationSucceeded_ForAllAssemblies && cADComponentAssemblies.unassembledComponents.size() == 0 )
 		{
-			for each ( const TopLevelAssemblyData &i_tl in out_CADComponentAssemblies.topLevelAssemblies)
+			for each ( const TopLevelAssemblyData &i_tl in cADComponentAssemblies.topLevelAssemblies)
 			{
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly;
-				isis::VisitComponents(i_tl.assemblyComponentID, out_CADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
+				isis::VisitComponents(i_tl.assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
 				// Add Bounding Box Values to Map
-				AddBoundingBoxValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, out_CADComponentData_map );
+				AddBoundingBoxValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
 				// Add Mass Property Values to Map
-				AddMassPropertyValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, out_CADComponentData_map );
+				AddMassPropertyValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
 			}
 
 			// The following function iterates through each top-assembly and recursively
@@ -1113,10 +1123,10 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			// other areas of this program.
 			OutputCADMetricsToXML_Driver(	regenerationSucceeded_ForAllAssemblies,
 											OutputJointInformation,
-											out_CADComponentAssemblies,
-											out_CADComponentData_map,  
+											cADComponentAssemblies,
+											cADComponentData_map,  
 											MeticsOutputXML_PathAndFileName,
-											in_LogFile_PathAndFileName );				
+											logFile_PathAndFileName );				
 		}
 		else
 		{
@@ -1134,10 +1144,10 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		{
 			ComputationTypes	computationTypes(fEAAnalysisDeckBasedRun, cFDAnalysisRun,  ballisticAnalysisRun, blastAnalysisRun, hasAssemblyBasedComputations);	
 		    
-			CreateXMLFile_ComputedValues(	in_WorkingDirector,
+			CreateXMLFile_ComputedValues(	workingDirector,
 											computationTypes,
-											out_CADComponentAssemblies,
-											out_CADComponentData_map );
+											cADComponentAssemblies,
+											cADComponentData_map );
 		}
 		else
 		{
@@ -1148,7 +1158,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		// Output Step Files for Unassembled Models
 		////////////////////////////////////////////
 		bool manufacturingManifestUpdated = false;
-		if ( out_CADComponentAssemblies.unassembledComponents.size() > 0 )
+		if ( cADComponentAssemblies.unassembledComponents.size() > 0 )
 		{
 			isis_LOG(lg, isis_CONSOLE, isis_INFO) << "";
 			isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Exporting STEP files for unassembled models, this could take several minutes...";
@@ -1157,8 +1167,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 
 			bool logCouldNotFindManifestError = true;
 
-			for ( std::list<isis::UnassembledComponent>::const_iterator unusedComp( out_CADComponentAssemblies.unassembledComponents.begin());
-				  unusedComp != out_CADComponentAssemblies.unassembledComponents.end(); ++unusedComp )
+			for ( std::list<isis::UnassembledComponent>::const_iterator unusedComp( cADComponentAssemblies.unassembledComponents.begin());
+				  unusedComp != cADComponentAssemblies.unassembledComponents.end(); ++unusedComp )
 			{
 
 				//std::cout << std::endl << "Exporting STEP file for " + unusedComp->name + ", this could take several seconds...";
@@ -1166,8 +1176,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 												unusedComp->name,
 												ProMdlType_enum(unusedComp->modelType),
 												unusedComp->geometryRepresentation,
-												in_WorkingDirector,
-												out_CADComponentAssemblies.DataExchangeSpecifications, true );
+												workingDirector,
+												cADComponentAssemblies.DataExchangeSpecifications, true );
 				////////////////////////////////////////////////////////
 				// Write STEP file names to manufacturing.manifest.json
 				////////////////////////////////////////////////////////
@@ -1178,7 +1188,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 												unusedComp->componentID,
 												false, // Need to update the manifest for parts and assmeblies
 												false, // The case should be the same as entered in CyPhy and the input xml
-												out_CADComponentData_map );
+												cADComponentData_map );
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
 					isis_LOG(lg, isis_FILE, isis_INFO)  << "Updating Manufacturing Manifest (manufacturing.manifest.json) for unassembled model: " << unusedComp->name;
 					manufacturingManifestUpdated = true; 
@@ -1189,7 +1199,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		/////////////////////////////////////////////
 		// Log Status of Updating Manufacturing Json
 		/////////////////////////////////////////////
-		if ( !manufacturingManifestUpdated  && out_CADComponentAssemblies.unassembledComponents.size() > 0 )
+		if ( !manufacturingManifestUpdated  && cADComponentAssemblies.unassembledComponents.size() > 0 )
 		{
 			isis_LOG(lg, isis_FILE, isis_WARN) << "";
 			isis_LOG(lg, isis_FILE, isis_WARN)  << "Manufacturing manifest (i.e. manufacturing.manifest.json) NOT updated for unassembled parts/sub-assemblies";
@@ -1213,7 +1223,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			std::stringstream errorString;
 				errorString <<
 						"At least one assembly would not regenerate.  See the log file to locate the assembly/part that would not regenerate."
-						<< std::endl << "Log File: " <<  in_LogFile_PathAndFileName;
+						<< std::endl << "Log File: " <<  logFile_PathAndFileName;
 				throw isis::application_exception(errorString.str());
 		}
 

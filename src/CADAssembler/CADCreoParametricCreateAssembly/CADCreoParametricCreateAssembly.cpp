@@ -181,26 +181,9 @@ int main( int argc, char *argv[] )
 		  <<  isis_EOL << "logFileName:                   "	<< programInputArguments.logFileName
 		  <<  isis_EOL << "*************** End Directory Settings *****************";
 		 
-		bool graphicsModeOn = false;
-		bool creoExceptInputFromThisProgramAndCreoUI = false;
-
-		if (programInputArguments.graphicsModeOn) graphicsModeOn = true;
-		// creoExceptInputFromThisProgramAndCreoUI is always false for the CreateAssembly program.
-		// synchronizeWithCyPhy was removed from program arguments.
-		// if (programInputArguments.synchronizeWithCyPhy) creoExceptInputFromThisProgramAndCreoUI = true;
-
 
 		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
 		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
-
-		//environment.setupCADEnvironment(isis::cad::OPENMETA_CREATE_ASSEMBLY,			// in
-		//								workingDir.generic_string(),					// in 
-		//								programInputArguments.auxiliaryCADDirectory,	// in 
-		//								graphicsModeOn,									// in
-		//								creoExceptInputFromThisProgramAndCreoUI,		// in
-		//								creoStartCommand,								// out
-		//								CADExtensionsDir,								// out
-		//								templateFile_PathAndFileName );					// out
 
 		environment.setupCADEnvironment(programInputArguments,							// in 
 										creoStartCommand,								// out
@@ -208,29 +191,21 @@ int main( int argc, char *argv[] )
 										templateFile_PathAndFileName );					// out
   
 
-		std::map<std::string, isis::CADComponentData> CADComponentData_map;
-		isis::CADAssemblies CADComponentAssemblies;
+		//std::map<std::string, isis::CADComponentData> CADComponentData_map;
+		
 
-		unsigned int UniqueNameIndex = 1;
+
+		// unsigned int UniqueNameIndex = 1;
 
 
 		isis::CreateAssemblyViaInputFile(	*cad_factory,
 											programInputArguments,
 											CADExtensionsDir,
-											programInputArguments.inputXmlFileName,
-											workingDir.generic_string(),
-											programInputArguments.auxiliaryCADDirectory,
-											programInputArguments.logFileName,
 											templateFile_PathAndFileName,
 											creoStartCommand,
 											programName_Version_TimeStamp,
-											UniqueNameIndex,
-											Pro_E_Running,
-											CADComponentAssemblies,
-											CADComponentData_map);
-
-		 
-
+											Pro_E_Running );
+	 
 
 	} // END Try
     catch ( isis::application_exception& ex )

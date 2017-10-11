@@ -20,12 +20,12 @@ namespace isis {
 namespace cad {
 
 
-enum e_OpenMETAApplication
-{
-	OPENMETA_CREATE_ASSEMBLY,
-	OPENMETA_META_LINK,
-	OPENMETA_EXTRACT_ACM
-};
+//enum e_OpenMETAApplication
+//{
+//	OPENMETA_CREATE_ASSEMBLY,
+//	OPENMETA_META_LINK,
+//	OPENMETA_EXTRACT_ACM
+//};
 
 class IAssembler {
 public:
@@ -78,8 +78,10 @@ public:
 	virtual std::string getCADExtensionsDir() throw (isis::application_exception) = 0;
 	******/
 
+
+
 	// Description:
-	//		This function sets up the environment that is necessary to run the CAD application.
+	//		The setupCADEnvironment functions set up the environment that is necessary to run the CAD application.
 	//		After running this command, the API call to run the CAD application should work.
 	//		For Creo this command is isis::isis_ProEngineerStart(...).
 	//
@@ -98,39 +100,7 @@ public:
 	//		
 	//		If no exceptions, then the CAD environment would be initialized and the out_* variables returned.
 	//
-	/***
-	virtual void setupCADEnvironment(	
-			// The setup can be different for OPENMETA_CREATE_ASSEMBLY vs. OPENMETA_META_LINK
-			e_OpenMETAApplication  in_OpenMETAApplication,
 
-			// Where CAD models will be saved
-			const std::string       &in_WorkingDirector,   
-
-			// Directory containing models which are not in component directories.  Models in component directories
-			// are located via search path to the specific component directory.
-			const std::string		&in_AuxiliaryCADDirectory, 
-
-			// Indicates if the CAD Program should run with graphics (i.e. UI) or not.
-			bool			in_GraphicsModeOn,      
-													
-			// Indicates if the CAD UI should except input from the user. META_LINK sets this to true.
-			bool			in_CADExceptInputFromThisProgramAndCreoUI,
-
-			// This is the command or other information that would be passed to the API call that starts the CAD application
-			// e.g. passed to isis::isis_ProEngineerStart(...)
-			std::string		&out_CADStartCommand,	
-
-			// This directory contains the executables, starter CAD models, schemas, and 
-			// templates that are necessary for the CreateAssembly and MetaLink programs to run.
-			// e.g. C:\Program Files (x86)\META\bin\CAD\Creo
-			std::string		&out_CADExtensionsDir,
-
-			// This is the CAD model name of the empty starter assembly (e.g. zzz_template_assy_mmks_creo.asm )
-			// When this program creates a CAD assembly, it copies this assembly to the working directory,
-			// renames it to the correct name, and adds parts/sub-assemblies.
-			std::string		&out_TemplateFile_PathAndFileName ) throw (isis::application_exception) = 0;
-
-***/
 
 	virtual void setupCADEnvironment(	
 
