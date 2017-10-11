@@ -90,7 +90,7 @@ void MetaLinkInputArguments::ParseInputArguments(int in_argc, const char *const 
 		("l",  po::value<std::string>(),			" (Optional) Default (\"MetaLink.log\"), Log file name.")
 		("v",  po::value<std::string>(),			" (Optional) Default (\"inform\"), Log vebosity level {\"debug\" \"inform\" \"warning\" \"error\"}.")
 		("a",  po::value<std::string>(),			" (Optional) Default (\"\"), Auxiliary CAD directory.  Would contain additional CAD parts that are not in component directories.")
-        ("m",  po::value<std::string>()->required()," (Required) Major mode in { \"design\" \"component\" \"passive\" }.")
+        ("m",  po::value<std::string>(),			" (Optional) Major mode in { \"design\" \"component\" \"passive\" }.")
 		("c",  po::value<std::string>(),			" (Optional) Name of file to concat after generated config.pro")
 		("id", po::value<std::string>()->required()," (Required) Synced component instance ID.")
         ("s",  po::value<std::string>()->required()," (Required) Connection string (e.g. localhost:4949)"

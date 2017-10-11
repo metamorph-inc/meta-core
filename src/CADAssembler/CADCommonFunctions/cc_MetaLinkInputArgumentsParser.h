@@ -90,7 +90,7 @@ public:
 	//	("l",  po::value<std::string>(),			" (Optional) Default (\"MetaLink.log\"), Log file name.")
 	//	("v",  po::value<std::string>(),			" (Optional) Default (\"inform\"), Log vebosity level {\"debug\" \"inform\" \"warning\" \"error\"}.")
 	//	("a",  po::value<std::string>(),			" (Optional) Default (\"\"), Auxiliary CAD directory.  Would contain additional CAD parts that are not in component directories.")
-    //  ("m",  po::value<std::string>()->required()," (Required) Major mode in { \"design\" \"component\" \"passive\" }.")
+    //  ("m",  po::value<std::string>(),			" (Optional) Major mode in { \"design\" \"component\" \"passive\" }.")
 	//	("c",  po::value<std::string>(),			" (Optional) Name of file to concat after generated config.pro")
 	//	("id", po::value<std::string>()->required()," (Required) Synced component instance ID.")
     //  ("s",  po::value<std::string>()->required()," (Required) Connection string (e.g. localhost:4949)"
@@ -114,9 +114,14 @@ public:
 	//           -l           Yes                 Yes                 Yes                              Yes
 	//
 	//           Example Invocations:
+    //			 Assembly:
+	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
+	//					-w D:\temp\Test_Models\Bracket_Solid_Model\MetaLink_0913105703 -l D:\temp\Test_Models\Bracket_Solid_Model\log\MetaLink_CreoCreateAssembly_u43mgh4o.log 
+	//					-id 48800000 -d 766270dc-49da-4f9a-8f0f-31c85677bb13 
+	//			 Part:
 	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
 	//					-w D:\temp\Test_Models\Bracket_Solid_Model\components\jthwsrlu\CAD 
-	//					-l D:\temp\Test_Models\Bracket_Solid_Model\log\MetaLink_CreoCreateAssembly_giifaq1o.log , -id 676800000 -d d6932cc3-c8eb-49e3-8601-116873b8e717 -m component 
+	//					-l D:\temp\Test_Models\Bracket_Solid_Model\log\MetaLink_CreoCreateAssembly_giifaq1o.log  -id 676800000 -d d6932cc3-c8eb-49e3-8601-116873b8e717 -m component 
 	//
 	// Pre-Conditions:
 	//           in_argc  > 0
