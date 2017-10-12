@@ -30,6 +30,7 @@ UpgradeLog.htm
 *.wixobj
 *.wxitmp
 *.VC.opendb
+trail.txt.*
 **/CyPhyPET_combine.cmd
 tmp.mga
 license.rtf
@@ -67,6 +68,8 @@ models/PET_simple_proof-of-concept/OptimizationInitialConditionProfiling/
 models/PET_simple_proof-of-concept/OptimizationInitialConditionProfiling_OptimizationProblem/
 models/PET_simple_proof-of-concept/OptimizationProblemWithExposedInitialConditions/
 models/PET_simple_proof-of-concept/StringEnumDriver/
+models/PET_simple_proof-of-concept/MultiplePETNestingExample/
+models/PET_simple_proof-of-concept/SubproblemConnectedToSubproblem/
 models/PET_simple_proof-of-concept/*.tmp
 deploy/CAD_Installs/WiX.Toolset.*/
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/
@@ -355,6 +358,7 @@ models/DynamicsTeam/MSD_PET_RuleFailure/RuleFailures_FailureTB_SimpleCalculation
 models/DynamicsTeam/MSD_PET_RuleFailure/RuleFailures_PCC_DriverParam2MultipleTBParams/
 models/DynamicsTeam/MSD_PET_RuleFailure/Test Benches_MassSpringDamperTest/
 models/DynamicsTeam/MSD_PET_RuleFailure/UniformExample/
+models/DynamicsTeam/MSD_PET_RuleFailure/MDAO_zeroDesignVariables/
 models/DynamicsTeam/MSD_PET_RuleFailure/log/
 models/DynamicsTeam/MasterInterpreter/MasterInterpreter_test.mga
 models/DynamicsTeam/MasterInterpreter/design-space/
@@ -638,9 +642,13 @@ models/MBD/test.py
 models/MassSpringDamper/log/
 src/DecoratorLib/
 src/ReleaseUnicode/
-src/nuget/**
+# src/nuget/*/
+src/nuget/*/*.nupkg
+src/nuget/*/lib/
+src/nuget/*/build/*
+!src/nuget/*/build/native
+src/nuget/*/build/native/*
 !src/nuget/*/build/native/*.targets
-!src/nuget/repositories.config
 externals/desert/nuget/**
 !externals/desert/nuget/*/build/native/*.targets
 !externals/desert/nuget/repositories.config
