@@ -59,18 +59,18 @@ const std::string LOG_VERBOSITY_ALERT = "alert";
 class MetaLinkInputArguments
 {
 public:
-    bool                graphicsModeOn;				//  -g  Default false
-    std::string         inputXmlFileName;           //  -i   ??? Why is this needed ???
-    std::string         workingDirectory;           //	-w  Default   "."
-    std::string         logFileName;                //  -l  MetaLink.log    
-	isis_LogSeverityLevel	   logVerbosity;		//  -v  Default isis_INFO			
-    std::string         auxiliaryCADDirectory;		//  -a 
-    bool                synchronizeWithCyPhy;		//  -s  Default false, -s will set this to true
-    std::string         majorMode;					//  -m
-    std::string         syncConnectionString;		//  -s 
-    std::string			designID;					//  -d
-    std::string			configPro;					//  -c
-	std::string			instanceID;					//  -id
+    bool					graphicsModeOn;				//  -g  Default false
+    std::string				inputXmlFileName;           //  -i   ??? Why is this needed ???
+    std::string				workingDirectory;           //	-w  Default   "."
+    std::string				logFileName;                //  -l  MetaLink.log    
+	isis_LogSeverityLevel	logVerbosity;				//  -v  Default isis_INFO			
+    std::string				auxiliaryCADDirectory;		//  -a 
+    bool					synchronizeWithCyPhy;		//  -s  Default false, -s will set this to true
+    std::string				majorMode;					//  -m
+    std::string				syncConnectionString;		//  -s 
+    std::string				designID;					//  -d
+    std::string				configPro;					//  -c
+	std::string				instanceID;					//  -id
 
 
     MetaLinkInputArguments(): graphicsModeOn(false),
@@ -120,6 +120,7 @@ public:
 	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
 	//					-w D:\temp\Test_Models\Bracket_Solid_Model\MetaLink_0913105703 -l D:\temp\Test_Models\Bracket_Solid_Model\log\MetaLink_CreoCreateAssembly_u43mgh4o.log 
 	//					-id 48800000 -d 766270dc-49da-4f9a-8f0f-31c85677bb13 
+	//
 	//			 Part:
 	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
 	//					-w D:\temp\Test_Models\Bracket_Solid_Model\components\jthwsrlu\CAD 

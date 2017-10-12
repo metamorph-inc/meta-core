@@ -21,6 +21,8 @@
 #include <cc_CommonUtilities.h>
 #include "GlobalModelData.h"
 #include "AssembleUtils.h"
+#include <boost/exception/all.hpp>
+
 
 boost::atomic<bool> producerDone(false);
 boost::atomic<bool> terminateProcess(false);
@@ -71,96 +73,6 @@ ProError metaParameterModifyAction(ProParameter *param, ProParamvalue *old_value
 }
 
 
-/*****
-void SetupLogging(const std::string logfilename, isis_LogSeverityLevel level)
-
-{
-    isis::isis_DeleteFile(logfilename);
-
-	// Always set Console logging to isis_INFO, so that the console output would be consistent
-	init_logging_boost(	true, false, level, isis_INFO, logfilename);
-
-}
-****/
-
-/*** Move to the factory
-
-void writeConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments)
-{
-		
-	    ofstream config_Pro;
-        ::boost::filesystem::path configPro_PathAndFileName = workingDir / "config.pro";
-        config_Pro.open(configPro_PathAndFileName.string());
-        config_Pro << "override_store_back yes\n";
-        config_Pro << "enable_sociallink NO\n";
-
-        ::boost::filesystem::path searchMetaFileName = "./search_META.pro";
-        if(::boost::filesystem::exists(searchMetaFileName))
-        {
-            config_Pro << "search_path_file " <<  searchMetaFileName.string();
-        }
-
-        ::boost::filesystem::path cadPartsLibDir = programInputArguments.auxiliaryCADDirectory;
-        if(::boost::filesystem::exists(cadPartsLibDir))
-        {
-            config_Pro << std::endl << "search_path " << "\"" << cadPartsLibDir.string() << "\"" << std::endl;
-        }
-
-        config_Pro << std::endl << "pro_material_dir " << isis::CreoMaterialMTLFilesDir_Path();
-
-        // protk.dat configuration information
-        std::string metaPath = isis::META_PATH();
-        if(metaPath == "")
-        {
-            std::string msg = "META_PATH registry value is not set";
-            throw isis::application_exception(msg);
-        }
-        ::boost::filesystem::path metaPathPath(metaPath);
-        if(! ::boost::filesystem::is_directory(metaPathPath))
-        {
-            std::stringstream msg;
-            msg << "META_PATH registry value is set but no such directory exists: "
-                << metaPathPath.generic_string();
-            throw isis::application_exception(msg);
-        }
-
-		if (std::getenv("HUDAT_INSTALLDIR") != NULL)
-		{
-			::boost::filesystem::path protkPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / "protk_hudat.dat";
-			if (::boost::filesystem::is_regular_file(protkPath))
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << " HuDat present : using custom protk_hudat.dat (" << protkPath.generic_string() << ")" << isis_EOL;
-				config_Pro << std::endl << "toolkit_registry_file  " << "" << protkPath.string() << "" << std::endl;
-			}
-		}
-
-        string treecfgfile = programInputArguments.is_designMode()?"tree_design_edit.cfg":"tree_component_edit.cfg";
-
-        // only add the following line to the config when in design mode
-        ::boost::filesystem::path modelTreeConfigPath = metaPathPath / "bin" / "CAD" / "Creo" / "plugins" / treecfgfile;
-        if(! ::boost::filesystem::is_regular_file(modelTreeConfigPath))
-        {
-            isis_LOG(lg, isis_FILE, isis_WARN) << "the model tree config file file has a problem (doesn't exist?): "
-                                         << modelTreeConfigPath.string();
-            config_Pro << std::endl << "# ";
-        }
-        else
-        {
-            config_Pro << std::endl;
-        }
-        // config_Pro << "mdl_tree_cfg_file $PROE_ISIS_EXTENSIONS\plugins\tree.cfg" << std::endl;
-        config_Pro << "mdl_tree_cfg_file  " << "" << modelTreeConfigPath.string() << "" << std::endl;
-
-        if(programInputArguments.configPro.length()>0)
-        {
-            ifstream is(programInputArguments.configPro);
-            config_Pro << is.rdbuf();
-            config_Pro << std::endl;
-        }
-
-        config_Pro.close();
-}
-***/
 
 int main(int argc, char *argv[])
 {
@@ -172,20 +84,30 @@ int main(int argc, char *argv[])
     std::string			templateFile_PathAndFileName;
     std::stringstream	exceptionErrorStringStream;
 
+	std::string			exeName = "CADCreoParametricMetaLink.exe";
+
     bool Logging_Set_Up = false;
 
     isis::MetaLinkInputArguments  programInputArguments;
     ::boost::filesystem::path    workingDir;
 
+	std::ostringstream inputLine;
+
     try
     {
+		// Build string of input line
+        for(int i = 0; i < argc; ++i)
+        {
+            inputLine << argv[i] << std::string(" ");
+        }
+
+
         // Parse Input Arguments
         programInputArguments.ParseInputArguments(argc, argv);
 
         // Setup Boost logging
         //SetupLogging(programInputArguments.logFileName, programInputArguments.logVerbosity);
 		SetupLogging("", programInputArguments.logFileName, true, false, programInputArguments.logVerbosity, isis_INFO );
-
 
         Logging_Set_Up = true;
 
@@ -217,11 +139,6 @@ int main(int argc, char *argv[])
         time_start=time(NULL); /* get current cal time */
 
         // Log input line and parameters
-        std::ostringstream inputLine;
-        for(int i = 0; i < argc; ++i)
-        {
-            inputLine << argv[i] << std::string(" ");
-        }
         isis_LOG(lg, isis_FILE, isis_INFO) << "Command line: " << inputLine.str();
 
 		isis_LOG(lg, isis_FILE, isis_DEBUG) << "Input arguments (parsed): " << isis_EOL << programInputArguments;
@@ -359,20 +276,39 @@ int main(int argc, char *argv[])
 
 
     } // END Try
+
+	catch( boost::program_options::required_option& ex)
+	{
+        exceptionErrorStringStream  << "application error: Missing required option when invoking " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -1;
+	}
+	catch( boost::program_options::error& ex)
+	{
+        exceptionErrorStringStream  << "application error: Error with the options passed to " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -2;
+	}
+	catch (boost::exception &ex)
+	{
+		exceptionErrorStringStream  << "application error: " << boost::diagnostic_information(ex);
+        ExitCode = -3;
+	}
+
     catch(isis::application_exception& ex)
     {
         exceptionErrorStringStream  << "application error: " << ex.what();
-        ExitCode = -1;
+        ExitCode = -4;
     }
     catch(std::exception& ex)
     {
         exceptionErrorStringStream << "general exception: " << ex.what();
-        ExitCode = -2;
+        ExitCode = -5;
     }
     catch(...)
     {
-        exceptionErrorStringStream << "unspecified throwable (...):  Please report the error to the help desk.";
-        ExitCode = -3;
+        exceptionErrorStringStream << "unspecified error, caught with (...):  Please report this error to the help desk.";
+        ExitCode = -6;
     }
 
     if(ExitCode != 0)
@@ -387,13 +323,16 @@ int main(int argc, char *argv[])
 
         ofstream failedTxtFileStream;
         failedTxtFileStream.open(failedTxtFileName, ios::app);
+
         if(failedTxtFileStream.is_open())
         {
-            if(addLineFeed)
-            {
-                failedTxtFileStream << std::endl;
-            }
-            failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", CADCreoParametricCreateAssembly.exe error code: " << ExitCode << ".  For additional information, scroll to the bottom of " << programInputArguments.logFileName;
+            if(addLineFeed)		failedTxtFileStream << std::endl;
+
+            failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << exeName << " error code: " << ExitCode;
+			failedTxtFileStream << std::endl << exceptionErrorStringStream;
+
+			if(Logging_Set_Up)	failedTxtFileStream << std::endl << "For additional information, scroll to the bottom of " << programInputArguments.logFileName;
+
             failedTxtFileStream.close();
         }
 
