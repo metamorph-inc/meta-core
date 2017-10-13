@@ -11,6 +11,8 @@ import hashlib
 import requests
 
 from xml.etree import ElementTree
+import xml.sax
+from xml.sax.handler import ContentHandler
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 prefs = { 'verbose': True }
@@ -154,16 +156,40 @@ def download_file(url, filename):
         print('  => {} {}'.format(filename, hash.hexdigest()))
 
 
+class WixProcessingInstructionHandler(ContentHandler):
+    def __init__(self):
+        ContentHandler.__init__(self)
+        self.defines = {}
+
+    def processingInstruction(self, target, data):
+        if target == 'define':
+            eval(compile(data, '<string>', 'exec'), globals(), self.defines)
+        elif target == 'include':
+            pass  # TODO
+
+
 def download_bundle_deps(bundle_wxs):
+    defines = WixProcessingInstructionHandler()
+    xml.sax.parse("bundle_defines.xml", defines)
+
+    def eval_vars(attr):
+        for name, val in defines.defines.iteritems():
+            attr = attr.replace('$(var.{})'.format(name), val)
+        return attr
+
     tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
+
+    tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
+    ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
+
     for package in itertools.chain(tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}ExePackage"),
             tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsuPackage"),
             tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsiPackage")):
-        url = package.get('DownloadUrl', '')
+        url = eval_vars(package.get('DownloadUrl', ''))
         if not url:
             continue
-        filename = package.get('SourceFile', '') or package.get('Name', '')
+        filename = eval_vars(package.get('SourceFile', '') or package.get('Name', ''))
         download_file(url, filename)
     # from https://github.com/wixtoolset/wix3/blob/develop/src/ext/NetFxExtension/wixlib/NetFx4.5.wxs
     download_file('http://go.microsoft.com/fwlink/?LinkId=225704', 'redist\\dotNetFx45_Full_setup.exe')
