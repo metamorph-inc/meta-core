@@ -95,7 +95,7 @@ namespace CyPhyPETTest
         [Fact]
         public void TestPython()
         {
-            string outputDir = "TestPython";
+            string outputDir = "results/TestPython";
             string petExperimentPath = "/@Testing/@ParametricExploration/@TestPython";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -112,7 +112,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationProblemWithExposedInitialConditions()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -133,7 +133,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationInitialConditionProfiling()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -171,7 +171,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationInitialConditionProfiling_OptimizationProblem()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@OptimizationInitialConditionProfiling/@OptimizationProblem";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -193,7 +193,7 @@ namespace CyPhyPETTest
         public void SubproblemConnectedToSubproblem()
         {
 
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@SubproblemConnectedToSubproblem";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -210,7 +210,7 @@ namespace CyPhyPETTest
         [Fact]
         public void MultiplePETNestingExample()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 
@@ -250,7 +250,7 @@ namespace CyPhyPETTest
         [Fact]
         public void DuplicatePETNamesExample()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 
@@ -264,7 +264,7 @@ namespace CyPhyPETTest
         [Fact]
         public void StringEnumDriver()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@StringEnumDriver";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -356,7 +356,7 @@ namespace CyPhyPETTest
         public void Constants()
         {
             var path_pet = "/@Testing/@ParametricExploration/@TestConstants";
-            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(GetCurrentMethod(), this.mgaFile, path_pet);
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + GetCurrentMethod(), this.mgaFile, path_pet);
 
             var path_outdir = result.Item1.OutputDirectory;
 
@@ -401,7 +401,7 @@ namespace CyPhyPETTest
         [Fact]
         public void NoDesignVariables()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@ParametricExploration/@" + GetCurrentMethod();
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -423,7 +423,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -434,7 +434,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<System.FormatException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -445,7 +445,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -454,7 +454,7 @@ namespace CyPhyPETTest
         {
             var path_pet = "/@Testing/@ParametricExploration/@TestFEA";
             var test_name = GetCurrentMethod();
-            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             Assert.True(result.Item2.Success);
         }
 
