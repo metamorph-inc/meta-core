@@ -1249,32 +1249,6 @@ void CyPhyCAExporter::getFlattenedAssociationEnds_for_ComRef(const Udm::Object::
 	}
 }
 
-bool CyPhyCAExporter::isRefPort(Udm::Object &obj, CyPhyML::ComponentRef &comref)
-{
-	map<Udm::Object, Udm::Object>::iterator pos = copyMap.find(obj);
-	if(pos!=copyMap.end())
-	{
-		Udm::Object toObj = (*pos).second;
-		if(!Uml::IsDerivedFrom(toObj.type(), CyPhyML::DesignElement::meta))
-			return false;
-		else
-			return true; // FIXME: KMS: is this right?
-	}
-	else
-	{
-		Udm::Object objParent = obj.GetParent();
-		pos = copyMap.find(objParent);
-		ASSERT(pos!=copyMap.end());
-		Udm::Object toParent = (*pos).second;
-		if(Uml::IsDerivedFrom(toParent.type(), CyPhyML::ComponentRef::meta))
-		{
-			comref = CyPhyML::ComponentRef::Cast(toParent);
-			return true;
-		}
-		return false;
-	}
-}
-
 void CyPhyCAExporter::copyPropertyAndParameter(CyPhyML::DesignContainer &container, CyPhyML::ComponentAssembly &ca)
 {
 	set<CyPhyML::Property> properties = container.Property_kind_children();
