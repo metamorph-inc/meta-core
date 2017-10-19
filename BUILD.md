@@ -1,4 +1,4 @@
-# Building OpenMETA Tools
+# Building OpenMETA
 OpenMETA can be compiled from the source code in this repository. Compilation requires a Windows PC and access to the internet (for downloading NuGet packages).
 
 # Build Machine Setup
