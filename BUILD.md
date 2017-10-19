@@ -1,8 +1,8 @@
-# Building the META Tools
-The META tools can be compiled from the source code in this repository. Compilation requires a Windows PC and access to the internet (for downloading NuGet packages).
+# Building OpenMETA Tools
+OpenMETA can be compiled from the source code in this repository. Compilation requires a Windows PC and access to the internet (for downloading NuGet packages).
 
 # Build Machine Setup
-Follow these configuration instructions, in order, to set up your machine to build the META tools from source.
+Follow these configuration instructions, in order, to set up your machine to build OpenMETA from source.
 
 ## Windows x64 (7 SP3, 8.1, 10 or Server equivalent)
 Install Windows updates until your version is current
