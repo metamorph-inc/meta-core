@@ -19,7 +19,7 @@
       <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="no" Property="PREVIOUSFOUND"/>
     </Upgrade>
     <CustomActionRef Id="WixExitEarlyWithSuccess"/>
-	<CustomAction Id='NoDowngrade' Error='A later version of is already installed. To downgrade, please uninstall it first, then restart this installer.' />
+	<CustomAction Id='NoDowngrade' Error='A later version is already installed. To downgrade, please uninstall it first, then restart this installer.' />
 	
 
     <InstallExecuteSequence>
