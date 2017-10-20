@@ -60,11 +60,11 @@ namespace isis
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 
-	void CreateXMLFile_RequestedMetrics( 
-						const	std::string									&in_PathAndFileName,
-						const	std::list<TopLevelAssemblyData>				&in_TopLevelAssemblies,
-						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
-																	throw (isis::application_exception);
+	//void CreateXMLFile_RequestedMetrics( 
+	//					const	std::string									&in_PathAndFileName,
+	//					const	std::list<TopLevelAssemblyData>				&in_TopLevelAssemblies,
+	//					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
+	//																throw (isis::application_exception);
 
 	// This is an preliminary pass at producing an interference report.  In the future, this function should be
 	// broken out into a separate function that gathers the interference information and a separate program

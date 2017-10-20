@@ -168,6 +168,7 @@
     <ClInclude Include="cc_AssemblyOptions.h" />
     <ClInclude Include="cc_CommonConstants.h" />
     <ClInclude Include="cc_CommonDefinitions.h" />
+    <ClInclude Include="cc_CommonFunctions.h" />
     <ClInclude Include="cc_CommonStructures.h" />
     <ClInclude Include="cc_CommonUtilities.h" />
     <ClInclude Include="cc_CreateAssemblyInputArgumentsParser.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="c3ga.cpp" />
     <ClCompile Include="cc_AssemblyOptions.cpp" />
     <ClCompile Include="cc_CommonDefinitions.cpp" />
+    <ClCompile Include="cc_CommonFunctions.cpp" />
     <ClCompile Include="cc_CommonStructures.cpp" />
     <ClCompile Include="cc_CommonUtilities.cpp" />
     <ClCompile Include="cc_CreateAssemblyInputArgumentsParser.cpp" />

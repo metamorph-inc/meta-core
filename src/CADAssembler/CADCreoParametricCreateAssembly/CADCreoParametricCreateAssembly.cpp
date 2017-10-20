@@ -57,6 +57,7 @@
 #include <cc_CommonUtilities.h>
 #include <cc_MiscellaneousFunctions.h>
 #include <sstream>
+#include <fstream>
 #include "cc_LoggerBoost.h"
 #include "CADFactoryCreo.h"
 #include <boost/asio.hpp>
@@ -66,25 +67,7 @@
 #include <iostream>
 
 #include <boost/filesystem.hpp>
-
-
-
-/*****
-void SetupLogging(const std::string &in_Logfilename, isis_LogSeverityLevel in_LogSeverityLevel)
-{
-	std::string logfilenamepath = "log\\"+ in_Logfilename;
-
-	if (!isis_CADCommon::DirectoryExists("log"))
-	{
-		isis_CADCommon::isis_CreateDirectory("log");
-	}
-
-	isis::isis_DeleteFile(logfilenamepath);
-
-	init_logging_boost(	false, false, in_LogSeverityLevel, isis_INFO, logfilenamepath);
-
-}
-*****/
+#include <boost/exception/all.hpp>
 
 
 int main( int argc, char *argv[] )
@@ -98,6 +81,9 @@ int main( int argc, char *argv[] )
 
 	std::string			templateFile_PathAndFileName;
 	std::stringstream	exceptionErrorStringStream;
+
+	std::string			exeName = "CADCreoParametricCreateAssembly.exe";
+
 	bool				promptBeforeExiting;
 
 	bool Pro_E_Running = false;
@@ -108,10 +94,20 @@ int main( int argc, char *argv[] )
 	bool logFileOpen = false;
 
 	isis::CreateAssemblyInputArguments  programInputArguments;
+
 	::boost::filesystem::path    workingDir;
+
+	std::ostringstream inputLine;
 
 	try
 	{
+
+		// Build string of input line
+        for(int i = 0; i < argc; ++i)
+        {
+            inputLine << argv[i] << std::string(" ");
+        }
+
 		bool regenerationSucceeded_ForAllAssemblies = true;
 
 		// Parse Input Arguments
@@ -157,8 +153,6 @@ int main( int argc, char *argv[] )
 		time_start=time(NULL); /* get current cal time */
 
 		// Log input line and parameters
-		std::ostringstream inputLine;
-		for ( int i = 0; i < argc; ++i) inputLine << argv[i] << std::string(" ");
 		isis_LOG(lg, isis_FILE, isis_INFO) << "";
 		isis_LOG(lg, isis_FILE, isis_INFO) 
 			<< "************** Begin Input Line *****************" << isis_EOL 
@@ -191,12 +185,6 @@ int main( int argc, char *argv[] )
 										templateFile_PathAndFileName );					// out
   
 
-		//std::map<std::string, isis::CADComponentData> CADComponentData_map;
-		
-
-
-		// unsigned int UniqueNameIndex = 1;
-
 
 		isis::CreateAssemblyViaInputFile(	*cad_factory,
 											programInputArguments,
@@ -208,49 +196,44 @@ int main( int argc, char *argv[] )
 	 
 
 	} // END Try
-    catch ( isis::application_exception& ex )
+	catch( boost::program_options::required_option& ex)
 	{
-		exceptionErrorStringStream  << std::endl << "application error: " << ex.what();
-		ExitCode = -1;
+        exceptionErrorStringStream  << "application error: Missing required option when invoking " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -1;
 	}
-	catch ( std::exception& ex )
+	catch( boost::program_options::error& ex)
 	{
-		exceptionErrorStringStream << std::endl  << "general exception: " << ex.what();
-		ExitCode = -2;
+        exceptionErrorStringStream  << "application error: Error with the options passed to " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -2;
 	}
-	catch ( ... )
+	catch (boost::exception &ex)
 	{
-		exceptionErrorStringStream << "unspecified throwable (...):  Please report the error to the help desk.";
-		ExitCode = -3;
+		exceptionErrorStringStream  << "application error: " << boost::diagnostic_information(ex);
+        ExitCode = -3;
 	}
 
-	if ( ExitCode != 0 )
-	{
-		// Write to _FAILED.txt
-		std::string failedTxtFileName = "_FAILED.txt";
-		bool addLineFeed = false;
-		if ( isis::FileExists( failedTxtFileName.c_str() )) addLineFeed = true;
+    catch(isis::application_exception& ex)
+    {
+        exceptionErrorStringStream  << "application error: " << ex.what();
+        ExitCode = -4;
+    }
+    catch(std::exception& ex)
+    {
+        exceptionErrorStringStream << "general exception: " << ex.what();
+        ExitCode = -5;
+    }
+    catch(...)
+    {
+        exceptionErrorStringStream << "unspecified error, caught with (...):  Please report this error to the help desk.";
+        ExitCode = -6;
+    }
 
-		std::ofstream failedTxtFileStream;
-		failedTxtFileStream.open (failedTxtFileName, std::ios::app );
-		if ( failedTxtFileStream.is_open() )
-		{
-			if ( addLineFeed ) failedTxtFileStream << std::endl;
-			failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", CADCreoParametricCreateAssembly.exe error code: " << ExitCode << ". Error was: " << exceptionErrorStringStream.str();
-			failedTxtFileStream << std::endl;
-			failedTxtFileStream.close();
-		}
-
-		if (Logging_Set_Up)
-		{
-			
-			isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << exceptionErrorStringStream.str();
-		}
-		else
-		{
-			std::cerr <<  std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
-		}	
-	}
+    if(ExitCode != 0)
+    {
+		LogMainNonZeroExitCode( exeName, ExitCode, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+    }
 
 	// Delete the copied template assembly file if it exists.
 	// Note - Added "if ( Template_Copied )" because the function call was returning a message to the

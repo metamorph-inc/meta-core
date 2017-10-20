@@ -11,6 +11,8 @@
 #include <boost/filesystem.hpp>
 #include <iomanip> 
 #include <boost/algorithm/string.hpp>
+#include "cc_CommonUtilities.h"
+#include "cc_MiscellaneousFunctions.h"
 
 
 isis_boost_logger_type lg;
@@ -139,6 +141,49 @@ void SetupLogging(	const std::string		&in_SubDir,
 						in_severity_level_file, 
 						in_severity_level_console, 
 						logfilenamepath);
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void	LogMainNonZeroExitCode( const std::string &in_ExeName,
+								int in_ExitCode, 
+								bool  in_Logging_Set_Up, 
+								const std::string in_LogFileName,  
+								std::stringstream &in_ExceptionErrorStringStream )
+{
+
+       // Write to _FAILED.txt
+        std::string failedTxtFileName = "_FAILED.txt";
+        bool addLineFeed = false;
+        if(isis::FileExists(failedTxtFileName.c_str()))
+        {
+            addLineFeed = true;
+        }
+
+        std::ofstream failedTxtFileStream;
+        failedTxtFileStream.open(failedTxtFileName, std::ios::app);
+
+        if(failedTxtFileStream.is_open())
+        {
+            if(addLineFeed)		failedTxtFileStream << std::endl;
+
+            failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << in_ExeName << " error code: " << in_ExitCode;
+			failedTxtFileStream << std::endl << in_ExceptionErrorStringStream.str();
+
+			if(in_Logging_Set_Up)	failedTxtFileStream << std::endl << "For additional information, scroll to the bottom of " << in_LogFileName;
+
+            failedTxtFileStream.close();
+        }
+
+        if(in_Logging_Set_Up)
+        {
+            
+            isis_LOG(lg, isis_FILE, isis_ERROR) << in_ExceptionErrorStringStream.str();
+        }
+        else
+        {
+            std::cerr << std::endl << std::endl << in_ExceptionErrorStringStream.str() << std::endl << std::endl;
+		}
 
 }
 

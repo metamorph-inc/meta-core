@@ -925,7 +925,7 @@ namespace isis
 		std::string					avmComponentId;			// If applicable, only in component edit mode
 		std::string					cyphyInstanceId;		// If applicable, only in design mode
 		//ProMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */
-		e_CADMdlType					modelType;				/**<  PRO_MDL_ASSEMBLY, PRO_MDL_PART */		
+		e_CADMdlType					modelType;				/**<  CAD_MDL_ASSEMBLY, CAD_MDL_PART */		
 
 		CADSpecialInstruction		specialInstruction;		/**< CAD_SPECIAL_INSTRUCTION_NONE, CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT, CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINTS */
 		// either p_model or modelHandle is not necessary, should review thier uses and eliminate one.

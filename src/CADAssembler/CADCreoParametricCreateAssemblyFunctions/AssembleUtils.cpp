@@ -815,7 +815,8 @@ void CreateModelNameWithUniqueSuffix(
 		// See ComponentVistorBuildListOfComponentIDs::operator()
 		in_componentVistor(	in_ComponentID, in_out_CADComponentData_map);
 
-		if ( in_out_CADComponentData_map[in_ComponentID].modelType == PRO_MDL_ASSEMBLY )
+		//if ( in_out_CADComponentData_map[in_ComponentID].modelType == PRO_MDL_ASSEMBLY )
+		if ( in_out_CADComponentData_map[in_ComponentID].modelType == CAD_MDL_ASSEMBLY )
 		{
 			for ( std::list<string>::const_iterator i(in_out_CADComponentData_map[in_ComponentID].children.begin());
 				i != in_out_CADComponentData_map[in_ComponentID].children.end();
@@ -897,7 +898,8 @@ void CreateModelNameWithUniqueSuffix(
 
 	bool SelectLeafAssemblies::operator() ( const isis::CADComponentData &in_CADComponentData)
 	{
-		if ( in_CADComponentData.dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE && in_CADComponentData.modelType == PRO_MDL_ASSEMBLY )
+		//if ( in_CADComponentData.dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE && in_CADComponentData.modelType == PRO_MDL_ASSEMBLY )
+		if ( in_CADComponentData.dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE && in_CADComponentData.modelType == CAD_MDL_ASSEMBLY )
 			return true;
 		else 
 			return false;
@@ -951,7 +953,8 @@ void CreateModelNameWithUniqueSuffix(
 		
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{			
-			if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
+			//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
+			if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
 			{
 				// Found an assembly that is a Leaf
 				// Fill out the assemblyHierarchy
@@ -966,7 +969,8 @@ void CreateModelNameWithUniqueSuffix(
 				bool checkExclusion_by_SimplifiedRep = false;
 
 				std::map<int, CAD_SimplifiedRepData> featureID_to_SimplifiedRepData_map;
-				if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && 
+				//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && 
+				if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && 
 					 in_out_CADComponentData_map[i].geometryRepresentation.size() > 0 )  
 				{
 					///////////////////////////////////////////////////////////////////////////////////////
@@ -2523,7 +2527,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				// 2. Modify in_out_CADComponentData_map for the found part to have the previously computed
 				//    joint information for the assembly.
 
-				if ( in_out_CADComponentData_map[i].modelType != PRO_MDL_ASSEMBLY )
+				//if ( in_out_CADComponentData_map[i].modelType != PRO_MDL_ASSEMBLY )
+				if ( in_out_CADComponentData_map[i].modelType != CAD_MDL_ASSEMBLY )
 				{
 					std::stringstream errorString;
 					errorString <<
@@ -2989,7 +2994,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 								std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 	{
 
-		if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != PRO_MDL_ASSEMBLY ) return false;
+		//if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != PRO_MDL_ASSEMBLY ) return false;
+		if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != CAD_MDL_ASSEMBLY ) return false;
 		// The assembly could have no children, and thus is not actually a CyPhy leaf assembly 
 		// At this point, it could have not children because:
 		//	a) it is an empty assembly.

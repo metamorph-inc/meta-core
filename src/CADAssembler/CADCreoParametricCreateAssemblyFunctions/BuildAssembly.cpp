@@ -875,7 +875,8 @@ void AssembleCADComponent(
 	{
 			//ProMdlType pro_model_type = isis::ProMdlType_enum( i->Type());
 			//if ( pro_model_type == PRO_MDL_ASSEMBLY  && i->CADComponent().size() > 0) // Note - an existing assmbly would have no children. 
-			if ( in_out_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assembly would have no children. 
+			//if ( in_out_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assembly would have no children. 
+			if ( in_out_CADComponentData_map[*i].modelType == CAD_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assembly would have no children. 
 			{
 				//isis::C8omponentData_struct ParentComponentData_temp( i->ComponentID(), i->Name() );
 
@@ -1011,7 +1012,8 @@ void AssembleCADComponent(
 	  ++t )
 	{
 		//ProMdlType pro_model_type = isis::ProMdlType_enum( in_out_CADComponentData_map[t->ComponentID()].type_string);
-		if (  in_out_CADComponentData_map[*t].modelType == PRO_MDL_ASSEMBLY  ) 
+		//if (  in_out_CADComponentData_map[*t].modelType == PRO_MDL_ASSEMBLY  ) 
+		if (  in_out_CADComponentData_map[*t].modelType == CAD_MDL_ASSEMBLY  ) 
 		{
 			UpdateAllSubassemblyComponentsToIncludeParentAssemblyPath( 
 											*t,

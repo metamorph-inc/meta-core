@@ -59,6 +59,7 @@
 #include <boost/thread/thread.hpp>
 
 #include <boost/filesystem.hpp>
+#include <boost/exception/all.hpp>
 
 #include <iostream>
 
@@ -128,8 +129,20 @@ int main( int argc, char *argv[] )
 	programInputArguments.logFileName = "DefaultLogFile.log";
 	::boost::filesystem::path    workingDir;
 
+	std::string			exeName = "ExtractACM-XMLfromCreoModels.exe";
+
+	std::ostringstream inputLine;
+
+
 	try
 	{
+
+		// Build string of input line
+        for(int i = 0; i < argc; ++i)
+        {
+            inputLine << argv[i] << std::string(" ");
+        }
+
 		cout << "ExtractACM-XMLfromCreoModels "<< ASSEMBLE_PTC_VERSION;
 
 // STEP 1: Parse Input Arguments
@@ -237,54 +250,47 @@ int main( int argc, char *argv[] )
 	} // END Try
 
 
-    catch ( isis::application_exception& ex )
+	catch( boost::program_options::required_option& ex)
 	{
-		exceptionErrorStringStream  << "ERROR: " << ex.what();
-		ExitCode = -1;
+        exceptionErrorStringStream  << "application error: Missing required option when invoking " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -1;
 	}
-	catch ( std::exception& ex )
+	catch( boost::program_options::error& ex)
 	{
-		exceptionErrorStringStream << "ERROR: " << ex.what();
-		ExitCode = -2;
+        exceptionErrorStringStream  << "application error: Error with the options passed to " << exeName << ", " << boost::diagnostic_information(ex);
+		exceptionErrorStringStream << std::endl << "Input Line: " <<  inputLine;
+        ExitCode = -2;
 	}
-	catch ( ... )
+	catch (boost::exception &ex)
 	{
-		exceptionErrorStringStream << "ERROR: std::exception: Caught exception (...).  Please report the error to the help desk.";
-		ExitCode = -3;
+		exceptionErrorStringStream  << "application error: " << boost::diagnostic_information(ex);
+        ExitCode = -3;
 	}
 
+    catch(isis::application_exception& ex)
+    {
+        exceptionErrorStringStream  << "application error: " << ex.what();
+        ExitCode = -4;
+    }
+    catch(std::exception& ex)
+    {
+        exceptionErrorStringStream << "general exception: " << ex.what();
+        ExitCode = -5;
+    }
+    catch(...)
+    {
+        exceptionErrorStringStream << "unspecified error, caught with (...):  Please report this error to the help desk.";
+        ExitCode = -6;
+    }
+
+ 
 	if ( ExitCode != 0 )
 	{
-		// Write to _FAILED.txt
-		std::string failedTxtFileName = "_FAILED.txt";
-		bool addLineFeed = false;
-		if ( isis::FileExists( failedTxtFileName.c_str() )) addLineFeed = true;
-
-		ofstream failedTxtFileStream;
-		failedTxtFileStream.open (failedTxtFileName, ios::app );
-		if ( failedTxtFileStream.is_open() )
-		{
-			if ( addLineFeed ) failedTxtFileStream << std::endl;
-			failedTxtFileStream <<  isis::GetDayMonthTimeYear() << ", ExtractACM-XMLfromCreoModels.exe error code: " << ExitCode ;
-			failedTxtFileStream << exceptionErrorStringStream << std::endl;
-			switch(ExitCode)
-			{
-			case -1:
-				failedTxtFileStream << "This error means a problem running Creo Parametric. Make sure the license server is reachable. Make sure the input file is valid." << std::endl;
-				break;
-			case -2:
-				failedTxtFileStream << "This error code means a problem with this executable.  Double check the input parameters." << std::endl;
-				break;
-			case -3:
-			default:
-				failedTxtFileStream << "This error code means an 'other' problem occured.  Check environment and environment variables." << std::endl;
-				break;
-			}
-
-			failedTxtFileStream.close();
-		}
+		LogMainNonZeroExitCode( exeName, ExitCode, false, programInputArguments.logFileName,  exceptionErrorStringStream );
 
 		std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
+
 	}
 
 		/////// Stop Pro/E /////////

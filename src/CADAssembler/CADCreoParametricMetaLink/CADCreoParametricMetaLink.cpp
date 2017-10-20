@@ -313,39 +313,7 @@ int main(int argc, char *argv[])
 
     if(ExitCode != 0)
     {
-        // Write to _FAILED.txt
-        std::string failedTxtFileName = "_FAILED.txt";
-        bool addLineFeed = false;
-        if(isis::FileExists(failedTxtFileName.c_str()))
-        {
-            addLineFeed = true;
-        }
-
-        ofstream failedTxtFileStream;
-        failedTxtFileStream.open(failedTxtFileName, ios::app);
-
-        if(failedTxtFileStream.is_open())
-        {
-            if(addLineFeed)		failedTxtFileStream << std::endl;
-
-            failedTxtFileStream <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << exeName << " error code: " << ExitCode;
-			failedTxtFileStream << std::endl << exceptionErrorStringStream;
-
-			if(Logging_Set_Up)	failedTxtFileStream << std::endl << "For additional information, scroll to the bottom of " << programInputArguments.logFileName;
-
-            failedTxtFileStream.close();
-        }
-
-        if(Logging_Set_Up)
-        {
-            
-            isis_LOG(lg, isis_FILE, isis_ERROR) << exceptionErrorStringStream.str();
-        }
-        else
-        {
-            std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
-        }
-
+		LogMainNonZeroExitCode( exeName, ExitCode, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
     }
 
 

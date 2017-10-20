@@ -538,6 +538,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/****
 void RetrieveAllComputations(	const	std::list<TopLevelAssemblyData>				&topLevelAssemblies,
 								std::vector<CADComputation_WithParentData>			&out_CADComputations_WithParentData )
 {
@@ -610,6 +611,7 @@ void RetrieveAllComputations(	const	std::list<TopLevelAssemblyData>				&topLevel
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CreateXMLFile_RequestedMetrics( 
 						const	std::string									&in_PathAndFileName,
 						const	std::list<TopLevelAssemblyData>				&in_TopLevelAssemblies,
@@ -653,7 +655,8 @@ void CreateXMLFile_RequestedMetrics(
 			metricRoot.ComponentInstanceID() = i.cADComputation.componentID;
 			metricRoot.ComponentName() = in_CADComponentData_map[i.cADComputation.componentID].name;
 			// Model Type
-			if ( in_CADComponentData_map[i.cADComputation.componentID].modelType == PRO_MDL_PART )
+			//if ( in_CADComponentData_map[i.cADComputation.componentID].modelType == PRO_MDL_PART )
+			if ( in_CADComponentData_map[i.cADComputation.componentID].modelType == CAD_MDL_PART )
 				metricRoot.ComponentType() = "PART";
 			else
 				metricRoot.ComponentType() = "ASSEMBLY";
@@ -678,6 +681,7 @@ void CreateXMLFile_RequestedMetrics(
 		throw;
 	}
 }
+****/
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//    If in_PathAndFileName exist, then this function appends to the existing file.
 	void CreateXMLFile_ComputedValues_Metrics( 

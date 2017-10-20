@@ -22,6 +22,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp> 
 #include "AssembleUtils.h"
+#include "cc_CommonFunctions.h"
 
 // #define DEBUG_BREAKER 1
 
@@ -45,8 +46,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 	}
 #endif
 
-	//cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
-	
+
 
 	unsigned int uniqueNameIndex = 1;
 	std::string xMLInputFile_PathAndFileName = in_ProgramInputArguments.inputXmlFileName;
@@ -84,21 +84,17 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			throw isis::application_exception(TempError.c_str());
 		} 
 
-		//std::map<std::string, isis::CADComponentData> zCADComponentData_map;
-		//isis::CADAssemblies zCADComponentAssemblies;
 
 		vector<CADCreateAssemblyError> errorList;
 
-		/**
-		Initial load of the map, one entry for each part/assembly file.
-		*/
+		//Initial load of the map, one entry for each part/assembly file.
+	
 		FromXMLFile_PopulateCADComponentAssemblyAndMap(
 													XML_DEFINED_BY_FILE,
 													xMLInputFile_PathAndFileName,
 													cADComponentAssemblies,
 													cADComponentData_map,
 													errorList);
-
 
 		if ( cADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
 		{

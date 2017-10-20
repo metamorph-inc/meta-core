@@ -252,7 +252,8 @@ void ValidateFEAAnalysisInputs (const std::string	&in_ConfigurationID, const CAD
 				for each ( const std::string &compID in j->geometry.GeometryPerEntireComponent_ComponentInstanceIDs )
 				{
 					std::map<std::string, isis::CADComponentData>::const_iterator  comp_itr = in_CADComponentData_map.find(compID);
-					if ( comp_itr == in_CADComponentData_map.end() || comp_itr->second.modelType != PRO_MDL_PART )
+					//if ( comp_itr == in_CADComponentData_map.end() || comp_itr->second.modelType != PRO_MDL_PART )
+					if ( comp_itr == in_CADComponentData_map.end() || comp_itr->second.modelType != CAD_MDL_PART )
 					{
 						TempError += "HeatGeneration was applied to a component that is not a part. HeatGeneration applies to a part and thus must not have an assembly component reference.";
 						throw isis::application_exception(TempError.c_str());	
@@ -2140,7 +2141,8 @@ void CreateXMLFile_FEAPostProcessingParameters(
 		//++i )
 		for each ( const std::string i in componentIDs_set)	
 		{
-			if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
+			//if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
+			if ( in_CADComponentData_map[i].modelType == CAD_MDL_PART )
 			{
 				/////////////////////////////////////////////////////////////////////
 				// Add ComponentID and FEAElementID
@@ -2242,7 +2244,8 @@ void FEA_AnalysisMetaData_Add_SubAssemblies_Parts(
 	out_ComponentRoot.ComponentInstanceID() = in_CADComponentData_map[in_ComponentInstanceID].componentID;
 	out_ComponentRoot.MaterialID() = in_CADComponentData_map[in_ComponentInstanceID].materialID_FromCADPart;
 
-	if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == PRO_MDL_PART )
+	//if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == PRO_MDL_PART )
+	if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == CAD_MDL_PART )
 	{
 		out_ComponentRoot.Type() = "PART";
 

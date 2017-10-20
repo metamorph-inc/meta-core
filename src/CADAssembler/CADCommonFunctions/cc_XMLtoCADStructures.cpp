@@ -1,18 +1,15 @@
 #include "cc_XMLtoCADStructures.h"
-//#include "DiagnosticUtilities.h"
 #include <iostream>
 #include "cc_LoggerBoost.h"
 
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
-//#include <ISISVersionNumber.h>
 #include "cc_CommonUtilities.h"
 #endif
 
 #include "UdmBase.h"
 #include "AssemblyInterface.h"
 #include "cc_StringToEnumConversions.h"
-//#include <MaterialProperties.h>
 #include "cc_CommonConstants.h"
 
 #include <deque>
@@ -225,7 +222,7 @@ void SetCADComponentLevelAttributes( const AssemblyInterface::CADComponent	 &in_
 	//out_CADComponentData_map[ID].cyPhyComponent = in_XML_CADComponent.
 
 	out_CADComponentData_map[ID].materialID_FromCyPhy	= in_XML_CADComponent.MaterialID();
-	out_CADComponentData_map[ID].modelType		= CADMdlType_enum(in_XML_CADComponent.Type()); // PRO_MDL_PART, PRO_MDL_ASSEMBLY
+	out_CADComponentData_map[ID].modelType		= CADMdlType_enum(in_XML_CADComponent.Type()); // CAD_MDL_PART, CAD_MDL_ASSEMBLY
 	//out_CADComponentData_map[ID].type_string	= in_XML_CADComponent.Type();
 	//out_CADComponentData_map[ID].specialInstruction = isis::SpecialInstruction_enum(in_XML_CADComponent.SpecialInstruction());
 	out_CADComponentData_map[ID].specialInstruction.FromCommaDelimitedString(in_XML_CADComponent.SpecialInstruction());

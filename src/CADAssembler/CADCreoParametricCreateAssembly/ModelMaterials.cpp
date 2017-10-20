@@ -359,7 +359,9 @@ namespace isis
 
 			//std::cout << std::endl << "materialName: " << materialName;
 
-			if ( in_out_CADComponentData_map[*i].modelType ==  PRO_MDL_PART) 
+			//if ( in_out_CADComponentData_map[*i].modelType ==  PRO_MDL_PART) 
+			if ( in_out_CADComponentData_map[*i].modelType ==  CAD_MDL_PART) 
+
 			{
 				TestRetrievingCurrentMaterial (	*i,	in_out_CADComponentData_map ); 
 				TestIfCurrentMaterialHasNeededFEAProperties(*i,	in_out_CADComponentData_map );
@@ -377,7 +379,8 @@ namespace isis
 				//           names.
 				// isis::isis_ProMdlSave(in_out_CADComponentData_map[*i].modelHandle );
 			}
-			if ( in_out_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assmbly would have no children. 
+			//if ( in_out_CADComponentData_map[*i].modelType == PRO_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assmbly would have no children. 
+			if ( in_out_CADComponentData_map[*i].modelType == CAD_MDL_ASSEMBLY  && in_out_CADComponentData_map[*i].children.size() > 0) // Note - an existing assmbly would have no children.
 			{
 				CreateUniquelyNamedMaterials_impl( *i,in_out_CADComponentData_map, in_out_MaterialTokenNumber);
 			}

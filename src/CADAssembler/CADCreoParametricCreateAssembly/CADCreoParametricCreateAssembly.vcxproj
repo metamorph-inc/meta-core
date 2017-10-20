@@ -183,8 +183,6 @@
     <ClCompile Include="Metrics.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData_xsd.h" />
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
     <ClInclude Include="CFDAnalysis.h" />
