@@ -37,10 +37,6 @@
     <MSBuild Projects="src/CyPhyML.sln" Properties="Configuration=$(Configuration);Platform=$(CyPhyMLPlatform);DESERT_PATH=$(DESERT_PATH);META_PATH=$(META_PATH)" Targets="Build"/>
   </Target>
 
-  <Target Name="CyPhyMLQudt" DependsOnTargets="CyPhyML">
-    <Exec Command="../../3rdParty/ant/bin/ant.bat" WorkingDirectory="src/java"/>
-  </Target>
-
   <Target Name="MetaLink">
     <Error Text="JAVA_HOME='$(JAVA_HOME)' doesn't exist" Condition="!Exists('$(JAVA_HOME)')"/>
     <Exec Command="set PATH=$(MSBuildThisFileDirectory)\3rdParty\apache-maven-3.0.5\bin;%PATH%

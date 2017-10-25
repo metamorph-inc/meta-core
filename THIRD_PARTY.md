@@ -6,7 +6,6 @@ Third-party software used by OpenMETA
 
 Primarily tools used at build/development time
 
-  * `ant` - [Apache Ant](http://ant.apache.org/) - Apache License, Version 2.0
   * `antlr` - [ANTLR](http://www.antlr.org/) - BSD License
   * `apache-maven-3.0.5` - [Apache Maven](https://maven.apache.org/) - Apache License, Version 2.0
   * `cloc` - [Count Lines of Code](http://cloc.sourceforge.net/) - GPLv2
