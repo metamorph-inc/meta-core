@@ -28,6 +28,10 @@ Primarily tools used at build/development time
   * `xunit-1.9.1` - [xUnit.net](https://xunit.github.io/) - Apache License 2.0
   * `Microsoft.Office.Interop.Excel.dll`, `Office.dll` - Office Primary Interop Assemblies
 
+`meta\DesignDataPackage\tools` directory
+---------------
+  * `jaxb-ri-2.2.6` - CDDL 1.1
+
 `bin` directory
 ---------------
 
