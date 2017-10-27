@@ -176,8 +176,8 @@ int main( int argc, char *argv[] )
 		  <<  isis_EOL << "*************** End Directory Settings *****************";
 		 
 
-		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
+		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
 
 		environment.setupCADEnvironment(programInputArguments,							// in 
 										creoStartCommand,								// out
@@ -186,7 +186,7 @@ int main( int argc, char *argv[] )
   
 
 
-		isis::CreateAssemblyViaInputFile(	*cad_factory,
+		isis::CreateAssemblyViaInputFile(	*cAD_Factory,
 											programInputArguments,
 											CADExtensionsDir,
 											templateFile_PathAndFileName,

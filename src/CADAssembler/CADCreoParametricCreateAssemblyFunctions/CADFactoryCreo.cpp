@@ -298,7 +298,7 @@ void EnvironmentCreo::setupCADEnvironment(
 }
 
 /////////////////////////////////////////////
-//  Should move the followin code elsewhere
+//  Should move the following code elsewhere
 /////////////////////////////////////////////
 
 void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments)
@@ -377,8 +377,42 @@ void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, con
         config_Pro.close();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
+															std::string			&out_ModelName,
+															std::string			&out_FamilyTableEntry,
+															bool				&out_FamilyTableModel ) const throw (isis::application_exception)
+{
+	size_t lessThanPos = in_OrigName.find('<');  // Family table would have the form Chassis_8_Wheel<Chassis>
 
+	if ( lessThanPos != std::string::npos  )
+	{  
+		/////////////////
+		// Family Table 
+		/////////////////
 
+		size_t greaterThanPos =  in_OrigName.find('>');
+
+		if ( greaterThanPos == std::string::npos  )
+		{
+			std::string errorString;
+					errorString = "Function - " + std::string(__FUNCTION__) + ", found a \"<\" but a closing \">\" was not found.  " +
+						std::string("in_OrigName: ") + 	in_OrigName;
+					throw isis::application_exception("C03002",errorString.c_str());
+		}
+
+		out_ModelName= in_OrigName.substr(lessThanPos + 1, greaterThanPos - lessThanPos - 1 );
+		out_FamilyTableEntry = in_OrigName.substr(0, lessThanPos );
+		out_FamilyTableModel = true;
+	}
+	else
+	{
+		out_ModelName = in_OrigName;
+		out_FamilyTableEntry = "";
+		out_FamilyTableModel = false;
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 } // creo
 } // cad
 } // isis

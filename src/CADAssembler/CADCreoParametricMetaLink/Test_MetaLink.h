@@ -6,6 +6,7 @@
 
 #include <string>
 #include <map>
+#include "CADFactoryCreo.h"
 namespace isis
 {
 void Test_CreateAssembly(std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
@@ -13,10 +14,11 @@ void Test_CreateAssembly(std::map<std::string, isis::CADComponentData>	&in_out_C
                          std::string &out_ParentAssemblyInstanceID)
 throw(isis::application_exception);
 
-void Test_AddComponentToAssembly(const std::string &in_ParentAssemblyInstanceID,
+void Test_AddComponentToAssembly(cad::CadFactoryAbstract						&in_Factory,
+								 const std::string								&in_ParentAssemblyInstanceID,
                                  std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                                 isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor)
-throw(isis::application_exception);
+                                 isis::MetaLinkAssemblyEditor					&in_out_MetaLinkAssemblyEditor)
+																				throw(isis::application_exception);
 
 void Test_ModifyParameters(const std::string &in_ParentAssemblyInstanceID,
                            std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,

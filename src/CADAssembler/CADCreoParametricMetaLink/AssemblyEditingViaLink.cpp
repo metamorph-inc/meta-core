@@ -23,6 +23,7 @@
 #include "isis_ptc_toolkit_ostream.h"
 #include "CADFactoryAbstract.h"
 #include <cc_CommonUtilities.h>
+#include <cc_CommonFunctions.h>
 #include <cc_CommonDefinitions.h>
 
 
@@ -308,6 +309,7 @@ throw(isis::application_exception)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MetaLinkAssemblyEditor::AddComponentToAssembly(
+	cad::CadFactoryAbstract			 &in_Factory,
     const std::string                 &in_ComponentInstanceID,
     const std::string                 &in_CreoModelName,
     //ProMdlType                        in_CreoModelType,
@@ -478,7 +480,8 @@ throw(isis::application_exception)
 
             ++m_uniqueNameIndex;
 
-            CreateModelNameWithUniqueSuffix(m_uniqueNameIndex,
+            CreateModelNameWithUniqueSuffix(in_Factory,
+											m_uniqueNameIndex,
                                             in_CreoModelName,
                                             origNameWithoutFamilyEntry,
                                             modelName,
@@ -958,7 +961,7 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
+void CreateAssemblyViaString(cad::CadFactoryAbstract						&in_factory,
                              const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
                              const std::string                              &in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
@@ -1015,12 +1018,13 @@ throw(isis::application_exception)
         //std::map<std::string, std::string>  ToPartName_FromPartName_map;
         //isis::ModifyToHaveAUniqueNameForEachParametricPartOrAssembly( in_out_UniqueNameIndex, out_CADComponentData_map, ToPartName_FromPartName_map );
         std::vector<CopyModelDefinition>			fromModel_ToModel;
-        isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(in_out_UniqueNameIndex,
-                e_PART_OR_ASSEMBLY_MODEL_TYPE,
-                e_SELECT_ONLY_PARAMETRIC_MODELS,
-                true,
-                out_CADComponentData_map,
-                fromModel_ToModel);
+        isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+																	in_out_UniqueNameIndex,
+																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
+																	e_SELECT_ONLY_PARAMETRIC_MODELS,
+																	true,
+																	out_CADComponentData_map,
+																	fromModel_ToModel);
 
         isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Modified Part Names for Multiple Parametric Parts *****************";
         isis_LOG(lg, isis_FILE, isis_INFO)  << "From_Part_Name   To_Part_Name";

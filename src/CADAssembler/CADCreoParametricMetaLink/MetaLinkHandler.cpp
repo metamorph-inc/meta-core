@@ -37,6 +37,7 @@ namespace isis
 		m_ioservice(io_service),
 		m_events_mutex(in_events_mutex)
 	{
+		cAD_Factory = isis::cad::creo::create();
 	}
 
 	void MetaLinkHandler::interrupt()
@@ -790,7 +791,7 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_WARN) << "************** End Message Content *********************";
 			isis_LOG(lg, isis_FILE, isis_WARN) << "****************** End Recieved Message Add Component **********************";
 			std::vector<isis::CADCreateAssemblyError> errorList;
-			m_assembler->AddComponentToAssembly(
+			m_assembler->AddComponentToAssembly( *cAD_Factory,
 				componentInstanceID,
 				creoModelName,
 				creoModelType,

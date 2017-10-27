@@ -1,6 +1,7 @@
 #ifndef ASSEMBLE_UTILS_H
 #define ASSEMBLE_UTILS_H
 #include <cc_CommonStructures.h>
+#include <cc_CommonFunctions.h>
 #include <isis_application_exception.h>
 #include <isis_include_ptc_headers.h>
 #include <fstream>
@@ -134,6 +135,7 @@ namespace isis
 	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
 	//		The new and old part names are added to out_FromModel_ToModel. 
 	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
+							cad::CadFactoryAbstract							&in_factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
 							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
@@ -146,88 +148,6 @@ namespace isis
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	class ComponentVistor
-	{
-		public:
-			virtual void operator() ( const std::string  &in_ComponentID, 
-									  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map )=0;
-	};
-
-	class ComponentPredicate
-	{
-		public:
-			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData) = 0;
-	};
-
-
-	void VisitComponents(	const std::string								&in_ComponentID, 
-							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-							ComponentVistor									&in_componentVistor) 
-																		throw (isis::application_exception);
-
-
-	class ComponentVistorMaterialTokens: public ComponentVistor
-	{
-		public:
-			//std::map<std::string, AnalysisTempMaterial> materialKey_MaterialDefintion_map;
-			std::map<std::string, double> componentID_PoissonsRatio_map;
-			std::map<std::string, std::string> materialKey_ComponentID_map;
-
-			virtual void operator() ( const std::string  &in_ComponentID, 
-									  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map );
-	};
-
-	class ComponentVistorCountAssemblyComponents: public ComponentVistor
-	{
-		public:
-			int numberOfComponents;
-
-			virtual void operator() ( const std::string  &in_ComponentID, 
-									  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map );
-
-			ComponentVistorCountAssemblyComponents();
-
-	};
-
-	class ComponentVistorBuildListOfComponentIDs: public ComponentVistor
-	{
-		public:
-			std::vector<std::string> listOfComponentIDs;
-			virtual void operator() ( const std::string  &in_ComponentID, 
-					std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map );
-
-			ComponentVistorBuildListOfComponentIDs(bool excludeTopAssembly = false);
-			ComponentVistorBuildListOfComponentIDs( ComponentPredicate &in_Predicate, bool in_ExcludeTopAssembly = false );
-		private:
-			bool flagExcludeEntry;
-			ComponentPredicate &predicate;
-
-	};
-
-	class SelectAllComponents : public ComponentPredicate
-	{
-		public:
-			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
-	};
-
-	class SelectComponentDerivedFromLeafAssembly : public ComponentPredicate
-	{
-		public:
-			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
-	};
-
-	class SelectComponentInInputXML : public ComponentPredicate
-	{
-		public:
-			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
-	};
-
-
-	class SelectLeafAssemblies : public ComponentPredicate
-	{
-		public:
-			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
-	};
 
 	//std::string GetDayMonthTimeYear();
 
@@ -303,13 +223,14 @@ namespace isis
 //			a) Non Family Table - out_ModelName_With_Suffix="EngineZ1Z",	out_CompleteName="EngineZ1Z"
 //			b) Family table		- out_ModelName_With_Suffix="ChassisZ1Z",	out_CompleteName="Chassis_8_Wheel<ChassisZ1Z>"
 void CreateModelNameWithUniqueSuffix(  
-			unsigned int		in_UniqueNameIndex, 
-			const std::string	&in_ModelName_CouldIncludeFamilyTableEntry,  // e.g. Chassis_8_Wheel<Chassis>
-			std::string			&out_ModelName_Without_Suffix,		// e.g. Chassis
-			std::string			&out_ModelName_With_Suffix,			// e.g. ChassisZ1Z
-			std::string			&out_CompleteName,					// For family tables, would be the complete name
-																	// e.g. Chassis_8_Wheel<ChassisZ1Z>
-																	// otherwise, same as out_ModelName_With_Suffix
+			cad::CadFactoryAbstract		&in_factory,
+			unsigned int				in_UniqueNameIndex, 
+			const std::string			&in_ModelName_CouldIncludeFamilyTableEntry, // e.g. Chassis_8_Wheel<Chassis>
+			std::string					&out_ModelName_Without_Suffix,				// e.g. Chassis
+			std::string					&out_ModelName_With_Suffix,					// e.g. ChassisZ1Z
+			std::string					&out_CompleteName,							// For family tables, would be the complete name
+																					// e.g. Chassis_8_Wheel<ChassisZ1Z>
+																					// otherwise, same as out_ModelName_With_Suffix
 			unsigned int in_AllowedSize = PRO_NAME_SIZE - 1  )   
 													throw (isis::application_exception);
 

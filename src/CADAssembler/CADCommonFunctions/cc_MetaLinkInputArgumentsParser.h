@@ -102,7 +102,8 @@ public:
 	//												" For component mode this is the AVMComponentID. \n"
 	//												" This is used by MetaLink to associate a Creo session with a CyPhy object. \n"
 	//												" In the case of passive mode the object identifier is meaningless.")
-	//	("h",										" (Optional) Help - displays keys along with the usage")																		configPro
+	//	("o", po::value<std::string>(),             " (Optional) Assembly Options (e.g. fullregen=1, 1 full assembly regen after adding each part/sub-assembly) related to assembly here.")
+	//	("h",										" (Optional) Help - displays keys along with the usage")																		c
 	//
 	//           Key Order: No particular order required
 	//           Key Grouping:  -p and -g may be grouped (e.g. -pg)
@@ -120,6 +121,10 @@ public:
 	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
 	//					-w D:\temp\Test_Models\Bracket_Solid_Model\MetaLink_0913105703 -l D:\temp\Test_Models\Bracket_Solid_Model\log\MetaLink_CreoCreateAssembly_u43mgh4o.log 
 	//					-id 48800000 -d 766270dc-49da-4f9a-8f0f-31c85677bb13 
+	//
+	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 
+	//					-w D:\temp\01_Example_Models\Excavator\MetaLink_1025155231 -l D:\temp\01_Example_Models\Excavator\log\MetaLink_CreoCreateAssembly_m4txameu.log 
+	//					-o fullregen=1, -id 181200000 -d aa2f48c6-d47d-4d9d-8344-dfa4f87f803e 
 	//
 	//			 Part:
 	//				C:\Program Files (x86)\META\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe -v debug -g -s 127.0.0.1:15150 

@@ -109,6 +109,9 @@ public:
     void CreateAssembly(std::string xmlfile);
 
 private:
+
+	MetaLinkHandler();  // Do not allow default constructor.  cAD_Factory would not be initialize.
+
    // ::log4cpp::Category& m_logcat;
 
     boost::mutex &m_events_mutex;
@@ -143,6 +146,9 @@ private:
 
     // helper method (should probably make an implementatation class to carry these
     void upsertComponent(isis::EditPointer edit, meta::Payload& payload);
+
+
+	isis::cad::CadFactoryAbstract::ptr cAD_Factory;
 
 };
 

@@ -5,7 +5,7 @@
 namespace isis
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Test_CreateAssembly(std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+void Test_CreateAssembly(std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                          isis::MetaLinkAssemblyEditor &in_out_MetaLinkAssemblyEditor,
                          std::string &out_ParentAssemblyInstanceID)
 throw(isis::application_exception)
@@ -22,9 +22,10 @@ throw(isis::application_exception)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Test_AddComponentToAssembly(const std::string &in_ParentAssemblyInstanceID,
-                                 std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
-                                 isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
+void Test_AddComponentToAssembly(	cad::CadFactoryAbstract							&in_Factory,
+									const std::string								&in_ParentAssemblyInstanceID,
+									std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
+									isis::MetaLinkAssemblyEditor					&in_MetaLinkAssemblyEditor)
 throw(isis::application_exception)
 {
 
@@ -51,7 +52,7 @@ throw(isis::application_exception)
 
     // This is intended to work with C:\Temp\scratch\2013_06_27_Two_Plates
     std::vector<isis::CADCreateAssemblyError> errorList;
-    in_MetaLinkAssemblyEditor.AddComponentToAssembly(
+    in_MetaLinkAssemblyEditor.AddComponentToAssembly( in_Factory, 
         "new_comp_1", 					// in_ComponentInstanceID,
         "Plate_02",					// in_CreoModelName,
         CAD_MDL_PART,					// ProMdlType in_CreoModelType,
@@ -65,7 +66,7 @@ throw(isis::application_exception)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Test_ModifyParameters(const std::string &in_ParentAssemblyInstanceID,
-                           std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                           std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                            isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
 throw(isis::application_exception)
 {
@@ -98,7 +99,7 @@ throw(isis::application_exception)
 
 
 void Test_ConstrainComponent(const std::string &in_ParentAssemblyInstanceID,
-                             std::map<string, isis::CADComponentData>	&in_out_CADComponentData_map,
+                             std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                              isis::MetaLinkAssemblyEditor &in_MetaLinkAssemblyEditor)
 throw(isis::application_exception)
 {

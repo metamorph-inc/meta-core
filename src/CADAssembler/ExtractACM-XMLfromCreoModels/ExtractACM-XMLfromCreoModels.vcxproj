@@ -149,6 +149,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>  
     <ClCompile Include="AssembleUtils.cpp" />
     <ClCompile Include="ExtractACM-XMLfromCreoModels.cpp" />
     <ClCompile Include="CADEnvironmentSettings.cpp" />

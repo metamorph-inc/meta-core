@@ -159,8 +159,24 @@ public:
 
 };
 
+class IModelNames {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
 
-
+	virtual void extractModelNameAndFamilyTableEntry(	
+		// This could be either:
+		//		a) CAD model name (e.g. wheel_bearing or 123456)
+		//		b) CAD model name with a family table entry 
+		//		   (e.g. for Creo Chassis_8_Wheel<Chassis>, where Chassis is the model name and Chassis_8_Wheel is the family table entry)
+		const std::string	&in_OrigName, 
+		// Model name (e.g. wheel_bearing, 123456, Chassis)
+		std::string			&out_ModelName,
+		// FamilyTableEntry (e.g. "", Chassis_8_Wheel), Note - "" indicated no family table entry.
+		std::string			&out_FamilyTableEntry,
+		// FamilyTableModel True/False, False is no familty table entry
+		bool				&out_FamilyTableModel ) const throw (isis::application_exception) = 0;
+};
 
 class CadFactoryAbstract {
 public:
@@ -177,6 +193,7 @@ public:
 
 	virtual IEnvironment& getEnvironment() = 0;
 
+	virtual IModelNames& getModelNames() = 0;
 };
 
 } // cad

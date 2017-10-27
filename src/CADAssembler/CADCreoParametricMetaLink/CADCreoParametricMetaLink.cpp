@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
             throw isis::application_exception(errorString);
         }
 
-		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
+		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
 
 		//environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
 		//									workingDir.generic_string(),					// in 
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
         ProNotificationSet(PRO_PARAM_MODIFY_POST, (ProFunction)metaParameterModifyAction);
 
 
-        isis::MetaLinkAssemblyEditor::Pointer assembler_ptr(new isis::MetaLinkAssemblyEditor(cad_factory, programInputArguments, isis::GlobalModelData::Instance.CadComponentData));
+        isis::MetaLinkAssemblyEditor::Pointer assembler_ptr(new isis::MetaLinkAssemblyEditor(cAD_Factory, programInputArguments, isis::GlobalModelData::Instance.CadComponentData));
 
         boost::mutex eventloop_mutex;
 

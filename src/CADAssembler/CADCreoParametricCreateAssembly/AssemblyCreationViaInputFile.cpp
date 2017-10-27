@@ -135,7 +135,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		std::vector<CopyModelDefinition>			fromModel_ToModel;
 
 
-		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
+		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+																	uniqueNameIndex, 
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
 																	true, 
@@ -235,7 +236,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			// function called later.
  	
 			// Since we already have unique names for parametric parts/assemblies, this will make the non-parametric parts unique.
-			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
+			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+																		uniqueNameIndex, 
 																		e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																		e_SELECT_ALL_MODELS,
 																		false,  
@@ -480,13 +482,14 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					// input xml would have uniqeuly named.  Now we need to uniquely name the models that 
 					// would have been added because the hierarchy was completed for leaf assemblies.
 					std::vector<CopyModelDefinition>			fromModel_ToModel_FEA;
-					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	uniqueNameIndex, 
-																	//e_PART_MODEL_TYPE,
-																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
-																	e_SELECT_ALL_MODELS,
-																	false,
-																	cADComponentData_map, 
-																	fromModel_ToModel_FEA );
+					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+																				uniqueNameIndex, 
+																				//e_PART_MODEL_TYPE,
+																				e_PART_OR_ASSEMBLY_MODEL_TYPE,
+																				e_SELECT_ALL_MODELS,
+																				false,
+																				cADComponentData_map, 
+																				fromModel_ToModel_FEA );
 
 					////////////////////////////
 					// Log Part Copy/Renames

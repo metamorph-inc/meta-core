@@ -100,6 +100,7 @@ void MetaLinkInputArguments::ParseInputArguments(int in_argc, const char *const 
 													" For component mode this is the AVMComponentID. \n"
 													" This is used by MetaLink to associate a Creo session with a CyPhy object. \n"
 													" In the case of passive mode the object identifier is meaningless.")
+		("o", po::value<std::string>(),             " (Optional) Assembly Options (e.g. fullregen=1, 1 full assembly regen after adding each part/sub-assembly) related to assembly here.")
 		("h",										" (Optional) Help - displays keys along with the usage")
 		;
 
@@ -266,6 +267,10 @@ void MetaLinkInputArguments::ParseInputArguments(int in_argc, const char *const 
             synchronizeWithCyPhy = true;
             syncConnectionString = vm["s"].as<std::string>();
         }
+		if (vm.count("o"))
+		{
+			AssemblyOptions::Create(vm["o"].as<std::string>());
+		}
 
     }
     catch(isis::application_exception &e)

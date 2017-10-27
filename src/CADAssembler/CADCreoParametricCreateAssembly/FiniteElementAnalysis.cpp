@@ -5,6 +5,7 @@
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
 #include <cc_CommonUtilities.h>
+#include <cc_CommonFunctions.h>
 #include <CADAnalysisMetaData.h>
 #include <ToolKitPassThroughFunctions.h>
 

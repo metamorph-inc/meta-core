@@ -100,6 +100,7 @@ public:
     //		the in_ParentAssemblyInstanceID assembly and cADComponentData_map updated to reflect that
     //		in_ComponentInstanceID is now part of the active Creo assembly.
     void AddComponentToAssembly(
+		cad::CadFactoryAbstract			&in_Factory,
         const std::string 				&in_ComponentInstanceID,
         const std::string 				&in_CreoModelName,
 		// ProMdlType                        in_CreoModelType,

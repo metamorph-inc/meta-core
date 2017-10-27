@@ -165,8 +165,8 @@ int main( int argc, char *argv[] )
 		::boost::filesystem::current_path(workingDir);
 		
 
-		isis::cad::CadFactoryAbstract::ptr cad_factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cad_factory->getEnvironment();
+		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
 
 
 		environment.setupCADEnvironment(	programInputArguments,

@@ -83,12 +83,34 @@ class  EnvironmentCreo : public IEnvironment {
 };
 
 
+class  ModelNamesCreo : public IModelNames {
+	public:
+		// provide the name of the concrete assembler
+		std::string name() { return "ModelNames";}
+
+
+	// e.g. in_OrigName				Chassis_8_Wheel<Chassis>
+	//		out_ModelName			Chassis
+	//		out_FamilyTableEntry	Chassis_8_Wheel
+	//		out_FamilyTableModel	true
+	//
+	// e.g. in_OrigName				bracket
+	//		out_ModelName			bracket
+	//		out_FamilyTableEntry	""
+	//		out_FamilyTableModel	false
+	virtual void extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
+														std::string			&out_ModelName,
+														std::string			&out_FamilyTableEntry,
+														bool				&out_FamilyTableModel ) const throw (isis::application_exception);
+
+};
 
 class CadFactoryCreo : public CadFactoryAbstract
 {
 private:
 	AssemblerCreo assembler;
 	EnvironmentCreo environment;
+	ModelNamesCreo modelNames;
 
 public:
 	// provide the name of the concrete factory
@@ -103,6 +125,9 @@ public:
 		return environment;
 	};
 
+	IModelNames& getModelNames() {
+		return modelNames;
+	};
 };
 
 CadFactoryAbstract::ptr create();
