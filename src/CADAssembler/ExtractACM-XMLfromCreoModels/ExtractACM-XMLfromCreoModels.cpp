@@ -287,7 +287,7 @@ int main( int argc, char *argv[] )
  
 	if ( ExitCode != 0 )
 	{
-		LogMainNonZeroExitCode( exeName, ExitCode, false, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), false, programInputArguments.logFileName,  exceptionErrorStringStream );
 
 		std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
 

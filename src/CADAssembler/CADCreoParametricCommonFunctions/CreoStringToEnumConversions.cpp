@@ -551,11 +551,14 @@ namespace isis
 			case CAD_ASM_ALIGN_OFF:
 				return PRO_ASM_ALIGN_OFF;
 				break;
+			case CAD_ASM_CSYS:
+				return PRO_ASM_CSYS;
+				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"CAD_ASM_MATE   CAD_ASM_MATE_OFF   CAD_ASM_ALIGN   CAD_ASM_ALIGN_OFF";
+					"CAD_ASM_MATE   CAD_ASM_MATE_OFF   CAD_ASM_ALIGN   CAD_ASM_ALIGN_OFF   CAD_ASM_CSYS";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -595,11 +598,14 @@ namespace isis
 			case PRO_ASM_ALIGN_OFF:
 				return CAD_ASM_ALIGN_OFF;
 				break;
+			case PRO_ASM_CSYS:
+				return CAD_ASM_CSYS;
+				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"PRO_ASM_MATE   PRO_ASM_MATE_OFF   PRO_ASM_ALIGN   PRO_ASM_ALIGN_OFF";
+					"PRO_ASM_MATE   PRO_ASM_MATE_OFF   PRO_ASM_ALIGN   PRO_ASM_ALIGN_OFF   PRO_ASM_CSYS";
 				throw isis::application_exception(errorString);
 		}
 	}

@@ -58,6 +58,7 @@ void SetupLogging(	const std::string		&in_SubDir,
 
 void	LogMainNonZeroExitCode( const std::string &in_ExeName,
 								int in_ExitCode, 
+								const std::string &in_InputLine,
 								bool  in_Logging_Set_Up, 
 								const std::string in_LogFileName,  
 								std::stringstream &in_ExceptionErrorStringStream );

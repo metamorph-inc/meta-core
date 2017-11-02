@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
     }
 
 

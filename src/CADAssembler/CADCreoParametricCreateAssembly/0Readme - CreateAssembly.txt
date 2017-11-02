@@ -1074,9 +1074,10 @@ v1.5.21.0 	9/13/2017 CAD_032_Add_Some_of_the_Generic_CAD_Interfaces, Refactored 
 		files are in CADCommonFuncdtions and name with a prefix cc_.  Passed CadFactoryAbstract to 
 		CreateAssemblyViaInputFile.  Other general refactoring.  
 
-v1.5.22.0 	10/4/2017 CAD_033_Refactor_and_Add_Some_of_the_Generic_CAD_Interfaces, Reworked the argument parsers from
-			a single parser for CreateAssembly, MetaLink, and Extract_ACM to separate parsers with only the arguments
-			that apply to the particular application. Created IEnvironment::setupCADEnvironment functions.
+v1.5.22.0 	11/2/2017 CAD_033_Refactor_and_Add_Some_of_the_Generic_CAD_Interfaces, Reworked the argument parsers from
+		a single parser for CreateAssembly, MetaLink, and Extract_ACM to separate parsers with only the arguments
+		that apply to the particular application. Created IEnvironment::setupCADEnvironment functions.
+		Corrected an error with constraining parts via coordinates systems.
 
 Known Defects
 -------------
