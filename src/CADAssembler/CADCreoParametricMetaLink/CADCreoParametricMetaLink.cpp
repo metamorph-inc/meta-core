@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     isis::MetaLinkInputArguments  programInputArguments;
     ::boost::filesystem::path    workingDir;
 
-	std::ostringstream inputLine;
+	std::stringstream inputLine;
 
     try
     {
@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
     }
 
 

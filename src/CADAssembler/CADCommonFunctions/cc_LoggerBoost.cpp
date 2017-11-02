@@ -145,12 +145,12 @@ void SetupLogging(	const std::string		&in_SubDir,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void	LogMainNonZeroExitCode( const std::string &in_ExeName,
-								int in_ExitCode, 
-							    const std::string &in_InputLine,
-								bool  in_Logging_Set_Up, 
-								const std::string in_LogFileName,  
-								std::stringstream &in_ExceptionErrorStringStream )
+void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
+								int							in_ExitCode, 
+							    const std::stringstream		&in_InputLine,
+								bool						in_Logging_Set_Up, 
+								const std::string			in_LogFileName,  
+								const std::stringstream		&in_ExceptionErrorStringStream )
 {
 
        // Write to _FAILED.txt
@@ -168,7 +168,8 @@ void	LogMainNonZeroExitCode( const std::string &in_ExeName,
         {
             if(addLineFeed)		failedTxtFileStream << std::endl;
 
-			failedTxtFileStream << std::endl <<	 in_InputLine <<  std::endl;
+			failedTxtFileStream << std::endl <<	"Input Line: "   << in_InputLine.str() <<  std::endl;
+			failedTxtFileStream << std::endl <<	"Input Line: " << in_InputLine <<  std::endl;
             failedTxtFileStream << std::endl <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << in_ExeName << " error code: " << in_ExitCode;
 			failedTxtFileStream << std::endl <<  in_ExceptionErrorStringStream.str();
 

@@ -97,7 +97,7 @@ int main( int argc, char *argv[] )
 
 	::boost::filesystem::path    workingDir;
 
-	std::ostringstream inputLine;
+	std::stringstream inputLine;
 
 	try
 	{
@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
     }
 
 	// Delete the copied template assembly file if it exists.

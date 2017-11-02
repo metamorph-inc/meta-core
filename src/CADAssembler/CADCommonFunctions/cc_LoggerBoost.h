@@ -56,12 +56,12 @@ void SetupLogging(	const std::string		&in_SubDir,
 					isis_LogSeverityLevel	in_severity_level_console);
 
 
-void	LogMainNonZeroExitCode( const std::string &in_ExeName,
-								int in_ExitCode, 
-								const std::string &in_InputLine,
-								bool  in_Logging_Set_Up, 
-								const std::string in_LogFileName,  
-								std::stringstream &in_ExceptionErrorStringStream );
+void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
+								int							in_ExitCode, 
+								const std::stringstream	&in_InputLine,
+								bool						in_Logging_Set_Up, 
+								const std::string			in_LogFileName,  
+								const std::stringstream		&in_ExceptionErrorStringStream );
 
 
 namespace isis {
