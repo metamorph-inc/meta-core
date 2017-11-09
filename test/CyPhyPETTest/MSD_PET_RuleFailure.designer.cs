@@ -515,7 +515,7 @@ namespace DynamicsTeamTest.Projects
         [Fact]
         [Trait("Model", "MSD_PET_RuleFailure")]
         [Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
-        public void PET_Fail_MDAO_zeroDesignVariables()
+        public void PET_MDAO_zeroDesignVariables()
         {
             string outputDir = "MDAO_zeroDesignVariables";
             string petExperimentPath = "/@Examples|kind=Testing|relpos=0/@PETRuleFailures|kind=ParametricExplorationFolder|relpos=0/@MDAO_zeroDesignVariables|kind=ParametricExploration|relpos=0";
@@ -523,7 +523,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
             bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
 
-            Assert.False(result, "CyPhyPET should have failed, but did not.");
+            Assert.True(result, "CyPhyPET should have succeeded.");
         }
 
         [Fact]

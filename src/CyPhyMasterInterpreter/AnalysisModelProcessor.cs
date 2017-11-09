@@ -401,6 +401,8 @@
 
                 componentAssemblyExporter.Initialize(cwcs.First().Project);
                 componentAssemblyExporter.InvokeEx(cwcs.First().Project, cwcs.First().ParentModel as MgaFCO, selected, 128);
+                var traceability = (CyPhyCOMInterfaces.IMgaTraceability)componentAssemblyExporter.ComponentParameter["traceability"];
+                traceability.CopyTo(Traceability);
                 foreach (MgaFCO cwc in cwcs)
                 {
                     foreach (MgaConnPoint cp in cwc.PartOfConns)

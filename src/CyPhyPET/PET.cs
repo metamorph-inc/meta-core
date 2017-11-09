@@ -210,6 +210,11 @@ namespace CyPhyPET
 
                 var config = AddConfigurationForMDAODriver(parameterStudy);
                 config.type = "parameterStudy";
+                bool hasDesignVariables = parameterStudy.Children.DesignVariableCollection.Count() > 0;
+                if (hasDesignVariables == false)
+                {
+                    config.details["DOEType"] = "Uniform";
+                }
                 // FIXME: do this in another thread
                 Dictionary<string, object> assignment = getPythonAssignment(parameterStudy.Attributes.Code);
                 long num_samples;
@@ -224,19 +229,24 @@ namespace CyPhyPET
                     {
                         throw new ApplicationException("num_samples must be an integer");
                     }
+                    if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Opt_Latin_Hypercube)
+                    {
+                        if (num_samples < 2)
+                        {
+                            throw new ApplicationException("num_samples must be >= 2 when using Optimized Latin Hypercube");
+                        }
+                    }
+                }
+                else if (hasDesignVariables == false)
+                {
+                    config.details["Code"] = "num_samples = 1";
+                    config.details["DOEType"] = "Uniform";
                 }
                 else
                 {
                     throw new ApplicationException("num_samples must be specified in the Code attribute of the Parameter Study");
                 }
 
-                if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Opt_Latin_Hypercube)
-                {
-                    if (num_samples < 2)
-                    {
-                        throw new ApplicationException("num_samples must be >= 2 when using Optimized Latin Hypercube");
-                    }
-                }
             }
         }
 

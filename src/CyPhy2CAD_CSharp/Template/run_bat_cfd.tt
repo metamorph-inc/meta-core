@@ -115,7 +115,6 @@ exit 0
 echo %ERROR_MSG% >>_FAILED.txt
 echo ""
 echo "See Error Log: _FAILED.txt"
-ping -n 8 127.0.0.1 > nul
 exit /b %ERROR_CODE%
 
 

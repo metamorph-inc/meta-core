@@ -142,8 +142,6 @@ namespace META
         }
 
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string Help { get; set; }
         public InterpreterMainParameters MainParameters { get; set; }
         private IInterpreterConfiguration _interpreterConfig;
         public IInterpreterConfiguration InterpreterConfig
@@ -325,9 +323,6 @@ namespace META
 
             // default values
             Name = ProgId;
-            Description = "Description: " + ProgId;
-            Help = "Help: " + ProgId;
-
 
             if (string.IsNullOrWhiteSpace(ProgId))
             {
@@ -365,19 +360,9 @@ namespace META
                 }
 
                 string _name = MgaComponent.ComponentParameter["name"] as string;
-                string _description = MgaComponent.ComponentParameter["description"] as string;
-                string _help = MgaComponent.ComponentParameter["help"] as string;
                 if (_name != null)
                 {
                     Name = _name;
-                }
-                if (_description != null)
-                {
-                    Description = _description;
-                }
-                if (_help != null)
-                {
-                    Help = _help;
                 }
             }
             else

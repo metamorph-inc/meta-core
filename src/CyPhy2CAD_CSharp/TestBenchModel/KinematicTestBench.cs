@@ -390,7 +390,6 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             sbuilder.AppendLine("type adams.log >> _FAILED.txt\n");
             sbuilder.AppendLine("echo \"\"\n");
             sbuilder.AppendLine("echo \"See Error Log: _FAILED.txt\"\n");
-            sbuilder.AppendLine("ping -n 8 127.0.0.1 > nul\n");
             sbuilder.AppendLine("exit /b %ERROR_CODE%\n");
             sbuilder.AppendLine(")\n");
 
@@ -415,7 +414,6 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
             sbuilder.AppendLine("echo %ERROR_MSG% >>_FAILED.txt\n");
             sbuilder.AppendLine("type aview.log >> _FAILED.txt\n");
             sbuilder.AppendLine("echo \"See Error Log: _FAILED.txt\"\n");
-            sbuilder.AppendLine("ping -n 8 127.0.0.1 > nul\n");
             sbuilder.AppendLine("exit /b %ERROR_CODE%\n");
             sbuilder.AppendLine(")\n");
 

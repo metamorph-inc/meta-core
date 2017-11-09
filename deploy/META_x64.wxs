@@ -19,7 +19,7 @@
       <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="no" Property="PREVIOUSFOUND"/>
     </Upgrade>
     <CustomActionRef Id="WixExitEarlyWithSuccess"/>
-	<CustomAction Id='NoDowngrade' Error='A later version of is already installed. To downgrade, please uninstall it first, then restart this installer.' />
+	<CustomAction Id='NoDowngrade' Error='A later version is already installed. To downgrade, please uninstall it first, then restart this installer.' />
 	
 
     <InstallExecuteSequence>
@@ -131,9 +131,9 @@
       <!-- Python -> CRT90 -->
       <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT100" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT100x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC100_CRT_x64.msm" DiskId="2" />
-      <Merge Id="CRT110x64" Language="0" SourceFile="$(env.ProgramFiles)\Common Files\Merge Modules\Microsoft_VC110_CRT_x64.msm" DiskId="2" />
+      <Merge Id="CRT100" Language="0" SourceFile="Microsoft_VC100_CRT_x86.msm" DiskId="2" />
+      <Merge Id="CRT100x64" Language="0" SourceFile="Microsoft_VC100_CRT_x64.msm" DiskId="2" />
+      <Merge Id="CRT110x64" Language="0" SourceFile="Microsoft_VC110_CRT_x64.msm" DiskId="2" />
     </DirectoryRef>
 
     <!-- =========================================================== -->

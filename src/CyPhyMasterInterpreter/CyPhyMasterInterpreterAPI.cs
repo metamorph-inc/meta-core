@@ -13,6 +13,7 @@
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Reflection;
+    using System.Security;
 
     /// <summary>
     /// Implements full master interpreter functionality.
@@ -36,6 +37,17 @@
             "CyPhySignalBlocksAddOn"
         };
 
+        private string JobCollectionID = new Guid().ToString("D");
+        public void SetJobCollectionID(string id)
+        {
+            JobCollectionID = id;
+        }
+
+        private bool SendJobCollectionDone = true;
+        public void SetSendJobCollectionDone(bool SendJobCollectionDone)
+        {
+            this.SendJobCollectionDone = SendJobCollectionDone;
+        }
 
         public void Initialize(MgaProject project, CyPhyGUIs.GMELogger logger = null)
         {
@@ -114,9 +126,9 @@
             this.Initialize(project, logger);
         }
 
-        public event EventHandler<ProgressCallbackEventArgs> SingleConfigurationProgress;
+        public event Action<ProgressCallbackEventArgs> SingleConfigurationProgress;
 
-        public event EventHandler<ProgressCallbackEventArgs> MultipleConfigurationProgress;
+        public event Action<ProgressCallbackEventArgs> MultipleConfigurationProgress;
 
         public bool IsInteractive { get; set; }
 
@@ -194,7 +206,8 @@
             this.Logger.WriteDebug("Getting configurations for context");
 
             IMgaFCOs configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
-            foreach (var config in this.GetConfigurationGroups(context).SelectMany(x => x.Configurations.Cast<MgaFCO>()))
+            CyPhy.DesignContainer designContainer;
+            foreach (var config in this.GetConfigurationGroups(context, out designContainer).SelectMany(x => x.Configurations.Cast<MgaFCO>()))
             {
                 configurations.Append(config);
             }
@@ -226,38 +239,44 @@
                 Context = context
             };
 
-            var configurationGroups = this.GetConfigurationGroups(context);
-            ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
-
-            AnalysisModelProcessor analysisModelProcessor = null;
+            CyPhy.DesignContainer designContainer;
             string contextID = null;
 
-            this.ExecuteInTransaction(context, () =>
+            Func<ConfigurationSelectionInput> getInput = () =>
             {
-                contextID = context.ID;
-                analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
-                configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
-                configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
-                configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
+                var configurationGroups = this.GetConfigurationGroups(context, out designContainer);
+                ConfigurationSelectionInput configurationSelectionInput = new ConfigurationSelectionInput();
+                configurationSelectionInput.designContainer = designContainer;
 
-                configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
-
-                if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                AnalysisModelProcessor analysisModelProcessor = null;
+                this.ExecuteInTransaction(context, () =>
                 {
-                    configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
-                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
-                    return;
-                }
+                    contextID = context.ID;
+                    analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
+                    configurationSelectionInput.Context = GMELightObject.GetGMELightFromMgaObject(context);
+                    configurationSelectionInput.Groups = configurationGroups.Select(x => x.ConvertToLight()).ToArray();
+                    configurationSelectionInput.IsDesignSpace = configurationGroups.Any(x => x.Owner == null) == false;
 
-                configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
-                    SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
-                    SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
-            });
+                    configurationSelectionInput.OutputDirectory = analysisModelProcessor.GetResultsDirectory();
 
-            var interpreters = analysisModelProcessor.GetWorkflow();
-            configurationSelectionInput.InterpreterNames = interpreters.Select(x => x.Name).ToArray();
+                    if (analysisModelProcessor.OriginalSystemUnderTest == null)
+                    {
+                        configurationSelectionInput.OperationModeInformation = String.Format("{0} - PET",
+                            SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name));
+                        return;
+                    }
 
-            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(configurationSelectionInput, enableDebugging))
+                    configurationSelectionInput.OperationModeInformation = string.Format("{0} - {1}",
+                        SplitCamelCase(analysisModelProcessor.GetInvokedObject().MetaBase.Name),
+                        SplitCamelCase(analysisModelProcessor.OriginalSystemUnderTest.Referred.DesignEntity.Kind));
+                });
+
+                var interpreters = analysisModelProcessor.GetWorkflow();
+                configurationSelectionInput.InterpreterNames = interpreters.Select(x => x.Name).ToArray();
+                return configurationSelectionInput;
+            };
+
+            using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(getInput, enableDebugging))
             {
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
                 if (this.IsInteractive)
@@ -302,12 +321,26 @@
                 }
                 else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                 {
+                    var selectionResult = selectionForm.ConfigurationSelectionResult;
+                    string ids;
+                    if (selectionResult.UnselectedConfigurations.Count() != 0)
+                    {
+                        ids = "--ids " + String.Join(",", selectionResult.SelectedConfigurations.Select(x => x.GMEId));
+                    }
+                    else
+                    {
+                        ids = "--configuration-id " + selectionResult.ConfigurationGroups.Select(fco => fco.Owner.GMEId).Single();
+                    }
+
+
                     ProcessStartInfo info = new ProcessStartInfo()
                     {
                         FileName = META.VersionInfo.PythonVEnvExe,
-                        Arguments = String.Format("\"{0}\" \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
+                        Arguments = String.Format("\"{0}\" {3} \"{1}\" {2}", Path.Combine(META.VersionInfo.MetaPath, "bin", "parallel_mi.py"),
                                 this.Project.ProjectConnStr.Substring("MGA=".Length),
-                                contextID),
+                                contextID,
+                                // FIXME will fail if command-line length exceeds 32k
+                                ids),
                         RedirectStandardError = true,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
@@ -320,24 +353,44 @@
                         EnableRaisingEvents = true
                     };
                     GME.CSharp.GMEConsole console = GME.CSharp.GMEConsole.CreateFromProject(this.Project);
+                    int streamsOpen = 2;
+                    Action streamClosed = () =>
+                    {
+                        lock (this)
+                        {
+                            streamsOpen--;
+                            if (streamsOpen == 0)
+                            {
+                                process.Dispose();
+                            }
+                        }
+                    };
                     process.ErrorDataReceived += (sender, data) =>
                     {
                         if (String.IsNullOrEmpty(data.Data) == false)
                         {
-                            console.Error.WriteLine(data.Data);
+                            console.Error.WriteLine(SecurityElement.Escape(data.Data));
+                        }
+                        else
+                        {
+                            streamClosed();
                         }
                     };
                     process.OutputDataReceived += (sender, data) =>
                     {
                         if (String.IsNullOrEmpty(data.Data) == false)
                         {
-                            console.Info.WriteLine(data.Data);
+                            console.Info.WriteLine(SecurityElement.Escape(data.Data));
+                        }
+                        else
+                        {
+                            streamClosed();
                         }
                     };
                     process.Exited += (s, o) =>
                     {
                         // TODO: check process.ExitCode?
-                        process.Dispose();
+                        // process.Dispose();
                     };
                     process.Disposed += (s, o) =>
                     {
@@ -547,7 +600,7 @@
                     Title = "Finished"
                 });
             });
-            if (this.Manager != null && this.Manager.Started)
+            if (this.SendJobCollectionDone && this.Manager != null && this.Manager.Started)
             {
                 Manager.Done();
             }
@@ -692,22 +745,39 @@
             this.IsCancelled = true;
         }
 
+        Dictionary<dynamic, Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>> progressCallbacks = new Dictionary<dynamic, Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>>();
+        /*
+        cb should be IDispatch equivalent of:
+        public interface ProgressCallback
+        {
+            void SingleConfigurationProgress(ProgressCallbackEventArgs e);
+            void MultipleConfigurationProgress(ProgressCallbackEventArgs e);
+        }
+        */
+        public void AddProgressCallback(dynamic cb)
+        {
+            var cbs = new Tuple<Action<ProgressCallbackEventArgs>, Action<ProgressCallbackEventArgs>>((a) => cb.SingleConfigurationProgress(a),
+                (a) => cb.MultipleConfigurationProgress(a));
+            SingleConfigurationProgress += cbs.Item1;
+            MultipleConfigurationProgress += cbs.Item2;
+            progressCallbacks[cb] = cbs;
+        }
+
+        public void RemoveProgressCallback(dynamic cb)
+        {
+            SingleConfigurationProgress -= progressCallbacks[cb].Item1;
+            MultipleConfigurationProgress -= progressCallbacks[cb].Item2;
+            progressCallbacks.Remove(cb);
+        }
+
         protected virtual void OnSingleConfigurationProgress(ProgressCallbackEventArgs e)
         {
-            EventHandler<ProgressCallbackEventArgs> handler = this.SingleConfigurationProgress;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.SingleConfigurationProgress?.Invoke(e);
         }
 
         protected virtual void OnMultipleConfigurationProgress(ProgressCallbackEventArgs e)
         {
-            EventHandler<ProgressCallbackEventArgs> handler = this.MultipleConfigurationProgress;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.MultipleConfigurationProgress?.Invoke(e);
         }
 
         private static void DirectoryCopy(
@@ -774,12 +844,13 @@
             return this.ProjectManifest;
         }
 
-        private ConfigurationGroup[] GetConfigurationGroups(IMgaModel context)
+        private ConfigurationGroup[] GetConfigurationGroups(IMgaModel context, out CyPhy.DesignContainer designContainer)
         {
             if (context == null)
             {
                 throw new ArgumentNullException();
             }
+            CyPhy.DesignContainer designContainer_ = null;
 
             List<ConfigurationGroup> configurationGroups = new List<ConfigurationGroup>();
             IMgaFCOs configurations = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
@@ -825,7 +896,8 @@
                     }
                     else if (referredSut is CyPhy.DesignContainer)
                     {
-                        var configItems = (referredSut as CyPhy.DesignContainer)
+                        designContainer_ = (CyPhy.DesignContainer)referredSut;
+                        var configItems = designContainer_
                             .Children
                             .ConfigurationsCollection;
 
@@ -871,6 +943,7 @@
                 }
             });
 
+            designContainer = designContainer_;
             return configurationGroups.ToArray();
         }
 
@@ -1080,7 +1153,7 @@
 
                 Action createJobManager = () =>
                 {
-                    this.Manager = new JobManagerDispatch();
+                    this.Manager = new JobManagerDispatch(JobCollectionID);
                     this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
                     this.Manager.JobCollection.ConfigurationNames = this.ConfigurationNames;
                 };

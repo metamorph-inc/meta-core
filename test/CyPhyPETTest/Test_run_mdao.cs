@@ -95,7 +95,7 @@ namespace CyPhyPETTest
         [Fact]
         public void TestPython()
         {
-            string outputDir = "TestPython";
+            string outputDir = "results/TestPython";
             string petExperimentPath = "/@Testing/@ParametricExploration/@TestPython";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -112,7 +112,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationProblemWithExposedInitialConditions()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -133,7 +133,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationInitialConditionProfiling()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -171,7 +171,7 @@ namespace CyPhyPETTest
         [Fact]
         public void OptimizationInitialConditionProfiling_OptimizationProblem()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@OptimizationInitialConditionProfiling/@OptimizationProblem";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -193,7 +193,7 @@ namespace CyPhyPETTest
         public void SubproblemConnectedToSubproblem()
         {
 
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@SubproblemConnectedToSubproblem";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -210,7 +210,7 @@ namespace CyPhyPETTest
         [Fact]
         public void MultiplePETNestingExample()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 
@@ -250,7 +250,7 @@ namespace CyPhyPETTest
         [Fact]
         public void DuplicatePETNamesExample()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string pathPet = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
 
@@ -264,7 +264,7 @@ namespace CyPhyPETTest
         [Fact]
         public void StringEnumDriver()
         {
-            string outputDir = GetCurrentMethod();
+            string outputDir = "results/" + GetCurrentMethod();
             string petExperimentPath = "/@Testing/@PETHierarchy/@StringEnumDriver";
 
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
@@ -277,8 +277,10 @@ namespace CyPhyPETTest
 
             Assert.Equal("u\"one\"", config.subProblems["ParametricExploration"].problemInputs["ProblemInput"].value);
             Assert.Equal(true, config.subProblems["ParametricExploration"].problemInputs["ProblemInput"].pass_by_obj);
+
+            Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
         }
-        
+
 
         [Fact]
         public void Test_CyPhyPET_unit_matcher()
@@ -354,7 +356,7 @@ namespace CyPhyPETTest
         public void Constants()
         {
             var path_pet = "/@Testing/@ParametricExploration/@TestConstants";
-            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(GetCurrentMethod(), this.mgaFile, path_pet);
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + GetCurrentMethod(), this.mgaFile, path_pet);
 
             var path_outdir = result.Item1.OutputDirectory;
 
@@ -392,6 +394,26 @@ namespace CyPhyPETTest
 
             Assert.Equal(JsonConvert.SerializeObject(SortPropertiesAlphabetically(json_expected)),
                          JsonConvert.SerializeObject(SortPropertiesAlphabetically((JObject)constants)));
+
+            Assert.Equal("/Testing/ParametricExploration/TestConstants", (string)config["PETName"]);
+        }
+
+        [Fact]
+        public void NoDesignVariables()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@" + GetCurrentMethod();
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal("num_samples = 1", config.drivers["ParameterStudy"].details["Code"]);
+            Assert.Equal("Uniform", config.drivers["ParameterStudy"].details["DOEType"]);
         }
 
         [Fact]
@@ -401,7 +423,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -412,7 +434,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<System.FormatException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -423,7 +445,7 @@ namespace CyPhyPETTest
             var test_name = GetCurrentMethod();
             Assert.Throws<Newtonsoft.Json.JsonReaderException>(delegate
             {
-                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+                DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             });
         }
 
@@ -432,7 +454,7 @@ namespace CyPhyPETTest
         {
             var path_pet = "/@Testing/@ParametricExploration/@TestFEA";
             var test_name = GetCurrentMethod();
-            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(test_name, this.mgaFile, path_pet);
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull("results/" + test_name, this.mgaFile, path_pet);
             Assert.True(result.Item2.Success);
         }
 
@@ -491,14 +513,19 @@ namespace CyPhyPETTest
             string objectAbsPath = "/@Testing/@ParametricExploration/@TestTestBench_With_Files";
             string configAbsPath = "/@Designs/@SimpleSystem";
 
-            var success = CyPhyMasterInterpreterRunner.RunMasterInterpreter(
+            var result = CyPhyMasterInterpreterRunner.RunMasterInterpreterAndReturnResults(
                 projectPath: this.mgaFile,
                 absPath: objectAbsPath,
                 configPath: configAbsPath,
                 postToJobManager: false,
                 keepTempModels: false);
 
-            Assert.True(success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+            Assert.True(result.Success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal(objectAbsPath.Replace("@", ""), config.PETName);
         }
 
         public void SetFixture(WorkFlow_PETFixture data)

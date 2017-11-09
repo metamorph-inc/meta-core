@@ -56,7 +56,11 @@
   <File Source="..\src\CyPhyMasterInterpreter\CyPhyMasterInterpreter.ico" />
 </Component>
 <Component Directory="INSTALLDIR_BIN">
-  <File Source="..\src\CyPhyCOMInterfacesCS\bin\Release\CyPhyCOMInterfacesCS.dll" />
+  <File Source="..\src\CyPhyCOMInterfacesCS\bin\Release\CyPhyCOMInterfacesCS.dll">
+    <TypeLib Id="{2AC310B7-F4C9-4A74-B178-1818F86B71D8}" Description="CyPhyCOMInterfacesCS" Language="0" MajorVersion="1" MinorVersion="1">
+      <Interface Id="{2396D93E-96EF-4D7C-B6FE-8A8C9E665BA6}" Name="IMgaTraceability" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+    </TypeLib>
+  </File>
 </Component>
 </ComponentGroup>
 </Fragment>

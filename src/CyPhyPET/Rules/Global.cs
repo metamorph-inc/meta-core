@@ -751,18 +751,6 @@ namespace CyPhyPET.Rules
             var designVariables = mdaoDriver.Children.DesignVariableCollection;
             var objectives = mdaoDriver.Children.ObjectiveCollection;
 
-            if (designVariables.Count() < 1)
-            {
-                var feedback = new GenericRuleFeedback()
-                {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("MDAO Driver {0} must have at least 1 DesignVariable",
-                    context.Name)
-                };
-
-                feedback.InvolvedObjectsByRole.Add(context as IMgaFCO);
-                checkResults.Add(feedback);
-            }
             if (objectives.Count() < 1)
             {
                 var feedback = new GenericRuleFeedback()

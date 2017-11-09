@@ -7,6 +7,17 @@ namespace JobManagerFramework
 {
     public class JobServerImpl : JobServer
     {
+        public JobServerImpl()
+        {
+            this.JobCollectionDone += (job) =>
+            {
+                lock (this)
+                {
+                    JobCollectionById.Remove(job.id);
+                }
+            };
+        }
+
         public bool WipeWorkspaceOnSuccess { get; set; }
         public bool DeleteJobOnSuccess { get; set; }
 
@@ -23,9 +34,11 @@ namespace JobManagerFramework
         public class JobCollectionImpl : JobCollection
         {
             private JobServerImpl server;
-            public JobCollectionImpl(JobServerImpl server)
+            internal string id;
+            public JobCollectionImpl(JobServerImpl server, string id)
             {
                 this.server = server;
+                this.id = id;
             }
 
             public List<Job> Jobs = new List<Job>();
@@ -51,16 +64,29 @@ namespace JobManagerFramework
             }
         }
 
-        public override JobCollection CreateAndAddJobCollection()
+        Dictionary<string, JobCollectionImpl> JobCollectionById = new Dictionary<string, JobCollectionImpl>();
+        public override JobCollection CreateAndAddJobCollection(string id)
         {
             handlersAdded.WaitOne();
 
-            var jobCollection = new JobCollectionImpl(this);
-            if (this.JobCollectionAdded != null)
+            lock (this)
             {
-                JobCollectionAdded(jobCollection);
+                JobCollectionImpl jobCollection;
+                if (JobCollectionById.TryGetValue(id, out jobCollection))
+                {
+                    return jobCollection;
+                }
+                else
+                {
+                    jobCollection = new JobCollectionImpl(this, id);
+                    JobCollectionById[id] = jobCollection;
+                    if (this.JobCollectionAdded != null)
+                    {
+                        JobCollectionAdded(jobCollection);
+                    }
+                    return jobCollection;
+                }
             }
-            return jobCollection;
         }
 
         public override Job CreateJob()
@@ -85,10 +111,7 @@ namespace JobManagerFramework
 
             handlersAdded.WaitOne();
 
-            if (JobAdded != null)
-            {
-                JobAdded.Invoke((JobImpl)job, job.Status);
-            }
+            JobAdded?.Invoke((JobImpl)job, job.Status);
         }
 
 
@@ -102,10 +125,7 @@ namespace JobManagerFramework
 
             handlersAdded.WaitOne();
 
-            if (SoTAdded != null)
-            {
-                SoTAdded.Invoke((SoTImpl)sot);
-            }
+            SoTAdded?.Invoke((SoTImpl)sot);
         }
 
         public override object InitializeLifetimeService()

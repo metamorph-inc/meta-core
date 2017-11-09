@@ -1,21 +1,36 @@
-# Building the META Tools
-The META tools can be compiled from the source code in this repository. Compilation requires a Windows PC and access to the internet (for downloading NuGet packages).
+# Building OpenMETA
+OpenMETA can be compiled from the source code in this repository. Compilation requires a Windows PC and access to the internet (for downloading NuGet packages).
 
 # Build Machine Setup
-Follow these configuration instructions, in order, to set up your machine to build the META tools from source.
+Follow these configuration instructions, in order, to set up your machine to build OpenMETA from source.
 
 ## Windows x64 (7 SP3, 8.1, 10 or Server equivalent)
 Install Windows updates until your version is current
 
-## Microsoft Visual Studio 2015 (Community or above)
-_NOTE: Will not compile under Express Edition_
+## Microsoft Visual Studio 
+The solution will build with Microsoft Visual Studio 2015 or 2017.
 
-When installing, select these packages (at minimum):
+### If you have Visual Studio 2017 (Community or above)
+_NOTE: Will not compile with Visual Studio Code_
+
+When installing Visual Studio, select these packages (at minimum):
 - C++
 - C#
 
-## Microsoft Visual Studio 2015 Update 3
-[Download](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs)
+You must also install:
+- Visual Studio 2015 Build Tools ([download](https://www.microsoft.com/en-us/download/details.aspx?id=48159))
+- Visual C++ 2015 Build Tools ([download](http://landinghub.visualstudio.com/visual-cpp-build-tools))
+  - Select the *"ATL/MFC SDK"* package (at minimum) 
+
+### If you have Visual Studio 2015 (Community or above)
+_NOTE: Will not compile under Express Edition_
+
+When installing Visual Studio, select these packages (at minimum):
+- C++
+- C#
+
+You must also install Microsoft Visual Studio 2015 Update 3
+([download](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs))
 
 ## Java JDK 7 or above
 [Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
@@ -47,13 +62,10 @@ Again, install Windows updates until everything is current. Restart your compute
 Clone this repository to your disk.
 
 # Build
-1. Open Visual Studio Command Prompt (2015) with ”Run as administrator”. (Do not use a Visual Studio x64 command prompt)
+1. Open Visual Studio Command Prompt (2015 or 2017) with ”Run as administrator”. (Do not use a Visual Studio x64 command prompt)
 2. From the root repository directory, run `make_all_without_installer.cmd`. This may take 30 minutes to build. _(Warnings may be ignored, but there should be no errors.)_
 
 If you encounter errors, try to build once more. There may be some remaining race conditions in the build scripts.
 
 # Installer
-
-Merge modules from Visual Studio 2008 (vc9), 2010 (vc10), and 2012 (vc11) are required to be present in `C:\Program Files (x86)\Common Files\Merge Modules\` to build the installer.
-
 Run `bin\Python27\Scripts\python.exe deploy\build_msi.py` to build the installer.

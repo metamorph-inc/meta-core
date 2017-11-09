@@ -18,37 +18,6 @@ namespace AVM2CyPhyML
     using System.Text.RegularExpressions;
     using TypePair = KeyValuePair<Type, Type>;
 
-    public class TypePairCompare : IComparer<TypePair>
-    {
-        public static bool isPairSubclassOf(TypePair typePair1, TypePair typePair2)
-        {
-            bool f1 = typePair2.Key.UnderlyingSystemType.IsAssignableFrom(typePair2.Key.UnderlyingSystemType);
-            bool f2 = typePair2.Value.UnderlyingSystemType.IsAssignableFrom(typePair2.Value.UnderlyingSystemType);
-            return typePair2.Key.UnderlyingSystemType.IsAssignableFrom(typePair1.Key.UnderlyingSystemType) && typePair2.Value.UnderlyingSystemType.IsAssignableFrom(typePair1.Value.UnderlyingSystemType);
-        }
-
-        public static string getTypeName(Type type)
-        {
-            return type.Namespace + "." + type.Name;
-        }
-
-        public static int compareTypeNames(Type type1, Type type2)
-        {
-            return getTypeName(type1.UnderlyingSystemType).CompareTo(getTypeName(type2.UnderlyingSystemType));
-        }
-
-        public int Compare(TypePair typePair1, TypePair typePair2)
-        {
-            int keyCompare = compareTypeNames(typePair1.Key, typePair2.Key);
-            if (keyCompare != 0)
-            {
-                return keyCompare;
-            }
-
-            return compareTypeNames(typePair1.Value, typePair2.Value);
-        }
-    }
-
     public abstract class AVM2CyPhyMLBuilder
     {
         public AVM2CyPhyMLBuilder(CyPhyML.RootFolder rootFolder, object messageConsoleParameter = null)
@@ -119,7 +88,6 @@ namespace AVM2CyPhyML
             //{ typeof(CyPhyMLClasses.ManufacturingModelParameter ).Name,CreateMethodProxy<CyPhyMLClasses.ManufacturingModelParameter>.get_singleton() }
         };
 
-        protected SortedDictionary<TypePair, ConnectProxy> _cyPhyMLConnectionMap = new SortedDictionary<TypePair, ConnectProxy>(new TypePairCompare());
         protected Dictionary<string, CyPhyML.Port> _portNameTypeMap = new Dictionary<string, CyPhyML.Port>();
 
         protected Dictionary<avm.DataTypeEnum, CyPhyMLClasses.Property.AttributesClass.DataType_enum> _dataTypePropertyEnumMap = new Dictionary<DataTypeEnum, CyPhyMLClasses.Property.AttributesClass.DataType_enum>() {
@@ -358,30 +326,6 @@ namespace AVM2CyPhyML
             public void call<BaseClass, ParentClass>(ParentClass parent, out BaseClass baseClassObject) where BaseClass : class
             {
                 getCreateMethodProxyAux(typeof(ParentClass)).call(parent, out baseClassObject);
-            }
-        }
-
-        protected class ConnectProxy
-        {
-            private MethodInfo _connectMethodInfo;
-            private object[] _argArray;
-
-            public ConnectProxy(MethodInfo connectMethodInfo, object[] argArray)
-            {
-                _connectMethodInfo = connectMethodInfo;
-                _argArray = argArray;
-            }
-
-            public object connect(Object srcObject, Object dstObject)
-            {
-                _argArray[0] = srcObject;
-                _argArray[1] = dstObject;
-                return _connectMethodInfo.Invoke(null, _argArray);
-            }
-
-            public Type declaringType
-            {
-                get { return _connectMethodInfo.DeclaringType; }
             }
         }
 
@@ -770,100 +714,6 @@ namespace AVM2CyPhyML
             _avmCyPhyMLObjectMap.Add(avmSimpleFormula, cyphySimpleFormula);
         }
 
-        protected void buildCyPhyMLNameConnectionMap()
-        {
-            if (_cyPhyMLConnectionMap.Count > 0)
-            {
-                return;
-            }
-
-            foreach (MgaMetaFCO connection in project.RootMeta.RootFolder.DefinedFCOs.Cast<GME.MGA.Meta.MgaMetaFCO>().Where(x => x.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_CONNECTION).ToList())
-            {
-                // Special exception for non-nominal connection
-                if (connection.Name == "SurfaceReverseMap")
-                {
-                    continue;
-                }
-
-                string[] separators = new string[1] { "::" };
-                string[] connectionNameComponents = connection.Name.Split(separators, StringSplitOptions.None);
-
-                string assemblyQualifiedName =
-                    "ISIS.GME.Dsml.CyPhyML."
-                    + String.Join(".", connectionNameComponents, 0, connectionNameComponents.Length - 1)
-                    + (connectionNameComponents.Length == 1 ? "" : ".")
-                    + "Classes."
-                    + connectionNameComponents[connectionNameComponents.Length - 1];
-
-                //Type classType = Type.GetType( assemblyQualifiedName );
-                Type classType =
-                    typeof(ISIS.GME.Dsml.CyPhyML.Classes.Component).Assembly.GetType(assemblyQualifiedName);
-
-                if (classType == null)
-                {
-                    //Console.Out.WriteLine("WARNING: Unable to acquire class \"" + assemblyQualifiedName + "\"");
-                    continue;
-                }
-
-                MethodInfo[] methodInfoArray = classType.GetMethods(BindingFlags.Static | BindingFlags.Public);
-                List<MethodInfo> connectMethodInfoArray = new List<MethodInfo>();
-
-                foreach (MethodInfo methodInfo in methodInfoArray)
-                {
-                    if (methodInfo.Name != "Connect")
-                    {
-                        continue;
-                    }
-
-                    ParameterInfo[] parameterInfoArray = methodInfo.GetParameters();
-                    if (parameterInfoArray.Count() >= 5 && !parameterInfoArray[4].ParameterType.IsAssignableFrom(typeof(CyPhyML.Component)))
-                    {
-                        continue;
-                    }
-
-                    connectMethodInfoArray.Add(methodInfo);
-                }
-
-                foreach (MethodInfo methodInfo in connectMethodInfoArray)
-                {
-                    MethodInfo connectMethodInfo = methodInfo;
-                    object[] argArray = new Object[connectMethodInfo.GetParameters().Count()];
-                    Type[] typeArray = new Type[2];
-
-                    foreach (ParameterInfo parameterInfo in connectMethodInfo.GetParameters())
-                    {
-                        if (parameterInfo.IsOptional)
-                        {
-                            argArray[parameterInfo.Position] = parameterInfo.DefaultValue;
-                        }
-                        else
-                        {
-                            typeArray[parameterInfo.Position] = parameterInfo.ParameterType;
-                        }
-                    }
-
-                    if (connectMethodInfoArray.Count > 1 && typeArray[0].Equals(typeArray[1]))
-                    {
-                        continue;
-                    }
-
-                    TypePair typePair = new TypePair(typeArray[0], typeArray[1]);
-                    if (_cyPhyMLConnectionMap.ContainsKey(typePair))
-                    {
-                        if (!_cyPhyMLConnectionMap[typePair].declaringType.Equals(classType))
-                        {
-                            //Console.Out.WriteLine("WARNING:  More than one connection type for types \"" + TypePairCompare.getTypeName(typePair.Key) + "\" and \"" + TypePairCompare.getTypeName(typePair.Value) + "\"");
-                            //Console.Out.WriteLine("\t\"" + TypePairCompare.getTypeName(_cyPhyMLConnectionMap[typePair].declaringType) + "\" connection type being used rather than \"" + TypePairCompare.getTypeName(classType) + "\" connection type.");
-                        }
-                    }
-                    else
-                    {
-                        _cyPhyMLConnectionMap.Add(typePair, new ConnectProxy(connectMethodInfo, argArray));
-                    }
-                }
-            }
-        }
-
         private static Dictionary<string, Func<IMgaObject, ISIS.GME.Common.Interfaces.Base>> dsmlCasts = new Dictionary<string, Func<IMgaObject, ISIS.GME.Common.Interfaces.Base>>()
         {
             {typeof(CyPhyMLClasses.ValueFlow).Name, CyPhyMLClasses.ValueFlow.Cast},
@@ -888,116 +738,40 @@ namespace AVM2CyPhyML
                 { avm.modelica.RedeclareTypeEnum.Record,    CyPhyMLClasses.ModelicaRedeclare.AttributesClass.ModelicaRedeclareType_enum.Record }
             };
 
-        protected object makeConnection(object cyPhyMLObjectSrc, object cyPhyMLObjectDst, string kind = null)
+        protected object makeConnection(object cyPhyMLObjectSrc, object cyPhyMLObjectDst, string kind, bool createAsPortConnection = false)
         {
-            if (kind != null)
-            {
-                IMgaFCO src = GetFCOObject(cyPhyMLObjectSrc);
-                IMgaReference srcReference = GetFCOObjectReference(cyPhyMLObjectSrc);
-                IMgaFCO dst = GetFCOObject(cyPhyMLObjectDst);
-                IMgaReference dstReference = GetFCOObjectReference(cyPhyMLObjectDst);
+            IMgaFCO src = GetFCOObject(cyPhyMLObjectSrc);
+            IMgaReference srcReference = GetFCOObjectReference(cyPhyMLObjectSrc);
+            IMgaFCO dst = GetFCOObject(cyPhyMLObjectDst);
+            IMgaReference dstReference = GetFCOObjectReference(cyPhyMLObjectDst);
 
-                IMgaModel srcparent = (srcReference != null ? srcReference : src).ParentModel;
-                IMgaModel dstparent = (dstReference != null ? dstReference : dst).ParentModel;
-                IMgaModel parent = srcparent;
-                if (srcparent != dstparent) // src or dst is a port
+            IMgaModel srcparent = (srcReference != null ? srcReference : src).ParentModel;
+            IMgaModel dstparent = (dstReference != null ? dstReference : dst).ParentModel;
+            IMgaModel parent = srcparent;
+            if (srcparent != dstparent) // src or dst is a port
+            {
+                if (srcparent == dstparent.ParentModel)
                 {
-                    if (srcparent == dstparent.ParentModel)
-                    {
-                        parent = srcparent;
-                    }
-                    else if (srcparent.ParentModel == dstparent.ParentModel)
-                    {
-                        parent = dstparent.ParentModel;
-                    }
-                    else if (dstparent == srcparent.ParentModel)
-                    {
-                        parent = dstparent;
-                    }
+                    parent = srcparent;
                 }
-
-                var conn = parent.CreateSimpleConnDisp((MgaMetaRole)((MgaMetaModel)parent.Meta).RoleByName[kind], (MgaFCO)src, (MgaFCO)dst, (MgaFCO)srcReference, (MgaFCO)dstReference);
-
-                return dsmlCasts[kind](conn);
-            }
-
-            string cyPhyMLObjectSrcTypeName = cyPhyMLObjectSrc.GetType().UnderlyingSystemType.AssemblyQualifiedName.Replace(".Classes.", ".Interfaces.");
-            string cyPhyMLObjectDstTypeName = cyPhyMLObjectDst.GetType().UnderlyingSystemType.AssemblyQualifiedName.Replace(".Classes.", ".Interfaces.");
-
-            Type cyPhyMLObjectSrcType = Type.GetType(cyPhyMLObjectSrcTypeName);
-            Type cyPhyMLObjectDstType = Type.GetType(cyPhyMLObjectDstTypeName);
-
-
-            if (_cyPhyMLConnectionMap.Count == 0)
-            {
-                buildCyPhyMLNameConnectionMap();
-            }
-
-            TypePair typePair = new TypePair(cyPhyMLObjectSrcType, cyPhyMLObjectDstType);
-            TypePair reverseTypePair = new TypePair(cyPhyMLObjectDstType, cyPhyMLObjectSrcType);
-
-
-            object connection = null;
-            if (_cyPhyMLConnectionMap.ContainsKey(typePair))
-            {
-                ConnectProxy connectProxy = _cyPhyMLConnectionMap[typePair];
-                connection = connectProxy.connect(cyPhyMLObjectSrc, cyPhyMLObjectDst);
-            }
-            else if (_cyPhyMLConnectionMap.ContainsKey(reverseTypePair))
-            {
-                ConnectProxy connectProxy = _cyPhyMLConnectionMap[reverseTypePair];
-
-                object temp = cyPhyMLObjectSrc;
-                cyPhyMLObjectSrc = cyPhyMLObjectDst;
-                cyPhyMLObjectDst = temp;
-
-                connection = connectProxy.connect(cyPhyMLObjectSrc, cyPhyMLObjectDst);
-            }
-            else
-            {
-                TypePair baseTypePair = new TypePair(typeof(object), typeof(object));
-                TypePair reverseBaseTypePair = new TypePair(typeof(object), typeof(object));
-                foreach (TypePair compareTypePair in _cyPhyMLConnectionMap.Keys)
+                else if (srcparent.ParentModel == dstparent.ParentModel)
                 {
-                    if (TypePairCompare.isPairSubclassOf(typePair, compareTypePair) && TypePairCompare.isPairSubclassOf(compareTypePair, baseTypePair))
-                    {
-                        baseTypePair = compareTypePair;
-                    }
-
-                    if (TypePairCompare.isPairSubclassOf(reverseTypePair, compareTypePair) && TypePairCompare.isPairSubclassOf(compareTypePair, reverseBaseTypePair))
-                    {
-                        reverseBaseTypePair = compareTypePair;
-                    }
+                    parent = dstparent.ParentModel;
                 }
-
-                if (baseTypePair.Key == typeof(object))
+                else if (dstparent == srcparent.ParentModel)
                 {
-                    if (reverseBaseTypePair.Key == typeof(object))
-                    {
-                        String sOutput = String.Format("{0}: WARNING: cannot create specific connection from \"{1}\" to \"{2}\".", //  CREATING GENERIC ASSOCIATION INSTEAD.",
-                                                                                                                                   // this.getComponent().Name, 
-                            TypePairCompare.getTypeName(cyPhyMLObjectSrc.GetType()), TypePairCompare.getTypeName(cyPhyMLObjectDst.GetType()));
-                        Console.Out.WriteLine(sOutput);
-                        //                                createGenericAssociation(avmAssociableSrc.id, avmAssociableDst.id);
-                    }
-                    else
-                    {
-                        ConnectProxy connectProxy = _cyPhyMLConnectionMap[reverseTypePair] = _cyPhyMLConnectionMap[reverseBaseTypePair];
-                        connection = connectProxy.connect(cyPhyMLObjectDst, cyPhyMLObjectSrc);
-                    }
-                }
-                else
-                {
-                    ConnectProxy connectProxy = _cyPhyMLConnectionMap[typePair] = _cyPhyMLConnectionMap[baseTypePair];
-                    connection = connectProxy.connect(cyPhyMLObjectSrc, cyPhyMLObjectDst);
-                    if (reverseBaseTypePair.Key != typeof(object))
-                    {
-                        _cyPhyMLConnectionMap[reverseTypePair] = _cyPhyMLConnectionMap[reverseBaseTypePair];
-                    }
+                    parent = dstparent;
                 }
             }
+            else if (createAsPortConnection)
+            {
+                parent = srcparent.ParentModel;
+            }
 
-            return connection;
+            var role = (MgaMetaRole)((MgaMetaModel)parent.Meta).RoleByName[kind];
+            var conn = parent.CreateSimpleConnDisp(role, (MgaFCO)src, (MgaFCO)dst, (MgaFCO)srcReference, (MgaFCO)dstReference);
+
+            return dsmlCasts[kind](conn);
         }
 
         private static IMgaFCO GetFCOObject(object cyPhyMLObjectSrc)
@@ -1375,7 +1149,7 @@ namespace AVM2CyPhyML
 
             foreach (var source in incomingCyPhys)
             {
-                makeConnection(source, target, "ValueFlow");
+                makeConnection(source, target, typeof(CyPhyML.ValueFlow).Name);
             }
         }
 

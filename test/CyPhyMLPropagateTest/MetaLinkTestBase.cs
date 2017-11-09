@@ -32,7 +32,7 @@ namespace CyPhyPropagateTest
         {
             get
             {
-                return Path.Combine(Path.GetTempPath(), "CyPhyMLTest_TestModel");
+                return Path.Combine(Path.GetTempPath(), "CyPhyMLTest_" + this.GetType().Name);
             }
         }
 
@@ -170,13 +170,15 @@ namespace CyPhyPropagateTest
                         MgaProject project = new MgaProject();
                         project.EnableAutoAddOns(true);
                         project.OpenEx("MGA=" + mgaFullPath, "", true);
+                        CyPhyMetaLink.CyPhyMetaLinkAddon propagate = null;
                         try
                         {
                             Assert.Contains("MGA.Addon.CyPhyMLPropagate", project.AddOnComponents.Cast<IMgaComponentEx>().Select(x => x.ComponentProgID));
-                            CyPhyMetaLink.CyPhyMetaLinkAddon propagate = (CyPhyMetaLink.CyPhyMetaLinkAddon)project.AddOnComponents.Cast<IMgaComponent>().Where(comp => comp is CyPhyMetaLink.CyPhyMetaLinkAddon).FirstOrDefault();
+                            propagate = (CyPhyMetaLink.CyPhyMetaLinkAddon)project.AddOnComponents.Cast<IMgaComponent>().Where(comp => comp is CyPhyMetaLink.CyPhyMetaLinkAddon).FirstOrDefault();
                             CyPhyMetaLink.CyPhyMetalinkInterpreter interpreter = new CyPhyMetaLink.CyPhyMetalinkInterpreter();
                             propagate.TestMode = true;
                             propagate.TestMode_NoAutomaticCreoStart = true;
+                            propagate.TestMode_CreoJobObject = CyPhyMetaLink.JobObjectPinvoke.CreateKillOnCloseJob();
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
                             interpreter.MgaGateway = new MgaGateway(project);
 
@@ -187,6 +189,11 @@ namespace CyPhyPropagateTest
                         }
                         finally
                         {
+                            if (propagate != null)
+                            {
+                                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(propagate.TestMode_CreoJobObject);
+                                propagate.TestMode_CreoJobObject = IntPtr.Zero;
+                            }
                             project.Save(project.ProjectConnStr + "_posttest.mga", true);
                             project.Close(true);
                         }

@@ -81,7 +81,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=29;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=29;PRO_OS=4;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>
 $(CREO_INSTALL)/protoolkit/includes;
 $(CREO_INSTALL)/protoolkit/protk_appls/includes;
@@ -98,7 +98,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=36;PRO_OS=4;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>
 $(CREO_INSTALL)/protoolkit/includes;
 $(CREO_INSTALL)/protoolkit/protk_appls/includes;
@@ -116,7 +116,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=29;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=29;PRO_OS=4;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>
 $(CREO_INSTALL)/protoolkit/includes;
 $(CREO_INSTALL)/protoolkit/protk_appls/includes;
@@ -136,7 +136,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=36;PRO_OS=4;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)/CADCreoParametricToolkitFunctions;$(SolutionDir)/CADCreoUtils;$(CREO_INSTALL)/protoolkit/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

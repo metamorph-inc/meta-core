@@ -195,7 +195,7 @@ double EvaluateCustomFormula(multimap<std::wstring, double> &parameters, std::ws
 
 		if (result == std::numeric_limits<double>::infinity())
 		{
-			auto exc = new std::exception("Expression resulted in +INF or -INF");
+			auto exc = std::exception("Expression resulted in +INF or -INF");
 			throw exc;
 		}
 	}

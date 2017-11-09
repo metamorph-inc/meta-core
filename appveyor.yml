@@ -1,0 +1,25 @@
+clone_folder: c:\projects\OpenMETA
+environment:
+  GME_ROOT: c:\Program Files (x86)\GME
+  UDM_PATH: c:\Program Files (x86)\ISIS\UDM
+  JAVA_PATH: c:\Program Files\Java\jdk1.8.0
+  PATH: $(PATH);c:\Program Files (x86)\ISIS\UDM\bin
+
+install:
+#  - choco install -y googlechrome
+#  - type C:\ProgramData\chocolatey\logs\chocolatey.log
+#  - dir /b/s C:\MinGW
+  - ps: (new-object net.webclient).DownloadFile('http://repo.isis.vanderbilt.edu/GME/17.10.13/GME_x64-17.10.13.msi', 'c:\GME_x64-17.10.13.msi')
+  - ps: (new-object net.webclient).DownloadFile('http://repo.isis.vanderbilt.edu/UDM/3.2.14/UDM_x64-3.2.14.msi', 'c:\UDM_x64-3.2.14.msi')
+  - msiexec /i c:\GME_x64-17.10.13.msi /quiet /qn /norestart /log GME_install.log
+#  - type GME_install.log
+  - msiexec /i c:\UDM_x64-3.2.14.msi /quiet /qn /norestart /log UDM_install.log
+
+build_script:
+  - msbuild make.msbuild /t:Installer /m /nodeReuse:false /consoleloggerparameters:Verbosity=minimal /fl /flp:LogFile=msbuild.log
+
+test_script:
+  - .\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe  test\tests.xunit
+
+artifacts:
+  - path: "*.log"

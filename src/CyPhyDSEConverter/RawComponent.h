@@ -22,24 +22,14 @@ class RawComponent {
 // Insert your application specific member and method definitions here
 public:
 	std::map<std::string, _variant_t> componentParameters;
-	std::string delimiter;
 
 	void UpdateParameters();
 
 	RawComponent()
 	{
-		delimiter = ";\n";
-		std::string Value = "";
 		// initialize component parameters
-		componentParameters.clear();
-		//componentParameters["key"]            = _variant_t("value");
 		componentParameters["name"]             = _variant_t("Design Space Refactorer");
 
-		Value.erase();
-		Value += "Provides various facilities to convert design space elements into other types of design space elements while preserving the connections and creating new ports as needed.\n";
-		componentParameters["description"]      = _variant_t(Value.c_str());
-
-		componentParameters["help"]             = _variant_t("Help string message. Usage: TBA...");
 		componentParameters["console_messages"] = _variant_t("on");
 		componentParameters["refactored_type_or_action"]       = _variant_t("");
 		componentParameters["automation"]       = _variant_t("false");

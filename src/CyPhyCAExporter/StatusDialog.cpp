@@ -95,12 +95,3 @@ void CStatusDialog::SetRange(int range)
 	if(range > m_maxPrg)
 		m_maxPrg = range;
 };
-
-CStatusDialog * GetStatusDlg(CStatusDialog * set)
-{
-	static CStatusDialog * csdlg;
-	
-	if (set) csdlg = set;
-	ASSERT(csdlg != NULL);
-	return csdlg;
-};

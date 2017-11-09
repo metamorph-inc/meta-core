@@ -17,6 +17,7 @@ using GME;
 using GME.MGA.Meta;
 using System.Threading.Tasks;
 using System.Security.Permissions;
+using System.Security;
 
 namespace CyPhy2CAD_CSharp.DataRep
 {
@@ -205,7 +206,8 @@ namespace CyPhy2CAD_CSharp.DataRep
                 }
             }
 
-            return String.Format("Component {0} depends on '{1}', but it does not exist on disk", compName, relPath);
+            return String.Format("Component {0} depends on <span style=\"background-color: DDDDDD\">{1}</span>, but it does not exist on disk",
+                compName, SecurityElement.Escape(relPath));
         }
 
         public Task<string> missingFile;
@@ -223,7 +225,8 @@ namespace CyPhy2CAD_CSharp.DataRep
 
                     string absPath;
                     cadmodel.TryGetResourcePath(out absPath, ComponentLibraryManager.PathConvention.ABSOLUTE);
-                    missingFile  = Task.Run(() => CheckFileExists(cyphycomp.ToHyperLink(Traceability), uri, absPath));
+                    var hyperlink = cyphycomp.ToHyperLink(Traceability);
+                    missingFile  = Task.Run(() => CheckFileExists(hyperlink, uri, absPath));
 
                     // META-1382
                     //ModelName = UtilityHelpers.CleanString2(Path.GetFileNameWithoutExtension(uri));

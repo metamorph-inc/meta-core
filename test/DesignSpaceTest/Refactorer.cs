@@ -159,7 +159,9 @@ namespace DesignSpaceTest
 
             proj.PerformInTransaction(delegate
             {
-                var rootDC = (MgaModel)proj.ObjectByPath["/@NewDS__Component Assembly/@NewDC__Component Assembly"];
+                var path = "/@NewDS__Component Assembly/@NewDC__Component Assembly";
+                var rootDC = (MgaModel)proj.ObjectByPath[path];
+                Assert.True(rootDC != null, String.Format("Could not find FCO with path '{0}'", path));
                 var fcos = rootDC.GetDescendantFCOs(proj.CreateFilter()).Cast<MgaFCO>().ToList();
                 Assert.Equal(6, fcos.Count);
                 foreach (MgaFCO fco in fcos)

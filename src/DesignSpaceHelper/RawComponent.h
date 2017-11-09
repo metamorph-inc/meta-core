@@ -12,10 +12,12 @@
 #endif
 
 class RawComponent {
-////////////////////
-// Insert your application specific member and method definitions here
 public:
-	RawComponent() { ; }
+	bool clearConsole;
+	RawComponent() :
+		clearConsole(false)
+	{
+	}
 
 	HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool applyConstraintsInNoninteractive);
 

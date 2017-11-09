@@ -247,49 +247,5 @@ namespace ElaboratorTest
                 Assert.True(err.Message.Contains("Cannot run FormulaEvaluator on Library Objects."));
             }
         }
-
-        [Fact]
-        [Trait("Model", "RollingWheelWithLib")]
-        public void FormulaEvaluatorLibraryComponentAsUser()
-        {
-            string objectAbsPath = "/@_Lib_/@ModelicaImports/@Damper";
-
-            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
-            // Set automation to false and expect no exception
-            FormulaEvaluateRunner.RunFormulaEvaluate(mgaFile, objectAbsPath, false);
-        }
-
-        [Fact]
-        [Trait("Model", "RollingWheelWithLib")]
-        public void FormulaEvaluatorLibraryCAAsUser()
-        {
-            string objectAbsPath = "/@_Lib_/@CAWheel/@Wheel";
-
-            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
-            // Set automation to false and expect no exception
-            FormulaEvaluateRunner.RunFormulaEvaluate(mgaFile, objectAbsPath, false);
-        }
-
-        [Fact]
-        [Trait("Model", "RollingWheelWithLib")]
-        public void FormulaEvaluatorLibraryTestComponentAsUser()
-        {
-            string objectAbsPath = "/@_Lib_/@ModelicaImports/@ModelicaImports/@Sine";
-
-            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
-            // Set automation to false and expect no exception
-            FormulaEvaluateRunner.RunFormulaEvaluate(mgaFile, objectAbsPath, false);
-        }
-
-        [Fact]
-        [Trait("Model", "RollingWheelWithLib")]
-        public void FormulaEvaluatorLibraryTestBenchAsUser()
-        {
-            string objectAbsPath = "/@_Lib_/@TestBenches/@RollingWheel";
-
-            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
-            // Set automation to false and expect no exception
-            FormulaEvaluateRunner.RunFormulaEvaluate(mgaFile, objectAbsPath, false);
-        }
     }
 }

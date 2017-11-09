@@ -88,6 +88,10 @@
       <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>
       <Name>CyPhyGUIs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyMetaLink\CyPhyMetaLink.csproj">
+      <Project>{bedf5de3-bdbe-41cd-aa47-07f1ea12bb18}</Project>
+      <Name>CyPhyMetaLink</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CADCreoTest\CADCreoTest.csproj">
       <Project>{021CB0EC-456B-487D-A74F-AAE8873665EC}</Project>
       <Name>CADCreoTest</Name>

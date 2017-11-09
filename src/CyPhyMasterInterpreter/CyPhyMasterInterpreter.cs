@@ -154,7 +154,7 @@ namespace CyPhyMasterInterpreter
                     selection = masterInterpreter.ShowConfigurationSelectionForm(currentobj as MgaModel, enableDebugging: controlWasHeld);
                     if (selection.SelectedConfigurations == null)
                     {
-                        // user selected Run all configs in parallel
+                        // user selected "Run in parallel"
                         return;
                     }
                     MgaGateway.PerformInTransaction(() =>

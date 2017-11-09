@@ -159,11 +159,11 @@ goto :ERROR_SECTION
             #line default
             #line hidden
             this.Write("\r\nexit 0\r\n\r\n:ERROR_SECTION\r\necho %ERROR_MSG% >>_FAILED.txt\r\necho \"\"\r\necho \"See Er" +
-                    "ror Log: _FAILED.txt\"\r\nping -n 8 127.0.0.1 > nul\r\nexit /b %ERROR_CODE%\r\n\r\n\r\n");
+                    "ror Log: _FAILED.txt\"\r\nexit /b %ERROR_CODE%\r\n\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 122 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+        #line 121 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
   
 public bool Automation {get;set;}
 
