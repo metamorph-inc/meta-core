@@ -123,7 +123,7 @@ namespace CyPhyMetaLink
                 metalinkAddon = GetMetaLinkAddon(project);
                 if (metalinkAddon == null)
                 {
-                    GMEConsole.Error.WriteLine("CyPhyMLSync: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
+                    GMEConsole.Error.WriteLine("MetaLink: Unable to find CyPhyMetaLinkAddon. Was it disabled under Tools>Register Components?");
                     return;
                 }
                 ConnectToMetaLinkBridge(project, param);
@@ -207,6 +207,14 @@ namespace CyPhyMetaLink
                 }
 
                 //GMEConsole.Out.WriteLine("End of CyPhySync interpreter...");
+            }
+            catch (AggregateException e)
+            {
+                foreach (var exception in e.InnerExceptions)
+                {
+                    GMEConsole.Error.WriteLine(exception.Message);
+                }
+                throw new ApplicationException(e.InnerException.Message, e.InnerException);
             }
             finally
             {
@@ -389,6 +397,7 @@ namespace CyPhyMetaLink
                                         bridgeListening.SetResult(true);
                                     }
                                     log.WriteLine(e.Data);
+                                    // log.Flush();
                                 }
                             };
                             metalink.OutputDataReceived += handler;
@@ -711,7 +720,7 @@ namespace CyPhyMetaLink
             CyPhyMetaLink.SyncedComponentData cdata = new CyPhyMetaLink.SyncedComponentData()
             {
                 Type = SyncedComponentData.EditType.Design,
-                WorkingDir = Path.Combine(ProjectDirectory, workingDir),
+                WorkingDir = Path.Combine(ProjectDirectory, "metalink",  workingDir),
                 Id = topasm.Guid.ToString(),
                 InstanceId = (CyPhyMetaLinkAddon.IdCounter++).ToString()
             };
@@ -818,6 +827,23 @@ namespace CyPhyMetaLink
 
         public static IntPtr AssignProcessToKillOnCloseJob(Process process)
         {
+            IntPtr job = CreateKillOnCloseJob();
+            AssignProcessToJobObject(process, job);
+
+            return job;
+        }
+
+        public static void AssignProcessToJobObject(Process process, IntPtr job)
+        {
+            if (!AssignProcessToJobObject(job, process.Handle))
+            {
+                CloseHandle(job);
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
+
+        public static IntPtr CreateKillOnCloseJob()
+        {
             IntPtr job = CreateJobObject(IntPtr.Zero, null);
             if (job == IntPtr.Zero)
             {
@@ -833,11 +859,6 @@ namespace CyPhyMetaLink
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
 
             if (!SetInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, (uint)Marshal.SizeOf(info)))
-            {
-                CloseHandle(job);
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-            if (!AssignProcessToJobObject(job, process.Handle))
             {
                 CloseHandle(job);
                 throw new Win32Exception(Marshal.GetLastWin32Error());

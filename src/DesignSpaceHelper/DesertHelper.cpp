@@ -653,9 +653,8 @@ void DesertHelper::applyConstraints(set<int> constraints_list, bool dsRefresh)
 		}
 	}
 
-	using namespace DesertIface;
-
-	// debugging: ds_dn->SaveAs("tmp\\tmp.mem");
+	// debugging:
+	//ds_dn->SaveAs("tmp\\tmp.mem");
 	runDesertFinit_1(conslist, dsRefresh);
 }
 
@@ -664,9 +663,8 @@ void DesertHelper::applyAllConstraints(bool dsRefresh)
 	conId_list.clear();
 	applyAll = true;
 
-	using namespace DesertIface;
-
-	DesertSystem ds = DesertSystem::Cast(ds_dn->GetRootObject());
+	// debugging:
+	//ds_dn->SaveAs("tmp1.mem");
 	runDesertFinit_1("applyAll", dsRefresh);
 }
 

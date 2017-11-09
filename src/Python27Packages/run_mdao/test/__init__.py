@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 
 import run_mdao
+import run_mdao.drivers
 import glob
 import os
 import os.path
@@ -51,6 +52,18 @@ class RegressionTest(unittest.TestCase):
     def test_run_failure(self):
         with run_regression(os.path.join(_this_dir, 'run_failure.csv')):
             run_mdao.run_one('mdao_config_basic_CyPhy.json', (('designVariable.y', 0), ('designVariable.x', 'Ia')))
+
+    def test_run_csv(self):
+        import csv
+        with open(os.path.join(_this_dir, 'run_csv.csv'), 'rU') as csv_input_file:
+            with open(os.path.join(_this_dir, 'run_csv_input.csv'), 'wb') as csv_desvar_file:
+                writer = csv.writer(csv_desvar_file)
+                reader = csv.reader(csv_input_file)
+                for row in reader:
+                    writer.writerow(row[0:2])
+        with run_regression(os.path.join(_this_dir, 'run_csv.csv')):
+            driver = run_mdao.drivers.CsvDriver(_this_dir, 'run_csv_input.csv')
+            run_mdao.run('mdao_config_basic_CyPhy.json', override_driver=driver)
 
     def test_mdao_config_artifacts(self):
         os.chdir(_this_dir)

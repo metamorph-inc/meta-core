@@ -26,14 +26,21 @@ class CUdmApp
 {
 
 public:
-	static string projectDir;
-	static string projectDir_SOT;
-	static int Initialize();
+	string projectDir;
+	string projectDir_SOT;
+	bool &Automation;
+	int Initialize();
 	void UdmMain(Udm::DataNetwork* p_backend, Udm::Object currentObject, std::set<Udm::Object> selectedObjects, long param);
 	std::vector<std::string> numericLeafNodes;
 
+	bool &DoNotGeneratePostProcessing;
+	string &OutputDir;
+	CUdmApp(bool &Automation, bool &DoNotGeneratePostProcessing, string &OutputDir) : Automation(Automation), DoNotGeneratePostProcessing(DoNotGeneratePostProcessing), OutputDir(OutputDir)
+	{
+	}
+
 private:
-	static void GeneratePostProcessingPython(const Udm::Object &, string);
+	void GeneratePostProcessingPython(const Udm::Object &, string);
 	static void CopyDirectory(string src, string dest);
 };
 

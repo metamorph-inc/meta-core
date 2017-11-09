@@ -9,11 +9,11 @@ typedef pair<CyPhyML::Connector, Udm::Object> Connector_Pair;
 class CyPhyCAExporter
 {
 public:
-	CyPhyCAExporter(){};
 	CyPhyCAExporter(CyPhyML::ComponentAssemblies &cyphy_cas, CyPhyML::CWC &cyphy_cwc, bool cyphy_flatten);
 	void createComponentAssembly();
 	CyPhyML::ComponentAssembly getComponentAssembly();
 	bool showGui;
+	std::unique_ptr<std::map<Udm::Object, Udm::Object> > copiedObjectsToOriginals;
 private:
 	CyPhyML::CWC cwc;
 	CyPhyML::DesignContainer rootDC;

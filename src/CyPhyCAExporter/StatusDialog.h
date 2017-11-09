@@ -38,5 +38,3 @@ private:
 public:
 	afx_msg void OnDestroy();
 };
-
-CStatusDialog * GetStatusDlg(CStatusDialog * set_dlg);

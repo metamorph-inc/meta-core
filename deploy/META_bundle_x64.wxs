@@ -69,8 +69,8 @@
                   Vital="yes"
                   Cache="no"
                   SuppressSignatureVerification="yes"
-                  SourceFile="Redist\VCRedist_2015\vc_redist.x86.exe"
-                  DownloadUrl="https://download.microsoft.com/download/2/6/8/268f7be7-8d2a-42d6-a823-5c6941a3d70a/vc_redist.x86.exe"
+                  SourceFile="Redist\VCRedist_2015\vc_redist.x86.$(var.VcRedistVersion).exe"
+                  DownloadUrl="https://download.microsoft.com/download/0/6/4/064F84EA-D1DB-4EAA-9A5C-CC2F0FF6A638/vc_redist.x86.exe"
       />
 
       <ExePackage Id="vcredist_2015_x64.exe"
@@ -87,8 +87,8 @@
                   Vital="yes"
                   Cache="yes"
                   SuppressSignatureVerification="yes"
-                  SourceFile="Redist\VCRedist_2015\vc_redist.x64.exe"
-                  DownloadUrl="https://download.microsoft.com/download/6/3/a/63abaf83-2ca6-4460-90d7-12de8e815b1a/vc_redist.x64.exe"
+                  SourceFile="Redist\VCRedist_2015\vc_redist.x64.$(var.VcRedistVersion).exe"
+                  DownloadUrl="https://download.microsoft.com/download/0/6/4/064F84EA-D1DB-4EAA-9A5C-CC2F0FF6A638/vc_redist.x64.exe"
                   />
 
       <MsuPackage Id="Win71_KB2999226_x64"
@@ -131,8 +131,8 @@
                   />
 
       <MsiPackage Id="GME"
-                  Name="GME_x64-17.3.13.msi"
-                  DownloadUrl="http://repo.isis.vanderbilt.edu/GME/17.3.13/GME_x64-17.3.13.msi"
+                  Name="GME_x64-$(var.GMEVersion).msi"
+                  DownloadUrl="http://repo.isis.vanderbilt.edu/GME/$(var.GMEVersion)/GME_x64-$(var.GMEVersion).msi"
                   Compressed="$(var.Compressed)"
                   Visible="yes"
                   ForcePerMachine="yes"

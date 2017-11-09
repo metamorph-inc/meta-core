@@ -15,7 +15,21 @@ using System.Threading;
 
 namespace ModelTest
 {
-    public class Test
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int ret = Xunit.ConsoleClient.Program.Main(new string[] {
+                System.Reflection.Assembly.GetAssembly(typeof(global::ModelTest.ModelTest)).CodeBase.Substring("file:///".Length),
+                //"/noshadow",
+                // [Trait("THIS", "ONE")]
+                // "/trait", "THIS=ONE",
+            });
+            Console.In.ReadLine();
+        }
+    }
+
+    public class ModelTest
     {
         [Fact]
         [Trait("Model", "Box")]

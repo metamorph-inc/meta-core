@@ -6,6 +6,7 @@ using GME.CSharp;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using CyPhyMasterInterpreter;
 
 namespace CyPhyMasterExe
 {
@@ -16,7 +17,33 @@ namespace CyPhyMasterExe
         {
             try
             {
+                bool noJobCollectionDone = false;
                 // parse command line arguments
+                string jobCollectionId = new Guid().ToString("D");
+                while (true)
+                {
+                    if (args[0] == "--job-collection-id")
+                    {
+                        jobCollectionId = args[1];
+                        args = args.Skip(2).ToArray();
+                    }
+                    else if (args[0] == "--no-job-collection-done")
+                    {
+                        noJobCollectionDone = true;
+                        args = args.Skip(1).ToArray();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (args[0] == "--send-job-collection-done")
+                {
+                    var dispatch = new JobManagerDispatch(jobCollectionId);
+                    dispatch.StartJobManager(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                    dispatch.Done();
+                    return;
+                }
                 string projectConnStr = args[0];
                 string originalSubjectID = args[1];
                 string[] configIDs = args.Skip(2).ToArray();
@@ -36,6 +63,11 @@ namespace CyPhyMasterExe
                     // get an instance of the master interpreter
                     using (var master = new CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI(project))
                     {
+                        master.SetJobCollectionID(jobCollectionId);
+                        if (noJobCollectionDone == true)
+                        {
+                            master.SetSendJobCollectionDone(false);
+                        }
                         // create a configuration for the run
                         var configLight = new CyPhyMasterInterpreter.ConfigurationSelectionLight();
                         configLight.ContextId = originalSubjectID;
@@ -48,6 +80,7 @@ namespace CyPhyMasterExe
 
                         // summarize results
                         master.WriteSummary(results);
+                        System.Environment.Exit(results.Where(r => r.Success == false).Count());
                     }
                 }
                 finally

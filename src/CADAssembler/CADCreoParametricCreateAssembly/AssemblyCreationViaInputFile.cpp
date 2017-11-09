@@ -582,6 +582,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 						// in the same working directory would start with the change assemblies instead of the original assemblies.
 
 						std::string scratchFEADir = "Analysis_Scratch";
+						// FIXME replace with _mkdir(scratchFEADir.c_str());
 						std::string createScratchFEADir = "if not exist " +  scratchFEADir +  " mkdir  " + scratchFEADir;
 						isis::ExecuteSystemCommand( createScratchFEADir);
 						
@@ -940,6 +941,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 						try
 						{
 						std::string createAnalysisDir = "if not exist Analysis mkdir Analysis";
+						// FIXME replace with _mkdir(createAnalysisDir.c_str());
 						isis::ExecuteSystemCommand( createAnalysisDir);
 						std::string analysisMetaData_PathAndFileName = ".\\Analysis\\AnalysisMetaData.xml";
 					

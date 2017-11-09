@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GME.MGA;
+using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 
 namespace CyPhyMasterInterpreter
 {
@@ -37,6 +38,7 @@ namespace CyPhyMasterInterpreter
         public ConfigurationGroupLight[] Groups { get; set; }
 
         public bool IsDesignSpace { get; set; }
+        public CyPhy.DesignContainer designContainer { get; set; }
 
         /// <summary>
         /// Status text about the mode of operation.

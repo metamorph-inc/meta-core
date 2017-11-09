@@ -67,31 +67,16 @@ namespace isis
 
 	void isis_DeleteFile(const std::string &in_PathAndFileName_or_FileName)
 	{
-
-		std::string DeleteFileName = EncloseStringInDoubleQuotes( in_PathAndFileName_or_FileName );
-
-		// std::cout << std::endl << "DeleteFile ----> File: " << DeleteFileName;
-		char  DeleteInstruction[1024];
-		strcpy( DeleteInstruction, "del ");
-		strcat( DeleteInstruction, (char *)DeleteFileName.c_str());
-		system(DeleteInstruction);
+		// TODO test == -1 and modify clients to accept the error
+		_unlink(in_PathAndFileName_or_FileName.c_str());
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	void IfFileExists_DeleteFile(const std::string &in_PathAndFileName_or_FileName)
 	{
-
-		std::string DeleteFileName = EncloseStringInDoubleQuotes( in_PathAndFileName_or_FileName );
-
-		//std::cout << std::endl << "DeleteFile ----> File: " << DeleteFileName;
-		char  DeleteInstruction[1024];
-		strcpy( DeleteInstruction, "IF EXIST ");
-		strcat( DeleteInstruction, (char *)DeleteFileName.c_str());
-		strcat( DeleteInstruction, " DEL ");
-		strcat( DeleteInstruction, (char *)DeleteFileName.c_str());
-		//std::cout << std::endl << "IfFileExists_DeleteFile: " << DeleteInstruction;
-		system(DeleteInstruction);
+		// TODO test == -1 and modify clients to accept the error
+		_unlink(in_PathAndFileName_or_FileName.c_str());
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////

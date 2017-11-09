@@ -20,8 +20,6 @@
 std::wstring wstringFromUTF8(const std::string& utf8);
 std::wstring wstringFromUTF8(const Udm::StringAttr& attr);
 
-//extern string OutputDir;
-
 /** \brief Global traverse function that kicks start everything when called in UdmMain. It calls NewTraverse's traverse function.
     \param [in] focusObject Reference to currently opened model in GME
     \param [in] selectedObjects Reference to a set of currently selected objects in GME  
@@ -400,7 +398,7 @@ void NewTraverser::FindLeafNodes(const CyPhyML::ValueFlowTarget &rootNode, set<C
 		this->m_visitedNodes[rootNode.uniqueId()] = 1;
 
 	set<CyPhyML::ValueFlow> dstVF_Set = rootNode.dstValueFlow();
-	for (set<CyPhyML::ValueFlow>::iterator i = dstVF_Set.begin(); i != dstVF_Set.end(); i++)
+	for (set<CyPhyML::ValueFlow>::iterator i = dstVF_Set.begin(); i != dstVF_Set.end(); )
 	{
 		CyPhyML::ValueFlow dst_vf(*i);
 		CyPhyML::ValueFlowTarget dst_vfTarget = dst_vf.dstValueFlow_end();
@@ -411,8 +409,16 @@ void NewTraverser::FindLeafNodes(const CyPhyML::ValueFlowTarget &rootNode, set<C
 		//	DY 11/22/11: Do not follow ValueFlow outside of Bounding Box
 		Udm::Object dst_vf_Parent = dst_vf.GetParent();
 		if (myParent == m_BoundingBox && dst_vf_Parent != m_BoundingBox)
+		{
+			dstVF_Set.erase(i++);
 			continue;
-		//
+		}
+		if (*dst_vf.dstValueFlow_refport_parent() != Udm::null)
+		{
+			dstVF_Set.erase(i++);
+			continue;
+		}
+		++i;
 
 		map<long, int>::iterator  j = this->m_visitedNodes.find(dst_vfTarget.uniqueId());
 		if (j != this->m_visitedNodes.end())
@@ -582,7 +588,15 @@ bool NewTraverser::IsLeafNode(const CyPhyML::ValueFlowTarget &vft)
 				}
 			}
 			else
-				outCount = dstVFs.size();
+			{
+				for (auto dstVF = dstVFs.begin(); dstVF != dstVFs.end(); ++dstVF)
+				{
+					if (*dstVF->dstValueFlow_refport_parent() == Udm::null)
+					{
+						outCount++;
+					}
+				}
+			}
 		}
 	}
 
@@ -954,6 +968,10 @@ void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, C
 	std::string valueStr;
 	to_string(valueStr, value);
 	UpdateNamedElementValue(vfTarget, unitRef, valueStr);
+	if (leafNodes.find(vfTarget) != leafNodes.end())
+	{
+		numericLeafNodes.emplace_back(vfTarget.name());
+	}
 }
 
 void NewTraverser::UpdateNamedElementValue(CyPhyML::ValueFlowTarget &vfTarget, CyPhyML::unit& unitRef, std::string valueStr)
@@ -1060,9 +1078,9 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 		CyPhyML::Constant tmp = CyPhyML::Constant::Cast(vf);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		val = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		val = buf;
 	}
 	else if (vfType == CyPhyML::ValueFlowTypeSpecification::meta)
 	{
@@ -1645,8 +1663,37 @@ void NewTraverser::EvaluateCADParameters()
 			{
 				// Try to get unit from reference
 				if (ci->getReferencedObject() != Udm::null)
+				{
 					cyphy_unit = CyPhyML::unit::Cast(ci->getReferencedObject());
+				}
 
+			}
+			// if unit is not specified, assume mm kg s deg
+			if (cyphy_unit == Udm::null && unit_name == "")
+			{
+				auto lengthRep = UnitUtil::DimensionRep::zeroes;
+				lengthRep.length = 1;
+				if (incomingVURep.unitRep == lengthRep)
+				{
+					unit_name = "mm";
+				}
+
+				auto massRep = UnitUtil::DimensionRep::zeroes;
+				massRep.mass = 1;
+				if (incomingVURep.unitRep == massRep)
+				{
+					unit_name = "kg";
+				}
+
+				auto timeRep = UnitUtil::DimensionRep::zeroes;
+				timeRep.time = 1;
+				if (incomingVURep.unitRep == timeRep)
+				{
+					unit_name = "s";
+				}
+
+				auto angleRep = UnitUtil::DimensionRep::zeroes;
+				// FIXME: default to deg
 			}
 			if (cyphy_unit == Udm::null && unit_name != "")
 			{
@@ -1657,7 +1704,6 @@ void NewTraverser::EvaluateCADParameters()
 					GMEConsole::Console::writeLine(message, MSG_ERROR);
 					throw udm_exception (message);
 				}
-		
 			}
 			
 			if (cyphy_unit != Udm::null)
@@ -2047,9 +2093,9 @@ string NewTraverser::GetVftUnitAndValue(const CyPhyML::ValueFlowTarget& vft, Uni
 		CyPhyML::Constant tmp = CyPhyML::Constant::Cast(vft);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		val = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		val = buf;
 	}
 	else if (vft_type == CyPhyML::ValueFlowTypeSpecification::meta)
 	{
@@ -2095,9 +2141,9 @@ std::string NewTraverser::NonRealValueFixture( CyPhyML::ValueFlowTarget &vft, st
 		auto tmp = CyPhyML::Constant::Cast(vft);
 
 		// convert double to string
-		std::ostringstream strs;
-		strs << tmp.ConstantValue();
-		strValue = strs.str();
+		char buf[30];
+		sprintf_s(buf, "%.17g", static_cast<double>(tmp.ConstantValue()));
+		strValue = buf;
 	}
 
 	if (strValue != "")

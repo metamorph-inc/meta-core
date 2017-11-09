@@ -11,6 +11,7 @@ import contextlib
 import itertools
 import numpy
 import six
+from collections import defaultdict
 
 from run_mdao.csv_recorder import MappingCsvRecorder, CsvRecorder
 from run_mdao.enum_mapper import EnumMapper
@@ -135,7 +136,7 @@ def instantiate_component(component, component_name, mdao_config, root, subprobl
         return component_instance
 
 
-def run(filename, override_driver=None):
+def run(filename, override_driver=None, append_csv=False):
     """Run OpenMDAO on an mdao_config."""
     original_dir = os.path.dirname(os.path.abspath(filename))
     if MPI:
@@ -143,13 +144,17 @@ def run(filename, override_driver=None):
     else:
         with open(filename, 'r') as mdao_config_json:
             mdao_config = json.loads(mdao_config_json.read())
-    with with_problem(mdao_config, original_dir, override_driver) as top:
+    with with_problem(mdao_config, original_dir, override_driver, append_csv=append_csv) as top:
         top.run()
         return top
 
 
+def get_desvar_path(designVariable):
+    return 'designVariable.{}'.format(designVariable)
+
+
 @contextlib.contextmanager
-def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False):
+def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False, append_csv=False):
     # TODO: can we support more than one driver
     if len(mdao_config['drivers']) == 0:
         driver = None
@@ -165,9 +170,6 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
     subProblemInputMeta = {}
     subProblemOutputMeta = {}
-
-    def get_desvar_path(designVariable):
-        return 'designVariable.{}'.format(designVariable)
 
     if driver is not None:
         if driver['type'] == 'optimizer':
@@ -246,7 +248,6 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
             else:
                 raise ValueError('Unimplemented designVariable type "{}"'.format(var['type']))
 
-    
     for subProblemName, subProblemConfig in six.iteritems(mdao_config.get('subProblems', {})):
         subProblemDir = os.path.join(original_dir, subProblemName)
 
@@ -317,7 +318,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
                     if source[1] in this_driver.get('designVariables', {}):
                         path = get_desvar_path(source[1])
-                    else: # Source is an objective, ivar, or constraint; need to get the actual source
+                    else:  # Source is an objective, ivar, or constraint; need to get the actual source
                         if source[1] in this_driver.get('objectives', {}):
                             driver_output_type = 'objectives'
                         elif source[1] in this_driver.get('constraints', {}):
@@ -471,32 +472,38 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
         constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
 
-        unknowns_map = design_var_map
-        unknowns_map.update(objective_map)
-        unknowns_map.update(intermediate_var_map)
-        unknowns_map.update(constants_map)
-        unknowns_map.update(constraints_map)
+        unknowns_map = defaultdict(list)
+        def add_to_unknowns(map):
+            for key, val in six.iteritems(map):
+                unknowns_map[key].append(val)
+        add_to_unknowns(design_var_map)
+        add_to_unknowns(objective_map)
+        add_to_unknowns(intermediate_var_map)
+        add_to_unknowns(constants_map)
+        add_to_unknowns(constraints_map)
 
-        new_unknowns_map = {}
+        new_unknowns_map = defaultdict(list)
         # Locate/fix any unknowns that point to subproblem outputs
-        for unknown_path, unknown_name in six.iteritems(unknowns_map):
-            split_path = unknown_path.split('.')
-            if split_path[0] in subProblemOutputMeta:
-                split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
-                new_path = '.'.join(split_path)
-                new_unknowns_map[new_path] = unknown_name
-            else:
-                new_unknowns_map[unknown_path] = unknown_name
+        for unknown_path, unknown_names in six.iteritems(unknowns_map):
+            for unknown_name in unknown_names:
+                split_path = unknown_path.split('.')
+                if split_path[0] in subProblemOutputMeta:
+                    split_path[1] = subProblemOutputMeta[split_path[0]][split_path[1]]
+                    new_path = '.'.join(split_path)
+                    new_unknowns_map[new_path].append(unknown_name)
+                else:
+                    new_unknowns_map[unknown_path].append(unknown_name)
 
         unknowns_map = new_unknowns_map
 
         for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
             if recorder['type'] == 'DriverCsvRecorder':
                 mode = 'wb'
-                if RestartRecorder.is_restartable(original_dir):
+                exists = os.path.isfile(recorder['filename'])
+                if RestartRecorder.is_restartable(original_dir) or append_csv:
                     mode = 'ab'
                 recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
-                if mode == 'ab':
+                if (append_csv and exists) or mode == 'ab':
                     recorder._wrote_header = True
             elif recorder['type'] == 'AllCsvRecorder':
                 mode = 'wb'

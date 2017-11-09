@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import run_mdao
+from run_mdao.drivers import CsvDriver
 import argparse
 import json
 import sys
@@ -11,6 +12,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run a mdao_config.json using OpenMDAO')
     parser.add_argument('filename', nargs='?', default='mdao_config.json')
     parser.add_argument('--one-component', help='component name')
+    parser.add_argument('--desvar-input', help='design variable csv input')
+    parser.add_argument('--append-csv', action='store_true', help='append to CSV instead of overwriting')
 
     args = parser.parse_args()
 
@@ -38,4 +41,11 @@ if __name__ == '__main__':
             sys.stdout.write(json.dumps({name: serialize(val) for name, val in six.iteritems(unknowns)}))
 
     else:
-        run_mdao.run(args.filename)
+        run_kwargs = {}
+        if args.desvar_input:
+            original_dir = os.path.dirname(os.path.abspath(args.filename))
+            run_kwargs['override_driver'] = CsvDriver(original_dir, args.desvar_input)
+
+        run_kwargs['append_csv'] = args.append_csv
+
+        run_mdao.run(args.filename, **run_kwargs)

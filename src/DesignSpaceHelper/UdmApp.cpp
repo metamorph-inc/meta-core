@@ -30,8 +30,6 @@
 
 using namespace CyPhyML;
 
-CString CUdmApp::mgaPath = "";
-
 /* 
 Remarks to CUdmApp::UdmMain(...):
 0.	The p_backend points to an already open backend, and the framework 

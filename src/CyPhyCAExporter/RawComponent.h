@@ -17,7 +17,7 @@ class RawComponent {
 public:
 	RawComponent() { ; }
 private:
-	
+	CComPtr<IUnknown> traceability;
 	
 // Try not to modify the code below this line
 ////////////////////

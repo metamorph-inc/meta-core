@@ -39,9 +39,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ComponentLib_h.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\generated\CyPhyML.h">
       <Filter>Header Files</Filter>
     </ClInclude>

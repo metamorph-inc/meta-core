@@ -84,9 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CyPhy2CAD_CSharp\CommonTraversal.cs">
-      <Link>CommonTraversal.cs</Link>
-    </Compile>
     <Compile Include="CommandButton.cs">
       <SubType>Component</SubType>
     </Compile>

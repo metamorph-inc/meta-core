@@ -1227,8 +1227,8 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 	}
 	std::string propname = UdmUtil::ExtractName(prop);
 
-	if(src_vfs.size()>1)
-		throw udm_exception("It cannot have more than one source ValueFlow if it has one end of Property/Parameter.");
+	if (src_vfs.size()>1)
+		throw udm_exception("<a href=\"mga:" + UdmGme::UdmId2GmeId(prop.uniqueId()) + "\">" + propname + "</a> cannot have more than one source ValueFlow if it has one end of Property/Parameter.");
 
 	DesertIface::VariableProperty vp = DesertIface::VariableProperty::Create(desert_elem);
 	updatevpMap(vp, prop, cyphy_com);
@@ -1253,9 +1253,9 @@ void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, Deser
 
 		std::string expr = "constraint formula_" + increaseCounter() + "_" + propname + " () {"
 			+ DFUtil::getRelativePath(src_vf_end, src_vf_end_parent, cyphy_com) + std::string(src_vf_end.name()) + "()";
-		if (cyphy_com.type() == CyPhyML::DesignContainer::meta)
+		if (src_vf.GetParent().type() == CyPhyML::DesignContainer::meta)
 		{
-			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(cyphy_com);
+			CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(src_vf.GetParent());
 			if ((std::string)dc.ContainerType() == "Optional") {
 				expr += " or " +
 					DFUtil::getRelativePath(src_vf_end, src_vf_end_parent.GetParent(), cyphy_com) +
@@ -1631,6 +1631,15 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 				currExpr = (std::string)propertCon.name() + "()" + expr;
 			else
 				currExpr = "children(\""+UdmUtil::ExtractName(propParent)+"\")."+(std::string)propertCon.name() + "()" + expr;
+			if (Uml::IsDerivedFrom(cyphy_container.type(), CyPhyML::DesignContainer::meta))
+			{
+				auto dc = CyPhyML::DesignContainer::Cast(cyphy_container);
+				if (dc.ContainerType() == "Optional")
+				{
+					// if optional is not selected, constraint doesn't matter
+					currExpr = std::string("implementedBy() = children(\"null\") or ") + currExpr;
+				}
+			}
 
 			DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
 			dsConstraint.name() = dsconName;

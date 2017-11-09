@@ -30,6 +30,7 @@ UpgradeLog.htm
 *.wixobj
 *.wxitmp
 *.VC.opendb
+trail.txt.*
 **/CyPhyPET_combine.cmd
 tmp.mga
 license.rtf
@@ -58,15 +59,6 @@ source_code_analysis/*.pylint.html
 source_code_analysis/*.cppcheck.txt
 source_code_analysis/*.cloc.csv
 source_code_analysis.log
-models/PET_simple_proof-of-concept/Constants/
-models/PET_simple_proof-of-concept/Constants_fail_array/
-models/PET_simple_proof-of-concept/Constants_fail_float/
-models/PET_simple_proof-of-concept/Constants_fail_string/
-models/PET_simple_proof-of-concept/Support_FEA_Test_Bench/
-models/PET_simple_proof-of-concept/OptimizationInitialConditionProfiling/
-models/PET_simple_proof-of-concept/OptimizationInitialConditionProfiling_OptimizationProblem/
-models/PET_simple_proof-of-concept/OptimizationProblemWithExposedInitialConditions/
-models/PET_simple_proof-of-concept/StringEnumDriver/
 models/PET_simple_proof-of-concept/*.tmp
 deploy/CAD_Installs/WiX.Toolset.*/
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/
@@ -246,6 +238,7 @@ models/ComponentsAndArchitectureTeam/ComponentLibraryManager_AddOn/
 models/ComponentsAndArchitectureTeam/FormulaEvaluator/FormulaEvaluator_test.mga
 models/ComponentsAndArchitectureTeam/FormulaEvaluator/log/
 models/DesignSpace/Refactorer_test.mga
+models/DesignSpace/ToyDS.mga
 models/DesignSpace/ToyDS_test.mga
 models/DesignSpace/log/
 models/DynamicsTeam/CLM_Light/CLM_Light_test.mga
@@ -354,6 +347,7 @@ models/DynamicsTeam/MSD_PET_RuleFailure/RuleFailures_FailureTB_SimpleCalculation
 models/DynamicsTeam/MSD_PET_RuleFailure/RuleFailures_PCC_DriverParam2MultipleTBParams/
 models/DynamicsTeam/MSD_PET_RuleFailure/Test Benches_MassSpringDamperTest/
 models/DynamicsTeam/MSD_PET_RuleFailure/UniformExample/
+models/DynamicsTeam/MSD_PET_RuleFailure/MDAO_zeroDesignVariables/
 models/DynamicsTeam/MSD_PET_RuleFailure/log/
 models/DynamicsTeam/MasterInterpreter/MasterInterpreter_test.mga
 models/DynamicsTeam/MasterInterpreter/design-space/
@@ -579,6 +573,7 @@ test/InterchangeTest/DesignInterchangeTest/ImportTestUnits/ValueFlow/ValueFlow_t
 test/InterchangeTest/DesignInterchangeTest/ImportTestUnits/ValueFlow/log/
 test/nunit_results.xml
 test/results/
+test/ModelTest/temp/
 externals/desert/DesertBackCompare/ReleaseUnicode/
 externals/desert/ReleaseUnicode/
 models/DynamicsTeam/RISimpleFormula/NonScalarParamsProps_ParamCA/
@@ -636,9 +631,13 @@ models/MBD/test.py
 models/MassSpringDamper/log/
 src/DecoratorLib/
 src/ReleaseUnicode/
-src/nuget/**
+# src/nuget/*/
+src/nuget/*/*.nupkg
+src/nuget/*/lib/
+src/nuget/*/build/*
+!src/nuget/*/build/native
+src/nuget/*/build/native/*
 !src/nuget/*/build/native/*.targets
-!src/nuget/repositories.config
 externals/desert/nuget/**
 !externals/desert/nuget/*/build/native/*.targets
 !externals/desert/nuget/repositories.config

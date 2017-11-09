@@ -102,7 +102,7 @@ namespace JobManager
 
         public abstract SoT CreateSoT();
 
-        public abstract JobCollection CreateAndAddJobCollection();
+        public abstract JobCollection CreateAndAddJobCollection(string id);
 
         public List<Job> Jobs { get; set; }
         public List<SoT> SoTs { get; set; }

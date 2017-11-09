@@ -87,10 +87,9 @@ namespace ComponentAndArchitectureTeamTest
         }
         #endregion
 
-        public string[] RunFormulaEvaluator(MgaFCO currentobj)
+        public string[] RunFormulaEvaluator(MgaFCO currentobj, string automation = "true")
         {
             // create formula evaluator type
-            // FIXME: calling the elaborator is faster than calling the formula evaluator
             Type typeFormulaEval = Type.GetTypeFromProgID("MGA.Interpreter.CyPhyFormulaEvaluator");
             IMgaComponentEx formulaEval = Activator.CreateInstance(typeFormulaEval) as IMgaComponentEx;
 
@@ -102,7 +101,7 @@ namespace ComponentAndArchitectureTeamTest
             formulaEval.Initialize(fixture.proj);
 
             // automation means no UI element shall be shown by the interpreter
-            formulaEval.ComponentParameter["automation"] = "true";
+            formulaEval.ComponentParameter["automation"] = automation;
 
             // do not write to the console
             formulaEval.ComponentParameter["console_messages"] = "off";
@@ -438,6 +437,21 @@ namespace ComponentAndArchitectureTeamTest
         }
 
         [Fact]
+        public void CADComputation_NoUnit()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var sot = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation_NoUnit");
+                Assert.NotNull(sot);
+                string[] numericLeafNodes = RunFormulaEvaluator(sot);
+                var mass_g = (MgaFCO)fixture.proj.get_ObjectByPath("/@Testing/@TestBenchSuites/@CADComputation_NoUnit/@Mass");
+                Assert.NotNull(mass_g);
+                Assert.Equal("10", mass_g.get_StrAttrByName("Value"));
+                Assert.Equal(new string[] { "Mass" }, numericLeafNodes);
+            });
+        }
+
+        [Fact]
         public void StringValue()
         {
             fixture.proj.PerformInTransaction(delegate
@@ -502,5 +516,81 @@ namespace ComponentAndArchitectureTeamTest
                 Assert.Equal(srcProp.Attributes.Value, dstParam.Attributes.Value);
             });
         }
+
+
+        [Fact]
+        public void BaseAssembly()
+        {
+            MgaFCO fcoAsm = null;
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var path = "/@ComponentAssemblies/@BaseAssembly";
+                fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+            });
+
+            RunFormulaEvaluator(fcoAsm, "false");
+
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+                var outMetric = asm.Children.MetricCollection.Single(p => p.Name == "OutMetric");
+                Assert.Equal("100", outMetric.Attributes.Value);
+                var outParamater = asm.Children.ParameterCollection.Single(p => p.Name == "OutParameter");
+                Assert.Equal("100", outParamater.Attributes.Value);
+
+                Assert.Equal(1, asm.Children.ComponentRefCollection.Count());
+                Assert.Equal(0, asm.Children.ComponentCollection.Count());
+            });
+        }
+
+        [Fact]
+        public void HierarchyWithRef()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var path = "/@ComponentAssemblies/@IntoReferences";
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+
+                RunFormulaEvaluator(fcoAsm);
+
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+
+                var parameters = asm.Children.ParameterCollection.Where(p => p.Name.StartsWith("Derived"))
+                                    .Union(asm.Children.ComponentAssemblyCollection.SelectMany(ca => ca.Children.ParameterCollection));
+                foreach (var param in parameters)
+                {
+                    Assert.Equal("5", param.Attributes.Value);
+                }
+
+                var props = asm.Children.PropertyCollection.Where(p => p.Name.StartsWith("Derived"));
+                foreach (var prop in props)
+                {
+                    Assert.Equal("5", prop.Attributes.Value);
+                }
+            });
+        }
+
+        [Fact]
+        public void DriveHigherLevel_RunFormulaEvalHere()
+        {
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var path = "/@ComponentAssemblies/@DriveHigherLevel/@RunFormulaEvalHere";
+                var fcoAsm = (MgaFCO)fixture.proj.get_ObjectByPath(path);
+                Assert.True(fcoAsm != null, String.Format("Could not find {0} in {1}", path, fixture.proj.ProjectConnStr));
+
+                RunFormulaEvaluator(fcoAsm);
+
+                var asm = CyPhyClasses.ComponentAssembly.Cast(fcoAsm);
+
+                foreach (var param in asm.Children.PropertyCollection)
+                {
+                    Assert.Equal("20", param.Attributes.Value);
+                }
+            });
+        }
+
     }
 }

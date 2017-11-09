@@ -68,7 +68,12 @@ namespace DesignSpaceTest
             gateway.PerformInTransaction(() =>
             {
                 currentobj = (MgaFCO)project.RootFolder.ObjectByPath[dsPath];
-            });
+                var configurations = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(currentobj).Children.ConfigurationsCollection;
+                foreach (var configuration in configurations)
+                {
+                    configuration.Delete();
+                }
+            }, abort: false);
             Xunit.Assert.True(currentobj != null, string.Format("'{0}' does not exist in model", dsPath));
 
             desert.Initialize(project);
@@ -176,12 +181,32 @@ namespace DesignSpaceTest
         }
 
         [Fact]
-        void TestDesert_DesignContainer_Alt_Constraint()
+        void TestDesert_DesignContainer_Opt_Constraint()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Alt_Constraint", (configurations) =>
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
-                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+                Assert.Equal(3, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_Opt_Constraint2()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint2", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
+        [Fact]
+        void TestDesert_DesignContainer_Opt_Constraint3()
+        {
+            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint3", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(3, configurations.First().Children.CWCCollection.Count());
             }, null);
         }
 

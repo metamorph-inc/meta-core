@@ -235,7 +235,7 @@ namespace isis
 					if (!comp->resourceExists(getStrFromWstr(name)+getExtension(p_type)))
 					{
 						boost::uuids::uuid guid = boost::uuids::random_generator()();
-						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.path)));
+						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.device) + ":" + getStrFromWstr(p_data.path)));
 					}
 					ProSolidFeatVisit(ProMdlToSolid(mdl), FeatVisitCompOnly, NULL, comp);
 				}
@@ -395,7 +395,7 @@ namespace isis
 			if (!comp.resourceExists(getStrFromWstr(name)+getExtension(p_type)))
 			{
 				boost::uuids::uuid guid = boost::uuids::random_generator()();
-				comp.addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.path)));
+				comp.addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.device) + ":" + getStrFromWstr(p_data.path)));
 			}
 		}
 

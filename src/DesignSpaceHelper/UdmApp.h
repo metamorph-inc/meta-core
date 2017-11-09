@@ -26,8 +26,8 @@
 class CUdmApp  
 {
 public:
-	static void UdmMain(Udm::DataNetwork* p_backend,Udm::Object currentObject, long param, bool applyConstraintsInNoninteractiveMode);
-	static CString mgaPath;
+	void UdmMain(Udm::DataNetwork* p_backend,Udm::Object currentObject, long param, bool applyConstraintsInNoninteractiveMode);
+	CString mgaPath;
 #ifdef _DEBUG
 	static string ExtractName(Udm::Object ob);
 #endif

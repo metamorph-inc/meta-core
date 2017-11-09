@@ -21,24 +21,27 @@ namespace CyPhyMasterInterpreter
 {
     public partial class ConfigurationSelectionForm : Form
     {
+        private Func<ConfigurationSelectionInput> m_inputFunc;
+
         public ConfigurationSelectionOutput ConfigurationSelectionResult { get; set; }
         private ConfigurationSelectionInput m_Input { get; set; }
 
-        public ConfigurationSelectionForm(ConfigurationSelectionInput input, bool enableDebugging)
+        public ConfigurationSelectionForm(Func<ConfigurationSelectionInput> input, bool enableDebugging)
         {
             this.EnableDebugging = enableDebugging;
             this.InitializeComponent();
 
+            this.m_Input = input();
+            this.m_inputFunc = input;
+
             // verify all properties in input
-            if (input == null ||
-                input.Context == null ||
-                input.Groups == null ||
-                input.InterpreterNames == null)
+            if (m_Input == null ||
+                m_Input.Context == null ||
+                m_Input.Groups == null ||
+                m_Input.InterpreterNames == null)
             {
                 throw new ArgumentNullException();
             }
-
-            this.m_Input = input;
 
             this.ConfigurationSelectionResult = new ConfigurationSelectionOutput();
 
@@ -50,6 +53,7 @@ namespace CyPhyMasterInterpreter
 
         private void CommandLinkRunParallel_Click(object sender, EventArgs e)
         {
+            SaveSettingsAndResults();
             this.DialogResult = DialogResult.Yes;
             this.Close();
         }
@@ -61,6 +65,7 @@ namespace CyPhyMasterInterpreter
 
             this.lbExportedCAs.Items.Clear();
             this.lbConfigModels.Items.Clear();
+            this.lbWorkFlow.Items.Clear();
 
             if (this.m_Input.IsDesignSpace)
             {
@@ -70,11 +75,13 @@ namespace CyPhyMasterInterpreter
 
                 foreach (var group in this.m_Input.Groups)
                 {
-                    if (group.IsDirty == false)
+                    if (this.chbShowDirty.Checked || group.IsDirty == false)
                     {
                         this.lbConfigModels.Items.Add(group);
                     }
                 }
+
+                ShowOrHideDesertLinks();
             }
             else
             {
@@ -88,6 +95,7 @@ namespace CyPhyMasterInterpreter
                 {
                     this.AddExportedCAItemQuadratic(config);
                 }
+                ShowOrHideDesertLinks();
             }
 
 
@@ -112,6 +120,21 @@ namespace CyPhyMasterInterpreter
             this.chbSaveTestBenches.Visible = EnableDebugging;
         }
 
+        private void ShowOrHideDesertLinks()
+        {
+            if (this.m_Input.IsDesignSpace == true && this.lbConfigModels.Items.Count == 0)
+            {
+                this.linkLabelRunDesert.Visible = true;
+                this.linkLabelRunDesertAllConfigs.Visible = true;
+                this.labelNoDesetConfigurations.Visible = true;
+            }
+            else
+            {
+                this.linkLabelRunDesert.Visible = false;
+                this.linkLabelRunDesertAllConfigs.Visible = false;
+                this.labelNoDesetConfigurations.Visible = false;
+            }
+        }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -204,6 +227,11 @@ namespace CyPhyMasterInterpreter
 
             this.lbExportedCAs.Refresh();
             this.lblCASelected.Text = this.lbExportedCAs.SelectedItems.Count + " / " + this.lbExportedCAs.Items.Count;
+
+            if (this.lbConfigModels.Items.Count == 1)
+            {
+                this.lbConfigModels.SelectedItem = this.lbConfigModels.Items[0];
+            }
         }
 
         private int LastTipIdx { get; set; }
@@ -249,14 +277,12 @@ namespace CyPhyMasterInterpreter
         private void lbExportedCAs_KeyDown(object sender, KeyEventArgs e)
         {
             //will be true if Ctrl + A is pressed, false otherwise
-            bool ctrlA;
-
-            ctrlA = ((e.KeyCode == Keys.A) &&              // test for A pressed
-                    ((e.Modifiers & Keys.Control) != 0));  // test for Ctrl modifier
+            bool ctrlA = ((e.KeyCode == Keys.A) && e.Control);
 
             if (ctrlA)
             {
                 this.SelectAll(lbExportedCAs);
+                e.Handled = true;
             }
         }
 
@@ -294,6 +320,7 @@ namespace CyPhyMasterInterpreter
                 this.lbExportedCAs.Items.Clear();
                 this.lblCASelected.Text = "0 / 0";
             }
+            ShowOrHideDesertLinks();
 
             if (this.lbConfigModels.Items.Count == 1)
             {
@@ -304,6 +331,76 @@ namespace CyPhyMasterInterpreter
         private void lbExportedCAs_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.lblCASelected.Text = this.lbExportedCAs.SelectedItems.Count + " / " + this.lbExportedCAs.Items.Count;
+        }
+
+        private void linkLabelRunDesertAllConfigs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RunDesert(128);
+        }
+
+        private void RunInTransaction(Action<MgaProject> action)
+        {
+            MgaProject project = m_Input.designContainer.Impl.Project;
+            project.BeginTransactionInNewTerr(transactiontype_enum.TRANSACTION_NON_NESTED);
+
+            try
+            {
+                action(project);
+
+                project.CommitTransaction();
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    project.AbortTransaction();
+                }
+                catch
+                {
+                }
+
+                throw;
+            }
+
+        }
+
+        private void RunDesert(int param)
+        {
+            RunInTransaction((project) => {
+                Type desertType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
+                var desert = (IMgaComponentEx)Activator.CreateInstance(desertType);
+
+                desert.ComponentParameter["clearConsole"] = false;
+                desert.Initialize(project);
+                desert.InvokeEx(project, (MgaFCO)m_Input.designContainer.Impl, null, param);
+
+                this.m_Input = m_inputFunc();
+            });
+            InitForm();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RunDesert((int)component_startmode_enum.GME_MAIN_START);
+        }
+
+        private void lbConfigModels_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (lbConfigModels.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            if (e.KeyCode == Keys.Delete)
+            {
+                RunInTransaction((project) =>
+                {
+                    var group = (ConfigurationGroupLight)lbConfigModels.SelectedItem;
+                    project.GetFCOByID(group.Owner.GMEId).DestroyObject();
+                    this.m_Input = m_inputFunc();
+                });
+                InitForm();
+            }
         }
     }
 }
