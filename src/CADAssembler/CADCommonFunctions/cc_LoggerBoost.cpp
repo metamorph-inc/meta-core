@@ -169,7 +169,7 @@ void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
             if(addLineFeed)		failedTxtFileStream << std::endl;
 
 			failedTxtFileStream << std::endl <<	"Input Line: "   << in_InputLine.str() <<  std::endl;
-			failedTxtFileStream << std::endl <<	"Input Line: " << in_InputLine <<  std::endl;
+			//failedTxtFileStream << std::endl <<	"Input Line: " << in_InputLine <<  std::endl;
             failedTxtFileStream << std::endl <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << in_ExeName << " error code: " << in_ExitCode;
 			failedTxtFileStream << std::endl <<  in_ExceptionErrorStringStream.str();
 
