@@ -1,0 +1,455 @@
+#include "cc_AssemblyUtilities.h"
+#include "cc_CommonConstants.h"
+#include "cc_CommonUtilities.h"
+
+namespace isis
+{
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Note - in_UniqueNameIndex == 0, the returned string will be Z0Z
+	//		  in_UniqueNameIndex == -1, he returned string will be Z-1Z  // true even for unsigned int
+	//		  in_UniqueNameIndex == -1, he returned string will be Z1Z
+	std::string CreateStringBasedOnUniqueNameIndex( unsigned int in_UniqueNameIndex )
+	{
+		char buffer[64];
+		_itoa_s(in_UniqueNameIndex,buffer,64,10);
+
+		std::string tempString = "_" + std::string(buffer) + "Z";
+		return tempString;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Amalgamate in_FirstString + in_SecondString, where in_FirstString is truncated, if necessary,
+	// so that the amalgamated string is no longer that in_AllowedSize.
+	// Note: If in_SecondString.size() >= in_AllowedSize, then in_SecondString is returned.
+
+	std::string  MergeStrings_TryToKeepWithinAllowedSize (	const std::string &in_FirstString,
+															const std::string &in_SecondString,
+															unsigned int in_AllowedSize)
+	{
+		// The following line, if true, would result in a string longer than in_AllowedSize
+		if ( in_SecondString.size() >= in_AllowedSize ) return in_SecondString;
+
+		if ( ( in_FirstString.size() + in_SecondString.size() ) <= in_AllowedSize ) return in_FirstString + in_SecondString;
+
+		// Must truncate in_FirstString
+
+		int allowedLengthFirstString = in_AllowedSize - in_SecondString.size();
+	
+		return in_FirstString.substr(0, allowedLengthFirstString) + in_SecondString;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CreateModelNameWithUniqueSuffix(  
+				cad::CadFactoryAbstract	&in_Factory,
+				unsigned int			in_UniqueNameIndex, 
+				const std::string		&in_ModelName_CouldIncludeFamilyTableEntry,
+				std::string				&out_ModelName_Without_Suffix,		// Creo Example:	Chassis
+				std::string				&out_ModelName_With_Suffix,			//					ChassisZ1Z
+				std::string				&out_CompleteName,					//					For family tables, would be the complete name
+																			//					Chassis_8_Wheel<ChassisZ1Z>
+																			//					otherwise, same as out_ModelName_With_Suffix
+				unsigned int			in_AllowedSize )   
+														throw (isis::application_exception)
+	{
+
+		if ( in_ModelName_CouldIncludeFamilyTableEntry.size() > in_AllowedSize )
+		{
+				std::stringstream errorString;
+				errorString 
+					<< "Function - " << __FUNCTION__ << ", string (in_ModelName_CouldIncludeFamilyTableEntry) length exceeds " <<  in_AllowedSize << " characters.  " <<
+							std::string("in_ModelName_CouldIncludeFamilyTableEntry: ") + in_ModelName_CouldIncludeFamilyTableEntry + 
+							"  out_ModelName_With_Suffix: " << out_ModelName_With_Suffix << 
+							"  out_CompleteName: " + out_CompleteName;  	  
+				throw isis::application_exception("C03002", errorString);
+		}
+
+		std::string tempUniqueString;
+		tempUniqueString = CreateStringBasedOnUniqueNameIndex(in_UniqueNameIndex);
+
+		std::string		familyTableEntry;
+		bool			familyTableModel;
+
+		//ExtractModelName_FamilyTable_Info (	in_ModelName_CouldIncludeFamilyTableEntry, 
+		//									out_ModelName_Without_Suffix,
+		//									familyTableEntry,
+		//									familyTableModel );
+
+		isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
+		modelNames.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
+														out_ModelName_Without_Suffix,
+														familyTableEntry,
+														familyTableModel );
+
+		if ( familyTableModel )
+		{
+			int tempAllowedSize = in_AllowedSize - familyTableEntry.size() - 2;  // -2 for the "<" aand ">"
+			out_ModelName_With_Suffix = MergeStrings_TryToKeepWithinAllowedSize(out_ModelName_Without_Suffix, tempUniqueString, tempAllowedSize);
+			//out_CompleteName = BuildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
+			out_CompleteName = modelNames.buildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
+
+		}
+		else
+		{
+			// The following line could result in a string longer than in_AllowedSize, the length will be checked at the end of this function.
+			out_ModelName_With_Suffix = MergeStrings_TryToKeepWithinAllowedSize(out_ModelName_Without_Suffix, tempUniqueString, in_AllowedSize);
+			out_CompleteName = out_ModelName_With_Suffix;
+		}
+
+
+		if ( out_CompleteName.size() > in_AllowedSize )
+		{
+				std::stringstream errorString;
+				errorString 
+					<< "Function - " + std::string(__FUNCTION__) +  ", string length exceeds " <<  in_AllowedSize << " characters.  " <<
+							std::string("in_ModelName_CouldIncludeFamilyTableEntry: ") + in_ModelName_CouldIncludeFamilyTableEntry + 
+							"  out_ModelName_With_Suffix: " << out_ModelName_With_Suffix << 
+							"  out_CompleteName: " + out_CompleteName;  	  
+				throw isis::application_exception("C03002", errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool SelectModelIndicated (		e_ModelSelectorIndicator	in_ModelSelectorIndicator,
+									bool						in_ParametricParametersPresent )
+
+	{
+		if ( in_ModelSelectorIndicator == e_SELECT_ALL_MODELS ) 
+			return true;
+		else
+			if ( in_ParametricParametersPresent && in_ModelSelectorIndicator == e_SELECT_ONLY_PARAMETRIC_MODELS )
+				return true;
+			else
+				return false;
+	
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool  ModelTypesMatch( e_ModelTypeIndicator			in_ModelTypeIndicator,
+						   e_CADMdlType					in_ModelType )
+	{
+		if ( in_ModelTypeIndicator == e_PART_OR_ASSEMBLY_MODEL_TYPE ) return true;
+		if ( in_ModelTypeIndicator == e_PART_MODEL_TYPE		&& in_ModelType == CAD_MDL_PART ) return true;
+		if ( in_ModelTypeIndicator == e_ASSEMBLY_MODEL_TYPE && in_ModelType == CAD_MDL_ASSEMBLY ) return true;
+
+		return false;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
+							cad::CadFactoryAbstract							&in_Factory,
+							unsigned int									&in_out_UniqueNameIndex,
+							e_ModelTypeIndicator							in_ModelTypeIndicator,
+							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
+							bool											in_ForceAllParametricModelsToBeUnique,
+							unsigned int									in_MaxCADModelNameLength,
+							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
+							std::vector<CopyModelDefinition>				&out_FromModel_ToModel  )
+																		throw (isis::application_exception)
+	{
+		
+		std::set<std::string>  modelsAlreadyEncountered;
+
+		//int index = 1;
+		//int maxPartNameLength_BeforeSuffix = PRO_NAME_SIZE - 8;  //  32 - 8 = 24
+
+		//char buffer[isis::ISIS_CHAR_BUFFER_LENGTH];
+
+		for( std::map<std::string, isis::CADComponentData>::iterator i(in_out_CADComponentData_map.begin());
+				i != in_out_CADComponentData_map.end();
+				++i )
+		{
+			std::string			origNameWithoutFamilyEntry_temp;  
+			std::string		    familyTableEntry;				  
+			bool				familyTableModel;
+
+			// e.g. i->second.name							123456789012345<abcd>
+			//		origNameWithoutFamilyEntry_temp			abcd
+			//		familyTableEntry						123456789012345
+			//		familyTableModel						true
+			//ExtractModelName_FamilyTable_Info (	i->second.name, 
+			//									origNameWithoutFamilyEntry_temp,
+			//									familyTableEntry,
+			//									familyTableModel );
+
+			isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
+			modelNames.extractModelNameAndFamilyTableEntry( i->second.name, 
+															origNameWithoutFamilyEntry_temp,
+															familyTableEntry,
+															familyTableModel );
+
+
+
+			if ( i->second.name.size() == 0 )
+			{
+				std::stringstream errorString;
+				errorString 
+				<< "Function - " __FUNCTION__ << ", recieved an empty Creo Model Name for ComponentInstanceID: " << i->first << std::endl <<
+					".  This is probably due to the ComponentInstanceID being referenced in the input XML file (CADAssembly.xml) but does not exists as a component in the input XML file." << std::endl <<
+					"Search on " <<  i->first  << " in the input XML file to locate the error.";
+				throw isis::application_exception("C03002", errorString);
+			}
+
+			std::string modelNameWithSuffix = 
+				ConvertToUpperCase(modelNames.combineCADModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
+				//ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
+
+			//std::cout << std::endl << "############## ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
+
+			if ( in_ForceAllParametricModelsToBeUnique )
+			{
+				// We want to force all parametric parts/assemblies to have a suffix.  This is because we don't know if that 
+				// parametric part or assembly was used in a CyPhy leaf assemblies.  
+				if ( SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && i->second.parametricParametersPresent )
+				{
+					modelsAlreadyEncountered.insert(modelNameWithSuffix);
+				}
+			}
+
+			// Not creating unique names for family table entries now because of the
+			// error described in 
+			// C:\Users\rowens\Documents\Meta\Error_Models\IFV Complete Assembly\Original_Files\0_Readme.txt
+			// Once this error is resolved, will remove the !familyTableModel from the following if statement
+
+			// Check for parametric parts
+			if ( !familyTableModel &&  // Temporaily exclude family table models, see comment above for info on the family table bug.
+					SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && 
+					//ModelTypesMatch(in_ModelTypeIndicator, ProMdlType_enum(i->second.modelType)) &&
+					ModelTypesMatch(in_ModelTypeIndicator, i->second.modelType) &&
+					( modelsAlreadyEncountered.find(modelNameWithSuffix) !=  modelsAlreadyEncountered.end()))  // Part/Assembly occurs a second time
+			{
+				std::string origNameWithoutFamilyEntry;
+				std::string modelName;
+				std::string completeName;
+				CreateModelNameWithUniqueSuffix(	in_Factory,
+													in_out_UniqueNameIndex, 
+													i->second.name,
+													origNameWithoutFamilyEntry,
+													modelName, 
+													completeName,
+													in_MaxCADModelNameLength);
+				i->second.name = completeName;
+
+				CopyModelDefinition copyModelDefinition_temp;
+				copyModelDefinition_temp.componentInstanceID = i->first;
+				copyModelDefinition_temp.fromModelName = origNameWithoutFamilyEntry;
+				copyModelDefinition_temp.toModelName = modelName;
+				copyModelDefinition_temp.modelType = i->second.modelType;
+				out_FromModel_ToModel.push_back(copyModelDefinition_temp);
+
+				//std::cout << std::endl << copyModelDefinition_temp;
+
+				++in_out_UniqueNameIndex;
+			}
+			isis_LOG(lg, isis_FILE, isis_INFO) << "ModelsAlreadyEncountered.insert: " << modelNameWithSuffix;
+			modelsAlreadyEncountered.insert(modelNameWithSuffix);
+		}
+	}	// END ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly	 
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// If at lease one of the assemblies in in_CADAssemblies contains analysisFEA and the analysisFEA is for ANALYSIS_DECK_BASED then return true.
+	bool IsAFEAAnlysisDeckBasedRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->analysesCAD.analysesFEA.size() > 0   ) 
+			{
+				for each ( 	AnalysisFEA j in i->analysesCAD.analysesFEA )
+				{
+					for each ( AnalysisSolver k in j.analysisSolvers) 
+					{
+						if ( k.analysisSolutionType == ANALYSIS_DECK_BASED ) return true;
+					}
+				}
+			}	//return true;
+		}
+		return false;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// If at lease one of the assemblies in in_CADAssemblies contains analysisFEA and the analysisFEA is for ANALYSIS_DECK_BASED then return true.
+	bool IsFEAAnalysisAbaqusModelBasedRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->analysesCAD.analysesFEA.size() > 0   ) 
+			{
+				for each ( 	AnalysisFEA j in i->analysesCAD.analysesFEA )
+				{
+					for each ( AnalysisSolver k in j.analysisSolvers) 
+					{
+						if ( k.analysisSolutionType == ANALYSIS_MODEL_BASED ) return true;
+					}
+				}
+			}	//return true;
+		}
+		return false;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// If at lease one of the assemblies in in_CADAssemblies contains analysesBallistic, then return true.
+	bool IsABallisticAnalysisRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->analysesCAD.analysesBallistic.size() > 0 ) return true;
+		}
+		return false;
+	}
+	bool IsABlastAnlysisRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->analysesCAD.analysesBlast.size() > 0 ) return true;
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// If at lease one of the assemblies in in_CADAssemblies specifies cFDAnalysis == true, then return true.
+	bool IsACFDAnalysisRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->analysesCAD.analysesCFD.size() > 0 ) return true;
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// If at lease one of the assemblies in in_CADAssemblies specifies analysesCAD.interference == true, then return true.
+	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			// Old approach using assemblyMetrics now, if ( i->analysesCAD.interference ) return true;
+			for each (const CADComputation &j in i->assemblyMetrics) if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT ) return true;
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// If at least one of the assemblies in in_CADAssemblies specifies cFDAnalysis == true, then return true.
+	bool HasAssemblyBasedComputations( const CADAssemblies &in_CADAssemblies )
+	{
+		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
+				i !=  in_CADAssemblies.topLevelAssemblies.end();
+				++i)
+		{
+			if ( i->assemblyMetrics.size() > 0 ) return true;
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool FillOutMetricsFileForLeafAssemblies( const std::list<e_DataExchangeSpecialInstruction> &in_DataExchangeSpecifications)
+	{
+		for each ( e_DataExchangeSpecialInstruction i in in_DataExchangeSpecifications ) if ( i == DATA_EXCHANGE_LEAF_ASSEMBLIES_METRICS) return true; 
+
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool Get_CompleteTheHierarchyForLeafAssemblies( const CADAssemblies &in_CADAssemblies )
+	{
+		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
+			if ( i.primary == COMPLETE_THE_HIERARCHY_FOR_LEAF_ASSEMBLIES )
+				return true;
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool Get_UniquelyNameAllCADModelInstances( const CADAssemblies &in_CADAssemblies )
+	{
+		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
+			if ( i.primary == UNIQUELY_NAME_ALL_CAD_MODEL_INSTANCES)
+				return true;
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool Get_OutputJointInformation( const CADAssemblies &in_CADAssemblies )
+	{
+		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
+			if ( i.primary == OUTPUT_JOINT_INFORMATION )
+				return true;
+		return false;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	bool Get_ValidateJointInformation( const CADAssemblies &in_CADAssemblies )
+	{
+		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
+			if ( i.secondary == VALIDATE_JOINT_INFORMATION )
+				return true;
+		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Restrictions:
+	//	There can be at most one InterferenceCount computation.  
+	//	InterferenceCount must reference the top assembly.  Sub-assemblies are not supported at this time.
+	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
+											const CADAssemblies								&in_CADAssemblies,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
+															throw (isis::application_exception)
+	{
+		for each ( const TopLevelAssemblyData &i in in_CADAssemblies.topLevelAssemblies)
+		{
+			int count = 0;
+			std::vector<CADComputation> interferenceCountReferencedComponents;
+			for each (const CADComputation &j in i.assemblyMetrics) 
+			{
+				if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT )
+				{ 
+					++count;
+					interferenceCountReferencedComponents.push_back(j);
+					if ( j.componentID != i.assemblyComponentID )
+					{
+						std::stringstream errorString;
+						errorString <<	"Function - " << __FUNCTION__ << ", An " << std::endl <<
+										"InterferenceCount computation must always be for the top assembly. It cannot" << std::endl <<
+										"be for sub-assemblies.  Check the CyPhy model and verify that a CADComputationComponent that contains" << std::endl <<
+										"an InterferenceCount is not connected to a test-injection point other than the top assembly." << std::endl <<
+										"   Top Assembly Model Name:  " <<	 in_CADComponentData_map[i.assemblyComponentID].name << 
+										 j;
+										//"   InterferenceCount Referenced Model Name: " <<	 in_CADComponentData_map[j.componentID].name;
+						throw isis::application_exception(errorString);		
+					}
+				}
+
+			}
+			if ( count > 1 )
+			{
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+							"There must be no more than one InterferenceCount CADComputationComponent within a CyPhy testbench." << std::endl <<
+							"Number of InterferenceCount Found: " << count << std::endl <<
+							"InterferenceCount CADComputationComponents: " << std::endl;
+							for each ( const CADComputation &k in interferenceCountReferencedComponents )
+							{
+								errorString << "Referenced Model Name:        " << in_CADComponentData_map[k.componentID].name << std::endl;;
+								errorString << "Referenced Model ComponentID: " << k.componentID;
+								errorString << k;
+							}
+				throw isis::application_exception(errorString);		
+			}
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}

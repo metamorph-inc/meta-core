@@ -413,6 +413,45 @@ void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+std::string ModelNamesCreo::buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
+																const std::string &in_FamilyTableEntry )
+{
+	return in_FamilyTableEntry + "<" + in_ModelName + ">";
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string ModelNamesCreo::combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
+															throw (isis::application_exception)
+{
+	if ( in_ModelName.size() == 0 )
+	{
+		std::stringstream errorString;
+		errorString <<
+		"exception: Function " + std::string(__FUNCTION__) + " was passed a null string for in_ModelName.";
+		throw isis::application_exception(errorString.str());
+	}
+
+	std::string tempString;
+	switch (in_ModelType)
+	{
+		case CAD_MDL_PART:
+			tempString = in_ModelName + ".prt";
+			break;
+		case CAD_MDL_ASSEMBLY:
+			tempString = in_ModelName + ".asm";
+			break;
+		default:
+			std::stringstream errorString;
+			errorString <<
+			"exception: Function " + std::string(__FUNCTION__) + " was passed in_ModelType that was not CAD_MDL_PART or CAD_MDL_ASSEMBLY, in_ModelType: " << in_ModelType;
+			throw isis::application_exception(errorString.str());
+		
+	}
+	return tempString;
+}
+
+
 } // creo
 } // cad
 } // isis

@@ -8,10 +8,6 @@ namespace isis
 
 
 
-	// If at lease one of the assemblies in in_CADAssemblies contains analysesBallistic, then return true.    
-	bool IsABallisticAnalysisRun( const CADAssemblies &in_CADAssemblies );
-	// If at lease one of the assemblies in in_CADAssemblies contains analysesBlast, then return true.    
-	bool IsABlastAnlysisRun( const CADAssemblies &in_CADAssemblies );
 
 	void PopulateBallisticFiles( 
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,

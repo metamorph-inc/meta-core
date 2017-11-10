@@ -17,12 +17,7 @@ namespace isis
 		double  size[2];
 	} RasterSettings;
 
-	bool FillOutMetricsFileForLeafAssemblies( const std::list<e_DataExchangeSpecialInstruction> &in_DataExchangeSpecifications)
-	{
-		for each ( e_DataExchangeSpecialInstruction i in in_DataExchangeSpecifications ) if ( i == DATA_EXCHANGE_LEAF_ASSEMBLIES_METRICS) return true; 
 
-		return false;
-	}
 
 
 	bool DataExchange_Format_Version_InList( 

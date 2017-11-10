@@ -12,7 +12,7 @@
 #include <MetaLinkHandler.h>
 #include <Test_MetaLink.h>
 #include <ISISVersionNumber.h>
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 #include "CADFactoryCreo.h"
 #include "CreoErrorCodes.h"
 #include <AssembleUtils.h>
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 		isis::GlobalModelData::Instance.instanceId = programInputArguments.instanceID;
 
-        // Log CADCreoParametricCreateAssembly version information
+        // Log CADCreoParametricMetaLink version information
         std::string programName_Version_TimeStamp;
         programName_Version_TimeStamp = "CADCreoParametricMetaLink " + std::string(ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS);
 
@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
     }
     else
     {

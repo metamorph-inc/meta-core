@@ -8,15 +8,19 @@
 namespace isis
 {
 
-const std::string ASSEMBLE_PTC_VERSION = ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS;
 
-void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
+void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
+								 const std::string								&in_CreateAssemblyProgramName,    // e.g. CADCreoParametricCreateAssembly
+								 const std::string								&in_CreateAssemblyProgramVersion, // e.g. v1.5.23.0
+								 const std::string								&in_CADApplicationName,			  // e.g. CreoParametric
 								 const isis::CreateAssemblyInputArguments       &in_ProgramInputArguments,
 								 const std::string								&in_CADExtensionsDir,
 								 const std::string								&in_templateFile_PathAndFileName,
 								 const std::string								&in_CreoStartCommand,
 								 const std::string								&in_ProgramName_Version_TimeStamp,
-								 bool											&out_Pro_E_Running ) 
+								 unsigned int									in_MaxCADModelNameLength,   // This is max model name length/size (not including the . suffix (e.g. .prt)) ) 
+								 bool											&out_Pro_E_Running )
+
 																					throw (isis::application_exception);
 
 } // END namespace isis

@@ -74,28 +74,6 @@ namespace isis
 		out_GroundPlanePoints.push_back( point);
 
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// If at lease one of the assemblies in in_CADAssemblies contains analysesBallistic, then return true.
-	bool IsABallisticAnalysisRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->analysesCAD.analysesBallistic.size() > 0 ) return true;
-		}
-		return false;
-	}
-	bool IsABlastAnlysisRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->analysesCAD.analysesBlast.size() > 0 ) return true;
-		}
-		return false;
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// For azimuth, north is in the direction of forward movement of the vehicle.  Since the vehicle coordinate 

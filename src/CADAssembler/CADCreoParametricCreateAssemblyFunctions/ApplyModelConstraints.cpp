@@ -4050,7 +4050,7 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Apply_CADDatum_ModelConstraints_2( 
-				cad::CadFactoryAbstract						&in_factory,
+				cad::CadFactoryAbstract						&in_Factory,
 				ProSolid									&in_assembly_model,   // This ProSolid is modified by this function.
 																				  // The modification is to add constraints to the assembly
 																				  // to position a part or sub-assembly.
@@ -4069,7 +4069,7 @@ bool Apply_CADDatum_ModelConstraints_2(
 	// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 	std::vector<std::string>			listOfComponentIDsInTheAssembly;
 	listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
-	PopulateMap_with_Junctions_per_InputXMLConstraints(	in_factory,
+	PopulateMap_with_Junctions_per_InputXMLConstraints(	in_Factory,
 													listOfComponentIDsInTheAssembly, 
 													in_CADComponentData_map );
 		
@@ -4409,7 +4409,7 @@ constraints are irreconcilable.
 */
 
 bool Apply_CADDatum_ModelConstraints( 
-				cad::CadFactoryAbstract						&in_factory,
+				cad::CadFactoryAbstract						&in_Factory,
 				ProSolid									&in_assembly_model,
 				const std::string							&in_ComponentID,		
 				ConstraintDefinition						&in_ConstraintDefinition,
@@ -4419,7 +4419,7 @@ bool Apply_CADDatum_ModelConstraints(
 			// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 			std::vector<std::string>			listOfComponentIDsInTheAssembly;
 			listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
-			PopulateMap_with_Junctions_per_InputXMLConstraints(	in_factory,
+			PopulateMap_with_Junctions_per_InputXMLConstraints(	in_Factory,
 													listOfComponentIDsInTheAssembly, 
 													in_CADComponentData_map );
 			
@@ -4449,7 +4449,7 @@ bool Apply_CADDatum_ModelConstraints(
 
 			std::list<int> removeConstraintIndexes; 
 
-			//cad::IAssembler& assembler = in_factory.get_assembler();
+			//cad::IAssembler& assembler = in_Factory.get_assembler();
 
 			std::vector<PerSetConstraintDefinition> perSetConstraintDefinitions;
 
@@ -5126,7 +5126,7 @@ void ApplyModelConstraints(
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract						&in_factory,
+			cad::CadFactoryAbstract						&in_Factory,
 			ProSolid									*in_assembly_model,
 			const std::string							&in_AssemblyComponentID,
 			const std::list<std::string>				&in_ComponentIDsToBeConstrained, 
@@ -5167,13 +5167,13 @@ bool ApplyModelConstraints(
 			try
 			{
 
-				//bool stop = Apply_CADDatum_ModelConstraints(	in_factory, 
+				//bool stop = Apply_CADDatum_ModelConstraints(	in_Factory, 
 				//									*in_assembly_model,
 				//									*i,
 				//									in_CADComponentData_map[*i].constraintDef, 
 				//									in_CADComponentData_map,
 				//									in_IgnoreGuides);	
-				bool stop = Apply_CADDatum_ModelConstraints_2(	in_factory, 
+				bool stop = Apply_CADDatum_ModelConstraints_2(	in_Factory, 
 													*in_assembly_model,
 													in_AssemblyComponentID,
 													*i,

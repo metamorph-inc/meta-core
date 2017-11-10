@@ -7,26 +7,21 @@
 #include <fstream>
 #include <map>
 #include <unordered_map>
-#include "CadFactoryAbstract.h"
+#include "cc_CadFactoryAbstract.h"
 
 #include <boost/filesystem.hpp>
 
 namespace isis
 {
 	std::string META_PATH();
-	bool Get_CompleteTheHierarchyForLeafAssemblies( const CADAssemblies &in_CADAssemblies );
-	bool Get_UniquelyNameAllCADModelInstances( const CADAssemblies &in_CADAssemblies );
-	bool Get_OutputJointInformation( const CADAssemblies &in_CADAssemblies );
-	bool Get_ValidateJointInformation( const CADAssemblies &in_CADAssemblies );
 
-	bool HasAssemblyBasedComputations( const CADAssemblies &in_CADAssemblies );
 
-	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies );
 
-	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
-											const CADAssemblies								&in_CADAssemblies,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
-																throw (isis::application_exception);
+
+
+
+
+
 
 	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
 										  e_ComputationType					in_ComputationType,
@@ -93,75 +88,7 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct CopyModelDefinition
-	{
-		std::string					componentInstanceID;
-		isis::MultiFormatString		fromModelName;
-		isis::MultiFormatString		toModelName;
-		ProMdlType					modelType;
 
-	};
-
-	enum e_ModelTypeIndicator
-	{
-		e_PART_MODEL_TYPE,
-		e_ASSEMBLY_MODEL_TYPE,
-		e_PART_OR_ASSEMBLY_MODEL_TYPE,
-	};
-
-	enum e_ModelSelectorIndicator
-	{
-		e_SELECT_ALL_MODELS,
-		e_SELECT_ONLY_PARAMETRIC_MODELS
-	};
-
-	// If a part name (not assembly name) appears more than once in in_out_CADComponentData_map
-	//	then
-	//		this function modifies in_out_CADComponentData_map to have unique name for the second
-	//		and later occurrences of the particular part name.  The new and old part names are added
-	//      to out_ToPartName_FromPartName. 
-	//void ModifyToHaveAUniqueNameForEachPart( 
-	//						int												&in_out_UniqueNameIndex,
-	//						e_ModelTypeIndicator							in_ModelTypeIndicator,
-	//						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-	//						std::vector<CopyModelDefinition>				&out_FromModel_ToModel )
-	//																	throw (isis::application_exception);
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	// If part/assem appears more than once in in_out_CADComponentData_map and is a parametric part/assembly
-	//	then
-	//		this function modifies in_out_CADComponentData_map to have unique name for the second
-	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
-	//		The new and old part names are added to out_FromModel_ToModel. 
-	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
-							cad::CadFactoryAbstract							&in_factory,
-							unsigned int									&in_out_UniqueNameIndex,
-							e_ModelTypeIndicator							in_ModelTypeIndicator,
-							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
-							bool											in_ForceAllParametricModelsToBeUnique,
-							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-							std::vector<CopyModelDefinition>				&out_FromModel_ToModel  );
-
-	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition); 
-	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector); 
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	//std::string GetDayMonthTimeYear();
-
-	//class ComponentVistorBuildListOfBoundingBoxComputations: public ComponentVistor
-	//{
- 	//	public:
-	//		std::list<std::string> boundingBoxComputationsComponentIDs;
-
-	//		virtual void operator() ( const std::string  &in_ComponentID, 
-	//								  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map );
-
-	//		ComponentVistorBuildListOfBoundingBoxComputations();
-
-	//};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Description:
@@ -222,17 +149,6 @@ namespace isis
 //		if no exceptions, return out_... variables.  An example follows:	
 //			a) Non Family Table - out_ModelName_With_Suffix="EngineZ1Z",	out_CompleteName="EngineZ1Z"
 //			b) Family table		- out_ModelName_With_Suffix="ChassisZ1Z",	out_CompleteName="Chassis_8_Wheel<ChassisZ1Z>"
-void CreateModelNameWithUniqueSuffix(  
-			cad::CadFactoryAbstract		&in_factory,
-			unsigned int				in_UniqueNameIndex, 
-			const std::string			&in_ModelName_CouldIncludeFamilyTableEntry, // e.g. Chassis_8_Wheel<Chassis>
-			std::string					&out_ModelName_Without_Suffix,				// e.g. Chassis
-			std::string					&out_ModelName_With_Suffix,					// e.g. ChassisZ1Z
-			std::string					&out_CompleteName,							// For family tables, would be the complete name
-																					// e.g. Chassis_8_Wheel<ChassisZ1Z>
-																					// otherwise, same as out_ModelName_With_Suffix
-			unsigned int in_AllowedSize = PRO_NAME_SIZE - 1  )   
-													throw (isis::application_exception);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,7 +169,8 @@ void CreateModelNameWithUniqueSuffix(
 	struct ModelInstanceData
 	{
 		MultiFormatString	modelName;
-		ProMdlType			modelType;
+		//ProMdlType			modelType;
+		e_CADMdlType		modelType;
 		ProSolid			modelHandle;
 
 		// the assebled feature must be a PRO_PART, PRO_ASSEMBLY
@@ -304,7 +221,7 @@ void CreateModelNameWithUniqueSuffix(
 		throw (isis::application_exception);
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_factory,
+					cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
 					bool											in_Force = false)
@@ -346,7 +263,7 @@ void CreateModelNameWithUniqueSuffix(
 																		throw (isis::application_exception);
 
 	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_factory,
+			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
@@ -354,7 +271,7 @@ void CreateModelNameWithUniqueSuffix(
 
 
 	void ResolveAssemblyConstraints_AddMarkersToMap( 
-			cad::CadFactoryAbstract													&in_factory,
+			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )

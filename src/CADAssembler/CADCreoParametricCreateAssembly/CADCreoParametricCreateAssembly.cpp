@@ -132,7 +132,7 @@ int main( int argc, char *argv[] )
 
 		// Log CADCreoParametricCreateAssembly version information
 		std::string programName_Version_TimeStamp;
-		programName_Version_TimeStamp = "CADCreoParametricCreateAssembly " + isis::ASSEMBLE_PTC_VERSION + "      ";
+		programName_Version_TimeStamp = "CADCreoParametricCreateAssembly " + std::string(ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS) + "      ";
 
 		///////////////////
 		// Add Time Stamp
@@ -185,13 +185,16 @@ int main( int argc, char *argv[] )
 										templateFile_PathAndFileName );					// out
   
 
-
 		isis::CreateAssemblyViaInputFile(	*cAD_Factory,
+											"CADCreoParametricCreateAssembly",
+											ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS,
+											"Creo-Parametric",
 											programInputArguments,
 											CADExtensionsDir,
 											templateFile_PathAndFileName,
 											creoStartCommand,
 											programName_Version_TimeStamp,
+											PRO_NAME_SIZE - 1,
 											Pro_E_Running );
 	 
 
@@ -232,7 +235,7 @@ int main( int argc, char *argv[] )
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
     }
 
 	// Delete the copied template assembly file if it exists.

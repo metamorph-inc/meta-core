@@ -23,6 +23,7 @@
 #include <boost/thread/thread.hpp> 
 #include "AssembleUtils.h"
 #include "cc_CommonFunctions.h"
+#include <cc_AssemblyUtilities.h>
 
 // #define DEBUG_BREAKER 1
 
@@ -30,12 +31,17 @@ namespace isis
 {
 
 
-void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
+
+void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
+								 const std::string								&in_CreateAssemblyProgramName,
+								 const std::string								&in_CreateAssemblyProgramVersion,
+								 const std::string								&in_CADApplicationName,  
 								 const isis::CreateAssemblyInputArguments       &in_ProgramInputArguments,
 								 const std::string								&in_CADExtensionsDir,
 								 const std::string								&in_templateFile_PathAndFileName,
 								 const std::string								&in_CreoStartCommand,
 								 const std::string								&in_ProgramName_Version_TimeStamp,
+								 unsigned int									in_MaxCADModelNameLength,   
 								 bool											&out_Pro_E_Running )
 																					throw (isis::application_exception)
 {
@@ -135,11 +141,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		std::vector<CopyModelDefinition>			fromModel_ToModel;
 
 
-		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
 																	uniqueNameIndex, 
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
 																	true, 
+																	PRO_NAME_SIZE - 1,
 																	cADComponentData_map, 
 																	fromModel_ToModel );
 
@@ -236,11 +243,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			// function called later.
  	
 			// Since we already have unique names for parametric parts/assemblies, this will make the non-parametric parts unique.
-			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
 																		uniqueNameIndex, 
 																		e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																		e_SELECT_ALL_MODELS,
 																		false,  
+																		in_MaxCADModelNameLength,
 																		cADComponentData_map, 
 																		fromModel_ToModel );
 			////////////////////////////
@@ -309,50 +317,11 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		}
 
 		
-		/***    This is now done in EnvironmentCreo::setupCADEnvironment
-		std::string configPro_PathAndFileName = workingDirector + "\\config.pro";
-		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" std::string searchMetaPro_PathAndFileName = workingDir + "\\search_META.pro";
-		isis::IfFileExists_DeleteFile( configPro_PathAndFileName);
-		// * 1-10-2013 Cphy2CAD now creates the search_META.pro" isis::IfFileExists_DeleteFile( searchMetaPro_PathAndFileName);
-
-
-
-		//isis::cad::DataContainer 
-
-		////////////////////////////////////////////////
-		// Write config.pro 
-		///////////////////////////////////////////////
-		ofstream config_Pro;
-		config_Pro.open (configPro_PathAndFileName );
-		config_Pro << "override_store_back yes\n";
-		std::string searchMetaFileName = ".\\search_META.pro";
-		if ( isis::FileExists( searchMetaFileName.c_str() )) {
-			config_Pro << "search_path_file " <<  searchMetaFileName;
-		}
-
-
-		if ( cadPartsLibDir.size() > 0 )
-		{
-			// Check if cADPartsLibDir is in double quotes.  If not add double quotes.
-			// This is necessary because Creo Config options with spaces must be enclosed in double quotes.
-			if ( cadPartsLibDir.find("\"")  == string::npos )	cadPartsLibDir = "\"" + cadPartsLibDir + "\"";
-			config_Pro << std::endl << "search_path " <<  cadPartsLibDir;
-		}
-		
-		config_Pro << std::endl << "pro_material_dir " << CreoMaterialMTLFilesDir_Path();
-
-		// add component creo plugin if in graphics mode
-		// config_Pro << std::endl << "toolkit_registry_file  \"" << META_PATH() << "bin\\CAD\\Creo\\plugins\\protk.dat\"";
-
-		config_Pro.close();
-
-		***/
-
 		/////////////////////////////
-		/////// Start Pro/E /////////
+		/////// Start CAD Program ///
 		/////////////////////////////
-		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "CADCreoParametricCreateAssembly "<< ASSEMBLE_PTC_VERSION;
-		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Starting Creo-Parametric, this takes about 10 seconds...";
+		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << in_CreateAssemblyProgramName << " "<< in_CreateAssemblyProgramVersion;
+		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Starting " <<  in_CADApplicationName << ", this takes about 10 seconds...";
 
 		char tempBuffer[1024];
 		strcpy(tempBuffer, in_CreoStartCommand.c_str() );
@@ -383,7 +352,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 		//           been created.
 		//			 3) the search_META.pro has been set 
 		//if ( ToPartName_FromPartName_map.size() > 0 ) isis::CopyModels(ToPartName_FromPartName_map);
-		if ( fromModel_ToModel.size() > 0 ) isis::CopyModels(fromModel_ToModel);
+		if ( fromModel_ToModel.size() > 0 ) isis::CopyModels(in_Factory, fromModel_ToModel);
 
 		////////////////////////////////////////////////////////////////////////////
 		// Setup for writing STEP file informatoin to \\manufacturing.manifest.json
@@ -422,7 +391,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 			//////////////////////////
 			// Build the Assembly
 			//////////////////////////
-			isis::BuildAssembly(	in_factory, 
+			isis::BuildAssembly(	in_Factory, 
 									i->assemblyComponentID, 
 									workingDirector, 
 									true, 
@@ -482,12 +451,13 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					// input xml would have uniqeuly named.  Now we need to uniquely name the models that 
 					// would have been added because the hierarchy was completed for leaf assemblies.
 					std::vector<CopyModelDefinition>			fromModel_ToModel_FEA;
-					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
 																				uniqueNameIndex, 
 																				//e_PART_MODEL_TYPE,
 																				e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																				e_SELECT_ALL_MODELS,
 																				false,
+																				PRO_NAME_SIZE - 1,
 																				cADComponentData_map, 
 																				fromModel_ToModel_FEA );
 
@@ -501,7 +471,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
 					isis_LOG(lg, isis_FILE, isis_INFO)  << "************** End Modified Part Names for Analysis Purposes *****************";
 
-					if ( fromModel_ToModel_FEA.size() > 0 ) isis::CopyModels(fromModel_ToModel_FEA);
+					if ( fromModel_ToModel_FEA.size() > 0 ) isis::CopyModels(in_Factory, fromModel_ToModel_FEA);
 
 					if ( fromModel_ToModel_FEA.size() > 0 ) 
 					{
@@ -621,7 +591,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				if (  CompleteTheHierarchyForLeafAssemblies )  // The hierarchy would have been completed previously.
 				{
 					//ResolveAssemblyConstraints_AddMarkersToMap( 
-					//										in_factory, 
+					//										in_Factory, 
 					//										assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs,
 					//										featureIDs_to_ComponentInstanceID_hashtable,
 					//										cADComponentData_map );
@@ -631,7 +601,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 					isis::VisitComponents( i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps );
 
 					PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
-															in_factory, 
+															in_Factory, 
 															assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps.listOfComponentIDs,
 															featureIDs_to_ComponentInstanceID_hashtable,
 															cADComponentData_map );
@@ -648,7 +618,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_factory,
 				//	defined in a leaf assembly where the markers for the joint would only be valid in the context of the complete assembly.	
 				//	In other words, the prismatic joint would allow the datums defining the joints to move based on the position of 
 				//	connecting parts in the assembly.
-				PopulateMap_with_Junctions_per_InputXMLConstraints(in_factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, cADComponentData_map, true );
+				PopulateMap_with_Junctions_per_InputXMLConstraints(in_Factory, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs, cADComponentData_map, true );
 
 				// This must be after the call to PopulateMap_with_Junctions_per_InputXMLConstraints
 				PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints (	

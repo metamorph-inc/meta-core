@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\protk_appls\includes;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;$(MSBuildThisFileDirectory)CADCreoUtils;$(MSBuildThisFileDirectory)CADCreoParametricToolkitFunctions;$(MSBuildThisFileDirectory)CADCreoParametricCommonFunctions;$(MSBuildThisFileDirectory)CADCommonFunctions;$(MSBuildThisFileDirectory)CADCreateAssemblyFunctions;$(MSBuildThisFileDirectory)CADCreoParametricCreateAssemblyFunctions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\protk_appls\includes;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;$(MSBuildThisFileDirectory)CADCreoUtils;$(MSBuildThisFileDirectory)CADCreoParametricToolkitFunctions;$(MSBuildThisFileDirectory)CADCreoParametricCommonFunctions;$(MSBuildThisFileDirectory)CADCommonFunctions;$(MSBuildThisFileDirectory)CADCreoParametricCreateAssemblyFunctions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

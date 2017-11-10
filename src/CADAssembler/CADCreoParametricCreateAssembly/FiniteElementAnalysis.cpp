@@ -429,47 +429,6 @@ void RetrieveDatumPointCoordinates( const std::string							&in_AssemblyComponen
 	 
 }
 
-// If at lease one of the assemblies in in_CADAssemblies contains analysisFEA and the analysisFEA is for ANALYSIS_DECK_BASED then return true.
-	bool IsAFEAAnlysisDeckBasedRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->analysesCAD.analysesFEA.size() > 0   ) 
-			{
-				for each ( 	AnalysisFEA j in i->analysesCAD.analysesFEA )
-				{
-					for each ( AnalysisSolver k in j.analysisSolvers) 
-					{
-						if ( k.analysisSolutionType == ANALYSIS_DECK_BASED ) return true;
-					}
-				}
-			}	//return true;
-		}
-		return false;
-	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// If at lease one of the assemblies in in_CADAssemblies contains analysisFEA and the analysisFEA is for ANALYSIS_DECK_BASED then return true.
-	bool IsFEAAnalysisAbaqusModelBasedRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->analysesCAD.analysesFEA.size() > 0   ) 
-			{
-				for each ( 	AnalysisFEA j in i->analysesCAD.analysesFEA )
-				{
-					for each ( AnalysisSolver k in j.analysisSolvers) 
-					{
-						if ( k.analysisSolutionType == ANALYSIS_MODEL_BASED ) return true;
-					}
-				}
-			}	//return true;
-		}
-		return false;
-	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GetPolygonAnalysisGeometry( 

@@ -34,7 +34,7 @@ namespace isis
 			const  std::list<DataExchangeSpecification> &in_DataExchangeSpecifications );
 
 
-	bool FillOutMetricsFileForLeafAssemblies( const std::list<e_DataExchangeSpecialInstruction> &in_DataExchangeSpecifications);
+
 
 }  // End namespace isis
 

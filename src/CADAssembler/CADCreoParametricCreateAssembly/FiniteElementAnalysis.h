@@ -4,8 +4,6 @@
 namespace isis
 {
 
-	bool IsAFEAAnlysisDeckBasedRun( const CADAssemblies &in_CADAssemblies );
-	bool IsFEAAnalysisAbaqusModelBasedRun( const CADAssemblies &in_CADAssemblies );
 
 	void Create_FEADecks_BatFiles( 
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,

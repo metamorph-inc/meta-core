@@ -6,7 +6,7 @@
 This class provides factories for the
 concrete Creo CAD system.
 */
-#include "CadFactoryAbstract.h"
+#include "cc_CadFactoryAbstract.h"
 #include  <string>
 #include <vector>
 #include <ProSolid.h>
@@ -102,6 +102,12 @@ class  ModelNamesCreo : public IModelNames {
 														std::string			&out_ModelName,
 														std::string			&out_FamilyTableEntry,
 														bool				&out_FamilyTableModel ) const throw (isis::application_exception);
+
+	virtual std::string buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
+															 const std::string &in_FamilyTableEntry );
+
+	virtual std::string combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
+															throw (isis::application_exception);
 
 };
 

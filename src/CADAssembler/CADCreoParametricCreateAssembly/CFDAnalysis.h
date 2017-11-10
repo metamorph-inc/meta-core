@@ -3,8 +3,7 @@
 
 namespace isis
 {
-	// If at lease one of the assemblies in in_CADAssemblies contains CFD analysis, then return true.    
-	bool IsACFDAnalysisRun( const CADAssemblies &in_CADAssemblies );
+
 
 	enum CFD_Fidelity {
 		V0 = 0,

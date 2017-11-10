@@ -69,7 +69,7 @@
 
 #include "CommonFeatureUtils.h"
 #include <cc_CommonUtilities.h>
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 #include "CADFactoryCreo.h"
 
 
@@ -280,7 +280,7 @@ int main( int argc, char *argv[] )
  
 	if ( ExitCode != 0 )
 	{
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, false, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), false, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
 
 		std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
 

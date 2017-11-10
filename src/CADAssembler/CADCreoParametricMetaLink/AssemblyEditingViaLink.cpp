@@ -21,10 +21,11 @@
 
 #include "UIFunctions.h"
 #include "isis_ptc_toolkit_ostream.h"
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 #include <cc_CommonUtilities.h>
 #include <cc_CommonFunctions.h>
 #include <cc_CommonDefinitions.h>
+#include <cc_AssemblyUtilities.h>
 
 
 namespace isis
@@ -485,7 +486,8 @@ throw(isis::application_exception)
                                             in_CreoModelName,
                                             origNameWithoutFamilyEntry,
                                             modelName,
-                                            completeName);
+                                            completeName,
+											PRO_NAME_SIZE - 1);
 
             isis_LOG(lg, isis_FILE, isis_INFO) << "Parametric part/sub-assembly rename: "
                                   << isis_EOL << "   Old Name:                          " << in_CreoModelName
@@ -961,7 +963,7 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(cad::CadFactoryAbstract						&in_factory,
+void CreateAssemblyViaString(cad::CadFactoryAbstract						&in_Factory,
                              const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
                              const std::string                              &in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
@@ -1018,11 +1020,12 @@ throw(isis::application_exception)
         //std::map<std::string, std::string>  ToPartName_FromPartName_map;
         //isis::ModifyToHaveAUniqueNameForEachParametricPartOrAssembly( in_out_UniqueNameIndex, out_CADComponentData_map, ToPartName_FromPartName_map );
         std::vector<CopyModelDefinition>			fromModel_ToModel;
-        isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_factory,
+        isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
 																	in_out_UniqueNameIndex,
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
 																	true,
+																	PRO_NAME_SIZE - 1,
 																	out_CADComponentData_map,
 																	fromModel_ToModel);
 
@@ -1077,7 +1080,7 @@ throw(isis::application_exception)
         //if ( ToPartName_FromPartName_map.size() > 0 ) isis::CopyModels(ToPartName_FromPartName_map);
         if(fromModel_ToModel.size() > 0)
         {
-            isis::CopyModels(fromModel_ToModel);
+            isis::CopyModels(in_Factory, fromModel_ToModel);
         }
 
         isis::MultiFormatString workingDir_MultiFormat(in_ProgramInputArguments.workingDirectory, PRO_PATH_SIZE - 1);
@@ -1098,7 +1101,7 @@ throw(isis::application_exception)
         //             3) the search_META.pro has been set
         if(fromModel_ToModel.size() > 0)
         {
-            isis::CopyModels(fromModel_ToModel);
+            isis::CopyModels(in_Factory, fromModel_ToModel);
         }
 
 
@@ -1110,7 +1113,7 @@ throw(isis::application_exception)
                 ++i)
         {
             bool regenerationSucceeded;
-            isis::BuildAssembly(in_factory, i->assemblyComponentID, in_ProgramInputArguments.workingDirectory, false, out_CADComponentData_map, regenerationSucceeded, out_ErrorList, true);
+            isis::BuildAssembly(in_Factory, i->assemblyComponentID, in_ProgramInputArguments.workingDirectory, false, out_CADComponentData_map, regenerationSucceeded, out_ErrorList, true);
 
             if(!regenerationSucceeded)
             {

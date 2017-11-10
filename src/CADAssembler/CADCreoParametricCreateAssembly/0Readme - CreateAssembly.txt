@@ -1079,6 +1079,10 @@ v1.5.22.0 	11/9/2017 CAD_033_Refactor_and_Add_Some_of_the_Generic_CAD_Interfaces
 		that apply to the particular application. Created IEnvironment::setupCADEnvironment functions.
 		Corrected an error with constraining parts via coordinates systems.
 
+v1.5.23.0 	11/20/2017 CAD_034_Add_More_Generic_CAD_Interfaces, Added more abstract interfaces.  Modified the function
+		CreateAssemblyViaInputFile to be generic.
+
+
 Known Defects
 -------------
 
