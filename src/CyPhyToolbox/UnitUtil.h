@@ -114,6 +114,15 @@ struct UnitUtil
 			actualValue(0){}
 		ValueUnitRep(UnitUtil& unitUtil, double, unit&);
 
+		bool operator==(const ValueUnitRep &rhs) const {
+			return siValue == rhs.siValue
+				&& actualValue == rhs.actualValue
+				&& cyphyRef == rhs.cyphyRef
+				&& unitRep == rhs.unitRep
+				&& strValue == rhs.strValue
+				&& type == rhs.type;
+		}
+
 		double siValue;
 		double actualValue;
 		CyPhyML::unit cyphyRef;

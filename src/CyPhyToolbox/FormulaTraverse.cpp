@@ -391,7 +391,6 @@ void NewTraverser::FindLeafNodes(const set<CyPhyML::ValueFlowTarget> &rootNodes,
 */
 void NewTraverser::FindLeafNodes(const CyPhyML::ValueFlowTarget &rootNode, set<CyPhyML::ValueFlowTarget> &leafNodes)
 {	string path = rootNode.getPath2("/", false);
-	bool stat = 1;
 	Udm::Object myParent = rootNode.GetParent();
 	map<long, int>::iterator i = this->m_visitedNodes.find(rootNode.uniqueId());
 	if (i != this->m_visitedNodes.end())
@@ -602,167 +601,6 @@ bool NewTraverser::IsLeafNode(const CyPhyML::ValueFlowTarget &vft)
 
 	return (outCount == 0);
 }
-
-#if 0
-/** \brief Evalues Named Element objects (Parameter, CADParameter, CyberParameter, Property, Metrics).
-    \param [in] vf Reference to a ValueFlowTarget to be evaluated.
-	\param [in, out] result Result of evaluating the ValueFlowTarget
-    \return 1 if evaluation was successful, 0 otherwise
-*/
-bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, double &result)
-{
-	std::string name = vf.name(), id = UdmGme::UdmId2GmeId(vf.uniqueId());
-
-	bool stat = 1;
-	std::string val;
-
-	//  :::already evaluated :::
-	map<long, double>::const_iterator ci = m_calculatedValueFlowTargets.find(vf.uniqueId());
-	if (ci != m_calculatedValueFlowTargets.end())
-	{
-		result = ci->second;
-		return 1;
-	}
-
-	// ::: not evaluated yet :::	
-	// DY 11/23/11: check for root node
-	bool isRoot = (m_rootNodes.find(vf) != m_rootNodes.end());
-	set<CyPhyML::ValueFlow> VF_Set = vf.srcValueFlow();
-	if (VF_Set.size() > 0 && !isRoot)		 
-	{
-		double tmp = 0;
-
-		if (VF_Set.size() > 1)
-			GMEConsole::Console::writeLine((std::string)vf.name() + "[" + UdmGme::UdmId2GmeId(vf.uniqueId()) + "]"+ "has >1 incoming ValueFlow connections. Picking the first one from the list returned by Udm.", MSG_ERROR);
-
-		CyPhyML::ValueFlowTarget src_vfTarget = (CyPhyML::ValueFlow(*VF_Set.begin())).srcValueFlow_end();
-		
-		if (IsDerivedFrom(src_vfTarget.type(), CyPhyML::HasDescriptionAndGUID::meta))
-		{
-			if (!this->EvaluatePPC(src_vfTarget, tmp))
-				stat = 0;
-			else  				
-				UpdateNamedElementValue(src_vfTarget, vf, tmp);		// calls FormulaTraverse's UpdateNamedElementValue() to update value in the model
-			
-			result = tmp;
-			m_calculatedValueFlowTargets[vf.uniqueId()] = result;
-			m_allNamedElements2Process.erase(vf); //NamedElements2Process(vf);
-
-		}
-		else if (IsDerivedFrom(src_vfTarget.type(), CyPhyML::ValueFormula::meta))
-		{
-			if (!this->EvaluateFormula(CyPhyML::ValueFormula::Cast(src_vfTarget), tmp))
-				stat = 0;
-			else
-				UpdateNamedElementValue(vf, tmp);		// update in model
-
-			result = tmp;
-			m_calculatedValueFlowTargets[vf.uniqueId()] = result;
-			m_allNamedElements2Process.erase(vf); //NamedElements2Process(vf);			
-		}
-	}
-	else	// else: standalone ValueFlowTarget, use the val variable from the beginning of this function
-	{	
-		// getting defaults
-		if (vf.type() == CyPhyML::Parameter::meta)
-			val = CyPhyML::Parameter::Cast(vf).Value();
-		else if (vf.type() == CyPhyML::CADParameter::meta)
-			val = CyPhyML::CADParameter::Cast(vf).Value();
-		else if (vf.type() == CyPhyML::Property::meta)
-			val = CyPhyML::Property::Cast(vf).Value();
-		else if (vf.type() == CyPhyML::Metric::meta)
-			val = CyPhyML::Metric::Cast(vf).Value();
-		else
-		{
-			GMEConsole::Console::writeLine((std::string)vf.name() + " is not Parameter, CADParameter, CyberParameter, Metrics or Property! Skipping!", MSG_INFO);
-			stat = 0;
-		}
-
-		if (val == "")
-			val = "0";
-		result = std::atof(val.c_str());
-		m_calculatedValueFlowTargets[vf.uniqueId()] = result;
-		m_allNamedElements2Process.erase(vf); //NamedElements2Process(vf);
-	}
-
-	// Set my value to the calculated
-
-	return stat;
-}
-
-
-/** \brief Evalues Value Formula objects (Simple Formula, Custom Formula).
-    \param [in] vf Reference to a ValueFlowTarget to be evaluated.
-	\param [in, out] result Result of evaluating the ValueFlowTarget
-    \return 1 if evaluation was successful, 0 otherwise
-*/
-bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, double &result)
-{
-	std::string name = vf.name(), id = UdmGme::UdmId2GmeId(vf.uniqueId());
-	bool simpleFormula = (vf.type() == CyPhyML::SimpleFormula::meta);
-	std::multimap<std::string, double> parameters;
-
-	//  :::already evaluated :::
-	map<long, double>::const_iterator ci = m_calculatedValueFlowTargets.find(vf.uniqueId());
-	if (ci != m_calculatedValueFlowTargets.end())       // already evaluated before
-	{
-		result = ci->second;
-		return 1;
-	}
-
-	//  :::not evaluated yet :::
-	set<CyPhyML::ValueFlow> VF_Set = vf.srcValueFlow();
-	if (VF_Set.size() == 0)
-	{
-		string id = UdmGme::UdmId2GmeId(vf.uniqueId());
-		GMEConsole::Console::writeLine("Can not evaluate Fomula [" + GMEConsole::Formatter::MakeObjectHyperlink(UdmGme::UdmId2GmeId(vf.uniqueId()), vf) + "] because it has 0 inputs.", MSG_ERROR);
-		return 0;
-	}
-
-	for (set<CyPhyML::ValueFlow>::iterator i = VF_Set.begin(); i != VF_Set.end(); i++)
-	{
-		double tmp = 0;
-
-		CyPhyML::ValueFlow src_vf(*i);
-		CyPhyML::ValueFlowTarget src_vfTarget = src_vf.srcValueFlow_end();
-		std::string vf_variableName = src_vf.FormulaVariableName();
-
-		if (IsDerivedFrom(src_vfTarget.type(), CyPhyML::HasDescriptionAndGUID::meta))
-		{
-			if (this->EvaluatePPC(src_vfTarget, tmp))
-				parameters.insert(pair<std::string, double>((vf_variableName == "") ? src_vfTarget.name() : vf_variableName, tmp));
-		}
-		else if (IsDerivedFrom(src_vfTarget.type(), CyPhyML::ValueFormula::meta))              // formula connected to formula, need to use the FormulaVariableName attribute from the connection 
-		{
-			if (this->EvaluateFormula(CyPhyML::ValueFormula::Cast(src_vfTarget), tmp))
-			{
-				if (vf_variableName != "")
-					parameters.insert(pair<std::string, double>(vf_variableName, tmp));
-				else
-				{
-					GMEConsole::Console::writeLine("Missing VariableName on Formula-2-Formula connection. [" + GMEConsole::Formatter::MakeObjectHyperlink(UdmGme::UdmId2GmeId(vf.uniqueId()), vf) + "," + GMEConsole::Formatter::MakeObjectHyperlink(UdmGme::UdmId2GmeId(src_vfTarget.uniqueId()), src_vfTarget) + "] Using \"Formula\" for calculation.", MSG_WARNING);
-					parameters.insert(pair<std::string, double>("Formula", tmp));
-				}
-			}
-		}
-	}
-	
-	if (parameters.size() > 0)
-	{
-		if (simpleFormula)
-			result = EvaluateSimpleFormula(parameters, CyPhyML::SimpleFormula::Cast(vf).Method());
-		else
-			result = EvaluateCustomFormula(parameters, CyPhyML::CustomFormula::Cast(vf).Expression());
-
-		//Cleanup(parameters);
-	}
-	else
-		return 0;
-	
-	return 1;
-}
-
-#endif
 
 void NewTraverser::NamedElements2Process(CyPhyML::ValueFlowTarget& vft)
 {
@@ -1010,14 +848,6 @@ void NewTraverser::EvaluateLeafNodes(set<CyPhyML::ValueFlowTarget> &leafNodes)
 		//this->EvaluateValueFlowTarget(vfTarget);
 
 		std::string name = vfTarget.name(), id = UdmGme::UdmId2GmeId(vfTarget.uniqueId());
-#ifdef NO_UNIT_CHECK
-		double result;
-		//	DY 11/22/11: Checks the type so that ValueFormula leaf nodes don't accidentally get sent to EvaluatePPC()
-		if (IsDerivedFrom(vfTarget.type(), CyPhyML::NamedElement::meta))
-			this->EvaluatePPC(vfTarget, result);
-		else if (IsDerivedFrom(vfTarget.type(), CyPhyML::ValueFormula::meta))
-			this->EvaluateFormula(CyPhyML::ValueFormula::Cast(vfTarget), result);
-#else 
 		UnitUtil::ValueUnitRep uvRep;
 			//	DY 11/22/11: Checks the type so that ValueFormula leaf nodes don't accidentally get sent to EvaluatePPC()
 		if (   IsDerivedFrom(vfTarget.type(), CyPhyML::HasDescriptionAndGUID::meta)
@@ -1029,7 +859,6 @@ void NewTraverser::EvaluateLeafNodes(set<CyPhyML::ValueFlowTarget> &leafNodes)
 		{
 			this->EvaluateFormula(CyPhyML::ValueFormula::Cast(vfTarget), uvRep);
 		}
-#endif	
 	}
 }
 
@@ -1044,12 +873,17 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 	bool isNamedElement = 1;
 
 	//  :::already evaluated :::
-	map<long, UnitUtil::ValueUnitRep>::const_iterator ci = m_convertedValueFlowTargets_SIMap.find(id);
+	unordered_map<long, UnitUtil::ValueUnitRep>::const_iterator ci = m_convertedValueFlowTargets_SIMap.find(id);
 	if (ci != m_convertedValueFlowTargets_SIMap.end())
 	{
 		myVURep = ci->second;
-		return 1;
+		if (myVURep == circularConnectionSentinel)
+		{
+			throw udm_exception("Circular ValueFlow detected involving '" + vf.getPath2("/", false) + "'");
+		}
+		return true;
 	}
+	m_convertedValueFlowTargets_SIMap.insert(make_pair(id, circularConnectionSentinel));
 	
 	std::string val;
 	CyPhyML::ParamPropTarget unitRef;						// get vf's unitReference	
@@ -1276,7 +1110,7 @@ bool NewTraverser::EvaluatePPC(CyPhyML::ValueFlowTarget &vf, UnitUtil::ValueUnit
 			
 			// This call will set myVURep.unitRep
 			// We don't care what it returns, since the "siValue" of this node (a string) is 0.
-			unitUtil.ConvertToSIEquivalent(myUnit, 0, myVURep.unitRep);
+			(void)unitUtil.ConvertToSIEquivalent(myUnit, 0, myVURep.unitRep);
 		}
 		else
 		{
@@ -1304,12 +1138,17 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 	bool simpleFormula = (vf.type() == CyPhyML::SimpleFormula::meta);
 
 	//  :::already evaluated :::
-	map<long, UnitUtil::ValueUnitRep>::const_iterator ci = m_convertedValueFlowTargets_SIMap.find(vf.uniqueId());
+	unordered_map<long, UnitUtil::ValueUnitRep>::const_iterator ci = m_convertedValueFlowTargets_SIMap.find(vf.uniqueId());
 	if (ci != m_convertedValueFlowTargets_SIMap.end())       // already evaluated before
 	{
 		myVURep = ci->second;
+		if (myVURep == circularConnectionSentinel)
+		{
+			throw udm_exception("Circular ValueFlow detected involving '" + name + "'");
+		}
 		return 1;
 	}
+	m_convertedValueFlowTargets_SIMap.insert(make_pair(id, circularConnectionSentinel));
 
 	set<CyPhyML::ValueFlow> VF_Set = vf.srcValueFlow();
 	if (VF_Set.size() == 0)
@@ -1437,6 +1276,7 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 
 		myVURep.siValue = EvaluateSimpleFormula(parameters, wstringFromUTF8(method));
 		myVURep.actualValue = myVURep.siValue;
+		m_convertedValueFlowTargets_SIMap[vf.uniqueId()] = myVURep;
 	}
 	else					// custom formula treated as blackbox
 	{
@@ -1485,7 +1325,9 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 			}
 	
 		}
-		
+
+		// either we inserted into parameters for every VF_set item, or we threw an exception
+		ASSERT(parameters.size() == VF_Set.size());
 		if (parameters.size() > 0)
 		{
             auto evaluatedValue = EvaluateCustomFormula(parameters, wstringFromUTF8(CyPhyML::CustomFormula::Cast(vf).Expression()));
@@ -1493,13 +1335,13 @@ bool NewTraverser::EvaluateFormula(CyPhyML::ValueFormula &vf, UnitUtil::ValueUni
 			if (evaluatedValue == std::numeric_limits<double>::infinity())
 			{
 				string message = "FormulaEvaluator - Formula resulted in a value of +/- infinity. Skipping value update for [" + vf.getPath2("/", false) + "].";
-				throw
-					udm_exception (message);
+				throw udm_exception (message);
 			}
 			else
 			{
 				myVURep.actualValue = evaluatedValue;
 				myVURep.siValue = myVURep.actualValue;
+				m_convertedValueFlowTargets_SIMap[vf.uniqueId()] = myVURep;
 			}
 		}
 		else
@@ -1550,24 +1392,16 @@ void NewTraverser::EvaluateCarParameters()
 
 			double value = 0;
 			CyPhyML::ValueFlowTarget vft = portMap_Set.begin()->srcCarParameterPortMap_end();
-			map<long, UnitUtil::ValueUnitRep>::iterator di = m_convertedValueFlowTargets_SIMap.find(vft.uniqueId());
-			if (di != m_convertedValueFlowTargets_SIMap.end())
+			if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
+				|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
 			{
-				incomingVURep = di->second;
+				EvaluatePPC(vft, incomingVURep);
 			}
 			else
 			{
-				if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
-					|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
-				{
-					EvaluatePPC(vft, incomingVURep);
-				}
-				else
-				{
-					string message = "FormulaEvaluator: CarParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
-					GMEConsole::Console::writeLine(message, MSG_ERROR);
-					throw udm_exception(message);
-				}
+				string message = "FormulaEvaluator: CarParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
+				GMEConsole::Console::writeLine(message, MSG_ERROR);
+				throw udm_exception(message);
 			}
 			
 			if (nullUnitRef)
@@ -1632,28 +1466,21 @@ void NewTraverser::EvaluateCADParameters()
 			}
 
 			CyPhyML::ValueFlowTarget vft = portMap_Set.begin()->srcCADParameterPortMap_end();
-			map<long, UnitUtil::ValueUnitRep>::iterator di = m_convertedValueFlowTargets_SIMap.find(vft.uniqueId());
 
 			std::string sourceName = vft.name();
 
 			UnitUtil::ValueUnitRep incomingVURep;
 
-			if (di != m_convertedValueFlowTargets_SIMap.end())
+			// incoming vft did not have another vft (vft --> cad parameter)
+			if (IsDerivedFrom(vft.type(), CyPhyML::ValueFormula::meta))
 			{
-				incomingVURep = di->second;
+				EvaluateFormula(CyPhyML::ValueFormula::Cast(vft), incomingVURep);
+				double tmpval = incomingVURep.siValue;
 			}
-			else		// incoming vft did not have another vft (vft --> cad parameter)
+			else if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
+					|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
 			{
-				if (IsDerivedFrom(vft.type(), CyPhyML::ValueFormula::meta))
-				{
-					EvaluateFormula(CyPhyML::ValueFormula::Cast(vft), incomingVURep);
-					double tmpval = incomingVURep.siValue;
-				}
-				else if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
-					    || IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
-				{
-					EvaluatePPC(vft, incomingVURep);
-				}
+				EvaluatePPC(vft, incomingVURep);
 			}
 
 			std::string tmp;
@@ -1743,24 +1570,16 @@ void NewTraverser::EvaluateManufactureParameters()
 
 			double value = 0;
 			CyPhyML::ValueFlowTarget vft = portMap_Set.begin()->srcManufacturingParameterPortMap_end();
-			map<long, UnitUtil::ValueUnitRep>::iterator di = m_convertedValueFlowTargets_SIMap.find(vft.uniqueId());
-			if (di != m_convertedValueFlowTargets_SIMap.end())
+			if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
+				|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
 			{
-				incomingVURep = di->second;
+				EvaluatePPC(vft, incomingVURep);
 			}
 			else
 			{
-				if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
-					|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
-				{
-					EvaluatePPC(vft, incomingVURep);
-				}
-				else
-				{
-					string message = "FormualEvaluator: ManufactureParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
-					GMEConsole::Console::writeLine(message, MSG_ERROR);
-					throw udm_exception(message);
-				}
+				string message = "FormualEvaluator: ManufactureParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
+				GMEConsole::Console::writeLine(message, MSG_ERROR);
+				throw udm_exception(message);
 			}
 			
 			if (nullUnitRef)
@@ -1835,24 +1654,16 @@ void NewTraverser::EvaluateModelicaParameters()
 
 			double value = 0;
 			CyPhyML::ValueFlowTarget vft = portMap_Set.begin()->srcModelicaParameterPortMap_end();
-			map<long, UnitUtil::ValueUnitRep>::iterator di = m_convertedValueFlowTargets_SIMap.find(vft.uniqueId());
-			if (di != m_convertedValueFlowTargets_SIMap.end())
+			if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
+				|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
 			{
-				incomingVURep = di->second;
+				EvaluatePPC(vft, incomingVURep);
 			}
 			else
 			{
-				if (   IsDerivedFrom(vft.type(), CyPhyML::HasDescriptionAndGUID::meta)
-					|| IsDerivedFrom(vft.type(), CyPhyML::Constant::meta))
-				{
-					EvaluatePPC(vft, incomingVURep);
-				}
-				else
-				{
-					string message = "FormulaEvaluator: ModelicaParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
-					GMEConsole::Console::writeLine(message, MSG_ERROR);
-					throw udm_exception(message);
-				}
+				string message = "FormulaEvaluator: ModelicaParameter can not be directly connected to a formula [" + ci->getPath2("/", false) + "]";
+				GMEConsole::Console::writeLine(message, MSG_ERROR);
+				throw udm_exception(message);
 			}
 			
 			if (nullUnitRef)
@@ -1904,7 +1715,7 @@ void NewTraverser::EvaluateModelicaParameters()
 CyPhyML::unit NewTraverser::FindUnitByName(string unit_name_in)
 {
 	CyPhyML::unit cyphy_unit;
-	map<string, CyPhyML::unit>::iterator i = m_unit_name_table.find(unit_name_in);
+	unordered_map<string, CyPhyML::unit>::iterator i = m_unit_name_table.find(unit_name_in);
 	if (i != m_unit_name_table.end())
 	{
 		cyphy_unit = i->second;
