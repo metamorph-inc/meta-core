@@ -160,12 +160,8 @@ namespace GME.CSharp
                     Content,
                     font,
                     new SolidBrush(contentColor),
-                    new RectangleF(
-                        x,
-                        y + h + 15,
-                        g.MeasureString(Content, SystemFonts.DefaultFont).Width,
-                        g.MeasureString(Content, SystemFonts.DefaultFont).Height),
-                    sf);
+                        x + w / 2,
+                        y + h + LabelSize.Height * 1.2f, sf);
             }
             else if (LastMetaKind == "WorkflowRef")
             {
@@ -275,7 +271,7 @@ namespace GME.CSharp
 
             // Draw the label
             g.DrawString(name, font, new SolidBrush(labelColor),
-                new RectangleF(x + w / 2 - LabelSize.Width / 2, y + h + 5, LabelSize.Width, 10), sf);
+                new RectangleF(x + w / 2 - LabelSize.Width / 2, y + h, LabelSize.Width, LabelSize.Height), sf);
 
             font.Dispose();
             sf.Dispose();
@@ -325,10 +321,10 @@ namespace GME.CSharp
 
         public void GetLabelLocation(out int sx, out int sy, out int ex, out int ey)
         {
-            sx = x + w / 2 - (int)LabelSize.Width / 2;
-            sy = y + h + 5;
+            sx = x + w / 2 - (int)(LabelSize.Width / 2);
+            sy = y + h;
             ex = sx + (int)LabelSize.Width;
-            ey = y + w + 15;
+            ey = y + w + (int)LabelSize.Height;
         }
 
         public void GetLocation(
@@ -559,7 +555,8 @@ namespace GME.CSharp
                     unchecked { parentHwnd = (IntPtr)(int)parentWnd; }
                     using (Graphics g = Graphics.FromHwnd(parentHwnd))
                     {
-                        LabelSize = g.MeasureString(name, SystemFonts.DefaultFont);
+                        Font font = new Font(SystemFonts.DefaultFont.FontFamily, 12f, GraphicsUnit.Pixel);
+                        LabelSize = g.MeasureString(name, font);
                     }
                 }
             }
