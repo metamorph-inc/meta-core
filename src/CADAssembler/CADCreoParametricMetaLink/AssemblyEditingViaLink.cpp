@@ -8,7 +8,6 @@
 #include <ParametricParameters.h>
 #include <ApplyModelConstraints.h>
 #include <cc_XMLtoCADStructures.h>
-#include <ProEStructuresUtils.h>
 #include <ProWindows.h>
 #include <ProMdl.h>
 #include <ProAnnotation.h>
@@ -1035,7 +1034,7 @@ throw(isis::application_exception)
         isis_LOG(lg, isis_FILE, isis_INFO)  << "************** End Modified Part Names for Multiple Parametric Parts *****************";
 
         // Add the depends-on information to the CADComponentData
-        isis::Add_dependsOn(out_CADComponentData_map);
+        isis::Add_DependsOn(out_CADComponentData_map);
 
         for each(isis::TopLevelAssemblyData i in out_CADComponentAssemblies.topLevelAssemblies)
         {

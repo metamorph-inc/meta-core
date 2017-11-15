@@ -3,17 +3,12 @@
 
 #include <BuildAssembly.h>
 #include <DiagnosticUtilities.h>
-#include <ISISConstants.h>
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
-#include <ProEStructuresUtils.h>
 #include <Metrics.h>
-#include "CADEnvironmentSettings.h"
 #include <DataExchange.h>
-//#include "WindowsHDependentCommonFunctions.h"
-#include "cc_WindowsFunctions.h"
 #include <cc_MultiFormatString.h>
-#include <CommonFunctions.h>
+#include <CommonFunctions.h>    // Work on this one
 #include <SurvivabilityAnalysis.h>
 #include <CFDAnalysis.h>
 #include <MaterialProperties.h>
@@ -21,7 +16,6 @@
 #include <fstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp> 
-#include "AssembleUtils.h"
 #include "cc_CommonFunctions.h"
 #include <cc_AssemblyUtilities.h>
 
@@ -42,6 +36,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 								 const std::string								&in_CreoStartCommand,
 								 const std::string								&in_ProgramName_Version_TimeStamp,
 								 unsigned int									in_MaxCADModelNameLength,   
+								 unsigned int									in_MaxCADPathLength,
 								 bool											&out_Pro_E_Running )
 																					throw (isis::application_exception)
 {
@@ -91,7 +86,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		} 
 
 
-		vector<CADCreateAssemblyError> errorList;
+		std::vector<CADCreateAssemblyError> errorList;
 
 		//Initial load of the map, one entry for each part/assembly file.
 	
@@ -146,7 +141,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
 																	true, 
-																	PRO_NAME_SIZE - 1,
+																	in_MaxCADModelNameLength,
 																	cADComponentData_map, 
 																	fromModel_ToModel );
 
@@ -264,7 +259,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		
 
 		// Add the depends-on information to the CADComponentData
-		isis::Add_dependsOn( cADComponentData_map );
+		isis::Add_DependsOn( cADComponentData_map );
 
 		//stream_CADComponentData_map(cADComponentData_map, clog );
 		//stream_CADComponentData_map(cADComponentData_map, cout );
@@ -305,7 +300,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		std::set<std::string> TempIntersection = NonSizeToFitComponents_ReferencedBy_SizeToFitConstraints( cADComponentData_map );
 		if ( TempIntersection.size() > 0 )
 		{
-			string err_str = "Erroneous XML File: A NON_SIZE_TO_FIT component cannot be constrained to a SIZE_TO_FIT component. " +
+			std::string err_str = "Erroneous XML File: A NON_SIZE_TO_FIT component cannot be constrained to a SIZE_TO_FIT component. " +
 				std::string("The SIZE_TO_FIT component(s) (i.e. ComponentIDs) that were erroneously referenced are:");
 			for ( std::set<std::string>::const_iterator i(TempIntersection.begin()); i != TempIntersection.end(); ++i )
 			{
@@ -320,26 +315,44 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		/////////////////////////////
 		/////// Start CAD Program ///
 		/////////////////////////////
+		isis::cad::ICADSession&            cADsession = in_Factory.getCADSession();
+
 		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << in_CreateAssemblyProgramName << " "<< in_CreateAssemblyProgramVersion;
 		isis_LOG(lg, isis_CONSOLE, isis_INFO)  << "Starting " <<  in_CADApplicationName << ", this takes about 10 seconds...";
 
-		char tempBuffer[1024];
-		strcpy(tempBuffer, in_CreoStartCommand.c_str() );
-		isis::isis_ProEngineerStart(tempBuffer,"");
+		//char tempBuffer[1024];
+		//strcpy(tempBuffer, in_CreoStartCommand.c_str() );
+		//isis::isis_ProEngineerStart(tempBuffer,"");
+		cADsession.startCADProgram(in_CreoStartCommand);
 
-		int creoVersionNumber;
-		isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
-		isis_LOG(lg, isis_FILE, isis_INFO) << "Creo Version Number: " <<  creoVersionNumber << ".  Creo Parametric 2.0 is version 31.";
+
+		//int creoVersionNumber;
+		//isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
+
+	    bool	intVersionNumber_Set = false;
+		int		intVersionNumber;
+		bool	floatVersionNumber_Set = false;
+		double	floatVersionNumber;
+				
+		// The CAD session must be started before calling the following command.
+		cADsession.getCADProgramVersion(intVersionNumber_Set, intVersionNumber, floatVersionNumber_Set, floatVersionNumber );
+
+		if ( intVersionNumber_Set )	  isis_LOG(lg, isis_FILE, isis_INFO) << in_CADApplicationName << " Version Number: " <<  intVersionNumber;
+		if ( floatVersionNumber_Set ) isis_LOG(lg, isis_FILE, isis_INFO) << in_CADApplicationName << " Version Number: " <<  floatVersionNumber;
 
 		out_Pro_E_Running = true;
-		cout <<  endl << "Creo-Parametric successfully started." << endl;
+		std::cout <<  std::endl << in_CADApplicationName << " successfully started." << std::endl;
 
 		//ProPath  WorkingDirPath_wchar;
 		//ProStringToWstring(WorkingDirPath_wchar, (char *)workingDir.c_str() );
 
-		isis::MultiFormatString workingDir_MultiFormat(workingDirector, PRO_PATH_SIZE - 1);
-		//isis::isis_ProDirectoryChange( workingDir_MultiFormat );
-		isis::setCreoWorkingDirectory( workingDir_MultiFormat );
+		
+		//isis::MultiFormatString workingDir_MultiFormat(workingDirector, PRO_PATH_SIZE - 1);
+		isis::MultiFormatString workingDir_MultiFormat(workingDirector, in_MaxCADPathLength);
+
+		//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
+		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
+		cADsession.setCADWorkingDirectory(workingDir_MultiFormat);
 
 		// Copy template model to the working directory
 		isis::CopyFileIsis( in_templateFile_PathAndFileName,  workingDirector );
@@ -457,7 +470,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 																				e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																				e_SELECT_ALL_MODELS,
 																				false,
-																				PRO_NAME_SIZE - 1,
+																				in_MaxCADModelNameLength,
 																				cADComponentData_map, 
 																				fromModel_ToModel_FEA );
 
@@ -558,13 +571,17 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						
 						isis::ExecuteSystemCommand( "del /q " + scratchFEADir + "\\*.*");
 
-						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, PRO_PATH_SIZE - 1);
-						isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
+						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, in_MaxCADPathLength);
+						//isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
+						cADsession.setCADWorkingDirectory(scratchFEADir_MultiFormat );
 
 						isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
 
 						// Change back to the working dir
-						isis::setCreoWorkingDirectory( workingDir_MultiFormat );
+						//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
+						cADsession.setCADWorkingDirectory(workingDir_MultiFormat );
 					}
 
 

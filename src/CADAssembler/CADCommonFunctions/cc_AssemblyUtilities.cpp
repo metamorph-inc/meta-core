@@ -451,5 +451,75 @@ namespace isis
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void CopyModels(	cad::CadFactoryAbstract						&in_Factory,
+						const std::vector<CopyModelDefinition>		&in_FromModel_ToModel )
+																	throw (isis::application_exception)
+	{
+
+		std::set<std::string> savedToWorkingDirSourceModels;
+
+		for each ( CopyModelDefinition i  in in_FromModel_ToModel)
+
+		{
+			isis::cad::IModelNames&           modelNames    = in_Factory.getModelNames();
+			isis::cad::IModelHandling&        modelHandling = in_Factory.getModelHandling();
+
+			std::string modelNameWithSuffix = 
+				   ConvertToUpperCase (modelNames.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
+				   //ConvertToUpperCase (CombineCreoModelNameAndSuffix(i.fromModelName, i.modelType) );
+
+			// Assure that the source model is saved to the working directory only once.
+			if ( savedToWorkingDirSourceModels.find( modelNameWithSuffix ) == savedToWorkingDirSourceModels.end() )
+			{
+				// Since the source model (i.e. fromModelName) could be anywhere in the search path, we
+				// must open the source model and save it to force a copy to exist in the working directory.
+				void  *p_model; 
+				if ( i.modelType == CAD_MDL_PART )
+					//   isis::isis_ProMdlRetrieve(i.fromModelName,CAD_MDL_PART, &p_model);
+					modelHandling.CADModelRetrieve(i.fromModelName,CAD_MDL_PART, &p_model);
+				else
+					//   isis::isis_ProMdlRetrieve(i.fromModelName,CAD_MDL_ASSEMBLY, &p_model);
+					modelHandling.CADModelRetrieve(i.fromModelName,CAD_MDL_ASSEMBLY, &p_model);
+				
+				//isis::isis_ProMdlSave(p_model);
+				modelHandling.CADModelSave(p_model);
+				savedToWorkingDirSourceModels.insert(modelNameWithSuffix);
+			}
+
+			if ( i.modelType == CAD_MDL_PART )
+				//  isis::isis_ProMdlfileCopy ( CAD_MDL_PART, i.fromModelName, i.toModelName);
+				modelHandling.CADModelFileCopy( CAD_MDL_PART, i.fromModelName, i.toModelName);
+			else
+				//  isis::isis_ProMdlfileCopy ( CAD_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
+				modelHandling.CADModelFileCopy( CAD_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	void Add_DependsOn (  std::map<std::string, CADComponentData> &in_out_CADComponentData_map )
+	{
+		for ( std::map<std::string, CADComponentData>::iterator i(in_out_CADComponentData_map.begin());
+			  i != in_out_CADComponentData_map.end();
+			  ++i )
+		{
+			for ( std::vector<ConstraintData>::const_iterator j( i->second.constraintDef.constraints.begin());
+				  j != i->second.constraintDef.constraints.end();
+				  ++j )
+			{
+				for (	std::vector<ConstraintPair>::const_iterator k(j->constraintPairs.begin());
+						k != j->constraintPairs.end();
+						++k )
+				{
+					for (	std::vector<ConstraintFeature>::const_iterator l(k->constraintFeatures.begin());
+							l != k->constraintFeatures.end();
+							++l )
+					{
+						if (  i->first != l->componentInstanceID  ) i->second.dependsOn.insert( l->componentInstanceID );
+					}
+				}
+			}
+		}	
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

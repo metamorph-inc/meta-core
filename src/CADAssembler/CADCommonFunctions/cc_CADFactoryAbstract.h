@@ -191,6 +191,47 @@ public:
 
 };
 
+
+class IModelHandling {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+	// out_RetrievedModelHandle handle is an in memory handle to the model
+	virtual void CADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
+
+	// in_ModelHandle handle is an in memory handle to the model
+	virtual void CADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
+
+	virtual void CADModelFileCopy (e_CADMdlType 						in_ModelType,
+								   const isis::MultiFormatString		&in_FromModelName,
+								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
+};
+
+
+
+class ICADSession {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception) = 0;
+	virtual void stopCADProgram( )  const throw (isis::application_exception) = 0;
+
+	// The CAD session must have been started before calling this function.  This function retreives the version
+	// number of the current CAD session.
+	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+										int		&out_IntVersionNumber, 
+										bool	&out_FloatVersionNumber_Set,
+										double  &out_FloatVersionNumber )  const throw (isis::application_exception) = 0;
+
+	// For Creo, the following function is not thread safe.
+	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception) = 0;
+};
+
+
 class CadFactoryAbstract {
 public:
 	typedef boost::shared_ptr<CadFactoryAbstract> ptr;
@@ -202,11 +243,11 @@ public:
 	Get the CAD specific concrete functor for
 	manipulating the assembly.
 	*/
-	virtual IAssembler& get_assembler() = 0;
-
-	virtual IEnvironment& getEnvironment() = 0;
-
-	virtual IModelNames& getModelNames() = 0;
+	virtual IAssembler&		get_assembler() = 0;
+	virtual IEnvironment&	getEnvironment() = 0;
+	virtual IModelNames&	getModelNames() = 0;
+	virtual IModelHandling& getModelHandling() = 0;
+	virtual ICADSession&	getCADSession() = 0;
 };
 
 } // cad

@@ -1274,52 +1274,5 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_Factory,
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
-void CopyModels(	cad::CadFactoryAbstract							&in_Factory,
-					const std::vector<CopyModelDefinition>	&in_FromModel_ToModel )
-																	throw (isis::application_exception)
-{
-
-	std::set<std::string> savedToWorkingDirSourceModels;
-
-	for each ( CopyModelDefinition i  in in_FromModel_ToModel)
-
-	{
-		//ProMdl  handle;
-		//ProFamilyName  fromModelName;
-		//ProFamilyName  toModelName;
-		//ProStringToWstring(fromModelName, (char *)i->second.c_str() );
-		//ProStringToWstring(toModelName, (char *)i->first.c_str() );
-
-		//MultiFormatString fromModelName( i->second, PRO_NAME_SIZE - 1);
-		//MultiFormatString toModelName( i->first,  PRO_NAME_SIZE - 1 );
-
-
-		isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
-
-
-		std::string modelNameWithSuffix = 
-			   ConvertToUpperCase (modelNames.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
-			   //ConvertToUpperCase (CombineCreoModelNameAndSuffix(i.fromModelName, i.modelType) );
-
-		// Assure that the source model is saved to the working directory only once.
-		if ( savedToWorkingDirSourceModels.find( modelNameWithSuffix ) == savedToWorkingDirSourceModels.end() )
-		{
-			// Since the source model (i.e. fromModelName) could be anywhere in the search path, we
-			// must open the source model and save it to force a copy to exist in the working directory.
-			ProMdl     p_model; 
-			if ( i.modelType == PRO_MDL_PART )
-				isis::isis_ProMdlRetrieve(i.fromModelName,PRO_MDL_PART, &p_model);
-			else
-				isis::isis_ProMdlRetrieve(i.fromModelName,PRO_MDL_ASSEMBLY, &p_model);
-			isis::isis_ProMdlSave(p_model);
-			savedToWorkingDirSourceModels.insert(modelNameWithSuffix);
-		}
-
-		if ( i.modelType == PRO_MDL_PART )
-			isis::isis_ProMdlfileCopy (PRO_MDL_PART, i.fromModelName, i.toModelName);
-		else
-			isis::isis_ProMdlfileCopy (PRO_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
-	}
-}
 
 } // end namespace isis

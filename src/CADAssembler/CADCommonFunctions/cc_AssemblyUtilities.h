@@ -153,6 +153,14 @@ namespace isis
 											const CADAssemblies								&in_CADAssemblies,
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
 																throw (isis::application_exception);
+
+	void CopyModels( cad::CadFactoryAbstract						&in_Factory,
+					 const std::vector<CopyModelDefinition>			&in_FromModel_ToModel )
+																	throw (isis::application_exception);
+
+
+	void Add_DependsOn ( std::map<std::string, CADComponentData> &in_out_CADComponentData_map );
+
 }
 
 #endif

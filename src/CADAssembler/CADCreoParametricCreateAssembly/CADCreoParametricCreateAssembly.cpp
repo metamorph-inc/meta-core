@@ -195,6 +195,7 @@ int main( int argc, char *argv[] )
 											creoStartCommand,
 											programName_Version_TimeStamp,
 											PRO_NAME_SIZE - 1,
+											PRO_PATH_SIZE - 1,
 											Pro_E_Running );
 	 
 
@@ -252,7 +253,33 @@ int main( int argc, char *argv[] )
 	}
 
 	/////// Stop Pro/E /////////
-	if (Pro_E_Running) ProEngineerEnd();
+//	try 
+//	{
+//		if (Pro_E_Running) isis::isis_ProEngineerEnd();
+//	}
+//	catch (...)
+//	{
+//		// Do nothing if this fails.  Creo will still exit.
+//	}
+
+	try 
+	{
+		if (Pro_E_Running)
+		{
+			isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+			isis::cad::ICADSession&            cADsession = cAD_Factory->getCADSession();
+			cADsession.stopCADProgram();
+		}
+	}
+	catch (...)
+	{
+		// Do nothing if this fails.  Creo will still exit.
+	}
+
+
+		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+
 
 	if ( promptBeforeExiting )
 	{

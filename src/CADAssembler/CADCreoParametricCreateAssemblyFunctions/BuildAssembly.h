@@ -26,9 +26,6 @@ void BuildAssembly(
 					throw (isis::application_exception);
 
 
-void CopyModels(	cad::CadFactoryAbstract					&in_Factory,
-					const std::vector<CopyModelDefinition>	&in_FromModel_ToModel )
-																	throw (isis::application_exception);
 
 void ReadInitialPositions(std::map<std::string, double*> &out_positions, const std::string &in_filename);
 

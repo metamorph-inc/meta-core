@@ -86,7 +86,7 @@ class  EnvironmentCreo : public IEnvironment {
 class  ModelNamesCreo : public IModelNames {
 	public:
 		// provide the name of the concrete assembler
-		std::string name() { return "ModelNames";}
+		std::string name() { return "ModelNamesCreo";}
 
 
 	// e.g. in_OrigName				Chassis_8_Wheel<Chassis>
@@ -106,10 +106,55 @@ class  ModelNamesCreo : public IModelNames {
 	virtual std::string buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
 															 const std::string &in_FamilyTableEntry );
 
+
+	// For Creo:
+	//		in_ModelName = "123456789"
+	//		in_ModelType = CAD_MDL_PART
+	//		return "123456789.prt"
+	// If in_ModelName is null string
+	//	throw isis::application_exception
 	virtual std::string combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
 															throw (isis::application_exception);
 
 };
+
+
+class  ModelHandlingCreo : public IModelHandling {
+	public:
+		// provide the name of the concrete assembler
+		std::string name() { return "ModelHandlingCreo";}
+
+
+	virtual void CADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
+
+	virtual void CADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
+
+	virtual void CADModelFileCopy (e_CADMdlType 						in_ModelType,
+								   const isis::MultiFormatString		&in_FromModelName,
+								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
+};
+
+class  CADSessionCreo : public ICADSession {
+	public:
+		std::string name() { return "CADSessionCreo";}
+
+
+	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception);
+	virtual void stopCADProgram() const throw (isis::application_exception);
+
+	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+										int		&out_IntVersionNumber, 
+										bool	&out_FloatVersionNumber_Set,
+										double  &out_FloatVersionNumber )  const throw (isis::application_exception);
+
+	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception);
+
+};
+
+
+
 
 class CadFactoryCreo : public CadFactoryAbstract
 {
@@ -117,6 +162,8 @@ private:
 	AssemblerCreo assembler;
 	EnvironmentCreo environment;
 	ModelNamesCreo modelNames;
+    ModelHandlingCreo modelHandling;
+	CADSessionCreo  cADSession;
 
 public:
 	// provide the name of the concrete factory
@@ -134,6 +181,15 @@ public:
 	IModelNames& getModelNames() {
 		return modelNames;
 	};
+
+	IModelHandling& getModelHandling() {
+		return modelHandling;
+	};
+
+	ICADSession& getCADSession() {
+		return cADSession;
+	};
+
 };
 
 CadFactoryAbstract::ptr create();

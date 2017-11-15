@@ -376,7 +376,7 @@ void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, con
 
         config_Pro.close();
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
 															std::string			&out_ModelName,
@@ -450,6 +450,86 @@ std::string ModelNamesCreo::combineCADModelNameAndSuffix ( const std::string &in
 	}
 	return tempString;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelHandlingCreo::CADModelRetrieve(	const isis::MultiFormatString	&in_ModelName, 
+											e_CADMdlType 					in_ModelType,      
+											void 							**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception)
+{
+
+	isis::isis_ProMdlRetrieve(in_ModelName, ProMdlType_enum(in_ModelType), out_RetrievedModelHandle_ptr);
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void  ModelHandlingCreo::CADModelSave( void	*in_ModelHandle ) const throw (isis::application_exception)
+{
+	isis::isis_ProMdlSave(in_ModelHandle);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void  ModelHandlingCreo::CADModelFileCopy (	e_CADMdlType 						in_ModelType,
+											const isis::MultiFormatString		&in_FromModelName,
+											const isis::MultiFormatString       &in_ToModelName) const throw (isis::application_exception)
+{
+	isis::isis_ProMdlfileCopy (ProMdlType_enum(in_ModelType), in_FromModelName, in_ToModelName);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception)
+{
+	char tempBuffer[1024];
+	strcpy(tempBuffer, in_StartCommand.c_str() );
+	isis::isis_ProEngineerStart(tempBuffer,"");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::stopCADProgram() const throw (isis::application_exception)
+{
+	isis::isis_ProEngineerEnd();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+											int		&out_IntVersionNumber, 
+											bool	&out_FloatVersionNumber_Set,
+											double  &out_FloatVersionNumber )  const throw (isis::application_exception)
+{
+	out_IntVersionNumber_Set = false;
+	out_FloatVersionNumber_Set = false;
+	out_IntVersionNumber = 0;
+	out_FloatVersionNumber = 0.0;
+
+	int creoVersionNumber;
+	isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
+
+	out_IntVersionNumber = creoVersionNumber;
+	out_IntVersionNumber_Set = true;
+}
+
+// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
+// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
+// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
+// access the address of the buffer used in the previous call.  Therefore, the same address must be used 
+// between calls, or at least, the previously used buffer address must still be valid.
+//
+// This function is not thread safe.
+void CADSessionCreo::setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
+{
+	
+	static wchar_t *setCreoWorkingDirectory_buffer = NULL;
+
+	if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];
+		
+	wcscpy_s( setCreoWorkingDirectory_buffer, PRO_PATH_SIZE, (const wchar_t*)in_MultiFormatString);
+	isis::isis_ProDirectoryChange( setCreoWorkingDirectory_buffer );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 } // creo
