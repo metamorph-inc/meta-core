@@ -508,6 +508,29 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void PET_OptimizerConstraintIntermediate_via_MasterInterpreter()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestOptimizer_add2_IntermediateConstraint";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[0], "paraboloid_TestBench");
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[1], "fxy");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[0], "add2_TestBench");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[1], "z");
+
+            Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
+        }
+
+
+        [Fact]
         public void Test__TestTestBench_With_Files__MasterInterpreter()
         {
             string objectAbsPath = "/@Testing/@ParametricExploration/@TestTestBench_With_Files";
@@ -584,6 +607,7 @@ namespace CyPhyPETTest
                 //"/noshadow",
                 // [Trait("THIS", "ONE")]
                 //"/trait", "THIS=ONE",
+                //"/trait", "Type=Development", // Only run test(s) currently under development -- Those decorated with: [Trait("Type", "Development")]
             });
             Console.In.ReadLine();
             //System.Console.Out.WriteLine("HEllo World");
