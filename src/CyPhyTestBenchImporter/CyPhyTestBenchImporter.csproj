@@ -38,6 +38,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>AssemblySignature.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
       <HintPath>../../externals/common-scripts/ISIS.GME.Common.dll</HintPath>
@@ -90,6 +93,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>%25windir%25\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /codebase "$(TargetPath)" || exit /b 1
+</PostBuildEvent>
+  </PropertyGroup>
   <!--
   <Target Name="BeforeBuild">
   </Target>

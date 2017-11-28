@@ -89,7 +89,7 @@ Bundled Python packages
 * `dateutil` - [python-dateutil](https://dateutil.readthedocs.io/en/stable/) - BSD License
 * `decorator.py` - [decorator](https://github.com/micheles/decorator) - BSD License
 * `docutils` - [docutils - Python Documentation Utilities](http://docutils.sourceforge.net/) - Mostly public domain, with some components licensed under BSD License or GPLv3
-* `elementtree-1.2.7_20070827_preview-py2.7-win32.egg` - [ElementTree](http://effbot.org/zone/element-index.htm) - Python License (MIT-style)
+* `elementtree` - [ElementTree](http://effbot.org/zone/element-index.htm) - Python License (MIT-style)
 * `euclid.py` - [Euclid](https://code.google.com/archive/p/pyeuclid/) - LGPLv2.1+
 * `excel_wrapper` - [OpenMDAO Excel Wrapper](https://github.com/OpenMDAO-Plugins/excel_wrapper) - GPLv2
 * `imagesize` - [imagesize](https://github.com/shibukawa/imagesize_py) - MIT License
@@ -112,7 +112,7 @@ Bundled Python packages
 * `pylint` - [Pylint](https://github.com/PyCQA/pylint) - GPLv2
 * `pyparsing.py` - [Pyparsing](http://pyparsing.wikispaces.com/) - MIT License
 * `pytz` [pytz](http://pythonhosted.org/pytz/) - MIT License
-* `pywin32-219-py2.7-win32.egg`, `pywin32-220-py2.7-win32.egg` - [Python for Windows Extensions](https://sourceforge.net/projects/pywin32/) - Python Software Foundation License
+* `pywin32-221-py2.7-win-amd64.egg` - [Python for Windows Extensions](https://sourceforge.net/projects/pywin32/) - Python Software Foundation License
 * `pyxb` - [PyXB](http://pyxb.sourceforge.net/) - Apache License, Version 2.0
 * `requests` - [Requests](http://python-requests.org/) - Apache License, Version 2.0
 * `scipy` - [SciPy](https://www.scipy.org/) - BSD License

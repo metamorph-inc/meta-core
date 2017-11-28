@@ -1,4 +1,5 @@
- <!-- to add a package: add a gen_dir_wxi.main call in build_msi.py, add 2x below -->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- to add a package: add a gen_dir_wxi.main call in build_msi.py, add 2x below -->
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>

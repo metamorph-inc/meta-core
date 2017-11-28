@@ -66,7 +66,7 @@ for project in projects:
         new_reference = ElementTree.fromstring("""<?xml version="1.0" encoding="utf-8"?>
 <Reference Include="{0}" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
         <SpecificVersion>False</SpecificVersion>
-        <HintPath>C:\\Program Files (x86)\\META\\bin\\{1}</HintPath>
+        <HintPath>C:\\Program Files\\META\\bin\\{1}</HintPath>
     </Reference>""".format(dep_name, dep_asm))
         
         reference_itemgroup = csproj.find(_msbuild + 'ItemGroup/' + _msbuild + 'Reference/..')

@@ -25,7 +25,7 @@ import _winreg
 
 # Retrieve META_PATH
 with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
-                     _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+                     _winreg.KEY_READ) as key:
     META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
 
 from cad_library.__main__ import exitwitherror

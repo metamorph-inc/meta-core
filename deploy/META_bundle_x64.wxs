@@ -59,9 +59,33 @@
     <util:RegistrySearch Id="vcredist_2015_x64_versioncheck" Root="HKLM" Key="SOFTWARE\Classes\Installer\Dependencies\Microsoft.VS.VC_RuntimeMinimumVSU_amd64,v14" Value="Version" Variable="vcredist_2015_x64_version" Result="exists" Win64="yes"/>
     <util:RegistrySearch Id="vcredist_2015_x64_versionnumbercheck" Root="HKLM" Key="SOFTWARE\Classes\Installer\Dependencies\Microsoft.VS.VC_RuntimeMinimumVSU_amd64,v14" Value="Version" Variable="vcredist_2015_x64_versionnumber" Result="value" Win64="yes"/>
 
+    <!-- n.b. this does not work. the x86 package has the same UpgradeCode. If you install x86 first then this bundle, x64 will not be installed -->
+    <!-- <util:ProductSearch Id="vcredist_2008sp1_x64_versioncheck" UpgradeCode="{AA783A14-A7A3-3D33-95F0-9A351D530011}" Result="version" Variable="vcredist_2008sp1_x64_versionnumber"/> -->
+    <!-- uplevel.30729.4148.Microsoft_VC90_CRT_x64.QFE {3FA0170E-227C-37C7-BAC0-64691A992C81} -->
+    <util:ComponentSearch Id="vcredist_2008sp1_x64_msvcr90" Guid="{3FA0170E-227C-37C7-BAC0-64691A992C81}" Result="directory" Variable="vcredist_2008sp1_x64_msvcr90" />
+    <util:FileSearch Id="vcredist_2008sp1_x64_versionnumber" After="vcredist_2008sp1_x64_msvcr90" Condition="vcredist_2008sp1_x64_msvcr90" Path="[vcredist_2008sp1_x64_msvcr90]\msvcr90.dll" Result="version" Variable="vcredist_2008sp1_x64_versionnumber" />
+
     <bal:Condition Message="Installation failed because your version of Windows is too old. $(var.ProductName) requires Windows 7 SP1 or newer."><![CDATA[Installed OR VersionNT > v6.1 OR (VersionNT = v6.1 AND ServicePackLevel >= 1)]]></bal:Condition>
     <Chain>
       <PackageGroupRef Id="NetFx45Web"/>
+
+      <!-- Python -> CRT90 -->
+      <ExePackage Id="vcredist_2008SP1_x64.exe"
+                  Name="vc_redist.x64.$(var.Vc9RedistVersion).exe"
+                  InstallCommand="/q"
+                  RepairCommand="/q"
+                  UninstallCommand="/qu"
+                  Protocol="none"
+                  Compressed="$(var.Compressed)"
+                  Permanent="yes"
+                  DetectCondition="vcredist_2008sp1_x64_versionnumber &gt;= $(var.Vc9RedistVersion)"
+                  PerMachine="yes"
+                  Vital="yes"
+                  Cache="no"
+                  SuppressSignatureVerification="yes"
+                  SourceFile="Redist\VCRedist_2008SP1\vc_redist.x64.$(var.Vc9RedistVersion).exe"
+                  DownloadUrl="https://download.microsoft.com/download/9/7/7/977B481A-7BA6-4E30-AC40-ED51EB2028F2/vcredist_x64.exe"
+      />
 
       <ExePackage Id="vcredist_2015_x86.exe"
                   Name="vc_redist.x86.$(var.VcRedistVersion).exe"

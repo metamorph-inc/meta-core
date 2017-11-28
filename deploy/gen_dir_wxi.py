@@ -6,7 +6,6 @@ import re
 import errno
 import itertools
 import tempfile
-import hashlib
 
 import requests
 
@@ -169,6 +168,7 @@ class WixProcessingInstructionHandler(ContentHandler):
 
 
 def download_bundle_deps(bundle_wxs):
+    downloaded_files = []
     defines = WixProcessingInstructionHandler()
     xml.sax.parse("bundle_defines.xml", defines)
 
@@ -188,8 +188,12 @@ def download_bundle_deps(bundle_wxs):
             continue
         filename = eval_vars(package.get('SourceFile', '') or package.get('Name', ''))
         download_file(url, filename)
+        downloaded_files.append(filename)
     # from https://github.com/wixtoolset/wix3/blob/develop/src/ext/NetFxExtension/wixlib/NetFx4.5.wxs
-    download_file('http://go.microsoft.com/fwlink/?LinkId=225704', 'redist\\dotNetFx45_Full_setup.exe')
+    filename = 'redist\\dotNetFx45_Full_setup.exe'
+    download_file('http://go.microsoft.com/fwlink/?LinkId=225704', filename)
+    downloaded_files.append(filename)
+    return downloaded_files
 
 
 def main(src, output_filename=None, id=None, diskId=None):

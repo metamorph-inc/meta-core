@@ -19,7 +19,7 @@ build_script:
   - msbuild make.msbuild /t:Installer /m /nodeReuse:false /consoleloggerparameters:Verbosity=minimal /fl /flp:LogFile=msbuild.log
 
 test_script:
-  - .\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe  test\tests.xunit
+  - .\3rdParty\xunit-1.9.1\xunit.console.clr4.exe  test\tests.xunit
 
 artifacts:
   - path: "*.log"

@@ -42,7 +42,7 @@ def run_test(filename, cwd, result_dir):
     # xunit redirects .NET stdout/stderr. Send other output to a log
     with open(result_xml + '.log', 'wb') as logfile:
         process = subprocess.Popen([sys.executable, os.path.join(_this_dir, '..\\run_in_job_object.py'), # n.b. without this, if a test creates a child process which doesn't exit, we hang reading its stdout
-                                os.path.join(_this_dir, r'..\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe'),
+                                os.path.join(_this_dir, r'..\3rdParty\xunit-1.9.1\xunit.console.clr4.exe'),
                                 filename, '/nunit', result_xml, '/html', result_xml + '.html', '/xml', result_xml + '.xunit.xml'],
                                 cwd=cwd, stdout=logfile, stderr=subprocess.STDOUT)
         # output, unused_err = process.communicate()

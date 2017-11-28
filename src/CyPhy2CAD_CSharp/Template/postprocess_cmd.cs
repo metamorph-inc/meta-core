@@ -31,12 +31,10 @@ namespace CyPhy2CAD_CSharp.Template
         public virtual string TransformText()
         {
             this.Write(" \r\n");
-            this.Write(@"
-:: CAD TestBench processing script
-echo off
-FOR /F ""skip=2 tokens=2,*"" %%A IN ('C:\Windows\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO set META_PATH=%%B
-set META_PYTHON_PATH=""%META_PATH%\bin\Python27\Scripts\Python.exe""
-%META_PYTHON_PATH% ");
+            this.Write("\r\n:: CAD TestBench processing script\r\necho off\r\nFOR /F \"skip=2 tokens=2,*\" %%A IN" +
+                    " (\'reg.exe query \"HKLM\\software\\META\" /v \"META_PATH\" /reg:64\') DO set META_PATH=" +
+                    "%%B\r\nset META_PYTHON_PATH=\"%META_PATH%\\bin\\Python27\\Scripts\\Python.exe\"\r\n%META_P" +
+                    "YTHON_PATH% ");
             
             #line 16 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\postprocess_cmd.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ScriptName));

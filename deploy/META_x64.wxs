@@ -82,15 +82,18 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='SystemFolder' Name='SystemFolder'/>
       <Directory Id='System64Folder' Name='System64Folder'/>
-      <Directory Id='ProgramFiles64Folder'>
-        <Directory Id='INSTALLDIR64' Name='META'>
-          <Directory Id='INSTALLDIR64_BIN' Name='bin'/>
+      <Directory Id='ProgramFilesFolder'>
+        <Directory Id='INSTALLDIR32' Name='META'>
+          <Directory Id='INSTALLDIR_BIN32' Name='bin'/>
+          <Directory Id='INSTALLDIR_META32' Name='meta'/>
         </Directory>
       </Directory>
-      <Directory Id='ProgramFilesFolder'>
+      <Directory Id='ProgramFiles64Folder'>
         <Directory Id='INSTALLDIR' Name='META'>
+          <Directory Id='INSTALLDIR64'/>
           <Directory Id='analysis_tools' Name='analysis_tools'/>
           <Directory Id='INSTALLDIR_BIN' Name='bin'>
+            <Directory Id='INSTALLDIR64_BIN'/>
             <Directory Id='bin'/>
             <Directory Id='Json.NET'/>
             <Directory Id='Ionic.Zip' />
@@ -131,10 +134,6 @@
     <!-- MERGE MODULES -->
     <!-- =========================================================== -->
     <DirectoryRef Id='TARGETDIR'>
-      <!-- Python -> CRT90 -->
-      <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT100" Language="0" SourceFile="Microsoft_VC100_CRT_x86.msm" DiskId="2" />
       <Merge Id="CRT100x64" Language="0" SourceFile="Microsoft_VC100_CRT_x64.msm" DiskId="2" />
       <Merge Id="CRT110x64" Language="0" SourceFile="Microsoft_VC110_CRT_x64.msm" DiskId="2" />
     </DirectoryRef>
@@ -143,13 +142,11 @@
     <!-- COMPONENTS -->
     <!-- =========================================================== -->
 
+    <!-- included in UdmDll_VS10_x64:
     <Component Directory='System64Folder'>
         <File Id='zlibwapi' Source='zlibwapi.dll' />
     </Component>
-
-    <Component Id='xerces_c_x86' Directory='SystemFolder' Win64='no' Guid='11C1E35D-8685-550A-935E-48AB1AE2EF86'>
-        <File Id='xerces_c_x86' Source='xerces-c_2_8.dll' />
-    </Component>
+    -->
 
     <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
         <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
@@ -163,9 +160,9 @@
       </Component>
     </DirectoryRef>
     
-    <DirectoryRef Id="INSTALLDIR_META">
-      <Component Win64='no'>
-        <File Name="CyPhyML.mta" Source="..\generated\CyPhyML\models\CyPhyML.mta" />
+    <DirectoryRef Id="INSTALLDIR_META32">
+      <Component Id='CyPhyML.mta32' Win64='no'>
+        <File Id='CyPhyML.mta32' Name="CyPhyML.mta" Source="..\generated\CyPhyML\models\CyPhyML.mta" />
         <RegistryKey Root='HKLM' Key='Software\GME\Paradigms\CyPhyML'>
           <RegistryValue Name='CurrentVersion' Type='string' Value='$(var.GUIDSTRCYPHYML)'/>
           <RegistryValue Name='$(var.VERSIONSTRCYPHYML)' Type='string' Value='$(var.GUIDSTRCYPHYML)'/>
@@ -178,94 +175,96 @@
 		</RegistryKey>
         <RemoveRegistryKey Id='RemoveUserCyPhyML' Action='removeOnInstall' Root='HKCU' Key='Software\GME\Paradigms\CyPhyML' />
       </Component>
-      <Component Win64='no'>
+    </DirectoryRef>
+    <DirectoryRef Id="INSTALLDIR_META">
+      <Component Win64='yes'>
+        <File Name="CyPhyML.mta" Source="..\generated\CyPhyML\models\CyPhyML.mta" />
+      </Component>
+      <Component Win64='yes'>
         <File Source="..\meta\CyPhyML\CyPhyML.xme"/>
       </Component>
-       <Component Win64='no'>
+       <Component Win64='yes'>
         <File Source="..\src\CyPhyMLCS\bin\Release\CyPhyML.xml"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\generated\CyPhyML\models\CyPhyML_udm.xml"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\generated\CyPhyML.xsd"/>
       </Component>
 
     </DirectoryRef>
 
     <DirectoryRef Id='INSTALLDIR'>
-      <Component Id='META_PATH' Guid='{f6504e26-e4c7-4667-a5b4-b5e8a4110235}' Win64='no'>
+      <Component Id='META_PATH' Guid='{f6504e26-e4c7-4667-a5b4-b5e8a4110235}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
         </RegistryKey>
       </Component>
-      <Component Id='META_VERSION' Guid='{6e8cae49-ac6d-423f-9d7c-f36d9ae6fcbc}' Win64='no'>
+      <Component Id='META_VERSION' Guid='{6e8cae49-ac6d-423f-9d7c-f36d9ae6fcbc}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='META_VERSION' Type='string' Value='$(var.VERSIONSTR)'/>
         </RegistryKey>
       </Component>
-      <Component Id='META_VCSHASH' Guid='{63979997-6993-4d32-b1f7-0db7a37cdf4b}' Win64='no'>
+      <Component Id='META_VCSHASH' Guid='{63979997-6993-4d32-b1f7-0db7a37cdf4b}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='META_VCSHASH' Type='string' Value='$(var.VCSHASH)'/>
         </RegistryKey>
       </Component>
-      <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='no'>
+      <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VCSDESCRIPTION))'/>
         </RegistryKey>
       </Component>
-      <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>
+      <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='MAX_DYMOLA_STEP_TIME' Type='integer' Value='3000'/>
         </RegistryKey>
       </Component>
-      <Component Id='MAX_SIMULATION_TIME' Guid='{DE4B7358-A824-4C34-B6D0-32E60EFFF25F}' Win64='no'>
+      <Component Id='MAX_SIMULATION_TIME' Guid='{DE4B7358-A824-4C34-B6D0-32E60EFFF25F}' Win64='yes'>
         <RegistryKey Root='HKLM' Key='Software\META'>
           <RegistryValue Name='MAX_SIMULATION_TIME' Type='integer' Value='86400'/>
         </RegistryKey>
       </Component>
     </DirectoryRef>
-    <DirectoryRef Id='INSTALLDIR64'>
-      <Component Id='META_PATH64' Guid='{f6a44af1-b3ff-4720-b38b-fbc7686fa3b7}' Win64='yes'>
-        <RegistryKey Root='HKLM' Key='Software\META'>
-          <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
-        </RegistryKey>
-      </Component>
-    </DirectoryRef>
-
+    <Component Id='META_PATH32' Guid='{f6a44af1-b3ff-4720-b38b-fbc7686fa3b7}' Win64='no' Directory='INSTALLDIR32'>
+      <RegistryKey Root='HKLM' Key='Software\META'>
+        <RegistryValue Name='META_PATH' Type='string' Value='[INSTALLDIR]'/>
+      </RegistryKey>
+    </Component>
 
     <ComponentGroup Id="JobManager">
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\JobManager\JobManager\bin\Release\JobManager.exe'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\JobManager\JobManager\bin\Release\JobManagerFramework.dll'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\3rdParty\System.Data.SQLite\SQLite.Interop.dll'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\3rdParty\System.Data.SQLite\System.Data.SQLite.dll'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\3rdParty\System.Data.SQLite\System.Data.SQLite.Linq.dll'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll' Assembly='.net' />
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\CyPhyMasterExe\bin\Release\CyPhyMasterExe.exe'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\JobManager\JobManager\app.config' Name='JobManager.exe.config'/>
       </Component>
-      <Component Directory='INSTALLDIR_BIN' Win64='no'>
+      <Component Directory='INSTALLDIR_BIN' Win64='yes'>
         <File Source='..\src\AvmDdp\bin\Release\AvmDdp.dll'/>
       </Component>
     </ComponentGroup>
     <DirectoryRef Id='INSTALLDIR_BIN'>
-      <Component Id='CPMDecorator.dll' Win64='no'>
-        <File Id="CPMDecorator.dll" Name="CPMDecorator.dll" KeyPath="yes" Source="..\src\bin\CPMDecorator.dll">
+      <Component Id='CPMDecorator.dll' Win64='yes'>
+        <File Id="CPMDecorator.dll" Name="CPMDecorator.dll" KeyPath="yes" Source="..\src\x64\bin\CPMDecorator.dll">
           <Class Id="{BF4CBC84-0816-4FAD-A088-F61598B29F51}" Context="InprocServer32" Description="MGA Decorator CoClass (CPMDecorator)" ThreadingModel="apartment" Programmable="yes">
             <ProgId Id="MGA.CPMDecorator.1" Description="MGA Decorator CoClass (CPMDecorator)">
               <ProgId Id="MGA.CPMDecorator" Description="MGA Decorator CoClass (CPMDecorator)" />
@@ -274,49 +273,49 @@
         </File>
       </Component>
 
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\src\CLM_light\bin\Release\ClmLib.dll"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\src\ISIS.VehicleForge\bin\Release\ISIS.VehicleForge.dll"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\src\ISIS.Jenkins\bin\Release\ISIS.Jenkins.dll"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\src\ISIS.Web\bin\Release\ISIS.Web.dll"/>
       </Component>
       
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\meta\Complexity\ComplexityDomainLib_vs10\bin\Release\ComplexityDomainLib_vs10.dll"/>
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source="..\src\DesignInterchange2ComplexityLib\bin\Release\MetaDesignInterchange2ComplexityLib_vs10.dll"/>
       </Component>
 
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source='..\src\CyPhyMLCS\bin\Release\CyPhyML.dll' Assembly='.net' />
       </Component>
-      <Component Win64='no'>
+      <Component Win64='yes'>
         <File Source='..\externals\common-scripts\ISIS.GME.Common.dll' Assembly='.net' />
       </Component>
     </DirectoryRef>
     <DirectoryRef Id='INSTALLDIR_BIN'>
-      <Component Win64='no'>
-        <File Source="..\src\bin\desert.dll" />
+      <Component Win64='yes'>
+        <File Source="..\src\x64\bin\desert_x64.dll" />
       </Component>
     </DirectoryRef>
     
-    <Component Directory="INSTALLDIR_BIN" Win64="no">
+    <Component Directory="INSTALLDIR_BIN" Win64="yes">
       <File Source="..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\bin\Release\XSD2CSharp.dll"/>
     </Component>
-    <Component Directory="INSTALLDIR_BIN" Win64="no">
+    <Component Directory="INSTALLDIR_BIN" Win64="yes">
       <File Source="..\src\CyPhyComponentImporter\bin\Release\CyPhy2ComponentModel.dll"/>
     </Component>
-    <Component Directory="INSTALLDIR_BIN" Win64="no">
+    <Component Directory="INSTALLDIR_BIN" Win64="yes">
       <File Source="..\src\CyPhy2DesignInterchange\bin\Release\CyPhy2DesignInterchange.dll"/>
     </Component>
-    <Component Directory="INSTALLDIR_BIN" Win64="no">
+    <Component Directory="INSTALLDIR_BIN" Win64="yes">
       <File Source="..\src\ComponentLibraryManager\bin\Release\ComponentLibraryManager.dll"/>
     </Component>
 
@@ -328,6 +327,7 @@
       <ComponentRef Id='CPMDecorator.dll'/>
       <ComponentRef Id='ApplicationShortcut'/>
       <ComponentRef Id='CyPhyML.mta'/>
+      <ComponentRef Id='CyPhyML.mta32'/>
       <ComponentGroupRef Id='icons'/>
       <ComponentRef Id='CyPhyML.xme'/>
       <ComponentRef Id='CyPhyML.xml'/>
@@ -338,7 +338,7 @@
 
       <ComponentRef Id='CyPhyFormulaEvaluator.dll'/>
       <ComponentRef Id='DesignSpaceHelper.dll'/>
-      <ComponentRef Id='desert.dll'/>
+      <ComponentRef Id='desert_x64.dll'/>
       <ComponentRef Id='CyPhyCAExporter.dll'/>
       <ComponentRef Id='ComponentLibraryManager.dll'/>
       <ComponentGroupRef Id='ComponentLibraryManagerAddOn'/>
@@ -362,7 +362,7 @@
       <ComponentRef Id='META_VERSION'/>
       <ComponentRef Id='META_VCSHASH'/>
       <ComponentRef Id='META_FULLVERSION'/>
-      <ComponentRef Id='META_PATH64'/>
+      <ComponentRef Id='META_PATH32'/>
 
       <ComponentRef Id='MAX_DYMOLA_STEP_TIME'/>
       <ComponentRef Id='MAX_SIMULATION_TIME'/>
@@ -439,18 +439,14 @@
         </Feature>
       </Feature>
 
-      <ComponentGroupRef Id='UdmDll_VS10x86' />
+      <ComponentGroupRef Id='UdmDll_VS10x64' />
       <ComponentGroupRef Id='UdmDll_VC11x64' />
-      <ComponentRef Id='zlibwapi' />
+      <!-- <ComponentRef Id='zlibwapi' /> -->
 
-      <ComponentGroupRef Id='UdmDll_VC14x86' />
-      <ComponentRef Id='xerces_c_x86' />
+      <ComponentGroupRef Id='UdmDll_VC14x64' />
       <ComponentRef Id='xerces_c_x64' />
       <MergeRef Id='CRT100x64' />
       <MergeRef Id='CRT110x64' />
-      <MergeRef Id='CRT90' />
-      <MergeRef Id='CRT90_policy' />
-      <MergeRef Id='CRT100' />
     </Feature>
 
     <!-- =========================================================== -->

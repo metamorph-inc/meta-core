@@ -31,8 +31,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Run xunit in parallel.')
     parser.add_argument('xunit_files', nargs='*', default=['tests.xunit'])
-    parser.add_argument('--start-failed', action='store_true')
-    parser.add_argument('--rerun-failed', action='store_true')
+    parser.add_argument('--start-failed', action='store_true', help='Open failed test results .htmls')
+    parser.add_argument('--rerun-failed', action='store_true', help='Run only test assemblies with failures in results/*.xml')
 
     args = parser.parse_args()
 

@@ -6,7 +6,7 @@
 <Fragment>
 <ComponentGroup Id="CyPhyDSRefiner">
   <Component Id="CyPhyDSRefiner.dll" Directory="INSTALLDIR_BIN">
-    <File Source="..\src\bin\CyPhyDSRefiner.dll">
+    <File Source="..\src\x64\bin\CyPhyDSRefiner.dll">
       <TypeLib Id="{EA572AF5-9B0A-4ED0-B5A9-ED814C5E6552}" Description="MGA Interpreter TypeLibrary CyPhyDSRefiner" Language="0" MajorVersion="1" MinorVersion="0">
         <Class Id="{080C83C0-5144-477F-B763-8E4A8246DF49}" Context="InprocServer32" Description="MGA.Interpreter.CyPhyDSRefiner">
           <ProgId Id="MGA.Interpreter.CyPhyDSRefiner" Description="MGA.Interpreter.CyPhyDSRefiner" />

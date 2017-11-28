@@ -1,6 +1,6 @@
 :: Call SwRI Corrosion analysis tool
 echo off
-FOR /F "skip=2 tokens=2,*" %%A IN ('C:\Windows\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
+FOR /F "skip=2 tokens=2,*" %%A IN ('reg.exe query "HKLM\software\META" /v "META_PATH" /reg:64') DO set META_PATH=%%B
 set META_PYTHON_PATH="%META_PATH%\bin\Python27\Scripts\Python.exe"
 %META_PYTHON_PATH% rename_config.py || goto :ERROR_SECTION
 cmd /c runCADJob.bat

@@ -6,6 +6,7 @@ import os.path
 import win32com.client
 import gen_dir_wxi
 from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps
+import gme_x64_open
 import gen_analysis_tool_wxi
 import glob
 import subprocess
@@ -211,7 +212,7 @@ def build_msi():
     if len(sources) == 0:
         raise Exception("0 sources found in " + sourcedir)
 
-    defines = [('InterpreterBin', '../src/bin')]
+    defines = [('InterpreterBin', '../src/x64/bin')]
 
     def get_mta_versions(mta_file):
         import uuid
@@ -236,7 +237,8 @@ def build_msi():
 
     def candle(source):
         try:
-            arch = ['-arch', ('x86' if source.find('x64') == -1 else 'x64')]
+            # arch = ['-arch', ('x86' if source.find('x64') == -1 else 'x64')]
+            arch = ['-arch', 'x64']
             system(['candle', '-ext', 'WiXUtilExtension'] + ['-d' + d[0] + '=' + d[1] for d in defines] + arch + ['-out', get_wixobj(source), source] + ['-nologo'])
         except Exception as e:
             pool_exceptions.append(e)
@@ -254,7 +256,9 @@ def build_msi():
     if source_wxs.startswith("META"):
         def download():
             try:
-                download_bundle_deps('META_bundle_x64.wxs')
+                downloaded_files = download_bundle_deps('META_bundle_x64.wxs')
+                GME_msi = [f for f in downloaded_files if f.startswith('GME')][0]
+                gme_x64_open.gme_x64_open(GME_msi)
             except Exception as e:
                 pool_exceptions.append(e)
 
@@ -267,7 +271,7 @@ def build_msi():
         system(['light', '-sw1055', '-sice:ICE82', '-sice:ICE57', '-sice:ICE60', '-sice:ICE69', '-ext', 'WixNetFxExtension', '-ext', 'WixUIExtension', '-ext', 'WixUtilExtension',
             # '-cc', os.path.join(this_dir, 'cab_cache'), '-reusecab', # we were getting errors during installation relating to corrupted cab files => disable cab cache
             # udm.pyd depends on UdmDll_VC10
-            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [get_wixobj(file) for file in sources] + ['UdmDll_VS10.wixlib', 'UdmDll_VC11_x64.wixlib', 'UdmDll_VC14.wixlib'])
+            '-o', os.path.splitext(source_wxs)[0] + ".msi"] + [get_wixobj(file) for file in sources] + ['UdmDll_VS10_x64.wixlib', 'UdmDll_VC11_x64.wixlib', 'UdmDll_VC14_x64.wixlib'])
 
         download_thread.join()
         if pool_exceptions:

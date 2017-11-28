@@ -27,7 +27,7 @@ LOGDIR = os.path.join(MAIN, "log", "CyPhy2AbaqusCmd.log")                    # p
 	
 # returns the material library data
 def parseMaterialLibrary():
-    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ) as key:
         META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
 
     MATERIALLIBINTERFACEPATH = os.path.join(META_PATH, "bin", "Python27", "Lib", "site-packages")

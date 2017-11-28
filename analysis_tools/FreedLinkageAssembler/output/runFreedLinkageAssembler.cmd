@@ -68,7 +68,7 @@ goto  :ERROR_SECTION
 
 :PY_FOUND
 for /F "skip=2 tokens=2,*" %%A ^
-in ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') ^
+in ('reg.exe query "HKLM\software\META" /v "META_PATH" /reg:64') ^
 do "%%B\bin\Python27\Scripts\Python.exe" %PY_SCRIPT%
 
 set ERROR_CODE=%ERRORLEVEL%

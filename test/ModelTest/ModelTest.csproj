@@ -93,8 +93,8 @@
     <Reference Include="xunit">
       <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.console.clr4.x86">
-      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.console.clr4.x86.exe</HintPath>
+    <Reference Include="xunit.console.clr4">
+      <HintPath>..\..\3rdParty\xunit-1.9.1\xunit.console.clr4.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

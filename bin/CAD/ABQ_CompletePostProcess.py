@@ -17,7 +17,7 @@ import csv
 import json
 
 with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
-                     _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+                     _winreg.KEY_READ) as key:
     META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
     sys.path.append(os.path.join(META_PATH, 'bin', 'Python27', 'Lib', 'site-packages'))
     ppDir = os.path.join(META_PATH, 'bin', 'CAD')

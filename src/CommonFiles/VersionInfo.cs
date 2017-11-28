@@ -41,42 +41,48 @@ namespace META
             {
                 if (string.IsNullOrEmpty(m_CyPhyMLGuid))
                 {
+                    RegistryKey subKey;
                     // HKEY_CURRENT_USER\Software\GME\Paradigms\CyPhyML
-                    var baseKey = RegistryKey.OpenBaseKey(
+                    using (var baseKey = RegistryKey.OpenBaseKey(
                         RegistryHive.CurrentUser,
-                        RegistryView.Registry64);
-
-                    var subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
-
-                    if (subKey == null)
+                        RegistryView.Registry64))
                     {
-                        baseKey = RegistryKey.OpenBaseKey(
-                            RegistryHive.LocalMachine,
-                            RegistryView.Registry64);
-
                         subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
                     }
 
                     if (subKey == null)
                     {
-                        baseKey = RegistryKey.OpenBaseKey(
+                        using (var baseKey = RegistryKey.OpenBaseKey(
+                            RegistryHive.LocalMachine,
+                            RegistryView.Registry64))
+                        {
+                            subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
+                        }
+                    }
+
+                    if (subKey == null)
+                    {
+                        using (var baseKey = RegistryKey.OpenBaseKey(
                             RegistryHive.CurrentUser,
-                            RegistryView.Registry32);
-
-                        subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
+                            RegistryView.Registry32))
+                        {
+                            subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
+                        }
                     }
 
                     if (subKey == null)
                     {
-                        baseKey = RegistryKey.OpenBaseKey(
+                        using (var baseKey = RegistryKey.OpenBaseKey(
                             RegistryHive.LocalMachine,
-                            RegistryView.Registry32);
-
-                        subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
+                            RegistryView.Registry32))
+                        {
+                            subKey = baseKey.OpenSubKey(@"Software\GME\Paradigms\CyPhyML");
+                        }
                     }
 
                     string value = @"CurrentVersion";
                     m_CyPhyMLGuid = (string)subKey.GetValue(value, unknown);
+                    subKey.Dispose();
                 }
 
                 return m_CyPhyMLGuid;
@@ -157,7 +163,7 @@ namespace META
                 {
                     using (var baseKey = RegistryKey.OpenBaseKey(
                         RegistryHive.LocalMachine,
-                        RegistryView.Registry32))
+                        RegistryView.Registry64))
                     {
                         string keyName = @"Software\META";
                         using (var software_meta = baseKey.OpenSubKey(keyName))

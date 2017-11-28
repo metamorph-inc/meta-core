@@ -44,16 +44,17 @@ namespace CyPhyComponentImporterCL {
             {
                 const string keyName = "Software\\META";
 
-                RegistryKey metaKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .OpenSubKey(keyName, false);
-
-                string metaPath = "C:\\Program Files (x86)\\META";
-                if (metaKey != null)
+                using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                using (var metaKey = baseKey.OpenSubKey(keyName, false))
                 {
-                    metaPath = (string)metaKey.GetValue("META_PATH", metaPath);
-                }
+                    string metaPath = "C:\\Program Files (x86)\\META";
+                    if (metaKey != null)
+                    {
+                        metaPath = (string)metaKey.GetValue("META_PATH", metaPath);
+                    }
 
-                return metaPath;
+                    return metaPath;
+                }
             }
         }
 

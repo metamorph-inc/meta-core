@@ -32,7 +32,6 @@ namespace DynamicsTeamTest
         [Trait("JobManager", "OpenAndClose")]
         public void OpenAndCloseJobManager()
         {
-            Assert.DoesNotThrow(() =>
             {
                 string exe = searchLocations.Where(File.Exists).FirstOrDefault();
                 if (exe == null)
@@ -114,7 +113,7 @@ namespace DynamicsTeamTest
                     }
                 }
 
-            });
+            }
         }
     }
 }

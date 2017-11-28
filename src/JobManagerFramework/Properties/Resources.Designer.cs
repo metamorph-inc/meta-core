@@ -74,7 +74,7 @@ namespace JobManagerFramework.Properties {
         ///                &lt;description/&gt;
         ///                &lt;defaultValue/&gt;
         ///              &lt;/hudson.model.StringParameterDefinition&gt;
-        ///              &lt;hudson.model.Stri [rest of string was truncated]&quot;;.
+        ///              &lt;hudson.model.StringParameterDe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string job_config {
             get {

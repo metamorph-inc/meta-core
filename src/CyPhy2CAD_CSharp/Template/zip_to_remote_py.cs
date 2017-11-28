@@ -58,51 +58,51 @@ namespace CyPhy2CAD_CSharp.Template
             #line hidden
             this.Write("    ]\r\n\r\n\r\ndef find_python_path():\r\n    import _winreg\r\n    meta_python_path = \"\"" +
                     "\r\n    try:\r\n        uninstall_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, " +
-                    "r\"Software\\META\", 0,\r\n                                        _winreg.KEY_READ |" +
-                    " _winreg.KEY_WOW64_32KEY)\r\n        val, typ = _winreg.QueryValueEx(uninstall_key" +
-                    ", \'META_PATH\')\r\n        meta_python_path = os.path.join(val, r\"bin\\Python27\\Scri" +
-                    "pts\\Python.exe\")\r\n    except WindowsError as e:\r\n        meta_python_path = None" +
-                    "\r\n        \r\n    return meta_python_path\r\n\r\n\r\ndef call_script(meta_python, script" +
-                    "name, error_msg):\r\n    return_out = 0\r\n    try:\r\n        script_cmd = \'\"{0}\" \"{1" +
-                    "}\"\'\\\r\n                    .format(meta_python, scriptname)\r\n            \r\n      " +
-                    "  status = subprocess.check_output(script_cmd, stderr=subprocess.STDOUT, shell=T" +
-                    "rue)\r\n    except subprocess.CalledProcessError as err:\r\n        msg = \"Subproces" +
-                    "s call failed!\"\r\n        msg += \"\\n  command       : {0}\".format(err.cmd)\r\n     " +
-                    "   msg += \"\\n  return-code   : {0}\".format(err.returncode)\r\n        if err.outpu" +
-                    "t:\r\n            msg += \"\\n  console output: \\n\\n{0}\".format(err.output)\r\n       " +
-                    " if err.message:\r\n            msg +=  \"\\n  error message : {0}\".format(err.messa" +
-                    "ge)\r\n        error_msg.append(msg)\r\n        return_out = 1\r\n\r\n    return return_" +
-                    "out\r\n\r\n\r\ndef main():\r\n    error_msg = list()\r\n    # call Copy_Parts.bat\r\n    cop" +
-                    "y_bat = \'Copy_Parts.py\'\r\n    if os.path.exists(copy_bat):\r\n        try:\r\n       " +
-                    "     meta_python = find_python_path()\r\n            if meta_python is not None:\r\n" +
-                    "                call_script(meta_python, copy_bat, error_msg) \r\n            else" +
-                    ":\r\n                error_msg.append(\'Can not find META Python Package!\')\r\n      " +
-                    "  except Exception as msg:\r\n            error_msg.append(str(msg))\r\n            " +
-                    "error_msg.append(\'\\nNot able to copy cad files.\')\r\n\r\n    if len(error_msg) > 0:\r" +
-                    "\n        with open(\'_FAILED.txt\', \'w\') as f_out:\r\n            for item in error_" +
-                    "msg:\r\n                f_out.write(item)\r\n        if os.name == \'nt\':\r\n          " +
-                    "  os._exit(3)\r\n        elif os.name == \'posix\':\r\n            os._exit(os.EX_OSFI" +
-                    "LE)\r\n\r\n    search_path = \'search_META.pro\'\r\n    if os.path.exists(search_path):\r" +
-                    "\n        shutil.copyfile(search_path, search_path + \'.local\')\r\n\r\n    with open (" +
-                    "search_path, \'w\') as search_path_file:\r\n        if os.path.exists(\'Cad_Auxiliary" +
-                    "_Directory\'):\r\n            search_path_file.write(\'\".\\Cad_Auxiliary_Directory\"\\n" +
-                    "\')\r\n\r\n        for folder in components_folder:\r\n            search_path_file.wri" +
-                    "te(\'\".\\\\\' + folder + \'\"\\n\')\r\n\r\n    # zip\r\n    output_filename = \'source_data.zip" +
-                    "\'\r\n\r\n    if os.path.exists(output_filename):\r\n        os.remove(output_filename)" +
-                    "\r\n\r\n    cur_work_dir = os.getcwd()\r\n\r\n    with zipfile.ZipFile(output_filename, " +
-                    "\'w\', allowZip64=True) as z:\r\n        parent_dir_name = os.path.basename(os.getcw" +
-                    "d())\r\n        os.chdir(\'..\\\\\')\r\n        for dirpath,dirs,files in os.walk(parent" +
-                    "_dir_name):\r\n          for f in files:\r\n            if output_filename == f:\r\n  " +
-                    "              continue\r\n            fn = os.path.join(dirpath, f)\r\n            z" +
-                    ".write(fn, compress_type=zipfile.ZIP_DEFLATED)\r\n            \r\n\r\n    # removes th" +
-                    "e copied over components directory after zipping because it won\'t be needed afte" +
-                    "r the workspace.zip comes back since\r\n    # paths in search_meta.pro would be sw" +
-                    "itched to reference local components directory in /project_dir/components etc \r\n" +
-                    "    for folder in (os.path.normpath(f) for f in components_folder):\r\n        pat" +
-                    "h_list = folder.split(os.sep)\r\n        if len(path_list) > 0:\r\n            compo" +
-                    "nents_root_dir = os.path.join(cur_work_dir, path_list[0])\r\n            if os.pat" +
-                    "h.exists(components_root_dir):\r\n                shutil.rmtree(os.path.join(cur_w" +
-                    "ork_dir, components_root_dir))\r\n\r\nif __name__ == \'__main__\':\r\n    main()\r\n\r\n");
+                    "r\"Software\\META\", 0,\r\n                                        _winreg.KEY_READ)\r" +
+                    "\n        val, typ = _winreg.QueryValueEx(uninstall_key, \'META_PATH\')\r\n        me" +
+                    "ta_python_path = os.path.join(val, r\"bin\\Python27\\Scripts\\Python.exe\")\r\n    exce" +
+                    "pt WindowsError as e:\r\n        meta_python_path = None\r\n        \r\n    return met" +
+                    "a_python_path\r\n\r\n\r\ndef call_script(meta_python, scriptname, error_msg):\r\n    ret" +
+                    "urn_out = 0\r\n    try:\r\n        script_cmd = \'\"{0}\" \"{1}\"\'\\\r\n                    " +
+                    ".format(meta_python, scriptname)\r\n            \r\n        status = subprocess.chec" +
+                    "k_output(script_cmd, stderr=subprocess.STDOUT, shell=True)\r\n    except subproces" +
+                    "s.CalledProcessError as err:\r\n        msg = \"Subprocess call failed!\"\r\n        m" +
+                    "sg += \"\\n  command       : {0}\".format(err.cmd)\r\n        msg += \"\\n  return-code" +
+                    "   : {0}\".format(err.returncode)\r\n        if err.output:\r\n            msg += \"\\n" +
+                    "  console output: \\n\\n{0}\".format(err.output)\r\n        if err.message:\r\n        " +
+                    "    msg +=  \"\\n  error message : {0}\".format(err.message)\r\n        error_msg.app" +
+                    "end(msg)\r\n        return_out = 1\r\n\r\n    return return_out\r\n\r\n\r\ndef main():\r\n    " +
+                    "error_msg = list()\r\n    # call Copy_Parts.bat\r\n    copy_bat = \'Copy_Parts.py\'\r\n " +
+                    "   if os.path.exists(copy_bat):\r\n        try:\r\n            meta_python = find_py" +
+                    "thon_path()\r\n            if meta_python is not None:\r\n                call_scrip" +
+                    "t(meta_python, copy_bat, error_msg) \r\n            else:\r\n                error_m" +
+                    "sg.append(\'Can not find META Python Package!\')\r\n        except Exception as msg:" +
+                    "\r\n            error_msg.append(str(msg))\r\n            error_msg.append(\'\\nNot ab" +
+                    "le to copy cad files.\')\r\n\r\n    if len(error_msg) > 0:\r\n        with open(\'_FAILE" +
+                    "D.txt\', \'w\') as f_out:\r\n            for item in error_msg:\r\n                f_ou" +
+                    "t.write(item)\r\n        if os.name == \'nt\':\r\n            os._exit(3)\r\n        eli" +
+                    "f os.name == \'posix\':\r\n            os._exit(os.EX_OSFILE)\r\n\r\n    search_path = \'" +
+                    "search_META.pro\'\r\n    if os.path.exists(search_path):\r\n        shutil.copyfile(s" +
+                    "earch_path, search_path + \'.local\')\r\n\r\n    with open (search_path, \'w\') as searc" +
+                    "h_path_file:\r\n        if os.path.exists(\'Cad_Auxiliary_Directory\'):\r\n           " +
+                    " search_path_file.write(\'\".\\Cad_Auxiliary_Directory\"\\n\')\r\n\r\n        for folder i" +
+                    "n components_folder:\r\n            search_path_file.write(\'\".\\\\\' + folder + \'\"\\n\'" +
+                    ")\r\n\r\n    # zip\r\n    output_filename = \'source_data.zip\'\r\n\r\n    if os.path.exists" +
+                    "(output_filename):\r\n        os.remove(output_filename)\r\n\r\n    cur_work_dir = os." +
+                    "getcwd()\r\n\r\n    with zipfile.ZipFile(output_filename, \'w\', allowZip64=True) as z" +
+                    ":\r\n        parent_dir_name = os.path.basename(os.getcwd())\r\n        os.chdir(\'.." +
+                    "\\\\\')\r\n        for dirpath,dirs,files in os.walk(parent_dir_name):\r\n          for" +
+                    " f in files:\r\n            if output_filename == f:\r\n                continue\r\n  " +
+                    "          fn = os.path.join(dirpath, f)\r\n            z.write(fn, compress_type=z" +
+                    "ipfile.ZIP_DEFLATED)\r\n            \r\n\r\n    # removes the copied over components d" +
+                    "irectory after zipping because it won\'t be needed after the workspace.zip comes " +
+                    "back since\r\n    # paths in search_meta.pro would be switched to reference local " +
+                    "components directory in /project_dir/components etc \r\n    for folder in (os.path" +
+                    ".normpath(f) for f in components_folder):\r\n        path_list = folder.split(os.s" +
+                    "ep)\r\n        if len(path_list) > 0:\r\n            components_root_dir = os.path.j" +
+                    "oin(cur_work_dir, path_list[0])\r\n            if os.path.exists(components_root_d" +
+                    "ir):\r\n                shutil.rmtree(os.path.join(cur_work_dir, components_root_d" +
+                    "ir))\r\n\r\nif __name__ == \'__main__\':\r\n    main()\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

@@ -122,7 +122,7 @@ class PatranPostProcess:
 
         self.logger = logging.getLogger('Patran_PostProcess')
 
-        # with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
+        # with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ) as key:
         #     meta_path = _winreg.QueryValueEx(key, 'META_PATH')[0]
 
         self.meta_data_file = meta_data_file

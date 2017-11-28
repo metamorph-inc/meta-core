@@ -125,7 +125,7 @@
       <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32&gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>
@@ -167,7 +167,7 @@
       <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>
@@ -210,7 +210,7 @@
       <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32&gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>
@@ -251,7 +251,7 @@
       <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{7D316640-9593-4324-88CE-72988CA252E7}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>

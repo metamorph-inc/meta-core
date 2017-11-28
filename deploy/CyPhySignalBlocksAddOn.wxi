@@ -6,8 +6,8 @@
 </Fragment>
 <Fragment>
 <ComponentGroup Id="CyPhySignalBlocksAddOn">
-  <Component Id="CyPhySignalBlocksAddOn.dll" Directory="INSTALLDIR_BIN">
-    <File Id="CyPhySignalBlocksAddOn.dll" Name="CyPhySignalBlocksAddOn.dll" KeyPath="yes" Source="..\src\CyPhySignalBlocksAddOn\bin\Release\CyPhySignalBlocksAddOn.dll" />
+  <Component Id="CyPhySignalBlocksAddOn_x86.dll" Directory="INSTALLDIR_BIN32" Win64="no">
+    <File Id="CyPhySignalBlocksAddOn.dll_x86" Name="CyPhySignalBlocksAddOn.dll" KeyPath="yes" Source="..\src\CyPhySignalBlocksAddOn\bin\Release\CyPhySignalBlocksAddOn.dll" />
     <Class Id="{0F29AE8F-B183-4013-872C-46DC0A0A68BE}" Context="InprocServer32" Description="MGA.Addon.CyPhySignalBlocksAddOn" ThreadingModel="both" ForeignServer="mscoree.dll">
       <ProgId Id="MGA.Addon.CyPhySignalBlocksAddOn" Description="MGA.Addon.CyPhySignalBlocksAddOn" />
     </Class>
@@ -15,11 +15,11 @@
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32\1.0.0.0" Name="Class" Value="CyPhySignalBlocksAddOn.CyPhySignalBlocksAddOnAddon" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32\1.0.0.0" Name="Assembly" Value="CyPhySignalBlocksAddOn, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-    <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhySignalBlocksAddOn.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#CyPhySignalBlocksAddOn.dll_x86]" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32" Name="Class" Value="CyPhySignalBlocksAddOn.CyPhySignalBlocksAddOnAddon" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32" Name="Assembly" Value="CyPhySignalBlocksAddOn, Version=1.0.0.0, Culture=neutral" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-    <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhySignalBlocksAddOn.dll]" Type="string" Action="write" />
+    <RegistryValue Root="HKCR" Key="CLSID\{0F29AE8F-B183-4013-872C-46DC0A0A68BE}\InprocServer32" Name="CodeBase" Value="file:///[#CyPhySignalBlocksAddOn.dll_x86]" Type="string" Action="write" />
     <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
     <RegistryKey Root='HKLM' Key='Software\GME\Components\MGA.Addon.CyPhySignalBlocksAddOn'>
       <RegistryValue Name='Description' Type='string' Value='CyPhySignalBlocksAddOn'/>
@@ -33,17 +33,8 @@
 
     </RegistryKey>
   </Component>
-  <Component Directory="INSTALLDIR_META">
-    <File Source="../meta/CyPhyMLQudt.mga"/>
-  </Component>
-  <Component Directory="INSTALLDIR_META">
-    <File Source="../meta/CyPhy_PortLib.mga"/>
-  </Component>
-  <Component Directory="INSTALLDIR_META">
-    <File Source="../meta/CyPhy_MaterialLib.mga"/>
-  </Component>
-  <Component Directory="INSTALLDIR_META">
-    <File Source="../meta/CyPhy_CADResourceLib.mga"/>
+  <Component Id="CyPhyGUIs.dll_x86" Directory="INSTALLDIR_BIN32" Win64="no">
+    <File Id="CyPhyGUIs.dll_x86" KeyPath="yes" Source="..\src\CyPhyGUIs\bin\Release\CyPhyGUIs.dll" />
   </Component>
 </ComponentGroup>
 </Fragment>

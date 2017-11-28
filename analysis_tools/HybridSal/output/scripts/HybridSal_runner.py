@@ -25,10 +25,10 @@ def error(msg):
 def getHSalExe():
     if sys.platform.startswith('win'):  # windows
         import _winreg
-        analysis_tools_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 
-                                             r'SOFTWARE\Wow6432Node\META\AnalysisTools', 
+        analysis_tools_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,
+                                             r'SOFTWARE\META\AnalysisTools',
                                              0,
-                                             _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY)
+                                             _winreg.KEY_READ)
         number_of_keys = _winreg.QueryInfoKey(analysis_tools_key)[0]  # 0 means number of sub_keys
         for sub_key_id in range(0, number_of_keys):
             sub_key_name = _winreg.EnumKey(analysis_tools_key, sub_key_id)

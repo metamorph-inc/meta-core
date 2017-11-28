@@ -30,7 +30,17 @@ void RunCyPhyElaborate_ComputePropertyValues(IMgaFCO *currentobj)
 	HRESULT hr = disp.CreateInstance(L"MGA.Interpreter.CyPhyElaborateCS", nullptr, CLSCTX_INPROC);
 	if (FAILED(hr))
 	{
-		ThrowComError(hr, L"Could not create CyPhyElaborateCS");
+		std::wstring message = L"Could not create CyPhyElaborateCS";
+		LPWSTR errorText = NULL;
+		FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPWSTR)&errorText, 0, NULL);
+		if (errorText != NULL) {
+			message += L": ";
+			message += errorText;
+			LocalFree(errorText);
+		}
+
+		ThrowComError(hr, const_cast<LPOLESTR>(message.c_str()));
 	}
 	_variant_t obj = currentobj;
 	DISPID dispid;

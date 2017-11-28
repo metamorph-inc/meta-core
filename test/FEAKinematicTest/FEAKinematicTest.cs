@@ -59,16 +59,16 @@ namespace FEAKinematicTest
             {
                 const string keyName = "Software\\META";
 
-                RegistryKey metaKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .OpenSubKey(keyName, false);
-
-                string metaPath = "C:\\Program Files (x86)\\META";
-                if (metaKey != null)
+                using (var metaKey = Registry.LocalMachine.OpenSubKey(keyName, false))
                 {
-                    metaPath = (string)metaKey.GetValue("META_PATH", metaPath);
-                }
+                    string metaPath = "C:\\Program Files\\META";
+                    if (metaKey != null)
+                    {
+                        metaPath = (string)metaKey.GetValue("META_PATH", metaPath);
+                    }
 
-                return metaPath;
+                    return metaPath;
+                }
             }
         }
 
@@ -76,7 +76,7 @@ namespace FEAKinematicTest
         {
             get
             {
-                const string keyName = "Software\\Wow6432Node\\SIMULIA\\Abaqus";
+                const string keyName = "Software\\SIMULIA\\Abaqus";
 
                 RegistryKey AbaqusKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                     .OpenSubKey(keyName, false);

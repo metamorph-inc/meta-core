@@ -2498,7 +2498,7 @@ void Create_FEADecks_BatFiles(
 
 	abaqusAnalysisBatFile << "REM " + in_ProgramName_Version_TimeStamp << std::endl;
 	abaqusAnalysisBatFile << "REM The following system environment variable must be defined:" << std::endl;
-	abaqusAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set MetaPath=%%B" << std::endl;
+	abaqusAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('reg.exe query \"HKLM\\Software\\META\" /v \"META_PATH\" /reg:64') DO set MetaPath=%%B" << std::endl;
 	abaqusAnalysisBatFile	<< "echo off" << std::endl;
 	abaqusAnalysisBatFile << "REM Invoke Abaqus" << std::endl;
 	abaqusAnalysisBatFile	<< "echo." << std::endl;
@@ -2538,7 +2538,7 @@ void Create_FEADecks_BatFiles(
 
 	calculixBatFile_ConvertDeck << "REM " + in_ProgramName_Version_TimeStamp << std::endl;
 	calculixBatFile_ConvertDeck << "REM Invoke DeckConverter ( Convert Nastran deck to CalculiX deck)" << std::endl;
-    calculixBatFile_ConvertDeck << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO SET META_PATH=%%B" << std::endl;
+    calculixBatFile_ConvertDeck << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%reg.exe query \"HKLM\\software\\META\" /v \"META_PATH\" /reg:64') DO SET META_PATH=%%B" << std::endl;
 	calculixBatFile_ConvertDeck	<< "echo off" << std::endl;
 	calculixBatFile_ConvertDeck	<< std::endl;
 	calculixBatFile_ConvertDeck	<< "echo." << std::endl;
@@ -2578,7 +2578,7 @@ void Create_FEADecks_BatFiles(
 
 	nastranAnalysisBatFile << "REM Invoke Nastran Solver and Post Processing"  << std::endl;
 	nastranAnalysisBatFile <<  std::endl;
-	nastranAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('%SystemRoot%\\SysWoW64\\REG.exe query \"HKLM\\software\\META\" /v \"META_PATH\"') DO set MetaPath=%%B" << std::endl;
+	nastranAnalysisBatFile << "FOR /F \"skip=2 tokens=2,*\" %%A IN ('reg.exe query \"HKLM\\software\\META\" /v \"META_PATH\" /reg:64') DO set MetaPath=%%B" << std::endl;
 	nastranAnalysisBatFile << "set DECK_NAME=" << modifiedMeshFileName << std::endl;
 	nastranAnalysisBatFile << "set MODEL_NAME=" << in_CADComponentData_map[in_TopLevelAssemblyData.assemblyComponentID].name << std::endl;
 	nastranAnalysisBatFile << "set RESULTS_DB_Name=" << modifiedMeshFileNameWithoutSuffix << ".xdb" << std::endl;

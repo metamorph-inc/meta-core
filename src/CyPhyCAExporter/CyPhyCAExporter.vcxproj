@@ -137,7 +137,7 @@
       <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32&gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>
@@ -187,6 +187,11 @@
       <SubSystem>Windows</SubSystem>
       <RegisterOutput>true</RegisterOutput>
     </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CustomBuildStep />
@@ -249,7 +254,7 @@
       <Outputs>DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuildStep>
-      <Command>reg add HKCR\Wow6432Node\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Command>reg add HKCR\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32&gt; "$(IntDir)\Threadingmarker"</Command>
       <Message>ThreadingModel=Apartment</Message>
       <Outputs>$(IntDir)Threadingmarker</Outputs>
     </CustomBuildStep>
@@ -313,6 +318,11 @@
     <CustomBuild>
       <Outputs>DesertIfaceBack.h;DesertIfaceBack.cpp;DesertIfaceBack.xsd;%(Outputs)</Outputs>
     </CustomBuild>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{E418A48B-8B38-4815-A46D-BDBD62E80DDF}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.cpp" />

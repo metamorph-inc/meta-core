@@ -1,7 +1,7 @@
 @echo OFF
 
 setlocal ENABLEEXTENSIONS
-set KEY_NAME=HKLM\SOFTWARE\Wow6432Node\META
+set KEY_NAME=HKLM\SOFTWARE\META
 set VALUE_NAME=META_PATH
 
 FOR /F "usebackq skip=2 tokens=1-5" %%A IN (`REG QUERY %KEY_NAME% /v %VALUE_NAME% 2^>nul`) DO (

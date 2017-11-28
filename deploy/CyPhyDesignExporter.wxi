@@ -36,7 +36,7 @@
   <Component Directory="INSTALLDIR_BIN">
     <File Source="..\src\CyPhyDesignExporter/CyPhyDesignExporter.ico" />
   </Component>
-  <Component Directory="INSTALLDIR_BIN" Win64="no">
+  <Component Directory="INSTALLDIR_BIN">
     <File Source="..\meta\DesignDataPackage\iFAB\ManufacturingLib\bin\Release\ManufacturingLib.dll"/>
   </Component>
 </ComponentGroup>

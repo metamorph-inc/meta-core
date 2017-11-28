@@ -375,7 +375,7 @@ mtbdd_sum_step(bddm, f, g)
     }
 
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -393,7 +393,7 @@ mtbdd_sum_step(bddm, f, g)
       return (g);
     }
     {
-       unsigned long v1,v2;
+       INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -408,7 +408,7 @@ mtbdd_sum_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -564,7 +564,7 @@ mtbdd_sub_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -719,7 +719,7 @@ mtbdd_div_step(bddm, f, g)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -734,7 +734,7 @@ mtbdd_div_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -860,7 +860,7 @@ mtbdd_mul_step(bddm, f, g)
       return (f);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -878,7 +878,7 @@ mtbdd_mul_step(bddm, f, g)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -892,7 +892,7 @@ mtbdd_mul_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -1024,7 +1024,7 @@ mtbdd_threshold_step(bddm, f, l1, l2, op, eq)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 		double ret_val, diff;
 	  mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 	 
@@ -1157,7 +1157,7 @@ mtbdd_low_threshold_step(bddm, f, l1, l2, op, eq)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 #ifndef DOUBLE_MTBDD
@@ -1281,7 +1281,7 @@ mtbdd_equals_to_step(bddm, f, l1, l2, op)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double ret_val, diff;
 
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
@@ -1404,7 +1404,7 @@ mtbdd_not_equals_to_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double ret_val, diff;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 #ifndef DOUBLE_MTBDD
@@ -1524,7 +1524,7 @@ DESERT_API mtbdd_max_step(bddm, f, g)
       return (f);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* compare with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1543,7 +1543,7 @@ DESERT_API mtbdd_max_step(bddm, f, g)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* compare with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1557,7 +1557,7 @@ DESERT_API mtbdd_max_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -1669,7 +1669,7 @@ mtbdd_min_step(bddm, f, g)
       return (f);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* compare with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1688,7 +1688,7 @@ mtbdd_min_step(bddm, f, g)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* compare with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1702,7 +1702,7 @@ mtbdd_min_step(bddm, f, g)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -1825,7 +1825,7 @@ mtbdd_sum_thresh_step(bddm, f, g, l1, l2, op)
       return (f);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1843,7 +1843,7 @@ mtbdd_sum_thresh_step(bddm, f, g, l1, l2, op)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -1857,7 +1857,7 @@ mtbdd_sum_thresh_step(bddm, f, g, l1, l2, op)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -2021,7 +2021,7 @@ mtbdd_mul_thresh_step(bddm, f, g, l1, l2)
       return (f);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -2039,7 +2039,7 @@ mtbdd_mul_thresh_step(bddm, f, g, l1, l2)
       return (g);
     }
     {
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
       mtbdd_terminal_value_aux(bddm, g, &v1, &v2);
       /* add with zero? */
       if (v1 == 0 && v2 == 0)
@@ -2053,7 +2053,7 @@ mtbdd_mul_thresh_step(bddm, f, g, l1, l2)
   /* are both mtbdd terminals */
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-    unsigned long v1,v2,v3,v4;
+    INT_PTR v1,v2,v3,v4;
 	double dv12, dv34;
     /* fart if both constants are not mtbdd terminals */
     if (bdd_type_aux(bddm,f) != BDD_TYPE_CONSTANT ||
@@ -2198,7 +2198,7 @@ mtbdd_divby_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double ret_val;
 
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
@@ -2311,7 +2311,7 @@ mtbdd_div_from_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double ret_val;
 
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
@@ -2429,7 +2429,7 @@ bdd
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double ret_val;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 	  
@@ -2541,7 +2541,7 @@ mtbdd_sumby_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double dv12;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 	  
@@ -2653,7 +2653,7 @@ mtbdd_subby_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double dv12;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 	  
@@ -2770,7 +2770,7 @@ mtbdd_mulby_step(bddm, f, l1, l2)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double dv12;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);
 	  
@@ -2871,7 +2871,7 @@ DESERT_API mtbdd_apply_unary_math_function_step(bddm, f, math_function)
     if (bdd_type_aux(bddm, f) == BDD_TYPE_CONSTANT)
     {
       /* if mtbdd terminal */
-      unsigned long v1,v2;
+      INT_PTR v1,v2;
 	  double dv12;
 	  int math_ret;
       mtbdd_terminal_value_aux(bddm, f, &v1, &v2);

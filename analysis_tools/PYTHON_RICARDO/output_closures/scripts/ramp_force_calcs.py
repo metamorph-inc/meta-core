@@ -28,10 +28,10 @@ ACTUATOR_TYPES = {"Actuator_Linear_Electrohydraulic", "Actuator_Linear_Electrome
 #######
 # Setup for VU test bench environment
 def query_analysis_tools():
-    analysis_tools_key_name = r'SOFTWARE\Wow6432Node\META\AnalysisTools'
+    analysis_tools_key_name = r'SOFTWARE\META\AnalysisTools'
 
     analysis_tools_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, analysis_tools_key_name, 0,
-                                         _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY)
+                                         _winreg.KEY_READ)
 
     number_of_keys = _winreg.QueryInfoKey(analysis_tools_key)[0]  # 0 means number of sub_keys
 

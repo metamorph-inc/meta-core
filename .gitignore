@@ -15,6 +15,7 @@
 *.vcxproj.user
 *.csproj.user
 *.csproj.metaproj
+nosetests.xml
 Thumbs.db
 .DS_Store
 # see "also How to manage projects under Version Control Systems" https://intellij-support.jetbrains.com/entries/23393067
@@ -47,6 +48,10 @@ RetryIOleFilter.lib
 /patch
 /results.xml
 
+deploy/vc_redist.x64.v9.0.30729.exe
+deploy/vc_redist.x64.9.0.30729.exe
+externals/desert/DesertDll/x64/
+models/DynamicsTeam/MSD_PET_RuleFailure/NoDriver/
 externals/desert/**/Release/*
 src/bin/
 src/**/Release/*
@@ -59,6 +64,26 @@ source_code_analysis/*.pylint.html
 source_code_analysis/*.cppcheck.txt
 source_code_analysis/*.cloc.csv
 source_code_analysis.log
+deploy/CAD_Installs/WiX.3.10.3/
+deploy/vc_redist.x64.v14.0.24123.exe
+deploy/vc_redist.x86.v14.0.24123.exe
+externals/desert/CreateSelfSrc/x64/
+externals/desert/DesertDll/bdd/x64/
+externals/desert/DesertDll/common/x64/
+externals/desert/DesertDll/core/x64/
+externals/desert/DesertDll/mcl/x64/
+externals/desert/DesertDll/mem/x64/
+externals/desert/bin/desert_x64.dll
+externals/desert/lib/desert_x64.lib
+externals/desert/x64/
+src/x64/bin/*.dll
+src/x64/bin/*.exe
+src/x64/bin/*.lib
+src/x64/bin/*.ico
+src/x64/bin/*.iobj
+src/x64/bin/*.ipdb
+test/CADCreoTest/damperimporttest.prt.1.xml
+test/failed.xunit
 models/PET_simple_proof-of-concept/*.tmp
 deploy/CAD_Installs/WiX.Toolset.*/
 deploy/CAD_Installs/META.CADCreoParametricMetaLink.*/

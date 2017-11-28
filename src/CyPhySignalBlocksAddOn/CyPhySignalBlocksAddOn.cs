@@ -115,10 +115,15 @@ namespace CyPhySignalBlocksAddOn
             }
             if (@event == globalevent_enum.GLOBALEVENT_OPEN_PROJECT)
             {
-                if (Environment.Is64BitProcess)
+                if (Environment.Is64BitProcess == false)
                 {
-                    MessageBox.Show("You're running GME (64 bit). Many CyPhyML components do not work with GME (64 bit). Please start GME instead.");
+                    // FIXME offer to open it in 64 bit
+                    MessageBox.Show("You're running GME (32 bit). Many CyPhyML components do not work with GME (32 bit). Please start GME (64 bit) instead.");
                 }
+            }
+            if (Environment.Is64BitProcess == false)
+            {
+                return;
             }
             if (@event == (globalevent_enum)11 /* GLOBALEVENT_OPEN_PROJECT_FINISHED */)
             {

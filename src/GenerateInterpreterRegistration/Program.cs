@@ -72,11 +72,20 @@ namespace GenerateInterpreterRegistration
             Console.Write("\"");
             Console.WriteLine(exit_on_error);
 
-            Console.Write("%windir%\\SysWOW64\\reg add HKLM\\Software\\META /v META_PATH /t REG_SZ /d \"%~dp0\\\" /f");
+            Console.Write("reg add HKLM\\Software\\META /v META_PATH /t REG_SZ /d \"%~dp0\\\" /f /reg:64");
             Console.WriteLine(exit_on_error);
 
 
             Console.WriteLine("rem TODO: register more Decorators?");
+            Console.WriteLine(@"set regsvr32=%windir%\System32\regsvr32.exe");
+            Console.WriteLine(@"if %PROCESSOR_ARCHITECTURE% == x86 set regsvr32=%windir%\SysNative\regsvr32.exe");
+
+            Console.WriteLine(@"set PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools;c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools;C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools;%PATH%
+gacutil.exe /nologo /u JobManagerLib
+if exist ""src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll"" gacutil.exe /nologo /i ""src\JobManager\JobManagerLib\bin\Release\JobManagerLib.dll""  || exit /b !ERRORLEVEL!
+gacutil.exe /l JobManagerLib");
+
+
             foreach (var dll in new string[]{
                 "src\\bin\\CPMDecorator.dll",
                 "src\\WorkflowDecorator\\bin\\Release\\WorkflowDecorator.dll"
@@ -89,13 +98,13 @@ namespace GenerateInterpreterRegistration
                 {
                     System.Reflection.AssemblyName.GetAssemblyName(dll);
                     Console.Write("if exist " + "\"" + relative_dll + "\" ");
-                    Console.Write(@"%windir%\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /nologo /codebase " + "\"" + relative_dll + "\"");
+                    Console.Write(@"%windir%\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /nologo /codebase " + "\"" + relative_dll + "\"");
                     Console.WriteLine(exit_on_error);
                 }
                 catch (BadImageFormatException)
                 {
                     Console.Write("if exist " + "\"" + relative_dll + "\" ");
-                    Console.Write("%windir%\\SysWOW64\\regsvr32 /s \"" + relative_dll + "\"");
+                    Console.Write("%regsvr32% /s \"" + relative_dll + "\"");
                     Console.WriteLine(exit_on_error);
                 }
                 catch (FileNotFoundException)

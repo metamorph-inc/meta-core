@@ -61,7 +61,7 @@ def generate_wxi(src, output_filename=None, id=None, diskId=None):
 
     # add registry nodes
     componentGroup = tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}ComponentGroup[@Id='" + id + "']")[0]
-    componentRegistry = ElementTree.SubElement(componentGroup, 'ns0:Component', {'Id': id + '_RegistryEntry', 'Directory': id, 'Guid': '*', 'Win64': 'no'})
+    componentRegistry = ElementTree.SubElement(componentGroup, 'ns0:Component', {'Id': id + '_RegistryEntry', 'Directory': id, 'Guid': '*'})
 
     manifest = None
     with open(os.path.join(src, 'analysis_tool.manifest.json'), 'r') as f_p:

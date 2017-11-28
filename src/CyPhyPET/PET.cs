@@ -509,7 +509,16 @@ namespace CyPhyPET
                     }
                     if (metric.Referred.ID != mgaObjective.Referred.ID)
                     {
-                        foreach (var path in new string[] { Path.Combine(META.VersionInfo.MetaPath, "bin"), Path.Combine(META.VersionInfo.MetaPath, "src", "bin") })
+                        string[] paths;
+                        if (IntPtr.Size == 8)
+                        {
+                            paths = new string[] { Path.Combine(META.VersionInfo.MetaPath, "bin"), Path.Combine(META.VersionInfo.MetaPath, "src", "x64", "bin") };
+                        }
+                        else
+                        {
+                            paths = new string[] { Path.Combine(META.VersionInfo.MetaPath, "bin"), Path.Combine(META.VersionInfo.MetaPath, "src", "bin") };
+                        }
+                        foreach (var path in paths)
                         {
                             if (File.Exists(Path.Combine(path, "CyPhyFormulaEvaluator.dll")))
                             {

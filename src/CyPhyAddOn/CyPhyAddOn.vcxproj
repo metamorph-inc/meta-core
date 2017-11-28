@@ -124,6 +124,11 @@
       <RegisterOutput>true</RegisterOutput>
       <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{C8051EB3-7355-4D96-83A2-37EBDC567DC0}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32 &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildStep />
@@ -164,6 +169,11 @@
       <RegisterOutput>true</RegisterOutput>
       <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{C8051EB3-7355-4D96-83A2-37EBDC567DC0}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CustomBuildStep />
@@ -204,6 +214,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{C8051EB3-7355-4D96-83A2-37EBDC567DC0}\InprocServer32 /v ThreadingModel /d Apartment /f /reg:32&gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CustomBuildStep />
@@ -242,6 +257,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <CustomBuildStep>
+      <Command>reg add HKCR\CLSID\{C8051EB3-7355-4D96-83A2-37EBDC567DC0}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>
+      <Message>ThreadingModel=Apartment</Message>
+      <Outputs>$(IntDir)Threadingmarker</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(GME_ROOT)\sdk\BON\Common\ComHelp.cpp" />

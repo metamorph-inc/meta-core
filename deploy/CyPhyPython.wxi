@@ -6,7 +6,7 @@
 <Fragment>
 <ComponentGroup Id="CyPhyPython">
   <Component Id="CyPhyPython.dll" Directory="INSTALLDIR_BIN">
-    <File Source="..\src\Release\CyPhyPython.dll">
+    <File Source="..\src\x64\Release\CyPhyPython.dll">
       <TypeLib Id="B4706F3D-679F-409D-95E5-C87980CF59BC" Description="MGA Interpreter TypeLibrary (CyPhyPython)" Language="0" MajorVersion="1" MinorVersion="0">
         <Class Id="{83D57532-DB24-4592-A540-14629B9ECBD0}" Context="InprocServer32" ThreadingModel="apartment" Description="MGA.Interpreter.CyPhyPython">
           <ProgId Id="MGA.Interpreter.CyPhyPython" Description="MGA.Interpreter.CyPhyPython" />

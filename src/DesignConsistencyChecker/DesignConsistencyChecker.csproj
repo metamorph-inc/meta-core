@@ -169,7 +169,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblySignature.snk</PostBuildEvent>
+    <PostBuildEvent>%25windir%25\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /codebase "$(TargetPath)" || exit /b 1
+$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblySignature.snk</PostBuildEvent>
   </PropertyGroup>
   <!--
   <Target Name="BeforeBuild">

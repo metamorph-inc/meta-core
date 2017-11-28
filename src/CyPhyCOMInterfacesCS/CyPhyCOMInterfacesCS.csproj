@@ -62,6 +62,7 @@
     <PostBuildEvent>Setlocal EnableDelayedExpansion
 set PATH=$(SDK40ToolsPath);%25PATH%25
 TlbExp.exe "$(TargetPath)" || exit /b !ERRORLEVEL!
+%25windir%25\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /codebase "$(TargetPath)" || exit /b 1
 $(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)..\CyphyGUIs\CyPhyGUIs.snk
 </PostBuildEvent>
   </PropertyGroup>
