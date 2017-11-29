@@ -1012,6 +1012,8 @@
 //model[@name='ParametricExploration']/role[@name='FileResultFlow'] 60383
 //model[@name='ParametricExploration']/role[@name='IntermediateVariableMapping'] 60229
 //model[@name='ParametricExploration']/role[@name='MATLABWrapper'] 60095
+//model[@name='ParametricExploration']/role[@name='MetricConstraint'] 60474
+//model[@name='ParametricExploration']/role[@name='MetricConstraintBinding'] 60475
 //model[@name='ParametricExploration']/role[@name='ObjectiveMapping'] 59255
 //model[@name='ParametricExploration']/role[@name='Optimizer'] 59256
 //model[@name='ParametricExploration']/role[@name='PCCDriver'] 59257
@@ -3199,6 +3201,8 @@
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='FileResultFlow'] 60384
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='IntermediateVariableMapping'] 60232
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MATLABWrapper'] 60152
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MetricConstraint'] 60476
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MetricConstraintBinding'] 60477
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ObjectiveMapping'] 59265
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='Optimizer'] 59266
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCDriver'] 59267
