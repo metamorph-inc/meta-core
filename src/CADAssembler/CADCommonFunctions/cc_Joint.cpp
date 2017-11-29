@@ -1389,5 +1389,38 @@ Joint MotorPair::move(const Joint& in_j) {
 	return result;
 }
 
+e_CADJointType GetCADJointType( isis::cad::JointType in_JointType)
+{
+	switch (in_JointType )
+	{
+		case  isis::cad::FIXED:
+			return FIXED_JOINT;
+			break;
+		case  isis::cad::REVOLUTE:
+			return REVOLUTE_JOINT;
+			break;
+		case  isis::cad::UNIVERSAL:
+			return UNIVERSAL_JOINT;
+			break;
+		case  isis::cad::SPHERICAL:
+			return SPHERICAL_JOINT;
+			break;
+		case  isis::cad::PRISMATIC:
+			return PRISMATIC_JOINT;
+			break;
+		case  isis::cad::CYLINDRICAL:
+			return CYLINDRICAL_JOINT;
+			break;
+		case  isis::cad::PLANAR:
+			return PLANAR_JOINT;
+			break;
+		case  isis::cad::FREE:
+			return FREE_JOINT;
+			break;
+		default:
+			return UNKNOWN_JOINT_TYPE;
+	}
+};
+
 } // cad
 } // isis

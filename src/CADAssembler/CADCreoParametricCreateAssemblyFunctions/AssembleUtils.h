@@ -8,6 +8,7 @@
 #include <map>
 #include <unordered_map>
 #include "cc_CadFactoryAbstract.h"
+#include <CommonFeatureUtils.h>
 
 #include <boost/filesystem.hpp>
 
@@ -157,12 +158,6 @@ namespace isis
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
 							std::set<std::string>								&out_ComponentIDs_set );
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
-					int												&in_out_NonCyPhyID_counter,
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-																		throw (isis::application_exception);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -276,12 +271,6 @@ namespace isis
 			std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
-												
-	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
-					const std::vector<std::string>	&in_AssemblyComponentIDs,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-					std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable );
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// For valid joint information:
 	//		1.  All parts that are not within a treat-as-one-body assembly (i.e. CADAssembly.xml 
@@ -319,7 +308,7 @@ namespace isis
 	//		INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
 	//
 	//	Pre-Conditions:
-	//		ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
+	//		forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
 	//		calling this function; and if not, CyPhyLeafAssembly will always return false.
 	//
 	//	Post-Conditions:
@@ -341,6 +330,36 @@ namespace isis
 						const std::vector<std::string>					&in_AssemblyComponentIDs,
 						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
 																				throw (isis::application_exception);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// This function returns the componentInstanceIDs (out_ReferencedComponentInstanceIDs) that are referenced by the 
+	// ProSelections in in_AssembledFeatureDefinition.constraintDefinitions.
+	// The parent model (i.e. in_AssembledFeatureDefinition.componentInstanceID  ) is not considered a reference; and 
+	// therefore, will not appear in out_ReferencedComponentInstanceIDs.
+	void RetrieveReferencedComponentInstanceIDs (
+						const std::list<int>												&in_OffSetFeatureIDPath_list,
+						const CreoAssembledFeatureDefinition								&in_AssembledFeatureDefinition,
+						int																	in_SetIndex,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::set<std::string>												&out_ReferencedComponentInstanceIDs)
+																				throw (isis::application_exception);
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentID, 
+					const std::vector<ConstraintPair>				&in_ConstraintPairs,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception);
+
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
+					int												in_SetIndex,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception);
 
 }
 

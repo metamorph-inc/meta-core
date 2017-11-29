@@ -136,7 +136,7 @@ namespace isis
 		return false;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
+	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
 							cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
@@ -194,7 +194,7 @@ namespace isis
 				ConvertToUpperCase(modelNames.combineCADModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
 				//ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
 
-			//std::cout << std::endl << "############## ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
+			//std::cout << std::endl << "############## BuildListOfCADModels_ThatShouldBeCopiedToNewNames, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
 
 			if ( in_ForceAllParametricModelsToBeUnique )
 			{
@@ -244,7 +244,7 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_INFO) << "ModelsAlreadyEncountered.insert: " << modelNameWithSuffix;
 			modelsAlreadyEncountered.insert(modelNameWithSuffix);
 		}
-	}	// END ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly	 
+	}	// END BuildListOfCADModels_ThatShouldBeCopiedToNewNames	 
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -476,22 +476,22 @@ namespace isis
 				void  *p_model; 
 				if ( i.modelType == CAD_MDL_PART )
 					//   isis::isis_ProMdlRetrieve(i.fromModelName,CAD_MDL_PART, &p_model);
-					modelHandling.CADModelRetrieve(i.fromModelName,CAD_MDL_PART, &p_model);
+					modelHandling.cADModelRetrieve(i.fromModelName,CAD_MDL_PART, &p_model);
 				else
 					//   isis::isis_ProMdlRetrieve(i.fromModelName,CAD_MDL_ASSEMBLY, &p_model);
-					modelHandling.CADModelRetrieve(i.fromModelName,CAD_MDL_ASSEMBLY, &p_model);
+					modelHandling.cADModelRetrieve(i.fromModelName,CAD_MDL_ASSEMBLY, &p_model);
 				
 				//isis::isis_ProMdlSave(p_model);
-				modelHandling.CADModelSave(p_model);
+				modelHandling.cADModelSave(p_model);
 				savedToWorkingDirSourceModels.insert(modelNameWithSuffix);
 			}
 
 			if ( i.modelType == CAD_MDL_PART )
 				//  isis::isis_ProMdlfileCopy ( CAD_MDL_PART, i.fromModelName, i.toModelName);
-				modelHandling.CADModelFileCopy( CAD_MDL_PART, i.fromModelName, i.toModelName);
+				modelHandling.cADModelFileCopy( CAD_MDL_PART, i.fromModelName, i.toModelName);
 			else
 				//  isis::isis_ProMdlfileCopy ( CAD_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
-				modelHandling.CADModelFileCopy( CAD_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
+				modelHandling.cADModelFileCopy( CAD_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
 		}
 	}
 
@@ -521,5 +521,152 @@ namespace isis
 		}	
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
+						const std::vector<std::string>	&in_AssemblyComponentIDs,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable )
+	{
+		for each ( const std::string &i in in_AssemblyComponentIDs )
+			out_FeatureIDs_to_ComponentInstanceID_hashtable[in_CADComponentData_map[i].componentPaths] = i;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	bool AncestorAssembly_TaggedWith_HasKinematicJoint( 
+					const std::string								in_ComponentIntanceID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+	{
+		std::string i = in_ComponentIntanceID;
+		while ( in_CADComponentData_map[i].parentComponentID.size() != 0 )
+		{
+			// Note - a parent must always be an assembly
+			if ( in_CADComponentData_map[i].specialInstruction == CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT) return true;
+			i = in_CADComponentData_map[i].parentComponentID;
+		}
+
+		return false;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void FurtherTrimList_Remove_TreatAsOneBodeParts (
+						const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::vector<std::string>						&out_trimmedListOfComponentIDs )
+	{
+		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
+		{
+			if ( in_CADComponentData_map[i].dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE )
+			{
+				out_trimmedListOfComponentIDs.push_back(i);
+			}
+			else
+			{
+				// INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
+				if (AncestorAssembly_TaggedWith_HasKinematicJoint(i, in_CADComponentData_map)) out_trimmedListOfComponentIDs.push_back(i);
+			}
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void CheckValidityOfJointInformation( 
+			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
+			std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+			std::vector<std::string>						&out_Errors )
+	{
+		std::set<std::string> constrainedComponentIDs_perAssembly;
+
+		std::vector<std::string> trimmedListOfComponentIDs;
+		FurtherTrimList_Remove_TreatAsOneBodeParts( in_ListOfComponentIDsInTheAssembly,
+													in_CADComponentData_map,
+													trimmedListOfComponentIDs );
+
+		for each ( const std::string &i in trimmedListOfComponentIDs )
+		{
+			if ( in_CADComponentData_map[i].modelType == CAD_MDL_PART )
+			{
+				for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints )
+				{
+					//////////////////////////////////////
+					// ConstraintData is at the set level
+					//////////////////////////////////////
+					std::set<std::string> constrainedComponentIDs_perSet;
+
+					bool foundConstrainedTo = false;
+					
+					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs )
+					{
+						if ( in_CADComponentData_map[k].modelType == CAD_MDL_PART ||
+							( in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
+							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
+						{
+							constrainedComponentIDs_perAssembly.insert(k);
+							constrainedComponentIDs_perSet.insert(k);
+							foundConstrainedTo = true;
+						}
+					}
+
+
+					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates )
+					{
+						if ( in_CADComponentData_map[k].modelType == CAD_MDL_PART ||
+							(in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
+							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
+						{
+							constrainedComponentIDs_perAssembly.insert(k);
+							constrainedComponentIDs_perSet.insert(k);
+							foundConstrainedTo = true;
+						}
+					}
+					// if i was constrained to ComponentIDs then i is constrained
+					if ( foundConstrainedTo ) constrainedComponentIDs_perAssembly.insert(i);
+
+					// If a kinematic joint, make sure it is constrained to only one other part
+					if ( j.computedJointData.jointType_withoutguide  != FIXED_JOINT &&
+						 j.computedJointData.jointType_withoutguide  != UNKNOWN_JOINT_TYPE &&
+						 j.computedJointData.jointType_withoutguide  != FREE_JOINT )
+					{
+						int componentIDs_count = 0;
+						for each ( const std::string &k in constrainedComponentIDs_perSet ) if ( k != i ) ++componentIDs_count;
+						
+						if ( componentIDs_count != 1)
+						{
+							std::stringstream errorString;
+							errorString <<
+							"A part constrained via a kinematic joint was not constrained to one and only one other part."  << std::endl <<
+							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
+							"   Model Type:            " <<  isis::CADMdlType_string(in_CADComponentData_map[i].modelType) << std::endl <<
+							"   Joint Type:            " <<  CADJointType_string(j.computedJointData.jointType_withoutguide) << std::endl <<
+							"   Component Instance ID: " <<  i << std::endl <<
+							"   Constrained to Component Instance IDs: " << std::endl;
+							for each ( const std::string &k in constrainedComponentIDs_perSet ) errorString <<  "                  " << k << std::endl;
+							out_Errors.push_back(errorString.str());
+						}
+					}
+
+				}  // END for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints)
+
+			} // END if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
+
+		} // END for each ( const std::string &i in trimmedListOfComponentIDs )
+
+		///////////////////////////////////////////////////////////////////
+		//  Check that each part is constrained to at least one other part
+		///////////////////////////////////////////////////////////////////
+		for each ( const std::string &i in trimmedListOfComponentIDs )
+		{
+			if ( in_CADComponentData_map[i].modelType == CAD_MDL_PART )
+			{
+				if ( constrainedComponentIDs_perAssembly.find(i) == constrainedComponentIDs_perAssembly.end() )
+				{
+					// Part not constrained to at least one other part
+					std::stringstream errorString;
+					errorString <<
+							"Part not constrained to at least one other part. For valid joint information between parts, all parts must be connected to at least one other part."  << std::endl <<
+							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
+							"   Model Type:            " << isis::CADMdlType_string(in_CADComponentData_map[i].modelType)<<  std::endl <<
+							"   Component Instance ID: " <<  i;
+					out_Errors.push_back(errorString.str());
+				}
+			}
+		}
+	} // END CheckValidityOfJointInformation
 
 }

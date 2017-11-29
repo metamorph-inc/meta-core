@@ -50,6 +50,16 @@ namespace isis
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	struct CopyModelDefinition
+	{
+		std::string					componentInstanceID;
+		isis::MultiFormatString		fromModelName;
+		isis::MultiFormatString		toModelName;
+		//ProMdlType					modelType;
+		e_CADMdlType 				modelType;
+
+	};
+
 	/*! \struct ConstraintOffset
     \brief Structure that defines a constraint offset.
 
@@ -1249,6 +1259,6 @@ namespace isis
 		CADCreateAssemblyError_Severity Severity;
 	};
 
-}  // END namespace isis
+} // END namespace isis
 
 #endif // COMMON_STRUCTURES_H

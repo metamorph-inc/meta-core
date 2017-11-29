@@ -3,6 +3,7 @@
 
 #include "isis_application_exception.h"
 #include "cc_CADFactoryAbstract.h"
+#include <unordered_map>
 
 
 namespace isis
@@ -84,16 +85,6 @@ namespace isis
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct CopyModelDefinition
-	{
-		std::string					componentInstanceID;
-		isis::MultiFormatString		fromModelName;
-		isis::MultiFormatString		toModelName;
-		//ProMdlType					modelType;
-		e_CADMdlType 				modelType;
-
-	};
-
 	enum e_ModelTypeIndicator
 	{
 		e_PART_MODEL_TYPE,
@@ -113,7 +104,7 @@ namespace isis
 	//		this function modifies in_out_CADComponentData_map to have unique name for the second
 	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
 	//		The new and old part names are added to out_FromModel_ToModel. 
-	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
+	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
 							cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
@@ -161,6 +152,22 @@ namespace isis
 
 	void Add_DependsOn ( std::map<std::string, CADComponentData> &in_out_CADComponentData_map );
 
+	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
+					const std::vector<std::string>	&in_AssemblyComponentIDs,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+					std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable );
+
+
+	void FurtherTrimList_Remove_TreatAsOneBodeParts (
+						const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::vector<std::string>						&out_trimmedListOfComponentIDs );
+
+
+	void CheckValidityOfJointInformation( 
+			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
+			std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+			std::vector<std::string>						&out_Errors );
 }
 
 #endif

@@ -7,6 +7,7 @@
 #define CC_STRING_TO_ENUM_CONVERSIONS_H
 
 #include "isis_application_exception.h"
+
 #include <string>
 
 #pragma warning( disable : 4290 )  // a future feature : exception specification, i.e. throw

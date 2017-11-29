@@ -10,6 +10,7 @@ concrete Creo CAD system.
 #include  <string>
 #include <vector>
 #include <ProSolid.h>
+#include <unordered_map>
 
 namespace isis {
 namespace cad {
@@ -125,15 +126,20 @@ class  ModelHandlingCreo : public IModelHandling {
 		std::string name() { return "ModelHandlingCreo";}
 
 
-	virtual void CADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
 									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
 									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
 
-	virtual void CADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
+	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
 
-	virtual void CADModelFileCopy (e_CADMdlType 						in_ModelType,
+	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
 								   const isis::MultiFormatString		&in_FromModelName,
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
+
+	virtual void cADModelSave( 
+					const std::string								&in_ComponentID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																		throw (isis::application_exception);
 };
 
 class  CADSessionCreo : public ICADSession {
@@ -154,6 +160,40 @@ class  CADSessionCreo : public ICADSession {
 };
 
 
+class  CADComponentDataStructureCreo : public ICADComponentDataStructure {
+	public:
+		std::string name() { return "CADComponentDataStructureCreo";}
+
+	virtual void forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
+					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+					int												&in_out_NonCyPhyID_counter,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception);
+
+	virtual void modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
+					const std::string								&in_TopAssemblyComponentID,
+					const isis::CopyModelDefinition					&in_CopyModelDefinition, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception);
+
+};
+
+
+class  AssemblyConstraintsCreo : public IAssemblyConstraints {
+	public:
+		std::string name() { return "AssemblyConstraintsCreo";}
+
+
+
+	virtual void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+			cad::CadFactoryAbstract													&in_Factory,
+			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception);
+
+};
+
 
 
 class CadFactoryCreo : public CadFactoryAbstract
@@ -164,6 +204,8 @@ private:
 	ModelNamesCreo modelNames;
     ModelHandlingCreo modelHandling;
 	CADSessionCreo  cADSession;
+	CADComponentDataStructureCreo cADComponentDataStructureCreo;
+	AssemblyConstraintsCreo   assemblyConstraintsCreo;
 
 public:
 	// provide the name of the concrete factory
@@ -188,6 +230,14 @@ public:
 
 	ICADSession& getCADSession() {
 		return cADSession;
+	};
+
+	ICADComponentDataStructure& getCADComponentDataStructure() {
+		return cADComponentDataStructureCreo;
+	};
+
+	IAssemblyConstraints& getAssemblyConstraints() {
+		return assemblyConstraintsCreo;
 	};
 
 };

@@ -5,7 +5,7 @@
 #include <CommonFeatureUtils.h>
 //#include "WindowsHDependentCommonFunctions.h"
 #include <ToolKitPassThroughFunctions.h>
-#include <CommonFeatureUtils.h>
+
 #include <CommonFunctions.h>
 #include <cc_JsonHelper.h>
 #include <time.h>
@@ -25,15 +25,6 @@
 namespace isis
 {
 	const int DISABLED_CONSTRAINT_MASK = 32;
-
-
-	
-
-
-
-
-
-
 
 
 
@@ -445,121 +436,7 @@ std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
-					int												&in_out_NonCyPhyID_counter,
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-																		throw (isis::application_exception)
-	{
-		
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{			
-			//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
-			if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
-			{
-				// Found an assembly that is a Leaf
-				// Fill out the assemblyHierarchy
-				CreoModelAssemblyAttributes assemblyHierarchy;
 
-				isis::RetrieveAssemblyHierarchyInformation(  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl), false, assemblyHierarchy );
-
-				std::stringstream str;
-				stream_AssemblyHierarchy (assemblyHierarchy, str);
-				isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
-
-				bool checkExclusion_by_SimplifiedRep = false;
-
-				std::map<int, CAD_SimplifiedRepData> featureID_to_SimplifiedRepData_map;
-				//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && 
-				if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && 
-					 in_out_CADComponentData_map[i].geometryRepresentation.size() > 0 )  
-				{
-					///////////////////////////////////////////////////////////////////////////////////////
-					// Build map of child feature IDs and with indication if they are included or excluded
-					///////////////////////////////////////////////////////////////////////////////////////
-					ProSimprep proSimprep_temp;
-					ProError	proError_temp  = ProSimprepInit ((wchar_t*)(const wchar_t*) in_out_CADComponentData_map[i].geometryRepresentation,
-														  -1,
-														  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
-														  &proSimprep_temp );
-
-					if ( proError_temp == PRO_TK_NO_ERROR )  // Found simplified rep.
-					{
-						ProMdl ProMdl_temp = in_out_CADComponentData_map[i].cADModel_hdl;
-						AssemblySimplifiedRep_RetrieveModelInclusionStatus ( 
-									ProMdl_temp,
-									proSimprep_temp,
-									featureID_to_SimplifiedRepData_map ) ;
-
-						if ( featureID_to_SimplifiedRepData_map.size() > 0 ) checkExclusion_by_SimplifiedRep = true;
-
-						for each ( std::pair<int, CAD_SimplifiedRepData> i_simp in featureID_to_SimplifiedRepData_map)
-						{
-							isis_LOG(lg, isis_FILE, isis_INFO) <<  "\nSimplified Rep Included/Exclude Info, Feature ID: " << i_simp.first << "  " << CAD_SimplifiedRep_InclusionStatus_string(i_simp.second.inclusionStatus);
-						}
-					}
-
-				}
-
-				// Temporary Check
-				for each ( CreoModelAssemblyAttributes j in assemblyHierarchy.children )
-				{
-					bool includeThisChild = true;
-					if ( checkExclusion_by_SimplifiedRep )
-					{				
-						if ( featureID_to_SimplifiedRepData_map.find(j.proAsmcomp.id) != featureID_to_SimplifiedRepData_map.end())
-						{
-							if ( featureID_to_SimplifiedRepData_map[j.proAsmcomp.id].inclusionStatus == CAD_SIMPLIFIED_REP_EXCLUDE )
-							{
-								isis_LOG(lg, isis_FILE, isis_INFO)<<  "\nExcluding, Feature ID: " << j.proAsmcomp.id;
-								includeThisChild = false;
-							}
-						}
-					}
-
-					if ( includeThisChild )
-					{
-						++in_out_NonCyPhyID_counter;
-						std::stringstream nonCyPhyComponentID;
-						nonCyPhyComponentID << "NON_CYPHY_ID_" << in_out_NonCyPhyID_counter;
-					
-						CADComponentData cADComponentData_temp;
-						cADComponentData_temp.dataInitialSource = INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS;
-						cADComponentData_temp.name = j.modelname;
-						cADComponentData_temp.modelType = j.modelType;
-						cADComponentData_temp.cADModel_hdl = j.p_solid_handle;
-						cADComponentData_temp.cyPhyComponent = false;
-						cADComponentData_temp.componentID = nonCyPhyComponentID.str();
-						cADComponentData_temp.parentComponentID = i;
-
-						//cADComponentData_temp.assembledFeature = j.proAsmcomp;
-						//cADComponentData_temp.assembledFeature.type = CADFeatureGeometryType_enum(j.proAsmcomp.type);
-						//cADComponentData_temp.assembledFeature.id = j.proAsmcomp.id;
-						//cADComponentData_temp.assembledFeature.owner = j.proAsmcomp.owner;		
-						cADComponentData_temp.assembledFeature = getCADAssembledFeature( j.proAsmcomp );
-						
-						cADComponentData_temp.componentPaths = in_out_CADComponentData_map[i].componentPaths;
-						cADComponentData_temp.componentPaths.push_back( j.proAsmcomp.id );					
-
-						in_out_CADComponentData_map[nonCyPhyComponentID.str()] = cADComponentData_temp;
-						in_out_CADComponentData_map[i].children.push_back(nonCyPhyComponentID.str());
-
-						if ( j.modelType == PRO_MDL_ASSEMBLY )
-						{
-								std::vector<std::string> listOfComponentIDs_temp;
-								listOfComponentIDs_temp.push_back(nonCyPhyComponentID.str());
-								ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(
-																				listOfComponentIDs_temp,
-																				in_out_NonCyPhyID_counter,
-																				in_out_CADComponentData_map );
-						}
-					} // END if ( includeThisChild )
-				}
-			}
-		}
-
-	}  // END ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates
-	
 	void RetrieveNameOfAssembledFeature( ProFeature	*in_AssyCompFeature, isis::MultiFormatString &out_ModelName )
 	{
 		ProElement component_element_tree;
@@ -1007,40 +884,6 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 }
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	e_CADJointType GetCADJointType( isis::cad::JointType in_JointType)
-	{
-		switch (in_JointType )
-		{
-			case  isis::cad::FIXED:
-				return FIXED_JOINT;
-				break;
-			case  isis::cad::REVOLUTE:
-				return REVOLUTE_JOINT;
-				break;
-			case  isis::cad::UNIVERSAL:
-				return UNIVERSAL_JOINT;
-				break;
-			case  isis::cad::SPHERICAL:
-				return SPHERICAL_JOINT;
-				break;
-			case  isis::cad::PRISMATIC:
-				return PRISMATIC_JOINT;
-				break;
-			case  isis::cad::CYLINDRICAL:
-				return CYLINDRICAL_JOINT;
-				break;
-			case  isis::cad::PLANAR:
-				return PLANAR_JOINT;
-				break;
-			case  isis::cad::FREE:
-				return FREE_JOINT;
-				break;
-			default:
-				return UNKNOWN_JOINT_TYPE;
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
@@ -2171,41 +2014,6 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool AncestorAssembly_TaggedWith_HasKinematicJoint( 
-					const std::string								in_ComponentIntanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
-	{
-		std::string i = in_ComponentIntanceID;
-		while ( in_CADComponentData_map[i].parentComponentID.size() != 0 )
-		{
-			// Note - a parent must always be an assembly
-			if ( in_CADComponentData_map[i].specialInstruction == CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT) return true;
-			i = in_CADComponentData_map[i].parentComponentID;
-		}
-
-		return false;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void FurtherTrimList_Remove_TreatAsOneBodeParts (
-						const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::vector<std::string>						&out_trimmedListOfComponentIDs )
-	{
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{
-			if ( in_CADComponentData_map[i].dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE )
-			{
-				out_trimmedListOfComponentIDs.push_back(i);
-			}
-			else
-			{
-				// INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-				if (AncestorAssembly_TaggedWith_HasKinematicJoint(i, in_CADComponentData_map)) out_trimmedListOfComponentIDs.push_back(i);
-			}
-		}
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
@@ -2341,7 +2149,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				errorString <<
 					"Function: " << __FUNCTION__ << ", No constraint references found for:"  << std::endl <<
 					"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
-					"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+					"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
 					"   Component Instance ID: " << i << std::endl <<
 					"   Assembled Feature Definition: " << std::endl <<
 					assembledFeatureDefinition;
@@ -2359,121 +2167,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
-						const std::vector<std::string>	&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable )
-	{
-		for each ( const std::string &i in in_AssemblyComponentIDs )
-			out_FeatureIDs_to_ComponentInstanceID_hashtable[in_CADComponentData_map[i].componentPaths] = i;
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CheckValidityOfJointInformation( 
-			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
-			std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-			std::vector<std::string>						&out_Errors )
-	{
-		std::set<std::string> constrainedComponentIDs_perAssembly;
-
-		std::vector<std::string> trimmedListOfComponentIDs;
-		FurtherTrimList_Remove_TreatAsOneBodeParts( in_ListOfComponentIDsInTheAssembly,
-													in_CADComponentData_map,
-													trimmedListOfComponentIDs );
-
-		for each ( const std::string &i in trimmedListOfComponentIDs )
-		{
-			if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-			{
-				for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints )
-				{
-					//////////////////////////////////////
-					// ConstraintData is at the set level
-					//////////////////////////////////////
-					std::set<std::string> constrainedComponentIDs_perSet;
-
-					bool foundConstrainedTo = false;
-					
-					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs )
-					{
-						if ( in_CADComponentData_map[k].modelType == PRO_MDL_PART ||
-							( in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
-							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
-						{
-							constrainedComponentIDs_perAssembly.insert(k);
-							constrainedComponentIDs_perSet.insert(k);
-							foundConstrainedTo = true;
-						}
-					}
-
-
-					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates )
-					{
-						if ( in_CADComponentData_map[k].modelType == PRO_MDL_PART ||
-							(in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
-							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
-						{
-							constrainedComponentIDs_perAssembly.insert(k);
-							constrainedComponentIDs_perSet.insert(k);
-							foundConstrainedTo = true;
-						}
-					}
-					// if i was constrained to ComponentIDs then i is constrained
-					if ( foundConstrainedTo ) constrainedComponentIDs_perAssembly.insert(i);
-
-					// If a kinematic joint, make sure it is constrained to only one other part
-					if ( j.computedJointData.jointType_withoutguide  != FIXED_JOINT &&
-						 j.computedJointData.jointType_withoutguide  != UNKNOWN_JOINT_TYPE &&
-						 j.computedJointData.jointType_withoutguide  != FREE_JOINT )
-					{
-						int componentIDs_count = 0;
-						for each ( const std::string &k in constrainedComponentIDs_perSet ) if ( k != i ) ++componentIDs_count;
-						
-						if ( componentIDs_count != 1)
-						{
-							std::stringstream errorString;
-							errorString <<
-							"A part constrained via a kinematic joint was not constrained to one and only one other part."  << std::endl <<
-							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " <<  isis::ProMdlType_string(in_CADComponentData_map[i].modelType) << std::endl <<
-							"   Joint Type:            " <<  CADJointType_string(j.computedJointData.jointType_withoutguide) << std::endl <<
-							"   Component Instance ID: " <<  i << std::endl <<
-							"   Constrained to Component Instance IDs: " << std::endl;
-							for each ( const std::string &k in constrainedComponentIDs_perSet ) errorString <<  "                  " << k << std::endl;
-							out_Errors.push_back(errorString.str());
-						}
-					}
-
-				}  // END for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints)
-
-			} // END if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-
-		} // END for each ( const std::string &i in trimmedListOfComponentIDs )
-
-		///////////////////////////////////////////////////////////////////
-		//  Check that each part is constrained to at least one other part
-		///////////////////////////////////////////////////////////////////
-		for each ( const std::string &i in trimmedListOfComponentIDs )
-		{
-			if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-			{
-				if ( constrainedComponentIDs_perAssembly.find(i) == constrainedComponentIDs_perAssembly.end() )
-				{
-					// Part not constrained to at least one other part
-					std::stringstream errorString;
-					errorString <<
-							"Part not constrained to at least one other part. For valid joint information between parts, all parts must be connected to at least one other part."  << std::endl <<
-							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " << isis::ProMdlType_string(in_CADComponentData_map[i].modelType)<<  std::endl <<
-							"   Component Instance ID: " <<  i;
-					out_Errors.push_back(errorString.str());
-				}
-			}
-		}
-	} // END CheckValidityOfJointInformation
-
 	
 	//	Description:
 	//		Returns if in_ComponentInstanceID is a CyPhy leaf assembly.  This is  determineed  by checking if 

@@ -136,7 +136,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		std::vector<CopyModelDefinition>			fromModel_ToModel;
 
 
-		isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
+		isis::BuildListOfCADModels_ThatShouldBeCopiedToNewNames(	in_Factory,
 																	uniqueNameIndex, 
 																	e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																	e_SELECT_ONLY_PARAMETRIC_MODELS,
@@ -238,7 +238,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			// function called later.
  	
 			// Since we already have unique names for parametric parts/assemblies, this will make the non-parametric parts unique.
-			isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
+			isis::BuildListOfCADModels_ThatShouldBeCopiedToNewNames(	in_Factory,
 																		uniqueNameIndex, 
 																		e_PART_OR_ASSEMBLY_MODEL_TYPE,
 																		e_SELECT_ALL_MODELS,
@@ -447,10 +447,18 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 				isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludingTopAssembly );
 				// When complete each component may not have a unique name (nor unique file).
 				// They will *all* be present in the map.
-				ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(	
+
+				//ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(	
+				//											assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
+				//											NonCyPhyID_counter,
+				//											cADComponentData_map );
+
+				isis::cad::ICADComponentDataStructure& cADComponentDataStructure = in_Factory.getCADComponentDataStructure();
+				cADComponentDataStructure.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 															assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 															NonCyPhyID_counter,
 															cADComponentData_map );
+
 			}		
 
 			
@@ -464,7 +472,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 					// input xml would have uniqeuly named.  Now we need to uniquely name the models that 
 					// would have been added because the hierarchy was completed for leaf assemblies.
 					std::vector<CopyModelDefinition>			fromModel_ToModel_FEA;
-					isis::ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly(	in_Factory,
+					isis::BuildListOfCADModels_ThatShouldBeCopiedToNewNames(	in_Factory,
 																				uniqueNameIndex, 
 																				//e_PART_MODEL_TYPE,
 																				e_PART_OR_ASSEMBLY_MODEL_TYPE,
@@ -491,20 +499,23 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						//isis::CopyModels(fromModel_ToModel);
 						// Rename the parts/sub-assemblies in the Creo assembly that were copied in the previouisl step
 
+
+						//CADComponentDataStructureCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel
+
+						isis::cad::ICADComponentDataStructure&  componentDataStructure = in_Factory.getCADComponentDataStructure();
+
 						// Must do assemblies first
 						for each ( CopyModelDefinition model_def in fromModel_ToModel_FEA )
 						{
 							if (model_def.modelType == PRO_MDL_ASSEMBLY )
 							{
+								componentDataStructure.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
+								/**
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
 								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(cADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
 
-								//modelInstanceData_temp.assembledFeature			= cADComponentData_map[model_def.componentInstanceID].assembledFeature;			
-								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(cADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
-								//modelInstanceData_temp.assembledFeature.id   =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
-								//modelInstanceData_temp.assembledFeature.owner =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
 								modelInstanceData_temp.assembledFeature = getProAsmcomp(cADComponentData_map[model_def.componentInstanceID].assembledFeature);
 								
 								modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
@@ -522,9 +533,9 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 								{
 									cADComponentData_map[i_child].assembledFeature.owner = renamedModelHandle;
 								} 
+								***/
 							}
 						}
-
 
 						// For testing
 						//isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].modelHandle);
@@ -534,14 +545,13 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						{
 							if (model_def.modelType == PRO_MDL_PART )
 							{
+								componentDataStructure.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
+								/***
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
 								modelInstanceData_temp.modelType				= model_def.modelType;
 								modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(cADComponentData_map[model_def.componentInstanceID].cADModel_hdl);
-								//modelInstanceData_temp.assembledFeature			= cADComponentData_map[model_def.componentInstanceID].assembledFeature;		
-								//modelInstanceData_temp.assembledFeature.type =	FeatureGeometryType_enum(cADComponentData_map[model_def.componentInstanceID].assembledFeature.type);
-								//modelInstanceData_temp.assembledFeature.id   =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.id;
-								//modelInstanceData_temp.assembledFeature.owner =	                         cADComponentData_map[model_def.componentInstanceID].assembledFeature.owner; 
+
 								modelInstanceData_temp.assembledFeature = getProAsmcomp(cADComponentData_map[model_def.componentInstanceID].assembledFeature);
 
 
@@ -556,13 +566,13 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 
 								// For testing
 								//isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].modelHandle);
-
+								***/
 							}						
 						}
 	
 						// Must save this version in a scratch directory.  This is because the assemblies were changed to have
 						// different part names.  If we save those assemblies in the working directory, then subsequent runs
-						// in the same working directory would start with the change assemblies instead of the original assemblies.
+						// in the same working directory would start with the changed assemblies instead of the original assemblies.
 
 						std::string scratchFEADir = "Analysis_Scratch";
 						// FIXME replace with _mkdir(scratchFEADir.c_str());
@@ -576,7 +586,10 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
 						cADsession.setCADWorkingDirectory(scratchFEADir_MultiFormat );
 
+
 						isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
+						isis::cad::IModelHandling&        modelHandling = in_Factory.getModelHandling();
+						modelHandling.cADModelSave( i->assemblyComponentID, cADComponentData_map);
 
 						// Change back to the working dir
 						//isis::setCreoWorkingDirectory( workingDir_MultiFormat );

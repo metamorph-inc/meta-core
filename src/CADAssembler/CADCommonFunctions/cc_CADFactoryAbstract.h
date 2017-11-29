@@ -9,7 +9,9 @@
 #include "cc_CreateAssemblyInputArgumentsParser.h"
 #include "cc_MetaLinkInputArgumentsParser.h"
 #include "cc_ExtractACMInputArgumentsParser.h"
+//#include "cc_AssemblyUtilities.h"
 #include <boost/smart_ptr.hpp>
+#include <unordered_map>
 
 /**
 This abstract class provides factories for the
@@ -198,16 +200,21 @@ public:
 	virtual std::string name() = 0;
 
 	// out_RetrievedModelHandle handle is an in memory handle to the model
-	virtual void CADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
 									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
 									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
 
 	// in_ModelHandle handle is an in memory handle to the model
-	virtual void CADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
+	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
 
-	virtual void CADModelFileCopy (e_CADMdlType 						in_ModelType,
+	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
 								   const isis::MultiFormatString		&in_FromModelName,
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
+
+	virtual void cADModelSave( 
+					const std::string								&in_ComponentID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																		throw (isis::application_exception) = 0;	
 };
 
 
@@ -232,6 +239,64 @@ public:
 };
 
 
+class ICADComponentDataStructure {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+
+	//	The CADAssembly.xml contains an assembly tree (i.e. hierarchy), where leafs in the 
+	//	tree can be parts or sub-assemblies.  For the case where where the leaf is an assembly, 
+	//	this function completes the hierarchy in in_out_CADComponentData_map such that the tree 
+	//	is complete.  The in_out_NonCyPhyID_counter is a counter that is used to create component
+	//	IDs for the subordinate parts/sub-assemblies. 
+	virtual void forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
+					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+					int												&in_out_NonCyPhyID_counter,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception) = 0;
+
+	//	A CAD model hierarchy is a tree structure wherein an assembly points to sub-assemblies and/or parts.
+	//	This function will replace one assembly or one part as defined 
+	//		in_CopyModelDefinition.fromModelName
+	//  	in_CopyModelDefinition.toModelName
+	//	The replacement process requires two steps:
+	//		1) Update the CAD assembly hiearchy (i.e. update the CAD application (e.g. Creo) data structures)
+	//		2) Update the in_out_CADComponentData_map
+	//	Before this function is invoked
+	//		1) The in_CopyModelDefinition.toModelName must exist in the CAD search path.
+	//		2) The assembly containing in_CopyModelDefinition.fromModelName must be in memory
+	//		3) In the case of Creo, in_CopyModelDefinition.toModelName must be in memory
+
+
+	virtual void modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
+					const std::string								&in_TopAssemblyComponentID,
+					const isis::CopyModelDefinition					&in_CopyModelDefinition, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception) = 0;																		
+			
+};
+
+// Forward declare, because used in CadFactoryAbstract 
+class CadFactoryAbstract;
+
+class IAssemblyConstraints {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+	// This function should probably be further divided so that the following function is general (i.e. cad common (cc_)).
+	// Calls to the CADFactroy would be made from the general function.
+	// ?? Documenation of this function is needed.
+	virtual void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+			cad::CadFactoryAbstract													&in_Factory,
+			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception) = 0;
+};
+
+
 class CadFactoryAbstract {
 public:
 	typedef boost::shared_ptr<CadFactoryAbstract> ptr;
@@ -243,12 +308,16 @@ public:
 	Get the CAD specific concrete functor for
 	manipulating the assembly.
 	*/
-	virtual IAssembler&		get_assembler() = 0;
-	virtual IEnvironment&	getEnvironment() = 0;
-	virtual IModelNames&	getModelNames() = 0;
-	virtual IModelHandling& getModelHandling() = 0;
-	virtual ICADSession&	getCADSession() = 0;
+	virtual IAssembler&					 get_assembler() = 0;
+	virtual IEnvironment&				 getEnvironment() = 0;
+	virtual IModelNames&				 getModelNames() = 0;
+	virtual IModelHandling&				 getModelHandling() = 0;
+	virtual ICADSession&				 getCADSession() = 0;
+    virtual ICADComponentDataStructure&  getCADComponentDataStructure() = 0;
+	virtual IAssemblyConstraints&		 getAssemblyConstraints() = 0;
 };
+
+
 
 } // cad
 } // isis
