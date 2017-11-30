@@ -34,17 +34,7 @@ namespace CyPhyPET.Rules
                 pet.Children.PCCDriverCollection.Count() +
                 pet.Children.OptimizerCollection.Count();
 
-            if (cnt < 1)
-            {
-                var feedback = new GenericRuleFeedback()
-                {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("No driver defined, please add either a PCCDriver, Parameter Study or Optimizer.")
-                };
-
-                result.Add(feedback);
-            }
-            else if (cnt > 1)
+            if (cnt > 1)
             {
                 var feedback = new GenericRuleFeedback()
                 {

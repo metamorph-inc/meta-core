@@ -537,7 +537,10 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
         yield (subProblem, inputMeta, outputMeta)
     else:
-        recorders = add_recorders()
+        if driver:
+            recorders = add_recorders()
+        else:
+            recorders = []
 
         try:
             top.setup()

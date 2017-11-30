@@ -115,20 +115,7 @@ namespace CyPhyMasterInterpreter.Rules
             var parameterStudyCount = this.parametricExploration.Children.ParameterStudyCollection.Count();
 
 
-            if (pccDriverCount + optimizerCount + parameterStudyCount == 0)
-            {
-                string errorMessage = "Parametric Exploration model has no driver. It must have exactly one driver PCCDriver OR Optimizer OR ParameterStudy.";
-
-                var feedback = new ContextCheckerResult()
-                {
-                    Success = false,
-                    Subject = this.parametricExploration.Impl,
-                    Message = errorMessage
-                };
-
-                results.Add(feedback);
-            }
-            else if (pccDriverCount + optimizerCount + parameterStudyCount == 1)
+            if (pccDriverCount + optimizerCount + parameterStudyCount == 1)
             {
                 foreach (var pccDriver in this.parametricExploration.Children.PCCDriverCollection)
                 {
@@ -136,7 +123,7 @@ namespace CyPhyMasterInterpreter.Rules
                     {
                         Success = true,
                         Subject = pccDriver.Impl,
-                        Message = string.Format("Test bench has exectly driver: {0}.", pccDriver.Kind)
+                        Message = string.Format("Test bench has exactly one driver: {0}.", pccDriver.Kind)
                     };
 
                     results.Add(feedback);
@@ -148,7 +135,7 @@ namespace CyPhyMasterInterpreter.Rules
                     {
                         Success = true,
                         Subject = optimizer.Impl,
-                        Message = string.Format("Test bench has exectly driver: {0}.", optimizer.Kind)
+                        Message = string.Format("Test bench has exactly one driver: {0}.", optimizer.Kind)
                     };
 
                     results.Add(feedback);
@@ -160,7 +147,7 @@ namespace CyPhyMasterInterpreter.Rules
                     {
                         Success = true,
                         Subject = parameterStudy.Impl,
-                        Message = string.Format("Test bench has exectly driver: {0}.", parameterStudy.Kind)
+                        Message = string.Format("Test bench has exactly one driver: {0}.", parameterStudy.Kind)
                     };
 
                     results.Add(feedback);
@@ -168,7 +155,7 @@ namespace CyPhyMasterInterpreter.Rules
             }
             else if (pccDriverCount + optimizerCount + parameterStudyCount > 1)
             {
-                string errorMessage = "Parametric Exploration model must have exactly one driver PCCDriver OR Optimizer OR ParameterStudy.";
+                string errorMessage = "Parametric Exploration model must not ave exactly more than one driver: PCCDriver OR Optimizer OR ParameterStudy.";
 
                 foreach (var pccDriver in this.parametricExploration.Children.PCCDriverCollection)
                 {
@@ -208,7 +195,6 @@ namespace CyPhyMasterInterpreter.Rules
             }
             else
             {
-                throw new NotImplementedException();
             }
 
 
