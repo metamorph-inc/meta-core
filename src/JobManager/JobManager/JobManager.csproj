@@ -231,6 +231,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\3rdParty\System.Data.SQLite\SQLite.Interop.dll">
+      <Link>SQLite.Interop.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="JobManager.ico" />
     <None Include="ajax-loader.gif" />
   </ItemGroup>
