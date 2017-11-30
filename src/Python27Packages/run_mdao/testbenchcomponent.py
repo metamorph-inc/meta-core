@@ -31,7 +31,7 @@ class TestBenchComponent(Component):
         self.manifest_metrics = {param['Name']: param for param in self.original_testbench_manifest['Metrics']}
         self.manifest_fileoutputs = {param['Name']: param for param in self.original_testbench_manifest.get('FileOutputs', {})}
 
-        self.fd_options['force_fd'] = True
+        self.deriv_options['type'] = 'fd'
 
         def get_meta(param):
             units = param.get('units')
