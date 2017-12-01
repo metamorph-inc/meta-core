@@ -155,7 +155,7 @@ namespace CyPhyMasterInterpreter.Rules
             }
             else if (pccDriverCount + optimizerCount + parameterStudyCount > 1)
             {
-                string errorMessage = "Parametric Exploration model must not ave exactly more than one driver: PCCDriver OR Optimizer OR ParameterStudy.";
+                string errorMessage = "Parametric Exploration model must not have more than one driver: PCCDriver OR Optimizer OR ParameterStudy.";
 
                 foreach (var pccDriver in this.parametricExploration.Children.PCCDriverCollection)
                 {
