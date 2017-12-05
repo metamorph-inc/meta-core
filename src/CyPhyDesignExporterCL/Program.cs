@@ -19,6 +19,7 @@ namespace CyPhyDesignExporterCL
             return string.IsNullOrEmpty(test) ? string.Empty : test.Replace("\\", "_").Replace("/", "_");
         }
 
+        [STAThread]
         public static int Main(string[] args)
         {
             var options = new Options();

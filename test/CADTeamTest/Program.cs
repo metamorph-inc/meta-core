@@ -7,6 +7,7 @@ namespace CADTeamTest
 {
     public class Program
     {
+        [STAThread]
         public static int Main(string[] args)
         {
             int ret = Xunit.ConsoleClient.Program.Main(new string[] {
