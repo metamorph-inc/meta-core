@@ -262,8 +262,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::gmeoleapp = 0;
 		std::string msg = "Udm error: ";
 		msg += e.what();
-		AfxMessageBox(msg.c_str());
-		return E_FAIL;
+		ThrowComError(E_FAIL, _bstr_t(msg.c_str()));
 	}
 	catch(...)
 	{

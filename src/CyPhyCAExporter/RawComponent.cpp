@@ -399,12 +399,12 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::Error::writeLine(exc.what());
 		GMEConsole::Console::freeConsole();
 
-		  if (constrMgr)
-	      COMTHROW(constrMgr->Enable(true));
-	  if(cyphyAddon)
-		  COMTHROW(cyphyAddon->Enable(true));
+		if (constrMgr)
+			COMTHROW(constrMgr->Enable(true));
+		if(cyphyAddon)
+			COMTHROW(cyphyAddon->Enable(true));
 
-		return S_FALSE;
+		ThrowComError(E_FAIL, _bstr_t(exc.what()));
 	}
 	catch(...)
 	{
