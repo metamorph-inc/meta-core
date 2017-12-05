@@ -40,6 +40,8 @@ bool automated_collapse;
 bool ConsoleMessagesOn;
 std::string msg_exception;
 
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+
 // this method is called after all the generic initialization is done
 // this should be empty, unless application-specific initialization is needed
 STDMETHODIMP RawComponent::Initialize(struct IMgaProject *) {

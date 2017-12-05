@@ -31,6 +31,8 @@
 #include "UdmApp.h"
 #include <time.h>
 
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+
 //ATL::CComPtr<IGMEOLEApp>GMEConsole::Console::gmeoleapp = NULL;
 
 // this method is called after all the generic initialization is done
