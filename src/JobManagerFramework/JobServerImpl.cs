@@ -62,6 +62,11 @@ namespace JobManagerFramework
                     server.JobCollectionDone(this);
                 }
             }
+
+            public override object InitializeLifetimeService()
+            {
+                return null;
+            }
         }
 
         Dictionary<string, JobCollectionImpl> JobCollectionById = new Dictionary<string, JobCollectionImpl>();

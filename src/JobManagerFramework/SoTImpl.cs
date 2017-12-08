@@ -525,5 +525,10 @@ namespace JobManagerFramework
                 }
             }
         }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
     }
 }

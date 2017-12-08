@@ -199,5 +199,10 @@ namespace JobManagerFramework
 
             return jsonContent;
         }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
     }
 }
