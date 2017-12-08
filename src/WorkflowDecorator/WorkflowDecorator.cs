@@ -402,7 +402,7 @@ namespace GME.CSharp
             // only store temporarily, they might be unavailable later
             myobj = obj;
             mymetaobj = null;
-            LastMetaKind = myobj.Meta.Name;
+            LastMetaKind = myobj?.Meta?.Name;
 
             // obtain the metaobject
             GetMetaFCO(meta, out mymetaobj);
