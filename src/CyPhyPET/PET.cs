@@ -25,7 +25,7 @@ namespace CyPhyPET
     public class PET
     {
         //public static GME.CSharp.GMEConsole GMEConsole { get; set; }
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
         public bool Success = false;
 
         private enum DriverType { None, PCC, Optimizer, ParameterStudy };
@@ -109,7 +109,7 @@ namespace CyPhyPET
 
         }
 
-        public PET(MgaFCO rootPET, MgaFCO currentFCO, CyPhyGUIs.GMELogger logger)
+        public PET(MgaFCO rootPET, MgaFCO currentFCO, CyPhyGUIs.SmartLogger logger)
         {
             this.Logger = logger;
             this.pet = CyPhyClasses.ParametricExploration.Cast(currentFCO);

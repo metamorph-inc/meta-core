@@ -29,7 +29,8 @@ namespace DynamicsTeamTest
             return result;
         }
 
-        public static Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult> RunReturnFull(string outputdirname, string projectPath, string absPath)
+        public static Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult> RunReturnFull(string outputdirname, string projectPath, string absPath,
+            CyPhyGUIs.SmartLogger logger = null)
         {
             var mainParameters = new CyPhyGUIs.InterpreterMainParameters();
             CyPhyGUIs.IInterpreterResult results = null;
@@ -71,6 +72,7 @@ namespace DynamicsTeamTest
                 mainParameters.OutputDirectory = OutputDir;
 
                 //dynamic results = interpreter.Main(mainParameters);
+                interpreter.Logger = logger;
                 results = interpreter.MainThrows(mainParameters);
 
                 Assert.True(File.Exists(ProjectConnStr.Substring("MGA=".Length)));

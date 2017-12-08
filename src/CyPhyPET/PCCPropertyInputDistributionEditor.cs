@@ -20,7 +20,7 @@ namespace CyPhyPET
 
     public partial class PCCPropertyInputDistributionEditor : Form
     {
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
         public CyPhyGUIs.IInterpreterMainParameters MainParameters { get; set; }
         //public static string[] DISTTYPES = new string[4] { "BETA", "LNORM", "NORM", "UNIF"};
         public static Dictionary<string, int> DistToIndex = new Dictionary<string, int>()
@@ -45,7 +45,7 @@ namespace CyPhyPET
         private List<PCC.PCCProperty> DirtyProperties { get; set; }
         private bool OKClicked = false;
 
-        public PCCPropertyInputDistributionEditor(CyPhyGUIs.IInterpreterMainParameters mainParameters, CyPhyGUIs.GMELogger logger)
+        public PCCPropertyInputDistributionEditor(CyPhyGUIs.IInterpreterMainParameters mainParameters, CyPhyGUIs.SmartLogger logger)
         {
             this.Logger = logger;
             this.MainParameters = mainParameters;

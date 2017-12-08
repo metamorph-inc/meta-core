@@ -14,7 +14,7 @@ using MasterInterpreterTest;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Xunit;
-
+using CyPhyGUIs;
 
 namespace CyPhyPETTest
 {
@@ -318,6 +318,37 @@ namespace CyPhyPETTest
             {
                 project.Close(abort: true);
             }
+        }
+
+        [Fact]
+        public void UnitsMatch()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@UnitsMatch";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+        }
+
+
+        [Fact]
+        public void UnitsDoNotMatch()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@UnitsDoNotMatch";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var logger = new SmartLogger();
+            var stringWriter = new StringWriter();
+            logger.AddWriter(stringWriter);
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath, logger);
+            stringWriter.Flush();
+            var loggerContents = stringWriter.GetStringBuilder().ToString();
+
+            Assert.Contains("must match unit for ", loggerContents);
+            Assert.False(result.Item2.Success, "CyPhyPET should have failed.");
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

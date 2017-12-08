@@ -64,7 +64,7 @@ namespace CyPhyPET
 
         private MgaGateway MgaGateway { get; set; }
         //private GMEConsole GMEConsole { get; set; }
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
 
         public void InvokeEx(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
         {
@@ -477,18 +477,6 @@ namespace CyPhyPET
             bool disposeLogger = false;
             try
             {
-                if (this.Logger == null)
-                {
-                    this.Logger = new CyPhyGUIs.GMELogger(parameters.Project, this.ComponentName);
-                    disposeLogger = true;
-                }
-                this.Logger.WriteInfo("Running CyPhyPET");
-                System.Windows.Forms.Application.DoEvents();
-
-                var asyncResult = this.Logger.LoggingVersionInfo.BeginInvoke(parameters.Project, null, null);
-                var header = this.Logger.LoggingVersionInfo.EndInvoke(asyncResult);
-                this.Logger.WriteDebug(header);
-
                 MainThrows(parameters);
             }
             catch (Exception ex)
@@ -538,18 +526,19 @@ namespace CyPhyPET
             bool disposeLogger = false;
             if (this.Logger == null)
             {
-                this.Logger = new CyPhyGUIs.GMELogger(this.mainParameters.Project, this.ComponentName);
+                var Logger = new CyPhyGUIs.GMELogger(this.mainParameters.Project, this.ComponentName);
+                this.Logger = Logger;
                 disposeLogger = true;
+                if (this.mainParameters.VerboseConsole)
+                {
+                    Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Debug;
+                }
+                else
+                {
+                    Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Info;
+                }
             }
-            this.Logger.MakeVersionInfoHeader();
-            if (this.mainParameters.VerboseConsole)
-            {
-                this.Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Debug;
-            }
-            else
-            {
-                this.Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Info;
-            }
+            this.Logger.WriteDebug(META.Logger.Header(mainParameters.Project));
 
             //this.result.Traceability.CopyTo(this.Logger.Traceability);
 
