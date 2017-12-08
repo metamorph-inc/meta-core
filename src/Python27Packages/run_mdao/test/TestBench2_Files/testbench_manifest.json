@@ -1,0 +1,72 @@
+{
+  "Status": "OK",
+  "CopyTestResults": false,
+  "Parameters": [
+    {
+      "Description": "",
+      "DisplayedName": null,
+      "GMEID": "id-0067-00000005",
+      "Value": 7.5,
+      "Range": "-inf..inf",
+      "ID": "4243fa9d-fc38-4274-adc1-6c42aaa9c66a",
+      "Unit": "",
+      "Name": "x"
+    },
+    {
+      "Description": "",
+      "DisplayedName": null,
+      "GMEID": "id-0067-00000007",
+      "Value": 50.0,
+      "Range": "-inf..inf",
+      "ID": "439ca681-f802-493d-a100-54dc3136c850",
+      "Unit": "",
+      "Name": "y"
+    }
+  ],
+  "TierLevel": 0,
+  "Artifacts": [],
+  "VisualizationArtifacts": [],
+  "DesignName": "paraboloid_TestBench",
+  "Metrics": [
+    {
+      "GMEID": "id-0067-00000006",
+      "Description": "",
+      "DisplayedName": null,
+      "VisualizationArtifacts": [],
+      "Value": 3308.25,
+      "ID": "beed8607-f67c-47c7-898d-d21e742e4ba1",
+      "Unit": "",
+      "Name": "checksum"
+    }
+  ],
+  "DesignID": "{ec537329-2daf-42cc-b1a7-076d594052a3}",
+  "Dependencies": [],
+  "Steps": [
+    {
+      "ExecutionCompletionTimestamp": "2015-11-11T13:04:53.300000",
+      "Status": "OK",
+      "Description": null,
+      "Parameters": [],
+      "ExecutionStartTimestamp": "2015-11-11T13:04:53.110000",
+      "PreProcess": null,
+      "PostProcess": null,
+      "Invocation": "Python.exe script.py",
+      "LogFile": "log/log2015-11-11T130453.110000.log",
+      "Type": null
+    }
+  ],
+  "TestBench": "paraboloid_TestBench",
+  "Created": "2015-11-09T20:22:44.2141392Z",
+  "FileInputs": [
+    {
+        "Name": "FileInput1",
+        "FileName": "FileInput1.ext"
+    }
+  ],
+  "FileOutputs": [
+    {
+      "Name": "FileOutput1",
+      "FileName": "FileOutput1.ext"
+    }
+  ]
+}

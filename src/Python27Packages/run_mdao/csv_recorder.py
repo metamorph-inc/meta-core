@@ -91,6 +91,8 @@ class MappingCsvRecorder(BaseRecorder):
                 return str(val.tolist())
             if isinstance(val, FileRef):
                 return None
+            if isinstance(val, unicode):
+                return val.encode('utf8')
             return str(val)
 
         def do_mapping(map_, values):
