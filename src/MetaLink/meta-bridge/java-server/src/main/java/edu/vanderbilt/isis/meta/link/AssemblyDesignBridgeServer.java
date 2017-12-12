@@ -202,7 +202,7 @@ public class AssemblyDesignBridgeServer {
                     Number portCandidate = (Number)line.getParsedOptionValue(setPort.getOpt());
                     if (portCandidate.longValue() > Integer.MAX_VALUE)  {
                         logger.warn("port value is too large {}", portCandidate);
-                    }  else if (portCandidate.longValue() < 1) {
+                    }  else if (portCandidate.longValue() < 0) {
                         logger.warn("port value is too small {}", portCandidate);
                     }  else {
                         server.port = portCandidate.intValue();
@@ -229,6 +229,8 @@ public class AssemblyDesignBridgeServer {
         } catch (ParseException ex) {
             logger.error("Unexpected exception", ex);
             usage(options);
+        } catch (Exception ex) {
+            logger.error("Exception", ex);
         }
     }
 

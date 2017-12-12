@@ -36,6 +36,8 @@ namespace CyPhyPropagateTest
             }
         }
 
+        public string MetaLinkLogFilename { get; private set; }
+
         protected List<Edit> receivedMessages;
         protected BlockingCollection<Edit> receivedMessagesQueue;
         protected BlockingCollection<Edit> sentMessagesQueue;
@@ -252,19 +254,13 @@ namespace CyPhyPropagateTest
             {
                 metaLinkPath = Path.Combine(META.VersionInfo.MetaPath, @"bin\metalink-java-server-1.1.0.jar"); // installed machine
             }
-            // use a random port
-            var listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 0);
-            listener.Start();
-            SocketQueue.port = ((IPEndPoint)listener.LocalEndpoint).Port;
-            listener.Stop();
-
 
             ProcessStartInfo info = new ProcessStartInfo()
             {
                 // java -jar C:\Users\meta\Documents\META\src\MetaLink\meta-bridge\java-server\target\metalink-java-server-1.1.0.jar -p C:\Users\meta\Documents\META_MetaLink_HullandHook\partial-component.mlp -r C:\Users\meta\Documents\META_MetaLink_HullandHook\CyPhyPropagateTest_recorded_messages.mlp
                 FileName = java_exe,
                 Arguments = "-jar \"" + metaLinkPath + "\"" +
-                    " -P " + SocketQueue.port +
+                    " -P 0" +
                     //" -p " + HullAndHookDir + @"\CyPhyPropagateTest_partial-component.mlp" +
                     //" -r " + HullAndHookDir + @"\CyPhyPropagateTest_recorded_messages.mlp"
                     "",
@@ -276,16 +272,22 @@ namespace CyPhyPropagateTest
             };
             metalink = new Process();
             metalink.StartInfo = info;
-            FileStream outlog = File.Open(Path.Combine(TestModelDir, "CyPhyPropagateTest_stdout.txt"), FileMode.Create, FileAccess.Write, FileShare.Read);
+            this.MetaLinkLogFilename = Path.Combine(TestModelDir, "CyPhyPropagateTest_" + Process.GetCurrentProcess().Id + ".txt");
+            FileStream outlog = File.Open(MetaLinkLogFilename, FileMode.Create, FileAccess.Write, FileShare.Read);
             metalinkLogStream = new StreamWriter(outlog, Encoding.UTF8);
             metalinkLogStream.AutoFlush = true;
             int metalinkLogStreamNo = 2;
             System.Action outputClosed = () =>
             {
-                metalinkLogStreamNo--;
-                if (metalinkLogStreamNo == 0)
+                if (Interlocked.Decrement(ref metalinkLogStreamNo) == 0)
                 {
-                    metalinkLogStream.Close();
+                    lock (metalinkLogStream)
+                    {
+                        if (metalinkLogStream.BaseStream != null)
+                        {
+                            metalinkLogStream.Close();
+                        }
+                    }
                 }
             };
             try
@@ -299,6 +301,13 @@ namespace CyPhyPropagateTest
                         return;
                     }
                     Console.Error.WriteLine(dataArgs.Data);
+                    lock (metalinkLogStream)
+                    {
+                        if (metalinkLogStream.BaseStream != null) // i.e. if not closed
+                        {
+                            metalinkLogStream.WriteLine(dataArgs.Data);
+                        }
+                    }
                 };
                 metalinkReady = new ManualResetEvent(false);
                 metalink.OutputDataReceived += (o, dataArgs) =>
@@ -318,6 +327,9 @@ namespace CyPhyPropagateTest
                     }
                     if (dataArgs.Data.Contains("AssemblyDesignBridgeServer started and listening on"))
                     {
+                        var substr = "listening on /127.0.0.1:";
+                        var index = dataArgs.Data.IndexOf(substr);
+                        SocketQueue.port = int.Parse(dataArgs.Data.Substring(index + substr.Length));
                         metalinkReady.Set();
                     }
                     metalinkOutput.Add(dataArgs.Data);
@@ -336,11 +348,16 @@ namespace CyPhyPropagateTest
         {
             if (metalinkReady.WaitOne(10 * 1000) == false)
             {
-                if (metalink.HasExited && metalink.ExitCode != 0)
+                using (FileStream outlog = File.Open(MetaLinkLogFilename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
-                    throw new ApplicationException("'java.exe metalink-java-server' exited with code " + metalink.ExitCode);
+                    var logContents = new StreamReader(outlog, Encoding.UTF8).ReadToEnd();
+
+                    if (metalink.HasExited && metalink.ExitCode != 0)
+                    {
+                        throw new ApplicationException("'java.exe metalink-java-server' exited with code " + metalink.ExitCode + "\n" + logContents);
+                    }
+                    throw new TimeoutException(logContents);
                 }
-                throw new TimeoutException();
             }
         }
 
