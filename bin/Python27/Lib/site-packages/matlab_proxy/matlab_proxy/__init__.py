@@ -12,6 +12,67 @@ import subprocess
 from base64 import b64encode, b64decode
 
 
+class MatlabInProcessProxyReplacement(object):
+    def __init__(self, engine):
+        self.engine = engine
+
+    def addpath(self, path, nargout=0):
+        self.engine.addpath(path, nargout=0)
+
+    def __getattr__(self, name):
+        import numpy
+
+        def _invoke(args, nargout=1, bare=False, input_names=None, output_names=None, stdout=None, stderr=None):
+            import matlab
+            import matlab.engine
+            import matlab.mlarray
+
+            def transcode(val):
+                if numpy and isinstance(val, numpy.ndarray):
+                    return val.tolist()
+                if numpy and isinstance(val, (numpy.float16, numpy.float32, numpy.float64)):
+                    return matlab.double(float(val))
+                return val
+            args = [transcode(val) for val in args]
+
+            if bare:
+                nargout = 0
+                for i, input_name in enumerate(input_names):
+                    arg = args[i]
+
+                    if isinstance(args[i], list):
+                        if len(arg) and isinstance(arg[0], six.string_types):
+                            pass
+                        else:
+                            arg = matlab.double(arg)
+                    self.engine.workspace[str(input_name)] = arg
+
+                getattr(self.engine, name)(nargout=nargout, stdout=stdout, stderr=stderr)
+                outputs = []
+
+                def convert_to_list(array, size):
+                    if len(size) == 1:
+                        return list(array)
+                    return list((convert_to_list(l, size[1:]) for l in array))
+                for output_name in output_names:
+                    output = self.engine.workspace[str(output_name)]
+                    if isinstance(output, matlab.mlarray.double):
+                        output = convert_to_list(output, output.size)
+                    outputs.append(output)
+                # open('debug.txt', 'a').write(repr(outputs) + '\n')
+            else:
+                outputs = getattr(self.engine, name)(*args, nargout=nargout, stdout=stdout, stderr=stderr)
+
+            # print(repr(outputs))
+            return outputs
+
+        _invoke.__name__ = name
+        return _invoke
+
+    def quit(self):
+        self.engine.quit()
+
+
 class EngineProxyServer(object):
     def __init__(self, engine):
         self.engine = engine
@@ -38,7 +99,6 @@ class EngineProxyServer(object):
                         arg = matlab.double(arg)
 
                 try:
-                    # FIXME what is the proper encoding
                     self.engine.workspace[input_name.encode('ascii', 'ignore')] = arg
                 except ValueError as e:
                     if e.message == 'invalid field for MATLAB struct':
@@ -57,11 +117,7 @@ class EngineProxyServer(object):
                     return list(array)
                 return list((convert_to_list(l, size[1:]) for l in array))
             for output_name in output_names:
-                if sys.version_info[0] == 2:
-                    # FIXME: what encoding is appropriate
-                    output = self.engine.workspace[str(output_name)]
-                else:
-                    output = self.engine.workspace[output_name]
+                output = self.engine.workspace[str(output_name)]
                 if isinstance(output, matlab.mlarray.double):
                     output = convert_to_list(output, output.size)
                 outputs.append(output)
@@ -106,7 +162,7 @@ class EngineProxyClient(object):
                 return float(val)
             return val
 
-        def invoke(*args, **kwargs):
+        def invoke(args, **kwargs):
             # (*args, nargout=len(self._output_names), stdout=out, stderr=err)
             args = map(transcode, args)
             kwargs = {k: transcode(v) for k, v in kwargs.iteritems()}
@@ -133,7 +189,7 @@ def get_matlab_engine():
         if matlab[0] == platform.architecture()[0]:
             MATLABROOT = matlab[2]
             engine = import_matlab_python_engine(MATLABROOT)
-            return engine.start_matlab()
+            return MatlabInProcessProxyReplacement(engine.start_matlab())
         else:
             python_exe = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dist_{}\\python.exe'.format(matlab[0]))
             if not os.path.isfile(python_exe):
@@ -141,7 +197,7 @@ def get_matlab_engine():
             return get_engine_proxy(matlab[2], python_exe)
     try:
         import matlab.engine
-        return matlab.engine.start_matlab()
+        return MatlabInProcessProxyReplacement(matlab.engine.start_matlab())
     except ImportError as e:
         warnings.warn("Failed to import matlab.engine: %s" % e, RuntimeWarning)
         return None

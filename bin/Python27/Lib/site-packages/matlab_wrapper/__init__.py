@@ -94,7 +94,7 @@ class MatlabWrapper(Component):
         out = six.StringIO()
         err = six.StringIO()
 
-        outputs = getattr(self.eng, self.basename)(*args, nargout=len(self._output_names), bare=self.bare, stdout=out, stderr=err,
+        outputs = getattr(self.eng, self.basename)(args, nargout=len(self._output_names), bare=self.bare, stdout=out, stderr=err,
             input_names=self._input_names, output_names=self._output_names)
         if len(self._output_names) == 1 and type(outputs) == float and not isinstance(self.eng, SMOPEngine):
             # MATLAB returns a single float, not an 1x1 float array

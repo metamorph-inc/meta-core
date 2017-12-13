@@ -28,6 +28,8 @@ class TestMatlabWrapper(unittest.TestCase):
         c.solve_nonlinear({'a': 2.5, 'b': 3.5, 'c': 4.0}, unknowns, {})
         # print(repr(unknowns))
         self.assertEqual(unknowns['m'], 35)
+        self.assertEqual(unknowns['w']['m'], unknowns['m'])
+        self.assertEqual(unknowns['strarra'], ['Mercury', 'Venus', 'Earth'])
 
 
 class TestBareMatlabWrapper(unittest.TestCase):
@@ -50,13 +52,14 @@ class TestBareMatlabWrapper(unittest.TestCase):
     def test_values(self):
         c = MatlabWrapper(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bare_file.m'))
         unknowns = {}
-        c.solve_nonlinear({'input1': 2.5, 'input2': 3.5, 'input3': numpy.array([4.5, 9]), 'input4': 'asdf', 'input5': ['asdffa', 'asdff']}, unknowns, {})
+        c.solve_nonlinear({'input1': 2.5, 'input2': 3.5, 'input3': numpy.array([4.5, 9]), 'input4': 'asdf', 'input5': ['asdffa', 'asdff'], 'input6': {'x': 2, 'y': 4}}, unknowns, {})
         # print(repr(unknowns))
         self.assertEqual(unknowns['output1'], 5)
         self.assertEqual(numpy.ndarray, type(unknowns['output3']))
         self.assertEqual(unknowns['output3'].tolist(), [[9, 18]]) # TODO: Do we want to reshape 1xn arrays to be 1-dimensional?
         self.assertEqual(unknowns['output4'], 'asdf')
         self.assertEqual(unknowns['output5'], ['asdffa', 'asdff'])
+        self.assertEqual(unknowns['output6']['x'], 4)
 
 
 class TestMatlabVersion(unittest.TestCase):
