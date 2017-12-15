@@ -66,11 +66,7 @@ namespace CyPhyPropagateTest
 
         protected void SetupTest()
         {
-            if (Directory.Exists(TestModelDir))
-            {
-                Directory.Delete(TestModelDir, true);
-            }
-            Directory.CreateDirectory(TestModelDir);
+            CyPhyGUIs.CyPhyDirectory.EnsureEmptyDirectory(TestModelDir);
             StartMetaLinkBridge();
             try
             {

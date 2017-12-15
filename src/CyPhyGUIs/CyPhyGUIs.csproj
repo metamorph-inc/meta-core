@@ -108,6 +108,7 @@
     <Compile Include="CommandLink.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CyPhyDirectory.cs" />
     <Compile Include="GMELogger.cs" />
     <Compile Include="GMEConsole.cs" />
     <Compile Include="Interfaces.cs" />

@@ -301,11 +301,7 @@ namespace CADTeamTest
             string OutputDir = Path.Combine(Path.GetDirectoryName(XmePath), "Connectors_Invalid");
             var generatedAsmPath = Path.Combine(OutputDir, generatedAsmFile);
 
-            if (Directory.Exists(OutputDir))
-            {
-                Directory.Delete(OutputDir, true);
-            }
-            Directory.CreateDirectory(OutputDir);
+            CyPhyGUIs.CyPhyDirectory.EnsureEmptyDirectory(OutputDir);
 
             string ProjectConnStr;
             MgaUtils.ImportXMEForTest(XmePath, Path.Combine(OutputDir, Path.GetFileNameWithoutExtension(XmePath) + "_CADtest.mga"), out ProjectConnStr);
