@@ -350,16 +350,28 @@ inline CProperty::CProperty(CString &n, const TCHAR *p, CDomain *d, CElement *o,
 
 //Without domain (for simpleformula property
 inline CProperty::CProperty(const TCHAR *n, const TCHAR *p,CElement *o)
-	:CStaticObj(n), pcm_fn(p), owner(o){type = typeProperty;}
+	:CStaticObj(n), pcm_fn(p), owner(o), domain(NULL)
+{
+	type = typeProperty;
+}
 
 inline CProperty::CProperty(CString &n, const TCHAR *p, CElement *o)
-	:CStaticObj(n), pcm_fn(p), owner(o){type = typeProperty;}
+	:CStaticObj(n), pcm_fn(p), owner(o), domain(NULL)
+{
+	type = typeProperty;
+}
 
 inline CProperty::CProperty(const TCHAR *n, const TCHAR *p,CElement *o, long id, long e_id)
-	:CStaticObj(n, id, e_id), pcm_fn(p), owner(o){type = typeProperty;}
+	:CStaticObj(n, id, e_id), pcm_fn(p), owner(o), domain(NULL)
+{
+	type = typeProperty;
+}
 
 inline CProperty::CProperty(CString &n, const TCHAR *p, CElement *o, long id, long e_id)
-	:CStaticObj(n, id, e_id), pcm_fn(p), owner(o){type = typeProperty;}
+	:CStaticObj(n, id, e_id), pcm_fn(p), owner(o), domain(NULL)
+{
+	type = typeProperty;
+}
 
 
 
