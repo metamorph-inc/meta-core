@@ -38,6 +38,24 @@ namespace isis
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	ProBoolean Bool_to_ProBoolean ( bool in_Bool)
+	{
+		if ( in_Bool )
+			return PRO_B_TRUE;
+		else
+			return PRO_B_FALSE;
+	}
+
+
+	bool ProBoolean_to_Bool ( ProBoolean in_ProBoolean )
+	{
+		if ( in_ProBoolean == PRO_B_TRUE )
+			return true;
+		else
+			return false;
+	}
+
 /**
  If a plain logfile is provided then it is expected that the logfile will be 
  placed into a directory, named "log", creating it if necessary.
@@ -47,6 +65,8 @@ namespace isis
  A viable alternative would be to consider relative paths from the working directory.
  If that were the case then the working directory needs to be passed as an argument.
 */
+
+/*
 void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception)
 {
 	::boost::filesystem::path logFilePath(in_LogFileName);
@@ -92,14 +112,9 @@ void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFi
 	clog.rdbuf(in_out_LogFile.rdbuf());
 
 }
+****/
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory ) {
-   ::boost::filesystem::current_path(inout_workingDirectory);
-   ::boost::filesystem::path workingDir = ::boost::filesystem::current_path();
-   inout_workingDirectory = workingDir.generic_string();
-   return workingDir;
-}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,47 +179,28 @@ void Populate_c_id_table( const list<int> &in_path_list, ProIdTable out_c_id_tab
 	out_c_id_table_size = in_path_list.size();
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/***
 void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const std::string  &in_AssemblyComponentID,
 							const list<int>	   &in_ChildComponentPaths,
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-							ProBoolean   in_bottom_up,
+							bool   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
 {
-	/*
-	// Must get the path from the assembly to the child
-	ProIdTable	c_id_table;
-	int			c_id_table_size;
-
-	Populate_c_id_table( in_ChildComponentPaths, c_id_table, c_id_table_size );
-
-	//std::cout << std::endl << std::endl << "in_AssemblyComponentID: " << in_AssemblyComponentID << " Name: " << in_CADComponentData_map[in_AssemblyComponentID].name ;
-	//std::cout << std::endl << "in_CADComponentData_map[in_AssemblyComponentID].modelHandle: " << in_CADComponentData_map[in_AssemblyComponentID].modelHandle;
-	//std::cout << std::endl << "in_ChildComponentID: " << in_ChildComponentID << " Name: " << in_CADComponentData_map[in_ChildComponentID].name;
-	//std::cout << std::endl << "c_id_table[0]: " << c_id_table[0];
-
-	ProAsmcomppath	comp_path;
-	isis::isis_ProAsmcomppathInit (	in_CADComponentData_map[in_AssemblyComponentID].modelHandle,	//ProSolid   p_solid_handle
-									c_id_table,			// ProIdTable 
-									c_id_table_size,	// table_size 
-									&comp_path);		// ProAsmcomppath *p_handle
 
 
-	isis::isis_ProAsmcomppathTrfGet (	&comp_path, 				//	ProAsmcomppath *p_path,
-										in_bottom_up,				// ProBoolean   bottom_up,
-										out_TransformationMatrix ); //ProMatrix    transformation);
 
-	*/
 	RetrieveTranformationMatrix_Assembly_to_Child (  
 							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
 							in_ChildComponentPaths, 
-							in_bottom_up,
+							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
 
 
 }
-
+****/
 
 void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid		&in_assembly_model,
@@ -883,8 +879,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 }
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	
+	/***
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
@@ -935,7 +930,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			errorString << std::endl << "   Assembled model name: " << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
 			for each( ConstraintPair i in in_ConstraintPairs )
 			{
-				errorString << std::endl << "      FeatureGeometryType: " << FeatureGeometryType_string(i.featureGeometryType);
+				errorString << std::endl << "      FeatureGeometryType: " << CADFeatureGeometryType_string(i.featureGeometryType);
 				for each ( ConstraintFeature j in i.constraintFeatures ) errorString << std::endl << "         ModelName: " << (string)in_out_CADComponentData_map[j.componentInstanceID].name <<  "  FeatureName: "  << (std::string) j.featureName;
 			}
 			errorString << std::endl << "   inferred_joint.first: " << inferred_joint.first;
@@ -963,7 +958,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
-	
+	****/
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
@@ -1246,268 +1241,6 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct RequiredGeometriesData
-	{
-		const std::vector<ProType>	geometries;
-		const int		geometryCount;
-		RequiredGeometriesData( const std::vector<ProType> in_Geometries, int in_GeometryCount) : geometries(in_Geometries), geometryCount(in_GeometryCount){};
-	};
-
-	// Verify that the geometries (e.g. surface, axis, point...) defined in in_ConstraintPairs (excluding constraints with guides)  
-	// exactly equal (no more no less) in_RequiredGeometries
-	bool GeometryMatchesJointType(	const std::vector<ConstraintPair>			&in_ConstraintPairs,
-									const std::vector<RequiredGeometriesData>	&in_RequiredGeometries)
-
-	{
-		int numberGeometries = in_RequiredGeometries.size();
-		std::vector<int> actualCounts(numberGeometries, 0);
-
-		int totalCountExpected = 0;
-		for each ( const RequiredGeometriesData &i in in_RequiredGeometries ) totalCountExpected += i.geometryCount;
-
-		int totalConstraintPairs_NonGuide_count = 0;
-
-		for each (  const ConstraintPair &i in in_ConstraintPairs) 
-		{
-			if ( !i.treatConstraintAsAGuide )
-			{
-				++totalConstraintPairs_NonGuide_count;
-				for ( int j = 0; j < numberGeometries; ++j)
-				{			
-					for each ( ProType k in in_RequiredGeometries[j].geometries)
-					{
-						//if ( i.featureGeometryType == k )
-						if ( FeatureGeometryType_enum(i.featureGeometryType) == k )
-							
-						{
-							++actualCounts[j];
-							break;
-						}
-					}
-				}
-			}
-		}  // END for
-
-		if ( totalConstraintPairs_NonGuide_count != totalCountExpected) return false;
-
-		for ( int i = 0; i < numberGeometries; ++i)
-		{
-			if ( actualCounts[i] != in_RequiredGeometries[i].geometryCount ) return false;
-		}
-
-		return true;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Creo Geometry Types Required for Creo Kinematic Joints:
-	//
-	// Creo Joint Type		Other Name			Creo Required Geometry
-	// ---------------		---------------		---------------------------------------
-	//	Pin					Revolute			Axis, Point or Plane
-	//	Cylinder			Cylindrical			Axis
-	//	Slider				Prismatic			Axis, Plane	
-	//	Planar									Plane (Note- Creo supports further restrictions (i.e. additional planes) but
-	//											we will assume the classical definition (3 degrees of freedom) of a planar constraint.  
-	//											Additional, planes/geometry will result in a user defined constraint.
-	//	Ball				Spherical			Point (Creo supports other geometry types, but we will only support a point)
-	//
-	//  Pre-Conditions:
-	//		in_ConstraintPairs could contain a guide, but the guide would be ignored. DO NOT call this function to determine if the constraints
-	//		including a guide represent a particular type joint.
-	//		
-	//		The order of in_ConstraintPairs is does not influence the output functions.  Elsewhere in this code, the proper sorting is applied.
-	//
-	//	Post-Conditions
-	//		If the geometry requirements in the above table are satisfied
-	//			returns the specific joint type (e.g. REVOLUTE_JOINT, SPHERICAL_JOINT, CYLINDRICAL_JOINT...)
-	//		else
-	//			return UNKNOWN_JOINT_TYPE
-	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
-													   cad::JointType in_JointType )
-	{
-			
-
-		int counter_1 = 0;
-		int counter_2 = 0;
-		std::vector<RequiredGeometriesData> requiredGeometries;
-		std::vector<ProType>	geometries;
-
-		switch ( in_JointType )
-		{
-			case  isis::cad::FIXED:
-				return FIXED_JOINT;
-				break;
-			case  isis::cad::REVOLUTE:
-				// Axis and ( plane or point)
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				geometries.clear();
-				geometries.push_back(PRO_SURFACE);
-				geometries.push_back(PRO_POINT);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return REVOLUTE_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::UNIVERSAL:
-				return UNIVERSAL_JOINT;
-				break;
-			case  isis::cad::SPHERICAL:
-				// Requires one and only one point
-				geometries.push_back(PRO_POINT);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return SPHERICAL_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::PRISMATIC:
-				// Requires an axis and plane
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				geometries.clear();
-				geometries.push_back(PRO_SURFACE);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return PRISMATIC_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::CYLINDRICAL:
-				// Requires an axis
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return CYLINDRICAL_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-
-				break;
-			
-			case  isis::cad::PLANAR:
-				// Requires an plane
-				geometries.push_back(PRO_SURFACE);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return PLANAR_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::FREE:
-				return FREE_JOINT;
-				break;
-			default:
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
-				return UNKNOWN_JOINT_TYPE;
-		}
-
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-					bool											in_Force)
-																			throw (isis::application_exception)
-																	
-	{
-			
-
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{		
-			int constraintPairs_counter = 1;
-			for (std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();  
-				 j < in_out_CADComponentData_map[i].constraintDef.constraints.end	();
-				 ++j )
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Computed joint information, ComponentInstanceID: " << i << ", Constraint pairs set " << constraintPairs_counter << " of " << in_out_CADComponentData_map[i].constraintDef.constraints.size();
-				if ( !j->computedJointData.junctiondDefined_withoutGuide || in_Force )  // without-a-guide would always be defined if either with/with-out were defined.
-				{
-					if ( j->hasAGuideConstraint() )
-					{
-						if ( !j->computedJointData.junctiondDefined_withoutGuide )
-						{				
-							// Just set the values for now
-							j->computedJointData.jointType_withguide =  FIXED_JOINT;
-							j->computedJointData.junctiondDefined_withGuide = true;						
-
-							isis_LOG(lg, isis_FILE, isis_INFO) << "   With guide (by default set to FIXED_JOINT), Joint type: " << CADJointType_string(j->computedJointData.jointType_withguide);
-
-							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
-							PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
-																				i,
-																				constraintPairs_withoutGuide,
-																				j->computedJointData.junction_withoutguide,
-																				in_out_CADComponentData_map);
-							// ttttt						
-							//j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
-							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
-							// ttttt
-							j->computedJointData.coordinatesystem = i;
-							j->computedJointData.junctiondDefined_withoutGuide = true;
-							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
-						}
-					}
-					else
-					{
-						PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
-																			i,
-																			j->constraintPairs,
-																			j->computedJointData.junction_withoutguide,
-																			in_out_CADComponentData_map );
-						j->computedJointData.junctiondDefined_withGuide = false;
-						j->computedJointData.coordinatesystem = i;
-						j->computedJointData.junctiondDefined_withoutGuide = true;
-						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
-						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Constraint pairs do not have a guide.";
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
-					}	
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "   Computed joint information already defined for ComponentInstanceID: " << i;
-				}
-
-				++constraintPairs_counter;
-			}  // for (std::vector<ConstraintData>::iterator j = ...
-		} // for each ( const std::string i in in_ListOfComponentIDsInTheAssembly )
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	static void transform(const e3ga::vector &location, const e3ga::vector &orientation, double m[4][4], e3ga::vector &out_location, e3ga::vector& out_orientation)
 	{
@@ -1535,7 +1268,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		out_orientation.m_e3 = buff[2];
 	}
 
-	void	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+			cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -1559,14 +1293,24 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					   std::endl << "   Component Instance ID: " <<  i;   	  
 					throw isis::application_exception(errorString);
 				}
+
+
+
 				
 				// Get transformation matrix from the global coordinate system to the assembled .prt/.asm
 				double transformationMatrix[4][4];  // rotation 3 X 3, translation at bottom row of the 4 X 4
-				RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
-																in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
-																in_out_CADComponentData_map,  
-																PRO_B_TRUE,  // bottom up
-																transformationMatrix );
+				//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+				//												in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
+				//												in_out_CADComponentData_map,  
+				//												PRO_B_TRUE,  // bottom up
+				//												transformationMatrix );
+
+				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				modelOperations.retrieveTranformationMatrix_Assembly_to_Child ( in_AssemblyComponentID,
+																				j->computedJointData.coordinatesystem,  
+																				in_out_CADComponentData_map,  
+																				true,  // bottom up
+																				transformationMatrix );
 
 #if 0
 				// There's something wrong with the quaternion transformation
@@ -1703,7 +1447,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						const std::string							&in_TopAssemblyComponentInstanceID, 
 						const std::string							&in_ComponentInstanceID,
 						const MultiFormatString						&in_FeatureName,
-						ProType										in_FeatureGeometryType,
+						//ProType									in_FeatureGeometryType,
+						e_CADFeatureGeometryType						in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 						std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
 						std::set<std::string>						&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
@@ -1737,7 +1482,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 												ProMdlType_enum(in_CADComponentData_map[in_ComponentInstanceID].modelType),   
 																	//in_ContraintDef.p_base_model, //base_model, // Original arguments
 												model, //base_model, // Original arguments
-												in_FeatureGeometryType, 
+												//in_FeatureGeometryType, 
+												FeatureGeometryType_enum(in_FeatureGeometryType),
 												in_FeatureName, 
 												&model_datum);  
 
@@ -1839,7 +1585,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
 																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
@@ -1912,7 +1659,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 								FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																l->componentInstanceID,
 																l->featureName,
-																FeatureGeometryType_enum(k->featureGeometryType),
+																//FeatureGeometryType_enum(k->featureGeometryType),
+																k->featureGeometryType,
 																//k->featureGeometryType,
 																in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																in_out_CADComponentData_map,
@@ -1935,7 +1683,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
 																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
@@ -2013,7 +1762,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		} // END for each ( const std::string &i in in_AssemblyComponentIDs )
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/***
 	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
@@ -2166,7 +1915,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
-
+	**/
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	

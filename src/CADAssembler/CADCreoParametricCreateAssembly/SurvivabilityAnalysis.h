@@ -10,6 +10,7 @@ namespace isis
 
 
 	void PopulateBallisticFiles( 
+					cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )

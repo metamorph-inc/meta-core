@@ -75,8 +75,8 @@ namespace isis
 		//									familyTableEntry,
 		//									familyTableModel );
 
-		isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
-		modelNames.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
+		isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+		modelHandling.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
 														out_ModelName_Without_Suffix,
 														familyTableEntry,
 														familyTableModel );
@@ -86,7 +86,7 @@ namespace isis
 			int tempAllowedSize = in_AllowedSize - familyTableEntry.size() - 2;  // -2 for the "<" aand ">"
 			out_ModelName_With_Suffix = MergeStrings_TryToKeepWithinAllowedSize(out_ModelName_Without_Suffix, tempUniqueString, tempAllowedSize);
 			//out_CompleteName = BuildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
-			out_CompleteName = modelNames.buildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
+			out_CompleteName = modelHandling.buildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
 
 		}
 		else
@@ -172,8 +172,8 @@ namespace isis
 			//									familyTableEntry,
 			//									familyTableModel );
 
-			isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
-			modelNames.extractModelNameAndFamilyTableEntry( i->second.name, 
+			isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+			modelHandling.extractModelNameAndFamilyTableEntry( i->second.name, 
 															origNameWithoutFamilyEntry_temp,
 															familyTableEntry,
 															familyTableModel );
@@ -191,7 +191,7 @@ namespace isis
 			}
 
 			std::string modelNameWithSuffix = 
-				ConvertToUpperCase(modelNames.combineCADModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
+				ConvertToUpperCase(modelHandling.combineCADModelNameAndSuffix(origNameWithoutFamilyEntry_temp, i->second.modelType) );
 				//ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
 
 			//std::cout << std::endl << "############## BuildListOfCADModels_ThatShouldBeCopiedToNewNames, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
@@ -461,11 +461,10 @@ namespace isis
 		for each ( CopyModelDefinition i  in in_FromModel_ToModel)
 
 		{
-			isis::cad::IModelNames&           modelNames    = in_Factory.getModelNames();
 			isis::cad::IModelHandling&        modelHandling = in_Factory.getModelHandling();
 
 			std::string modelNameWithSuffix = 
-				   ConvertToUpperCase (modelNames.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
+				   ConvertToUpperCase (modelHandling.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
 				   //ConvertToUpperCase (CombineCreoModelNameAndSuffix(i.fromModelName, i.modelType) );
 
 			// Assure that the source model is saved to the working directory only once.
@@ -668,5 +667,355 @@ namespace isis
 			}
 		}
 	} // END CheckValidityOfJointInformation
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentID, 
+					const std::vector<ConstraintPair>				&in_ConstraintPairs,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception)
+	{
+		
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from CADAssembly.xml)";
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
+
+		cad::IAssembler& assembler = in_Factory.get_assembler();
+
+		std::vector< cad::Joint::pair_t > joint_pair_vector = assembler.extract_joint_pair_vector(in_ComponentID, in_ConstraintPairs, in_out_CADComponentData_map);
+		
+		for each ( ConstraintPair i in in_ConstraintPairs )
+		{
+			isis_LOG(lg, isis_FILE, isis_INFO) << "FeatureGeometryType_string(i.featureGeometryType): " << CADFeatureGeometryType_string(i.featureGeometryType);
+			for each ( ConstraintFeature j in i.constraintFeatures )
+				isis_LOG(lg, isis_FILE, isis_INFO) << "   FeatureName: "  << (std::string) j.featureName;
+		}
+
+		cad::Joint::pair_t inferred_joint = cad::infer_joint_pair(joint_pair_vector);
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.type:    " << JointType_string(inferred_joint.first.type);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.location:" << inferred_joint.first.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.first.orientation:" << inferred_joint.first.orientation.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.type:   " << JointType_string(inferred_joint.second.type);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.location:" << inferred_joint.second.location.c_str_e20();
+		isis_LOG(lg, isis_FILE, isis_INFO) << "inferred_joint.second.orientation:" << inferred_joint.second.orientation.c_str_e20();
+
+
+		out_Junction.update(inferred_joint);
+
+		// A type of cad::COMPOSITE means that infer_joint_pair could not determine the actual joint type.  This program
+		// should be extended to evaluate the particular set of datums.
+		if ( inferred_joint.first.type == cad::COMPOSITE || inferred_joint.second.type == cad::COMPOSITE )
+		{
+			std::stringstream errorString;
+			errorString 
+				<< "Function - infer_joint_pair, returned a type of COMPOSITE.  This means that this program " 
+				<<	std::endl << "could not infer the joint type given the set of datums; therefore, this program should be "
+				<<	std::endl << "extended to handle this case.";
+
+			errorString << std::endl << "   Assembled model name: " << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
+			for each( ConstraintPair i in in_ConstraintPairs )
+			{
+				errorString << std::endl << "      FeatureGeometryType: " << CADFeatureGeometryType_string(i.featureGeometryType);
+				for each ( ConstraintFeature j in i.constraintFeatures ) errorString << std::endl << "         ModelName: " << (std::string)in_out_CADComponentData_map[j.componentInstanceID].name <<  "  FeatureName: "  << (std::string) j.featureName;
+			}
+			errorString << std::endl << "   inferred_joint.first: " << inferred_joint.first;
+			errorString << std::endl << "   inferred_joint.second: " << inferred_joint.second;
+
+			for each (  cad::Joint::pair_t i in joint_pair_vector ) 
+			{
+				errorString << std::endl << "   First Joint Primitive:  " << i.first;
+				errorString << std::endl << "   Second Joint Primitive: " << i.second;
+			}
+
+			for each ( cad::Joint i in inferred_joint.first.composite )
+			{
+				errorString << std::endl << "   Composite joint: " << i;
+			}
+
+
+			isis_LOG(lg, isis_FILE, isis_WARN) << errorString.str();
+
+			// snyako@isis.vanderbilt.edu : take this error lightly for the time being - otherwise many older model won't work.
+
+			//throw isis::application_exception(errorString);
+
+
+		}
+
+	}
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// gggggggggggggggg BEGIN  END Code Remove
+	struct RequiredGeometriesData
+	{
+		// const std::vector<ProType>	geometries;
+		const std::vector<e_CADFeatureGeometryType>		geometries;
+		const int		geometryCount;
+		//RequiredGeometriesData( const std::vector<ProType> in_Geometries, int in_GeometryCount) : geometries(in_Geometries), geometryCount(in_GeometryCount){};
+		RequiredGeometriesData( const std::vector<e_CADFeatureGeometryType> in_Geometries, int in_GeometryCount) : geometries(in_Geometries), geometryCount(in_GeometryCount){};
+	};
+
+	// Verify that the geometries (e.g. surface, axis, point...) defined in in_ConstraintPairs (excluding constraints with guides)  
+	// exactly equal (no more no less) in_RequiredGeometries
+	bool GeometryMatchesJointType(	const std::vector<ConstraintPair>			&in_ConstraintPairs,
+									const std::vector<RequiredGeometriesData>	&in_RequiredGeometries)
+
+	{
+		int numberGeometries = in_RequiredGeometries.size();
+		std::vector<int> actualCounts(numberGeometries, 0);
+
+		int totalCountExpected = 0;
+		for each ( const RequiredGeometriesData &i in in_RequiredGeometries ) totalCountExpected += i.geometryCount;
+
+		int totalConstraintPairs_NonGuide_count = 0;
+
+		for each (  const ConstraintPair &i in in_ConstraintPairs) 
+		{
+			if ( !i.treatConstraintAsAGuide )
+			{
+				++totalConstraintPairs_NonGuide_count;
+				for ( int j = 0; j < numberGeometries; ++j)
+				{			
+					//for each ( ProType k in in_RequiredGeometries[j].geometries)
+					for each ( e_CADFeatureGeometryType k in in_RequiredGeometries[j].geometries)
+					{
+						//if ( FeatureGeometryType_enum(i.featureGeometryType) == k )
+						if ( i.featureGeometryType == k )	
+						{
+							++actualCounts[j];
+							break;
+						}
+					}
+				}
+			}
+		}  // END for
+
+		if ( totalConstraintPairs_NonGuide_count != totalCountExpected) return false;
+
+		for ( int i = 0; i < numberGeometries; ++i)
+		{
+			if ( actualCounts[i] != in_RequiredGeometries[i].geometryCount ) return false;
+		}
+
+		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
+													   cad::JointType in_JointType )
+	{
+			
+
+		int counter_1 = 0;
+		int counter_2 = 0;
+		std::vector<RequiredGeometriesData> requiredGeometries;
+
+		//std::vector<ProType>	geometries;
+		std::vector<e_CADFeatureGeometryType>	geometries;
+
+		switch ( in_JointType )
+		{
+			case  isis::cad::FIXED:
+				return FIXED_JOINT;
+				break;
+			case  isis::cad::REVOLUTE:
+				// Axis and ( plane or point)
+				//geometries.push_back(PRO_AXIS);
+				geometries.push_back(CAD_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				geometries.clear();
+				//geometries.push_back(PRO_SURFACE);
+				//geometries.push_back(PRO_POINT);
+				geometries.push_back(CAD_SURFACE);
+				geometries.push_back(CAD_POINT);
+
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return REVOLUTE_JOINT;
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::UNIVERSAL:
+				return UNIVERSAL_JOINT;
+				break;
+			case  isis::cad::SPHERICAL:
+				// Requires one and only one point
+				//geometries.push_back(PRO_POINT);
+				geometries.push_back(CAD_POINT);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return SPHERICAL_JOINT;
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::PRISMATIC:
+				// Requires an axis and plane
+				//geometries.push_back(PRO_AXIS);
+				geometries.push_back(CAD_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				geometries.clear();
+				//geometries.push_back(PRO_SURFACE);
+				geometries.push_back(CAD_SURFACE);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return PRISMATIC_JOINT;
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::CYLINDRICAL:
+				// Requires an axis
+				//geometries.push_back(PRO_AXIS);
+				geometries.push_back(CAD_AXIS);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return CYLINDRICAL_JOINT;
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+
+				break;
+			
+			case  isis::cad::PLANAR:
+				// Requires an plane
+				//geometries.push_back(PRO_SURFACE);
+				geometries.push_back(CAD_SURFACE);
+				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
+
+				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
+				{
+					return PLANAR_JOINT;
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
+					return UNKNOWN_JOINT_TYPE;
+				}
+				break;
+			case  isis::cad::FREE:
+				return FREE_JOINT;
+				break;
+			default:
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
+				return UNKNOWN_JOINT_TYPE;
+		}
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
+					bool												in_Force)
+																			throw (isis::application_exception)
+																	
+	{
+		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
+		{		
+			int constraintPairs_counter = 1;
+			for (std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();  
+				 j < in_out_CADComponentData_map[i].constraintDef.constraints.end	();
+				 ++j )
+			{
+
+
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Computed joint information, ComponentInstanceID: " << i << ", Constraint pairs set " << constraintPairs_counter << " of " << in_out_CADComponentData_map[i].constraintDef.constraints.size();
+				if ( !j->computedJointData.junctiondDefined_withoutGuide || in_Force )  // without-a-guide would always be defined if either with/with-out were defined.
+				{
+					if ( j->hasAGuideConstraint() )
+					{
+						if ( !j->computedJointData.junctiondDefined_withoutGuide )
+						{				
+
+							// Just set the values for now
+							j->computedJointData.jointType_withguide =  FIXED_JOINT;
+							j->computedJointData.junctiondDefined_withGuide = true;						
+
+							isis_LOG(lg, isis_FILE, isis_INFO) << "   With guide (by default set to FIXED_JOINT), Joint type: " << CADJointType_string(j->computedJointData.jointType_withguide);
+
+
+
+							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
+							PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+																				i,
+																				constraintPairs_withoutGuide,
+																				j->computedJointData.junction_withoutguide,
+																				in_out_CADComponentData_map);
+
+							// ttttt						
+							//j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+
+							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
+							// ttttt
+							j->computedJointData.coordinatesystem = i;
+							j->computedJointData.junctiondDefined_withoutGuide = true;
+							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
+
+
+						}
+					}
+					else
+					{
+						PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+																			i,
+																			j->constraintPairs,
+																			j->computedJointData.junction_withoutguide,
+																			in_out_CADComponentData_map );
+						j->computedJointData.junctiondDefined_withGuide = false;
+						j->computedJointData.coordinatesystem = i;
+						j->computedJointData.junctiondDefined_withoutGuide = true;
+						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
+						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Constraint pairs do not have a guide.";
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
+					}	
+				}
+				else
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   Computed joint information already defined for ComponentInstanceID: " << i;
+				}
+
+				++constraintPairs_counter;
+			}  // for (std::vector<ConstraintData>::iterator j = ...
+		} // for each ( const std::string i in in_ListOfComponentIDsInTheAssembly )
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

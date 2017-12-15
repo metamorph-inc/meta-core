@@ -152,9 +152,9 @@ int main(int argc, char *argv[])
         }
 
 		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
-		//environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
+		//cADSession.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
 		//									workingDir.generic_string(),					// in 
 		//									programInputArguments.auxiliaryCADDirectory,    // Auxiliary CAD Directory
 		//									programInputArguments.graphicsModeOn,			// in
@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 		//									CADExtensionsDir,								// out
 		//									templateFile_PathAndFileName);					// out
 
-		environment.setupCADEnvironment(	programInputArguments,
+		cADSession.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName);					// out

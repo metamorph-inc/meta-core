@@ -62,24 +62,23 @@ public:
 };
 
 
-class IEnvironment {
+class ICADSession {
 public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
-	
-	/****
-	// Description:
-	//		Get the full path to the CAD Extensions Directory.  This directory contains the executables, starter CAD models, schemas, and 
-	//		templates that are necessary for the CreateAssembly and MetaLink programs to run.
-	//		For Creo, this would typically be: C:\Program Files (x86)\META\bin\CAD\Creo
-	// Pre-Conditions:
-	//		None
-	// Post-Conditions:
-	//		If the registry entry META_PATH does not exist, then application_exception will be thrown;
-	//		otherwise, the path to CADExtensionsDir will be returned.
-	virtual std::string getCADExtensionsDir() throw (isis::application_exception) = 0;
-	******/
 
+	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception) = 0;
+	virtual void stopCADProgram( )  const throw (isis::application_exception) = 0;
+
+	// The CAD session must have been started before calling this function.  This function retreives the version
+	// number of the current CAD session.
+	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+										int		&out_IntVersionNumber, 
+										bool	&out_FloatVersionNumber_Set,
+										double  &out_FloatVersionNumber )  const throw (isis::application_exception) = 0;
+
+	// For Creo, the following function is not thread safe.
+	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception) = 0;
 
 
 	// Description:
@@ -102,7 +101,6 @@ public:
 	//		
 	//		If no exceptions, then the CAD environment would be initialized and the out_* variables returned.
 	//
-
 
 	virtual void setupCADEnvironment(	
 
@@ -161,10 +159,38 @@ public:
 
 };
 
-class IModelNames {
+/**
+class IModelHandling {
 public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
+
+
+
+};
+**/
+
+class IModelHandling {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+	// out_RetrievedModelHandle handle is an in memory handle to the model
+	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
+
+	// in_ModelHandle handle is an in memory handle to the model
+	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
+
+	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
+								   const isis::MultiFormatString		&in_FromModelName,
+								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
+
+	virtual void cADModelSave( 
+					const std::string								&in_ComponentID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																		throw (isis::application_exception) = 0;	
 
 	virtual void extractModelNameAndFamilyTableEntry(	
 		// This could be either:
@@ -194,52 +220,11 @@ public:
 };
 
 
-class IModelHandling {
-public:
-	// provide the name of the concrete assembler
-	virtual std::string name() = 0;
-
-	// out_RetrievedModelHandle handle is an in memory handle to the model
-	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
-									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
-									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
-
-	// in_ModelHandle handle is an in memory handle to the model
-	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
-
-	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
-								   const isis::MultiFormatString		&in_FromModelName,
-								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
-
-	virtual void cADModelSave( 
-					const std::string								&in_ComponentID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
-																		throw (isis::application_exception) = 0;	
-};
+// Forward declare, because used in CadFactoryAbstract 
+class CadFactoryAbstract;
 
 
-
-class ICADSession {
-public:
-	// provide the name of the concrete assembler
-	virtual std::string name() = 0;
-
-	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception) = 0;
-	virtual void stopCADProgram( )  const throw (isis::application_exception) = 0;
-
-	// The CAD session must have been started before calling this function.  This function retreives the version
-	// number of the current CAD session.
-	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
-										int		&out_IntVersionNumber, 
-										bool	&out_FloatVersionNumber_Set,
-										double  &out_FloatVersionNumber )  const throw (isis::application_exception) = 0;
-
-	// For Creo, the following function is not thread safe.
-	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception) = 0;
-};
-
-
-class ICADComponentDataStructure {
+class IModelOperations {
 public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
@@ -273,28 +258,83 @@ public:
 					const std::string								&in_TopAssemblyComponentID,
 					const isis::CopyModelDefinition					&in_CopyModelDefinition, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-																		throw (isis::application_exception) = 0;																		
-			
-};
-
-// Forward declare, because used in CadFactoryAbstract 
-class CadFactoryAbstract;
-
-class IAssemblyConstraints {
-public:
-	// provide the name of the concrete assembler
-	virtual std::string name() = 0;
+																		throw (isis::application_exception) = 0;			
 
 	// This function should probably be further divided so that the following function is general (i.e. cad common (cc_)).
 	// Calls to the CADFactroy would be made from the general function.
 	// ?? Documenation of this function is needed.
-	virtual void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception) = 0;
+
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_ChildComponentID,
+								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool  in_bottom_up,
+								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string									&in_AssemblyComponentID,
+								const std::list<int>									&in_ChildComponentPaths,
+								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool  in_bottom_up,
+								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+			
 };
+
+
+/***
+class IFeature {
+public:
+	// provide the name of the concrete assembler
+	virtual std::string name() = 0;
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Description: 
+	//		This function resolves the references of in_FeatureName to the parts that are referenced by in_FeatureName.  
+	//		For example, in_FeatureName could be a datum (i.e. plane, axis, point, or coordinate system) and that datum 
+	//		could be defined by pointing to part geometry.  This function follows those refereces until it finds the parts 
+	//		that own the referenced geometry.  A common use case is a datum plane in an assembly where the datum plane 
+	//		points to a second datum plane in a sub-part, wherein the second datum plane points to geometry in the sub-part.  
+	//		This function would return the ComponentInstanceIDs of the parts that own the referenced geometry.
+	//
+	//		It should be noted that a datum can reference more than one geometries and those geometries can be in separate
+	//		parts.
+	// 
+	//	Pre-Conditions:
+	//		This function should be called with out_ComponentInstanceIDs_of_PartsReferencedByFeature_set being empty.
+	//
+	//		in_TopAssemblyModel_ComponentInstanceID must be in in_CADComponentData_map and be the top assembly for the 
+	//		entire assembly structure containing in_ComponentInstanceID
+	//
+	//		in_ComponentInstanceID must be in CADComponentData_map
+	//
+	//	Post-Conditions
+	//		if in_FeatureName not found in in_ComponentInstanceID then throw throw (isis::application_exception)
+	//
+	//		If no exceptions 
+	//			then 
+	//				out_ComponentInstanceIDs_of_PartsReferencedByFeature_set would be populated with 0 to many ComponentInstanceIDs.
+	//				It could be 0 because in_FeatureName might only have references to an assembly and this function only finds 
+	//				references to parts.
+	virtual void FindPartsReferencedByFeature(	
+						const std::string							&in_TopAssemblyComponentInstanceID, 
+						const std::string							&in_ComponentInstanceID,
+						const MultiFormatString						&in_FeatureName,
+						e_CADFeatureGeometryType							in_FeatureGeometryType,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+																			throw (isis::application_exception) = 0;
+
+
+};
+****/
+
 
 
 class CadFactoryAbstract {
@@ -309,12 +349,9 @@ public:
 	manipulating the assembly.
 	*/
 	virtual IAssembler&					 get_assembler() = 0;
-	virtual IEnvironment&				 getEnvironment() = 0;
-	virtual IModelNames&				 getModelNames() = 0;
+	virtual ICADSession&				     getCADSession() = 0;
 	virtual IModelHandling&				 getModelHandling() = 0;
-	virtual ICADSession&				 getCADSession() = 0;
-    virtual ICADComponentDataStructure&  getCADComponentDataStructure() = 0;
-	virtual IAssemblyConstraints&		 getAssemblyConstraints() = 0;
+    virtual IModelOperations&            getModelOperations() = 0;
 };
 
 

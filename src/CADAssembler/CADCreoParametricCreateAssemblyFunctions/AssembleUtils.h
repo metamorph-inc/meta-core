@@ -16,23 +16,14 @@ namespace isis
 {
 	std::string META_PATH();
 
-
-
-
-
-
-
-
+	ProBoolean Bool_to_ProBoolean ( bool in_Bool);
+	bool       ProBoolean_to_Bool ( ProBoolean in_ProBoolean );
 
 	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
 										  e_ComputationType					in_ComputationType,
 										  std::vector<CADComputation>		&out_CADComputations );
 
-
-	void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception);
-
-	// This function hase a side effect, it changed the current working directory, and the input parameter.
-	::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory );
+	//void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception);
 
 	const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
 
@@ -46,12 +37,12 @@ namespace isis
 	
 	void Populate_c_id_table( const std::list<int> &in_path_list, ProIdTable out_c_id_table, int &out_c_id_table_size );
 
-	void RetrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string  &in_AssemblyComponentID,
-							const std::list<int>	   &in_ChildComponentPaths,
-							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-							ProBoolean   in_bottom_up,
-							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+	//void RetrieveTranformationMatrix_Assembly_to_Child (  
+	//						const std::string  &in_AssemblyComponentID,
+	//						const std::list<int>	   &in_ChildComponentPaths,
+	//						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+	//						bool   in_bottom_up,
+	//						double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid	   &in_assembly_model,
@@ -223,6 +214,7 @@ namespace isis
 																			throw (isis::application_exception);
 
 	void	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+			cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -257,12 +249,13 @@ namespace isis
 			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
 
-	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_Factory,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
-			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
-																		throw (isis::application_exception);
+
+	//void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
+	//		cad::CadFactoryAbstract													&in_Factory,
+	//		const std::vector<std::string>											&in_AssemblyComponentIDs,
+	//		const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+	//		std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
+	//																	throw (isis::application_exception);
 
 
 	void ResolveAssemblyConstraints_AddMarkersToMap( 
@@ -344,6 +337,8 @@ namespace isis
 						std::set<std::string>												&out_ReferencedComponentInstanceIDs)
 																				throw (isis::application_exception);
 
+	/****
+
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
@@ -352,6 +347,7 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 						throw (isis::application_exception);
 
+	***/
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,

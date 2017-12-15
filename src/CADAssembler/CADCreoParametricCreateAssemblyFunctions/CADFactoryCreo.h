@@ -50,16 +50,9 @@ public:
 };
 
 
-class  EnvironmentCreo : public IEnvironment {
+class  CADSessionCreo : public ICADSession {
 	public:
-		// provide the name of the concrete assembler
-		std::string name() { return "EnvironmentCreo";}
-
-		//std::string getCADExtensionsDir() throw (isis::application_exception);
-
-
-		// This function does any setup that is necessary before invoking the CAD application
-		//virtual void setupCADEnvirnoment ( const DataContainer &in_DataContainer) throw (isis::application_exception) = 0;
+		std::string name() { return "CADSessionCreo";}
 
 
 	void setupCADEnvironment(	
@@ -81,14 +74,41 @@ class  EnvironmentCreo : public IEnvironment {
 			std::string		&out_CADExtensionsDir,
 			std::string		&out_TemplateFile_PathAndFileName ) const throw (isis::application_exception);
 
+	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception);
+	virtual void stopCADProgram() const throw (isis::application_exception);
+
+	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+										int		&out_IntVersionNumber, 
+										bool	&out_FloatVersionNumber_Set,
+										double  &out_FloatVersionNumber )  const throw (isis::application_exception);
+
+	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception);
+
 };
 
 
-class  ModelNamesCreo : public IModelNames {
+
+
+class  ModelHandlingCreo : public IModelHandling {
 	public:
 		// provide the name of the concrete assembler
-		std::string name() { return "ModelNamesCreo";}
+		std::string name() { return "ModelHandlingCreo";}
 
+
+	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
+
+	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
+
+	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
+								   const isis::MultiFormatString		&in_FromModelName,
+								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
+
+	virtual void cADModelSave( 
+					const std::string								&in_ComponentID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																		throw (isis::application_exception);
 
 	// e.g. in_OrigName				Chassis_8_Wheel<Chassis>
 	//		out_ModelName			Chassis
@@ -120,49 +140,11 @@ class  ModelNamesCreo : public IModelNames {
 };
 
 
-class  ModelHandlingCreo : public IModelHandling {
+
+
+class  ModelOperationsCreo : public IModelOperations {
 	public:
-		// provide the name of the concrete assembler
-		std::string name() { return "ModelHandlingCreo";}
-
-
-	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
-									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
-									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
-
-	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
-
-	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
-								   const isis::MultiFormatString		&in_FromModelName,
-								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
-
-	virtual void cADModelSave( 
-					const std::string								&in_ComponentID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
-																		throw (isis::application_exception);
-};
-
-class  CADSessionCreo : public ICADSession {
-	public:
-		std::string name() { return "CADSessionCreo";}
-
-
-	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception);
-	virtual void stopCADProgram() const throw (isis::application_exception);
-
-	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
-										int		&out_IntVersionNumber, 
-										bool	&out_FloatVersionNumber_Set,
-										double  &out_FloatVersionNumber )  const throw (isis::application_exception);
-
-	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception);
-
-};
-
-
-class  CADComponentDataStructureCreo : public ICADComponentDataStructure {
-	public:
-		std::string name() { return "CADComponentDataStructureCreo";}
+		std::string name() { return "ModelOperationsCreo";}
 
 	virtual void forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
@@ -176,36 +158,40 @@ class  CADComponentDataStructureCreo : public ICADComponentDataStructure {
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
 
-};
-
-
-class  AssemblyConstraintsCreo : public IAssemblyConstraints {
-	public:
-		std::string name() { return "AssemblyConstraintsCreo";}
-
-
-
-	virtual void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
 
-};
 
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_ChildComponentID,
+								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool  in_bottom_up,
+								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string									&in_AssemblyComponentID,
+								const std::list<int>									&in_ChildComponentPaths,
+								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool  in_bottom_up,
+								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+
+
+};
 
 
 class CadFactoryCreo : public CadFactoryAbstract
 {
 private:
 	AssemblerCreo assembler;
-	EnvironmentCreo environment;
-	ModelNamesCreo modelNames;
-    ModelHandlingCreo modelHandling;
 	CADSessionCreo  cADSession;
-	CADComponentDataStructureCreo cADComponentDataStructureCreo;
-	AssemblyConstraintsCreo   assemblyConstraintsCreo;
+    ModelHandlingCreo modelHandling;
+
+	ModelOperationsCreo ModelOperationsCreo;
 
 public:
 	// provide the name of the concrete factory
@@ -216,29 +202,21 @@ public:
 		return assembler;
 	};
 
-	IEnvironment& getEnvironment() {
-		return environment;
+	ICADSession& getCADSession() {
+		return cADSession;
 	};
 
-	IModelNames& getModelNames() {
-		return modelNames;
-	};
 
 	IModelHandling& getModelHandling() {
 		return modelHandling;
 	};
 
-	ICADSession& getCADSession() {
-		return cADSession;
+
+	IModelOperations& getModelOperations() {
+		return ModelOperationsCreo;
 	};
 
-	ICADComponentDataStructure& getCADComponentDataStructure() {
-		return cADComponentDataStructureCreo;
-	};
 
-	IAssemblyConstraints& getAssemblyConstraints() {
-		return assemblyConstraintsCreo;
-	};
 
 };
 

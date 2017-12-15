@@ -80,10 +80,11 @@ namespace isis
 	// systems has the z axis pointing from the front of the vehicle to the back of the vehicle and the Y axis 
 	// pointing upward; the azimuth angle would be from the negative z axis clockwise around the y axis, where 
 	// clockwise would be looking from a positive y coordinate onto the x-y plane. 
-	void ComputeShotLine( const Shotline &in_Shotline, 
-						  const std::string								&in_AssemblyComponentID,
-						  std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						  isis_CADCommon::CADCommon_Shotline			&out_CADCommon_Shotline )
+	void ComputeShotLine(	cad::CadFactoryAbstract							&in_Factory,
+							const Shotline									&in_Shotline, 
+							const std::string								&in_AssemblyComponentID,
+							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+							isis_CADCommon::CADCommon_Shotline				&out_CADCommon_Shotline )
 	{
 		double azimuth_radians;
 		double elevation_radians;
@@ -93,7 +94,8 @@ namespace isis
 
 		CADPoint targetPoint;
 
-	    RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
+	    RetrieveDatumPointCoordinates(	in_Factory,
+										in_AssemblyComponentID,
 										in_Shotline.datumPoint_ComponentID,
 										in_CADComponentData_map,
 										in_Shotline.datumPoint,
@@ -113,6 +115,7 @@ namespace isis
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateBallisticFiles( 
+					cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
@@ -158,7 +161,8 @@ namespace isis
 			for each ( const Shotline j in i.shotlines)
 			{
 				isis_CADCommon::CADCommon_Shotline CADCommon_Shotline;
-				ComputeShotLine(	j, 
+				ComputeShotLine(	    in_Factory,
+									j, 
 									in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
 									CADCommon_Shotline );

@@ -188,7 +188,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /**************
-std::string EnvironmentCreo::getCADExtensionsDir() throw (isis::application_exception)
+std::string CADSessionCreo::getCADExtensionsDir() throw (isis::application_exception)
 {
 	std::string META_PATH_str = META_PATH();
 
@@ -207,9 +207,57 @@ std::string EnvironmentCreo::getCADExtensionsDir() throw (isis::application_exce
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception)
+{
+	char tempBuffer[1024];
+	strcpy(tempBuffer, in_StartCommand.c_str() );
+	isis::isis_ProEngineerStart(tempBuffer,"");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::stopCADProgram() const throw (isis::application_exception)
+{
+	isis::isis_ProEngineerEnd();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+											int		&out_IntVersionNumber, 
+											bool	&out_FloatVersionNumber_Set,
+											double  &out_FloatVersionNumber )  const throw (isis::application_exception)
+{
+	out_IntVersionNumber_Set = false;
+	out_FloatVersionNumber_Set = false;
+	out_IntVersionNumber = 0;
+	out_FloatVersionNumber = 0.0;
+
+	int creoVersionNumber;
+	isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
+
+	out_IntVersionNumber = creoVersionNumber;
+	out_IntVersionNumber_Set = true;
+}
+
+// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
+// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
+// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
+// access the address of the buffer used in the previous call.  Therefore, the same address must be used 
+// between calls, or at least, the previously used buffer address must still be valid.
+//
+// This function is not thread safe.
+void CADSessionCreo::setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
+{
+	
+	static wchar_t *setCreoWorkingDirectory_buffer = NULL;
+
+	if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];
+		
+	wcscpy_s( setCreoWorkingDirectory_buffer, PRO_PATH_SIZE, (const wchar_t*)in_MultiFormatString);
+	isis::isis_ProDirectoryChange( setCreoWorkingDirectory_buffer );
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::setupCADEnvironment(	
 			const CreateAssemblyInputArguments &in_CreateAssemblyInputArguments,
 			std::string		&out_CADStartCommand,	
 			std::string		&out_CADExtensionsDir,
@@ -262,7 +310,7 @@ void EnvironmentCreo::setupCADEnvironment(
 }
 
 
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::setupCADEnvironment(	
 		const MetaLinkInputArguments &in_MetaLinkInputArguments,
 		std::string		&out_CADStartCommand,	
 		std::string		&out_CADExtensionsDir,
@@ -285,7 +333,7 @@ void EnvironmentCreo::setupCADEnvironment(
 }
 
 
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::setupCADEnvironment(	
 			const ExtractACMInputArguments &in_ExtractACMInputArguments,
 			std::string		&out_CADStartCommand,	
 			std::string		&out_CADExtensionsDir,
@@ -380,7 +428,7 @@ void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, con
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
+void ModelHandlingCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
 															std::string			&out_ModelName,
 															std::string			&out_FamilyTableEntry,
 															bool				&out_FamilyTableModel ) const throw (isis::application_exception)
@@ -415,7 +463,7 @@ void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-std::string ModelNamesCreo::buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
+std::string ModelHandlingCreo::buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
 																const std::string &in_FamilyTableEntry )
 {
 	return in_FamilyTableEntry + "<" + in_ModelName + ">";
@@ -423,7 +471,7 @@ std::string ModelNamesCreo::buildAFamilyTableCompleteModelName ( const std::stri
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::string ModelNamesCreo::combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
+std::string ModelHandlingCreo::combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
 															throw (isis::application_exception)
 {
 	if ( in_ModelName.size() == 0 )
@@ -487,57 +535,11 @@ void  ModelHandlingCreo::cADModelFileCopy (	e_CADMdlType 						in_ModelType,
  }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void CADSessionCreo::startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception)
-{
-	char tempBuffer[1024];
-	strcpy(tempBuffer, in_StartCommand.c_str() );
-	isis::isis_ProEngineerStart(tempBuffer,"");
-}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-void CADSessionCreo::stopCADProgram() const throw (isis::application_exception)
-{
-	isis::isis_ProEngineerEnd();
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-void CADSessionCreo::getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
-											int		&out_IntVersionNumber, 
-											bool	&out_FloatVersionNumber_Set,
-											double  &out_FloatVersionNumber )  const throw (isis::application_exception)
-{
-	out_IntVersionNumber_Set = false;
-	out_FloatVersionNumber_Set = false;
-	out_IntVersionNumber = 0;
-	out_FloatVersionNumber = 0.0;
-
-	int creoVersionNumber;
-	isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
-
-	out_IntVersionNumber = creoVersionNumber;
-	out_IntVersionNumber_Set = true;
-}
-
-// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
-// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
-// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
-// access the address of the buffer used in the previous call.  Therefore, the same address must be used 
-// between calls, or at least, the previously used buffer address must still be valid.
-//
-// This function is not thread safe.
-void CADSessionCreo::setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
-{
-	
-	static wchar_t *setCreoWorkingDirectory_buffer = NULL;
-
-	if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];
-		
-	wcscpy_s( setCreoWorkingDirectory_buffer, PRO_PATH_SIZE, (const wchar_t*)in_MultiFormatString);
-	isis::isis_ProDirectoryChange( setCreoWorkingDirectory_buffer );
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void CADComponentDataStructureCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
+void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 				const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
 				int												&in_out_NonCyPhyID_counter,
 				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -653,7 +655,7 @@ void CADComponentDataStructureCreo::forEachLeafAssemblyInTheInputXML_AddInformat
 	}
 }
 
-void CADComponentDataStructureCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
+void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
 					const std::string								&in_TopAssemblyComponentID,
 					const isis::CopyModelDefinition						&in_CopyModelDefinition, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -722,7 +724,7 @@ void CADComponentDataStructureCreo::modify_CADInternalHierarchyRepresentation_CA
 
 
 
-void AssemblyConstraintsCreo::PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
@@ -737,7 +739,7 @@ void AssemblyConstraintsCreo::PopulateMap_with_Junctions_and_ConstrainedToInfo_p
 		for each ( const std::string &i in trimmedListOfComponentIDs )
 		{
 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "************** PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees, ComponentID: " << i;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** " + std::string(__FUNCTION__) + " , ComponentID: " << i;
 		
 			ProAsmcomppath asmcomppath;
 
@@ -873,6 +875,37 @@ void AssemblyConstraintsCreo::PopulateMap_with_Junctions_and_ConstrainedToInfo_p
 
 }
 
+
+void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
+							const std::string									&in_AssemblyComponentID,
+							const std::string									&in_ChildComponentID,
+							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							bool  in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
+{
+
+		RetrieveTranformationMatrix_Assembly_to_Child (  
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							in_CADComponentData_map[in_ChildComponentID].componentPaths, 
+							Bool_to_ProBoolean(in_bottom_up),
+							out_TransformationMatrix ); 
+}
+
+void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
+							const std::string									&in_AssemblyComponentID,
+							const std::list<int>									&in_ChildComponentPaths,
+							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							bool  in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
+{
+
+		RetrieveTranformationMatrix_Assembly_to_Child (  
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							in_ChildComponentPaths, 
+							Bool_to_ProBoolean(in_bottom_up),
+							out_TransformationMatrix ); 
+
+}
 
 } // creo
 } // cad

@@ -294,11 +294,12 @@ struct MetricsDefined
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Populate_Single_MetricComponent( 
+			cad::CadFactoryAbstract												&in_Factory,
 			const std::string													&in_ComponentID,
 			std::map<std::string, isis::CADComponentData>						&in_CADComponentData_map,  
 			std::set<int>														&in_out_DataCreated_for_MetricIDs,
 			std::map<int, MetricsDefined>										&out_MetricID_to_Anomalies_map,
-			CADMetrics::MetricComponents										&out_metricComponentsRoot )
+			CADMetrics::MetricComponents											&out_metricComponentsRoot )
 																						throw (isis::application_exception)
 {
 	
@@ -572,12 +573,22 @@ void Populate_Single_MetricComponent(
 				std::list<int>  assemblyToChild_compentPath;
 				assemblyToChild_compentPath.push_back( in_CADComponentData_map[*i].componentPaths.back());
 
-				RetrieveTranformationMatrix_Assembly_to_Child ( in_ComponentID,  
-																assemblyToChild_compentPath,
-																in_CADComponentData_map,  
-																//PRO_B_FALSE,  // bottom up = False
-																PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
-																MatrixBuffer );
+				//RetrieveTranformationMatrix_Assembly_to_Child ( in_ComponentID,  
+				//												assemblyToChild_compentPath,
+				//												in_CADComponentData_map,  
+				//												//PRO_B_FALSE,  // bottom up = False
+				//												PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+				//												MatrixBuffer );
+
+				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_ComponentID,  
+																				assemblyToChild_compentPath,
+																				in_CADComponentData_map,  
+																				//false,  // bottom up = False
+																				true,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+																				MatrixBuffer );
+
+
 				// At this point MatrixBuffer would contain
 				// Rotation		3 X 3,  rows 0 thru 2
 				// Translation	1 X 3,  row 3
@@ -617,6 +628,7 @@ void Populate_Single_MetricComponent(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Populate_MetricComponents( 
+			cad::CadFactoryAbstract															&in_Factory,
 			const std::string																&in_ComponentID,
 			std::map<std::string, isis::CADComponentData>									&in_CADComponentData_map,  
 			std::set<int>																	&in_out_DataCreated_for_MetricIDs,
@@ -625,7 +637,8 @@ void Populate_MetricComponents(
 																						throw (isis::application_exception)
 {
 
-	Populate_Single_MetricComponent(	in_ComponentID, 
+	Populate_Single_MetricComponent(		in_Factory,
+										in_ComponentID, 
 										in_CADComponentData_map,  
 										in_out_DataCreated_for_MetricIDs,
 										out_MetricID_to_Anomalies_map,
@@ -639,7 +652,8 @@ void Populate_MetricComponents(
 			++i )
 		{
 
-			Populate_MetricComponents( 	*i,
+			Populate_MetricComponents( 	in_Factory,
+										*i,
 										in_CADComponentData_map,  
 										in_out_DataCreated_for_MetricIDs,
 										out_MetricID_to_Anomalies_map,
@@ -1086,8 +1100,9 @@ void Log_Anomalies(	const std::map<int, MetricsDefined>	&in_MetricID_to_Anomalie
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void OutputCADMetricsToXML_Driver( 
-							bool											in_regenerationSucceeded_ForAllAssemblies,
-							bool											in_OutputJoints,
+							cad::CadFactoryAbstract							&in_Factory,
+							bool												in_regenerationSucceeded_ForAllAssemblies,
+							bool												in_OutputJoints,
 							const isis::CADAssemblies						&in_CADAssemblies,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 							const std::string								&in_MeticsOutputXML_PathAndFileName,
@@ -1105,7 +1120,7 @@ void OutputCADMetricsToXML_Driver(
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "Creating Metrics File";	
 			
 			bool metricsErrorOccurred;
-			isis::OutputCADMetricsToXML(in_CADAssemblies, in_CADComponentData_map,  in_MeticsOutputXML_PathAndFileName, in_OutputJoints, metricsErrorOccurred);
+			isis::OutputCADMetricsToXML(in_Factory, in_CADAssemblies, in_CADComponentData_map,  in_MeticsOutputXML_PathAndFileName, in_OutputJoints, metricsErrorOccurred);
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created: " + in_MeticsOutputXML_PathAndFileName;
 
 			if ( metricsErrorOccurred )
@@ -1124,7 +1139,8 @@ void OutputCADMetricsToXML_Driver(
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void OutputCADMetricsToXML( const isis::CADAssemblies						&in_CADAssemblies,
+void OutputCADMetricsToXML( cad::CadFactoryAbstract							&in_Factory,
+							const isis::CADAssemblies						&in_CADAssemblies,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 							const std::string								&in_MeticsOutputXML_PathAndFileName, 
 							bool											in_OutputJoints,
@@ -1192,7 +1208,8 @@ void OutputCADMetricsToXML( const isis::CADAssemblies						&in_CADAssemblies,
 				++i )
 		{	
 			//CADMetrics::MetricComponent  metricComponentRoot = 	CADMetrics::MetricComponent::Create( metricComponentsRoot );
-			Populate_MetricComponents(	i->assemblyComponentID, 
+			Populate_MetricComponents(	in_Factory,
+										i->assemblyComponentID, 
 										in_CADComponentData_map, 								
 										dataCreated_for_MetricIDs,
 										metricID_to_Anomalies_map,

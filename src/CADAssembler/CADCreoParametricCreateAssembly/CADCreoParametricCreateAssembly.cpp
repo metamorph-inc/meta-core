@@ -177,9 +177,9 @@ int main( int argc, char *argv[] )
 		 
 
 		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
-		environment.setupCADEnvironment(programInputArguments,							// in 
+		cADSession.setupCADEnvironment(programInputArguments,							// in 
 										creoStartCommand,								// out
 										CADExtensionsDir,								// out
 										templateFile_PathAndFileName );					// out
@@ -277,8 +277,8 @@ int main( int argc, char *argv[] )
 	}
 
 
-		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		//isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		//isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
 
 	if ( promptBeforeExiting )

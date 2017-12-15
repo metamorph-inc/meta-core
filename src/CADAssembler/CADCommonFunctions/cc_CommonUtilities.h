@@ -8,11 +8,15 @@
 #define CC_COMMON_UTILITIES_H
 
 #include "isis_application_exception.h"
+#include <boost/filesystem.hpp>
 #include <string>
 
 
 namespace isis
 {
+		// This function hase a side effect, it changed the current working directory, and the input parameter.
+		::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory );
+
 		std::string ConvertToUpperCase(const std::string &in_String);
 		std::string ConvertToLowerCase(const std::string &in_String);
 

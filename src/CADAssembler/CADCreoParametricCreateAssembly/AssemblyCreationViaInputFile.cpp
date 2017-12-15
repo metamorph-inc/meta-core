@@ -453,8 +453,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 				//											NonCyPhyID_counter,
 				//											cADComponentData_map );
 
-				isis::cad::ICADComponentDataStructure& cADComponentDataStructure = in_Factory.getCADComponentDataStructure();
-				cADComponentDataStructure.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
+				isis::cad::IModelOperations& modelOperations = in_Factory.getModelOperations();
+				modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 															assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 															NonCyPhyID_counter,
 															cADComponentData_map );
@@ -500,16 +500,16 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						// Rename the parts/sub-assemblies in the Creo assembly that were copied in the previouisl step
 
 
-						//CADComponentDataStructureCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel
+						//ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel
 
-						isis::cad::ICADComponentDataStructure&  componentDataStructure = in_Factory.getCADComponentDataStructure();
+						isis::cad::IModelOperations&  modelOpertations = in_Factory.getModelOperations();
 
 						// Must do assemblies first
 						for each ( CopyModelDefinition model_def in fromModel_ToModel_FEA )
 						{
 							if (model_def.modelType == PRO_MDL_ASSEMBLY )
 							{
-								componentDataStructure.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
+								modelOpertations.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
 								/**
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
@@ -545,7 +545,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 						{
 							if (model_def.modelType == PRO_MDL_PART )
 							{
-								componentDataStructure.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
+								modelOpertations.modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel(i->assemblyComponentID,model_def, cADComponentData_map );
 								/***
 								ModelInstanceData modelInstanceData_temp;
 								modelInstanceData_temp.modelName				= model_def.fromModelName;
@@ -618,7 +618,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 										cADComponentData_map,
 										featureIDs_to_ComponentInstanceID_hashtable);
 
-				if (  CompleteTheHierarchyForLeafAssemblies )  // The hierarchy would have been completed previously.
+				if (  CompleteTheHierarchyForLeafAssemblies )  // The non-leaf hierarchy would have been completed previously.
 				{
 					//ResolveAssemblyConstraints_AddMarkersToMap( 
 					//										in_Factory, 
@@ -630,16 +630,30 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 					isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps(selectComponentDerivedFromLeafAssembly, true);
 					isis::VisitComponents( i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps );
 
-					PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
+
+					//PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
+					//										in_Factory, 
+					//										assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps.listOfComponentIDs,
+					//										featureIDs_to_ComponentInstanceID_hashtable,
+					//										cADComponentData_map );
+					
+					isis::cad::IModelOperations&        modelOperationsCreo = in_Factory.getModelOperations();
+
+					modelOperationsCreo.populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees(
 															in_Factory, 
 															assemblyComponentIDs_ExcludeTopAssembly_SelectDerivedComps.listOfComponentIDs,
 															featureIDs_to_ComponentInstanceID_hashtable,
 															cADComponentData_map );
+
+
 				}
 
 				SelectComponentInInputXML selectComponentInInputXML;
 				isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents(selectComponentInInputXML, true);
 				isis::VisitComponents( i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents );
+
+
+				//  ggggggggggggggggggggggggg good to here  no creo dependencies   zzzzzzzzzzzzzzzzzz
 
 				//	We must recalculate the junctions here.  The junctions were originally calculated in Apply_CADDatum_ModelConstraints;  
 				//	however, that calculation was just to determine the joint type( revolute, prismatic…).  The actual position 
@@ -688,9 +702,10 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 				}
 
 				// This must be the last step.
-			    isis::PopulateMap_with_JunctionDataInGlobalCoordinates( i->assemblyComponentID,
-															 assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
-															 cADComponentData_map );
+			    isis::PopulateMap_with_JunctionDataInGlobalCoordinates( in_Factory,
+																		i->assemblyComponentID,
+																		assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
+																		cADComponentData_map );
 
 				// Determine
 
@@ -704,28 +719,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "*** END Begin Entire Component Data Tree with Internal Addresses, Leaf Subordinates (if requested), and Joints (if requested) ****";
 
-			/* Old Metrics output should not be here because it applies to all assemblies
-			/////////////////////////////////////////////
-			// Output Metrics File
-			/////////////////////////////////////////////
-			if ( regenerationSucceeded_ForAllAssemblies )
-			{
-				std::string MeticsOutputXML_PathAndFileName = xMLInputFile_PathAndFileName;	 		
-					MeticsOutputXML_PathAndFileName.replace(  MeticsOutputXML_PathAndFileName.end() - 4, 
-														MeticsOutputXML_PathAndFileName.end(), "_metrics.xml");  
-					OutputCADMetricsToXML_Driver(	regenerationSucceeded_ForAllAssemblies,
-													OutputJointInformation,
-													cADComponentAssemblies,
-													cADComponentData_map,  
-													MeticsOutputXML_PathAndFileName,
-													logFile_PathAndFileName );				
-			}
-			else
-			{
-				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "\nMetrics file not created because all assemblies did not regenerate.";
-			}
 
-			*/
 
 			/////////////////////////////////////////////////
 			//	Output STEP Files and Manufacturing Manifest
@@ -924,11 +918,12 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 				if ( fEAAnalysisDeckBasedRun )
 				{
 					// This writes to ComputedValues.xml, which is in the .\Analysis\Abaqus directory
-					isis::Create_FEADecks_BatFiles( *i,   // TopLevelAssemblyData	
-												cADComponentAssemblies.materials, 
-												workingDirector,
-												in_ProgramName_Version_TimeStamp,
-												cADComponentData_map );
+					isis::Create_FEADecks_BatFiles( in_Factory,
+													*i,   // TopLevelAssemblyData	
+													cADComponentAssemblies.materials, 
+													workingDirector,
+													in_ProgramName_Version_TimeStamp,
+													cADComponentData_map );
 				}
 				else
 				{   // Abaqus Model Based, Patran_Nastran
@@ -975,7 +970,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			{
 				// This does not write to ComputedValues.xml
 				// The reference plane is written to a json file
-				isis::PopulateBallisticFiles( *i, workingDirector, cADComponentData_map);
+				isis::PopulateBallisticFiles( in_Factory, *i, workingDirector, cADComponentData_map);
 			}
 
 			if ( blastAnalysisRun )
@@ -1122,7 +1117,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			// to take a list of ComponentInstanceIDs and operate on only that list.  This would supersede the 
 			// approach of recursively finding the children and would be more compatible with the approach in
 			// other areas of this program.
-			OutputCADMetricsToXML_Driver(	regenerationSucceeded_ForAllAssemblies,
+			OutputCADMetricsToXML_Driver(	in_Factory,
+											regenerationSucceeded_ForAllAssemblies,
 											OutputJointInformation,
 											cADComponentAssemblies,
 											cADComponentData_map,  
@@ -1145,7 +1141,8 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 		{
 			ComputationTypes	computationTypes(fEAAnalysisDeckBasedRun, cFDAnalysisRun,  ballisticAnalysisRun, blastAnalysisRun, hasAssemblyBasedComputations);	
 		    
-			CreateXMLFile_ComputedValues(	workingDirector,
+			CreateXMLFile_ComputedValues(	in_Factory,
+											workingDirector,
 											computationTypes,
 											cADComponentAssemblies,
 											cADComponentData_map );

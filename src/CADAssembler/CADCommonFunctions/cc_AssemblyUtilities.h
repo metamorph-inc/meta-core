@@ -3,6 +3,7 @@
 
 #include "isis_application_exception.h"
 #include "cc_CADFactoryAbstract.h"
+
 #include <unordered_map>
 
 
@@ -168,6 +169,53 @@ namespace isis
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
 			std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 			std::vector<std::string>						&out_Errors );
+
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentID, 
+					const std::vector<ConstraintPair>				&in_ConstraintPairs,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception);
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Creo Geometry Types Required for Creo Kinematic Joints:
+	//
+	// Creo Joint Type		Other Name			Creo Required Geometry
+	// ---------------		---------------		---------------------------------------
+	//	Pin					Revolute			Axis, Point or Plane
+	//	Cylinder			Cylindrical			Axis
+	//	Slider				Prismatic			Axis, Plane	
+	//	Planar									Plane (Note- Creo supports further restrictions (i.e. additional planes) but
+	//											we will assume the classical definition (3 degrees of freedom) of a planar constraint.  
+	//											Additional, planes/geometry will result in a user defined constraint.
+	//	Ball				Spherical			Point (Creo supports other geometry types, but we will only support a point)
+	//
+	//  Pre-Conditions:
+	//		in_ConstraintPairs could contain a guide, but the guide would be ignored. DO NOT call this function to determine if the constraints
+	//		including a guide represent a particular type joint.
+	//		
+	//		The order of in_ConstraintPairs is does not influence the output functions.  Elsewhere in this code, the proper sorting is applied.
+	//
+	//	Post-Conditions
+	//		If the geometry requirements in the above table are satisfied
+	//			returns the specific joint type (e.g. REVOLUTE_JOINT, SPHERICAL_JOINT, CYLINDRICAL_JOINT...)
+	//		else
+	//			return UNKNOWN_JOINT_TYPE
+	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
+													   cad::JointType in_JointType );
+
+
+	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
+					bool												in_Force)
+																			throw (isis::application_exception);
+
 }
 
 #endif
