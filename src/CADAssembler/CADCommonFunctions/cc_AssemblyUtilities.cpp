@@ -1,6 +1,8 @@
 #include "cc_AssemblyUtilities.h"
 #include "cc_CommonConstants.h"
 #include "cc_CommonUtilities.h"
+#include "cc_CommonFunctions.h"
+#include "cc_JsonHelper.h"
 
 namespace isis
 {
@@ -1016,6 +1018,111 @@ namespace isis
 		} // for each ( const std::string i in in_ListOfComponentIDsInTheAssembly )
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void UpdateManufacturingManifestWithSTEPFileInfo( 
+									e_DataExchangeVersion in_DataExchangeVersion, // AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES...
+									const std::string	&in_ComponentID,
+									bool				in_OnlyUpdateManifestForParts,
+									bool				in_ChangeCaseOfPartStepFileToLowerCase,
+									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
+														throw (isis::application_exception)
+	{
+		
+		try
+		{
+			std::string stepFileDirectory = isis::DataExchangeVersion_string(in_DataExchangeVersion) + "/";
+
+			if ( isis::FileExists( manufacturingManifestJson_PathAndFileName.c_str() ))
+			{
+				isis::ComponentVistorBuildListOfComponentIDs  assembllyComponenteIDs;
+				isis::VisitComponents(in_ComponentID, in_CADComponentData_map, assembllyComponenteIDs );
+
+				std::map<std::string, std::string> componentInstanceId_to_StepFile_map;
+
+				for each ( std::string cID in assembllyComponenteIDs.listOfComponentIDs )
+				{
+					//  When Creo outputs STEP files with separate part-files option, 
+					//  only the part files are created separately and are named with _prt.
+					//  The assembly hierarchy is represented in the top-assembly STEP file.
+
+					std::string tempFullPathToStepFile;
+					if (in_ChangeCaseOfPartStepFileToLowerCase)
+						tempFullPathToStepFile = stepFileDirectory + isis::ConvertToLowerCase((const std::string&)in_CADComponentData_map[cID].name);
+					else
+						tempFullPathToStepFile = stepFileDirectory + (const std::string&)in_CADComponentData_map[cID].name ;
+					
+					if ( in_CADComponentData_map[cID].modelType == CAD_PART )					
+						tempFullPathToStepFile += "_prt.stp";
+					else
+						tempFullPathToStepFile += "_asm.stp";
+					
+					if (in_OnlyUpdateManifestForParts )
+					{
+						if ( in_CADComponentData_map[cID].modelType == CAD_PART )				
+							componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
+					}
+					else
+					{
+						componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
+					}
+				}
+
+				std::set<std::string> componentInstanceIds_AddedToManifest;
+				isis_CADCommon::AddStepFileMappingToManufacturingManifest(
+														manufacturingManifestJson_PathAndFileName,
+														componentInstanceId_to_StepFile_map,
+														componentInstanceIds_AddedToManifest );
+				/////////////////////////////////////////
+				// Log StEP File Names added to manifest
+				/////////////////////////////////////////
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Added STEP file names to " <<  
+										  manufacturingManifestJson_PathAndFileName;
+				bool flagAdded = false;
+				for each ( std::string compID in componentInstanceIds_AddedToManifest )
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
+						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
+					flagAdded = true;
+				}
+				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
+
+				/////////////////////////////////////////////
+				// Log StEP File Names Not added to manifest
+				/////////////////////////////////////////////
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Did Not add STEP file names to " <<  
+										  manufacturingManifestJson_PathAndFileName;
+
+				flagAdded = false;
+				for each ( std::string compID in assembllyComponenteIDs.listOfComponentIDs )
+				{
+					if ( componentInstanceIds_AddedToManifest.find(compID) == componentInstanceIds_AddedToManifest.end() &&
+						 in_CADComponentData_map[compID].modelType == CAD_PART )
+					{
+						isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
+						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
+						flagAdded = true;
+					}
+				}
+				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
+				
+			}  
+			else
+			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << CouldNotFindManufacturingManifestError;
+			} // END if ( isis::FileExists(
+		}
+		catch (isis::application_exception &ex )
+		{
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: " << ex.tostring(); 
+		}
+		catch (...)
+		{
+			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

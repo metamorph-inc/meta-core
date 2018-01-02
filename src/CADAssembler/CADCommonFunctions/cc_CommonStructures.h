@@ -1259,6 +1259,10 @@ namespace isis
 		CADCreateAssemblyError_Severity Severity;
 	};
 
+	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition); 
+	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector); 
+
+
 } // END namespace isis
 
 #endif // COMMON_STRUCTURES_H

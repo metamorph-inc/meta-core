@@ -56,63 +56,6 @@ namespace isis
 			return false;
 	}
 
-/**
- If a plain logfile is provided then it is expected that the logfile will be 
- placed into a directory, named "log", creating it if necessary.
- In every other case the normal file logic will be used.
- In the case of relative paths the current directory will be used.
-
- A viable alternative would be to consider relative paths from the working directory.
- If that were the case then the working directory needs to be passed as an argument.
-*/
-
-/*
-void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception)
-{
-	::boost::filesystem::path logFilePath(in_LogFileName);
-	if (logFilePath.empty()) {
-		std::string TempError = "exception : empty log file name";
-		throw isis::application_exception("C03001", TempError);
-	}
-	if (logFilePath.is_absolute()) {
-		in_out_LogFile.open (logFilePath.c_str(), std::ios::out | std::ios::trunc );
-		if (! in_out_LogFile.is_open()) {
-			std::string TempError = "exception : Could not open absolute log file: " + logFilePath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		} 
-		clog.rdbuf(in_out_LogFile.rdbuf());
-		return;
-	}
-	// the file path is relative
-	if (logFilePath.has_parent_path()) {
-		in_out_LogFile.open (logFilePath.c_str(), std::ios::out | std::ios::trunc );
-		if (! in_out_LogFile.is_open()) {
-			std::string TempError = "exception : Could not open relative log file: " + logFilePath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		} 
-		clog.rdbuf(in_out_LogFile.rdbuf());
-		return;
-	}
-	::boost::filesystem::path localLogPath = 
-		::boost::filesystem::current_path() / "log";
-
-	if (! ::boost::filesystem::exists( localLogPath ) ) {
-		if (! ::boost::filesystem::create_directory( localLogPath ) ) {
-			std::string TempError = "exception : Could not create directory for log file: " + localLogPath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		}
-	}
-	::boost::filesystem::path localLogFilePath = localLogPath / logFilePath;
-
-	in_out_LogFile.open (localLogFilePath.c_str(), std::ios::out | std::ios::trunc );
-	if (! in_out_LogFile.is_open()) {
-		std::string TempError = "exception : Could not open plain log file: " + localLogFilePath.generic_string();
-		throw isis::application_exception("C03001", TempError);
-	} 
-	clog.rdbuf(in_out_LogFile.rdbuf());
-
-}
-****/
 
 
 
@@ -230,12 +173,6 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
-												 const std::string &in_FamilyTableEntry )
-{
-	return in_FamilyTableEntry + "<" + in_ModelName + ">";
-
-}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,110 +196,6 @@ std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName
 	//		Assembly:						As entered	e.g.  FourBar.asm  -->  FourBar_asm.stp
 	//		Part standalone					As entered	e.g.  MaSs		   -->	MaSs_prt.stp 	
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void UpdateManufacturingManifestWithSTEPFileInfo( 
-									e_DataExchangeVersion in_DataExchangeVersion, // AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES...
-									const std::string	&in_ComponentID,
-									bool				in_OnlyUpdateManifestForParts,
-									bool				in_ChangeCaseOfPartStepFileToLowerCase,
-									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
-														throw (isis::application_exception)
-	{
-		
-		try
-		{
-			std::string stepFileDirectory = isis::DataExchangeVersion_string(in_DataExchangeVersion) + "/";
-
-			if ( isis::FileExists( manufacturingManifestJson_PathAndFileName.c_str() ))
-			{
-				isis::ComponentVistorBuildListOfComponentIDs  assembllyComponenteIDs;
-				isis::VisitComponents(in_ComponentID, in_CADComponentData_map, assembllyComponenteIDs );
-
-				std::map<std::string, std::string> componentInstanceId_to_StepFile_map;
-
-				for each ( std::string cID in assembllyComponenteIDs.listOfComponentIDs )
-				{
-					//  When Creo outputs STEP files with separate part-files option, 
-					//  only the part files are created separately and are named with _prt.
-					//  The assembly hierarchy is represented in the top-assembly STEP file.
-
-					std::string tempFullPathToStepFile;
-					if (in_ChangeCaseOfPartStepFileToLowerCase)
-						tempFullPathToStepFile = stepFileDirectory + isis::ConvertToLowerCase((const std::string&)in_CADComponentData_map[cID].name);
-					else
-						tempFullPathToStepFile = stepFileDirectory + (const std::string&)in_CADComponentData_map[cID].name ;
-					
-					if ( in_CADComponentData_map[cID].modelType == PRO_PART )					
-						tempFullPathToStepFile += "_prt.stp";
-					else
-						tempFullPathToStepFile += "_asm.stp";
-					
-					if (in_OnlyUpdateManifestForParts )
-					{
-						if ( in_CADComponentData_map[cID].modelType == PRO_PART )				
-							componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
-					}
-					else
-					{
-						componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
-					}
-				}
-
-				std::set<std::string> componentInstanceIds_AddedToManifest;
-				isis_CADCommon::AddStepFileMappingToManufacturingManifest(
-														manufacturingManifestJson_PathAndFileName,
-														componentInstanceId_to_StepFile_map,
-														componentInstanceIds_AddedToManifest );
-				/////////////////////////////////////////
-				// Log StEP File Names added to manifest
-				/////////////////////////////////////////
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Added STEP file names to " <<  
-										  manufacturingManifestJson_PathAndFileName;
-				bool flagAdded = false;
-				for each ( std::string compID in componentInstanceIds_AddedToManifest )
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
-						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
-					flagAdded = true;
-				}
-				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
-
-				/////////////////////////////////////////////
-				// Log StEP File Names Not added to manifest
-				/////////////////////////////////////////////
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Did Not add STEP file names to " <<  
-										  manufacturingManifestJson_PathAndFileName;
-
-				flagAdded = false;
-				for each ( std::string compID in assembllyComponenteIDs.listOfComponentIDs )
-				{
-					if ( componentInstanceIds_AddedToManifest.find(compID) == componentInstanceIds_AddedToManifest.end() &&
-						 in_CADComponentData_map[compID].modelType == PRO_PART )
-					{
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
-						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
-						flagAdded = true;
-					}
-				}
-				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
-				
-			}  
-			else
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << CouldNotFindManufacturingManifestError;
-			} // END if ( isis::FileExists(
-		}
-		catch (isis::application_exception &ex )
-		{
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: " << ex.tostring(); 
-		}
-		catch (...)
-		{
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
-		}
-	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /***
@@ -392,30 +225,6 @@ std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName
 	
 	}
 	**/
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition)
-	{
-		output << "From Model: " << in_CopyModelDefinition.fromModelName << "  To Model: " << in_CopyModelDefinition.toModelName;
-
-		output << "  Model Type: " << isis::ProMdlType_string(in_CopyModelDefinition.modelType) << "  ComponentInstanceID: "  << in_CopyModelDefinition.componentInstanceID;
-
-		//if ( in_CopyModelDefinition.modelType == PRO_MDL_PART )
-		//	output << "  Part";
-		//else
-		//	output << "  Assembly";
-
-		return output;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector)
-	{
-		for each ( CopyModelDefinition i in in_CopyModelDefinition_vector )
-		{
-			output << std::endl << i;
-		}
-
-		return output;
-	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void OrganizeMetricsBasedOnComponentIDs( 
@@ -547,7 +356,7 @@ std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << (const void*)in_FromModelInstanceData.topAssemblyModelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << CADMdlType_string(in_FromModelInstanceData.modelType);
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << (const void*)in_FromModelInstanceData.modelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ToModelName:        " << in_ToModelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   From Model assembledFeature: ";
@@ -574,8 +383,8 @@ std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName
 			throw isis::application_exception("C03002", errorString);
 		}
 
-		if ( in_FromModelInstanceData.modelType != PRO_MDL_PART && 
-			 in_FromModelInstanceData.modelType != PRO_MDL_ASSEMBLY )
+		if ( in_FromModelInstanceData.modelType != CAD_MDL_PART && 
+			 in_FromModelInstanceData.modelType != CAD_MDL_ASSEMBLY )
 
 		{
 			std::stringstream errorString;
