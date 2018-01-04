@@ -8,12 +8,9 @@ namespace isis
 
 
 
-	// If at lease one of the assemblies in in_CADAssemblies contains analysesBallistic, then return true.    
-	bool IsABallisticAnalysisRun( const CADAssemblies &in_CADAssemblies );
-	// If at lease one of the assemblies in in_CADAssemblies contains analysesBlast, then return true.    
-	bool IsABlastAnlysisRun( const CADAssemblies &in_CADAssemblies );
 
 	void PopulateBallisticFiles( 
+					cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )

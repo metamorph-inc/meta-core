@@ -33,9 +33,6 @@
     <ClCompile Include="MaterialProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProEStructuresUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SetCADModelParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MaterialProperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProEStructuresUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SetCADModelParameters.h">

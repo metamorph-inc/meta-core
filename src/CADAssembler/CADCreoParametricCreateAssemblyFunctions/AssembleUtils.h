@@ -7,38 +7,23 @@
 #include <fstream>
 #include <map>
 #include <unordered_map>
-#include "CadFactoryAbstract.h"
+#include "cc_CadFactoryAbstract.h"
+#include <CommonFeatureUtils.h>
 
 #include <boost/filesystem.hpp>
 
 namespace isis
 {
 	std::string META_PATH();
-	bool Get_CompleteTheHierarchyForLeafAssemblies( const CADAssemblies &in_CADAssemblies );
-	bool Get_UniquelyNameAllCADModelInstances( const CADAssemblies &in_CADAssemblies );
-	bool Get_OutputJointInformation( const CADAssemblies &in_CADAssemblies );
-	bool Get_ValidateJointInformation( const CADAssemblies &in_CADAssemblies );
 
-	bool HasAssemblyBasedComputations( const CADAssemblies &in_CADAssemblies );
-
-	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies );
-
-	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
-											const CADAssemblies								&in_CADAssemblies,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
-																throw (isis::application_exception);
+	ProBoolean Bool_to_ProBoolean ( bool in_Bool);
+	bool       ProBoolean_to_Bool ( ProBoolean in_ProBoolean );
 
 	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
 										  e_ComputationType					in_ComputationType,
 										  std::vector<CADComputation>		&out_CADComputations );
 
-
-	void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception);
-
-	// This function hase a side effect, it changed the current working directory, and the input parameter.
-	::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory );
-
-	const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
+	//const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
 
 	void ProAsmcomppathToList(std::list<int> &out_list, const ProAsmcomppath &in_path);
 
@@ -50,12 +35,12 @@ namespace isis
 	
 	void Populate_c_id_table( const std::list<int> &in_path_list, ProIdTable out_c_id_table, int &out_c_id_table_size );
 
-	void RetrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string  &in_AssemblyComponentID,
-							const std::list<int>	   &in_ChildComponentPaths,
-							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-							ProBoolean   in_bottom_up,
-							double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+	//void RetrieveTranformationMatrix_Assembly_to_Child (  
+	//						const std::string  &in_AssemblyComponentID,
+	//						const std::list<int>	   &in_ChildComponentPaths,
+	//						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+	//						bool   in_bottom_up,
+	//						double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid	   &in_assembly_model,
@@ -65,103 +50,12 @@ namespace isis
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	const std::string	CouldNotFindManufacturingManifestError =
-			"\nINFORMATION: Did not update manufacturing manifest file (" +
-			isis::manufacturingManifestJson_PathAndFileName + ") with " + 
-			"\nthe mapping of component-instance-ID to STEP-file-name because the manifest file " +
-			"\ncould not be found.  The manufacturing manifest file would only exist if the " +
-			"\nCyPhyPrepareIFab interpreter had been invoked. Typically, CyPhyPrepareIFab " +
-			"\nwould not have been invoked."; 
-
-	const std::string	NotUpdatingManufacturingManifest_SeparateSTEPFilesNotRequested =
-			"\nINFORMATION: Did not update manufacturing manifest file (" +
-			isis::manufacturingManifestJson_PathAndFileName + ") for the" +
-			"\nassembled parts because separate STEP part files were not requested." +
-			"\nAP203_E2_SEPARATE_PART_FILES or AP214_SEPARATE_PART_FILES must be requested" +
-			"\nin order for the manufacturing manifest to be updated for assembled parts.  The " +
-			"\nmanifest will be updated for any unassembled parts.";
 
 
- 
-	void UpdateManufacturingManifestWithSTEPFileInfo( 
-									e_DataExchangeVersion in_DataExchangeVersion, // AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES...
-									const std::string	&in_ComponentID,
-									bool				in_OnlyUpdateManifestForParts,
-									bool				in_ChangeCaseOfPartStepFileToLowerCase,
-									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
-												throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct CopyModelDefinition
-	{
-		std::string					componentInstanceID;
-		isis::MultiFormatString		fromModelName;
-		isis::MultiFormatString		toModelName;
-		ProMdlType					modelType;
 
-	};
-
-	enum e_ModelTypeIndicator
-	{
-		e_PART_MODEL_TYPE,
-		e_ASSEMBLY_MODEL_TYPE,
-		e_PART_OR_ASSEMBLY_MODEL_TYPE,
-	};
-
-	enum e_ModelSelectorIndicator
-	{
-		e_SELECT_ALL_MODELS,
-		e_SELECT_ONLY_PARAMETRIC_MODELS
-	};
-
-	// If a part name (not assembly name) appears more than once in in_out_CADComponentData_map
-	//	then
-	//		this function modifies in_out_CADComponentData_map to have unique name for the second
-	//		and later occurrences of the particular part name.  The new and old part names are added
-	//      to out_ToPartName_FromPartName. 
-	//void ModifyToHaveAUniqueNameForEachPart( 
-	//						int												&in_out_UniqueNameIndex,
-	//						e_ModelTypeIndicator							in_ModelTypeIndicator,
-	//						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-	//						std::vector<CopyModelDefinition>				&out_FromModel_ToModel )
-	//																	throw (isis::application_exception);
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	// If part/assem appears more than once in in_out_CADComponentData_map and is a parametric part/assembly
-	//	then
-	//		this function modifies in_out_CADComponentData_map to have unique name for the second
-	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
-	//		The new and old part names are added to out_FromModel_ToModel. 
-	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
-							cad::CadFactoryAbstract							&in_factory,
-							unsigned int									&in_out_UniqueNameIndex,
-							e_ModelTypeIndicator							in_ModelTypeIndicator,
-							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
-							bool											in_ForceAllParametricModelsToBeUnique,
-							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-							std::vector<CopyModelDefinition>				&out_FromModel_ToModel  );
-
-	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition); 
-	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector); 
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	//std::string GetDayMonthTimeYear();
-
-	//class ComponentVistorBuildListOfBoundingBoxComputations: public ComponentVistor
-	//{
- 	//	public:
-	//		std::list<std::string> boundingBoxComputationsComponentIDs;
-
-	//		virtual void operator() ( const std::string  &in_ComponentID, 
-	//								  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map );
-
-	//		ComponentVistorBuildListOfBoundingBoxComputations();
-
-	//};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Description:
@@ -222,17 +116,6 @@ namespace isis
 //		if no exceptions, return out_... variables.  An example follows:	
 //			a) Non Family Table - out_ModelName_With_Suffix="EngineZ1Z",	out_CompleteName="EngineZ1Z"
 //			b) Family table		- out_ModelName_With_Suffix="ChassisZ1Z",	out_CompleteName="Chassis_8_Wheel<ChassisZ1Z>"
-void CreateModelNameWithUniqueSuffix(  
-			cad::CadFactoryAbstract		&in_factory,
-			unsigned int				in_UniqueNameIndex, 
-			const std::string			&in_ModelName_CouldIncludeFamilyTableEntry, // e.g. Chassis_8_Wheel<Chassis>
-			std::string					&out_ModelName_Without_Suffix,				// e.g. Chassis
-			std::string					&out_ModelName_With_Suffix,					// e.g. ChassisZ1Z
-			std::string					&out_CompleteName,							// For family tables, would be the complete name
-																					// e.g. Chassis_8_Wheel<ChassisZ1Z>
-																					// otherwise, same as out_ModelName_With_Suffix
-			unsigned int in_AllowedSize = PRO_NAME_SIZE - 1  )   
-													throw (isis::application_exception);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,19 +124,14 @@ void CreateModelNameWithUniqueSuffix(
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
 							std::set<std::string>								&out_ComponentIDs_set );
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
-					int												&in_out_NonCyPhyID_counter,
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-																		throw (isis::application_exception);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	struct ModelInstanceData
 	{
 		MultiFormatString	modelName;
-		ProMdlType			modelType;
+		//ProMdlType			modelType;
+		e_CADMdlType		modelType;
 		ProSolid			modelHandle;
 
 		// the assebled feature must be a PRO_PART, PRO_ASSEMBLY
@@ -304,13 +182,14 @@ void CreateModelNameWithUniqueSuffix(
 		throw (isis::application_exception);
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_factory,
+					cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
 					bool											in_Force = false)
 																			throw (isis::application_exception);
 
 	void	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+			cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -345,26 +224,21 @@ void CreateModelNameWithUniqueSuffix(
 			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
 
-	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_factory,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
-			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
-																		throw (isis::application_exception);
+
+	//void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
+	//		cad::CadFactoryAbstract													&in_Factory,
+	//		const std::vector<std::string>											&in_AssemblyComponentIDs,
+	//		const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+	//		std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
+	//																	throw (isis::application_exception);
 
 
 	void ResolveAssemblyConstraints_AddMarkersToMap( 
-			cad::CadFactoryAbstract													&in_factory,
+			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
-												
-	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
-					const std::vector<std::string>	&in_AssemblyComponentIDs,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-					std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable );
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// For valid joint information:
 	//		1.  All parts that are not within a treat-as-one-body assembly (i.e. CADAssembly.xml 
@@ -402,7 +276,7 @@ void CreateModelNameWithUniqueSuffix(
 	//		INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
 	//
 	//	Pre-Conditions:
-	//		ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
+	//		forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
 	//		calling this function; and if not, CyPhyLeafAssembly will always return false.
 	//
 	//	Post-Conditions:
@@ -424,6 +298,39 @@ void CreateModelNameWithUniqueSuffix(
 						const std::vector<std::string>					&in_AssemblyComponentIDs,
 						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
 																				throw (isis::application_exception);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// This function returns the componentInstanceIDs (out_ReferencedComponentInstanceIDs) that are referenced by the 
+	// ProSelections in in_AssembledFeatureDefinition.constraintDefinitions.
+	// The parent model (i.e. in_AssembledFeatureDefinition.componentInstanceID  ) is not considered a reference; and 
+	// therefore, will not appear in out_ReferencedComponentInstanceIDs.
+	void RetrieveReferencedComponentInstanceIDs (
+						const std::list<int>												&in_OffSetFeatureIDPath_list,
+						const CreoAssembledFeatureDefinition								&in_AssembledFeatureDefinition,
+						int																	in_SetIndex,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::set<std::string>												&out_ReferencedComponentInstanceIDs)
+																				throw (isis::application_exception);
+
+	/****
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentID, 
+					const std::vector<ConstraintPair>				&in_ConstraintPairs,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception);
+
+	***/
+
+	void PopulateMap_with_JunctionInformation_SingleJunction( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
+					int												in_SetIndex,
+					isis::cad::Junction								&out_Junction,
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+						throw (isis::application_exception);
 
 }
 

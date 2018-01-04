@@ -202,6 +202,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 //		COMPUTATION_PLANE
 //
 void CreateXMLFile_ComputedValues_ComputedByThisProgram( 
+						cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_PathAndFileName,
 						const std::string									&in_ConfigruationID,
 						const std::string									&in_AssemblyComponentID,
@@ -387,11 +388,12 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 					case COMPUTATION_POINT:
 						CADPoint point;
-						RetrieveDatumPointCoordinates( componentID_to_AssemblyComponentID_map[i.first],
-													   j.componentID,
-													   in_CADComponentData_map,
-													   j.datumName, 
-													   point); 
+						RetrieveDatumPointCoordinates(	in_Factory, 
+														componentID_to_AssemblyComponentID_map[i.first],
+														j.componentID,
+														in_CADComponentData_map,
+														j.datumName, 
+														point); 
 						temp_x =  point.x;
 						temp_y  = point.y;
 						temp_z =  point.z;
@@ -670,6 +672,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 																			
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateXMLFile_ComputedValues( 
+						cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_WorkingDirector,
 						const ComputationTypes								&in_ComputationTypes,
 						isis::CADAssemblies									&in_CADAssemblies,
@@ -792,6 +795,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				// If no computations by this program, then the following function will do nothing.
 				// Always call the following function. 
 				CreateXMLFile_ComputedValues_ComputedByThisProgram( 
+														in_Factory,
 														computedValues_PathAndFileName,
 														i.configurationID,
 														i.assemblyComponentID,

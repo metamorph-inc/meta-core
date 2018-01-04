@@ -44,6 +44,7 @@ namespace isis
 	*/
 
 	void OutputCADMetricsToXML( 
+							cad::CadFactoryAbstract							&in_Factory,
 							const isis::CADAssemblies						&in_CADAssemblies,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 							const std::string								&in_MeticsOutputXML_PathAndFileName, 
@@ -53,8 +54,9 @@ namespace isis
 
 
 	void OutputCADMetricsToXML_Driver( 
-							bool											in_regenerationSucceeded_ForAllAssemblies,
-							bool											in_OutputJoints,
+							cad::CadFactoryAbstract							&in_Factory,
+							bool												in_regenerationSucceeded_ForAllAssemblies,
+							bool												in_OutputJoints,
 							const isis::CADAssemblies						&in_CADAssemblies,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 							const std::string								&in_MeticsOutputXML_PathAndFileName,

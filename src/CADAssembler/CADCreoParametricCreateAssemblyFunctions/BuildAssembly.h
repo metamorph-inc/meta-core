@@ -5,7 +5,8 @@
 #include <cc_CommonStructures.h>
 #include <AssembleUtils.h>
 #include <map>
-#include "CadFactoryAbstract.h"
+#include "cc_CadFactoryAbstract.h"
+#include <cc_AssemblyUtilities.h>
 
 //using namespace std;
 
@@ -14,7 +15,7 @@ namespace isis
 
 
 void BuildAssembly( 
-		cad::CadFactoryAbstract								&in_factory,
+		cad::CadFactoryAbstract								&in_Factory,
 		const std::string									&in_AssemblyComponentID, 
 		const std::string									&in_WORKING_DIR,
 		bool												in_SaveAssembly,
@@ -24,16 +25,13 @@ void BuildAssembly(
 		bool												in_AllowUnconstrainedModels = false)
 					throw (isis::application_exception);
 
-//void CopyModels(const std::map<std::string, std::string>	  &in_ToPartName_FromPartName )
-//																	throw (isis::application_exception);
-void CopyModels(const std::vector<CopyModelDefinition>	&in_FromModel_ToModel )
-																	throw (isis::application_exception);
+
 
 void ReadInitialPositions(std::map<std::string, double*> &out_positions, const std::string &in_filename);
 
 
 void Add_Subassemblies_and_Parts( 
-		cad::CadFactoryAbstract				&	in_factory,
+		cad::CadFactoryAbstract				&	in_Factory,
 		ProMdl								in_p_asm,
 		const std::string					&	in_ParentName,
 		const std::list<std::string>		&	in_Components,

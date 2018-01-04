@@ -3,7 +3,7 @@
 #include <cc_MetaLinkInputArgumentsParser.h>
 #include <boost/smart_ptr.hpp>
 #include <isis_include_ptc_headers.h>
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 
 namespace isis
 {
@@ -174,7 +174,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_factory,
+void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_Factory,
                              const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
                              const std::string								&in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,

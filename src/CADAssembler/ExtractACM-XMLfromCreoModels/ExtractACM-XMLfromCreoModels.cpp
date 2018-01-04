@@ -69,7 +69,7 @@
 
 #include "CommonFeatureUtils.h"
 #include <cc_CommonUtilities.h>
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 #include "CADFactoryCreo.h"
 
 
@@ -166,10 +166,10 @@ int main( int argc, char *argv[] )
 		
 
 		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
 
-		environment.setupCADEnvironment(	programInputArguments,
+		cADSession.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName );					// out
@@ -280,7 +280,7 @@ int main( int argc, char *argv[] )
  
 	if ( ExitCode != 0 )
 	{
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, false, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), false, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
 
 		std::cerr << std::endl << std::endl << exceptionErrorStringStream.str() << std::endl << std::endl;
 

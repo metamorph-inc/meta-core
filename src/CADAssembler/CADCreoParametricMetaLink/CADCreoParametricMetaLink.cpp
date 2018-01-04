@@ -12,7 +12,7 @@
 #include <MetaLinkHandler.h>
 #include <Test_MetaLink.h>
 #include <ISISVersionNumber.h>
-#include "CADFactoryAbstract.h"
+#include "cc_CADFactoryAbstract.h"
 #include "CADFactoryCreo.h"
 #include "CreoErrorCodes.h"
 #include <AssembleUtils.h>
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 		isis::GlobalModelData::Instance.instanceId = programInputArguments.instanceID;
 
-        // Log CADCreoParametricCreateAssembly version information
+        // Log CADCreoParametricMetaLink version information
         std::string programName_Version_TimeStamp;
         programName_Version_TimeStamp = "CADCreoParametricMetaLink " + std::string(ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS);
 
@@ -152,9 +152,9 @@ int main(int argc, char *argv[])
         }
 
 		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
-		//environment.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
+		//cADSession.setupCADEnvironment(	isis::cad::OPENMETA_META_LINK,					// in
 		//									workingDir.generic_string(),					// in 
 		//									programInputArguments.auxiliaryCADDirectory,    // Auxiliary CAD Directory
 		//									programInputArguments.graphicsModeOn,			// in
@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 		//									CADExtensionsDir,								// out
 		//									templateFile_PathAndFileName);					// out
 
-		environment.setupCADEnvironment(	programInputArguments,
+		cADSession.setupCADEnvironment(	programInputArguments,
 											creoStartCommand,								// out
 											CADExtensionsDir,								// out
 											templateFile_PathAndFileName);					// out
@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
     }
     else
     {

@@ -7,6 +7,15 @@
 namespace isis
 {
 
+
+	::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory ) 
+	{
+	   ::boost::filesystem::current_path(inout_workingDirectory);
+	   ::boost::filesystem::path workingDir = ::boost::filesystem::current_path();
+	   inout_workingDirectory = workingDir.generic_string();
+	   return workingDir;
+	}
+
 	std::string	EncloseStringInDoubleQuotes( const std::string &in_String )
 	{
 		std::string OutString;	

@@ -4,8 +4,6 @@
 
 namespace isis
 {
-		//extern const std::string ASSEMBLE_PTC_VERSION;
-
 		extern const std::string TEMPLATE_MODEL_NAME_ENGLISH;
 		extern const std::string TEMPLATE_MODEL_NAME_ENGLISH_SUFFIX;
 
