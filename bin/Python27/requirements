@@ -50,6 +50,8 @@ solidpython==0.1.1
 sympy==0.7.2  # PET PCC
 requests==2.11.0  # installer
 smop==0.23+gfea61da
+#For testbenchexecutor
+Jinja2==2.10
 
 networkx==1.11
 requests
