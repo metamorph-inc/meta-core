@@ -9,6 +9,8 @@ import datetime
 import contextlib
 import re
 
+import testbenchexecutor.tb_report_generator
+
 __author__ = 'adam'
 
 
@@ -109,33 +111,37 @@ class TestBenchExecutor(object):
         @return: 0 if executed successfully, <0 if error
         @rtype: int
         '''
+        try:
+            loop_limit = 100000
+            num_loops = 0
 
-        loop_limit = 100000
-        num_loops = 0
+            while num_loops <= loop_limit:
+                num_loops += 1
+                rtn_code = self.run_next_step()
 
-        while num_loops <= loop_limit:
-            num_loops += 1
-            rtn_code = self.run_next_step()
+                if rtn_code == 0:
+                    # Step successfully completed
+                    continue
+                elif rtn_code == 1:
+                    # No steps remaining
+                    break
+                else:
+                    # Error
+                    return rtn_code
 
-            if rtn_code == 0:
-                # Step successfully completed
-                continue
-            elif rtn_code == 1:
-                # No steps remaining
-                break
-            else:
-                # Error
-                return rtn_code
+            if num_loops >= loop_limit:
+                raise Exception("run_all has exceeded the loop limit of {limit}. "
+                                "Something is wrong with the step execution."
+                                .format(limit=loop_limit))
 
-        if num_loops >= loop_limit:
-            raise Exception("run_all has exceeded the loop limit of {limit}. "
-                            "Something is wrong with the step execution."
-                            .format(limit=loop_limit))
+            with self._update_manifest() as manifest:
+                manifest["Status"] = "OK"
 
-        with self._update_manifest() as manifest:
-            manifest["Status"] = "OK"
-
-        return 0
+            return 0
+        finally:
+            # At this point, we've either successfully completed or failed;
+            # write out the report
+            tb_report_generator.generate_html_report(self._path_manifest, self._dict_manifest)
 
     def run_next_step(self):
         """

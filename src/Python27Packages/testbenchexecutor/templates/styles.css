@@ -1,0 +1,95 @@
+body {
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 12pt;
+
+  margin: 0em;
+}
+
+
+
+h1.title {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+  margin: 0px;
+  padding: 12pt;
+}
+
+h1.title.status-OK {
+  background-color: LightGreen;
+  border-color: #73be73;
+}
+
+h1.title.status-FAILED {
+  background-color: LightPink;
+  border-color: #cc919a;
+}
+
+h1.title.status-UNEXECUTED {
+  background-color: PeachPuff;
+  border-color: #ccae94;
+}
+
+div.content {
+  margin: 12pt;
+}
+
+code {
+  font-family: Consolas, monospace;
+}
+
+code pre {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-radius: 3px;
+  padding: 0.5em;
+}
+
+dl.step-list > dt {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-bottom: 0px;
+  border-radius: 3px 3px 0px 0px;
+  margin-bottom: 0;
+  padding: 0.5em;
+}
+
+dl.step-list > dt.status-OK {
+  background-color: LightGreen;
+  border-color: #73be73;
+}
+
+dl.step-list > dd.status-OK {
+  border-color: #73be73;
+}
+
+dl.step-list > dt.status-FAILED {
+  background-color: LightPink;
+  border-color: #cc919a;
+}
+
+dl.step-list > dd.status-FAILED {
+  border-color: #cc919a;
+}
+
+dl.step-list > dt.status-UNEXECUTED {
+  background-color: PeachPuff;
+  border-color: #ccae94;
+}
+
+dl.step-list > dd.status-UNEXECUTED {
+  border-color: #ccae94;
+}
+
+dl.step-list > dd {
+  border: 1px solid #ccc;
+  border-radius: 0px 0px 3px 3px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 1em;
+  padding: 0 0.5em 0 0.5em;;
+}
+
+dl.step-details {
+  margin-top: 0;
+  margin-bottom: 0;
+}
