@@ -219,34 +219,52 @@ namespace CyPhyPET
                 Dictionary<string, object> assignment = getPythonAssignment(parameterStudy.Attributes.Code);
                 long num_samples;
                 object num_samplesObj;
-                if (assignment.TryGetValue("num_samples", out num_samplesObj))
+                if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.CSV_File)
                 {
-                    if (num_samplesObj is long)
+                    object filename;
+                    if (assignment.TryGetValue("filename", out filename) == false || filename is string == false)
                     {
-                        num_samples = (long)num_samplesObj;
+                        throw new ApplicationException("For CSV File input, you must specify filename=r'file.csv' in the ParameterStudy's Code attribute");
                     }
-                    else
+                    if (Path.IsPathRooted((string)filename) == false)
                     {
-                        throw new ApplicationException("num_samples must be an integer");
+                        filename = "../../" + filename;
+                        var code = config.details["Code"].ToString();
+                        var filenameEscaped = Regex.Replace((string)filename, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
+                        code += String.Format("\nfilename = u'{0}'\n", filenameEscaped);
+                        config.details["Code"] = code;
                     }
-                    if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Opt_Latin_Hypercube)
-                    {
-                        if (num_samples < 2)
-                        {
-                            throw new ApplicationException("num_samples must be >= 2 when using Optimized Latin Hypercube");
-                        }
-                    }
-                }
-                else if (hasDesignVariables == false)
-                {
-                    config.details["Code"] = "num_samples = 1";
-                    config.details["DOEType"] = "Uniform";
                 }
                 else
                 {
-                    throw new ApplicationException("num_samples must be specified in the Code attribute of the Parameter Study");
+                    if (assignment.TryGetValue("num_samples", out num_samplesObj))
+                    {
+                        if (num_samplesObj is long)
+                        {
+                            num_samples = (long)num_samplesObj;
+                        }
+                        else
+                        {
+                            throw new ApplicationException("num_samples must be an integer");
+                        }
+                        if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Opt_Latin_Hypercube)
+                        {
+                            if (num_samples < 2)
+                            {
+                                throw new ApplicationException("num_samples must be >= 2 when using Optimized Latin Hypercube");
+                            }
+                        }
+                    }
+                    else if (hasDesignVariables == false)
+                    {
+                        config.details["Code"] = "num_samples = 1";
+                        config.details["DOEType"] = "Uniform";
+                    }
+                    else
+                    {
+                        throw new ApplicationException("num_samples must be specified in the Code attribute of the Parameter Study");
+                    }
                 }
-
             }
         }
 

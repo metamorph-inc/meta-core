@@ -15,7 +15,7 @@ from collections import defaultdict
 
 from run_mdao.csv_recorder import MappingCsvRecorder, CsvRecorder
 from run_mdao.enum_mapper import EnumMapper
-from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver
+from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver, CsvDriver
 from run_mdao.restart_recorder import RestartRecorder
 
 from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, Component
@@ -192,6 +192,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
                 "Full Factorial": FullFactorialDriver,
                 "Latin Hypercube": LatinHypercubeDriver,
                 "Opt Latin Hypercube": OptimizedLatinHypercubeDriver,
+                "CSV File": CsvDriver,
             }
             driver_type = drivers.get(driver['details']['DOEType'])
             if driver_type is None:
