@@ -226,14 +226,12 @@ namespace CyPhyPET
                     {
                         throw new ApplicationException("For CSV File input, you must specify filename=r'file.csv' in the ParameterStudy's Code attribute");
                     }
-                    if (Path.IsPathRooted((string)filename) == false)
-                    {
-                        filename = "../../" + filename;
-                        var code = config.details["Code"].ToString();
-                        var filenameEscaped = Regex.Replace((string)filename, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
-                        code += String.Format("\nfilename = u'{0}'\n", filenameEscaped);
-                        config.details["Code"] = code;
-                    }
+                    string basename = Path.GetFileName((string)filename);
+                    File.Copy((string)filename, Path.Combine(outputDirectory, basename));
+                    var code = config.details["Code"].ToString();
+                    var basenameEscaped = Regex.Replace(basename, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
+                    code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
+                    config.details["Code"] = code;
                 }
                 else
                 {

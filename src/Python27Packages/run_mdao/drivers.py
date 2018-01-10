@@ -455,7 +455,7 @@ class CsvDriver(PredeterminedRunsDriver):
             import csv
             reader = csv.reader(csv_input)
             header = next(iter(reader))
-            indices = [i for i in range(len(header)) if header[i] in self._desvars.keys()]
+            indices = [i for i in range(len(header)) if run_mdao.get_desvar_path(header[i]) in self._desvars.keys()]
 
             def filter_desvar(l):
                 """Filter out non-desvars (in case the .csv has other values)."""
