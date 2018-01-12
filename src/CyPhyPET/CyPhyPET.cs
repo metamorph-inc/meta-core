@@ -474,23 +474,17 @@ namespace CyPhyPET
         /// <returns>Result of the run, which contains a success flag.</returns>
         public IInterpreterResult Main(IInterpreterMainParameters parameters)
         {
-            bool disposeLogger = false;
             try
             {
                 MainThrows(parameters);
             }
             catch (Exception ex)
             {
-                this.Logger.WriteError("Exception was thrown : {0}", ex.ToString().Replace("\n", "<br>"));
-                this.result.Success = false;
-            }
-            finally
-            {
-                if (disposeLogger && this.Logger != null)
+                if (this.Logger != null)
                 {
-                    this.Logger.Dispose();
-                    this.Logger = null;
+                    this.Logger.WriteError("Exception was thrown : {0}", ex.ToString().Replace("\n", "<br>"));
                 }
+                this.result.Success = false;
             }
 
             return this.result;
@@ -575,6 +569,12 @@ namespace CyPhyPET
             {
                 this.result.Success = false;
                 this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+            }
+            catch (Exception e)
+            {
+                this.result.Success = false;
+                this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+                throw;
             }
             finally
             {

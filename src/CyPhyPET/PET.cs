@@ -227,11 +227,25 @@ namespace CyPhyPET
                         throw new ApplicationException("For CSV File input, you must specify filename=r'file.csv' in the ParameterStudy's Code attribute");
                     }
                     string basename = Path.GetFileName((string)filename);
-                    File.Copy((string)filename, Path.Combine(outputDirectory, basename));
-                    var code = config.details["Code"].ToString();
-                    var basenameEscaped = escapePythonString(basename);
-                    code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
-                    config.details["Code"] = code;
+                    try
+                    {
+                        File.Copy((string)filename, Path.Combine(outputDirectory, basename));
+                    }
+                    catch (IOException e)
+                    {
+                        throw new ApplicationException(String.Format("Could not copy '{0}': {1}", filename, e.Message), e);
+                    }
+                    if (basename == "output.csv")
+                    {
+                        throw new ApplicationException("CSV File input filename must not be 'output.csv'");
+                    }
+                    if (basename != (string)filename)
+                    {
+                        var code = config.details["Code"].ToString();
+                        var basenameEscaped = escapePythonString(basename);
+                        code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
+                        config.details["Code"] = code;
+                    }
                 }
                 else
                 {
