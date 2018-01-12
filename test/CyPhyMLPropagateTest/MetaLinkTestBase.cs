@@ -28,7 +28,7 @@ namespace CyPhyPropagateTest
                 return Path.Combine("..", "..", "..", "..", "models", "MetaLinkTest");
             }
         }
-        protected string TestModelDir
+        protected virtual string TestModelDir
         {
             get
             {
@@ -340,9 +340,21 @@ namespace CyPhyPropagateTest
             }
         }
 
+        public class ProcessWaitHandle : WaitHandle
+        {
+            private readonly Process process;
+            public ProcessWaitHandle(Process process)
+            {
+                this.process = process;
+                this.SafeWaitHandle = new SafeWaitHandle(process.Handle, false);
+            }
+        }
+
         protected void WaitForMetaLinkBridgeToBeReady()
         {
-            if (metalinkReady.WaitOne(10 * 1000) == false)
+            // n.b. This timeout needs to be really long. java.exe consumes .5GiB memory and reads tons of .jars
+            // java.exe also contends with other test processes run in parallel
+            if (WaitHandle.WaitAny(new WaitHandle[] { metalinkReady, new ProcessWaitHandle(metalink) }, 5 * 60 * 1000) != 0)
             {
                 using (FileStream outlog = File.Open(MetaLinkLogFilename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
