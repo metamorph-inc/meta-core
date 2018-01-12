@@ -1083,6 +1083,9 @@ v1.5.23.0 	1/2/2018 CAD_034_Add_More_Generic_CAD_Interfaces, Added more abstract
 			to cc_AssemblyUtilities.h/.cpp and other cc_* .h/.cpp.
 
 
+v1.5.24.0 	1/??/2018 CAD_035_Add_More_Generic_CAD_Interfaces
+		retrieveMassProperties
+
 Known Defects
 -------------
 

@@ -1,9 +1,6 @@
 #include "ISISConstants.h"
 
-#ifndef ISIS_VERSION_NUMBER_H
-#define ISIS_VERSION_NUMBER_H
-//#include <ISISVersionNumber.h>
-#endif
+
 namespace isis
 {
 

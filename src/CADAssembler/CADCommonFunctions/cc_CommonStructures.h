@@ -900,6 +900,7 @@ namespace isis
 		bool	principalAxis_RotationMatrix_Defined;
 
 		MassProperties();
+		void setValuesToNotDefinedAndZeros();
 	};
 
 	enum e_Data_Initial_Source

@@ -180,6 +180,31 @@ class  ModelOperationsCreo : public IModelOperations {
 								bool  in_bottom_up,
 								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
+	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
+								cad::CadFactoryAbstract							&in_Factory,
+								const std::string								&in_ComponentInstanceID,
+								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
+								double											out_Dimensions_xyz[3] )
+																		throw (isis::application_exception);
+
+
+	virtual void findPartsReferencedByFeature(	
+						const std::string								&in_TopAssemblyComponentInstanceID, 
+						const std::string								&in_ComponentInstanceID,
+						const MultiFormatString							&in_FeatureName,
+						e_CADFeatureGeometryType							in_FeatureGeometryType,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+																			throw (isis::application_exception);
+	virtual void retrieveMassProperties( 
+						const std::string								&in_ComponentID,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						MassProperties									&out_MassProperties) 
+																				throw (isis::application_exception);
+
 
 };
 

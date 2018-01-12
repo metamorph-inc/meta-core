@@ -907,6 +907,185 @@ void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (
 
 }
 
+void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+								cad::CadFactoryAbstract							&in_Factory,
+								const std::string								&in_ComponentInstanceID,
+								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
+								double											out_Dimensions_xyz[3] )
+																		throw (isis::application_exception)
+{
+
+		RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+								in_Factory,
+								in_ComponentInstanceID,
+								in_CADComponentData_map,
+								out_BoundingBox_Point_1,
+								out_BoundingBox_Point_2,
+								out_Dimensions_xyz );
+
+
+}
+
+
+
+
+void ModelOperationsCreo::findPartsReferencedByFeature(	
+						const std::string									&in_TopAssemblyComponentInstanceID, 
+						const std::string									&in_ComponentInstanceID,
+						const MultiFormatString								&in_FeatureName,
+						e_CADFeatureGeometryType								in_FeatureGeometryType,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+						std::set<std::string>								&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+																			throw (isis::application_exception)
+{
+	FindPartsReferencedByFeature(	
+						in_TopAssemblyComponentInstanceID, 
+						in_ComponentInstanceID,
+						in_FeatureName,
+						in_FeatureGeometryType,
+						in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						in_CADComponentData_map,
+						out_ComponentInstanceIDs_of_PartsReferencedByFeature_set);
+
+}
+
+void ModelOperationsCreo::retrieveMassProperties( 
+						const std::string								&in_ComponentID,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						MassProperties									&out_MassProperties) 
+																				throw (isis::application_exception)
+{
+
+	out_MassProperties.setValuesToNotDefinedAndZeros();
+
+	// massProperties_RetrievalInvoked means that an attempt was made to read the mass properties from the CAD model.
+	// The CAD model may not have mass properties set, and thus for that case massProperties_Defined would be set to false
+	// and massProperties_RetrievalInvoked would be set to true because an attempt was made to retrieve the mass properties.
+	out_MassProperties.massProperties_RetrievalInvoked = true;
+
+
+	ProMassProperty  mass_prop;
+
+	isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentID, in_CADComponentData_map, &mass_prop );
+
+
+	/////////////////////////////////////////
+	// Check if Mass Properties are Defined
+	////////////////////////////////////////
+
+	// if mass_prop.density == 1.0, then mass properties were never set in Creo.  The never-set mode
+	// means that the geometry and density of 1.0 would be used to compute the mass properties; however,
+	// those computed values would be erroneous.
+	// ERROR - ERROR Leave off the mass_prop.density != 1.0 for now.  This will allow erroneous mass props through, must
+	// provide a better check later.
+	//if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.density != 1.0 && mass_prop.mass != 0.0 ) 
+	if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.mass != 0.0 ) 
+	{
+		out_MassProperties.massProperties_Defined = true;
+	}
+	else
+	{
+		// out_MassProperties.setValuesToNotDefinedAndZeros would have set out_MassProperties.massProperties_Defined = false;
+		return;
+	}
+
+
+	////////////////////////////
+	// volume
+	////////////////////////////
+	out_MassProperties.volume = mass_prop.volume;
+	out_MassProperties.volume_Defined = true;
+
+	////////////////////////////
+	// density
+	////////////////////////////
+	out_MassProperties.density = mass_prop.density;
+	out_MassProperties.density_Defined = true;
+
+	////////////////////////////
+	// mass
+	////////////////////////////
+	out_MassProperties.mass = mass_prop.mass;
+	out_MassProperties.mass_Defined = true;
+
+
+	////////////////////////////
+	// surfaceArea
+	////////////////////////////
+	if (  mass_prop.surface_area != 0.0 )
+	{
+		out_MassProperties.surfaceArea	= mass_prop.surface_area;
+		out_MassProperties.surfaceArea_Defined	= true;
+	}
+
+
+	////////////////////////////////////////////////////////////////////
+	// Center-of-gravity in the coordinate systems of the part/assembly
+	////////////////////////////////////////////////////////////////////
+	for ( int i = 0 ; i < 3; ++i )	out_MassProperties.centerOfGravity[i] = mass_prop.center_of_gravity[i];
+	out_MassProperties.centerOfGravity_Defined = true;
+
+	/////////////////////////////////////////////////////////////////
+	// Interia tensor in the coordinate systems of the part/assembly
+	/////////////////////////////////////////////////////////////////
+	if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.coor_sys_inertia_tensor, 0.0 )  )
+	{
+		out_MassProperties.coordSysInertiaTensor_Defined = true;
+		isis_CADCommon::SetFromToMatrix_3X3( mass_prop.coor_sys_inertia_tensor, out_MassProperties.coordSysInertiaTensor );
+
+		if ( !isis_CADCommon::Positive_Definite_3_x_3( out_MassProperties.coordSysInertiaTensor ))
+		{
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
+												<< "\n       ComponentInstanceID: " << in_ComponentID
+												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentID].name 
+												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)
+												<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
+		}
+	}
+
+
+	/////////////////////////////////
+	// Interia tensor at the C.G.
+	/////////////////////////////////
+	if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3( mass_prop.cg_inertia_tensor, 0.0 )  )
+	{
+		out_MassProperties.cGInertiaTensor_Defined = true;
+		isis_CADCommon::SetFromToMatrix_3X3( mass_prop.cg_inertia_tensor, out_MassProperties.cGInertiaTensor );
+
+		if ( !isis_CADCommon::Positive_Definite_3_x_3( out_MassProperties.cGInertiaTensor ))
+		{
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
+												<< "\n       ComponentInstanceID: " << in_ComponentID
+												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentID].name 
+												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)
+												<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
+		}
+
+	}
+
+	/////////////////////////////////
+	// Principal Moments Of Inertia
+	/////////////////////////////////
+	for ( int i = 0 ; i < 3; ++i )	out_MassProperties.principalMomentsOfInertia[i] = mass_prop.principal_moments[i];
+	out_MassProperties.principalMomentsOfInertia_Defined = true;
+
+
+	/////////////////////////////////
+	// Principal Axis Rotation Matrix
+	/////////////////////////////////
+	if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.principal_axes, 0.0 )  )
+	{
+		out_MassProperties.principalAxis_RotationMatrix_Defined = true;
+		isis_CADCommon::SetFromToMatrix_3X3( mass_prop.principal_axes, out_MassProperties.principalAxis_RotationMatrix );
+	}
+
+
+}
+
+
 } // creo
 } // cad
 } // isis

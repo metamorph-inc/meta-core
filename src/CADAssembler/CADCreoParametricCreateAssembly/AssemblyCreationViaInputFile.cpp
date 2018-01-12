@@ -666,6 +666,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 
 				// This must be after the call to PopulateMap_with_Junctions_per_InputXMLConstraints
 				PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints (	
+										in_Factory,
 										i->assemblyComponentID,
 										assemblyComponentIDs_ExcludeTopAssembly_SelectInputXMLComponents.listOfComponentIDs,
 										featureIDs_to_ComponentInstanceID_hashtable,
@@ -823,7 +824,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			// CFD Run
 			////////////////
 			if ( cFDAnalysisRun) {
-				CFD_Driver( isis::V1, in_CADExtensionsDir, 
+				CFD_Driver( in_Factory, isis::V1, in_CADExtensionsDir, 
 					workingDirector, *i, cADComponentData_map );
 			}
 
@@ -977,7 +978,7 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 			{
 				// This does not write to ComputedValues.xml
 				// The reference plane is written to a json file
-				isis::PopulateBlastFiles( *i, workingDirector, cADComponentData_map);
+				isis::PopulateBlastFiles( in_Factory, *i, workingDirector, cADComponentData_map);
 			}
 
 			// This is not needed because the only file needed for CFD in the ComputedValues.xml
@@ -1106,9 +1107,9 @@ void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
 				isis::VisitComponents(i_tl.assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
 				// Add Bounding Box Values to Map
-				AddBoundingBoxValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
+				AddBoundingBoxValuesToMap( in_Factory, assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
 				// Add Mass Property Values to Map
-				AddMassPropertyValuesToMap( assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
+				AddMassPropertyValuesToMap( in_Factory, assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs, cADComponentData_map );
 			}
 
 			// The following function iterates through each top-assembly and recursively

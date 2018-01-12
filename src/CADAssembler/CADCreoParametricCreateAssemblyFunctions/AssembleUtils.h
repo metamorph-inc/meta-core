@@ -14,7 +14,6 @@
 
 namespace isis
 {
-	std::string META_PATH();
 
 	ProBoolean Bool_to_ProBoolean ( bool in_Bool);
 	bool       ProBoolean_to_Bool ( ProBoolean in_ProBoolean );
@@ -163,7 +162,8 @@ namespace isis
 	// If the bounding box information has already been computed for in_ComponentInstanceID then those
 	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
 	// and then returned.
-	void	RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+	void 	RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+								cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D						&out_BoundingBox_Point_1,
@@ -173,9 +173,6 @@ namespace isis
 
 	// e.g. "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL"
 	std::string CreoMaterialMTLFilesDir_Path();
-
-	// e.g "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
-	std::string MaterialsLibrary_PathAndFileName();
 
 
 	void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, ProModelitem  &in_ModelItem )
@@ -188,41 +185,14 @@ namespace isis
 					bool											in_Force = false)
 																			throw (isis::application_exception);
 
-	void	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
 			cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//	Description:
-	//		This function adds ComponentInstanceIDs to the 
-	//		in_out_CADComponentData_map::…::constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs, wherein the 
-	//		ComponentInstanceIDs are either the part IDs that the datums contained in in_out_CADComponentData_map::…::constraintPairs
-	//		reference, or the assembly IDs for the assemblies that are treated as one body (i.e. CADAssembly.xml 
-	//		special instruction != HAS_KINEMATIC_JOINT ). Reference means the parts that contain the geometry 
-	//		referenced by a datum.  See the contract for 
-	//		FindPartsReferencedByFeature for more information about the meaning of a referenced part.
-	//
-	//	Pre-Conditions:
-	//		in_TopAssemblyComponentInstanceID must be the top assembly for the entire assembly.  The feature IDs leading 
-	//		to a sub-part/sub-assembly start at the top assembly.
-	//
-	//		in_AssemblyComponentIDs must be ComponentIDs in in_out_CADComponentData_map. 
-	//
-	//	Post-Conditions:
-	//		if in_AssemblyComponentIDs.size() == 0, no action taken
-	//
-	//		if a referenced ComponentID is not found in in_FeatureIDs_to_ComponentInstanceID_hashtable
-	//			then
-	//				throw isis::application_exception
-	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
-			const std::string														&in_TopAssemblyComponentInstanceID,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
-			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
-																		throw (isis::application_exception);
+
 
 
 	//void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
@@ -270,34 +240,6 @@ namespace isis
 			std::vector<std::string>						&out_Errors );
 
 
-	//	Description:
-	//		Returns if in_ComponentInstanceID is a CyPhy leaf assembly.  This is  determineed  by checking if 
-	//		the immediate (i.e. not grandchildren) children of in_ComponentInstanceID have the setting of 
-	//		INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-	//
-	//	Pre-Conditions:
-	//		forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
-	//		calling this function; and if not, CyPhyLeafAssembly will always return false.
-	//
-	//	Post-Conditions:
-	//		if in_ComponentInstanceID is a part
-	//			return false
-	//		if the first immediate child has the setting of INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-	//			return true
-	//		else
-	//			return false
-	bool CyPhyLeafAssembly (	const std::string								&in_ComponentInstanceID,
-								std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map );
-
-
-	void AddBoundingBoxValuesToMap( 
-						const std::vector<std::string>					&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) throw (isis::application_exception);
-
-	void AddMassPropertyValuesToMap( 
-						const std::vector<std::string>					&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
-																				throw (isis::application_exception);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// This function returns the componentInstanceIDs (out_ReferencedComponentInstanceIDs) that are referenced by the 
@@ -331,6 +273,46 @@ namespace isis
 					isis::cad::Junction								&out_Junction,
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 						throw (isis::application_exception);
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Description: 
+	//		This function resolves the references of in_FeatureName to the parts that are referenced by in_FeatureName.  
+	//		For example, in_FeatureName could be a datum (i.e. plane, axis, point, or coordinate system) and that datum 
+	//		could be defined by pointing to part geometry.  This function follows those refereces until it finds the parts 
+	//		that own the referenced geometry.  A common use case is a datum plane in an assembly where the datum plane 
+	//		points to a second datum plane in a sub-part, wherein the second datum plane points to geometry in the sub-part.  
+	//		This function would return the ComponentInstanceIDs of the parts that own the referenced geometry.
+	//
+	//		It should be noted that a datum can reference more than one geometries and those geometries can be in separate
+	//		parts.
+	// 
+	//	Pre-Conditions:
+	//		This function should be called with out_ComponentInstanceIDs_of_PartsReferencedByFeature_set being empty.
+	//
+	//		in_TopAssemblyModel_ComponentInstanceID must be in in_CADComponentData_map and be the top assembly for the 
+	//		entire assembly structure containing in_ComponentInstanceID
+	//
+	//		in_ComponentInstanceID must be in CADComponentData_map
+	//
+	//	Post-Conditions
+	//		if in_FeatureName not found in in_ComponentInstanceID then throw throw (isis::application_exception)
+	//
+	//		If no exceptions 
+	//			then 
+	//				out_ComponentInstanceIDs_of_PartsReferencedByFeature_set would be populated with 0 to many ComponentInstanceIDs.
+	//				It could be 0 because in_FeatureName might only have references to an assembly and this function only finds 
+	//				references to parts.
+	void FindPartsReferencedByFeature(	
+						const std::string								&in_TopAssemblyComponentInstanceID, 
+						const std::string								&in_ComponentInstanceID,
+						const MultiFormatString							&in_FeatureName,
+						//ProType										in_FeatureGeometryType,
+						e_CADFeatureGeometryType							in_FeatureGeometryType,
+						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+																			throw (isis::application_exception);
 
 }
 

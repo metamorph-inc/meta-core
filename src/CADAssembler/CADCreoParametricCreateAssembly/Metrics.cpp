@@ -7,11 +7,16 @@
 #include <cc_GraphicsFunctions.h>
 #include "cc_Joint.h"
 #include <cc_CommonUtilities.h>
+
+
+#include <cc_CommonFunctions.h>
+#include <cc_AssemblyUtilities.h>
+
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
 #include <ISISVersionNumber.h>
-#include <cc_CommonFunctions.h>
 #endif
+
 
 namespace isis
 {

@@ -346,6 +346,8 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				isis_CADCommon::Point_3D	boundingBox_Point_2;
 				double						boundingBoxDimensions_xyz[3];		
 
+				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+
 				switch ( j.computationType)
 				{
 					case COMPUTATION_BOUNDING_BOX:
@@ -358,11 +360,20 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 	
 
-						RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
+						//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
+						//										in_CADComponentData_map,
+						//										boundingBox_Point_1,
+						//										boundingBox_Point_2,
+						//										boundingBoxDimensions_xyz );
+
+
+						modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( in_Factory,
+																in_CADComponentData_map[i.first].componentID,
 																in_CADComponentData_map,
 																boundingBox_Point_1,
 																boundingBox_Point_2,
 																boundingBoxDimensions_xyz );
+
 
 						temp_x  = boundingBoxDimensions_xyz[0]; // Typically Width  x direction	
 						temp_y =  boundingBoxDimensions_xyz[1];  // Typically Height y direction
@@ -402,9 +413,10 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						// For now, only supporting ground plane
 						if ( j.computationSubType == COMPUTATION_SUBTYPE_GROUND )
 						{
-							ComputeVehicleGroundPlane(	componentID_to_AssemblyComponentID_map[i.first],
-													in_CADComponentData_map,
-													temp_points );
+							ComputeVehicleGroundPlane(	in_Factory, 
+														componentID_to_AssemblyComponentID_map[i.first],
+														in_CADComponentData_map,
+														temp_points );
 						}
 						else
 						{

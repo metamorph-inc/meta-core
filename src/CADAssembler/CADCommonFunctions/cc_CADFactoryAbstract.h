@@ -283,15 +283,22 @@ public:
 								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 								bool  in_bottom_up,
 								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
-			
-};
 
 
-/***
-class IFeature {
-public:
-	// provide the name of the concrete assembler
-	virtual std::string name() = 0;
+	// This function computes the bounding box based on excluding all geometry except for the solid geometry.
+	// This means that datums, coordinate system, and sketch curves/lines would be excluded.
+	// If the bounding box information has already been computed for in_ComponentInstanceID then those
+	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
+	// and then returned.
+	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+								cad::CadFactoryAbstract							&in_Factory,
+								const std::string								&in_ComponentInstanceID,
+								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
+								double											out_Dimensions_xyz[3] )
+																		throw (isis::application_exception) = 0;
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Description: 
@@ -321,7 +328,8 @@ public:
 	//				out_ComponentInstanceIDs_of_PartsReferencedByFeature_set would be populated with 0 to many ComponentInstanceIDs.
 	//				It could be 0 because in_FeatureName might only have references to an assembly and this function only finds 
 	//				references to parts.
-	virtual void FindPartsReferencedByFeature(	
+
+	virtual void findPartsReferencedByFeature(	
 						const std::string							&in_TopAssemblyComponentInstanceID, 
 						const std::string							&in_ComponentInstanceID,
 						const MultiFormatString						&in_FeatureName,
@@ -332,8 +340,15 @@ public:
 																			throw (isis::application_exception) = 0;
 
 
+	// See the ModelOperationsCreo::retrieveMassProperties funtion for how out_MassProperties should be set
+	virtual void retrieveMassProperties( 
+						const std::string								&in_ComponentID,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						MassProperties									&out_MassProperties) 
+																				throw (isis::application_exception) = 0;
+
 };
-****/
+
 
 
 
