@@ -305,7 +305,6 @@ namespace JobManagerFramework
                         {
                             commandToShowToUser = job.WorkingDirectory + ": " + job.RunCommand;
                         }
-                        proc0.StandardInput.Close();
 
                         int iWaitHandle =
                             WaitHandle.WaitAny(new WaitHandle[] {processExited, this.ShutdownPool, jobAborted});
