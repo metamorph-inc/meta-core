@@ -406,7 +406,7 @@ namespace CyPhyPET
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool SetDllDirectory(string lpPathName);
 
-        [DllImport("CyPhyFormulaEvaluator.dll")]
+        [DllImport("CyPhyFormulaEvaluator.dll", CallingConvention=CallingConvention.Cdecl)]
         static extern bool AreUnitsEqual(IMgaFCO fco1, IMgaFCO fco2);
 
         private void checkUnitMatchesSource(ISIS.GME.Common.Interfaces.Reference objective)
