@@ -230,6 +230,7 @@ namespace JobManagerFramework
 
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardError = true;
+                psi.RedirectStandardInput = true;
                 proc0.StartInfo = psi;
 
                 proc0.EnableRaisingEvents = true;
@@ -305,6 +306,7 @@ namespace JobManagerFramework
                         {
                             commandToShowToUser = job.WorkingDirectory + ": " + job.RunCommand;
                         }
+                        proc0.StandardInput.Close();
 
                         int iWaitHandle =
                             WaitHandle.WaitAny(new WaitHandle[] {processExited, this.ShutdownPool, jobAborted});
