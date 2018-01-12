@@ -275,7 +275,7 @@ namespace CyPhyPETTest
             var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
             var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
 
-            Assert.Equal("u\"one\"", config.subProblems["ParametricExploration"].problemInputs["ProblemInput"].value);
+            Assert.Equal("u'one'", config.subProblems["ParametricExploration"].problemInputs["ProblemInput"].value);
             Assert.Equal(true, config.subProblems["ParametricExploration"].problemInputs["ProblemInput"].pass_by_obj);
 
             Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
