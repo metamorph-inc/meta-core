@@ -229,7 +229,7 @@ namespace CyPhyPET
                     string basename = Path.GetFileName((string)filename);
                     File.Copy((string)filename, Path.Combine(outputDirectory, basename));
                     var code = config.details["Code"].ToString();
-                    var basenameEscaped = Regex.Replace(basename, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
+                    var basenameEscaped = escapePythonString(basename);
                     code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
                     config.details["Code"] = code;
                 }
@@ -264,6 +264,11 @@ namespace CyPhyPET
                     }
                 }
             }
+        }
+
+        private static string escapePythonString(string value)
+        {
+            return Regex.Replace(value, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
         }
 
         public static Dictionary<string, object> getPythonAssignment(string code)
@@ -313,7 +318,12 @@ namespace CyPhyPET
             {
                 var configVariable = new PETConfig.DesignVariable();
                 setUnit(designVariable.Referred.unit, configVariable);
-                ParseDesignVariableRange(designVariable, configVariable);
+                bool isFullFactorial = false;
+                if (driver is CyPhy.ParameterStudy)
+                {
+                    isFullFactorial = ((CyPhy.ParameterStudy)driver).Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Full_Factorial;
+                }
+                ParseDesignVariableRange(designVariable.Attributes.Range, configVariable, isFullFactorial);
                 config.designVariables.Add(designVariable.Name, configVariable);
             }
             foreach (var objective in driver.Children.ObjectiveCollection)
@@ -339,9 +349,38 @@ namespace CyPhyPET
             return config;
         }
 
-        private static void ParseDesignVariableRange(CyPhy.DesignVariable designVariable, DesignVariable configVariable)
+        public static double nextafter(double value, double direction)
         {
-            var range = designVariable.Attributes.Range;
+            if (Double.IsInfinity(value) || Double.IsNaN(value))
+            {
+                return value;
+            }
+            if (value == direction)
+            {
+                return value;
+            }
+            int dir = value > direction ? 1 : -1;
+            long bits = BitConverter.DoubleToInt64Bits(value);
+            if (value > 0)
+            {
+                return BitConverter.Int64BitsToDouble(bits - dir);
+            }
+            else if (value < 0)
+            {
+                return BitConverter.Int64BitsToDouble(bits + dir);
+            }
+            else
+            {
+                return -1 * dir * double.Epsilon;
+            }
+        }
+
+        public static void ParseDesignVariableRange(string range, DesignVariable configVariable, bool isFullFactorial = false)
+        {
+            var parseErrorMessage = String.Format("Cannot parse Design Variable Range '{0}'. ", range) +
+                    "Double ranges are specified by an un-quoted value or two un-quoted values separated by commas. " +
+                    "Enumerations are specified by one double-quoted value or two or more double-quoted values separated by semicolons. " +
+                    "E.g.: '2.0,2.5' or '\"Low\";\"Medium\";\"High\"'";
             var oneValue = new System.Text.RegularExpressions.Regex(
                 // start with previous match. match number or string
                 "\\G(" +
@@ -384,22 +423,55 @@ namespace CyPhyPET
                     configVariable.type = "enum";
                 }
             }
-            else if (designVariable.Attributes.Range.Contains(","))
+            else if (range.Contains(","))
             {
-                var range_split = designVariable.Attributes.Range.Split(new char[] { ',' });
-                if (range_split.Length == 2)
+                var range_split = range.Split(new char[] { ',' });
+                if (range_split.Length != 2)
                 {
-                    configVariable.RangeMin = Double.Parse(range_split[0], NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-                    configVariable.RangeMax = Double.Parse(range_split[1], NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                    throw new ApplicationException(parseErrorMessage);
+                }
+                string lower = range_split[0];
+                string upper = range_split[1];
+                bool lowerExcluded = false;
+                bool upperExcluded = false;
+                if (lower[0] == '(')
+                {
+                    lowerExcluded = true;
+                    lower = lower.Substring(1);
+                }
+                else if (lower[0] == '[')
+                {
+                    lowerExcluded = false;
+                    lower = lower.Substring(1);
+                }
+                if (upper.Last() == ')')
+                {
+                    upperExcluded = true;
+                    upper = upper.Substring(0, upper.Length - 1);
+                }
+                else if (upper.Last() == ']')
+                {
+                    upperExcluded = false;
+                    upper = upper.Substring(0, upper.Length - 1);
+                }
+                if ((upperExcluded || lowerExcluded) && isFullFactorial)
+                {
+                    throw new ApplicationException(String.Format("Invalid range '{0}' for full factorial. Full factorial ranges must be closed intervals", range));
+                }
+                configVariable.RangeMin = Double.Parse(lower, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                configVariable.RangeMax = Double.Parse(upper, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                if (lowerExcluded)
+                {
+                    configVariable.RangeMin = nextafter((double)configVariable.RangeMin, (double)configVariable.RangeMax);
+                }
+                if (upperExcluded)
+                {
+                    configVariable.RangeMax = nextafter((double)configVariable.RangeMax, (double)configVariable.RangeMin);
                 }
             }
             else
             {
-                throw new ApplicationException(String.Format("Cannot parse Design Variable Range '{0}'. ", designVariable.Attributes.Range) +
-                    "Double ranges are specified by an un-quoted value or two un-quoted values separated by commas. " +
-                    "Enumerations are specified by one double-quoted value or two or more double-quoted values separated by semicolons. " +
-                    "E.g.: '2.0,2.5' or '\"Low\";\"Medium\";\"High\"'"
-                    );
+                throw new ApplicationException(parseErrorMessage);
             }
         }
 
@@ -1202,13 +1274,12 @@ namespace CyPhyPET
         private static void SetProblemInputValueFromDesignVariable(SubProblem.ProblemInput problemInput, MgaFCO desVar)
         {
             var configDesignVariable = new DesignVariable();
-            ParseDesignVariableRange(CyPhyClasses.DesignVariable.Cast(desVar), configDesignVariable);
+            ParseDesignVariableRange(CyPhyClasses.DesignVariable.Cast(desVar).Attributes.Range, configDesignVariable);
             if (configDesignVariable.items != null)
             {
                 if (configDesignVariable.items[0] is string)
                 {
-                    // FIXME: should be Python-style string; this is wrong for codepoints > 0x10000
-                    problemInput.value = String.Format("u{0}", JsonConvert.SerializeObject(configDesignVariable.items[0]));
+                    problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
                     problemInput.pass_by_obj = true;
                 }
                 else
