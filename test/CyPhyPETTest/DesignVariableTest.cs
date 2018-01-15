@@ -36,14 +36,9 @@ namespace CyPhyPETTest
             Assert.Equal(1.0000000000000002, dv.RangeMin);
             Assert.Equal(2.0, dv.RangeMax);
 
-            PET.ParseDesignVariableRange("(1e+0,1]", dv);
+            PET.ParseDesignVariableRange("[1e+0,1]", dv);
             Assert.Equal(1, dv.RangeMin);
             Assert.Equal(1, dv.RangeMax);
-
-            PET.ParseDesignVariableRange("[1,1)", dv);
-            Assert.Equal(1, dv.RangeMin);
-            Assert.Equal(1, dv.RangeMax);
-
 
             Assert.Throws<ApplicationException>(() =>
             {
@@ -52,6 +47,18 @@ namespace CyPhyPETTest
             Assert.Throws<ApplicationException>(() =>
             {
                 PET.ParseDesignVariableRange("1,2,3", dv);
+            });
+            Assert.Throws<ApplicationException>(() =>
+            {
+                PET.ParseDesignVariableRange("(1,1)", dv);
+            });
+            Assert.Throws<ApplicationException>(() =>
+            {
+                PET.ParseDesignVariableRange("(1,1]", dv);
+            });
+            Assert.Throws<ApplicationException>(() =>
+            {
+                PET.ParseDesignVariableRange("[1,1)", dv);
             });
         }
 

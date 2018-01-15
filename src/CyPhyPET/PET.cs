@@ -318,12 +318,7 @@ namespace CyPhyPET
             {
                 var configVariable = new PETConfig.DesignVariable();
                 setUnit(designVariable.Referred.unit, configVariable);
-                bool isFullFactorial = false;
-                if (driver is CyPhy.ParameterStudy)
-                {
-                    isFullFactorial = ((CyPhy.ParameterStudy)driver).Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Full_Factorial;
-                }
-                ParseDesignVariableRange(designVariable.Attributes.Range, configVariable, isFullFactorial);
+                ParseDesignVariableRange(designVariable.Attributes.Range, configVariable);
                 config.designVariables.Add(designVariable.Name, configVariable);
             }
             foreach (var objective in driver.Children.ObjectiveCollection)
@@ -375,7 +370,7 @@ namespace CyPhyPET
             }
         }
 
-        public static void ParseDesignVariableRange(string range, DesignVariable configVariable, bool isFullFactorial = false)
+        public static void ParseDesignVariableRange(string range, DesignVariable configVariable)
         {
             var parseErrorMessage = String.Format("Cannot parse Design Variable Range '{0}'. ", range) +
                     "Double ranges are specified by an un-quoted value or two un-quoted values separated by commas. " +
@@ -454,19 +449,19 @@ namespace CyPhyPET
                     upperExcluded = false;
                     upper = upper.Substring(0, upper.Length - 1);
                 }
-                if ((upperExcluded || lowerExcluded) && isFullFactorial)
-                {
-                    throw new ApplicationException(String.Format("Invalid range '{0}' for full factorial. Full factorial ranges must be closed intervals", range));
-                }
                 configVariable.RangeMin = Double.Parse(lower, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
                 configVariable.RangeMax = Double.Parse(upper, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
                 if (lowerExcluded)
                 {
-                    configVariable.RangeMin = nextafter((double)configVariable.RangeMin, (double)configVariable.RangeMax);
+                    configVariable.RangeMin = nextafter((double)configVariable.RangeMin, Double.PositiveInfinity);
                 }
                 if (upperExcluded)
                 {
-                    configVariable.RangeMax = nextafter((double)configVariable.RangeMax, (double)configVariable.RangeMin);
+                    configVariable.RangeMax = nextafter((double)configVariable.RangeMax, Double.NegativeInfinity);
+                }
+                if (configVariable.RangeMin > configVariable.RangeMax)
+                {
+                    throw new ApplicationException(String.Format("Invalid Design Variable Range '{0}'. ", range));
                 }
             }
             else
