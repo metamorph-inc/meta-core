@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{9616B58E-E240-432C-9E6C-922528A5B55E}" cdate="Tue Jan 09 12:49:41 2018" mdate="Tue Jan 09 12:49:41 2018" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{A616B58E-E240-432C-9E6C-922528A5B55E}" cdate="Tue Jan 09 12:49:41 2018" mdate="Tue Jan 09 12:49:41 2018" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>CyPhyML-core</name>
 	<comment></comment>
 	<author></author>
@@ -39608,7 +39608,7 @@ sRefParent=srcResultFlow_refport_parent
 						</regnode>
 					</regnode>
 					<regnode name="description" isopaque="yes">
-						<value>A single number (e.g. 1.5), a comma-separated range (e.g. 1.5,3), or a list of enum values (e.g. &quot;item one&quot;;&quot;item two&quot; or 1.5;3)</value>
+						<value>A single number (e.g. 1.5), a real-number interval (e.g. (0,5]), or a list of enum values (e.g. &quot;item one&quot;;&quot;item two&quot; or 1.5;3)</value>
 					</regnode>
 					<attribute kind="ContentType" status="meta">
 						<value></value>
@@ -39623,7 +39623,7 @@ sRefParent=srcResultFlow_refport_parent
 						<value>false</value>
 					</attribute>
 					<attribute kind="Help">
-						<value>A single number (e.g. 1.5), a comma-separated range (e.g. 1.5,3), or a list of enum values (e.g. &quot;item one&quot;,&quot;item two&quot; or 1.5,3)</value>
+						<value>A single number (e.g. 1.5), a real-number interval (e.g. (0,5]), or a list of enum values (e.g. &quot;item one&quot;,&quot;item two&quot; or 1.5,3)</value>
 					</attribute>
 					<attribute kind="IsViewable" status="meta">
 						<value>true</value>
