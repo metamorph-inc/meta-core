@@ -1091,12 +1091,12 @@ namespace CyPhyPET.Rules
         {
             var attributeCheckResults = new List<RuleFeedbackBase>();
 
-            double minValue = 0;
-            double maxValue = 0;
+            double minValue = Double.NegativeInfinity;
+            double maxValue = Double.PositiveInfinity;
 
             bool canGetMinAndMax =
-                double.TryParse(optConstraint.Attributes.MinValue.Trim(), out minValue) &&
-                double.TryParse(optConstraint.Attributes.MaxValue.Trim(), out maxValue);
+                (optConstraint.Attributes.MinValue == "" || double.TryParse(optConstraint.Attributes.MinValue.Trim(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out minValue)) &&
+                (optConstraint.Attributes.MaxValue == "" || double.TryParse(optConstraint.Attributes.MaxValue.Trim(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out maxValue));
 
             if (canGetMinAndMax)
             {
