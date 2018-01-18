@@ -41,7 +41,14 @@ namespace CyPhyPET
             // Create a copy of the file, since excel opens with ShareMode: None and we may want to run in parallel
             string xlFilenameCopy = Path.Combine(Path.GetDirectoryName(xlFilename), Path.GetFileNameWithoutExtension(xlFilename) + "_" + GetCurrentThreadId().ToString() +
                 "_" + Process.GetCurrentProcess().Id + Path.GetExtension(xlFilename));
-            System.IO.File.Copy(xlFilename, xlFilenameCopy, true);
+            try
+            {
+                System.IO.File.Copy(xlFilename, xlFilenameCopy, true);
+            }
+            catch (IOException e)
+            {
+                throw new ApplicationException(String.Format("Could not copy \"{0}\": {1}", xlFilename, e.Message), e);
+            }
             try
             {
                 // n.b. Excel needs an absolute path
