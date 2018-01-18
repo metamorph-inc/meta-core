@@ -4,6 +4,7 @@ import io
 import os
 import os.path
 import json
+import subprocess
 import six
 
 path_join = os.path.join
@@ -40,8 +41,24 @@ with zipfile.ZipFile(output_filename, 'w', allowZip64=True) as z:
     with open('mdao_config.json', 'w') as config_file:
         json.dump(mdao_config, config_file, indent=4)
 
+    already_zipped_dirs = set()
+    for name, component in six.iteritems(mdao_config['components']):
+        if component.get('type', 'TestBenchComponent') != 'TestBenchComponent':
+            continue
+        directory = component['details']['directory']
+        if os.path.isfile(os.path.join(directory, 'zip.py')):
+            subprocess.check_call([sys.executable, 'zip.py'], cwd=directory)
+            already_zipped_dirs.add(os.path.join(parent_dir_name, directory))
+            with zipfile.ZipFile(os.path.join(directory, output_filename)) as testbench_zip:
+                for name in testbench_zip.namelist():
+                    # n.b. name starts with `directory`/
+                    z.writestr(parent_dir_name + '/' + name, testbench_zip.read(name), compress_type=zipfile.ZIP_DEFLATED)
+
     os.chdir('..')
     for dirpath, dirs, files in os.walk(parent_dir_name):
+        if dirpath in already_zipped_dirs:
+            dirs[:] = []
+            continue
         for f in files:
             if output_filename == f:
                 continue
