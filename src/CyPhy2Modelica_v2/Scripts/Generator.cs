@@ -122,28 +122,28 @@ namespace CyPhy2Modelica_v2.Scripts
 
 
             // generate scripts
-            Templates.dymola_simulate dymola_sim = new Templates.dymola_simulate();
-            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_dymola.cmd"), dymola_sim.TransformText());
+            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_dymola.cmd"), 
+                CyPhy2Modelica_v2.Properties.Resources._simulate_cmd.Replace("TOOL_TO_BE_REPLACED", "Dymola"));
 
-            Templates.om_simulate om_sim = new Templates.om_simulate();
-            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_om.cmd"), om_sim.TransformText());
+            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_om.cmd"),
+                CyPhy2Modelica_v2.Properties.Resources._simulate_cmd.Replace("TOOL_TO_BE_REPLACED", "OpenModelica"));
 
-            Templates.jmodelica_simulate jmodelica_sim = new Templates.jmodelica_simulate();
-            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_jmodelica.cmd"), jmodelica_sim.TransformText());
+            File.WriteAllText(Path.Combine(this.mainParameters.OutputDirectory, "simulate_jmodelica.cmd"),
+                CyPhy2Modelica_v2.Properties.Resources._simulate_cmd.Replace("TOOL_TO_BE_REPLACED", "JModelica"));
 
             var solver = new Modelica.SolverSettings(testBench.Children.SolverSettingsCollection.FirstOrDefault());
 
             if (solver.ToolSelection.Contains("OpenModelica"))
             {
-                this.RunCommand = "simulate_om.cmd " + solver.ToolSelection;
+                this.RunCommand = "simulate_om.cmd";
             }
             else if (solver.ToolSelection.Contains("Dymola"))
             {
-                this.RunCommand = "simulate_dymola.cmd " + solver.ToolSelection;
+                this.RunCommand = "simulate_dymola.cmd";
             }
             else if (solver.ToolSelection.Contains("JModelica"))
             {
-                this.RunCommand = "simulate_jmodelica.cmd " + solver.ToolSelection;
+                this.RunCommand = "simulate_jmodelica.cmd";
 
                 Templates.jmodelica_compile_py jmodelica_compile = new Templates.jmodelica_compile_py();
                 File.WriteAllText(Path.Combine(scriptDir, "jmodelica_compile.py"), jmodelica_compile.TransformText());
