@@ -1086,6 +1086,73 @@ void ModelOperationsCreo::retrieveMassProperties(
 }
 
 
+void ModelOperationsCreo::convertCADUnitToGMEUnit_Distance ( const MultiFormatString in_DistanceUnit, 
+															 std::string &out_ShortName, 
+															 std::string &out_LongName  )
+																				throw (isis::application_exception)
+{
+	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
+
+	//std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
+
+	string unit = boost::algorithm::to_lower_copy((const string)in_DistanceUnit);
+
+	out_ShortName	= unit;
+	out_LongName	= unit;
+
+	bool valid_unit = false;
+
+	if ( unit == "in" ) 
+	{ 
+		out_ShortName = "inch";	
+		out_LongName	  = "inch";			
+		valid_unit = true;
+	} 
+	else if ( unit == "ft" ) 
+	{ 
+		out_ShortName = "foot";	
+		out_LongName  = "foot";			
+		valid_unit = true;
+	}
+	else if ( unit == "mm" ) 
+	{ 
+		out_ShortName = "mm";		
+		out_LongName  = "millimeter";		
+		valid_unit = true;
+	}
+	else if ( unit == "cm" ) 
+	{ 
+		out_ShortName = "cm";		
+		out_LongName  = "centimeter";		
+		valid_unit = true;
+	}
+	else if ( unit == "m" )	
+	{ 
+		out_ShortName = "m";		
+		out_LongName  = "meter";			
+		valid_unit = true;
+	}
+	else if ( unit == "km" )
+	{ 
+		out_ShortName = "km";		
+		out_LongName  = "kilometer";		
+		valid_unit = true;
+	}
+
+	
+	if ( !valid_unit )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+					"received in_DistanceUnit: " << std::endl << (const string)in_DistanceUnit << 
+					", which is an unkown unit type.  Valid unit types are in, ft, mm, cm, m, and km.";
+
+		throw isis::application_exception(errorString);		
+	}
+
+}
+
+
 } // creo
 } // cad
 } // isis

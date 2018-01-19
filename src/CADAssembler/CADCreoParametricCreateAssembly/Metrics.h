@@ -65,6 +65,7 @@ namespace isis
 
 
 	void RetrieveUnits_withDescriptiveErrorMsg( 
+					cad::CadFactoryAbstract			&in_Factory,
 					const std::string				&in_ComponentInstanceID,
 					const isis::MultiFormatString	&in_ModelName,				
 					ProMdl							in_Model,

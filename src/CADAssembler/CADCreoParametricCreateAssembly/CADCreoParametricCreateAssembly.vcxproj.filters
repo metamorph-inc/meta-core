@@ -61,12 +61,6 @@
     <ClCompile Include="GlobalModelData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,18 +100,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">

@@ -22,7 +22,7 @@ namespace isis
 {
 
 ///////////////////////////////////////////////////////////////////////////////////////
-
+/***
 void  ConvertCreoUnitToGMEUnit_Distance ( ProName in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -40,7 +40,7 @@ void  ConvertCreoUnitToGMEUnit_Distance ( ProName in_DistanceUnit, std::string &
 	if ( unit == "km" )	{ out_ShortName = "km";		out_LongName = "kilometer"; }
 
 }
-
+**/
 ///////////////////////////////////////////////////////////////////////////////////////
 void  ConvertCreoUnitToGMEUnit_Mass ( ProName in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
 {
@@ -103,7 +103,8 @@ void ConvertCreoUnitToGMEUnit_Time ( ProName in_TimeUnit, std::string &out_Short
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void RetrieveUnits( ProMdl			in_Model,
+void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
+					ProMdl			in_Model,
 					std::string		&out_DistanceUnit_ShortName,
 					std::string		&out_DistanceUnit_LongName,
 					
@@ -138,7 +139,10 @@ void RetrieveUnits( ProMdl			in_Model,
 
 	
 	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_LENGTH, &lengthUnit); 
-	ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
+
+	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
+	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+	modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
 
 	try 
 	{
@@ -171,6 +175,7 @@ void RetrieveUnits( ProMdl			in_Model,
 
 ///////////////////////////////////////////////////////////////////////////////////////
 	void RetrieveUnits_withDescriptiveErrorMsg( 
+					cad::CadFactoryAbstract		    &in_Factory,
 					const std::string				&in_ComponentInstanceID,
 					const isis::MultiFormatString	&in_ModelName,				
 					ProMdl							in_Model,
@@ -192,7 +197,8 @@ void RetrieveUnits( ProMdl			in_Model,
 	{
 		try
 		{
-			RetrieveUnits(	in_Model,
+			RetrieveUnits(	in_Factory,
+							in_Model,
 							out_DistanceUnit_ShortName,
 							out_DistanceUnit_LongName,
 					
@@ -483,6 +489,7 @@ void Populate_Single_MetricComponent(
 		//std::cout << std::endl << "=====> Model Units, Model: " << in_CADComponentData_map[in_ComponentID].name;
 		
 		RetrieveUnits_withDescriptiveErrorMsg( 
+						in_Factory,
 						in_CADComponentData_map[in_ComponentID].componentID,
 						in_CADComponentData_map[in_ComponentID].name,
 						in_CADComponentData_map[in_ComponentID].cADModel_hdl, 

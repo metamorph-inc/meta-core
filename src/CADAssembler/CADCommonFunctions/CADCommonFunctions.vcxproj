@@ -164,6 +164,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h" />
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h" />
     <ClInclude Include="cc_AssemblyUtilities.h" />
     <ClInclude Include="c3ga.h" />
     <ClInclude Include="cc_AssemblyOptions.h" />
@@ -194,6 +198,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp" />
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp" />
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp" />
     <ClCompile Include="cc_AssemblyUtilities.cpp" />
     <ClCompile Include="c3ga.cpp" />
     <ClCompile Include="cc_AssemblyOptions.cpp" />

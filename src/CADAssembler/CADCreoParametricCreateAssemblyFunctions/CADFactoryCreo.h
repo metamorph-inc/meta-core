@@ -205,7 +205,10 @@ class  ModelOperationsCreo : public IModelOperations {
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception);
 
-
+	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString in_DistanceUnit, 
+													 std::string &out_ShortName, 
+													 std::string &out_LongName  )
+																				throw (isis::application_exception);
 };
 
 

@@ -330,9 +330,9 @@ public:
 	//				references to parts.
 
 	virtual void findPartsReferencedByFeature(	
-						const std::string							&in_TopAssemblyComponentInstanceID, 
-						const std::string							&in_ComponentInstanceID,
-						const MultiFormatString						&in_FeatureName,
+						const std::string								&in_TopAssemblyComponentInstanceID, 
+						const std::string								&in_ComponentInstanceID,
+						const MultiFormatString							&in_FeatureName,
 						e_CADFeatureGeometryType							in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -346,6 +346,10 @@ public:
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception) = 0;
+
+
+	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception) = 0;
 
 };
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include <CFDAnalysis.h>
-#include <isis_ptc_toolkit_functions.h>
+//#include <isis_ptc_toolkit_functions.h>
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
-#include <ToolKitPassThroughFunctions.h>
+//#include <ToolKitPassThroughFunctions.h>
 #include <cc_CommonUtilities.h>
 #include <sstream>
 #include <cc_JsonHelper.h>
@@ -509,23 +509,42 @@ namespace isis
 		////////////////////////////////////
 		// Get Assembly Mass and C.G.
 		///////////////////////////////////
-		ProMassProperty  mass_prop;
+		//ProMassProperty  mass_prop;
 
-		isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(m_TopLevelAssemblyData.assemblyComponentID, 
-			m_CADComponentData_map, &mass_prop );
+		//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(m_TopLevelAssemblyData.assemblyComponentID, 
+		//	m_CADComponentData_map, &mass_prop );
 
-		if ( mass_prop.mass == 0 ) {
+		//if ( mass_prop.mass == 0 ) {
+		//	std::stringstream errorString;
+		//	errorString <<  "Function CFD_Driver retrieved zero mass for "
+		//		<< "ComponentInstanceID: " << m_TopLevelAssemblyData.assemblyComponentID << ". "
+		//		<< "Model name: " << m_CADComponentData_map[m_TopLevelAssemblyData.assemblyComponentID].name;
+		//	throw isis::application_exception(errorString.str());
+		//}
+		//m_Assembly_Mass = mass_prop.mass;
+
+		//m_CG_x = mass_prop.center_of_gravity[0];
+		//m_CG_y = mass_prop.center_of_gravity[1];
+		//m_CG_z = mass_prop.center_of_gravity[2];
+
+
+		MassProperties		massProperties_temp;
+		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+		modelOperations.retrieveMassProperties(m_TopLevelAssemblyData.assemblyComponentID, m_CADComponentData_map, massProperties_temp);
+
+		if ( massProperties_temp.mass == 0 ) {
 			std::stringstream errorString;
 			errorString <<  "Function CFD_Driver retrieved zero mass for "
 				<< "ComponentInstanceID: " << m_TopLevelAssemblyData.assemblyComponentID << ". "
 				<< "Model name: " << m_CADComponentData_map[m_TopLevelAssemblyData.assemblyComponentID].name;
 			throw isis::application_exception(errorString.str());
 		}
-		m_Assembly_Mass = mass_prop.mass;
+		m_Assembly_Mass = massProperties_temp.mass;
 
-		m_CG_x = mass_prop.center_of_gravity[0];
-		m_CG_y = mass_prop.center_of_gravity[1];
-		m_CG_z = mass_prop.center_of_gravity[2];
+		m_CG_x = massProperties_temp.centerOfGravity[0];
+		m_CG_y = massProperties_temp.centerOfGravity[1];
+		m_CG_z = massProperties_temp.centerOfGravity[2];
+
 
 		// Compute displaced volume.
 		m_DisplacedVolume = m_Assembly_Mass / m_Fluid_Density;

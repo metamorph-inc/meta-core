@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <Computations.h>
-#include <CADPostProcessingParameters.h>
-#include <CADAnalysisMetaData.h>
+#include <CADPostProcessingParameters.h>   //  This is a generated file, resides in cc_
+#include <CADAnalysisMetaData.h>           //  This is a generated file, resides in cc_
 #include <cc_CommonUtilities.h>
 #include <Metrics.h>
 #include <CFDAnalysis.h>
@@ -300,6 +300,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 			std::string		timeUnit_ShortName;
 			
 			RetrieveUnits_withDescriptiveErrorMsg( 
+							in_Factory,
 							in_CADComponentData_map[i.first].componentID,
 							in_CADComponentData_map[i.first].name,
 							in_CADComponentData_map[i.first].cADModel_hdl, 
@@ -338,7 +339,8 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				double temp_scalar;
 				std::vector<isis_CADCommon::Point_3D> temp_points;			
 
-				ProMassProperty  mass_prop;
+				//ProMassProperty  mass_prop;
+				MassProperties		massProperties_temp;
 				double   MatrixBuffer[4][4];
 				std::string temp_units = distanceUnit_LongName;
 
@@ -381,20 +383,35 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 						break;			
 					case COMPUTATION_CG:
-						isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );
-						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
-						temp_x =  mass_prop.center_of_gravity[0];
-						temp_y  = mass_prop.center_of_gravity[1];
-						temp_z =  mass_prop.center_of_gravity[2];
+
+						//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );
+						// old isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
+						//temp_x =  mass_prop.center_of_gravity[0];
+						//temp_y  = mass_prop.center_of_gravity[1];
+						//temp_z =  mass_prop.center_of_gravity[2];
+
+						massProperties_temp.setValuesToNotDefinedAndZeros();
+						modelOperations.retrieveMassProperties( i.first, in_CADComponentData_map, massProperties_temp);
+
+						temp_x =  massProperties_temp.centerOfGravity[0];
+						temp_y  = massProperties_temp.centerOfGravity[1];
+						temp_z =  massProperties_temp.centerOfGravity[2];
+
 						break;
 
 					case COMPUTATION_MASS:
-						isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );						
-						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
+						//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );						
+						//  old isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
 
 						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[j.componentID].modelHandle, NULL, &mass_prop );
-						temp_scalar =  mass_prop.mass;
+						//temp_scalar =  mass_prop.mass;
+						//temp_units = massUnit_LongName;
+
+						massProperties_temp.setValuesToNotDefinedAndZeros();
+						modelOperations.retrieveMassProperties( i.first, in_CADComponentData_map, massProperties_temp);
+						temp_scalar =  massProperties_temp.mass;
 						temp_units = massUnit_LongName;
+
 						break;
 
 					case COMPUTATION_POINT:
