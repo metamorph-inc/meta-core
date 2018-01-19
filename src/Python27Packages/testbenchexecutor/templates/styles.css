@@ -42,6 +42,7 @@ code pre {
   background-color: #eee;
   border-radius: 3px;
   padding: 0.5em;
+  overflow-x: scroll;
 }
 
 dl.step-list > dt {
