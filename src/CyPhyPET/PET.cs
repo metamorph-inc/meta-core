@@ -227,11 +227,25 @@ namespace CyPhyPET
                         throw new ApplicationException("For CSV File input, you must specify filename=r'file.csv' in the ParameterStudy's Code attribute");
                     }
                     string basename = Path.GetFileName((string)filename);
-                    File.Copy((string)filename, Path.Combine(outputDirectory, basename));
-                    var code = config.details["Code"].ToString();
-                    var basenameEscaped = Regex.Replace(basename, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
-                    code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
-                    config.details["Code"] = code;
+                    try
+                    {
+                        File.Copy((string)filename, Path.Combine(outputDirectory, basename));
+                    }
+                    catch (IOException e)
+                    {
+                        throw new ApplicationException(String.Format("Could not copy '{0}': {1}", filename, e.Message), e);
+                    }
+                    if (basename == "output.csv")
+                    {
+                        throw new ApplicationException("CSV File input filename must not be 'output.csv'");
+                    }
+                    if (basename != (string)filename)
+                    {
+                        var code = config.details["Code"].ToString();
+                        var basenameEscaped = escapePythonString(basename);
+                        code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
+                        config.details["Code"] = code;
+                    }
                 }
                 else
                 {
@@ -264,6 +278,11 @@ namespace CyPhyPET
                     }
                 }
             }
+        }
+
+        private static string escapePythonString(string value)
+        {
+            return Regex.Replace(value, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
         }
 
         public static Dictionary<string, object> getPythonAssignment(string code)
@@ -313,7 +332,7 @@ namespace CyPhyPET
             {
                 var configVariable = new PETConfig.DesignVariable();
                 setUnit(designVariable.Referred.unit, configVariable);
-                ParseDesignVariableRange(designVariable, configVariable);
+                ParseDesignVariableRange(designVariable.Attributes.Range, configVariable);
                 config.designVariables.Add(designVariable.Name, configVariable);
             }
             foreach (var objective in driver.Children.ObjectiveCollection)
@@ -339,9 +358,38 @@ namespace CyPhyPET
             return config;
         }
 
-        private static void ParseDesignVariableRange(CyPhy.DesignVariable designVariable, DesignVariable configVariable)
+        public static double nextafter(double value, double direction)
         {
-            var range = designVariable.Attributes.Range;
+            if (Double.IsInfinity(value) || Double.IsNaN(value))
+            {
+                return value;
+            }
+            if (value == direction)
+            {
+                return value;
+            }
+            int dir = value > direction ? 1 : -1;
+            long bits = BitConverter.DoubleToInt64Bits(value);
+            if (value > 0)
+            {
+                return BitConverter.Int64BitsToDouble(bits - dir);
+            }
+            else if (value < 0)
+            {
+                return BitConverter.Int64BitsToDouble(bits + dir);
+            }
+            else
+            {
+                return -1 * dir * double.Epsilon;
+            }
+        }
+
+        public static void ParseDesignVariableRange(string range, DesignVariable configVariable)
+        {
+            var parseErrorMessage = String.Format("Cannot parse Design Variable Range '{0}'. ", range) +
+                    "Double ranges are specified by an un-quoted value or two un-quoted values separated by commas. " +
+                    "Enumerations are specified by one double-quoted value or two or more double-quoted values separated by semicolons. " +
+                    "E.g.: '2.0,2.5' or '\"Low\";\"Medium\";\"High\"'";
             var oneValue = new System.Text.RegularExpressions.Regex(
                 // start with previous match. match number or string
                 "\\G(" +
@@ -384,29 +432,62 @@ namespace CyPhyPET
                     configVariable.type = "enum";
                 }
             }
-            else if (designVariable.Attributes.Range.Contains(","))
+            else if (range.Contains(","))
             {
-                var range_split = designVariable.Attributes.Range.Split(new char[] { ',' });
-                if (range_split.Length == 2)
+                var range_split = range.Split(new char[] { ',' });
+                if (range_split.Length != 2)
                 {
-                    configVariable.RangeMin = Double.Parse(range_split[0], NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-                    configVariable.RangeMax = Double.Parse(range_split[1], NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                    throw new ApplicationException(parseErrorMessage);
+                }
+                string lower = range_split[0];
+                string upper = range_split[1];
+                bool lowerExcluded = false;
+                bool upperExcluded = false;
+                if (lower[0] == '(')
+                {
+                    lowerExcluded = true;
+                    lower = lower.Substring(1);
+                }
+                else if (lower[0] == '[')
+                {
+                    lowerExcluded = false;
+                    lower = lower.Substring(1);
+                }
+                if (upper.Last() == ')')
+                {
+                    upperExcluded = true;
+                    upper = upper.Substring(0, upper.Length - 1);
+                }
+                else if (upper.Last() == ']')
+                {
+                    upperExcluded = false;
+                    upper = upper.Substring(0, upper.Length - 1);
+                }
+                configVariable.RangeMin = Double.Parse(lower, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                configVariable.RangeMax = Double.Parse(upper, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                if (lowerExcluded)
+                {
+                    configVariable.RangeMin = nextafter((double)configVariable.RangeMin, Double.PositiveInfinity);
+                }
+                if (upperExcluded)
+                {
+                    configVariable.RangeMax = nextafter((double)configVariable.RangeMax, Double.NegativeInfinity);
+                }
+                if (configVariable.RangeMin > configVariable.RangeMax)
+                {
+                    throw new ApplicationException(String.Format("Invalid Design Variable Range '{0}'. ", range));
                 }
             }
             else
             {
-                throw new ApplicationException(String.Format("Cannot parse Design Variable Range '{0}'. ", designVariable.Attributes.Range) +
-                    "Double ranges are specified by an un-quoted value or two un-quoted values separated by commas. " +
-                    "Enumerations are specified by one double-quoted value or two or more double-quoted values separated by semicolons. " +
-                    "E.g.: '2.0,2.5' or '\"Low\";\"Medium\";\"High\"'"
-                    );
+                throw new ApplicationException(parseErrorMessage);
             }
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool SetDllDirectory(string lpPathName);
 
-        [DllImport("CyPhyFormulaEvaluator.dll")]
+        [DllImport("CyPhyFormulaEvaluator.dll", CallingConvention=CallingConvention.Cdecl)]
         static extern bool AreUnitsEqual(IMgaFCO fco1, IMgaFCO fco2);
 
         private void checkUnitMatchesSource(ISIS.GME.Common.Interfaces.Reference objective)
@@ -1202,13 +1283,12 @@ namespace CyPhyPET
         private static void SetProblemInputValueFromDesignVariable(SubProblem.ProblemInput problemInput, MgaFCO desVar)
         {
             var configDesignVariable = new DesignVariable();
-            ParseDesignVariableRange(CyPhyClasses.DesignVariable.Cast(desVar), configDesignVariable);
+            ParseDesignVariableRange(CyPhyClasses.DesignVariable.Cast(desVar).Attributes.Range, configDesignVariable);
             if (configDesignVariable.items != null)
             {
                 if (configDesignVariable.items[0] is string)
                 {
-                    // FIXME: should be Python-style string; this is wrong for codepoints > 0x10000
-                    problemInput.value = String.Format("u{0}", JsonConvert.SerializeObject(configDesignVariable.items[0]));
+                    problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
                     problemInput.pass_by_obj = true;
                 }
                 else

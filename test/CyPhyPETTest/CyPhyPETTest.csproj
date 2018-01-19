@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignVariableTest.cs" />
     <Compile Include="MSD_PET.cs" />
     <Compile Include="MSD_PET.Designer.cs">
       <DependentUpon>MSD_PET.cs</DependentUpon>
