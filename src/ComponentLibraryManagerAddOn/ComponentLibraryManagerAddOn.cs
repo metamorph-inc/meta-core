@@ -183,12 +183,17 @@ namespace META
             }
         }
 
+        [DllImport("ole32.dll")]
+        public static extern void CoFreeUnusedLibraries();
+
         private void RenameComponentDirectory(CyPhy.Component component, string oldPath)
         {
             if (string.IsNullOrEmpty(oldPath) || Path.GetFullPath(oldPath) == Path.GetFullPath(component.Attributes.Path))
             {
                 return;
             }
+            // CPMDecorator may hold handle to icon. Try to free it. (Doesn't work if still open in the model editor)
+            CoFreeUnusedLibraries();
 
             // Check to see if this "changed" path is the same one we saw last time we were in this function, post-normalization.
             // If so, then don't consider this a rename, and return.
@@ -248,6 +253,12 @@ namespace META
 
                     throw;
                 }
+                var iconPath = (component.Impl as GME.MGA.IMgaFCO).get_RegistryValue("icon");
+                if (String.IsNullOrWhiteSpace(iconPath) == false)
+                {
+                    iconPath = iconPath.Replace(oldPath, component.Attributes.Path);
+                    (component.Impl as GME.MGA.IMgaFCO).set_RegistryValue("icon", iconPath);
+                }
                 {
                     var console = GMEConsole.CreateFromProject(project);
                     if (console.gme != null)
@@ -258,7 +269,7 @@ namespace META
                 }
             }
 
-            lastObservedPaths.Add(componentGuid, component.Attributes.Path);
+            lastObservedPaths[componentGuid] = component.Attributes.Path;
         }
 
         private IEnumerable<CyPhy.ComponentAssembly> GetAllComponentAssemblys(IMgaProject project, bool includeLibraries = false)
