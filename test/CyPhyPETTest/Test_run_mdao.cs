@@ -190,6 +190,97 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        [Trait("Feature", "CopyFiles")]
+        public void TestFileCopy()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestFileCopy";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            foreach (string path in new string[] {
+                "component_files/23kc5zsm/empty",
+                "component_files/23kc5zsm/Images/Icon.png",
+                "component_files/23kc5zsm/CAD/pkg_0603.step",
+            })
+            {
+                var fullPath = Path.Combine(Path.GetDirectoryName(mgaFile), outputDir, path);
+                Assert.True(File.Exists(fullPath), String.Format("File '{0}' does not exist", fullPath));
+            }
+        }
+
+        [Fact]
+        [Trait("Feature", "CopyFiles")]
+        public void TestFileCopyAbsolute()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestFileCopyAbsolute";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath, preProcess:
+                (project) =>
+                {
+                    project.BeginTransactionInNewTerr();
+                    var testFileCopy = (MgaFCO)project.RootFolder.ObjectByPath["/@Testing/@ParametricExploration/@TestFileCopy"];
+                    var testFileCopy2 = testFileCopy.ParentFolder.CopyFCODisp(testFileCopy);
+                    testFileCopy2.Name = "TestFileCopyAbsolute";
+                    var fileCopy = (MgaFCO)testFileCopy2.ObjectByPath["/@PythonWrapper/@CopyFiles"];
+                    fileCopy.SetStrAttrByNameDisp("Source", Path.GetFullPath(Path.Combine(Path.GetDirectoryName(mgaFile), fileCopy.StrAttrByName["Source"])));
+
+                    project.CommitTransaction();
+                });
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            foreach (string path in new string[] {
+                "component_files/23kc5zsm/empty",
+                "component_files/23kc5zsm/Images/Icon.png",
+                "component_files/23kc5zsm/CAD/pkg_0603.step",
+            })
+            {
+                var fullPath = Path.Combine(Path.GetDirectoryName(mgaFile), outputDir, path);
+                Assert.True(File.Exists(fullPath), String.Format("File '{0}' does not exist", fullPath));
+            }
+        }
+
+        [Fact]
+        [Trait("Feature", "CopyFiles")]
+        public void TestFileCopyStar()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestFileCopyStar";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath, preProcess:
+                (project) =>
+                {
+                    project.BeginTransactionInNewTerr();
+                    var testFileCopy = (MgaFCO)project.RootFolder.ObjectByPath["/@Testing/@ParametricExploration/@TestFileCopy"];
+                    var testFileCopy2 = testFileCopy.ParentFolder.CopyFCODisp(testFileCopy);
+                    testFileCopy2.Name = "TestFileCopyStar";
+                    var fileCopy = (MgaFCO)testFileCopy2.ObjectByPath["/@PythonWrapper/@CopyFiles"];
+                    fileCopy.SetStrAttrByNameDisp("Source", fileCopy.StrAttrByName["Source"] + "/*");
+
+                    project.CommitTransaction();
+                });
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            foreach (string path in new string[] {
+                "component_files/empty",
+                "component_files/Images/Icon.png",
+                "component_files/CAD/pkg_0603.step",
+            })
+            {
+                var fullPath = Path.Combine(Path.GetDirectoryName(mgaFile), outputDir, path);
+                Assert.True(File.Exists(fullPath), String.Format("File '{0}' does not exist", fullPath));
+            }
+        }
+
+        [Fact]
         public void SubproblemConnectedToSubproblem()
         {
 
@@ -561,7 +652,7 @@ namespace CyPhyPETTest
 
         public void SetFixture(WorkFlow_PETFixture data)
         {
-            mgaFile = data.mgaFile;
+            mgaFile = Path.GetFullPath(data.mgaFile);
         }
 
         public int Run(string runCommand, string outputDir, out string stderr)
@@ -614,6 +705,7 @@ namespace CyPhyPETTest
                 System.Reflection.Assembly.GetAssembly(typeof(Workflow_PET_Test)).CodeBase.Substring("file:///".Length),
                 //"/noshadow",
                 // [Trait("THIS", "ONE")]
+                // "/trait", "Feature=CopyFiles",
                 //"/trait", "THIS=ONE",
             });
             Console.In.ReadLine();

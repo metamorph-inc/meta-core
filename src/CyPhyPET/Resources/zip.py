@@ -34,7 +34,7 @@ with zipfile.ZipFile(output_filename, 'w', allowZip64=True) as z:
         if detailsKey is None:
             continue
         filename = component['details'][detailsKey]
-        destFilename = name + '/' + os.path.basename(filename)
+        destFilename = os.path.basename(filename)
         z.write(filename, arcname=parent_dir_name + '/' + destFilename, compress_type=zipfile.ZIP_DEFLATED)
         component['details'][detailsKey] = destFilename
 

@@ -19,7 +19,7 @@ namespace CyPhyGUIs
                 {
                     throw;
                 }
-                if (Directory.GetFiles(path).Length > 0 || Directory.GetDirectories(path).Length > 0)
+                if (Directory.GetFileSystemEntries(path).Length > 0)
                 {
                     throw;
                 }

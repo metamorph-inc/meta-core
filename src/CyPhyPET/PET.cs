@@ -1100,6 +1100,71 @@ namespace CyPhyPET
             config.type = "matlab_wrapper.MatlabWrapper";
         }
 
+        public static void CopyDirectory(string sourcePath, string destPath)
+        {
+            if (!Directory.Exists(destPath))
+            {
+                Directory.CreateDirectory(destPath);
+            }
+
+            foreach (string file in Directory.GetFiles(sourcePath))
+            {
+                string dest = Path.Combine(destPath, Path.GetFileName(file));
+                File.Copy(file, dest);
+            }
+
+            foreach (string folder in Directory.GetDirectories(sourcePath))
+            {
+                string dest = Path.Combine(destPath, Path.GetFileName(folder));
+                CopyDirectory(folder, dest);
+            }
+        }
+
+        private void CopyFiles(CyPhy.ParametricTestBench wrapper)
+        {
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(wrapper.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+            foreach (var copyFiles in wrapper.Children.CopyFilesCollection)
+            {
+                string strip;
+                IEnumerable<string> entries;
+                if (Path.IsPathRooted(copyFiles.Attributes.Source))
+                {
+                    entries = Directory.EnumerateFileSystemEntries(Path.GetFullPath(Path.GetDirectoryName(copyFiles.Attributes.Source)), Path.GetFileName(copyFiles.Attributes.Source));
+                    strip = Path.GetFullPath(Path.GetDirectoryName(copyFiles.Attributes.Source));
+                }
+                else
+                {
+                    entries = Directory.EnumerateFileSystemEntries(projectDir, copyFiles.Attributes.Source);
+                    strip = Path.GetFullPath(Path.GetDirectoryName(Path.Combine(projectDir, copyFiles.Attributes.Source)));
+                }
+
+                string dest = Path.Combine(this.outputDirectory, copyFiles.Attributes.Destination);
+                foreach (string entry in entries)
+                {
+                    if ((File.GetAttributes(entry) & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        string finalDestination;
+                        if (entry == strip)
+                        {
+                            finalDestination = dest;
+                        }
+                        else
+                        {
+                            finalDestination = Path.Combine(dest, entry.Substring(strip.Length + 1));
+                        }
+
+
+                        CopyDirectory(entry, finalDestination);
+                    }
+                    else
+                    {
+                        File.Copy(entry, Path.Combine(dest, Path.GetFileName(entry)));
+                    }
+
+                }
+            }
+        }
+
         public PETConfig.Component GenerateCode(CyPhy.Constants constants)
         {
             // Get a new config
@@ -1435,6 +1500,7 @@ namespace CyPhyPET
 
             this.components.Add(excel.Name, config);
 
+            CopyFiles(excel);
             return config;
         }
 

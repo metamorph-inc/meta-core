@@ -30,8 +30,6 @@ namespace CyPhyDecoratorAddon
 		bool isXMLImportInProgress { get; set; }
 		bool isProjectInTransation { get; set; }
 
-		string DecoratorName { get { return "MGA.Decorator.Workflow"; } }
-
 		// Event handlers for addons
 		#region MgaEventSink members
 		public void GlobalEvent(globalevent_enum @event)
@@ -132,16 +130,6 @@ namespace CyPhyDecoratorAddon
 
                     }
 					// handle new object event
-					if (subject.MetaBase.Name == "Task" ||
-						subject.MetaBase.Name == "WorkflowRef")
-					{
-						Type t = Type.GetTypeFromProgID(DecoratorName);
-						if (t != null)
-						{
-							(subject as MgaFCO).RegistryValue["decorator"] = DecoratorName;
-						}
-					}
-
                     bool isBasicTask = (subject.MetaBase.Name == "Task");
 
 					if (subject.MetaBase.Name == "Task" || subject.MetaBase.Name == "ExecutionTask")
