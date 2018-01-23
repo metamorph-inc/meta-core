@@ -456,7 +456,12 @@ namespace GME.CSharp
 
                     if (wfRef.Referred != null)
                     {
-                        tasks.AddRange(wfRef.Referred.ChildObjects.OfType<MgaAtom>());
+                        HashSet<string> taskKinds = new HashSet<string>()
+                        {
+                            "ExecutionTask",
+                            "Task"
+                        };
+                        tasks.AddRange(wfRef.Referred.ChildObjects.OfType<MgaAtom>().Where(atom => taskKinds.Contains(atom.Meta.Name)));
 
                         MgaAtom StartTask = null;
 
