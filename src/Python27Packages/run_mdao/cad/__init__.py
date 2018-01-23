@@ -52,7 +52,7 @@ class TestBenchParameter_to_CadAssembly(object):
 
         if not os.path.isfile(self.testbench_cadparam_json):
             # There are no CAD parameters, even though there are TestBench parameters, so move along.
-            pass
+            self.cadparam_mapping_list = []
         else:
             self.cadparam_mapping_list = self._parse_json(self.testbench_cadparam_json)
             for cadparam in self.cadparam_mapping_list:
