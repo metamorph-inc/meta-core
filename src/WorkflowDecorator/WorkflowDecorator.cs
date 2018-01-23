@@ -101,7 +101,7 @@ namespace GME.CSharp
             //  g.Dispose();
             //  return;
             //}
-            if (LastMetaKind == "Task")
+            if (FCOKind == "Task")
             {
                 Icon icon = null;
                 if (interpreters[TaskProgId].isValid)
@@ -164,13 +164,14 @@ namespace GME.CSharp
                         x + w / 2.0f,
                         y + h + LabelSize.Height * 1.2f, sf);
             }
-            else if (LastMetaKind == "WorkflowRef")
+            else if (FCOKind == "WorkflowRef")
             {
                 int i = 0;
                 Icon icon = null;
 
                 foreach (TaskInfo taskInfo in workflow)
                 {
+                    Bitmap bitmap = null;
                     if (taskInfo.IsComComponent)
                     {
                         var comComponent = new ComComponent(taskInfo.COMName);
@@ -212,7 +213,7 @@ namespace GME.CSharp
                         else
                         {
                             // draw error image
-                            icon = InvalidTask;
+                            icon = new Icon(InvalidTask, InvalidTask.Size);
                         }
                     }
                     else
@@ -221,57 +222,72 @@ namespace GME.CSharp
                         if (!string.IsNullOrWhiteSpace(iconFileName) &&
                             File.Exists(iconFileName))
                         {
-                            Bitmap bitmap = (Bitmap)Image.FromFile(iconFileName);
+                            bitmap = (Bitmap)Image.FromFile(iconFileName);
                             icon = Icon.FromHandle(bitmap.GetHicon());
                         }
                         else
                         {
-                            icon = InvalidTask;
+                            icon = new Icon(InvalidTask, InvalidTask.Size);
                         }
                     }
 
                     try
                     {
                         int IconStartX = x + (IconWidth + TaskPadding) * i;
-                        g.DrawIcon(new Icon(icon, IconWidth, IconHeight),
-                            new Rectangle(IconStartX, y, IconWidth, IconHeight));
+                        var placedIcon = new Icon(icon, IconWidth, IconHeight);
+                        using (placedIcon)
+                        {
+                            g.DrawIcon(placedIcon, new Rectangle(IconStartX, y, IconWidth, IconHeight));
+                        }
 
-                        if (taskInfo != workflow.Reverse().FirstOrDefault())
+                        if (taskInfo != workflow.Last())
                         {
                             Pen p = new Pen(Color.Black, LineWidth * g.DpiX / 96);
-                            p.StartCap = LineStartCap;
-                            p.EndCap = LineEndCap;
-                            int LineStartX = IconStartX + IconWidth;
-                            g.DrawLine(p,
-                                new Point(
-                                    LineStartX + LineStartPadding,
-                                    y + IconHeight / 2),
-                                new Point(
-                                    LineStartX + TaskPadding - LineEndPadding,
-                                    y + IconHeight / 2));
+                            using (p)
+                            {
+                                p.StartCap = LineStartCap;
+                                p.EndCap = LineEndCap;
+                                int LineStartX = IconStartX + IconWidth;
+                                g.DrawLine(p,
+                                    new Point(
+                                        LineStartX + LineStartPadding,
+                                        y + IconHeight / 2),
+                                    new Point(
+                                        LineStartX + TaskPadding - LineEndPadding,
+                                        y + IconHeight / 2));
+                            }
                         }
                         i++;
                     }
                     catch (ArgumentException)
                     {
                     }
+                    finally
+                    {
+                        if (bitmap != null)
+                        {
+                            bitmap.Dispose();
+                            bitmap = null;
+                        }
+                        if (icon != null)
+                        {
+                            icon.Dispose();
+                            icon = null;
+                        }
+                    }
 
                 }
-                if (workflow != null)
+                if (workflow.Count == 0)
                 {
-                    if (workflow.Count == 0 ||
-                        icon == null)
-                    {
-                        icon = UndefinedWorkFlow;
-                        g.DrawIcon(
-                            new Icon(icon, IconWidth, IconHeight),
-                            new Rectangle(x, y, IconWidth, IconHeight));
-                    }
+                    icon = UndefinedWorkFlow;
+                    g.DrawIcon(
+                        icon, // new Icon(icon, IconWidth, IconHeight),
+                        new Rectangle(x, y, IconWidth, IconHeight));
                 }
             }
-            else if (LastMetaKind == "MetricConstraint")
+            if (this.MetaKind == "MetricConstraint")
             {
-                string symbol = " ";
+                string symbol = ">";
                 if (MetricConstraint_TargetType == "Must Exceed")
                 {
                     symbol = ">";
@@ -402,7 +418,8 @@ namespace GME.CSharp
             // only store temporarily, they might be unavailable later
             myobj = obj;
             mymetaobj = null;
-            LastMetaKind = myobj?.Meta?.Name;
+            FCOKind = myobj?.Meta?.Name;
+            MetaKind = meta.Name;
 
             // obtain the metaobject
             GetMetaFCO(meta, out mymetaobj);
@@ -486,6 +503,13 @@ namespace GME.CSharp
             {
                 // not a concreter object (maybe in part browser?)
                 name = mymetaobj.DisplayedName;
+                h = IconHeight;
+                w = IconWidth;
+                if (MetaKind == "MetricConstraint")
+                {
+                    h = 40;
+                    w = 40;
+                }
             }
 
             // to handle color and labelColor settings in GME
@@ -809,7 +833,9 @@ namespace GME.CSharp
 
         public string Parameters { get; set; }
 
-        public string LastMetaKind { get; set; }
+        public string FCOKind { get; set; }
+
+        public string MetaKind { get; set; }
 
         #region Tunable Parameters
 
