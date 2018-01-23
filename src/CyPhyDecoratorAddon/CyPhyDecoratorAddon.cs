@@ -147,11 +147,18 @@ namespace CyPhyDecoratorAddon
                             form.addon = this;
                             form.Init();
 
+                            HashSet<string> taskKinds = new HashSet<string>()
+                            {
+                                "ExecutionTask",
+                                "Task"
+                            };
+
                             IEnumerable<MgaAtom> taskChildren = subject.ExGetParent().
                                                                         ChildObjects.
                                                                         OfType<MgaAtom>().
                                                                         Where(x => x.ExDstFcos().Count() == 0).
-                                                                        Where(x => x.ID != subject.ID);
+                                                                        Where(x => x.ID != subject.ID).
+                                                                        Where(x => taskKinds.Contains(x.Meta.Name));
 
                             form.lbTasks.Items.Clear();
                             foreach (var currTask in taskChildren)
