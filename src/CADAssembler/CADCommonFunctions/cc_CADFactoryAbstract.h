@@ -402,25 +402,30 @@ public:
 };
 
 
-/***
+
 class CadFactoryAbstract_global
 {
 	private:
-		isis::cad::CadFactoryAbstract::ptr cAD_Factory_ptr;
 
 		static CadFactoryAbstract_global *s_instance;
 
-		CadFactoryAbstract_global ();
+		CadFactoryAbstract::ptr cADFactory_ptr;
+
+		bool factorySet;
 
 	public:
-		CadFactoryAbstract_global (isis::cad::CadFactoryAbstract::ptr  in_CadFactoryAbstract) : cAD_Factory_ptr(
-		{
 
-		}
+		CadFactoryAbstract_global(): factorySet(false) {}
 
+		static CadFactoryAbstract_global *instance();
 
-}
-***/
+		// Should call this function one and only one time.  Calling a second time will result in an exception.
+		void setCadFactoryAbstract_ptr(isis::cad::CadFactoryAbstract::ptr in_cADFactory_ptr ) throw (isis::application_exception);
+
+		// setCadFactoryAbstract_ptr must be called before calling this function; otherwise and exception would be thrown.
+		CadFactoryAbstract::ptr getCadFactoryAbstract_ptr() throw (isis::application_exception);
+};
+
 
 
 } // cad

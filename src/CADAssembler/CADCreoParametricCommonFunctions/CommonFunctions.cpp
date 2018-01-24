@@ -296,7 +296,7 @@ void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
 	ProUnitsystem unitSystem;
 	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
 	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUint;
-	ProLine massUnitsLabel;
+	//ProLine massUnitsLabel;
 	ProUnitsystemType type;
 
 	isis::isis_ProMdlPrincipalunitsystemGet (in_Model, &unitSystem);

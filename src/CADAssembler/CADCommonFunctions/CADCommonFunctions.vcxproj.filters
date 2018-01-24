@@ -198,5 +198,8 @@
     <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cc_CADFactoryAbstract.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
