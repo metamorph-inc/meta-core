@@ -24,7 +24,7 @@ namespace CyPhySignalBlocksAddOn
     ProgId(ComponentConfig.progID),
     ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class CyPhySignalBlocksAddOnAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink
+    public class CyPhySignalBlocksAddOnAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink, IDisposable
     {
 
         private MgaAddOn addon;
@@ -665,6 +665,15 @@ namespace CyPhySignalBlocksAddOn
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            if (addon != null)
+            {
+                addon.Destroy();
+                addon = null;
+            }
+        }
     }
 
     public static class MgaObjectLibrary

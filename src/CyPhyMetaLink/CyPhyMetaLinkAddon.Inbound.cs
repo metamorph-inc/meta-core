@@ -40,7 +40,7 @@ namespace CyPhyMetaLink
     ProgId(ComponentConfig_Addon.progID),
     ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public partial class CyPhyMetaLinkAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink
+    public partial class CyPhyMetaLinkAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink, IDisposable
     {
         // String format for message topics
         public static readonly String SearchPathStr = "SearchPath";

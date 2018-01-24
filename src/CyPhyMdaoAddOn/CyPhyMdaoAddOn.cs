@@ -17,7 +17,7 @@ namespace CyPhyMdaoAddOn
     ProgId(ComponentConfig.progID),
     ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    public class CyPhyMdaoAddOnAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink
+    public class CyPhyMdaoAddOnAddon : IMgaComponentEx, IGMEVersionInfo, IMgaEventSink, IDisposable
     {
         private const string BADGE_COMMON_STYLE = "block:inline;display: inline;padding-left: 6px;margin-left: 6px;padding-right: 6px; margin-right: 6px; width: 60px; text-align: center;";
         private const string ERROR_BADGE = "<div style=\"" + BADGE_COMMON_STYLE +
@@ -451,5 +451,14 @@ namespace CyPhyMdaoAddOn
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            if (addon != null)
+            {
+                addon.Destroy();
+                addon = null;
+            }
+        }
     }
 }

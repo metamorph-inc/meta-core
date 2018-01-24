@@ -181,5 +181,14 @@ namespace CyPhyMetaLink
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            if (addon != null)
+            {
+                addon.Destroy();
+                addon = null;
+            }
+        }
     }
 }
