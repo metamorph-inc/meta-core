@@ -1264,6 +1264,26 @@ namespace isis
 	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector); 
 
 
+	struct CADModelUnits
+	{
+		std::string		distanceUnit_ShortName;
+		std::string		distanceUnit_LongName;
+					
+		std::string		massUnit_ShortName;
+		std::string		massUnit_LongName;
+
+		std::string		forceUnit_ShortName;
+		std::string		forceUnit_LongName;
+
+		std::string		timeUnit_ShortName;
+		std::string		timeUnit_LongName;
+
+		std::string		temperatureUnit_ShortName;
+		std::string		temperatureUnit_LongName;
+	};
+
+
+
 } // END namespace isis
 
 #endif // COMMON_STRUCTURES_H

@@ -8,6 +8,7 @@
 #include <SurvivabilityAnalysis.h>
 #include <ToolKitPassThroughFunctions.h>
 #include <cc_MiscellaneousFunctions.h>
+#include <CommonFunctions.h>
 #include <sstream>
 #include <iomanip>
 
@@ -231,7 +232,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 	//
 	//
 
-	
+	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
 
 	std::map<std::string, std::list<CADComputation>> componentID_to_ListofComputations_map;
 	std::map<std::string, std::string> componentID_to_AssemblyComponentID_map;
@@ -284,31 +285,19 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 			// Units
 			////////////////////////
 
-			std::string		distanceUnit_LongName;
-			std::string		distanceUnit_ShortName;
-		
-			std::string		massUnit_LongName;
-			std::string		massUnit_ShortName;
-
-			std::string		forceUnit_LongName;
-			std::string		forceUnit_ShortName;
-
-			std::string		temperatureUnit_LongName;
-			std::string		temperatureUnit_ShortName;
-		
-			std::string		timeUnit_LongName;
-			std::string		timeUnit_ShortName;
+			CADModelUnits	cADModelUnits_temp; 
 			
-			RetrieveUnits_withDescriptiveErrorMsg( 
+			//RetrieveUnits_withDescriptiveErrorMsg( 
+			//				in_Factory,
+			//				i.first,
+			//				in_CADComponentData_map,
+			//				cADModelUnits_temp );
+
+			modelOperations.retrieveCADModelUnits(
 							in_Factory,
-							in_CADComponentData_map[i.first].componentID,
-							in_CADComponentData_map[i.first].name,
-							in_CADComponentData_map[i.first].cADModel_hdl, 
-							distanceUnit_ShortName,		distanceUnit_LongName, 
-							massUnit_ShortName,			massUnit_LongName, 
-							forceUnit_ShortName,			forceUnit_LongName, 
-							timeUnit_ShortName,			timeUnit_LongName, 
-							temperatureUnit_ShortName,	temperatureUnit_LongName );
+							i.first,
+							in_CADComponentData_map,
+							cADModelUnits_temp );
 
 			/////////////////////////////////////////////////////////////////////
 			// Add ComponentID and FEAElementID
@@ -331,7 +320,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				//
 				/////////////////////////////////////////////////////////////////////
 
-				Pro3dPnt  r_outline_points[2];
+				//Pro3dPnt  r_outline_points[2];
 
 				double temp_x;
 				double temp_y;
@@ -342,7 +331,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				//ProMassProperty  mass_prop;
 				MassProperties		massProperties_temp;
 				double   MatrixBuffer[4][4];
-				std::string temp_units = distanceUnit_LongName;
+				std::string temp_units = cADModelUnits_temp.distanceUnit_LongName;
 
 				isis_CADCommon::Point_3D	boundingBox_Point_1;
 				isis_CADCommon::Point_3D	boundingBox_Point_2;
@@ -410,7 +399,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						massProperties_temp.setValuesToNotDefinedAndZeros();
 						modelOperations.retrieveMassProperties( i.first, in_CADComponentData_map, massProperties_temp);
 						temp_scalar =  massProperties_temp.mass;
-						temp_units = massUnit_LongName;
+						temp_units = cADModelUnits_temp.massUnit_LongName;
 
 						break;
 

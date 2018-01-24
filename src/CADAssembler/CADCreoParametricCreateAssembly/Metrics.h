@@ -64,26 +64,6 @@ namespace isis
 																	throw (isis::application_exception, std::exception); 
 
 
-	void RetrieveUnits_withDescriptiveErrorMsg( 
-					cad::CadFactoryAbstract			&in_Factory,
-					const std::string				&in_ComponentInstanceID,
-					const isis::MultiFormatString	&in_ModelName,				
-					ProMdl							in_Model,
-					std::string						&out_DistanceUnit_ShortName,
-					std::string						&out_DistanceUnit_LongName,
-					
-					std::string						&out_MassUnit_ShortName,
-					std::string						&out_MassUnit_LongName,
-
-					std::string						&out_ForceUnit_ShortName,
-					std::string						&out_ForceUnit_LongName,
-
-					std::string						&out_TimeUnit_ShortName,
-					std::string						&out_TimeUnit_LongName,
-
-					std::string						&out_TemperatureUnit_ShortName, 
-					std::string						&out_TemperatureUnit_LongName )
-														throw(isis::application_exception);
 
 
 } // end namespace isis

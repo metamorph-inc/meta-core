@@ -205,10 +205,30 @@ class  ModelOperationsCreo : public IModelOperations {
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception);
 
-	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString in_DistanceUnit, 
+	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
 													 std::string &out_ShortName, 
 													 std::string &out_LongName  )
 																				throw (isis::application_exception);
+
+	virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
+													 std::string &out_ShortName, 
+													 std::string &out_LongName  )
+																				throw (isis::application_exception);
+
+	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception);
+
+	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception);
+	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception);
+
+	virtual void retrieveCADModelUnits( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentInstanceID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					CADModelUnits									&out_CADModelUnits )
+																	throw (isis::application_exception);
 };
 
 

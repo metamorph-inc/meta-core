@@ -300,6 +300,16 @@ public:
 																		throw (isis::application_exception) = 0;
 
 
+	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentID assembly
+	//void retrievePointCoordinates(	cad::CadFactoryAbstract							&in_Factory,
+	//								const std::string								&in_AssemblyComponentID,
+	//								const std::string								&in_PartComponentID,
+	//								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+	//								const MultiFormatString							&in_PointName,
+	//								CADPoint											&out_CADPoint) 
+	//																			throw (isis::application_exception)	
+
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Description: 
 	//		This function resolves the references of in_FeatureName to the parts that are referenced by in_FeatureName.  
@@ -348,8 +358,26 @@ public:
 																				throw (isis::application_exception) = 0;
 
 
-	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
 																											throw (isis::application_exception) = 0;
+
+	virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception) = 0;
+
+	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception) = 0;
+
+	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception) = 0;
+	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+																											throw (isis::application_exception) = 0;
+
+	virtual void retrieveCADModelUnits( 
+					cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentInstanceID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					CADModelUnits									&out_CADModelUnits )
+																	throw (isis::application_exception) = 0;
 
 };
 
@@ -373,6 +401,26 @@ public:
     virtual IModelOperations&            getModelOperations() = 0;
 };
 
+
+/***
+class CadFactoryAbstract_global
+{
+	private:
+		isis::cad::CadFactoryAbstract::ptr cAD_Factory_ptr;
+
+		static CadFactoryAbstract_global *s_instance;
+
+		CadFactoryAbstract_global ();
+
+	public:
+		CadFactoryAbstract_global (isis::cad::CadFactoryAbstract::ptr  in_CadFactoryAbstract) : cAD_Factory_ptr(
+		{
+
+		}
+
+
+}
+***/
 
 
 } // cad

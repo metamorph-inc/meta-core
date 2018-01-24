@@ -11,6 +11,7 @@
 
 #include <cc_CommonFunctions.h>
 #include <cc_AssemblyUtilities.h>
+#include <CommonFunctions.h>
 
 #ifndef ISIS_VERSION_NUMBER_H
 #define ISIS_VERSION_NUMBER_H
@@ -22,7 +23,7 @@ namespace isis
 {
 
 ///////////////////////////////////////////////////////////////////////////////////////
-/***
+/***  moved to factory
 void  ConvertCreoUnitToGMEUnit_Distance ( ProName in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -42,6 +43,7 @@ void  ConvertCreoUnitToGMEUnit_Distance ( ProName in_DistanceUnit, std::string &
 }
 **/
 ///////////////////////////////////////////////////////////////////////////////////////
+/***  moved to factory
 void  ConvertCreoUnitToGMEUnit_Mass ( ProName in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -57,7 +59,9 @@ void  ConvertCreoUnitToGMEUnit_Mass ( ProName in_MassUnit,  std::string &out_Sho
 	if ( unit == "tonne" )	{ out_ShortName = "tonne";  out_LongName = "tonne"; }
 
 }
+***/
 ///////////////////////////////////////////////////////////////////////////////////////
+/***  moved to factory
 void  ConvertCreoUnitToGMEUnit_Force ( ProName in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];    // PRO_NAME_SIZE = 32
@@ -71,7 +75,9 @@ void  ConvertCreoUnitToGMEUnit_Force ( ProName in_ForceUnit, std::string &out_Sh
 	if ( unit == "N" )	 { out_ShortName = "N";		out_LongName = "newton"; }
 
 }
+***/
 ///////////////////////////////////////////////////////////////////////////////////////
+/***  moved to factory
 void  ConvertCreoUnitToGMEUnit_Temperature ( ProName in_Temperature, std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -86,7 +92,9 @@ void  ConvertCreoUnitToGMEUnit_Temperature ( ProName in_Temperature, std::string
 	if ( unit == "K" )	{ out_ShortName = "K";	out_LongName = "kelvin"; }
 
 }
+***/
 ///////////////////////////////////////////////////////////////////////////////////////
+/****  moved to factory
 void ConvertCreoUnitToGMEUnit_Time ( ProName in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -99,133 +107,8 @@ void ConvertCreoUnitToGMEUnit_Time ( ProName in_TimeUnit, std::string &out_Short
 	if ( unit == "sec" ) { out_ShortName = "sec";	out_LongName = "second"; }
 
 }
-
-
-
+***/
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
-					ProMdl			in_Model,
-					std::string		&out_DistanceUnit_ShortName,
-					std::string		&out_DistanceUnit_LongName,
-					
-					std::string		&out_MassUnit_ShortName,
-					std::string		&out_MassUnit_LongName,
-
-					std::string		&out_ForceUnit_ShortName,
-					std::string		&out_ForceUnit_LongName,
-
-					std::string		&out_TimeUnit_ShortName,
-					std::string		&out_TimeUnit_LongName,
-
-					std::string		&out_TemperatureUnit_ShortName, 
-					std::string		&out_TemperatureUnit_LongName )
-											throw(isis::application_exception)
-{
-	std::string unitsString;
-
-	ProUnitsystem unitSystem;
-	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
-	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUint;
-	ProLine massUnitsLabel;
-	ProUnitsystemType type;
-
-	isis::isis_ProMdlPrincipalunitsystemGet (in_Model, &unitSystem);
-
-	//  PRO_UNITTYPE_LENGTH          L
-	//  PRO_UNITTYPE_MASS            M
-	//  PRO_UNITTYPE_FORCE           F
-	//  PRO_UNITTYPE_TIME            T
-	//	PRO_UNITTYPE_TEMPERATURE     D 
-
-	
-	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_LENGTH, &lengthUnit); 
-
-	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
-	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
-	modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
-
-	try 
-	{
-		isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_MASS, &massUnit); 
-		ConvertCreoUnitToGMEUnit_Mass(  massUnit.name, out_MassUnit_ShortName, out_MassUnit_LongName );
-	}
-	catch(...)
-	{
-		out_MassUnit_LongName = "Derived";
-	}
-	
-	try 
-	{
-	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_FORCE, &forceUnit); 
-	ConvertCreoUnitToGMEUnit_Force( forceUnit.name, out_ForceUnit_ShortName, out_ForceUnit_LongName );
-	}
-	catch(...)
-	{
-		out_ForceUnit_ShortName = "Derived";
-		out_ForceUnit_LongName = "Derived";
-	}
-	
-	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TEMPERATURE , &timeUnit); 
-	ConvertCreoUnitToGMEUnit_Temperature( timeUnit.name, out_TemperatureUnit_ShortName, out_TemperatureUnit_LongName );
-	
-	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TIME, &temperatureUint);  
-	ConvertCreoUnitToGMEUnit_Time( temperatureUint.name, out_TimeUnit_ShortName, out_TimeUnit_LongName );
-
-}
-
-///////////////////////////////////////////////////////////////////////////////////////
-	void RetrieveUnits_withDescriptiveErrorMsg( 
-					cad::CadFactoryAbstract		    &in_Factory,
-					const std::string				&in_ComponentInstanceID,
-					const isis::MultiFormatString	&in_ModelName,				
-					ProMdl							in_Model,
-					std::string						&out_DistanceUnit_ShortName,
-					std::string						&out_DistanceUnit_LongName,
-					
-					std::string						&out_MassUnit_ShortName,
-					std::string						&out_MassUnit_LongName,
-
-					std::string						&out_ForceUnit_ShortName,
-					std::string						&out_ForceUnit_LongName,
-
-					std::string						&out_TimeUnit_ShortName,
-					std::string						&out_TimeUnit_LongName,
-
-					std::string						&out_TemperatureUnit_ShortName, 
-					std::string						&out_TemperatureUnit_LongName )
-											throw(isis::application_exception)
-	{
-		try
-		{
-			RetrieveUnits(	in_Factory,
-							in_Model,
-							out_DistanceUnit_ShortName,
-							out_DistanceUnit_LongName,
-					
-							out_MassUnit_ShortName,
-							out_MassUnit_LongName,
-
-							out_ForceUnit_ShortName,
-							out_ForceUnit_LongName,
-
-							out_TimeUnit_ShortName,
-							out_TimeUnit_LongName,
-
-							out_TemperatureUnit_ShortName, 
-							out_TemperatureUnit_LongName ); 
-
-		}
-		catch(const isis::application_exception &exc)
-		{		
-			std::stringstream errorString;
-			errorString << "Error retrieving model units:" <<  std::endl <<
-							"   ComponentInstanceID: " << in_ComponentInstanceID <<  std::endl <<
-							"   ModelName:           " << in_ModelName <<  std::endl <<
-							"   Error:               " << exc.what();
-			throw isis::application_exception(errorString.str());
-		}
-
-	}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -314,6 +197,7 @@ void Populate_Single_MetricComponent(
 																						throw (isis::application_exception)
 {
 	
+	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
 	
 	if ( !in_CADComponentData_map[in_ComponentID].massProperties.massProperties_RetrievalInvoked )
 	{
@@ -471,48 +355,38 @@ void Populate_Single_MetricComponent(
 		// Units
 		////////////////////////
 
-		std::string		distanceUnit_LongName;
-		std::string		distanceUnit_ShortName;
-		
-		std::string		massUnit_LongName;
-		std::string		massUnit_ShortName;
-
-		std::string		forceUnit_LongName;
-		std::string		forceUnit_ShortName;
-
-		std::string		temperatureUnit_LongName;
-		std::string		temperatureUnit_ShortName;
-		
-		std::string		timeUnit_LongName;
-		std::string		timeUnit_ShortName;
-		
+	
 		//std::cout << std::endl << "=====> Model Units, Model: " << in_CADComponentData_map[in_ComponentID].name;
 		
-		RetrieveUnits_withDescriptiveErrorMsg( 
+		CADModelUnits	cADModelUnits_temp;
+
+		//RetrieveUnits_withDescriptiveErrorMsg( 
+		//				in_Factory,
+		//				in_ComponentID,
+		//				in_CADComponentData_map,
+		//				cADModelUnits_temp );
+
+		modelOperations.retrieveCADModelUnits( 
 						in_Factory,
-						in_CADComponentData_map[in_ComponentID].componentID,
-						in_CADComponentData_map[in_ComponentID].name,
-						in_CADComponentData_map[in_ComponentID].cADModel_hdl, 
-						distanceUnit_ShortName,		distanceUnit_LongName, 
-						massUnit_ShortName,			massUnit_LongName, 
-						forceUnit_ShortName,			forceUnit_LongName, 
-						timeUnit_ShortName,			timeUnit_LongName, 
-						temperatureUnit_ShortName,	temperatureUnit_LongName );
+						in_ComponentID,
+						in_CADComponentData_map,
+						cADModelUnits_temp );
+
 		
 		std::string forceUnit_temp;
-		if ( forceUnit_LongName == "Derived" )
-			forceUnit_temp = massUnit_ShortName + " " + distanceUnit_ShortName + "/" + timeUnit_ShortName + "2";
+		if ( cADModelUnits_temp.forceUnit_LongName == "Derived" )
+			forceUnit_temp = cADModelUnits_temp.massUnit_ShortName + " " + cADModelUnits_temp.distanceUnit_ShortName + "/" + cADModelUnits_temp.timeUnit_ShortName + "2";
 		else
-			forceUnit_temp = forceUnit_ShortName;
+			forceUnit_temp = cADModelUnits_temp.forceUnit_ShortName;
 
 
 		CADMetrics::Units  unitsRoot = CADMetrics::Units::Create( metricComponentRoot );
 
-		unitsRoot.Distance()	= distanceUnit_LongName;
-		unitsRoot.Force()		= forceUnit_temp;
-		unitsRoot.Mass()		= massUnit_LongName;
-		unitsRoot.Temperature() = temperatureUnit_LongName;
-		unitsRoot.Time()		= timeUnit_LongName;
+		unitsRoot.Distance()	=		cADModelUnits_temp.distanceUnit_LongName;
+		unitsRoot.Force() =			forceUnit_temp;
+		unitsRoot.Mass()		=		cADModelUnits_temp.massUnit_LongName;
+		unitsRoot.Temperature() =	cADModelUnits_temp.temperatureUnit_LongName;
+		unitsRoot.Time()		=		cADModelUnits_temp.timeUnit_LongName;
 
 		////////////////////////
 		// Scalars
@@ -526,23 +400,23 @@ void Populate_Single_MetricComponent(
 
 			// Surface Area
 			if ( MetricsDefined.surfaceArea_Defined )
-				PopulateScalar( "SurfaceArea", in_CADComponentData_map[in_ComponentID].massProperties.surfaceArea, distanceUnit_ShortName + "2", scalarsRoot );
+				PopulateScalar( "SurfaceArea", in_CADComponentData_map[in_ComponentID].massProperties.surfaceArea, cADModelUnits_temp.distanceUnit_ShortName + "2", scalarsRoot );
 
 			if (MetricsDefined.massProp_Defined)
 			{
 				// Volume
-				PopulateScalar( "Volume", in_CADComponentData_map[in_ComponentID].massProperties.volume, distanceUnit_ShortName + "3", scalarsRoot );
+				PopulateScalar( "Volume", in_CADComponentData_map[in_ComponentID].massProperties.volume, cADModelUnits_temp.distanceUnit_ShortName + "3", scalarsRoot );
 
 				// Density
 				// Note - Only parts have a density.  Assemblies do not have densities.
 				//if ( in_CADComponentData_map[in_ComponentID].modelType == PRO_MDL_PART )
 				if ( in_CADComponentData_map[in_ComponentID].modelType == CAD_MDL_PART )
 				{
-					PopulateScalar( "Density", in_CADComponentData_map[in_ComponentID].massProperties.density, massUnit_ShortName + "/" + distanceUnit_ShortName + "3", scalarsRoot );
+					PopulateScalar( "Density", in_CADComponentData_map[in_ComponentID].massProperties.density, cADModelUnits_temp.massUnit_ShortName + "/" + cADModelUnits_temp.distanceUnit_ShortName + "3", scalarsRoot );
 				}
 
 				// Mass
-				PopulateScalar( "Mass", in_CADComponentData_map[in_ComponentID].massProperties.mass, massUnit_ShortName, scalarsRoot );
+				PopulateScalar( "Mass", in_CADComponentData_map[in_ComponentID].massProperties.mass, cADModelUnits_temp.massUnit_ShortName, scalarsRoot );
 			}
 		}
 
@@ -592,7 +466,7 @@ void Populate_Single_MetricComponent(
 				//												PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
 				//												MatrixBuffer );
 
-				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+
 				modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_ComponentID,  
 																				assemblyToChild_compentPath,
 																				in_CADComponentData_map,  
