@@ -387,7 +387,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void	 RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
-								cad::CadFactoryAbstract							&in_Factory,
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
@@ -446,7 +446,9 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 			//ProMassProperty  mass_prop;
 			//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentInstanceID, in_CADComponentData_map, &mass_prop );
 
-			isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+			isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+			isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+			isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 			MassProperties		massProperties_temp;
 
 			modelOperations.retrieveMassProperties(in_ComponentInstanceID, in_CADComponentData_map, massProperties_temp);
@@ -687,7 +689,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	****/
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
 					int												in_SetIndex,
 					isis::cad::Junction								&out_Junction,
@@ -695,6 +697,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						throw (isis::application_exception)
 	{
 		
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from feature tree)";
 
@@ -702,7 +706,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_AssembledFeatureDefinition.componentInstanceID].name;
 
-		cad::IAssembler& assembler = in_Factory.get_assembler();
+		cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
 
 		std::vector< cad::Joint::pair_t > joint_pair_vector;
 
@@ -1072,13 +1076,16 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 
 	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
-			cad::CadFactoryAbstract							&in_Factory,
+			//cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception)
 	{		
 		
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{
 			for ( std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();
@@ -1108,7 +1115,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				//												PRO_B_TRUE,  // bottom up
 				//												transformationMatrix );
 
-				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 				modelOperations.retrieveTranformationMatrix_Assembly_to_Child ( in_AssemblyComponentID,
 																				j->computedJointData.coordinatesystem,  
 																				in_out_CADComponentData_map,  

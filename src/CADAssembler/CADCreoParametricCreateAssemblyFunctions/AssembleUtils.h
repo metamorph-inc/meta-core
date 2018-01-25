@@ -163,7 +163,7 @@ namespace isis
 	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
 	// and then returned.
 	void 	RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
-								cad::CadFactoryAbstract							&in_Factory,
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D						&out_BoundingBox_Point_1,
@@ -178,15 +178,15 @@ namespace isis
 	void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, ProModelitem  &in_ModelItem )
 		throw (isis::application_exception);
 
-	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-					bool											in_Force = false)
-																			throw (isis::application_exception);
+	//void PopulateMap_with_Junctions_per_InputXMLConstraints( 
+	//				//cad::CadFactoryAbstract							&in_Factory,
+	//				const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
+	//				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
+	//				bool											in_Force = false)
+	//																		throw (isis::application_exception);
 
 	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
-			cad::CadFactoryAbstract							&in_Factory,
+			//cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This does not include the top-assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -204,7 +204,7 @@ namespace isis
 
 
 	void ResolveAssemblyConstraints_AddMarkersToMap( 
-			cad::CadFactoryAbstract													&in_Factory,
+			//cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -267,7 +267,7 @@ namespace isis
 	***/
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
 					int												in_SetIndex,
 					isis::cad::Junction								&out_Junction,

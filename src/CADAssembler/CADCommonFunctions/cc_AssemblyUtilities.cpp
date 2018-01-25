@@ -43,7 +43,7 @@ namespace isis
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CreateModelNameWithUniqueSuffix(  
-				cad::CadFactoryAbstract	&in_Factory,
+				//cad::CadFactoryAbstract	&in_Factory,
 				unsigned int			in_UniqueNameIndex, 
 				const std::string		&in_ModelName_CouldIncludeFamilyTableEntry,
 				std::string				&out_ModelName_Without_Suffix,		// Creo Example:	Chassis
@@ -54,6 +54,9 @@ namespace isis
 				unsigned int			in_AllowedSize )   
 														throw (isis::application_exception)
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		if ( in_ModelName_CouldIncludeFamilyTableEntry.size() > in_AllowedSize )
 		{
@@ -77,7 +80,7 @@ namespace isis
 		//									familyTableEntry,
 		//									familyTableModel );
 
-		isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+		isis::cad::IModelHandling&           modelHandling = cAD_Factory_ptr->getModelHandling();
 		modelHandling.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
 														out_ModelName_Without_Suffix,
 														familyTableEntry,
@@ -139,7 +142,7 @@ namespace isis
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
-							cad::CadFactoryAbstract							&in_Factory,
+							//cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
 							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
@@ -150,6 +153,10 @@ namespace isis
 																		throw (isis::application_exception)
 	{
 		
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr					cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		std::set<std::string>  modelsAlreadyEncountered;
 
 		//int index = 1;
@@ -174,13 +181,13 @@ namespace isis
 			//									familyTableEntry,
 			//									familyTableModel );
 
-			isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+			isis::cad::IModelHandling&           modelHandling = cAD_Factory_ptr->getModelHandling();
 			modelHandling.extractModelNameAndFamilyTableEntry( i->second.name, 
 															origNameWithoutFamilyEntry_temp,
 															familyTableEntry,
 															familyTableModel );
 
-
+			
 
 			if ( i->second.name.size() == 0 )
 			{
@@ -223,7 +230,7 @@ namespace isis
 				std::string origNameWithoutFamilyEntry;
 				std::string modelName;
 				std::string completeName;
-				CreateModelNameWithUniqueSuffix(	in_Factory,
+				CreateModelNameWithUniqueSuffix( 	//*cAD_Factory_ptr,
 													in_out_UniqueNameIndex, 
 													i->second.name,
 													origNameWithoutFamilyEntry,
@@ -453,17 +460,20 @@ namespace isis
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void CopyModels(	cad::CadFactoryAbstract						&in_Factory,
+	void CopyModels(	//cad::CadFactoryAbstract						&cAD_Factory_ptr,
 						const std::vector<CopyModelDefinition>		&in_FromModel_ToModel )
 																	throw (isis::application_exception)
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		std::set<std::string> savedToWorkingDirSourceModels;
 
 		for each ( CopyModelDefinition i  in in_FromModel_ToModel)
 
 		{
-			isis::cad::IModelHandling&        modelHandling = in_Factory.getModelHandling();
+			isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();
 
 			std::string modelNameWithSuffix = 
 				   ConvertToUpperCase (modelHandling.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
@@ -673,7 +683,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
 					const std::vector<ConstraintPair>				&in_ConstraintPairs,
 					isis::cad::Junction								&out_Junction,
@@ -681,12 +691,15 @@ namespace isis
 						throw (isis::application_exception)
 	{
 		
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from CADAssembly.xml)";
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
 
-		cad::IAssembler& assembler = in_Factory.get_assembler();
+		cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
 
 		std::vector< cad::Joint::pair_t > joint_pair_vector = assembler.extract_joint_pair_vector(in_ComponentID, in_ConstraintPairs, in_out_CADComponentData_map);
 		
@@ -941,7 +954,7 @@ namespace isis
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
 					bool												in_Force)
@@ -974,7 +987,7 @@ namespace isis
 
 
 							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
-							PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+							PopulateMap_with_JunctionInformation_SingleJunction( //in_Factory, 
 																				i,
 																				constraintPairs_withoutGuide,
 																				j->computedJointData.junction_withoutguide,
@@ -994,7 +1007,7 @@ namespace isis
 					}
 					else
 					{
-						PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+						PopulateMap_with_JunctionInformation_SingleJunction(// in_Factory, 
 																			i,
 																			j->constraintPairs,
 																			j->computedJointData.junction_withoutguide,
@@ -1137,7 +1150,7 @@ namespace isis
 	// WARNING in_AssemblyComponentIDs should only be parts or assemblies from CADAssembly.xml.  If it is
 	// an assembly, it would be a leaf assembly
 	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
-		    cad::CadFactoryAbstract													&in_Factory,
+		    //cad::CadFactoryAbstract													&in_Factory,
 			const std::string														&in_TopAssemblyComponentInstanceID,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
@@ -1146,7 +1159,10 @@ namespace isis
 	{
 		
 
-		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
 		for each (  const std::string &i in in_AssemblyComponentIDs )
 		{		
@@ -1418,11 +1434,15 @@ namespace isis
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void AddBoundingBoxValuesToMap( cad::CadFactoryAbstract				&in_Factory,
+	void AddBoundingBoxValuesToMap( //cad::CadFactoryAbstract				&in_Factory,
 						const std::vector<std::string>					&in_AssemblyComponentIDs,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																				throw (isis::application_exception)
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		for each ( const std::string &i in in_AssemblyComponentIDs )
 		{
 			if ( !in_CADComponentData_map[i].boundingBox.boundingBox_Defined )
@@ -1437,8 +1457,8 @@ namespace isis
 				//														boundingBox_Point_2,
 				//														boundingBoxDimensions_xyz );
 
-				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
-				modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(in_Factory,
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+				modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(//in_Factory,
 																		i,
 																		in_CADComponentData_map,
 																		boundingBox_Point_1,

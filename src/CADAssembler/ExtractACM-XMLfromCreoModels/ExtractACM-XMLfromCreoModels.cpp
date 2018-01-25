@@ -164,9 +164,16 @@ int main( int argc, char *argv[] )
 		}
 		::boost::filesystem::current_path(workingDir);
 		
+		// ***********************  Begin: Setup one one and only one time per exe ***********************************
+		isis::cad::CadFactoryAbstract_global cadFactoryAbstract_global;
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		// Call the following function one and only one time per executable.
+		cadFactoryAbstract_global_ptr->setCadFactoryAbstract_ptr(isis::cad::creo::create());
+		// ***********************  End: Setup sone one and only one time per exe *************************************
 
-		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		//isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		isis::cad::ICADSession&           cADSession = cAD_Factory_ptr->getCADSession();
 
 
 		cADSession.setupCADEnvironment(	programInputArguments,

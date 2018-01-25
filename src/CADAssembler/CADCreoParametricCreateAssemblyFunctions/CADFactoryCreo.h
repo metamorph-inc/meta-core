@@ -159,7 +159,7 @@ class  ModelOperationsCreo : public IModelOperations {
 																		throw (isis::application_exception);
 
 	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_Factory,
+			//cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -181,7 +181,7 @@ class  ModelOperationsCreo : public IModelOperations {
 								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
-								cad::CadFactoryAbstract							&in_Factory,
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
@@ -224,7 +224,7 @@ class  ModelOperationsCreo : public IModelOperations {
 																											throw (isis::application_exception);
 
 	virtual void retrieveCADModelUnits( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 					CADModelUnits									&out_CADModelUnits )

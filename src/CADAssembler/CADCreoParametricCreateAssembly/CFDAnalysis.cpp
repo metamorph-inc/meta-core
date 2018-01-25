@@ -128,11 +128,13 @@ namespace isis
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																					throw (isis::application_exception);
 
-		void analyze(cad::CadFactoryAbstract	 &in_Factory, const CFD_Fidelity in_fidelity);
+		void analyze(//cad::CadFactoryAbstract	 &in_Factory, 
+						const CFD_Fidelity in_fidelity);
 
 	private:
 	
-		void analyze_v0(cad::CadFactoryAbstract &in_Factory);
+		void analyze_v0( //cad::CadFactoryAbstract &in_Factory
+						);
 		void analyze_v1();
 
 		const ::boost::filesystem::path     m_CADExtensionsDir;
@@ -225,7 +227,8 @@ namespace isis
 	The original placeholder analysis.
 	It builds a bottom heavy bounding box approximation of the vehicle.
 	*/
-	void CFD_Analyzer::analyze_v0(cad::CadFactoryAbstract &in_Factory)	{
+	//void CFD_Analyzer::analyze_v0(cad::CadFactoryAbstract &in_Factory)	{
+	void CFD_Analyzer::analyze_v0()	{
 
 		isis_CADCommon::Point_3D	boundingBox_Point_1;
 		isis_CADCommon::Point_3D	boundingBox_Point_2;
@@ -237,8 +240,11 @@ namespace isis
 		//														boundingBox_Point_2,
 		//														boundingBoxDimensions_xyz );
 	
-		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
-		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(in_Factory,
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(//in_Factory,
 																m_TopLevelAssemblyData.assemblyComponentID,
 																m_CADComponentData_map,
 																boundingBox_Point_1,
@@ -440,7 +446,12 @@ namespace isis
 	CFD, for now, requires the following coordinate system.
 		Z-axis pointing up, x back, and y right.
 	*/
-	void CFD_Analyzer::analyze( cad::CadFactoryAbstract	&in_Factory, const CFD_Fidelity in_fidelity )	{
+	void CFD_Analyzer::analyze( //cad::CadFactoryAbstract	&in_Factory, 
+								const CFD_Fidelity in_fidelity )	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		std::stringstream errorString;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "fidelity = " << in_fidelity;
 
@@ -529,7 +540,9 @@ namespace isis
 
 
 		MassProperties		massProperties_temp;
-		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 		modelOperations.retrieveMassProperties(m_TopLevelAssemblyData.assemblyComponentID, m_CADComponentData_map, massProperties_temp);
 
 		if ( massProperties_temp.mass == 0 ) {
@@ -553,7 +566,8 @@ namespace isis
 
 		switch( in_fidelity ) {
 		case V0:
-			analyze_v0(in_Factory);
+			analyze_v0(//in_Factory
+				);
 			break;
 		case V1:
 			analyze_v1();
@@ -571,7 +585,7 @@ namespace isis
 	The externally visible function.
 	*/
 	void CFD_Driver( 	
-				cad::CadFactoryAbstract								&in_Factory,
+				//cad::CadFactoryAbstract								&in_Factory,
 				const CFD_Fidelity									in_fidelity,
 				const std::string									&in_ExtensionDirectory,
 				const std::string									&in_WorkingDirectory,
@@ -582,7 +596,8 @@ namespace isis
 		CFD_Analyzer analyzer( in_ExtensionDirectory, in_WorkingDirectory, 
 			in_TopLevelAssemblyData, in_CADComponentData_map);
 
-		analyzer.analyze(in_Factory, in_fidelity);
+		analyzer.analyze( // in_Factory,
+							in_fidelity);
 	}
 
 } // END namespace isis

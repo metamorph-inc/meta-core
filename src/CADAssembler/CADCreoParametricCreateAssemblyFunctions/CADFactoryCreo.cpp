@@ -725,7 +725,7 @@ void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponent
 
 
 void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_Factory,
+			//cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -808,7 +808,7 @@ void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_C
 					// If a particular constraint was disabled, the following function would not include the junction information for 
 					// the disabled constraint in the map.
 					PopulateMap_with_JunctionInformation_SingleJunction( 
-												in_Factory,
+												//in_Factory,
 												assembledFeatureDefinition,
 												setIndex,
 												constraintData_PerFeatureTree.computedJointData.junction_withoutguide,
@@ -908,7 +908,7 @@ void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (
 }
 
 void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
-								cad::CadFactoryAbstract							&in_Factory,
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
@@ -919,7 +919,7 @@ void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 
 	
 		RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
-								in_Factory,
+								//in_Factory,
 								in_ComponentInstanceID,
 								in_CADComponentData_map,
 								out_BoundingBox_Point_1,
@@ -1326,7 +1326,7 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Time ( const MultiFormatString
 
 
 void ModelOperationsCreo::retrieveCADModelUnits( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 					CADModelUnits									&out_CADModelUnits )
@@ -1334,7 +1334,7 @@ void ModelOperationsCreo::retrieveCADModelUnits(
 {
 
 
-	RetrieveUnits_withDescriptiveErrorMsg(	in_Factory,
+	RetrieveUnits_withDescriptiveErrorMsg(	//in_Factory,
 											in_ComponentInstanceID,
 											in_CADComponentData_map,  
 											out_CADModelUnits );

@@ -7,7 +7,7 @@
 namespace isis
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ComputeVehicleGroundPlane( cad::CadFactoryAbstract							&in_Factory,
+	void ComputeVehicleGroundPlane( //cad::CadFactoryAbstract							&in_Factory,
 									const std::string								&in_AssemblyComponentID,
 									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 									std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
@@ -43,6 +43,9 @@ namespace isis
 		//isis::isis_ProSolidOutlineGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, r_outline_points);
 		
 
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		isis_CADCommon::Point_3D	boundingBox_Point_1;
 		isis_CADCommon::Point_3D	boundingBox_Point_2;
 		double						boundingBoxDimensions_xyz[3];
@@ -53,8 +56,11 @@ namespace isis
 		//														boundingBox_Point_2,
 		//														boundingBoxDimensions_xyz );
 
-		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
-		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( in_Factory,
+
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
+		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(// in_Factory,
 																in_AssemblyComponentID,
 																in_CADComponentData_map,
 																boundingBox_Point_1,
@@ -89,7 +95,7 @@ namespace isis
 	// systems has the z axis pointing from the front of the vehicle to the back of the vehicle and the Y axis 
 	// pointing upward; the azimuth angle would be from the negative z axis clockwise around the y axis, where 
 	// clockwise would be looking from a positive y coordinate onto the x-y plane. 
-	void ComputeShotLine(	cad::CadFactoryAbstract							&in_Factory,
+	void ComputeShotLine(	//cad::CadFactoryAbstract							&in_Factory,
 							const Shotline									&in_Shotline, 
 							const std::string								&in_AssemblyComponentID,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -103,7 +109,7 @@ namespace isis
 
 		CADPoint targetPoint;
 
-	    RetrieveDatumPointCoordinates(	in_Factory,
+	    RetrieveDatumPointCoordinates(	//in_Factory,
 										in_AssemblyComponentID,
 										in_Shotline.datumPoint_ComponentID,
 										in_CADComponentData_map,
@@ -124,7 +130,7 @@ namespace isis
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateBallisticFiles( 
-					cad::CadFactoryAbstract								&in_Factory,
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
@@ -133,7 +139,7 @@ namespace isis
 		// Must find the bounding box and the shotlines
 		std::vector<isis_CADCommon::Point_3D>  groundPlanePoints;
 
-		ComputeVehicleGroundPlane(	in_Factory,
+		ComputeVehicleGroundPlane(	//in_Factory,
 									in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
 									groundPlanePoints);
@@ -171,7 +177,7 @@ namespace isis
 			for each ( const Shotline j in i.shotlines)
 			{
 				isis_CADCommon::CADCommon_Shotline CADCommon_Shotline;
-				ComputeShotLine(	    in_Factory,
+				ComputeShotLine(	   // in_Factory,
 									j, 
 									in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
@@ -193,7 +199,7 @@ namespace isis
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateBlastFiles( 
-					cad::CadFactoryAbstract								&in_Factory,
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
@@ -202,7 +208,7 @@ namespace isis
 		// Must find the bounding box and the shotlines
 		std::vector<isis_CADCommon::Point_3D>  groundPlanePoints;
 
-		ComputeVehicleGroundPlane(	in_Factory,
+		ComputeVehicleGroundPlane(	//in_Factory,
 									in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
 									groundPlanePoints);

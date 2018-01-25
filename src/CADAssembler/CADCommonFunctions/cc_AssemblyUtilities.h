@@ -72,7 +72,7 @@ namespace isis
 
 
 	void CreateModelNameWithUniqueSuffix(  
-				cad::CadFactoryAbstract		&in_Factory,
+				//cad::CadFactoryAbstract		&in_Factory,
 				unsigned int				in_UniqueNameIndex, 
 				const std::string			&in_ModelName_CouldIncludeFamilyTableEntry, // e.g. Chassis_8_Wheel<Chassis>
 				std::string					&out_ModelName_Without_Suffix,				// e.g. Chassis
@@ -106,7 +106,7 @@ namespace isis
 	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
 	//		The new and old part names are added to out_FromModel_ToModel. 
 	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
-							cad::CadFactoryAbstract							&in_Factory,
+							//cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
 							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
@@ -144,7 +144,7 @@ namespace isis
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
 																throw (isis::application_exception);
 
-	void CopyModels( cad::CadFactoryAbstract						&in_Factory,
+	void CopyModels( //cad::CadFactoryAbstract						&in_Factory,
 					 const std::vector<CopyModelDefinition>			&in_FromModel_ToModel )
 																	throw (isis::application_exception);
 
@@ -170,7 +170,7 @@ namespace isis
 
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
 					const std::vector<ConstraintPair>				&in_ConstraintPairs,
 					isis::cad::Junction								&out_Junction,
@@ -208,10 +208,10 @@ namespace isis
 
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-					bool												in_Force)
+					bool												in_Force = false)
 																			throw (isis::application_exception);
 
 	const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
@@ -267,7 +267,7 @@ namespace isis
 	//			then
 	//				throw isis::application_exception
 	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
-			cad::CadFactoryAbstract													&in_Factory,
+			//cad::CadFactoryAbstract													&in_Factory,
 			const std::string														&in_TopAssemblyComponentInstanceID,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
@@ -296,7 +296,7 @@ namespace isis
 							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map );
 
 
-	void AddBoundingBoxValuesToMap( cad::CadFactoryAbstract				&in_Factory,
+	void AddBoundingBoxValuesToMap(// cad::CadFactoryAbstract				&in_Factory,
 						const std::vector<std::string>					&in_AssemblyComponentIDs,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) throw (isis::application_exception);
 

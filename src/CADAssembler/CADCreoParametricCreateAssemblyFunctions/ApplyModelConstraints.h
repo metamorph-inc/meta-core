@@ -45,7 +45,7 @@ namespace isis
 
 	*/
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract				&in_Factory,
+			//cad::CadFactoryAbstract				&in_Factory,
 			ProSolid							*in_assembly_model,
 			const std::string					&in_AssemblyComponentID,
 			const std::list<std::string>		&in_ComponentIDsToBeConstrained,  

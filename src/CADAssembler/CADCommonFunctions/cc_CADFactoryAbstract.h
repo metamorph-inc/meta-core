@@ -264,7 +264,7 @@ public:
 	// Calls to the CADFactroy would be made from the general function.
 	// ?? Documenation of this function is needed.
 	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
-			cad::CadFactoryAbstract													&in_Factory,
+			//cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -291,7 +291,7 @@ public:
 	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
 	// and then returned.
 	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
-								cad::CadFactoryAbstract							&in_Factory,
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
@@ -373,7 +373,7 @@ public:
 																											throw (isis::application_exception) = 0;
 
 	virtual void retrieveCADModelUnits( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 					CADModelUnits									&out_CADModelUnits )

@@ -6,7 +6,7 @@ namespace isis
 
 
 	void Create_FEADecks_BatFiles( 
-					cad::CadFactoryAbstract								&in_Factory,
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					std::map<std::string, Material>						&in_Materials,
 					const std::string									&in_WORKING_DIR,
@@ -14,7 +14,7 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 
-	void RetrieveDatumPointCoordinates( cad::CadFactoryAbstract						&in_Factory,
+	void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
 										const std::string							&in_AssemblyComponentID,
 										const std::string								&in_PartComponentID,
 										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,

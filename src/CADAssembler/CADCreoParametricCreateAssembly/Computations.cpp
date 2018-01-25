@@ -203,7 +203,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 //		COMPUTATION_PLANE
 //
 void CreateXMLFile_ComputedValues_ComputedByThisProgram( 
-						cad::CadFactoryAbstract								&in_Factory,
+						//cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_PathAndFileName,
 						const std::string									&in_ConfigruationID,
 						const std::string									&in_AssemblyComponentID,
@@ -232,7 +232,10 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 	//
 	//
 
-	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
 	std::map<std::string, std::list<CADComputation>> componentID_to_ListofComputations_map;
 	std::map<std::string, std::string> componentID_to_AssemblyComponentID_map;
@@ -294,7 +297,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 			//				cADModelUnits_temp );
 
 			modelOperations.retrieveCADModelUnits(
-							in_Factory,
+							//in_Factory,
 							i.first,
 							in_CADComponentData_map,
 							cADModelUnits_temp );
@@ -337,7 +340,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				isis_CADCommon::Point_3D	boundingBox_Point_2;
 				double						boundingBoxDimensions_xyz[3];		
 
-				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
 				switch ( j.computationType)
 				{
@@ -358,7 +361,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						//										boundingBoxDimensions_xyz );
 
 
-						modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( in_Factory,
+						modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( //in_Factory,
 																in_CADComponentData_map[i.first].componentID,
 																in_CADComponentData_map,
 																boundingBox_Point_1,
@@ -405,7 +408,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 					case COMPUTATION_POINT:
 						CADPoint point;
-						RetrieveDatumPointCoordinates(	in_Factory, 
+						RetrieveDatumPointCoordinates(	//in_Factory, 
 														componentID_to_AssemblyComponentID_map[i.first],
 														j.componentID,
 														in_CADComponentData_map,
@@ -419,7 +422,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						// For now, only supporting ground plane
 						if ( j.computationSubType == COMPUTATION_SUBTYPE_GROUND )
 						{
-							ComputeVehicleGroundPlane(	in_Factory, 
+							ComputeVehicleGroundPlane(	//in_Factory, 
 														componentID_to_AssemblyComponentID_map[i.first],
 														in_CADComponentData_map,
 														temp_points );
@@ -690,7 +693,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 																			
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateXMLFile_ComputedValues( 
-						cad::CadFactoryAbstract								&in_Factory,
+						//cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_WorkingDirector,
 						const ComputationTypes								&in_ComputationTypes,
 						isis::CADAssemblies									&in_CADAssemblies,
@@ -813,7 +816,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				// If no computations by this program, then the following function will do nothing.
 				// Always call the following function. 
 				CreateXMLFile_ComputedValues_ComputedByThisProgram( 
-														in_Factory,
+														//in_Factory,
 														computedValues_PathAndFileName,
 														i.configurationID,
 														i.assemblyComponentID,

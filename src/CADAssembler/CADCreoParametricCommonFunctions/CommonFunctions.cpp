@@ -286,18 +286,21 @@ namespace isis
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
+void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 					ProMdl						in_Model,
 					CADModelUnits				&out_CADModelUnits )
 										throw(isis::application_exception)
 {
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 	std::string unitsString;
 
 	ProUnitsystem unitSystem;
 	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
 	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUint;
 	//ProLine massUnitsLabel;
-	ProUnitsystemType type;
+	//ProUnitsystemType type;
 
 	isis::isis_ProMdlPrincipalunitsystemGet (in_Model, &unitSystem);
 
@@ -311,7 +314,7 @@ void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
 	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_LENGTH, &lengthUnit); 
 
 	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
-	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 	modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName  );
 
 	bool derived = false;
@@ -357,16 +360,18 @@ void RetrieveUnits( cad::CadFactoryAbstract		&in_Factory,
 ///////////////////////////////////////////////////////////////////////////////////////
 					
 void RetrieveUnits_withDescriptiveErrorMsg( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 					CADModelUnits									&out_CADModelUnits )
 											throw(isis::application_exception)
 
 {
+
+	
 	try
 	{
-		RetrieveUnits(	in_Factory,
+		RetrieveUnits(	//in_Factory,
 						in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl,
 						out_CADModelUnits ); 
 

@@ -126,7 +126,7 @@ namespace isis
 	CADAssembledFeature getCADAssembledFeature( const ProAsmcomp &in_ProAsmcomp );
 
 	void RetrieveUnits_withDescriptiveErrorMsg( 
-				cad::CadFactoryAbstract							&in_Factory,
+				//cad::CadFactoryAbstract							&in_Factory,
 				const std::string								&in_ComponentInstanceID,
 				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 				CADModelUnits									&out_CADModelUnits  )
