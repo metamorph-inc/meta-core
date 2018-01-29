@@ -10,6 +10,7 @@ import gen_analysis_tool_wxi
 import glob
 import subprocess
 import re
+import itertools
 
 import xml.etree.ElementTree as ET
 
@@ -27,6 +28,7 @@ def get_nuget_packages():
         r'..\bin\CAD\Creo\0Readme - CreateAssembly.txt',
         r'..\bin\CAD\Creo\bin\ExtractACM-XMLfromCreoModels.exe',
         r'..\bin\CAD\Creo\bin\CADCreoParametricMetaLink.exe',
+        'WixStdBA.dll',
         ]
     for filename in destination_files:
         if os.path.isfile(filename):
@@ -35,14 +37,16 @@ def get_nuget_packages():
         svnversion = {"META.CadCreoParametricCreateAssembly": vc_info.last_cad_rev,
             "META.ExtractACM-XMLfromCreoModels": vc_info.last_cad_rev,
             "META.MDL2MGACyber": vc_info.last_mdl2mga_rev,
-            "META.CADCreoParametricMetaLink": vc_info.last_cad_rev, }[package.get('id')]()
+            "META.CADCreoParametricMetaLink": vc_info.last_cad_rev,
+            "Wix.WixStdBAMod": None}[package.get('id')]
         version = package.get('version')
-        version = vc_info.update_version(version, svnversion)
+        if svnversion is not None:
+            version = vc_info.update_version(version, svnversion())
         print "NuGet install " + package.get('id') + " " + version
         # n.b. don't specify -ConfigFile, as it makes nuget.exe ignore %APPDATA%\NuGet\NuGet.config
         system([r'..\src\.nuget\nuget.exe', 'install', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
-        for filename in glob.glob(package_dir + '/*'):
+        for filename in itertools.chain(glob.glob(package_dir + '/*'), glob.glob(package_dir + '/lib/*')):
             # if os.path.basename(filename) == 'svnversion':
             #    with open(os.path.join(this_dir, filename), 'rb') as svnversion:
             #        print filename + ': ' + svnversion.read()
@@ -204,7 +208,7 @@ def build_msi():
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
 
-    version = '14.13.' + str(int(vcsversion))
+    version = '0.1.' + str(int(vcsversion))
     print 'Installer version: ' + version
     defines.append(('VERSIONSTR', version))
     defines.append(('VCSVERSION', vcsversion))
@@ -253,7 +257,8 @@ def build_msi():
         if pool_exceptions:
             raise pool_exceptions[0]
         system('candle.exe META_bundle_x64.wxs -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
-        system('light.exe META_bundle_x64.wixobj -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension -ext WixNetFxExtension'.split())
+        system('candle.exe META_bundle_ba.wxi -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
+        system('light.exe -o META_bundle_x64.exe META_bundle_ba.wixobj META_bundle_x64.wixobj -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension -ext WixNetFxExtension'.split())
 
         print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
     else:
