@@ -180,9 +180,6 @@ def download_bundle_deps(bundle_wxs):
     tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
 
-    tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
-    ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
-
     for package in itertools.chain(tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}ExePackage"),
             tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsuPackage"),
             tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}MsiPackage")):

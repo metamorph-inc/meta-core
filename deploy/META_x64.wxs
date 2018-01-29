@@ -33,7 +33,7 @@
     <Media Id='4' Cabinet='META_CAD.cab' EmbedCab='yes' />
     <Media Id='5' Cabinet='META_analysis_tools.cab' EmbedCab='yes' />
 
-    <Condition Message="This application may only be installed on Windows 7 SP1, Windows 8.1, or later.">
+    <Condition Message="This application may only be installed on Windows 7 SP1 or later.">
       <!-- https://msdn.microsoft.com/en-us/library/windows/desktop/aa370556(v=vs.85).aspx -->
       <![CDATA[Installed OR ((VersionNT = 601 AND ServicePackLevel >= 1) OR VersionNT >= 603)]]>
     </Condition>
