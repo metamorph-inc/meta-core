@@ -6,7 +6,7 @@
      xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
      xmlns:netfx='http://schemas.microsoft.com/wix/NetFxExtension'
 >
-    <Bundle Name="$(var.ProductName) $(var.VERSIONSTR)"
+    <Bundle Name="$(var.ProductName) $(var.VCSDESCRIPTION)"
             IconSourceFile="META.ico"
             Version="$(var.VERSIONSTR)"
             Manufacturer="$(var.CompanyName)"
