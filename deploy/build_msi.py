@@ -114,19 +114,37 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
+    def get_command_output(cmd):
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        return out.strip()
+
     def get_vcsversion():
         p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
-        return out.strip() or '5'
-        # import subprocess
-        # p = subprocess.Popen(['svnversion', '-n', adjacent_file('..')], stdout=subprocess.PIPE)
-        # out, err = p.communicate()
-        # if p.returncode:
-        #     raise subprocess.CalledProcessError(p.returncode, 'svnversion')
-        # return out
-    vcsversion = get_vcsversion()
+        return str(int(out.strip() or '651') - 650)
 
-    print "VCS version: " + str(vcsversion)
+    vcsversion = get_vcsversion()
+    def get_vcsdescribe():
+        out = get_command_output("git describe --match v*".split())
+        if out:
+            return out
+        # if there is no tag, use v0.1.1-[revision count]-g[short hash]
+        return "v0.1.1-" + vcsversion + "-g" + get_command_output("git rev-parse --short HEAD")
+    def parse_describe(describe):
+        m = re.match('^v(\\d+\\.\\d+\\.\\d+)((?:-[a-zA-Z_]+)?-(\\d+)-\\w+)?$', describe)
+        if not m:
+            raise ValueError('Invalid tag "{}". Must be in format v0.1.2 or v0.1.2-vendor'.format(describe))
+        return m.groups()[0] + '.' + (m.groups()[2] or '0')
+
+    assert parse_describe('v0.16.1') == '0.16.1.0'
+    assert parse_describe('v0.16.1-21-g57742becee') == '0.16.1.21'
+    assert parse_describe('v0.16.1-vendor-21-g57742becee') == '0.16.1.21'
+    vcsdescription = get_vcsdescribe()
+    version = parse_describe(vcsdescription)
+
+    print "Version description: " + vcsdescription
+    print "Installer version: " + version
     sourcedir = os.path.relpath(this_dir) + '/'
 
     def get_githash():
@@ -208,11 +226,9 @@ def build_msi():
     defines.append(('GUIDSTRCYPHYML', cyphy_versions[0]))
     defines.append(('VERSIONSTRCYPHYML', cyphy_versions[1]))
 
-    version = '0.1.' + str(int(vcsversion))
-    print 'Installer version: ' + version
     defines.append(('VERSIONSTR', version))
-    defines.append(('VCSVERSION', vcsversion))
     defines.append(('VCSHASH', vcshash))
+    defines.append(('VCSDESCRIPTION', vcsdescription))
 
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool()

@@ -12,11 +12,11 @@
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from $(var.VCSVERSION) ($(var.VCSHASH))'/>
+		Comments='Created from $(var.VCSDESCRIPTION)'/>
 
     <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
-      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="no" Property="PREVIOUSFOUND"/>
+      <UpgradeVersion Minimum="$(var.VERSIONSTR)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERFOUND"/>
+      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="yes" Property="PREVIOUSFOUND"/>
     </Upgrade>
     <Upgrade Id="E7E2109B-6CEA-4D8C-B020-1F0588DA719A">
       <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="100.100.100" IncludeMaximum="no" Property="OLDPREVIOUSFOUND"/>
@@ -211,7 +211,7 @@
       </Component>
       <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='no'>
         <RegistryKey Root='HKLM' Key='Software\META'>
-          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VERSIONSTR) ($(var.VCSHASH))'/>
+          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VCSDESCRIPTION))'/>
         </RegistryKey>
       </Component>
       <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>
