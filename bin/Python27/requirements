@@ -18,7 +18,8 @@
 # apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
 #  git checkout HEAD -- ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib/site-packages/sitecustomize.py
 #  bash: cd $(git rev-parse --show-toplevel) && git status --porcelain bin/Python27/Scripts | grep '^ D ' | grep -E '(\.pyd|dll)' | sed 's/^...//' | xargs git checkout HEAD -- bin/Python27/Scripts/{activate.bat,Python27.zip} bin/Python27/libs/python27.lib
-#  git mv bin\Python27\Lib\site-packages\pywin32-221-py2.7-win-amd64.egg\pywintypes27.dll bin\Python27\
+#  copy bin\Python27\Lib\site-packages\pywin32-221-py2.7-win-amd64.egg\pywintypes27.dll bin\Python27\
+#  git add bin\Python27\pywintypes27.dll
 #  git mv bin/Python27/Lib/site-packages/pywin32-221-py2.7-win-amd64.egg/pythoncom27.dll bin\Python27\
 #  git add -f --all Python27
 
