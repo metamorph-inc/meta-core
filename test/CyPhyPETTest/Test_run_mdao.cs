@@ -508,7 +508,7 @@ namespace CyPhyPETTest
         [Fact]
         public void PET_OptimizerConstraintIntermediate_via_MasterInterpreter()
         {
-            string objectAbsPath = "/@Testing/@ParametricExploration/@TestOptimizer_add2_IntermediateConstraint";
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestOptimizerIntermediateValueConstraint";
 
             //Run CyPhyPET
             var result = CyPhyMasterInterpreterRunner.RunMasterInterpreterAndReturnResults(
@@ -525,10 +525,10 @@ namespace CyPhyPETTest
             var configContents = File.ReadAllText(Path.Combine(outputDir, "mdao_config.json"));
             var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
 
-            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[0], "paraboloid_TestBench");
-            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[1], "fxy");
-            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[0], "add2_TestBench");
-            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[1], "z");
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[0], "Paraboloid");
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[1], "f_xy");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[0], "Add2");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[1], "y");
 
             ////Run run_mdao
             string stderr = "<did not start process>";
@@ -537,15 +537,15 @@ namespace CyPhyPETTest
 
             //Check output.csv results
             var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
-            Assert.Equal("GUID,z,x,y,fxy,constraint", lines[0]);
+            Assert.Equal("GUID,z,f_xy,constraint,x,y", lines[0]);
 
             //Check final optimized answer
             var final_values = lines[lines.Count() - 1].Split(',');
             Assert.Equal(6.6667, Double.Parse(final_values[1]), 4);
-            Assert.Equal(4.6667, Double.Parse(final_values[2]), 4);
-            Assert.Equal(-7.3333, Double.Parse(final_values[3]), 4);
-            Assert.Equal(-27.3333, Double.Parse(final_values[4]), 4);
-            Assert.Equal(-27.3333, Double.Parse(final_values[5]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[2]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[3]), 4);
+            Assert.Equal(4.6667, Double.Parse(final_values[4]), 4);
+            Assert.Equal(-7.3333, Double.Parse(final_values[5]), 4);
         }
 
 
