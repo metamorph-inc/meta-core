@@ -688,6 +688,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 	****/
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					//cad::CadFactoryAbstract							&in_Factory,
 					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
@@ -697,8 +698,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						throw (isis::application_exception)
 	{
 		
-		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
-		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		//isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		//isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from feature tree)";
 
@@ -706,7 +707,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_AssembledFeatureDefinition.componentInstanceID].name;
 
-		cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
+		//cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
 
 		std::vector< cad::Joint::pair_t > joint_pair_vector;
 
@@ -787,6 +788,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
+
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Description:

@@ -266,13 +266,22 @@ namespace isis
 
 	***/
 
+
+
+// xxx missing	inferred_joint.first.type:    REVOLUTE
+//inferred_joint.first.location:2.76261820746033480000e+003*e1
+//inferred_joint.first.orientation:1.00000000000000000000e+000*e2
+//inferred_joint.second.type:   REVOLUTE
+//inferred_joint.second.location:1.72938114533873950000e+003*e1 + 3.37884685221013340000e+002*e2 - 2.80000000000000000000e+002*e3
+//inferred_joint.second.orientation:1.00000000000000000000e+000*e3
+
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					//cad::CadFactoryAbstract							&in_Factory,
 					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
 					int												in_SetIndex,
 					isis::cad::Junction								&out_Junction,
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-						throw (isis::application_exception);
+							throw (isis::application_exception);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -931,6 +931,25 @@ void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 
 
 
+/****
+void ModelOperationsCreo::retrievePointCoordinates(	const std::string								&in_AssemblyComponentID,
+											const std::string								&in_PartComponentID,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString							&in_PointName,
+											CADPoint											&out_CADPoint) 
+																				throw (isis::application_exception)
+{
+
+
+		RetrieveDatumPointCoordinates(	componentID_to_AssemblyComponentID_map[i.first],
+									j.componentID,
+									in_CADComponentData_map,
+									j.datumName, 
+									point); 
+
+
+}
+***/
 
 void ModelOperationsCreo::findPartsReferencedByFeature(	
 						const std::string									&in_TopAssemblyComponentInstanceID, 

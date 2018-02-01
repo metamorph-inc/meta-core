@@ -4069,9 +4069,10 @@ bool Apply_CADDatum_ModelConstraints_2(
 	// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 	std::vector<std::string>			listOfComponentIDsInTheAssembly;
 	listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
-	//PopulateMap_with_Junctions_per_InputXMLConstraints(	//in_Factory,
-	//												listOfComponentIDsInTheAssembly, 
-	//												in_CADComponentData_map );
+
+	PopulateMap_with_Junctions_per_InputXMLConstraints(	//in_Factory,
+													listOfComponentIDsInTheAssembly, 
+													in_CADComponentData_map );
 		
 	std::vector<PerSetConstraintDefinition_2>     perSetConstraintDefinitions;
 

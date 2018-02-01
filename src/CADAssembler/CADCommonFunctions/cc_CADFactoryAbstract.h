@@ -301,13 +301,12 @@ public:
 
 
 	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentID assembly
-	//void retrievePointCoordinates(	cad::CadFactoryAbstract							&in_Factory,
-	//								const std::string								&in_AssemblyComponentID,
-	//								const std::string								&in_PartComponentID,
-	//								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-	//								const MultiFormatString							&in_PointName,
-	//								CADPoint											&out_CADPoint) 
-	//																			throw (isis::application_exception)	
+	//virtual void retrievePointCoordinates(	const std::string								&in_AssemblyComponentID,
+	//										const std::string								&in_PartComponentID,
+	//										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+	//										const MultiFormatString							&in_PointName,
+	//										CADPoint											&out_CADPoint) 
+	//																			throw (isis::application_exception)	= 0;
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
