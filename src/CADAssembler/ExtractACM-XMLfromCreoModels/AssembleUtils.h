@@ -13,7 +13,7 @@ namespace isis
 	std::string META_PATH();
 
 	// This function hase a side effect, it changed the current working directory, and the input parameter.
-	::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory );
+	//::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory );
 
 	const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
 

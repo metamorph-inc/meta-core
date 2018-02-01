@@ -254,8 +254,7 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 	LOGFONT logFont;
 	getFacilities().GetFont(FONT_PORT)->gdipFont->GetLogFontW(getFacilities().getGraphics(), &logFont);
 	{
-		CDC dc;
-		dc.Attach(GetDC(NULL));
+		HDC dc = GetDC(NULL);
 		Gdiplus::Graphics g(dc);
 		Gdiplus::Font f(dc, &logFont);
 		Gdiplus::PointF zero(0.0, 0.0);
@@ -273,6 +272,7 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 		RightPortsMaxLabelLength = max(cornerRadius, RightPortsMaxLabelLength);
 		const_cast<ModelComplexPart*>(this)->m_LeftPortsMaxLabelLength = LeftPortsMaxLabelLength;
 		const_cast<ModelComplexPart*>(this)->m_RightPortsMaxLabelLength = RightPortsMaxLabelLength;
+		::ReleaseDC(NULL, dc);
 	}
 
 	long lWidth = 0;

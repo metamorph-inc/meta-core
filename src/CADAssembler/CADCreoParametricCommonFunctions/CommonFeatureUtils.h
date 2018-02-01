@@ -5,6 +5,7 @@
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_application_exception.h>
 #include <cc_MultiFormatString.h>
+#include <cc_CommonStructures.h>
 #include <ostream>
 #include <vector> 
 #include <map>
@@ -153,11 +154,14 @@ namespace isis
 				  Address:    0000000012EB2668
 				  ProAsmcomp: id:    49  owner: 0000000012EDEEC8  type:  3
 	*/
-	//		
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void RetrieveAssemblyHierarchyInformation (  
-						const ProSolid					p_solid_handle,
-						bool							in_IncludeTheEntireHierarchy_NotJustImmediateDependents,
-						CreoModelAssemblyAttributes     &out_AssemblyHierarchy  )
+									// const ProSolid								p_solid_handle,
+									const std::string								&in_ComponentID,  // assembly ID
+									bool											in_IncludeTheEntireHierarchy_NotJustImmediateDependents,
+									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+									CreoModelAssemblyAttributes						&out_AssemblyHierarchy  )
 									throw (isis::application_exception);
 
 	void stream_AssemblyHierarchy( const CreoModelAssemblyAttributes &in_AssemblyAttributes,

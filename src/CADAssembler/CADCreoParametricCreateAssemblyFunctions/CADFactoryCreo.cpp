@@ -1,6 +1,5 @@
-
-#include <ProToolkit.h>
 #include "CadFactoryCreo.h"
+#include <ProToolkit.h>
 #include <vector>
 #include <list>
 #include <ProFeature.h>
@@ -10,6 +9,9 @@
 #include <ToolKitPassThroughFunctions.h>
 #include <cc_CommonUtilities.h>
 #include "CADEnvironmentSettings.h"
+#include "CommonFeatureUtils.h"
+#include "CommonFunctions.h"
+#include "AssembleUtils.h"
 
 namespace isis {
 namespace cad {
@@ -186,7 +188,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /**************
-std::string EnvironmentCreo::getCADExtensionsDir() throw (isis::application_exception)
+std::string CADSessionCreo::getCADExtensionsDir() throw (isis::application_exception)
 {
 	std::string META_PATH_str = META_PATH();
 
@@ -205,9 +207,57 @@ std::string EnvironmentCreo::getCADExtensionsDir() throw (isis::application_exce
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception)
+{
+	char tempBuffer[1024];
+	strcpy(tempBuffer, in_StartCommand.c_str() );
+	isis::isis_ProEngineerStart(tempBuffer,"");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::stopCADProgram() const throw (isis::application_exception)
+{
+	isis::isis_ProEngineerEnd();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+											int		&out_IntVersionNumber, 
+											bool	&out_FloatVersionNumber_Set,
+											double  &out_FloatVersionNumber )  const throw (isis::application_exception)
+{
+	out_IntVersionNumber_Set = false;
+	out_FloatVersionNumber_Set = false;
+	out_IntVersionNumber = 0;
+	out_FloatVersionNumber = 0.0;
+
+	int creoVersionNumber;
+	isis_ProEngineerReleaseNumericversionGet(&creoVersionNumber);
+
+	out_IntVersionNumber = creoVersionNumber;
+	out_IntVersionNumber_Set = true;
+}
+
+// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
+// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
+// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
+// access the address of the buffer used in the previous call.  Therefore, the same address must be used 
+// between calls, or at least, the previously used buffer address must still be valid.
+//
+// This function is not thread safe.
+void CADSessionCreo::setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
+{
+	
+	static wchar_t *setCreoWorkingDirectory_buffer = NULL;
+
+	if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];
+		
+	wcscpy_s( setCreoWorkingDirectory_buffer, PRO_PATH_SIZE, (const wchar_t*)in_MultiFormatString);
+	isis::isis_ProDirectoryChange( setCreoWorkingDirectory_buffer );
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+void CADSessionCreo::setupCADEnvironment(	
 			const CreateAssemblyInputArguments &in_CreateAssemblyInputArguments,
 			std::string		&out_CADStartCommand,	
 			std::string		&out_CADExtensionsDir,
@@ -260,7 +310,7 @@ void EnvironmentCreo::setupCADEnvironment(
 }
 
 
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::setupCADEnvironment(	
 		const MetaLinkInputArguments &in_MetaLinkInputArguments,
 		std::string		&out_CADStartCommand,	
 		std::string		&out_CADExtensionsDir,
@@ -283,7 +333,7 @@ void EnvironmentCreo::setupCADEnvironment(
 }
 
 
-void EnvironmentCreo::setupCADEnvironment(	
+void CADSessionCreo::setupCADEnvironment(	
 			const ExtractACMInputArguments &in_ExtractACMInputArguments,
 			std::string		&out_CADStartCommand,	
 			std::string		&out_CADExtensionsDir,
@@ -376,9 +426,9 @@ void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, con
 
         config_Pro.close();
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
+void ModelHandlingCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
 															std::string			&out_ModelName,
 															std::string			&out_FamilyTableEntry,
 															bool				&out_FamilyTableModel ) const throw (isis::application_exception)
@@ -413,6 +463,450 @@ void ModelNamesCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+std::string ModelHandlingCreo::buildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
+																const std::string &in_FamilyTableEntry )
+{
+	return in_FamilyTableEntry + "<" + in_ModelName + ">";
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string ModelHandlingCreo::combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
+															throw (isis::application_exception)
+{
+	if ( in_ModelName.size() == 0 )
+	{
+		std::stringstream errorString;
+		errorString <<
+		"exception: Function " + std::string(__FUNCTION__) + " was passed a null string for in_ModelName.";
+		throw isis::application_exception(errorString.str());
+	}
+
+	std::string tempString;
+	switch (in_ModelType)
+	{
+		case CAD_MDL_PART:
+			tempString = in_ModelName + ".prt";
+			break;
+		case CAD_MDL_ASSEMBLY:
+			tempString = in_ModelName + ".asm";
+			break;
+		default:
+			std::stringstream errorString;
+			errorString <<
+			"exception: Function " + std::string(__FUNCTION__) + " was passed in_ModelType that was not CAD_MDL_PART or CAD_MDL_ASSEMBLY, in_ModelType: " << in_ModelType;
+			throw isis::application_exception(errorString.str());
+		
+	}
+	return tempString;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelHandlingCreo::cADModelRetrieve(	const isis::MultiFormatString	&in_ModelName, 
+											e_CADMdlType 					in_ModelType,      
+											void 							**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception)
+{
+
+	isis::isis_ProMdlRetrieve(in_ModelName, ProMdlType_enum(in_ModelType), out_RetrievedModelHandle_ptr);
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void  ModelHandlingCreo::cADModelSave( void	*in_ModelHandle ) const throw (isis::application_exception)
+{
+	isis::isis_ProMdlSave(in_ModelHandle);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void  ModelHandlingCreo::cADModelFileCopy (	e_CADMdlType 						in_ModelType,
+											const isis::MultiFormatString		&in_FromModelName,
+											const isis::MultiFormatString       &in_ToModelName) const throw (isis::application_exception)
+{
+	isis::isis_ProMdlfileCopy (ProMdlType_enum(in_ModelType), in_FromModelName, in_ToModelName);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+ void ModelHandlingCreo::cADModelSave(	const std::string								&in_ComponentID,
+										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																		throw (isis::application_exception)
+ {
+	isis::isis_ProMdlSave(in_CADComponentData_map[in_ComponentID].cADModel_hdl);
+
+ }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
+				const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+				int												&in_out_NonCyPhyID_counter,
+				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																	throw (isis::application_exception)
+{
+		
+	for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
+	{			
+		//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
+		if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
+		{
+			// Found an assembly that is a Leaf
+			// Fill out the assemblyHierarchy
+			CreoModelAssemblyAttributes assemblyHierarchy;
+
+			//isis::RetrieveAssemblyHierarchyInformation(  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl), false, assemblyHierarchy );
+
+			isis::RetrieveAssemblyHierarchyInformation( i, false, in_out_CADComponentData_map, assemblyHierarchy );
+
+			std::stringstream str;
+			stream_AssemblyHierarchy (assemblyHierarchy, str);
+			isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
+
+			bool checkExclusion_by_SimplifiedRep = false;
+
+			std::map<int, CAD_SimplifiedRepData> featureID_to_SimplifiedRepData_map;
+			//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && 
+			if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && 
+					in_out_CADComponentData_map[i].geometryRepresentation.size() > 0 )  
+			{
+				///////////////////////////////////////////////////////////////////////////////////////
+				// Build map of child feature IDs and with indication if they are included or excluded
+				///////////////////////////////////////////////////////////////////////////////////////
+				ProSimprep proSimprep_temp;
+				ProError	proError_temp  = ProSimprepInit ((wchar_t*)(const wchar_t*) in_out_CADComponentData_map[i].geometryRepresentation,
+														-1,
+														static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
+														&proSimprep_temp );
+
+				if ( proError_temp == PRO_TK_NO_ERROR )  // Found simplified rep.
+				{
+					ProMdl ProMdl_temp = in_out_CADComponentData_map[i].cADModel_hdl;
+					AssemblySimplifiedRep_RetrieveModelInclusionStatus ( 
+								ProMdl_temp,
+								proSimprep_temp,
+								featureID_to_SimplifiedRepData_map ) ;
+
+					if ( featureID_to_SimplifiedRepData_map.size() > 0 ) checkExclusion_by_SimplifiedRep = true;
+
+					for each ( std::pair<int, CAD_SimplifiedRepData> i_simp in featureID_to_SimplifiedRepData_map)
+					{
+						isis_LOG(lg, isis_FILE, isis_INFO) <<  "\nSimplified Rep Included/Exclude Info, Feature ID: " << i_simp.first << "  " << CAD_SimplifiedRep_InclusionStatus_string(i_simp.second.inclusionStatus);
+					}
+				}
+
+			}
+
+			// Temporary Check
+			for each ( CreoModelAssemblyAttributes j in assemblyHierarchy.children )
+			{
+				bool includeThisChild = true;
+				if ( checkExclusion_by_SimplifiedRep )
+				{				
+					if ( featureID_to_SimplifiedRepData_map.find(j.proAsmcomp.id) != featureID_to_SimplifiedRepData_map.end())
+					{
+						if ( featureID_to_SimplifiedRepData_map[j.proAsmcomp.id].inclusionStatus == CAD_SIMPLIFIED_REP_EXCLUDE )
+						{
+							isis_LOG(lg, isis_FILE, isis_INFO)<<  "\nExcluding, Feature ID: " << j.proAsmcomp.id;
+							includeThisChild = false;
+						}
+					}
+				}
+
+				if ( includeThisChild )
+				{
+					++in_out_NonCyPhyID_counter;
+					std::stringstream nonCyPhyComponentID;
+					nonCyPhyComponentID << "NON_CYPHY_ID_" << in_out_NonCyPhyID_counter;
+					
+					CADComponentData cADComponentData_temp;
+					cADComponentData_temp.dataInitialSource = INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS;
+					cADComponentData_temp.name = j.modelname;
+					cADComponentData_temp.modelType = j.modelType;
+					cADComponentData_temp.cADModel_hdl = j.p_solid_handle;
+					cADComponentData_temp.cyPhyComponent = false;
+					cADComponentData_temp.componentID = nonCyPhyComponentID.str();
+					cADComponentData_temp.parentComponentID = i;
+
+					//cADComponentData_temp.assembledFeature = j.proAsmcomp;
+					//cADComponentData_temp.assembledFeature.type = CADFeatureGeometryType_enum(j.proAsmcomp.type);
+					//cADComponentData_temp.assembledFeature.id = j.proAsmcomp.id;
+					//cADComponentData_temp.assembledFeature.owner = j.proAsmcomp.owner;		
+					cADComponentData_temp.assembledFeature = getCADAssembledFeature( j.proAsmcomp );
+						
+					cADComponentData_temp.componentPaths = in_out_CADComponentData_map[i].componentPaths;
+					cADComponentData_temp.componentPaths.push_back( j.proAsmcomp.id );					
+
+					in_out_CADComponentData_map[nonCyPhyComponentID.str()] = cADComponentData_temp;
+					in_out_CADComponentData_map[i].children.push_back(nonCyPhyComponentID.str());
+
+					if ( j.modelType == PRO_MDL_ASSEMBLY )
+					{
+							std::vector<std::string> listOfComponentIDs_temp;
+							listOfComponentIDs_temp.push_back(nonCyPhyComponentID.str());
+							this->forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(
+																			listOfComponentIDs_temp,
+																			in_out_NonCyPhyID_counter,
+																			in_out_CADComponentData_map );
+					}
+				} // END if ( includeThisChild )
+			}
+		}
+	}
+}
+
+void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
+					const std::string								&in_TopAssemblyComponentID,
+					const isis::CopyModelDefinition						&in_CopyModelDefinition, 
+					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception) 
+{
+
+	if (in_CopyModelDefinition.modelType == CAD_MDL_ASSEMBLY )
+	{
+		ModelInstanceData modelInstanceData_temp;
+		modelInstanceData_temp.modelName				= in_CopyModelDefinition.fromModelName;
+		modelInstanceData_temp.modelType				= in_CopyModelDefinition.modelType;
+		modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_hdl);
+
+		modelInstanceData_temp.assembledFeature = getProAsmcomp(in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].assembledFeature);
+								
+		modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(in_out_CADComponentData_map[in_TopAssemblyComponentID].cADModel_hdl);
+		modelInstanceData_temp.componentPaths			= in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].componentPaths;
+		isis::MultiFormatString  CopyToPartName_temp(in_CopyModelDefinition.toModelName);
+
+		ProMdl     renamedModelHandle;
+		Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
+		in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+		in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
+
+
+		// Must fix the children assembledFeature to point to the new parent (new owner)
+		for each ( std::string i_child in in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].children )
+		{
+			in_out_CADComponentData_map[i_child].assembledFeature.owner = renamedModelHandle;
+		} 
+	}
+	
+
+	// For testing
+	//isis::isis_ProMdlSave(in_out_CADComponentData_map[i->assemblyComponentID].modelHandle);
+
+
+	if (in_CopyModelDefinition.modelType == CAD_MDL_PART )
+	{
+		ModelInstanceData modelInstanceData_temp;
+		modelInstanceData_temp.modelName				= in_CopyModelDefinition.fromModelName;
+		modelInstanceData_temp.modelType				= in_CopyModelDefinition.modelType;
+		modelInstanceData_temp.modelHandle				= static_cast<ProSolid>(in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_hdl);
+
+		modelInstanceData_temp.assembledFeature = getProAsmcomp(in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].assembledFeature);
+
+
+		modelInstanceData_temp.topAssemblyModelHandle	= static_cast<ProSolid>(in_out_CADComponentData_map[in_TopAssemblyComponentID].cADModel_hdl);
+		modelInstanceData_temp.componentPaths			= in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].componentPaths;
+		isis::MultiFormatString  CopyToPartName_temp(in_CopyModelDefinition.toModelName);
+
+		ProMdl     renamedModelHandle;
+		Assembly_RenameSubPartOrSubAssembly ( modelInstanceData_temp, CopyToPartName_temp, renamedModelHandle );
+		in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_hdl = (ProSolid)renamedModelHandle;
+		in_out_CADComponentData_map[in_CopyModelDefinition.componentInstanceID].cADModel_ptr_ptr = (ProMdl*)&renamedModelHandle;
+
+		// For testing
+		//isis::isis_ProMdlSave(in_out_CADComponentData_map[i->assemblyComponentID].modelHandle);
+
+	}						
+
+}
+
+
+
+
+
+
+void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
+			cad::CadFactoryAbstract													&in_Factory,
+			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+																		throw (isis::application_exception)
+{
+		std::vector<std::string> trimmedListOfComponentIDs;
+		FurtherTrimList_Remove_TreatAsOneBodeParts( in_AssemblyComponentIDs,
+													in_out_CADComponentData_map,
+													trimmedListOfComponentIDs );
+
+		for each ( const std::string &i in trimmedListOfComponentIDs )
+		{
+
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** " + std::string(__FUNCTION__) + " , ComponentID: " << i;
+		
+			ProAsmcomppath asmcomppath;
+
+			Retrieve_ProAsmcomppath_WithExceptions( static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
+													in_out_CADComponentData_map[i].componentPaths,
+													asmcomppath);
+
+			//isis_ProMdlDisplay( 	in_out_CADComponentData_map[i].modelHandle );
+
+			CreoAssembledFeatureDefinition  assembledFeatureDefinition;
+
+			assembledFeatureDefinition.modelName = in_out_CADComponentData_map[i].name;
+			assembledFeatureDefinition.componentInstanceID = i;
+
+			ProElement						ElemTree;
+
+
+			ProAsmcomp					assembledFeature_temp;			
+			//assembledFeature_temp.type =	FeatureGeometryType_enum(in_out_CADComponentData_map[i].assembledFeature.type);
+			//assembledFeature_temp.id   =	                         in_out_CADComponentData_map[i].assembledFeature.id;
+			//assembledFeature_temp.owner =	                         in_out_CADComponentData_map[i].assembledFeature.owner; 
+			assembledFeature_temp = getProAsmcomp( in_out_CADComponentData_map[i].assembledFeature);
+
+
+			RetrieveCreoElementTreeConstraints(	//in_out_CADComponentData_map[i].assembledFeature,
+												assembledFeature_temp,
+												asmcomppath,
+												assembledFeatureDefinition,
+												ElemTree);
+
+
+			//isis_LOG(lg, isis_FILE, isis_INFO) << assembledFeatureDefinition;
+			//std::cout << std::endl << std::endl << assembledFeatureDefinition;
+
+			if ( assembledFeatureDefinition.constraintDefinitions.size() > 0 )
+			{		
+				int setIndex = 0;
+				int numSets =  assembledFeatureDefinition.constraintSetDefinitions.size();
+
+				int setIndex_Start;
+				int setIndex_End;    // this is 1 past the end, like STL containers
+				if ( numSets == 0 )
+				{
+					setIndex_Start = -1;  // in the Creo Constraint, -1 means no sets
+					setIndex_End = 0;	 
+				}
+				else
+				{
+					setIndex_Start = 0;
+					setIndex_End = numSets;
+				}
+
+		
+
+				for ( int setIndex = setIndex_Start; setIndex < setIndex_End; ++setIndex )
+				{
+					if ( (PmConnectionAttr)assembledFeatureDefinition.constraintSetDefinitions[setIndex].component_set_misc_attr == PRO_ASM_DISABLE_COMP_SET)
+					{
+						isis_LOG(lg, isis_FILE, isis_INFO) << "Constraint set disabled.  SetIndex: " << setIndex << "  Component Instance ID: " <<  i;				
+						continue;
+					}
+
+					isis_LOG(lg, isis_FILE, isis_INFO) << "Adding junction information for the following constraint feature: ";
+					ConstraintData constraintData_PerFeatureTree;
+
+					// If a particular constraint was disabled, the following function would not include the junction information for 
+					// the disabled constraint in the map.
+					PopulateMap_with_JunctionInformation_SingleJunction( 
+												in_Factory,
+												assembledFeatureDefinition,
+												setIndex,
+												constraintData_PerFeatureTree.computedJointData.junction_withoutguide,
+												in_out_CADComponentData_map );
+
+					constraintData_PerFeatureTree.computedJointData.jointType_withoutguide =  GetCADJointType(constraintData_PerFeatureTree.computedJointData.junction_withoutguide.joint_pair.first.type);
+					constraintData_PerFeatureTree.computedJointData.junctiondDefined_withoutGuide = true;
+					constraintData_PerFeatureTree.computedJointData.coordinatesystem = assembledFeatureDefinition.componentInstanceID;
+
+					try
+					{
+						// WARNING - Computing the offSetFeatureIDPath_list is temporary fix and will only work for the case
+						//			 where a CyPhy leaf assembly has no sub-assemblies.  Later a better approach will
+						//           be needed to support a leaf assembly having multiple levels (i.e. multiple sub-assemblies)
+						//			 and a sub-assembly has .prts constrained to .prts outside the sub-assembly.
+						std::string parentComponentInstanceID = in_out_CADComponentData_map[i].parentComponentID;
+						std::list<int>  offSetFeatureIDPath_list = in_out_CADComponentData_map[parentComponentInstanceID].componentPaths;
+						RetrieveReferencedComponentInstanceIDs (	offSetFeatureIDPath_list,
+																	assembledFeatureDefinition,
+																	setIndex,
+																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
+																	constraintData_PerFeatureTree.constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates);								
+					}
+					catch ( isis::application_exception &ex)
+					{
+						std::stringstream errorString;
+						errorString <<
+							"Function: " << __FUNCTION__ << ", failed to retrieve referenced ComponentInstanceIDs:"  << std::endl <<
+							"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
+							"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+							"   Component Instance ID: " <<  i <<  std::endl <<
+							"   Exception Message: " << ex.what();
+						throw isis::application_exception(errorString);	
+					}
+
+
+					in_out_CADComponentData_map[i].constraintDef.constraints.push_back(constraintData_PerFeatureTree);		
+				}
+			}
+			else  // ELSE if ( assembledFeatureDefinition.constraintDefinitions.size() > 0 )
+			{
+				//isis_LOG(lg, isis_FILE, isis_INFO) << "\nNOT adding junction information (no constraint references found) for the following constraint feature: ";
+				//isis_LOG(lg, isis_FILE, isis_INFO) << assembledFeatureDefinition;
+
+				std::stringstream errorString;
+				errorString <<
+					"Function: " << __FUNCTION__ << ", No constraint references found for:"  << std::endl <<
+					"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
+					"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+					"   Component Instance ID: " << i << std::endl <<
+					"   Assembled Feature Definition: " << std::endl <<
+					assembledFeatureDefinition;
+
+				throw isis::application_exception(errorString);	
+			}
+
+			// Need to set					
+
+			// Only free this after using assembledFeatureDefinition. assembledFeatureDefinition is
+			// invalid after ProFeatureElemtreeFree
+			//ProFeatureElemtreeFree(&in_out_CADComponentData_map[i].assembledFeature, ElemTree);	
+			ProFeatureElemtreeFree(&assembledFeature_temp, ElemTree);	
+		}
+
+}
+
+
+void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
+							const std::string									&in_AssemblyComponentID,
+							const std::string									&in_ChildComponentID,
+							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							bool  in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
+{
+
+		RetrieveTranformationMatrix_Assembly_to_Child (  
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							in_CADComponentData_map[in_ChildComponentID].componentPaths, 
+							Bool_to_ProBoolean(in_bottom_up),
+							out_TransformationMatrix ); 
+}
+
+void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
+							const std::string									&in_AssemblyComponentID,
+							const std::list<int>									&in_ChildComponentPaths,
+							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							bool  in_bottom_up,
+							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
+{
+
+		RetrieveTranformationMatrix_Assembly_to_Child (  
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							in_ChildComponentPaths, 
+							Bool_to_ProBoolean(in_bottom_up),
+							out_TransformationMatrix ); 
+
+}
+
 } // creo
 } // cad
 } // isis

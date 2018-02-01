@@ -14,22 +14,6 @@
 namespace isis
 {
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	// If at lease one of the assemblies in in_CADAssemblies specifies cFDAnalysis == true, then return true.
-	bool IsACFDAnalysisRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->analysesCAD.analysesCFD.size() > 0 ) return true;
-		}
-		return false;
-	}
-
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateXMLFile_ComputedValues_CFD( 

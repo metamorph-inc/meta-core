@@ -517,7 +517,7 @@ void SetCreoModelRepresentation( isis::CADComponentData &in_CADComponentData )
 */
 /////////////////////////////////////////////////////////////////////////////////////////
 void Add_Subassemblies_and_Parts( 
-					cad::CadFactoryAbstract						&in_factory,
+					cad::CadFactoryAbstract						&in_Factory,
 					ProMdl										in_p_asm,
 					const std::string							&in_ParentName,
 					const std::list<std::string>				&in_Components,
@@ -649,7 +649,7 @@ void Add_Subassemblies_and_Parts(
 // component is constrained to Non-Size-to-Fit components that have already been added to the assembly structure, 
 // then the Size-to-Fit components can be added to the current assembly.
 void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
-									cad::CadFactoryAbstract				&	in_factory,
+									cad::CadFactoryAbstract				&	in_Factory,
 									const std::string							&in_AssemblyComponentID,
 									bool										in_AllowUnconstrainedModels,
 									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -689,7 +689,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 			Single_SIZE_TO_FIT_Component.push_back(*t);
 
 			
-			Add_Subassemblies_and_Parts( in_factory,
+			Add_Subassemblies_and_Parts( in_Factory,
 										in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl, 
 										 in_CADComponentData_map[in_AssemblyComponentID].name,  
 										 Single_SIZE_TO_FIT_Component, 
@@ -716,7 +716,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 			// No need to update the path to its sub-assemblies/parts.  A SIZE_TO_FIT component will always be a leaf assembly.
 
 			// Can constrain this SIZE_TO_FIT component
-			isis::ApplyModelConstraints( in_factory,
+			isis::ApplyModelConstraints( in_Factory,
 											reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
 											in_AssemblyComponentID,
 											Single_SIZE_TO_FIT_Component,
@@ -846,7 +846,7 @@ void AddSortOrderToMap(	const std::list<std::string>				&in_SortedComponents,
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssembleCADComponent( 	
-							cad::CadFactoryAbstract						&in_factory,
+							cad::CadFactoryAbstract						&in_Factory,
 							const std::string							&in_AssemblyComponentID,
 							const std::string							&in_WORKING_DIR,
 							bool										in_SaveAssembly,
@@ -880,7 +880,7 @@ void AssembleCADComponent(
 			{
 				//isis::C8omponentData_struct ParentComponentData_temp( i->ComponentID(), i->Name() );
 
-				AssembleCADComponent( in_factory,
+				AssembleCADComponent( in_Factory,
 									*i,
 									  in_WORKING_DIR,
 									  //ParentComponentData_temp,
@@ -906,7 +906,7 @@ void AssembleCADComponent(
 	//wchar_t  AssemblyName[PRO_FAMILY_NAME_SIZE];
 	//wchar_t  AssemblyName[ISIS_CHAR_BUFFER_LENGTH];
 	
-	void* handle = in_factory.get_assembler().get_assembly_component
+	void* handle = in_Factory.get_assembler().get_assembly_component
 		(in_WORKING_DIR, in_AssemblyComponentID, in_out_CADComponentData_map);
 
 	ProMdl p_asm = *(reinterpret_cast<ProMdl*>(handle));
@@ -988,7 +988,7 @@ void AssembleCADComponent(
 	////////////////////////////////////////
 	// Add sub-assemblies and detail parts
 	////////////////////////////////////////
-	Add_Subassemblies_and_Parts( in_factory,
+	Add_Subassemblies_and_Parts( in_Factory,
 								p_asm, 
 								 in_out_CADComponentData_map[in_AssemblyComponentID].name, 
 								 SortedComponents, 
@@ -1049,7 +1049,7 @@ void AssembleCADComponent(
 	isis_LOG(lg, isis_FILE, isis_INFO) << "\n************** End map CADComponent in BuildAssembly Function ***************";
 
 
-	bool fail = isis::ApplyModelConstraints( in_factory,
+	bool fail = isis::ApplyModelConstraints( in_Factory,
 									(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
 									in_AssemblyComponentID,
 									SortedComponents,
@@ -1068,7 +1068,7 @@ void AssembleCADComponent(
 		///////////////////////////////////////////////////////////////////////////
 
 		For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
-										in_factory,
+										in_Factory,
 										in_AssemblyComponentID,
 										in_AllowUnconstrainedModels,
 										in_out_CADComponentData_map,
@@ -1207,7 +1207,7 @@ void AssembleCADComponent(
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
+void BuildAssembly( cad::CadFactoryAbstract				&in_Factory,
 					const std::string					&in_AssemblyComponentID, 
 					const std::string					&in_WORKING_DIR,
 					bool								in_SaveAssembly,
@@ -1233,7 +1233,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 	std::list<std::string>  SIZE_TO_FIT_Components; 
 
 	out_RegenerationSucceeded = true;
-	AssembleCADComponent(	in_factory,
+	AssembleCADComponent(	in_Factory,
 							in_AssemblyComponentID,
 							in_WORKING_DIR,
 							in_SaveAssembly,
@@ -1272,86 +1272,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_factory,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-void CopyModels(const std::map<std::string, std::string>			&in_ToPartName_FromPartName )
-																	throw (isis::application_exception)
-{
-
-	std::set<std::string> savedToWorkingDirSourceModels;
-
-	for( std::map<std::string, std::string>::const_iterator i(in_ToPartName_FromPartName.begin());
-		 i != in_ToPartName_FromPartName.end();
-		 ++i )
-
-	{
-		//ProMdl  handle;
-		//ProFamilyName  fromModelName;
-		//ProFamilyName  toModelName;
-		//ProStringToWstring(fromModelName, (char *)i->second.c_str() );
-		//ProStringToWstring(toModelName, (char *)i->first.c_str() );
-
-		MultiFormatString fromModelName( i->second, PRO_NAME_SIZE - 1);
-		MultiFormatString toModelName( i->first,  PRO_NAME_SIZE - 1 );
 
 	
-		// Assure that the source model is saved to the working directory only once.
-		if ( savedToWorkingDirSourceModels.find( i->second ) == savedToWorkingDirSourceModels.end() )
-		{
-			// Since the source model (i.e. fromModelName) could be anywhere in the search path, we
-			// must open the source model and save it to force a copy to exist in the working directory.
-			ProMdl     p_model; 
-			isis::isis_ProMdlRetrieve(fromModelName,PRO_MDL_PART, &p_model);
-			isis::isis_ProMdlSave(p_model);
-			savedToWorkingDirSourceModels.insert(i->second);
-		}
-
-		isis::isis_ProMdlfileCopy (PRO_MDL_PART, fromModelName, toModelName);
-	}
-}
-
-*/
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-void CopyModels(const std::vector<CopyModelDefinition>	&in_FromModel_ToModel )
-																	throw (isis::application_exception)
-{
-
-	std::set<std::string> savedToWorkingDirSourceModels;
-
-	for each ( CopyModelDefinition i  in in_FromModel_ToModel)
-
-	{
-		//ProMdl  handle;
-		//ProFamilyName  fromModelName;
-		//ProFamilyName  toModelName;
-		//ProStringToWstring(fromModelName, (char *)i->second.c_str() );
-		//ProStringToWstring(toModelName, (char *)i->first.c_str() );
-
-		//MultiFormatString fromModelName( i->second, PRO_NAME_SIZE - 1);
-		//MultiFormatString toModelName( i->first,  PRO_NAME_SIZE - 1 );
-
-		std::string modelNameWithSuffix = 
-			   ConvertToUpperCase (CombineCreoModelNameAndSuffix(i.fromModelName, i.modelType) );
-
-		// Assure that the source model is saved to the working directory only once.
-		if ( savedToWorkingDirSourceModels.find( modelNameWithSuffix ) == savedToWorkingDirSourceModels.end() )
-		{
-			// Since the source model (i.e. fromModelName) could be anywhere in the search path, we
-			// must open the source model and save it to force a copy to exist in the working directory.
-			ProMdl     p_model; 
-			if ( i.modelType == PRO_MDL_PART )
-				isis::isis_ProMdlRetrieve(i.fromModelName,PRO_MDL_PART, &p_model);
-			else
-				isis::isis_ProMdlRetrieve(i.fromModelName,PRO_MDL_ASSEMBLY, &p_model);
-			isis::isis_ProMdlSave(p_model);
-			savedToWorkingDirSourceModels.insert(modelNameWithSuffix);
-		}
-
-		if ( i.modelType == PRO_MDL_PART )
-			isis::isis_ProMdlfileCopy (PRO_MDL_PART, i.fromModelName, i.toModelName);
-		else
-			isis::isis_ProMdlfileCopy (PRO_MDL_ASSEMBLY, i.fromModelName, i.toModelName);
-	}
-}
 
 } // end namespace isis

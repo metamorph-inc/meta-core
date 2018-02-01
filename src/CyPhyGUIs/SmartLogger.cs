@@ -95,8 +95,10 @@ namespace CyPhyGUIs
             }
         }
 
+        public CyPhyCOMInterfaces.IMgaTraceability Traceability { get; set; }
         public SmartLogger()
         {
+            this.Traceability = new META.MgaTraceability();
             this.LoggingLevel = MessageType_enum.Debug;
             this.m_textWriters = new List<TextWriter>();
             this.m_filenames = new List<string>();

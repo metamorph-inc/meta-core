@@ -283,7 +283,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
             bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
 
-            Assert.False(result, "CyPhyPET should have failed, but did not.");
+            Assert.True(result, "CyPhyPET should succeeded.");
         }
 
         // disabled: CyPhyPET+run_mdao can run this

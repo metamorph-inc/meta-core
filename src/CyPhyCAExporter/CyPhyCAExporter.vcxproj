@@ -345,6 +345,7 @@
     <ClInclude Include="..\Util\CyPhyUtil.h" />
     <ClInclude Include="ComponentConfig.h" />
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h" />
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h" />
     <ClInclude Include="ComponentObj.h" />
     <ClInclude Include="ConfigExportDialog.h" />
     <ClInclude Include="CyPhyCAExporter.h" />

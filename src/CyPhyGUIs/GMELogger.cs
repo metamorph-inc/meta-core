@@ -48,15 +48,12 @@ namespace CyPhyGUIs
         /// </summary>
         public MessageType_enum GMEConsoleLoggingLevel { get; set; }
 
-        public CyPhyCOMInterfaces.IMgaTraceability Traceability { get; set; }
-
         private MgaProject m_project { get; set; }
 
         public GMELogger(MgaProject project, string interpreterName = null)
         {
             this.m_project = project;
             this.GMEConsoleLoggingLevel = MessageType_enum.Success;
-            this.Traceability = new META.MgaTraceability();
 
             var gme_console = GMEConsole.CreateFromProject(project);
             this.AddWriter(gme_console.Out);

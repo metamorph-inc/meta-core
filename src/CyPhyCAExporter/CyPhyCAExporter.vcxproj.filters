@@ -78,6 +78,9 @@
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComponentObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ComponentObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>

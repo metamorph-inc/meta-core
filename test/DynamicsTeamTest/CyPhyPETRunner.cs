@@ -29,7 +29,8 @@ namespace DynamicsTeamTest
             return result;
         }
 
-        public static Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult> RunReturnFull(string outputdirname, string projectPath, string absPath)
+        public static Tuple<CyPhyGUIs.InterpreterMainParameters, CyPhyGUIs.IInterpreterResult> RunReturnFull(string outputdirname, string projectPath, string absPath,
+            CyPhyGUIs.SmartLogger logger = null, Action<MgaProject> preProcess = null)
         {
             var mainParameters = new CyPhyGUIs.InterpreterMainParameters();
             CyPhyGUIs.IInterpreterResult results = null;
@@ -43,6 +44,10 @@ namespace DynamicsTeamTest
             project.OpenEx(ProjectConnStr, "CyPhyML", null);
             try
             {
+                if (preProcess != null)
+                {
+                    preProcess(project);
+                }
                 var terr = project.BeginTransactionInNewTerr();
                 var testObj = project.ObjectByPath[absPath] as MgaFCO;
                 Assert.True(testObj != null, String.Format("Could not find FCO by path '{0}'", absPath));
@@ -53,7 +58,7 @@ namespace DynamicsTeamTest
                 OutputDir = Path.GetFullPath(OutputDir);
                 if (Directory.Exists(OutputDir))
                 {
-                    Test.DeleteDirectory(OutputDir);
+                    CyPhyGUIs.CyPhyDirectory.EnsureEmptyDirectory(OutputDir);
                 }
                 Directory.CreateDirectory(OutputDir);
 
@@ -71,6 +76,7 @@ namespace DynamicsTeamTest
                 mainParameters.OutputDirectory = OutputDir;
 
                 //dynamic results = interpreter.Main(mainParameters);
+                interpreter.Logger = logger;
                 results = interpreter.MainThrows(mainParameters);
 
                 Assert.True(File.Exists(ProjectConnStr.Substring("MGA=".Length)));

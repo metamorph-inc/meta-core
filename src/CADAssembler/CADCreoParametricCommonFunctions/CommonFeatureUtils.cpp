@@ -163,15 +163,35 @@ ProError user_action( ProFeature *feature, ProError status, ProAppData appdata)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void RetrieveAssemblyHierarchyInformation (  
-									const ProSolid					  p_solid_handle,
-									bool							  in_IncludeTheEntireHierarchy_NotJustImmediateDependents,
-									CreoModelAssemblyAttributes        &out_AssemblyHierarchy  )
+									// const ProSolid								p_solid_handle,
+									const std::string								&in_ComponentID,  // assembly ID
+									bool											in_IncludeTheEntireHierarchy_NotJustImmediateDependents,
+									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+									CreoModelAssemblyAttributes						&out_AssemblyHierarchy  )
 									throw (isis::application_exception)
 	{	
+
+		if ( in_ComponentID.size() == 0  )
+		{
+			std::stringstream errorString;
+			errorString << __FUNCTION__ << " was passed a NULL in_ComponentID ";  
+			throw isis::application_exception(errorString.str());
+		}
+		
+		if ( in_CADComponentData_map.find(in_ComponentID) == in_CADComponentData_map.end() )
+		{
+			std::stringstream errorString;
+			errorString << __FUNCTION__ << " was passed in_ComponentID "  << in_ComponentID << " which does not exist";  
+			throw isis::application_exception(errorString.str());
+		}
+
+
+		ProSolid p_solid_handle =  static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl);
+
 		if ( p_solid_handle == NULL )
 		{
 			std::stringstream errorString;
-			errorString << "BuildAssemblyHierarchy was passed a NULL pointer for p_solid_handle.";
+			errorString << __FUNCTION__ + std::string(" was passed a NULL pointer for p_solid_handle.");
 					throw isis::application_exception(errorString);
 		}
 

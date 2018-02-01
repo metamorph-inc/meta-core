@@ -124,6 +124,7 @@
     <Compile Include="FunctionalTests\AnalysisModelProcessors.cs" />
     <Compile Include="FunctionalTests\ContextChecker.cs" />
     <Compile Include="FunctionalTests\GetConfigurations.cs" />
+    <Compile Include="JobManagerLibTest.cs" />
     <Compile Include="MasterInterpreterTest.cs" />
     <Compile Include="MBD\MBD.cs" />
     <Compile Include="Project\MasterInterpreter.cs" />

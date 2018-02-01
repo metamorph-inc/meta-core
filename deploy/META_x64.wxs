@@ -3,20 +3,23 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' RequiredVersion='3.0.4813.0'
  xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
 
-  <?define UpgradeCode='E7E2109B-6CEA-4D8C-B020-1F0588DA719A' ?>
+  <?define UpgradeCode='23137f50-9a2e-415a-9586-4da5622203ee' ?>
 
   <Product Name='META toolchain' Id='*' UpgradeCode='$(var.UpgradeCode)'
       Language='1033' Codepage='1252' Version='$(var.VERSIONSTR)' Manufacturer='Vanderbilt University, ISIS'>
 
-    <Package Id='*' Description='META Vehicle Design Suite'
+    <Package Id='*' Description='META Design Suite'
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from $(var.VCSVERSION) ($(var.VCSHASH))'/>
+		Comments='Created from $(var.VCSDESCRIPTION)'/>
 
     <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Minimum="$(var.VERSIONSTR)" OnlyDetect="yes" Property="NEWERFOUND"/>
-      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="no" Property="PREVIOUSFOUND"/>
+      <UpgradeVersion Minimum="$(var.VERSIONSTR)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERFOUND"/>
+      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.VERSIONSTR)" IncludeMaximum="yes" Property="PREVIOUSFOUND"/>
+    </Upgrade>
+    <Upgrade Id="E7E2109B-6CEA-4D8C-B020-1F0588DA719A">
+      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="100.100.100" IncludeMaximum="no" Property="OLDPREVIOUSFOUND"/>
     </Upgrade>
     <CustomActionRef Id="WixExitEarlyWithSuccess"/>
 	<CustomAction Id='NoDowngrade' Error='A later version is already installed. To downgrade, please uninstall it first, then restart this installer.' />
@@ -33,7 +36,7 @@
     <Media Id='4' Cabinet='META_CAD.cab' EmbedCab='yes' />
     <Media Id='5' Cabinet='META_analysis_tools.cab' EmbedCab='yes' />
 
-    <Condition Message="This application may only be installed on Windows 7 SP1, Windows 8.1, or later.">
+    <Condition Message="This application may only be installed on Windows 7 SP1 or later.">
       <!-- https://msdn.microsoft.com/en-us/library/windows/desktop/aa370556(v=vs.85).aspx -->
       <![CDATA[Installed OR ((VersionNT = 601 AND ServicePackLevel >= 1) OR VersionNT >= 603)]]>
     </Condition>
@@ -208,7 +211,7 @@
       </Component>
       <Component Id='META_FULLVERSION' Guid='{a4339136-716f-4621-8457-3c65f0a9c3e2}' Win64='no'>
         <RegistryKey Root='HKLM' Key='Software\META'>
-          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VERSIONSTR) ($(var.VCSHASH))'/>
+          <RegistryValue Name='META_FULLVERSION' Type='string' Value='$(var.VCSDESCRIPTION))'/>
         </RegistryKey>
       </Component>
       <Component Id='MAX_DYMOLA_STEP_TIME' Guid='{4ED177DD-87CC-4FF8-9E0A-23D640C5C312}' Win64='no'>

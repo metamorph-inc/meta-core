@@ -64,7 +64,7 @@ namespace CyPhyPET
 
         private MgaGateway MgaGateway { get; set; }
         //private GMEConsole GMEConsole { get; set; }
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
 
         public void InvokeEx(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
         {
@@ -474,35 +474,17 @@ namespace CyPhyPET
         /// <returns>Result of the run, which contains a success flag.</returns>
         public IInterpreterResult Main(IInterpreterMainParameters parameters)
         {
-            bool disposeLogger = false;
             try
             {
-                if (this.Logger == null)
-                {
-                    this.Logger = new CyPhyGUIs.GMELogger(parameters.Project, this.ComponentName);
-                    disposeLogger = true;
-                }
-                this.Logger.WriteInfo("Running CyPhyPET");
-                System.Windows.Forms.Application.DoEvents();
-
-                var asyncResult = this.Logger.LoggingVersionInfo.BeginInvoke(parameters.Project, null, null);
-                var header = this.Logger.LoggingVersionInfo.EndInvoke(asyncResult);
-                this.Logger.WriteDebug(header);
-
                 MainThrows(parameters);
             }
             catch (Exception ex)
             {
-                this.Logger.WriteError("Exception was thrown : {0}", ex.ToString().Replace("\n", "<br>"));
-                this.result.Success = false;
-            }
-            finally
-            {
-                if (disposeLogger && this.Logger != null)
+                if (this.Logger != null)
                 {
-                    this.Logger.Dispose();
-                    this.Logger = null;
+                    this.Logger.WriteError("Exception was thrown : {0}", ex.ToString().Replace("\n", "<br>"));
                 }
+                this.result.Success = false;
             }
 
             return this.result;
@@ -538,18 +520,19 @@ namespace CyPhyPET
             bool disposeLogger = false;
             if (this.Logger == null)
             {
-                this.Logger = new CyPhyGUIs.GMELogger(this.mainParameters.Project, this.ComponentName);
+                var Logger = new CyPhyGUIs.GMELogger(this.mainParameters.Project, this.ComponentName);
+                this.Logger = Logger;
                 disposeLogger = true;
+                if (this.mainParameters.VerboseConsole)
+                {
+                    Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Debug;
+                }
+                else
+                {
+                    Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Info;
+                }
             }
-            this.Logger.MakeVersionInfoHeader();
-            if (this.mainParameters.VerboseConsole)
-            {
-                this.Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Debug;
-            }
-            else
-            {
-                this.Logger.GMEConsoleLoggingLevel = SmartLogger.MessageType_enum.Info;
-            }
+            this.Logger.WriteDebug(META.Logger.Header(mainParameters.Project));
 
             //this.result.Traceability.CopyTo(this.Logger.Traceability);
 
@@ -586,6 +569,12 @@ namespace CyPhyPET
             {
                 this.result.Success = false;
                 this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+            }
+            catch (Exception e)
+            {
+                this.result.Success = false;
+                this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+                throw;
             }
             finally
             {
@@ -905,6 +894,8 @@ namespace CyPhyPET
                     interpreter.ProgId);
             }
 
+            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputDirName));
+
             CyPhy.Task task = null;
             string result = string.Empty;
             if (testBench.Children.WorkflowRefCollection.Count() == 1)
@@ -918,6 +909,8 @@ namespace CyPhyPET
                     {
                         task = workflow.Children.TaskCollection.FirstOrDefault();
                     }
+
+                    CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI.CopyFiles(workflow.Children.CopyFilesCollection, mainParameters.ProjectDirectory, diTestBenchOutputDir.FullName);
                 }
             }
 
@@ -941,8 +934,6 @@ namespace CyPhyPET
             interpreter.SetWorkflowParameterValues();
 
             interpreter.Initialize(this.mainParameters.Project);
-
-            var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputDirName));
 
             interpreter.MainParameters.OutputDirectory = diTestBenchOutputDir.FullName;
             interpreter.MainParameters.CurrentFCO = (MgaFCO)testBench.Impl;

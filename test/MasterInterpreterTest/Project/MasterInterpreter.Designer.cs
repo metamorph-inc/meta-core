@@ -1340,7 +1340,6 @@ namespace MasterInterpreterTest.Projects
         }
         [Fact]
         [Trait("Model", "MasterInterpreter")]
-        [Trait("MasterInterpreter", "ContextCheckerFail")]
         public void ParametricExploration_HasNoDriver_Invalid()
         {
             //string outputDir = "ParametricExploration_HasNoDriver_Invalid";
@@ -1351,7 +1350,7 @@ namespace MasterInterpreterTest.Projects
             // check context
             var success = CyPhyMasterInterpreterRunner.RunContextCheck(mgaFile, objectAbsPath);
 
-            Assert.False(success, "CyPhyMasterInterpreter context checker should have failed, but did not.");
+            Assert.True(success, "CyPhyMasterInterpreter context checker should not have failed.");
         }
         [Fact]
         [Trait("Model", "MasterInterpreter")]

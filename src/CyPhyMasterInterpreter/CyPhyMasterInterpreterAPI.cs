@@ -1284,6 +1284,16 @@
                     manifest.Design = ddpDesign;
                     manifest.Serialize(analysisModelProcessor.OutputDirectory);
 
+                    foreach (var testbenchRef in context.ChildFCOs.Cast<MgaFCO>().Where(fco => fco.Meta.Name == typeof(CyPhy.WorkflowRef).Name))
+                    {
+                        var tbRef = CyPhyClasses.WorkflowRef.Cast(testbenchRef);
+                        if (tbRef.Referred.Workflow != null)
+                        {
+                            var projectDir = Path.GetDirectoryName(Path.GetFullPath(tbRef.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+                            CopyFiles(tbRef.Referred.Workflow.Children.CopyFilesCollection, projectDir, analysisModelProcessor.OutputDirectory);
+                        }
+                    }
+
                     this.Logger.WriteDebug("Serializing Project manifest file with updates.");
                     this.ProjectManifest.Serialize();
                     this.Logger.WriteDebug("Project manifest was successfully saved.");
@@ -1566,6 +1576,71 @@
                     }
                 }
             });
+        }
+
+        public static void CopyDirectory(string sourcePath, string destPath)
+        {
+            if (!Directory.Exists(destPath))
+            {
+                Directory.CreateDirectory(destPath);
+            }
+
+            foreach (string file in Directory.GetFiles(sourcePath))
+            {
+                string dest = Path.Combine(destPath, Path.GetFileName(file));
+                File.Copy(file, dest);
+            }
+
+            foreach (string folder in Directory.GetDirectories(sourcePath))
+            {
+                string dest = Path.Combine(destPath, Path.GetFileName(folder));
+                CopyDirectory(folder, dest);
+            }
+        }
+
+        public static void CopyFiles(IEnumerable<CyPhy.CopyFiles> copyFilesCollection, string projectDir, string outputDirectory)
+        {
+            foreach (var copyFiles in copyFilesCollection)
+            {
+                string strip;
+                IEnumerable<string> entries;
+                if (Path.IsPathRooted(copyFiles.Attributes.Source))
+                {
+                    entries = Directory.EnumerateFileSystemEntries(Path.GetFullPath(Path.GetDirectoryName(copyFiles.Attributes.Source)), Path.GetFileName(copyFiles.Attributes.Source));
+                    strip = Path.GetFullPath(Path.GetDirectoryName(copyFiles.Attributes.Source));
+                }
+                else
+                {
+                    entries = Directory.EnumerateFileSystemEntries(projectDir, copyFiles.Attributes.Source);
+                    strip = Path.GetFullPath(Path.GetDirectoryName(Path.Combine(projectDir, copyFiles.Attributes.Source)));
+                }
+
+                string dest = Path.Combine(outputDirectory, copyFiles.Attributes.Destination);
+                Directory.CreateDirectory(dest);
+                foreach (string entry in entries)
+                {
+                    if ((File.GetAttributes(entry) & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        string finalDestination;
+                        if (entry == strip)
+                        {
+                            finalDestination = dest;
+                        }
+                        else
+                        {
+                            finalDestination = Path.Combine(dest, entry.Substring(strip.Length + 1));
+                        }
+
+
+                        CopyDirectory(entry, finalDestination);
+                    }
+                    else
+                    {
+                        File.Copy(entry, Path.Combine(dest, Path.GetFileName(entry)));
+                    }
+
+                }
+            }
         }
     }
 }

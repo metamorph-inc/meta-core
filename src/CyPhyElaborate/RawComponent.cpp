@@ -40,6 +40,8 @@ bool automated_collapse;
 bool ConsoleMessagesOn;
 std::string msg_exception;
 
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+
 // this method is called after all the generic initialization is done
 // this should be empty, unless application-specific initialization is needed
 STDMETHODIMP RawComponent::Initialize(struct IMgaProject *) {
@@ -291,8 +293,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::gmeoleapp = 0;
 		std::string msg = "Udm error: ";
 		msg += e.what();
-		AfxMessageBox(CString(msg.c_str()));
-		return E_FAIL;
+		ThrowComError(E_FAIL, _bstr_t(msg.c_str()));
 	}
 	catch(...)
 	{

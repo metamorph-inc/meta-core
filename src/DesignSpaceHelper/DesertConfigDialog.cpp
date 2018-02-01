@@ -78,10 +78,11 @@ BOOL CDesertConfigDialog::OnInitDialog()
 		cfgSizeInfo = ss.str();
 	}
 	
+	checkedSize = 0;
+
 	FillCfgList();
 	FillCfgTree();
 
-	checkedSize = 0;
 	updateSize();
 
 	m_blInited = false;

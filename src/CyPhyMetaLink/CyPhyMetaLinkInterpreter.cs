@@ -837,8 +837,9 @@ namespace CyPhyMetaLink
         {
             if (!AssignProcessToJobObject(job, process.Handle))
             {
+                var error = Marshal.GetLastWin32Error();
                 CloseHandle(job);
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception(error);
             }
         }
 
@@ -853,15 +854,17 @@ namespace CyPhyMetaLink
             int returnLength = 0;
             if (!QueryInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, Marshal.SizeOf(info), ref returnLength))
             {
+                var error = Marshal.GetLastWin32Error();
                 CloseHandle(job);
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception(error);
             }
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
 
             if (!SetInformationJobObject(job, JOBOBJECTINFOCLASS.ExtendedLimitInformation, ref info, (uint)Marshal.SizeOf(info)))
             {
+                var error = Marshal.GetLastWin32Error();
                 CloseHandle(job);
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception(error);
             }
 
             return job;

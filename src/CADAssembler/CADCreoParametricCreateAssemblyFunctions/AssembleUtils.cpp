@@ -5,7 +5,7 @@
 #include <CommonFeatureUtils.h>
 //#include "WindowsHDependentCommonFunctions.h"
 #include <ToolKitPassThroughFunctions.h>
-#include <CommonFeatureUtils.h>
+
 #include <CommonFunctions.h>
 #include <cc_JsonHelper.h>
 #include <time.h>
@@ -19,120 +19,13 @@
 #include <e3ga.h>
 #include <cc_WindowsFunctions.h>
 #include <JointCreo.h>
+#include <cc_AssemblyUtilities.h>
 #include <Windows.h>
 
 namespace isis
 {
 	const int DISABLED_CONSTRAINT_MASK = 32;
 
-	bool Get_CompleteTheHierarchyForLeafAssemblies( const CADAssemblies &in_CADAssemblies )
-	{
-		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
-			if ( i.primary == COMPLETE_THE_HIERARCHY_FOR_LEAF_ASSEMBLIES )
-				return true;
-		return false;
-	}
-	
-	bool Get_UniquelyNameAllCADModelInstances( const CADAssemblies &in_CADAssemblies )
-	{
-		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
-			if ( i.primary == UNIQUELY_NAME_ALL_CAD_MODEL_INSTANCES)
-				return true;
-		return false;
-	}
-
-	bool Get_OutputJointInformation( const CADAssemblies &in_CADAssemblies )
-	{
-		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
-			if ( i.primary == OUTPUT_JOINT_INFORMATION )
-				return true;
-		return false;
-	}
-
-	bool Get_ValidateJointInformation( const CADAssemblies &in_CADAssemblies )
-	{
-		for each ( ProcessingInstruction i in in_CADAssemblies.processingInstructions )
-			if ( i.secondary == VALIDATE_JOINT_INFORMATION )
-				return true;
-		return false;
-	}
-
-
-	// If at least one of the assemblies in in_CADAssemblies specifies cFDAnalysis == true, then return true.
-	bool HasAssemblyBasedComputations( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			if ( i->assemblyMetrics.size() > 0 ) return true;
-		}
-		return false;
-	}
-
-	// If at lease one of the assemblies in in_CADAssemblies specifies analysesCAD.interference == true, then return true.
-	bool IsAInterferenceRun( const CADAssemblies &in_CADAssemblies )
-	{
-		for ( std::list<isis::TopLevelAssemblyData>::const_iterator i( in_CADAssemblies.topLevelAssemblies.begin()); 
-				i !=  in_CADAssemblies.topLevelAssemblies.end();
-				++i)
-		{
-			// Old approach using assemblyMetrics now, if ( i->analysesCAD.interference ) return true;
-			for each (const CADComputation &j in i->assemblyMetrics) if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT ) return true;
-		}
-		return false;
-	}
-
-	// Restrictions:
-	//	There can be at most one InterferenceCount computation.  
-	//	InterferenceCount must reference the top assembly.  Sub-assemblies are not supported at this time.
-	void Validate_ComputationInterferenceCount_ThrowExceptionIfInvalid (  
-											const CADAssemblies								&in_CADAssemblies,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
-															throw (isis::application_exception)
-	{
-		for each ( const TopLevelAssemblyData &i in in_CADAssemblies.topLevelAssemblies)
-		{
-			int count = 0;
-			std::vector<CADComputation> interferenceCountReferencedComponents;
-			for each (const CADComputation &j in i.assemblyMetrics) 
-			{
-				if ( j.computationType == COMPUTATION_INTERFERENCE_COUNT )
-				{ 
-					++count;
-					interferenceCountReferencedComponents.push_back(j);
-					if ( j.componentID != i.assemblyComponentID )
-					{
-						std::stringstream errorString;
-						errorString <<	"Function - " << __FUNCTION__ << ", An " << std::endl <<
-										"InterferenceCount computation must always be for the top assembly. It cannot" << std::endl <<
-										"be for sub-assemblies.  Check the CyPhy model and verify that a CADComputationComponent that contains" << std::endl <<
-										"an InterferenceCount is not connected to a test-injection point other than the top assembly." << std::endl <<
-										"   Top Assembly Model Name:  " <<	 in_CADComponentData_map[i.assemblyComponentID].name << 
-										 j;
-										//"   InterferenceCount Referenced Model Name: " <<	 in_CADComponentData_map[j.componentID].name;
-						throw isis::application_exception(errorString);		
-					}
-				}
-
-			}
-			if ( count > 1 )
-			{
-				std::stringstream errorString;
-				errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-							"There must be no more than one InterferenceCount CADComputationComponent within a CyPhy testbench." << std::endl <<
-							"Number of InterferenceCount Found: " << count << std::endl <<
-							"InterferenceCount CADComputationComponents: " << std::endl;
-							for each ( const CADComputation &k in interferenceCountReferencedComponents )
-							{
-								errorString << "Referenced Model Name:        " << in_CADComponentData_map[k.componentID].name << std::endl;;
-								errorString << "Referenced Model ComponentID: " << k.componentID;
-								errorString << k;
-							}
-				throw isis::application_exception(errorString);		
-			}
-		}
-	}
 
 
 	void RetrieveComputationOfAGivenType( const std::list<CADComputation>	&in_AssemblyMetrics,
@@ -145,68 +38,26 @@ namespace isis
 		}
 	}
 
-/**
- If a plain logfile is provided then it is expected that the logfile will be 
- placed into a directory, named "log", creating it if necessary.
- In every other case the normal file logic will be used.
- In the case of relative paths the current directory will be used.
-
- A viable alternative would be to consider relative paths from the working directory.
- If that were the case then the working directory needs to be passed as an argument.
-*/
-void SetupLogFile( const std::string in_LogFileName, std::ofstream &in_out_LogFile ) throw (isis::application_exception)
-{
-	::boost::filesystem::path logFilePath(in_LogFileName);
-	if (logFilePath.empty()) {
-		std::string TempError = "exception : empty log file name";
-		throw isis::application_exception("C03001", TempError);
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	ProBoolean Bool_to_ProBoolean ( bool in_Bool)
+	{
+		if ( in_Bool )
+			return PRO_B_TRUE;
+		else
+			return PRO_B_FALSE;
 	}
-	if (logFilePath.is_absolute()) {
-		in_out_LogFile.open (logFilePath.c_str(), std::ios::out | std::ios::trunc );
-		if (! in_out_LogFile.is_open()) {
-			std::string TempError = "exception : Could not open absolute log file: " + logFilePath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		} 
-		clog.rdbuf(in_out_LogFile.rdbuf());
-		return;
+
+
+	bool ProBoolean_to_Bool ( ProBoolean in_ProBoolean )
+	{
+		if ( in_ProBoolean == PRO_B_TRUE )
+			return true;
+		else
+			return false;
 	}
-	// the file path is relative
-	if (logFilePath.has_parent_path()) {
-		in_out_LogFile.open (logFilePath.c_str(), std::ios::out | std::ios::trunc );
-		if (! in_out_LogFile.is_open()) {
-			std::string TempError = "exception : Could not open relative log file: " + logFilePath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		} 
-		clog.rdbuf(in_out_LogFile.rdbuf());
-		return;
-	}
-	::boost::filesystem::path localLogPath = 
-		::boost::filesystem::current_path() / "log";
 
-	if (! ::boost::filesystem::exists( localLogPath ) ) {
-		if (! ::boost::filesystem::create_directory( localLogPath ) ) {
-			std::string TempError = "exception : Could not create directory for log file: " + localLogPath.generic_string();
-			throw isis::application_exception("C03001", TempError);
-		}
-	}
-	::boost::filesystem::path localLogFilePath = localLogPath / logFilePath;
 
-	in_out_LogFile.open (localLogFilePath.c_str(), std::ios::out | std::ios::trunc );
-	if (! in_out_LogFile.is_open()) {
-		std::string TempError = "exception : Could not open plain log file: " + localLogFilePath.generic_string();
-		throw isis::application_exception("C03001", TempError);
-	} 
-	clog.rdbuf(in_out_LogFile.rdbuf());
 
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-::boost::filesystem::path SetupWorkingDirectory( std::string & inout_workingDirectory ) {
-   ::boost::filesystem::current_path(inout_workingDirectory);
-   ::boost::filesystem::path workingDir = ::boost::filesystem::current_path();
-   inout_workingDirectory = workingDir.generic_string();
-   return workingDir;
-}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,47 +122,28 @@ void Populate_c_id_table( const list<int> &in_path_list, ProIdTable out_c_id_tab
 	out_c_id_table_size = in_path_list.size();
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/***
 void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const std::string  &in_AssemblyComponentID,
 							const list<int>	   &in_ChildComponentPaths,
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-							ProBoolean   in_bottom_up,
+							bool   in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
 {
-	/*
-	// Must get the path from the assembly to the child
-	ProIdTable	c_id_table;
-	int			c_id_table_size;
-
-	Populate_c_id_table( in_ChildComponentPaths, c_id_table, c_id_table_size );
-
-	//std::cout << std::endl << std::endl << "in_AssemblyComponentID: " << in_AssemblyComponentID << " Name: " << in_CADComponentData_map[in_AssemblyComponentID].name ;
-	//std::cout << std::endl << "in_CADComponentData_map[in_AssemblyComponentID].modelHandle: " << in_CADComponentData_map[in_AssemblyComponentID].modelHandle;
-	//std::cout << std::endl << "in_ChildComponentID: " << in_ChildComponentID << " Name: " << in_CADComponentData_map[in_ChildComponentID].name;
-	//std::cout << std::endl << "c_id_table[0]: " << c_id_table[0];
-
-	ProAsmcomppath	comp_path;
-	isis::isis_ProAsmcomppathInit (	in_CADComponentData_map[in_AssemblyComponentID].modelHandle,	//ProSolid   p_solid_handle
-									c_id_table,			// ProIdTable 
-									c_id_table_size,	// table_size 
-									&comp_path);		// ProAsmcomppath *p_handle
 
 
-	isis::isis_ProAsmcomppathTrfGet (	&comp_path, 				//	ProAsmcomppath *p_path,
-										in_bottom_up,				// ProBoolean   bottom_up,
-										out_TransformationMatrix ); //ProMatrix    transformation);
 
-	*/
 	RetrieveTranformationMatrix_Assembly_to_Child (  
 							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
 							in_ChildComponentPaths, 
-							in_bottom_up,
+							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
 
 
 }
-
+****/
 
 void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid		&in_assembly_model,
@@ -339,119 +171,9 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// Note - in_UniqueNameIndex == 0, the returned string will be Z0Z
-//		  in_UniqueNameIndex == -1, he returned string will be Z-1Z  // true even for unsigned int
-//		  in_UniqueNameIndex == -1, he returned string will be Z1Z
-std::string CreateStringBasedOnUniqueNameIndex( unsigned int in_UniqueNameIndex )
-{
-	char buffer[64];
-	_itoa_s(in_UniqueNameIndex,buffer,64,10);
-
-	std::string tempString = "_" + std::string(buffer) + "Z";
-	return tempString;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// Amalgamate in_FirstString + in_SecondString, where in_FirstString is truncated, if necessary,
-// so that the amalgamated string is no longer that in_AllowedSize.
-// Note: If in_SecondString.size() >= in_AllowedSize, then in_SecondString is returned.
-
-std::string  MergeStrings_TryToKeepWithinAllowedSize (	const std::string &in_FirstString,
-														const std::string &in_SecondString,
-														unsigned int in_AllowedSize)
-{
-	// The following line, if true, would result in a string longer than in_AllowedSize
-	if ( in_SecondString.size() >= in_AllowedSize ) return in_SecondString;
-
-	if ( ( in_FirstString.size() + in_SecondString.size() ) <= in_AllowedSize ) return in_FirstString + in_SecondString;
-
-	// Must truncate in_FirstString
-
-	int allowedLengthFirstString = in_AllowedSize - in_SecondString.size();
-	
-	return in_FirstString.substr(0, allowedLengthFirstString) + in_SecondString;
-}
-	
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-std::string BuildAFamilyTableCompleteModelName ( const std::string &in_ModelName,
-												 const std::string &in_FamilyTableEntry )
-{
-	return in_FamilyTableEntry + "<" + in_ModelName + ">";
-
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CreateModelNameWithUniqueSuffix(  
-			cad::CadFactoryAbstract	&in_Factory,
-			unsigned int			in_UniqueNameIndex, 
-			const std::string		&in_ModelName_CouldIncludeFamilyTableEntry,
-			std::string				&out_ModelName_Without_Suffix,		// e.g. Chassis
-			std::string				&out_ModelName_With_Suffix,			// e.g. ChassisZ1Z
-			std::string				&out_CompleteName,					// For family tables, would be the complete name
-																	// e.g. Chassis_8_Wheel<ChassisZ1Z>
-																	// otherwise, same as out_ModelName_With_Suffix
-			unsigned int in_AllowedSize )   
-													throw (isis::application_exception)
-{
-
-	if ( in_ModelName_CouldIncludeFamilyTableEntry.size() > in_AllowedSize )
-	{
-			std::stringstream errorString;
-			errorString 
-				<< "Function - " << __FUNCTION__ << ", string (in_ModelName_CouldIncludeFamilyTableEntry) length exceeds " <<  in_AllowedSize << " characters.  " <<
-						std::string("in_ModelName_CouldIncludeFamilyTableEntry: ") + in_ModelName_CouldIncludeFamilyTableEntry + 
-						"  out_ModelName_With_Suffix: " << out_ModelName_With_Suffix << 
-						"  out_CompleteName: " + out_CompleteName;  	  
-			throw isis::application_exception("C03002", errorString);
-	}
-
-	std::string tempUniqueString;
-	tempUniqueString = CreateStringBasedOnUniqueNameIndex(in_UniqueNameIndex);
-
-	std::string		familyTableEntry;
-	bool			familyTableModel;
-
-	//ExtractModelName_FamilyTable_Info (	in_ModelName_CouldIncludeFamilyTableEntry, 
-	//									out_ModelName_Without_Suffix,
-	//									familyTableEntry,
-	//									familyTableModel );
-
-	isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
-	modelNames.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
-													out_ModelName_Without_Suffix,
-													familyTableEntry,
-													familyTableModel );
-
-	if ( familyTableModel )
-	{
-		int tempAllowedSize = in_AllowedSize - familyTableEntry.size() - 2;  // -2 for the "<" aand ">"
-		out_ModelName_With_Suffix = MergeStrings_TryToKeepWithinAllowedSize(out_ModelName_Without_Suffix, tempUniqueString, tempAllowedSize);
-		out_CompleteName = BuildAFamilyTableCompleteModelName( out_ModelName_With_Suffix, familyTableEntry);
-	}
-	else
-	{
-		// The following line could result in a string longer than in_AllowedSize, the length will be checked at the end of this function.
-		out_ModelName_With_Suffix = MergeStrings_TryToKeepWithinAllowedSize(out_ModelName_Without_Suffix, tempUniqueString, in_AllowedSize);
-		out_CompleteName = out_ModelName_With_Suffix;
-	}
-
-
-	if ( out_CompleteName.size() > in_AllowedSize )
-	{
-			std::stringstream errorString;
-			errorString 
-				<< "Function - " + std::string(__FUNCTION__) +  ", string length exceeds " <<  in_AllowedSize << " characters.  " <<
-						std::string("in_ModelName_CouldIncludeFamilyTableEntry: ") + in_ModelName_CouldIncludeFamilyTableEntry + 
-						"  out_ModelName_With_Suffix: " << out_ModelName_With_Suffix << 
-						"  out_CompleteName: " + out_CompleteName;  	  
-			throw isis::application_exception("C03002", errorString);
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -475,162 +197,8 @@ void CreateModelNameWithUniqueSuffix(
 	//		Part standalone					As entered	e.g.  MaSs		   -->	MaSs_prt.stp 	
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void UpdateManufacturingManifestWithSTEPFileInfo( 
-									e_DataExchangeVersion in_DataExchangeVersion, // AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES...
-									const std::string	&in_ComponentID,
-									bool				in_OnlyUpdateManifestForParts,
-									bool				in_ChangeCaseOfPartStepFileToLowerCase,
-									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
-														throw (isis::application_exception)
-	{
-		
-		try
-		{
-			std::string stepFileDirectory = isis::DataExchangeVersion_string(in_DataExchangeVersion) + "/";
 
-			if ( isis::FileExists( manufacturingManifestJson_PathAndFileName.c_str() ))
-			{
-				isis::ComponentVistorBuildListOfComponentIDs  assembllyComponenteIDs;
-				isis::VisitComponents(in_ComponentID, in_CADComponentData_map, assembllyComponenteIDs );
-
-				std::map<std::string, std::string> componentInstanceId_to_StepFile_map;
-
-				for each ( std::string cID in assembllyComponenteIDs.listOfComponentIDs )
-				{
-					//  When Creo outputs STEP files with separate part-files option, 
-					//  only the part files are created separately and are named with _prt.
-					//  The assembly hierarchy is represented in the top-assembly STEP file.
-
-					std::string tempFullPathToStepFile;
-					if (in_ChangeCaseOfPartStepFileToLowerCase)
-						tempFullPathToStepFile = stepFileDirectory + isis::ConvertToLowerCase((const std::string&)in_CADComponentData_map[cID].name);
-					else
-						tempFullPathToStepFile = stepFileDirectory + (const std::string&)in_CADComponentData_map[cID].name ;
-					
-					if ( in_CADComponentData_map[cID].modelType == PRO_PART )					
-						tempFullPathToStepFile += "_prt.stp";
-					else
-						tempFullPathToStepFile += "_asm.stp";
-					
-					if (in_OnlyUpdateManifestForParts )
-					{
-						if ( in_CADComponentData_map[cID].modelType == PRO_PART )				
-							componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
-					}
-					else
-					{
-						componentInstanceId_to_StepFile_map[cID] = tempFullPathToStepFile;
-					}
-				}
-
-				std::set<std::string> componentInstanceIds_AddedToManifest;
-				isis_CADCommon::AddStepFileMappingToManufacturingManifest(
-														manufacturingManifestJson_PathAndFileName,
-														componentInstanceId_to_StepFile_map,
-														componentInstanceIds_AddedToManifest );
-				/////////////////////////////////////////
-				// Log StEP File Names added to manifest
-				/////////////////////////////////////////
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Added STEP file names to " <<  
-										  manufacturingManifestJson_PathAndFileName;
-				bool flagAdded = false;
-				for each ( std::string compID in componentInstanceIds_AddedToManifest )
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
-						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
-					flagAdded = true;
-				}
-				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
-
-				/////////////////////////////////////////////
-				// Log StEP File Names Not added to manifest
-				/////////////////////////////////////////////
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Did Not add STEP file names to " <<  
-										  manufacturingManifestJson_PathAndFileName;
-
-				flagAdded = false;
-				for each ( std::string compID in assembllyComponenteIDs.listOfComponentIDs )
-				{
-					if ( componentInstanceIds_AddedToManifest.find(compID) == componentInstanceIds_AddedToManifest.end() &&
-						 in_CADComponentData_map[compID].modelType == PRO_PART )
-					{
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << compID <<
-						            "  STEP File Name: " << componentInstanceId_to_StepFile_map[compID];
-						flagAdded = true;
-					}
-				}
-				if ( !flagAdded ) isis_LOG(lg, isis_FILE, isis_INFO) << "   None";
-				
-			}  
-			else
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << CouldNotFindManufacturingManifestError;
-			} // END if ( isis::FileExists(
-		}
-		catch (isis::application_exception &ex )
-		{
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: " << ex.tostring(); 
-		}
-		catch (...)
-		{
-			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
-		}
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// If a part name (not assembly name) appears more than once in in_out_CADComponentData_map
-	//	then
-	//		this function modifies in_out_CADComponentData_map to have unique name for the second
-	//		and later occurrences of the particular part name.  The new and old part names are added
-	//      to out_ToPartName_FromPartName. 
-	/*
-	void ModifyToHaveAUniqueNameForEachPart( 
-							int &in_out_UniqueNameIndex,
-							std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map, 
-							std::map<std::string, std::string>			  &out_ToPartName_FromPartName )
-																		throw (isis::application_exception)
-	{
-		std::set<std::string>  partNames;
-
-		//int index = 1;
-		//int maxPartNameLength_BeforeSuffix = PRO_NAME_SIZE - 8;  //  32 - 8 = 24
-
-		char buffer[isis::ISIS_CHAR_BUFFER_LENGTH];
-
-		for( std::map<std::string, isis::CADComponentData>::iterator i(in_out_CADComponentData_map.begin());
-			 i != in_out_CADComponentData_map.end();
-			 ++i )
-		{
-			//std::cout << std::endl << "Model Name +++++++++>           " << i->second.name;
-			//std::cout << std::endl << " i->second.modelType +++++++++> " << i->second.modelType;
-
-			// Only check for parts.  Not concerned about assemblies
-			if ( i->second.modelType == PRO_PART  && 
-				 partNames.find(isis::ConvertToUpperCase(i->second.name)) !=  partNames.end() )
-			{
-				std::string origNameWithoutFamilyEntry;
-				std::string modelName;
-				std::string completeName;
-				CreateModelNameWithUniqueSuffix(  in_out_UniqueNameIndex, 
-												i->second.name,
-												origNameWithoutFamilyEntry,
-												modelName, 
-												completeName );
-				//std::cout << std::endl << "origNameWithoutFamilyEntry +++++++++> "	<< origNameWithoutFamilyEntry;
-				//std::cout << std::endl << "modelName +++++++++> "					<< modelName;
-				//std::cout << std::endl << "completeName +++++++++> "				<< completeName;
-
-				i->second.name = completeName;
-				out_ToPartName_FromPartName[modelName] =  origNameWithoutFamilyEntry;
-				++in_out_UniqueNameIndex;
-			}
-			partNames.insert(isis::ConvertToUpperCase(i->second.name));
-		}
-	}	// END ModifyToHaveAUniqueNameForEachPart
-	*/
+/***
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool  ModelTypesMatch( e_ModelTypeIndicator			in_ModelTypeIndicator,
 						   ProMdlType					in_ModelType )
@@ -642,6 +210,7 @@ void CreateModelNameWithUniqueSuffix(
 		return false;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	bool SelectModelIndicated (		e_ModelSelectorIndicator	in_ModelSelectorIndicator,
 									bool						in_ParametricParametersPresent )
 
@@ -655,157 +224,8 @@ void CreateModelNameWithUniqueSuffix(
 				return false;
 	
 	}
+	**/
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition)
-	{
-		output << "From Model: " << in_CopyModelDefinition.fromModelName << "  To Model: " << in_CopyModelDefinition.toModelName;
-
-		output << "  Model Type: " << isis::ProMdlType_string(in_CopyModelDefinition.modelType) << "  ComponentInstanceID: "  << in_CopyModelDefinition.componentInstanceID;
-
-		//if ( in_CopyModelDefinition.modelType == PRO_MDL_PART )
-		//	output << "  Part";
-		//else
-		//	output << "  Assembly";
-
-		return output;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector)
-	{
-		for each ( CopyModelDefinition i in in_CopyModelDefinition_vector )
-		{
-			output << std::endl << i;
-		}
-
-		return output;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly( 
-							cad::CadFactoryAbstract							&in_Factory,
-							unsigned int									&in_out_UniqueNameIndex,
-							e_ModelTypeIndicator							in_ModelTypeIndicator,
-							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
-							bool											in_ForceAllParametricModelsToBeUnique,
-							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map, 
-							std::vector<CopyModelDefinition>				&out_FromModel_ToModel  )
-																		throw (isis::application_exception)
-	{
-		
-		std::set<std::string>  modelsAlreadyEncountered;
-
-		//int index = 1;
-		//int maxPartNameLength_BeforeSuffix = PRO_NAME_SIZE - 8;  //  32 - 8 = 24
-
-		char buffer[isis::ISIS_CHAR_BUFFER_LENGTH];
-
-		for( std::map<std::string, isis::CADComponentData>::iterator i(in_out_CADComponentData_map.begin());
-			 i != in_out_CADComponentData_map.end();
-			 ++i )
-		{
-			std::string			origNameWithoutFamilyEntry_temp;  
-			std::string		    familyTableEntry;				  
-			bool				familyTableModel;
-
-			// e.g. i->second.name							123456789012345<abcd>
-			//		origNameWithoutFamilyEntry_temp			abcd
-			//		familyTableEntry						123456789012345
-			//		familyTableModel						true
-			//ExtractModelName_FamilyTable_Info (	i->second.name, 
-			//									origNameWithoutFamilyEntry_temp,
-			//									familyTableEntry,
-			//									familyTableModel );
-
-			isis::cad::IModelNames&           modelNames = in_Factory.getModelNames();
-			modelNames.extractModelNameAndFamilyTableEntry( i->second.name, 
-															origNameWithoutFamilyEntry_temp,
-															familyTableEntry,
-															familyTableModel );
-
-
-
-			if ( i->second.name.size() == 0 )
-			{
-				std::stringstream errorString;
-				errorString 
-				<< "Function - " __FUNCTION__ << ", recieved an empty Creo Model Name for ComponentInstanceID: " << i->first << std::endl <<
-				    ".  This is probably due to the ComponentInstanceID being referenced in the input XML file (CADAssembly.xml) but does not exists as a component in the input XML file." << std::endl <<
-					"Search on " <<  i->first  << " in the input XML file to locate the error.";
-				throw isis::application_exception("C03002", errorString);
-			}
-
-			std::string modelNameWithSuffix = 
-				ConvertToUpperCase(CombineCreoModelNameAndSuffix(origNameWithoutFamilyEntry_temp, ProMdlType_enum(i->second.modelType)) );
-
-			//std::cout << std::endl << "############## ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly, modelNameWithSuffix, ComponentInstanceID: " <<  modelNameWithSuffix << "  " << i->second.componentID;
-
-			if ( in_ForceAllParametricModelsToBeUnique )
-			{
-				// We want to force all parametric parts/assemblies to have a suffix.  This is because we don't know if that 
-				// parametric part or assembly was used in a CyPhy leaf assemblies.  
-				if ( SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && i->second.parametricParametersPresent )
-				{
-					modelsAlreadyEncountered.insert(modelNameWithSuffix);
-				}
-			}
-
-			// Not creating unique names for family table entries now because of the
-			// error described in 
-			// C:\Users\rowens\Documents\Meta\Error_Models\IFV Complete Assembly\Original_Files\0_Readme.txt
-			// Once this error is resolved, will remove the !familyTableModel from the following if statement
-
-			// Check for parametric parts
-			if ( !familyTableModel &&  // Temporaily exclude family table models, see comment above for info on the family table bug.
-				 SelectModelIndicated (in_ModelSelectorIndicator, i->second.parametricParametersPresent) && 
-				 ModelTypesMatch(in_ModelTypeIndicator, ProMdlType_enum(i->second.modelType)) &&
-				 ( modelsAlreadyEncountered.find(modelNameWithSuffix) !=  modelsAlreadyEncountered.end()))  // Part/Assembly occurs a second time
-			{
-				std::string origNameWithoutFamilyEntry;
-				std::string modelName;
-				std::string completeName;
-				CreateModelNameWithUniqueSuffix(	in_Factory,
-													in_out_UniqueNameIndex, 
-													i->second.name,
-													origNameWithoutFamilyEntry,
-													modelName, 
-													completeName );
-				i->second.name = completeName;
-
-				CopyModelDefinition copyModelDefinition_temp;
-				copyModelDefinition_temp.componentInstanceID = i->first;
-				copyModelDefinition_temp.fromModelName = origNameWithoutFamilyEntry;
-				copyModelDefinition_temp.toModelName = modelName;
-				copyModelDefinition_temp.modelType = ProMdlType_enum(i->second.modelType);
-				out_FromModel_ToModel.push_back(copyModelDefinition_temp);
-
-				//std::cout << std::endl << copyModelDefinition_temp;
-
-				++in_out_UniqueNameIndex;
-			}
-			isis_LOG(lg, isis_FILE, isis_INFO) << "ModelsAlreadyEncountered.insert: " << modelNameWithSuffix;
-			modelsAlreadyEncountered.insert(modelNameWithSuffix);
-		}
-	}	// END ModifyToHaveAUniqueName_ForEach_PartAndOrAssembly	 
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	std::string GetDayMonthTimeYear()
-	{
-		time_t time_start;		// calendar time 
-		time_start=time(NULL);	// get current cal time 
-
-		std::string dayMonthTimeYear = asctime(localtime(&time_start));
-		if (dayMonthTimeYear.size() > 0 )
-		{
-			// Remove the extra linefeed from the above string.
-			dayMonthTimeYear.replace(dayMonthTimeYear.end() -1, dayMonthTimeYear.end(), "");
-
-		}
-		return dayMonthTimeYear;
-	}
-	*/
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void OrganizeMetricsBasedOnComponentIDs( 
 							const list<CADComputation>							&in_Metrics,
@@ -819,131 +239,9 @@ void CreateModelNameWithUniqueSuffix(
 			}
 	}
 
-//	ComponentVistorBuildListOfBoundingBoxComputations::ComponentVistorBuildListOfBoundingBoxComputations(){};
-//
-//	void ComponentVistorBuildListOfBoundingBoxComputations::operator() ( const std::string  &in_ComponentID, 
-//									  std::map<std::string, isis::CADComponentData> &in_out_CADComponentData_map )
-//	{
-//		if ( in_out_CADComponentData_map[in_ComponentID].cADComputations.boundingBoxMetricDefined ) 
-//			boundingBoxComputationsComponentIDs.push_back( in_ComponentID );
-//
-//	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
-					int												&in_out_NonCyPhyID_counter,
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-																		throw (isis::application_exception)
-	{
-		
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{			
-			//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
-			if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
-			{
-				// Found an assembly that is a Leaf
-				// Fill out the assemblyHierarchy
-				CreoModelAssemblyAttributes assemblyHierarchy;
 
-				isis::RetrieveAssemblyHierarchyInformation(  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl), false, assemblyHierarchy );
-
-				std::stringstream str;
-				stream_AssemblyHierarchy (assemblyHierarchy, str);
-				isis_LOG(lg, isis_FILE, isis_INFO) << str.str();
-
-				bool checkExclusion_by_SimplifiedRep = false;
-
-				std::map<int, CAD_SimplifiedRepData> featureID_to_SimplifiedRepData_map;
-				//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && 
-				if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && 
-					 in_out_CADComponentData_map[i].geometryRepresentation.size() > 0 )  
-				{
-					///////////////////////////////////////////////////////////////////////////////////////
-					// Build map of child feature IDs and with indication if they are included or excluded
-					///////////////////////////////////////////////////////////////////////////////////////
-					ProSimprep proSimprep_temp;
-					ProError	proError_temp  = ProSimprepInit ((wchar_t*)(const wchar_t*) in_out_CADComponentData_map[i].geometryRepresentation,
-														  -1,
-														  static_cast<ProSolid>(in_out_CADComponentData_map[i].cADModel_hdl),
-														  &proSimprep_temp );
-
-					if ( proError_temp == PRO_TK_NO_ERROR )  // Found simplified rep.
-					{
-						ProMdl ProMdl_temp = in_out_CADComponentData_map[i].cADModel_hdl;
-						AssemblySimplifiedRep_RetrieveModelInclusionStatus ( 
-									ProMdl_temp,
-									proSimprep_temp,
-									featureID_to_SimplifiedRepData_map ) ;
-
-						if ( featureID_to_SimplifiedRepData_map.size() > 0 ) checkExclusion_by_SimplifiedRep = true;
-
-						for each ( std::pair<int, CAD_SimplifiedRepData> i_simp in featureID_to_SimplifiedRepData_map)
-						{
-							isis_LOG(lg, isis_FILE, isis_INFO) <<  "\nSimplified Rep Included/Exclude Info, Feature ID: " << i_simp.first << "  " << CAD_SimplifiedRep_InclusionStatus_string(i_simp.second.inclusionStatus);
-						}
-					}
-
-				}
-
-				// Temporary Check
-				for each ( CreoModelAssemblyAttributes j in assemblyHierarchy.children )
-				{
-					bool includeThisChild = true;
-					if ( checkExclusion_by_SimplifiedRep )
-					{				
-						if ( featureID_to_SimplifiedRepData_map.find(j.proAsmcomp.id) != featureID_to_SimplifiedRepData_map.end())
-						{
-							if ( featureID_to_SimplifiedRepData_map[j.proAsmcomp.id].inclusionStatus == CAD_SIMPLIFIED_REP_EXCLUDE )
-							{
-								isis_LOG(lg, isis_FILE, isis_INFO)<<  "\nExcluding, Feature ID: " << j.proAsmcomp.id;
-								includeThisChild = false;
-							}
-						}
-					}
-
-					if ( includeThisChild )
-					{
-						++in_out_NonCyPhyID_counter;
-						std::stringstream nonCyPhyComponentID;
-						nonCyPhyComponentID << "NON_CYPHY_ID_" << in_out_NonCyPhyID_counter;
-					
-						CADComponentData cADComponentData_temp;
-						cADComponentData_temp.dataInitialSource = INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS;
-						cADComponentData_temp.name = j.modelname;
-						cADComponentData_temp.modelType = j.modelType;
-						cADComponentData_temp.cADModel_hdl = j.p_solid_handle;
-						cADComponentData_temp.cyPhyComponent = false;
-						cADComponentData_temp.componentID = nonCyPhyComponentID.str();
-						cADComponentData_temp.parentComponentID = i;
-
-						//cADComponentData_temp.assembledFeature = j.proAsmcomp;
-						//cADComponentData_temp.assembledFeature.type = CADFeatureGeometryType_enum(j.proAsmcomp.type);
-						//cADComponentData_temp.assembledFeature.id = j.proAsmcomp.id;
-						//cADComponentData_temp.assembledFeature.owner = j.proAsmcomp.owner;		
-						cADComponentData_temp.assembledFeature = getCADAssembledFeature( j.proAsmcomp );
-						
-						cADComponentData_temp.componentPaths = in_out_CADComponentData_map[i].componentPaths;
-						cADComponentData_temp.componentPaths.push_back( j.proAsmcomp.id );					
-
-						in_out_CADComponentData_map[nonCyPhyComponentID.str()] = cADComponentData_temp;
-						in_out_CADComponentData_map[i].children.push_back(nonCyPhyComponentID.str());
-
-						if ( j.modelType == PRO_MDL_ASSEMBLY )
-						{
-								std::vector<std::string> listOfComponentIDs_temp;
-								listOfComponentIDs_temp.push_back(nonCyPhyComponentID.str());
-								ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates(
-																				listOfComponentIDs_temp,
-																				in_out_NonCyPhyID_counter,
-																				in_out_CADComponentData_map );
-						}
-					} // END if ( includeThisChild )
-				}
-			}
-		}
-
-	}  // END ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates
-	
 	void RetrieveNameOfAssembledFeature( ProFeature	*in_AssyCompFeature, isis::MultiFormatString &out_ModelName )
 	{
 		ProElement component_element_tree;
@@ -1058,7 +356,7 @@ void CreateModelNameWithUniqueSuffix(
 		isis_LOG(lg, isis_FILE, isis_INFO) << "\n ***** InAnAssembly_RenamePartOrAssemblyInstance: ";
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   topAssemblyModelHandle " << (const void*)in_FromModelInstanceData.topAssemblyModelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_FromModelName:      " << in_FromModelInstanceData.modelName;
-		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << ProMdlType_string(in_FromModelInstanceData.modelType);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   model type:            " << CADMdlType_string(in_FromModelInstanceData.modelType);
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   modelHandle:           " << (const void*)in_FromModelInstanceData.modelHandle;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   in_ToModelName:        " << in_ToModelName;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "   From Model assembledFeature: ";
@@ -1085,8 +383,8 @@ void CreateModelNameWithUniqueSuffix(
 			throw isis::application_exception("C03002", errorString);
 		}
 
-		if ( in_FromModelInstanceData.modelType != PRO_MDL_PART && 
-			 in_FromModelInstanceData.modelType != PRO_MDL_ASSEMBLY )
+		if ( in_FromModelInstanceData.modelType != CAD_MDL_PART && 
+			 in_FromModelInstanceData.modelType != CAD_MDL_ASSEMBLY )
 
 		{
 			std::stringstream errorString;
@@ -1390,42 +688,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 }
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	e_CADJointType GetCADJointType( isis::cad::JointType in_JointType)
-	{
-		switch (in_JointType )
-		{
-			case  isis::cad::FIXED:
-				return FIXED_JOINT;
-				break;
-			case  isis::cad::REVOLUTE:
-				return REVOLUTE_JOINT;
-				break;
-			case  isis::cad::UNIVERSAL:
-				return UNIVERSAL_JOINT;
-				break;
-			case  isis::cad::SPHERICAL:
-				return SPHERICAL_JOINT;
-				break;
-			case  isis::cad::PRISMATIC:
-				return PRISMATIC_JOINT;
-				break;
-			case  isis::cad::CYLINDRICAL:
-				return CYLINDRICAL_JOINT;
-				break;
-			case  isis::cad::PLANAR:
-				return PLANAR_JOINT;
-				break;
-			case  isis::cad::FREE:
-				return FREE_JOINT;
-				break;
-			default:
-				return UNKNOWN_JOINT_TYPE;
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	/***
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
@@ -1476,7 +739,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			errorString << std::endl << "   Assembled model name: " << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
 			for each( ConstraintPair i in in_ConstraintPairs )
 			{
-				errorString << std::endl << "      FeatureGeometryType: " << FeatureGeometryType_string(i.featureGeometryType);
+				errorString << std::endl << "      FeatureGeometryType: " << CADFeatureGeometryType_string(i.featureGeometryType);
 				for each ( ConstraintFeature j in i.constraintFeatures ) errorString << std::endl << "         ModelName: " << (string)in_out_CADComponentData_map[j.componentInstanceID].name <<  "  FeatureName: "  << (std::string) j.featureName;
 			}
 			errorString << std::endl << "   inferred_joint.first: " << inferred_joint.first;
@@ -1504,7 +767,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
-	
+	****/
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
 					cad::CadFactoryAbstract							&in_Factory,
@@ -1787,268 +1050,6 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct RequiredGeometriesData
-	{
-		const std::vector<ProType>	geometries;
-		const int		geometryCount;
-		RequiredGeometriesData( const std::vector<ProType> in_Geometries, int in_GeometryCount) : geometries(in_Geometries), geometryCount(in_GeometryCount){};
-	};
-
-	// Verify that the geometries (e.g. surface, axis, point...) defined in in_ConstraintPairs (excluding constraints with guides)  
-	// exactly equal (no more no less) in_RequiredGeometries
-	bool GeometryMatchesJointType(	const std::vector<ConstraintPair>			&in_ConstraintPairs,
-									const std::vector<RequiredGeometriesData>	&in_RequiredGeometries)
-
-	{
-		int numberGeometries = in_RequiredGeometries.size();
-		std::vector<int> actualCounts(numberGeometries, 0);
-
-		int totalCountExpected = 0;
-		for each ( const RequiredGeometriesData &i in in_RequiredGeometries ) totalCountExpected += i.geometryCount;
-
-		int totalConstraintPairs_NonGuide_count = 0;
-
-		for each (  const ConstraintPair &i in in_ConstraintPairs) 
-		{
-			if ( !i.treatConstraintAsAGuide )
-			{
-				++totalConstraintPairs_NonGuide_count;
-				for ( int j = 0; j < numberGeometries; ++j)
-				{			
-					for each ( ProType k in in_RequiredGeometries[j].geometries)
-					{
-						//if ( i.featureGeometryType == k )
-						if ( FeatureGeometryType_enum(i.featureGeometryType) == k )
-							
-						{
-							++actualCounts[j];
-							break;
-						}
-					}
-				}
-			}
-		}  // END for
-
-		if ( totalConstraintPairs_NonGuide_count != totalCountExpected) return false;
-
-		for ( int i = 0; i < numberGeometries; ++i)
-		{
-			if ( actualCounts[i] != in_RequiredGeometries[i].geometryCount ) return false;
-		}
-
-		return true;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Creo Geometry Types Required for Creo Kinematic Joints:
-	//
-	// Creo Joint Type		Other Name			Creo Required Geometry
-	// ---------------		---------------		---------------------------------------
-	//	Pin					Revolute			Axis, Point or Plane
-	//	Cylinder			Cylindrical			Axis
-	//	Slider				Prismatic			Axis, Plane	
-	//	Planar									Plane (Note- Creo supports further restrictions (i.e. additional planes) but
-	//											we will assume the classical definition (3 degrees of freedom) of a planar constraint.  
-	//											Additional, planes/geometry will result in a user defined constraint.
-	//	Ball				Spherical			Point (Creo supports other geometry types, but we will only support a point)
-	//
-	//  Pre-Conditions:
-	//		in_ConstraintPairs could contain a guide, but the guide would be ignored. DO NOT call this function to determine if the constraints
-	//		including a guide represent a particular type joint.
-	//		
-	//		The order of in_ConstraintPairs is does not influence the output functions.  Elsewhere in this code, the proper sorting is applied.
-	//
-	//	Post-Conditions
-	//		If the geometry requirements in the above table are satisfied
-	//			returns the specific joint type (e.g. REVOLUTE_JOINT, SPHERICAL_JOINT, CYLINDRICAL_JOINT...)
-	//		else
-	//			return UNKNOWN_JOINT_TYPE
-	e_CADJointType AdjustJointTypeToCreoGeometryTypes( const std::vector<ConstraintPair> &in_ConstraintPairs,
-													   cad::JointType in_JointType )
-	{
-			
-
-		int counter_1 = 0;
-		int counter_2 = 0;
-		std::vector<RequiredGeometriesData> requiredGeometries;
-		std::vector<ProType>	geometries;
-
-		switch ( in_JointType )
-		{
-			case  isis::cad::FIXED:
-				return FIXED_JOINT;
-				break;
-			case  isis::cad::REVOLUTE:
-				// Axis and ( plane or point)
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				geometries.clear();
-				geometries.push_back(PRO_SURFACE);
-				geometries.push_back(PRO_POINT);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return REVOLUTE_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a axis and (plane or point), converted REVOLUTE joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::UNIVERSAL:
-				return UNIVERSAL_JOINT;
-				break;
-			case  isis::cad::SPHERICAL:
-				// Requires one and only one point
-				geometries.push_back(PRO_POINT);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return SPHERICAL_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a point, converted SPHERICAL joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::PRISMATIC:
-				// Requires an axis and plane
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				geometries.clear();
-				geometries.push_back(PRO_SURFACE);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return PRISMATIC_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis and plane, converted PRISMATIC joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::CYLINDRICAL:
-				// Requires an axis
-				geometries.push_back(PRO_AXIS);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return CYLINDRICAL_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of an axis, converted CYLINDRICAL joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-
-				break;
-			
-			case  isis::cad::PLANAR:
-				// Requires an plane
-				geometries.push_back(PRO_SURFACE);
-				requiredGeometries.push_back(RequiredGeometriesData( geometries, 1));
-
-				if ( GeometryMatchesJointType(in_ConstraintPairs, requiredGeometries))
-				{
-					return PLANAR_JOINT;
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "Due to constraint geometry not consisting of a plane, converted PLANAR joint type to UNKNOWN_JOINT_TYPE";
-					return UNKNOWN_JOINT_TYPE;
-				}
-				break;
-			case  isis::cad::FREE:
-				return FREE_JOINT;
-				break;
-			default:
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Due to unknown joint type, set joint type to UNKNOWN_JOINT_TYPE";
-				return UNKNOWN_JOINT_TYPE;
-		}
-
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
-					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-					bool											in_Force)
-																			throw (isis::application_exception)
-																	
-	{
-			
-
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{		
-			int constraintPairs_counter = 1;
-			for (std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();  
-				 j < in_out_CADComponentData_map[i].constraintDef.constraints.end	();
-				 ++j )
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Computed joint information, ComponentInstanceID: " << i << ", Constraint pairs set " << constraintPairs_counter << " of " << in_out_CADComponentData_map[i].constraintDef.constraints.size();
-				if ( !j->computedJointData.junctiondDefined_withoutGuide || in_Force )  // without-a-guide would always be defined if either with/with-out were defined.
-				{
-					if ( j->hasAGuideConstraint() )
-					{
-						if ( !j->computedJointData.junctiondDefined_withoutGuide )
-						{				
-							// Just set the values for now
-							j->computedJointData.jointType_withguide =  FIXED_JOINT;
-							j->computedJointData.junctiondDefined_withGuide = true;						
-
-							isis_LOG(lg, isis_FILE, isis_INFO) << "   With guide (by default set to FIXED_JOINT), Joint type: " << CADJointType_string(j->computedJointData.jointType_withguide);
-
-							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
-							PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
-																				i,
-																				constraintPairs_withoutGuide,
-																				j->computedJointData.junction_withoutguide,
-																				in_out_CADComponentData_map);
-							// ttttt						
-							//j->computedJointData.jointType_withoutguide =  GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
-							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
-							// ttttt
-							j->computedJointData.coordinatesystem = i;
-							j->computedJointData.junctiondDefined_withoutGuide = true;
-							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
-						}
-					}
-					else
-					{
-						PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
-																			i,
-																			j->constraintPairs,
-																			j->computedJointData.junction_withoutguide,
-																			in_out_CADComponentData_map );
-						j->computedJointData.junctiondDefined_withGuide = false;
-						j->computedJointData.coordinatesystem = i;
-						j->computedJointData.junctiondDefined_withoutGuide = true;
-						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
-						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Constraint pairs do not have a guide.";
-						isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
-					}	
-				}
-				else
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "   Computed joint information already defined for ComponentInstanceID: " << i;
-				}
-
-				++constraintPairs_counter;
-			}  // for (std::vector<ConstraintData>::iterator j = ...
-		} // for each ( const std::string i in in_ListOfComponentIDsInTheAssembly )
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	static void transform(const e3ga::vector &location, const e3ga::vector &orientation, double m[4][4], e3ga::vector &out_location, e3ga::vector& out_orientation)
 	{
@@ -2076,7 +1077,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		out_orientation.m_e3 = buff[2];
 	}
 
-	void	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
+			cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
@@ -2100,14 +1102,24 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					   std::endl << "   Component Instance ID: " <<  i;   	  
 					throw isis::application_exception(errorString);
 				}
+
+
+
 				
 				// Get transformation matrix from the global coordinate system to the assembled .prt/.asm
 				double transformationMatrix[4][4];  // rotation 3 X 3, translation at bottom row of the 4 X 4
-				RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
-																in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
-																in_out_CADComponentData_map,  
-																PRO_B_TRUE,  // bottom up
-																transformationMatrix );
+				//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+				//												in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
+				//												in_out_CADComponentData_map,  
+				//												PRO_B_TRUE,  // bottom up
+				//												transformationMatrix );
+
+				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				modelOperations.retrieveTranformationMatrix_Assembly_to_Child ( in_AssemblyComponentID,
+																				j->computedJointData.coordinatesystem,  
+																				in_out_CADComponentData_map,  
+																				true,  // bottom up
+																				transformationMatrix );
 
 #if 0
 				// There's something wrong with the quaternion transformation
@@ -2244,7 +1256,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						const std::string							&in_TopAssemblyComponentInstanceID, 
 						const std::string							&in_ComponentInstanceID,
 						const MultiFormatString						&in_FeatureName,
-						ProType										in_FeatureGeometryType,
+						//ProType									in_FeatureGeometryType,
+						e_CADFeatureGeometryType						in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 						std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
 						std::set<std::string>						&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
@@ -2278,7 +1291,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 												ProMdlType_enum(in_CADComponentData_map[in_ComponentInstanceID].modelType),   
 																	//in_ContraintDef.p_base_model, //base_model, // Original arguments
 												model, //base_model, // Original arguments
-												in_FeatureGeometryType, 
+												//in_FeatureGeometryType, 
+												FeatureGeometryType_enum(in_FeatureGeometryType),
 												in_FeatureName, 
 												&model_datum);  
 
@@ -2380,7 +1394,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
 																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
@@ -2453,7 +1468,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 								FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																l->componentInstanceID,
 																l->featureName,
-																FeatureGeometryType_enum(k->featureGeometryType),
+																//FeatureGeometryType_enum(k->featureGeometryType),
+																k->featureGeometryType,
 																//k->featureGeometryType,
 																in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																in_out_CADComponentData_map,
@@ -2476,7 +1492,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
 																	l->componentInstanceID,
 																	l->featureName,
-																	FeatureGeometryType_enum(k->featureGeometryType),
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
 																	//k->featureGeometryType,
 																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
 																	in_out_CADComponentData_map,
@@ -2554,42 +1571,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		} // END for each ( const std::string &i in in_AssemblyComponentIDs )
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	bool AncestorAssembly_TaggedWith_HasKinematicJoint( 
-					const std::string								in_ComponentIntanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
-	{
-		std::string i = in_ComponentIntanceID;
-		while ( in_CADComponentData_map[i].parentComponentID.size() != 0 )
-		{
-			// Note - a parent must always be an assembly
-			if ( in_CADComponentData_map[i].specialInstruction == CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT) return true;
-			i = in_CADComponentData_map[i].parentComponentID;
-		}
-
-		return false;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void FurtherTrimList_Remove_TreatAsOneBodeParts (
-						const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::vector<std::string>						&out_trimmedListOfComponentIDs )
-	{
-		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
-		{
-			if ( in_CADComponentData_map[i].dataInitialSource == INITIAL_SOURCE_INPUT_XML_FILE )
-			{
-				out_trimmedListOfComponentIDs.push_back(i);
-			}
-			else
-			{
-				// INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-				if (AncestorAssembly_TaggedWith_HasKinematicJoint(i, in_CADComponentData_map)) out_trimmedListOfComponentIDs.push_back(i);
-			}
-		}
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/***
 	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
 			cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
@@ -2725,7 +1707,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				errorString <<
 					"Function: " << __FUNCTION__ << ", No constraint references found for:"  << std::endl <<
 					"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
-					"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+					"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
 					"   Component Instance ID: " << i << std::endl <<
 					"   Assembled Feature Definition: " << std::endl <<
 					assembledFeatureDefinition;
@@ -2742,122 +1724,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
+	**/
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Populate_FeatureIDs_to_ComponentInstanceID_hashtable( 
-						const std::vector<std::string>	&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::unordered_map<IntList, std::string, ContainerHash<IntList>> &out_FeatureIDs_to_ComponentInstanceID_hashtable )
-	{
-		for each ( const std::string &i in in_AssemblyComponentIDs )
-			out_FeatureIDs_to_ComponentInstanceID_hashtable[in_CADComponentData_map[i].componentPaths] = i;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CheckValidityOfJointInformation( 
-			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
-			std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-			std::vector<std::string>						&out_Errors )
-	{
-		std::set<std::string> constrainedComponentIDs_perAssembly;
-
-		std::vector<std::string> trimmedListOfComponentIDs;
-		FurtherTrimList_Remove_TreatAsOneBodeParts( in_ListOfComponentIDsInTheAssembly,
-													in_CADComponentData_map,
-													trimmedListOfComponentIDs );
-
-		for each ( const std::string &i in trimmedListOfComponentIDs )
-		{
-			if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-			{
-				for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints )
-				{
-					//////////////////////////////////////
-					// ConstraintData is at the set level
-					//////////////////////////////////////
-					std::set<std::string> constrainedComponentIDs_perSet;
-
-					bool foundConstrainedTo = false;
-					
-					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs )
-					{
-						if ( in_CADComponentData_map[k].modelType == PRO_MDL_PART ||
-							( in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
-							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
-						{
-							constrainedComponentIDs_perAssembly.insert(k);
-							constrainedComponentIDs_perSet.insert(k);
-							foundConstrainedTo = true;
-						}
-					}
-
-
-					for each ( const std::string &k in j.constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates )
-					{
-						if ( in_CADComponentData_map[k].modelType == PRO_MDL_PART ||
-							(in_CADComponentData_map[k].dataInitialSource ==  INITIAL_SOURCE_INPUT_XML_FILE && 
-							  in_CADComponentData_map[k].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT))
-						{
-							constrainedComponentIDs_perAssembly.insert(k);
-							constrainedComponentIDs_perSet.insert(k);
-							foundConstrainedTo = true;
-						}
-					}
-					// if i was constrained to ComponentIDs then i is constrained
-					if ( foundConstrainedTo ) constrainedComponentIDs_perAssembly.insert(i);
-
-					// If a kinematic joint, make sure it is constrained to only one other part
-					if ( j.computedJointData.jointType_withoutguide  != FIXED_JOINT &&
-						 j.computedJointData.jointType_withoutguide  != UNKNOWN_JOINT_TYPE &&
-						 j.computedJointData.jointType_withoutguide  != FREE_JOINT )
-					{
-						int componentIDs_count = 0;
-						for each ( const std::string &k in constrainedComponentIDs_perSet ) if ( k != i ) ++componentIDs_count;
-						
-						if ( componentIDs_count != 1)
-						{
-							std::stringstream errorString;
-							errorString <<
-							"A part constrained via a kinematic joint was not constrained to one and only one other part."  << std::endl <<
-							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " <<  isis::ProMdlType_string(in_CADComponentData_map[i].modelType) << std::endl <<
-							"   Joint Type:            " <<  CADJointType_string(j.computedJointData.jointType_withoutguide) << std::endl <<
-							"   Component Instance ID: " <<  i << std::endl <<
-							"   Constrained to Component Instance IDs: " << std::endl;
-							for each ( const std::string &k in constrainedComponentIDs_perSet ) errorString <<  "                  " << k << std::endl;
-							out_Errors.push_back(errorString.str());
-						}
-					}
-
-				}  // END for each ( const ConstraintData &j in in_CADComponentData_map[i].constraintDef.constraints)
-
-			} // END if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-
-		} // END for each ( const std::string &i in trimmedListOfComponentIDs )
-
-		///////////////////////////////////////////////////////////////////
-		//  Check that each part is constrained to at least one other part
-		///////////////////////////////////////////////////////////////////
-		for each ( const std::string &i in trimmedListOfComponentIDs )
-		{
-			if ( in_CADComponentData_map[i].modelType == PRO_MDL_PART )
-			{
-				if ( constrainedComponentIDs_perAssembly.find(i) == constrainedComponentIDs_perAssembly.end() )
-				{
-					// Part not constrained to at least one other part
-					std::stringstream errorString;
-					errorString <<
-							"Part not constrained to at least one other part. For valid joint information between parts, all parts must be connected to at least one other part."  << std::endl <<
-							"   Model Name:            " <<	 in_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " << isis::ProMdlType_string(in_CADComponentData_map[i].modelType)<<  std::endl <<
-							"   Component Instance ID: " <<  i;
-					out_Errors.push_back(errorString.str());
-				}
-			}
-		}
-	} // END CheckValidityOfJointInformation
-
 	
 	//	Description:
 	//		Returns if in_ComponentInstanceID is a CyPhy leaf assembly.  This is  determineed  by checking if 

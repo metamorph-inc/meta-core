@@ -11,6 +11,7 @@
 #include <boost/assign/list_of.hpp>
 
 #include "cc_LoggerBoost.h"
+#include "cc_StringToEnumConversions.h"
 
 namespace isis {
 namespace cad {
@@ -51,6 +52,9 @@ enum JointType {
 	DATUM_AXIS = oof,
 	DATUM_POINT = iii,
 };
+
+e_CADJointType GetCADJointType( isis::cad::JointType in_JointType);
+
 
 std::string JointType_string ( JointType in_JointType);
 

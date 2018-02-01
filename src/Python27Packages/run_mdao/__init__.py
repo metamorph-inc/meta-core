@@ -15,7 +15,7 @@ from collections import defaultdict
 
 from run_mdao.csv_recorder import MappingCsvRecorder, CsvRecorder
 from run_mdao.enum_mapper import EnumMapper
-from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver
+from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeDriver, OptimizedLatinHypercubeDriver, PredeterminedRunsDriver, CsvDriver
 from run_mdao.restart_recorder import RestartRecorder
 
 from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, Component
@@ -136,7 +136,7 @@ def instantiate_component(component, component_name, mdao_config, root, subprobl
         return component_instance
 
 
-def run(filename, override_driver=None, append_csv=False):
+def run(filename, override_driver=None, additional_recorders=(), append_csv=False):
     """Run OpenMDAO on an mdao_config."""
     original_dir = os.path.dirname(os.path.abspath(filename))
     if MPI:
@@ -144,7 +144,7 @@ def run(filename, override_driver=None, append_csv=False):
     else:
         with open(filename, 'r') as mdao_config_json:
             mdao_config = json.loads(mdao_config_json.read())
-    with with_problem(mdao_config, original_dir, override_driver, append_csv=append_csv) as top:
+    with with_problem(mdao_config, original_dir, override_driver, additional_recorders=additional_recorders, append_csv=append_csv) as top:
         top.run()
         return top
 
@@ -154,7 +154,7 @@ def get_desvar_path(designVariable):
 
 
 @contextlib.contextmanager
-def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=False, append_csv=False):
+def with_problem(mdao_config, original_dir, override_driver=None, additional_recorders=(), is_subproblem=False, append_csv=False):
     # TODO: can we support more than one driver
     if len(mdao_config['drivers']) == 0:
         driver = None
@@ -192,6 +192,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
                 "Full Factorial": FullFactorialDriver,
                 "Latin Hypercube": LatinHypercubeDriver,
                 "Opt Latin Hypercube": OptimizedLatinHypercubeDriver,
+                "CSV File": CsvDriver,
             }
             driver_type = drivers.get(driver['details']['DOEType'])
             if driver_type is None:
@@ -537,7 +538,13 @@ def with_problem(mdao_config, original_dir, override_driver=None, is_subproblem=
 
         yield (subProblem, inputMeta, outputMeta)
     else:
-        recorders = add_recorders()
+        if driver:
+            recorders = add_recorders()
+        else:
+            recorders = []
+        for recorder in additional_recorders:
+            recorders.append(recorder)
+            top.driver.add_recorder(recorder)
 
         try:
             top.setup()

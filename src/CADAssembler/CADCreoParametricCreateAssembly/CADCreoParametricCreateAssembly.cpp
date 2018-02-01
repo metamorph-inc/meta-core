@@ -132,7 +132,7 @@ int main( int argc, char *argv[] )
 
 		// Log CADCreoParametricCreateAssembly version information
 		std::string programName_Version_TimeStamp;
-		programName_Version_TimeStamp = "CADCreoParametricCreateAssembly " + isis::ASSEMBLE_PTC_VERSION + "      ";
+		programName_Version_TimeStamp = "CADCreoParametricCreateAssembly " + std::string(ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS) + "      ";
 
 		///////////////////
 		// Add Time Stamp
@@ -177,21 +177,25 @@ int main( int argc, char *argv[] )
 		 
 
 		isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
-		isis::cad::IEnvironment&           environment = cAD_Factory->getEnvironment();
+		isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
 
-		environment.setupCADEnvironment(programInputArguments,							// in 
+		cADSession.setupCADEnvironment(programInputArguments,							// in 
 										creoStartCommand,								// out
 										CADExtensionsDir,								// out
 										templateFile_PathAndFileName );					// out
   
 
-
 		isis::CreateAssemblyViaInputFile(	*cAD_Factory,
+											"CADCreoParametricCreateAssembly",
+											ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS,
+											"Creo-Parametric",
 											programInputArguments,
 											CADExtensionsDir,
 											templateFile_PathAndFileName,
 											creoStartCommand,
 											programName_Version_TimeStamp,
+											PRO_NAME_SIZE - 1,
+											PRO_PATH_SIZE - 1,
 											Pro_E_Running );
 	 
 
@@ -232,7 +236,7 @@ int main( int argc, char *argv[] )
 
     if(ExitCode != 0)
     {
-		LogMainNonZeroExitCode( exeName, ExitCode, inputLine, Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream );
+		LogMainNonZeroExitCode( exeName, ExitCode, inputLine.str(), Logging_Set_Up, programInputArguments.logFileName,  exceptionErrorStringStream.str() );
     }
 
 	// Delete the copied template assembly file if it exists.
@@ -249,7 +253,33 @@ int main( int argc, char *argv[] )
 	}
 
 	/////// Stop Pro/E /////////
-	if (Pro_E_Running) ProEngineerEnd();
+//	try 
+//	{
+//		if (Pro_E_Running) isis::isis_ProEngineerEnd();
+//	}
+//	catch (...)
+//	{
+//		// Do nothing if this fails.  Creo will still exit.
+//	}
+
+	try 
+	{
+		if (Pro_E_Running)
+		{
+			isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+			isis::cad::ICADSession&            cADsession = cAD_Factory->getCADSession();
+			cADsession.stopCADProgram();
+		}
+	}
+	catch (...)
+	{
+		// Do nothing if this fails.  Creo will still exit.
+	}
+
+
+		//isis::cad::CadFactoryAbstract::ptr cAD_Factory = isis::cad::creo::create();
+		//isis::cad::ICADSession&           cADSession = cAD_Factory->getCADSession();
+
 
 	if ( promptBeforeExiting )
 	{

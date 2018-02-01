@@ -16,9 +16,9 @@ namespace CyPhyPET.Rules
         private CyPhyGUIs.IInterpreterMainParameters mainParameters { get; set; }
 
         public bool Success { get; set; }
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
         public IMgaTraceability Traceability { get; set; }
-        public Checker(CyPhyGUIs.IInterpreterMainParameters parameters, CyPhyGUIs.GMELogger logger, IMgaTraceability traceability)
+        public Checker(CyPhyGUIs.IInterpreterMainParameters parameters, CyPhyGUIs.SmartLogger logger, IMgaTraceability traceability)
         {
             this.Logger = logger;
             this.mainParameters = parameters;

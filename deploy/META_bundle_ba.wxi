@@ -1,0 +1,19 @@
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <!-- RTF License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaRtfLicensePayloads_mod'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=RtfTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=RtfTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+
+            <Payload Name='!(wix.WixStdbaLicenseRtfName=license.rtf)' Compressed='yes' SourceFile='..\license.rtf' />
+        </PayloadGroup>
+
+        <!-- this creates <WixStdbaInformation> in the ba's BootstrapperApplicationData.xml, wince the PayloadGroup above is referenced -->
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseFile'>!(wix.WixStdbaLicenseRtfName=license.rtf)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+</Wix>

@@ -31,6 +31,8 @@
 #include "UdmApp.h"
 #include <time.h>
 
+__declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
+
 //ATL::CComPtr<IGMEOLEApp>GMEConsole::Console::gmeoleapp = NULL;
 
 // this method is called after all the generic initialization is done
@@ -399,12 +401,12 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		GMEConsole::Console::Error::writeLine(exc.what());
 		GMEConsole::Console::freeConsole();
 
-		  if (constrMgr)
-	      COMTHROW(constrMgr->Enable(true));
-	  if(cyphyAddon)
-		  COMTHROW(cyphyAddon->Enable(true));
+		if (constrMgr)
+			COMTHROW(constrMgr->Enable(true));
+		if(cyphyAddon)
+			COMTHROW(cyphyAddon->Enable(true));
 
-		return S_FALSE;
+		ThrowComError(E_FAIL, _bstr_t(exc.what()));
 	}
 	catch(...)
 	{

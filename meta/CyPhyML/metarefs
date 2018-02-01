@@ -142,6 +142,7 @@
 //atom[@name='Constraint'] 56797
 //atom[@name='CoordinateSystem'] 56799
 //atom[@name='CoordinateSystemGeometry'] 56806
+//atom[@name='CopyFiles'] 60478
 //atom[@name='CorrelationSettings'] 56808
 //atom[@name='Count'] 56810
 //atom[@name='CrewSurvivability'] 56811
@@ -886,6 +887,7 @@
 //model[@name='Environment']/role[@name='ModelicaConnector'] 58926
 //model[@name='Environment']/role[@name='ModelicaParameter'] 58927
 //model[@name='Environment']/role[@name='ModelicaRedeclare'] 58928
+//model[@name='ExcelWrapper']/role[@name='CopyFiles'] 60479
 //model[@name='ExcelWrapper']/role[@name='FileInput'] 60401
 //model[@name='ExcelWrapper']/role[@name='FileOutput'] 60402
 //model[@name='ExcelWrapper']/role[@name='Metric'] 60070
@@ -963,6 +965,7 @@
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_BusPortInterface'] 33414
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_Signal'] 33415
 //model[@name='LTLSPEC_Requirement']/role[@name='VTC_SignalPort_Ref'] 33416
+//model[@name='MATLABWrapper']/role[@name='CopyFiles'] 60480
 //model[@name='MATLABWrapper']/role[@name='FileInput'] 60403
 //model[@name='MATLABWrapper']/role[@name='FileOutput'] 60404
 //model[@name='MATLABWrapper']/role[@name='Metric'] 60093
@@ -1012,6 +1015,8 @@
 //model[@name='ParametricExploration']/role[@name='FileResultFlow'] 60383
 //model[@name='ParametricExploration']/role[@name='IntermediateVariableMapping'] 60229
 //model[@name='ParametricExploration']/role[@name='MATLABWrapper'] 60095
+//model[@name='ParametricExploration']/role[@name='MetricConstraint'] 60474
+//model[@name='ParametricExploration']/role[@name='MetricConstraintBinding'] 60475
 //model[@name='ParametricExploration']/role[@name='ObjectiveMapping'] 59255
 //model[@name='ParametricExploration']/role[@name='Optimizer'] 59256
 //model[@name='ParametricExploration']/role[@name='PCCDriver'] 59257
@@ -1047,6 +1052,7 @@
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_SignalPort_Ref'] 33682
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_State'] 33683
 //model[@name='PropertyTGBA_Requirement']/role[@name='VTC_Transition'] 33684
+//model[@name='PythonWrapper']/role[@name='CopyFiles'] 60481
 //model[@name='PythonWrapper']/role[@name='FileInput'] 60405
 //model[@name='PythonWrapper']/role[@name='FileOutput'] 60406
 //model[@name='PythonWrapper']/role[@name='Metric'] 60097
@@ -1189,6 +1195,7 @@
 //model[@name='VisualConstraint']/role[@name='NullOptionRef'] 59866
 //model[@name='VisualConstraint']/role[@name='Or_operator'] 59867
 //model[@name='VisualConstraint']/role[@name='PropertyConstraintRef'] 59868
+//model[@name='Workflow']/role[@name='CopyFiles'] 60482
 //model[@name='Workflow']/role[@name='ExecutionTask'] 59878
 //model[@name='Workflow']/role[@name='Flow'] 59879
 //model[@name='Workflow']/role[@name='Task'] 59880
@@ -1514,6 +1521,8 @@
 //atom[@name='CoordinateSystem']/attrdef[@name='InstanceNotes'] 56804
 //atom[@name='CoordinateSystem']/attrdef[@name='IsGuide'] 56805
 //atom[@name='CoordinateSystemGeometry']/attrdef[@name='Datum'] 56807
+//atom[@name='CopyFiles']/attrdef[@name='Destination'] 60483
+//atom[@name='CopyFiles']/attrdef[@name='Source'] 60484
 //atom[@name='CorrelationSettings']/attrdef[@name='VehicleVelocity'] 56809
 //atom[@name='CustomFormula']/attrdef[@name='Expression'] 56813
 //atom[@name='CustomFormula']/attrdef[@name='ID'] 25164
@@ -3038,6 +3047,7 @@
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaConnector'] 58931
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaParameter'] 58932
 //model[@name='Environment']/aspect[@name='Aspect']/part[@role='ModelicaRedeclare'] 58933
+//model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='CopyFiles'] 60485
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60407
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60408
 //model[@name='ExcelWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60075
@@ -3151,6 +3161,7 @@
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_BusPortInterface'] 33419
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_Signal'] 33420
 //model[@name='LTLSPEC_Requirement']/aspect[@name='Aspect']/part[@role='VTC_SignalPort_Ref'] 33421
+//model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='CopyFiles'] 60486
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60409
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60410
 //model[@name='MATLABWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60150
@@ -3199,6 +3210,8 @@
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='FileResultFlow'] 60384
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='IntermediateVariableMapping'] 60232
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MATLABWrapper'] 60152
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MetricConstraint'] 60476
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='MetricConstraintBinding'] 60477
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ObjectiveMapping'] 59265
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='Optimizer'] 59266
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCDriver'] 59267
@@ -3233,6 +3246,7 @@
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_SignalPort_Ref'] 33688
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_State'] 33689
 //model[@name='PropertyTGBA_Requirement']/aspect[@name='TGBA']/part[@role='VTC_Transition'] 33690
+//model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='CopyFiles'] 60487
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60411
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60412
 //model[@name='PythonWrapper']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60154
@@ -3581,6 +3595,7 @@
 //model[@name='VisualConstraint']/aspect[@name='Aspect']/part[@role='NullOptionRef'] 59874
 //model[@name='VisualConstraint']/aspect[@name='Aspect']/part[@role='Or_operator'] 59875
 //model[@name='VisualConstraint']/aspect[@name='Aspect']/part[@role='PropertyConstraintRef'] 59876
+//model[@name='Workflow']/aspect[@name='All']/part[@role='CopyFiles'] 60488
 //model[@name='Workflow']/aspect[@name='All']/part[@role='ExecutionTask'] 59881
 //model[@name='Workflow']/aspect[@name='All']/part[@role='Flow'] 59882
 //model[@name='Workflow']/aspect[@name='All']/part[@role='Task'] 59883

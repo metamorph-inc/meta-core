@@ -37,6 +37,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     _this_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(_this_dir)
     if args.rerun_failed:
         xunit_xml = ElementTree.Element('xunit')
         xunit_assemblies = ElementTree.SubElement(xunit_xml, 'assemblies')

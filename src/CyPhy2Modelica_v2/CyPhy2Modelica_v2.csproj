@@ -120,6 +120,11 @@
     <Compile Include="Modelica\SolverSettings.cs" />
     <Compile Include="Modelica\TestBench.cs" />
     <Compile Include="Modelica\UnitParameter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Registrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\Checker.cs" />
@@ -130,30 +135,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>compile_and_run_jmodelica_py.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\dymola_simulate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dymola_simulate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Templates\jmodelica_compile_py.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>jmodelica_compile_py.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\jmodelica_simulate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>jmodelica_simulate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Templates\jmodelica_simulate_py.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>jmodelica_simulate_py.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\om_simulate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>om_simulate.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\open_package_in_dymola.cs">
       <DependentUpon>open_package_in_dymola.tt</DependentUpon>
@@ -183,21 +173,9 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>jmodelica_compile_py.cs</LastGenOutput>
     </None>
-    <None Include="Templates\jmodelica_simulate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>jmodelica_simulate.cs</LastGenOutput>
-    </None>
     <None Include="Templates\jmodelica_simulate_py.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>jmodelica_simulate_py.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\om_simulate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>om_simulate.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\dymola_simulate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>dymola_simulate.cs</LastGenOutput>
     </None>
     <None Include="Templates\open_package_in_dymola.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -247,11 +225,16 @@
     <Content Include="CyPhy2Modelica_v2.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\_simulate.cmd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

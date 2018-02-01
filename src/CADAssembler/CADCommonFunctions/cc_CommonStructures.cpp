@@ -369,5 +369,35 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 		return output;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition)
+	{
+		output << "From Model: " << in_CopyModelDefinition.fromModelName << "  To Model: " << in_CopyModelDefinition.toModelName;
+
+		output << "  Model Type: " << isis::CADMdlType_string(in_CopyModelDefinition.modelType) << "  ComponentInstanceID: "  << in_CopyModelDefinition.componentInstanceID;
+
+		//if ( in_CopyModelDefinition.modelType == CAD_MDL_PART )
+		//	output << "  Part";
+		//else
+		//	output << "  Assembly";
+
+		return output;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector)
+	{
+		for each ( CopyModelDefinition i in in_CopyModelDefinition_vector )
+		{
+			output << std::endl << i;
+		}
+
+		return output;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
 

@@ -80,17 +80,13 @@ namespace CADTeamTest
 
         }
 
-        public static bool Run(string outputdirname, string xmePath, string absPath, bool copycomponents = true, bool deletedir = true)
+        public static bool Run(string outputdirname, string xmePath, string absPath, bool copycomponents = true)
         {
             xmePath = Path.GetFullPath(xmePath);
             outputdirname = Path.GetFullPath(outputdirname);
             bool status = true;
             string ProjectConnStr;
-            if (deletedir && Directory.Exists(outputdirname))
-            {
-                Directory.Delete(outputdirname, true);
-            }
-            Directory.CreateDirectory(outputdirname);
+            CyPhyGUIs.CyPhyDirectory.EnsureEmptyDirectory(outputdirname);
 
             MgaUtils.ImportXMEForTest(xmePath, Path.Combine(outputdirname, Path.GetFileNameWithoutExtension(xmePath) + "_CADtest.mga"), out ProjectConnStr);
 

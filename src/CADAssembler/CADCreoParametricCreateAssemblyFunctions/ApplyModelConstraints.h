@@ -9,7 +9,7 @@
 #include <BuildAssembly.h>
 #include <AssembleComponents.h>
 #include <cc_CommonStructures.h>
-#include "CadFactoryAbstract.h"
+#include "cc_CadFactoryAbstract.h"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ namespace isis
 
 	*/
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract				&in_factory,
+			cad::CadFactoryAbstract				&in_Factory,
 			ProSolid							*in_assembly_model,
 			const std::string					&in_AssemblyComponentID,
 			const std::list<std::string>		&in_ComponentIDsToBeConstrained,  

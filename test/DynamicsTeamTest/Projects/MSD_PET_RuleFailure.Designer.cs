@@ -274,7 +274,6 @@ namespace DynamicsTeamTest.Projects
 
         [Fact]
         [Trait("Model", "MSD_PET_RuleFailure")]
-        [Trait("CheckerShouldFail", "MSD_PET_RuleFailure")]
         public void PET_Fail_NoDriver()
         {
             string outputDir = "NoDriver";
@@ -283,7 +282,7 @@ namespace DynamicsTeamTest.Projects
             Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
             bool result = CyPhyPETRunner.Run(outputDir, mgaFile, petExperimentPath);
 
-            Assert.False(result, "CyPhyPET should have failed, but did not.");
+            Assert.True(result, "CyPhyPET should not have failed");
         }
 
         [Fact]

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{manifest["TestBench"] | escape}} Execution Report</title>
+
+  <style type="text/css">
+    {% include 'normalize.css' without context %}
+  </style>
+
+  <style type="text/css">
+    {% include 'styles.css' without context %}
+  </style>
+</head>
+<body>
+  <h1 class="title status-{{ manifest["Status"] }}">{{manifest["TestBench"] | escape}} Status: {{ manifest["Status"] }}</h1>
+
+  <div class="content">
+    <dl class="step-list">
+      {% for step in manifest["Steps"] %}
+      {% set status = step["Status"] %}
+      {% set logFile = step["LogFile"] %}
+      <dt class="status-{{ status }}"><strong>{{ status }}</strong> | <code>{{ step["Invocation"] | escape }}</code></dt>
+      <dd class="status-{{ status }}">
+        <dl class="step-details">
+
+          {% if status == "OK" %}
+            <p>
+              This step completed successfully.  Its log file can be viewed at
+              <a href="{{ logFile | urlencode }}">{{ logFile | escape }}</a>.
+            </p>
+          {% elif status == "FAILED" %}
+            <p>
+              This step did not complete successfully.  A partial log file is
+              shown below:
+            </p>
+            {% if logFile != None %}
+              <code><pre>...
+{{logFileExcerpts[logFile] | escape }}</pre></code>
+              <p>
+                The full log file can be viewed at
+                <a href="{{ logFile | urlencode }}">{{ logFile | escape }}</a>.
+              </p>
+            {% else %}
+              <code><pre>Log file not found.</pre></code>
+            {% endif %}
+          {% elif status == "UNEXECUTED" %}
+            <p>
+              This step did not execute--  a previous step may have failed.
+            </p>
+          {% else %}
+          <dt>Status:</dt> <dd>{{ step["Status"] }}</dd>
+
+          {% if logFile != None %}
+          <dt>Log:</dt> <dd><a href="{{ logFile | urlencode }}">{{ logFile | escape }}</a></dd>
+          {% if step["Status"] != "OK" %}
+          <dt>{{ logFileHeaders[logFile] | escape }}</dt>
+          <dd>
+            <code><pre>{{logFileExcerpts[logFile] | escape }}</pre></code>
+          </dd>
+          </li>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+        </dl>
+      </dd>
+      {% endfor %}
+    </dl>
+  </div>
+</body>
+</html>

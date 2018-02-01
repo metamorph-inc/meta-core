@@ -34,17 +34,7 @@ namespace CyPhyPET.Rules
                 pet.Children.PCCDriverCollection.Count() +
                 pet.Children.OptimizerCollection.Count();
 
-            if (cnt < 1)
-            {
-                var feedback = new GenericRuleFeedback()
-                {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("No driver defined, please add either a PCCDriver, Parameter Study or Optimizer.")
-                };
-
-                result.Add(feedback);
-            }
-            else if (cnt > 1)
+            if (cnt > 1)
             {
                 var feedback = new GenericRuleFeedback()
                 {
@@ -989,10 +979,20 @@ namespace CyPhyPET.Rules
             {
                 double min = 0;
                 double max = 0;
+                string minStr = splitRange[0];
+                string maxStr = splitRange[1];
+                if (minStr[0] == '[' || minStr[0] == '(')
+                {
+                    minStr = minStr.Substring(1);
+                }
+                if (maxStr.Last() == ']' || maxStr.Last() == ')')
+                {
+                    maxStr = maxStr.Substring(0, maxStr.Length - 1);
+                }
                 bool canGetMaxAndMin =
-                    double.TryParse(splitRange[0].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
+                    double.TryParse(minStr, NumberStyles.Float | NumberStyles.AllowThousands,
                             CultureInfo.InvariantCulture, out min) &&
-                    double.TryParse(splitRange[1].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
+                    double.TryParse(maxStr, NumberStyles.Float | NumberStyles.AllowThousands,
                             CultureInfo.InvariantCulture, out max);
                 if (canGetMaxAndMin)
                 {
@@ -1091,12 +1091,12 @@ namespace CyPhyPET.Rules
         {
             var attributeCheckResults = new List<RuleFeedbackBase>();
 
-            double minValue = 0;
-            double maxValue = 0;
+            double minValue = Double.NegativeInfinity;
+            double maxValue = Double.PositiveInfinity;
 
             bool canGetMinAndMax =
-                double.TryParse(optConstraint.Attributes.MinValue.Trim(), out minValue) &&
-                double.TryParse(optConstraint.Attributes.MaxValue.Trim(), out maxValue);
+                (optConstraint.Attributes.MinValue == "" || double.TryParse(optConstraint.Attributes.MinValue.Trim(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out minValue)) &&
+                (optConstraint.Attributes.MaxValue == "" || double.TryParse(optConstraint.Attributes.MaxValue.Trim(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out maxValue));
 
             if (canGetMinAndMax)
             {

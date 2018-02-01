@@ -147,10 +147,10 @@ void SetupLogging(	const std::string		&in_SubDir,
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
 								int							in_ExitCode, 
-							    const std::stringstream		&in_InputLine,
+							    const std::string			&in_InputLine,
 								bool						in_Logging_Set_Up, 
 								const std::string			in_LogFileName,  
-								const std::stringstream		&in_ExceptionErrorStringStream )
+								const std::string			&in_ExceptionErrorStringStream )
 {
 
        // Write to _FAILED.txt
@@ -168,10 +168,10 @@ void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
         {
             if(addLineFeed)		failedTxtFileStream << std::endl;
 
-			failedTxtFileStream << std::endl <<	"Input Line: "   << in_InputLine.str() <<  std::endl;
+			failedTxtFileStream << std::endl <<	"Input Line: "   << in_InputLine <<  std::endl;
 			//failedTxtFileStream << std::endl <<	"Input Line: " << in_InputLine <<  std::endl;
             failedTxtFileStream << std::endl <<  isis_CADCommon::GetDayMonthTimeYear() << ", " << in_ExeName << " error code: " << in_ExitCode;
-			failedTxtFileStream << std::endl <<  in_ExceptionErrorStringStream.str();
+			failedTxtFileStream << std::endl <<  in_ExceptionErrorStringStream;
 
 			if(in_Logging_Set_Up)	failedTxtFileStream << std::endl << "For additional information, scroll to the bottom of " << in_LogFileName;
 
@@ -181,11 +181,11 @@ void	LogMainNonZeroExitCode( const std::string			&in_ExeName,
         if(in_Logging_Set_Up)
         {
             
-            isis_LOG(lg, isis_FILE, isis_ERROR) << in_ExceptionErrorStringStream.str();
+            isis_LOG(lg, isis_FILE, isis_ERROR) << in_ExceptionErrorStringStream;
         }
         else
         {
-            std::cerr << std::endl << std::endl << in_ExceptionErrorStringStream.str() << std::endl << std::endl;
+            std::cerr << std::endl << std::endl << in_ExceptionErrorStringStream << std::endl << std::endl;
 		}
 
 }
