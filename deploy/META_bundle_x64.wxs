@@ -6,7 +6,7 @@
      xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
      xmlns:netfx='http://schemas.microsoft.com/wix/NetFxExtension'
 >
-    <Bundle Name="$(var.ProductName) $(var.VERSIONSTR)"
+    <Bundle Name="$(var.ProductName) $(var.VCSDESCRIPTION)"
             IconSourceFile="META.ico"
             Version="$(var.VERSIONSTR)"
             Manufacturer="$(var.CompanyName)"
@@ -16,7 +16,14 @@
             DisableModify="yes"
             >
 
-      <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+        <!-- n.b. this custom bootstrapper will uninstall all RelatedBundles -->
+        <RelatedBundle Id="{C86B99E4-7F62-4037-9313-32562A0C839E}" Action="Detect" />
+        <RelatedBundle Id="{5176D0AD-874A-459C-B588-D44BDD22F546}" Action="Detect" />
+        <BootstrapperApplication Id='WixStandardBootstrapperApplication.RtfLicense_mod' SourceFile='.\WixStdBA.dll'>
+            <PayloadGroupRef Id='WixStdbaRtfLicensePayloads_mod' />
+        </BootstrapperApplication>
+
+      <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense_mod">
         <bal:WixStandardBootstrapperApplication
           LicenseFile="..\license.rtf"
           LogoFile="META.png"

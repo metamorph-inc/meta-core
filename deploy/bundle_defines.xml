@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 <?define ProductName="META toolchain" ?>
-<?define ProductCodeX64="{DBFAC4B6-8F6E-4801-B615-73F6E9878085}" ?>
-<?define UpgradeCodeX64="{4A7773F3-4244-4F74-8EDD-5BB48B8A7284}" ?>
-<?define ProviderKey="{C86B99E4-7F62-4037-9313-32562A0C839E}" ?>
-<?define BundleUpgradeCode="{5176D0AD-874A-459C-B588-D44BDD22F546}" ?>
+<?define ProviderKey="ae8072bf-83b3-4c02-af4f-d2edfcbcdb6a" ?>
+<?define BundleUpgradeCode="5ff09863-d383-4f3d-9d12-15b797c842eb" ?>
 <?define CompanyName="META contributors" ?>
-<?define ShortCompanyName="META contributors" ?>
 <?define UpdateURL="https://github.com/metamorph-inc/meta-core/" ?>
 <?define InstallerVersion="500" ?>
 <?define Compressed="no" ?>
