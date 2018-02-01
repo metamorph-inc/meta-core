@@ -1,6 +1,8 @@
 ﻿using GME.MGA;
+using MasterInterpreterTest;
 using META;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,11 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using MasterInterpreterTest;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Xunit;
 
 
@@ -510,15 +508,21 @@ namespace CyPhyPETTest
         [Fact]
         public void PET_OptimizerConstraintIntermediate_via_MasterInterpreter()
         {
-            string outputDir = "results/" + GetCurrentMethod();
-            string petExperimentPath = "/@Testing/@ParametricExploration/@TestOptimizer_add2_IntermediateConstraint";
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestOptimizer_add2_IntermediateConstraint";
 
-            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
-            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+            //Run CyPhyPET
+            var result = CyPhyMasterInterpreterRunner.RunMasterInterpreterAndReturnResults(
+                projectPath: this.mgaFile,
+                absPath: objectAbsPath,
+                configPath: objectAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
 
-            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+            Assert.True(result.Success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+            var outputDir = result.OutputDirectory;
 
-            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            //Check mdao_config.json
+            var configContents = File.ReadAllText(Path.Combine(outputDir, "mdao_config.json"));
             var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
 
             Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[0], "paraboloid_TestBench");
@@ -526,8 +530,24 @@ namespace CyPhyPETTest
             Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[0], "add2_TestBench");
             Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[1], "z");
 
-            Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
+            ////Run run_mdao
+            string stderr = "<did not start process>";
+            int retcode = Run(null, outputDir, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            //Check output.csv results
+            var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
+            Assert.Equal("GUID,z,x,y,fxy,constraint", lines[0]);
+
+            //Check final optimized answer
+            var final_values = lines[lines.Count() - 1].Split(',');
+            Assert.Equal(6.6667, Double.Parse(final_values[1]), 4);
+            Assert.Equal(4.6667, Double.Parse(final_values[2]), 4);
+            Assert.Equal(-7.3333, Double.Parse(final_values[3]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[4]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[5]), 4);
         }
+
 
 
         [Fact]
