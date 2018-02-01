@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{5DA4AC32-CBBC-4AF7-900B-A9F876FCB4B8}" cdate="Thu Feb 01 12:47:07 2018" mdate="Thu Feb 01 12:47:07 2018" version="" metaguid="{3EF7D31C-84F2-0F54-1DE1-727298671826}" metaversion="$Rev: 29910 $" metaname="CyPhyML">
+<project guid="{579C6054-ECD0-4442-9AB7-900E7F1D5EB3}" cdate="Mon Jan 22 16:25:39 2018" mdate="Mon Jan 22 16:25:39 2018" version="" metaguid="{6F10DF0B-B1E6-01E0-2D43-E49915A02109}" metaversion="$Rev: 29960 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -2042,31 +2042,7 @@
 						<attribute kind="Notes" status="inherited">
 							<value></value>
 						</attribute>
-						<atom id="id-0066-0000001a" kind="CoordinateSystem" role="CoordinateSystem" guid="{47f49767-93c3-4fc5-a1e9-cfefb96d407e}" derivedfrom="id-0066-00000002" isinstance="yes" isprimary="no">
-							<name>CS</name>
-							<attribute kind="DatumName" status="inherited">
-								<value>CS</value>
-							</attribute>
-							<attribute kind="Definition" status="inherited">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="inherited">
-								<value></value>
-							</attribute>
-							<attribute kind="GeometricMarker" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="inherited">
-								<value>cad.CS</value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="inherited">
-								<value></value>
-							</attribute>
-							<attribute kind="IsGuide" status="meta">
-								<value>false</value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000001b" kind="CoordinateSystem" role="CoordinateSystem" guid="{e610f8a3-237e-482d-9cf2-724cefd4d4e7}" derivedfrom="id-0066-00000001" isinstance="yes" isprimary="no">
+						<atom id="id-0066-0000001a" kind="CoordinateSystem" role="CoordinateSystem" guid="{e610f8a3-237e-482d-9cf2-724cefd4d4e7}" derivedfrom="id-0066-00000001" isinstance="yes" isprimary="no">
 							<name>48F3D3FB1F15400BA9E16BFF5BE7861</name>
 							<attribute kind="DatumName" status="inherited">
 								<value>48F3D3FB1F15400BA9E16BFF5BE7861</value>
@@ -2082,6 +2058,30 @@
 							</attribute>
 							<attribute kind="ID" status="inherited">
 								<value>cad.48F3D3FB1F15400BA9E16BFF5BE7861</value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="inherited">
+								<value></value>
+							</attribute>
+							<attribute kind="IsGuide" status="meta">
+								<value>false</value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000001b" kind="CoordinateSystem" role="CoordinateSystem" guid="{47f49767-93c3-4fc5-a1e9-cfefb96d407e}" derivedfrom="id-0066-00000002" isinstance="yes" isprimary="no">
+							<name>CS</name>
+							<attribute kind="DatumName" status="inherited">
+								<value>CS</value>
+							</attribute>
+							<attribute kind="Definition" status="inherited">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="inherited">
+								<value></value>
+							</attribute>
+							<attribute kind="GeometricMarker" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="inherited">
+								<value>cad.CS</value>
 							</attribute>
 							<attribute kind="InstanceNotes" status="inherited">
 								<value></value>
@@ -2133,22 +2133,7 @@
 							<value></value>
 						</attribute>
 					</model>
-					<atom id="id-0066-0000001c" kind="Resource" role="Resource" guid="{73793ede-f858-45bf-83d8-3d9e035f109d}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
-						<name>pkg_0603.prt</name>
-						<attribute kind="Hash" status="inherited">
-							<value></value>
-						</attribute>
-						<attribute kind="ID" status="inherited">
-							<value>id-cea448f5-0f8c-44ae-99a4-e30a668604a2</value>
-						</attribute>
-						<attribute kind="Notes" status="inherited">
-							<value>CAD Model Import tool added this resource object for the imported CAD file</value>
-						</attribute>
-						<attribute kind="Path" status="inherited">
-							<value>CAD\pkg_0603.prt</value>
-						</attribute>
-					</atom>
-					<atom id="id-0066-0000001d" kind="Resource" role="Resource" guid="{89169330-e636-4904-bdfe-5b90d188e3bd}" derivedfrom="id-0066-00000003" isinstance="yes" isprimary="no">
+					<atom id="id-0066-0000001c" kind="Resource" role="Resource" guid="{89169330-e636-4904-bdfe-5b90d188e3bd}" derivedfrom="id-0066-00000003" isinstance="yes" isprimary="no">
 						<name>Icon</name>
 						<attribute kind="Hash" status="inherited">
 							<value></value>
@@ -2163,22 +2148,22 @@
 							<value>Images/Icon.png</value>
 						</attribute>
 					</atom>
-					<atom id="id-0066-0000001e" kind="ReferenceCoordinateSystem" role="ReferenceCoordinateSystem" guid="{58b1a449-1e95-42af-9de3-5b2c5253802c}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
-						<name>AssemblyRoot</name>
-						<attribute kind="Definition" status="meta">
+					<atom id="id-0066-0000001d" kind="Resource" role="Resource" guid="{73793ede-f858-45bf-83d8-3d9e035f109d}" derivedfrom="id-0066-00000004" isinstance="yes" isprimary="no">
+						<name>pkg_0603.prt</name>
+						<attribute kind="Hash" status="inherited">
 							<value></value>
 						</attribute>
-						<attribute kind="DefinitionNotes" status="meta">
-							<value></value>
+						<attribute kind="ID" status="inherited">
+							<value>id-cea448f5-0f8c-44ae-99a4-e30a668604a2</value>
 						</attribute>
-						<attribute kind="ID" status="meta">
-							<value></value>
+						<attribute kind="Notes" status="inherited">
+							<value>CAD Model Import tool added this resource object for the imported CAD file</value>
 						</attribute>
-						<attribute kind="InstanceNotes" status="meta">
-							<value></value>
+						<attribute kind="Path" status="inherited">
+							<value>CAD\pkg_0603.prt</value>
 						</attribute>
 					</atom>
-					<atom id="id-0066-0000001f" kind="Resource" role="Resource" guid="{1cff44e7-3cd2-4937-9450-d4a7ca30ed70}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
+					<atom id="id-0066-0000001e" kind="Resource" role="Resource" guid="{1cff44e7-3cd2-4937-9450-d4a7ca30ed70}" derivedfrom="id-0066-00000005" isinstance="yes" isprimary="no">
 						<name>Resource</name>
 						<attribute kind="Hash" status="inherited">
 							<value></value>
@@ -2191,6 +2176,21 @@
 						</attribute>
 						<attribute kind="Path" status="inherited">
 							<value>CAD\pkg_0603.step</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000001f" kind="ReferenceCoordinateSystem" role="ReferenceCoordinateSystem" guid="{58b1a449-1e95-42af-9de3-5b2c5253802c}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+						<name>AssemblyRoot</name>
+						<attribute kind="Definition" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DefinitionNotes" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ID" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="InstanceNotes" status="meta">
+							<value></value>
 						</attribute>
 					</atom>
 					<reference id="id-0067-00000005" kind="Parameter" role="Parameter" guid="{ce3c5224-a76f-4f62-9696-4f2b94229e2a}" derivedfrom="id-0067-00000002" isinstance="yes" isprimary="no" isbound="yes">
@@ -2268,17 +2268,17 @@
 					<connection isbound="yes" id="id-0068-00000011" kind="PortComposition" role="PortComposition" guid="{8d481f03-0b51-49d9-b656-ca66486a6ba9}" derivedfrom="id-0068-00000001" isinstance="yes" isprimary="no">
 						<name></name>
 					</connection>
-					<connection isbound="yes" id="id-0068-00000012" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{6591eb14-95dc-4100-ac92-1bb1b4a93ac1}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
+					<connection isbound="yes" id="id-0068-00000012" kind="UsesResource" role="UsesResource" guid="{f3c09eb3-15c6-4ebb-90b5-d8c498ca2654}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
+						<name></name>
+					</connection>
+					<connection isbound="yes" id="id-0068-00000013" kind="PortComposition" role="PortComposition" guid="{f8823e34-c4a5-452d-848e-f2a86f15f6aa}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
+						<name></name>
+					</connection>
+					<connection isbound="yes" id="id-0068-00000014" kind="UsesResource" role="UsesResource" guid="{099167cc-7722-4638-9562-dcc29f6babcd}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
+						<name></name>
+					</connection>
+					<connection isbound="yes" id="id-0068-00000015" kind="CADParameterPortMap" role="CADParameterPortMap" guid="{6591eb14-95dc-4100-ac92-1bb1b4a93ac1}" derivedfrom="id-0068-00000006" isinstance="yes" isprimary="no">
 						<name>CADParameterPortMap</name>
-					</connection>
-					<connection isbound="yes" id="id-0068-00000013" kind="UsesResource" role="UsesResource" guid="{f3c09eb3-15c6-4ebb-90b5-d8c498ca2654}" derivedfrom="id-0068-00000005" isinstance="yes" isprimary="no">
-						<name></name>
-					</connection>
-					<connection isbound="yes" id="id-0068-00000014" kind="PortComposition" role="PortComposition" guid="{f8823e34-c4a5-452d-848e-f2a86f15f6aa}" derivedfrom="id-0068-00000002" isinstance="yes" isprimary="no">
-						<name></name>
-					</connection>
-					<connection isbound="yes" id="id-0068-00000015" kind="UsesResource" role="UsesResource" guid="{099167cc-7722-4638-9562-dcc29f6babcd}" derivedfrom="id-0068-00000004" isinstance="yes" isprimary="no">
-						<name></name>
 					</connection>
 					<connection isbound="yes" id="id-0068-00000016" kind="ModelicaParameterPortMap" role="ModelicaParameterPortMap" guid="{defed5db-6d46-4d13-9975-a2bd52165d4c}" derivedfrom="id-0068-00000003" isinstance="yes" isprimary="no">
 						<name></name>
@@ -9482,47 +9482,41 @@
 						<connpoint role="src" target="id-0067-00000291"/>
 					</connection>
 				</model>
-				<model id="id-0065-00000518" kind="ParametricExploration" guid="{bf3b4516-d927-4470-bdf9-cef5409b1c0f}" relid="0x55" childrelidcntr="0x10">
-					<name>TestOptimizerIntermediateValueConstraint</name>
-					<model id="id-0065-00000519" kind="Optimizer" role="Optimizer" guid="{cd751395-253b-4836-89aa-5dc868a1c9d8}" relid="0x1" childrelidcntr="0x5">
-						<name>Optimizer</name>
+				<model id="id-0065-00000518" kind="ParametricExploration" guid="{e45f563b-423e-4586-9351-5f6a67db16fd}" relid="0x55" childrelidcntr="0x14">
+					<name>TestFileCopy</name>
+					<model id="id-0065-00000519" kind="ParameterStudy" role="ParameterStudy" guid="{55b206f3-2007-402f-96a3-c2fcc85915da}" relid="0x2" childrelidcntr="0x3">
+						<name>ParameterStudy</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="TestBenchCompositionAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>140,84</value>
+									<value>364,140</value>
 								</regnode>
 							</regnode>
 						</regnode>
-						<regnode name="borderColor" isopaque="yes">
-							<value>0x8b0000</value>
-						</regnode>
-						<regnode name="color" isopaque="yes">
-							<value>0xff6820</value>
-						</regnode>
-						<regnode name="itemShadowCast" isopaque="yes">
-							<value>true</value>
-						</regnode>
-						<regnode name="portLabelLength" isopaque="yes">
-							<value>0</value>
-						</regnode>
-						<regnode name="shadowColor" isopaque="yes">
-							<value>0x666666</value>
-						</regnode>
-						<regnode name="shadowThickness" isopaque="yes">
-							<value>12</value>
-						</regnode>
-						<attribute kind="Code" status="meta">
-							<value></value>
+						<attribute kind="Code">
+							<value>num_samples=1</value>
 						</attribute>
-						<attribute kind="CustomOptimizer" status="meta">
-							<value></value>
+						<attribute kind="DOEType">
+							<value>Uniform</value>
 						</attribute>
-						<attribute kind="OptimizationFunction" status="meta">
-							<value>COBYLA</value>
+						<attribute kind="SurrogateType" status="meta">
+							<value>None</value>
 						</attribute>
-						<reference id="id-0067-0000073c" kind="DesignVariable" role="DesignVariable" guid="{5f48a363-0565-4702-b9ab-3ebf41ccf75d}" relid="0x1">
+						<reference id="id-0067-0000073c" kind="Objective" role="Objective" guid="{e3a3b48d-4e16-4695-b909-01a09a71b458}" relid="0x2">
+							<name>fxy</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="TestBenchCompositionAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>546,105</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-0000073d" kind="DesignVariable" role="DesignVariable" guid="{402f942f-03b5-4918-a941-f008b440556d}" relid="0x1">
 							<name>x</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -9534,118 +9528,88 @@
 								</regnode>
 							</regnode>
 							<attribute kind="Range">
-								<value>-50,50</value>
-							</attribute>
-						</reference>
-						<reference id="id-0067-0000073d" kind="Objective" role="Objective" guid="{f97f561e-94b0-46f1-a1b2-09db6f6a8dc8}" relid="0x2">
-							<name>f_xy</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="TestBenchCompositionAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>350,245</value>
-									</regnode>
-								</regnode>
-							</regnode>
-						</reference>
-						<reference id="id-0067-0000073e" kind="DesignVariable" role="DesignVariable" guid="{df78dbe6-34da-4e0a-93f4-cec673547b4e}" relid="0x3">
-							<name>y</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="TestBenchCompositionAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>105,154</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<attribute kind="Range">
-								<value>-50,50</value>
-							</attribute>
-						</reference>
-						<reference id="id-0067-00000746" kind="IntermediateVariable" role="IntermediateVariable" guid="{3debe144-9e49-4d45-9de7-de5ed950d45f}" relid="0x4">
-							<name>z</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="TestBenchCompositionAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>350,63</value>
-									</regnode>
-								</regnode>
-							</regnode>
-						</reference>
-						<reference id="id-0067-00000747" kind="OptimizerConstraint" role="OptimizerConstraint" guid="{2a648d01-03ff-4c2a-bf82-15d0be6d060c}" relid="0x5">
-							<name>constraint</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="TestBenchCompositionAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>350,154</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<attribute kind="MaxValue">
-								<value>0</value>
-							</attribute>
-							<attribute kind="MinValue" status="meta">
-								<value></value>
+								<value>1,10</value>
 							</attribute>
 						</reference>
 					</model>
-					<model id="id-0065-0000051a" kind="PythonWrapper" role="PythonWrapper" guid="{8365cf65-e586-4051-acce-131667d88a05}" relid="0x8" childrelidcntr="0x2">
-						<name>Add2</name>
+					<model id="id-0065-0000051a" kind="PythonWrapper" role="PythonWrapper" guid="{3f96d88a-5a6d-4c08-b3fe-493b07a55da6}" relid="0xf" childrelidcntr="0x4">
+						<name>PythonWrapper</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
 							<regnode name="TestBenchCompositionAspect" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>350,259</value>
+									<value>644,322</value>
 								</regnode>
 							</regnode>
 						</regnode>
 						<attribute kind="PyFilename">
-							<value>add2.py</value>
+							<value>..\..\bin\Python27\Lib\site-packages\openmdao\test\paraboloid.py</value>
 						</attribute>
-						<reference id="id-0067-00000741" kind="Metric" role="Metric" guid="{c8fd31e7-547d-4e47-a76a-227c941db58a}" relid="0x1">
+						<atom id="id-0066-000001ee" kind="CopyFiles" role="CopyFiles" guid="{e5f726bf-a82b-4a4a-94cb-5d48ef172640}" relid="0x4">
+							<name>CopyFiles</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ValueFlowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>329,308</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Destination">
+								<value>component_files</value>
+							</attribute>
+							<attribute kind="Source">
+								<value>components/23kc5zsm</value>
+							</attribute>
+						</atom>
+						<reference id="id-0067-0000073e" kind="Parameter" role="Parameter" guid="{5fd83d11-8db2-4aaf-8e1a-2919e18f5e0a}" relid="0x2">
+							<name>x</name>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DataType" status="meta">
+								<value>String</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Dimension" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Range" status="meta">
+								<value>-inf..inf</value>
+							</attribute>
+							<attribute kind="Type" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-0000073f" kind="Parameter" role="Parameter" guid="{fcdd70de-1cfc-488c-b57f-b4a385b30275}" relid="0x3">
 							<name>y</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
 								<regnode name="ValueFlowAspect" status="undefined">
 									<value></value>
 									<regnode name="Position" isopaque="yes">
-										<value>800,65</value>
+										<value>42,42</value>
 									</regnode>
 								</regnode>
-							</regnode>
-							<regnode name="pass_by_obj" isopaque="yes">
-								<value>False</value>
-							</regnode>
-							<attribute kind="Description" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ManagedGUID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Value">
-								<value>0.0</value>
-							</attribute>
-						</reference>
-						<reference id="id-0067-00000742" kind="Parameter" role="Parameter" guid="{d7ed978d-10fc-4bac-9e20-6956edb0d162}" relid="0x2">
-							<name>x</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="ValueFlowAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>20,65</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<regnode name="pass_by_obj" isopaque="yes">
-								<value>False</value>
 							</regnode>
 							<attribute kind="ComputationType" status="meta">
 								<value>Addition</value>
@@ -9681,135 +9645,21 @@
 								<value></value>
 							</attribute>
 						</reference>
-					</model>
-					<model id="id-0065-0000051b" kind="PythonWrapper" role="PythonWrapper" guid="{9a69c2bf-faeb-4589-9250-7b12fd13468b}" relid="0xb" childrelidcntr="0x3">
-						<name>Paraboloid</name>
-						<regnode name="PartRegs" status="undefined">
-							<value></value>
-							<regnode name="TestBenchCompositionAspect" status="undefined">
-								<value></value>
-								<regnode name="Position" isopaque="yes">
-									<value>588,343</value>
-								</regnode>
-							</regnode>
-						</regnode>
-						<attribute kind="PyFilename">
-							<value>paraboloid.py</value>
-						</attribute>
-						<reference id="id-0067-00000743" kind="Metric" role="Metric" guid="{fbbf4ff2-664e-4c38-b354-5e7db19d6616}" relid="0x1">
+						<reference id="id-0067-00000740" kind="Metric" role="Metric" guid="{608659ef-841d-4c04-8786-aef61e1c545a}" relid="0x1">
 							<name>f_xy</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
 								<regnode name="ValueFlowAspect" status="undefined">
 									<value></value>
 									<regnode name="Position" isopaque="yes">
-										<value>800,65</value>
+										<value>800,300</value>
 									</regnode>
 								</regnode>
-							</regnode>
-							<regnode name="pass_by_obj" isopaque="yes">
-								<value>False</value>
 							</regnode>
 							<attribute kind="Description" status="meta">
 								<value></value>
 							</attribute>
 							<attribute kind="ManagedGUID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Value">
-								<value>0.0</value>
-							</attribute>
-						</reference>
-						<reference id="id-0067-00000744" kind="Parameter" role="Parameter" guid="{e009dd4a-d030-4793-9f8c-253ed7f54c09}" relid="0x2">
-							<name>x</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="ValueFlowAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>20,65</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<regnode name="pass_by_obj" isopaque="yes">
-								<value>False</value>
-							</regnode>
-							<attribute kind="ComputationType" status="meta">
-								<value>Addition</value>
-							</attribute>
-							<attribute kind="DataType" status="meta">
-								<value>String</value>
-							</attribute>
-							<attribute kind="DefaultValue" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Description" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Dimension" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Disable" status="meta">
-								<value>false</value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ManagedGUID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Range" status="meta">
-								<value>-inf..inf</value>
-							</attribute>
-							<attribute kind="Type" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Value" status="meta">
-								<value></value>
-							</attribute>
-						</reference>
-						<reference id="id-0067-00000745" kind="Parameter" role="Parameter" guid="{1b1c2125-fff1-4371-94da-dbfff83f8999}" relid="0x3">
-							<name>y</name>
-							<regnode name="PartRegs" status="undefined">
-								<value></value>
-								<regnode name="ValueFlowAspect" status="undefined">
-									<value></value>
-									<regnode name="Position" isopaque="yes">
-										<value>20,130</value>
-									</regnode>
-								</regnode>
-							</regnode>
-							<regnode name="pass_by_obj" isopaque="yes">
-								<value>False</value>
-							</regnode>
-							<attribute kind="ComputationType" status="meta">
-								<value>Addition</value>
-							</attribute>
-							<attribute kind="DataType" status="meta">
-								<value>String</value>
-							</attribute>
-							<attribute kind="DefaultValue" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Description" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Dimension" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Disable" status="meta">
-								<value>false</value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ManagedGUID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="Range" status="meta">
-								<value>-inf..inf</value>
-							</attribute>
-							<attribute kind="Type" status="meta">
 								<value></value>
 							</attribute>
 							<attribute kind="Value" status="meta">
@@ -9817,34 +9667,7 @@
 							</attribute>
 						</reference>
 					</model>
-					<connection id="id-0068-0000012c" kind="VariableSweep" role="VariableSweep" guid="{5d89c4bf-bdf1-404a-ba75-359e266eaef4}" relid="0x9">
-						<name>VariableSweep</name>
-						<regnode name="color" isopaque="yes">
-							<value>0xff80c0</value>
-						</regnode>
-						<regnode name="dstStyle" isopaque="yes">
-							<value>arrow</value>
-						</regnode>
-						<connpoint role="src" target="id-0067-0000073c"/>
-						<connpoint role="dst" target="id-0067-00000742"/>
-					</connection>
-					<connection id="id-0068-0000012e" kind="ResultFlow" role="ResultFlow" guid="{ef4c7f97-fd80-4ac7-aded-1f74778d41b3}" relid="0xc">
-						<name>ResultFlow</name>
-						<connpoint role="src" target="id-0067-00000741"/>
-						<connpoint role="dst" target="id-0067-00000744"/>
-					</connection>
-					<connection id="id-0068-0000012f" kind="VariableSweep" role="VariableSweep" guid="{f91726e5-4750-436e-8f9b-64a6a91e876d}" relid="0xd">
-						<name>VariableSweep</name>
-						<regnode name="color" isopaque="yes">
-							<value>0xff80c0</value>
-						</regnode>
-						<regnode name="dstStyle" isopaque="yes">
-							<value>arrow</value>
-						</regnode>
-						<connpoint role="src" target="id-0067-0000073e"/>
-						<connpoint role="dst" target="id-0067-00000745"/>
-					</connection>
-					<connection id="id-0068-00000130" kind="ObjectiveMapping" role="ObjectiveMapping" guid="{0ff40337-6c04-4484-b01e-09dc4c7af4d7}" relid="0xe">
+					<connection id="id-0068-0000012b" kind="ObjectiveMapping" role="ObjectiveMapping" guid="{78752997-9368-447e-b747-1a4366fa49ff}" relid="0x12">
 						<name>ObjectiveMapping</name>
 						<regnode name="color" isopaque="yes">
 							<value>0x7cadde</value>
@@ -9852,18 +9675,30 @@
 						<regnode name="dstStyle" isopaque="yes">
 							<value>arrow</value>
 						</regnode>
-						<connpoint role="dst" target="id-0067-0000073d"/>
-						<connpoint role="src" target="id-0067-00000743"/>
+						<connpoint role="dst" target="id-0067-0000073c"/>
+						<connpoint role="src" target="id-0067-00000740"/>
 					</connection>
-					<connection id="id-0068-00000131" kind="IntermediateVariableMapping" role="IntermediateVariableMapping" guid="{6824f4b6-28d9-469a-952f-b5ccd5499364}" relid="0xf">
-						<name>IntermediateVariableMapping</name>
-						<connpoint role="src" target="id-0067-00000741"/>
-						<connpoint role="dst" target="id-0067-00000746"/>
+					<connection id="id-0068-0000012c" kind="VariableSweep" role="VariableSweep" guid="{3afe4f11-b6d3-4029-8ef6-91ffec6c2ffd}" relid="0x13">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-0000073d"/>
+						<connpoint role="dst" target="id-0067-0000073f"/>
 					</connection>
-					<connection id="id-0068-00000132" kind="ConstraintMapping" role="ConstraintMapping" guid="{ca970d60-e91c-49b9-b854-8cc93f21fb6a}" relid="0x10">
-						<name>ConstraintMapping</name>
-						<connpoint role="src" target="id-0067-00000743"/>
-						<connpoint role="dst" target="id-0067-00000747"/>
+					<connection id="id-0068-0000012d" kind="VariableSweep" role="VariableSweep" guid="{e22c016d-cf8e-4b61-928b-2e694e95c15d}" relid="0x14">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-0000073d"/>
+						<connpoint role="dst" target="id-0067-0000073e"/>
 					</connection>
 				</model>
 			</folder>
@@ -29794,7 +29629,7 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131619799684593518</value>
+				<value>131611317670472472</value>
 			</regnode>
 		</folder>
 		<folder id="id-006a-0000001e" relid="0x21" childrelidcntr="0xc" libref="PortLibrary CyPhy_PortLib" kind="RootFolder" guid="{e30db627-2b68-46a7-ad9b-fff19a95efda}">
@@ -29803,7 +29638,100 @@
 				<name>Interface and Port Definitions</name>
 				<folder id="id-006a-00000020" relid="0x1" childrelidcntr="0x7" kind="Ports" guid="{cff68f7d-8940-4331-890e-3d4794150476}">
 					<name>Ports</name>
-					<folder id="id-006a-00000021" relid="0x2" childrelidcntr="0x1d" kind="Ports" guid="{2371312e-1a75-4e56-896a-9d5f9310c011}">
+					<folder id="id-006a-00000021" relid="0x7" childrelidcntr="0x6" kind="Ports" guid="{13ba5590-7ffd-4507-88a8-e032f22a6214}">
+						<name>Abstract Ports</name>
+						<atom id="id-0066-0000013a" kind="AbstractPort" guid="{a8650e97-3904-46a5-8e6a-46dcfd53b07e}" relid="0x6">
+							<name>Bus</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000013b" kind="AbstractPort" guid="{0658454a-9591-40d6-8cf5-3a117bacdecc}" relid="0x5">
+							<name>InputSignal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000013c" kind="AbstractPort" guid="{d783cbdd-9d17-4702-9951-f5f21a3728ee}" relid="0x4">
+							<name>OutputSignal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000013d" kind="AbstractPort" guid="{a33f1164-05f3-4bc7-b863-1833ab2e8068}" relid="0x3">
+							<name>Signal</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000013e" kind="AbstractPort" guid="{21022279-949a-4dba-9b5d-c18bdf79c690}" relid="0x2">
+							<name>RotationalPower</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+						<atom id="id-0066-0000013f" kind="AbstractPort" guid="{0ebfb901-0ca1-4ed0-a0a9-0fc03ade6455}" relid="0x1">
+							<name>ElectricalPower</name>
+							<attribute kind="Definition" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="DefinitionNotes" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="ID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="InstanceNotes" status="meta">
+								<value></value>
+							</attribute>
+						</atom>
+					</folder>
+					<folder id="id-006a-00000022" relid="0x2" childrelidcntr="0x1d" kind="Ports" guid="{2371312e-1a75-4e56-896a-9d5f9310c011}">
 						<name>Modelica Ports</name>
 						<model id="id-0065-000004ef" kind="ModelicaConnector" guid="{bccaad47-c177-41bd-95f7-9778485145b0}" relid="0x1d" childrelidcntr="0x1">
 							<name>FlowPort</name>
@@ -30164,7 +30092,7 @@
 							<attribute kind="Locator" status="meta">
 								<value></value>
 							</attribute>
-							<atom id="id-0066-0000013a" kind="ModelicaRedeclare" role="ModelicaRedeclare" guid="{cfa8260c-ca75-4ce2-9baf-497956aafe6a}" relid="0x2">
+							<atom id="id-0066-00000140" kind="ModelicaRedeclare" role="ModelicaRedeclare" guid="{cfa8260c-ca75-4ce2-9baf-497956aafe6a}" relid="0x2">
 								<name>Medium</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -30508,102 +30436,9 @@
 							</attribute>
 						</model>
 					</folder>
-					<folder id="id-006a-00000022" relid="0x7" childrelidcntr="0x6" kind="Ports" guid="{13ba5590-7ffd-4507-88a8-e032f22a6214}">
-						<name>Abstract Ports</name>
-						<atom id="id-0066-0000013b" kind="AbstractPort" guid="{a8650e97-3904-46a5-8e6a-46dcfd53b07e}" relid="0x6">
-							<name>Bus</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000013c" kind="AbstractPort" guid="{0658454a-9591-40d6-8cf5-3a117bacdecc}" relid="0x5">
-							<name>InputSignal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000013d" kind="AbstractPort" guid="{d783cbdd-9d17-4702-9951-f5f21a3728ee}" relid="0x4">
-							<name>OutputSignal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000013e" kind="AbstractPort" guid="{a33f1164-05f3-4bc7-b863-1833ab2e8068}" relid="0x3">
-							<name>Signal</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-0000013f" kind="AbstractPort" guid="{21022279-949a-4dba-9b5d-c18bdf79c690}" relid="0x2">
-							<name>RotationalPower</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-						<atom id="id-0066-00000140" kind="AbstractPort" guid="{0ebfb901-0ca1-4ed0-a0a9-0fc03ade6455}" relid="0x1">
-							<name>ElectricalPower</name>
-							<attribute kind="Definition" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="DefinitionNotes" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="ID" status="meta">
-								<value></value>
-							</attribute>
-							<attribute kind="InstanceNotes" status="meta">
-								<value></value>
-							</attribute>
-						</atom>
-					</folder>
 					<model id="id-0065-000004ee" kind="TaxonomySheet" guid="{35cf821a-d8ca-4df1-b681-be01422f55e3}" relid="0x6" childrelidcntr="0x15">
 						<name>Taxonomy</name>
-						<reference id="id-0067-0000072f" kind="PortReference" role="PortReference" guid="{e340a072-8d95-4da0-8e0c-a2f20630d6aa}" relid="0x12" referred="id-0066-0000013e">
+						<reference id="id-0067-0000072f" kind="PortReference" role="PortReference" guid="{e340a072-8d95-4da0-8e0c-a2f20630d6aa}" relid="0x12" referred="id-0066-0000013d">
 							<name>Signal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -30654,7 +30489,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000733" kind="PortReference" role="PortReference" guid="{a0f76c16-e98a-41b3-a900-2bd821fdb415}" relid="0xb" referred="id-0066-0000013d">
+						<reference id="id-0067-00000733" kind="PortReference" role="PortReference" guid="{a0f76c16-e98a-41b3-a900-2bd821fdb415}" relid="0xb" referred="id-0066-0000013c">
 							<name>OutputSignal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -30705,7 +30540,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000737" kind="PortReference" role="PortReference" guid="{640fc63b-a59a-4e62-8dd6-46f237a7622d}" relid="0x4" referred="id-0066-0000013c">
+						<reference id="id-0067-00000737" kind="PortReference" role="PortReference" guid="{640fc63b-a59a-4e62-8dd6-46f237a7622d}" relid="0x4" referred="id-0066-0000013b">
 							<name>InputSignal</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -30732,7 +30567,7 @@
 								</regnode>
 							</regnode>
 						</reference>
-						<reference id="id-0067-00000739" kind="PortReference" role="PortReference" guid="{27293166-6e07-4ad5-8fc4-025907ac30e8}" relid="0x1" referred="id-0066-00000140">
+						<reference id="id-0067-00000739" kind="PortReference" role="PortReference" guid="{27293166-6e07-4ad5-8fc4-025907ac30e8}" relid="0x1" referred="id-0066-0000013f">
 							<name>ElectricalPower</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -30802,7 +30637,7 @@
 				</folder>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131619799710763206</value>
+				<value>131611317677109194</value>
 			</regnode>
 		</folder>
 		<folder id="id-006a-00000023" relid="0x22" childrelidcntr="0xd" libref="MaterialLibrary CyPhy_MaterialLib" kind="RootFolder" guid="{5057546a-d298-4963-b477-b9ccbdb4da76}">
@@ -31756,7 +31591,7 @@
 				</atom>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131619799718683305</value>
+				<value>131611317683654832</value>
 			</regnode>
 		</folder>
 		<folder id="id-006a-00000025" relid="0x23" childrelidcntr="0x8" libref="CADResourceLibrary" kind="RootFolder" guid="{13b19e07-ff61-4a7f-82c6-58dea72fb96f}">
@@ -34225,7 +34060,7 @@
 				</model>
 			</folder>
 			<regnode name="modtime" isopaque="yes">
-				<value>131619799726583315</value>
+				<value>131611317691635349</value>
 			</regnode>
 		</folder>
 	</folder>
