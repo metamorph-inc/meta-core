@@ -71,6 +71,7 @@ namespace PythonTest
                     "testbenchexecutor",
                     "excel_wrapper",
                     "matlab_wrapper",
+                    "pythoncom",
             };
 
             foreach (var test in module_names.Select(moduleName =>
