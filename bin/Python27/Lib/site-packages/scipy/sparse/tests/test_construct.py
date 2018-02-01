@@ -4,8 +4,11 @@ from __future__ import division, print_function, absolute_import
 
 import numpy as np
 from numpy import array, matrix
-from numpy.testing import (TestCase, run_module_suite, assert_equal, assert_,
-        assert_array_equal, assert_raises, assert_array_almost_equal_nulp)
+from numpy.testing import (assert_equal, assert_,
+        assert_array_equal, assert_array_almost_equal_nulp)
+import pytest
+from pytest import raises as assert_raises
+from scipy._lib._testutils import check_free_memory
 
 from scipy.sparse import csr_matrix, coo_matrix
 
@@ -28,7 +31,7 @@ def _sprandn(m, n, density=0.01, format="coo", dtype=None, random_state=None):
                             random_state, data_rvs)
 
 
-class TestConstructUtils(TestCase):
+class TestConstructUtils(object):
     def test_spdiags(self):
         diags1 = array([[1, 2, 3, 4, 5]])
         diags2 = array([[1, 2, 3, 4, 5],
@@ -168,8 +171,7 @@ class TestConstructUtils(TestCase):
         cases.append(([a[:2],c,b[:3]], [-4,2,-1], (6, 5)))
         cases.append(([a[:2],c,b[:3]], [-4,2,-1], None))
         cases.append(([], [-4,2,-1], None))
-        cases.append(([1], [-4], (4, 4)))
-        cases.append(([a[:0]], [-1], (1, 2)))
+        cases.append(([1], [-5], (4, 4)))
         cases.append(([a], 0, None))
 
         for d, o, shape in cases:
@@ -218,6 +220,10 @@ class TestConstructUtils(TestCase):
         for k in range(-5, 6):
             assert_equal(construct.diags(d, k).toarray(),
                          construct.diags([d], [k]).toarray())
+
+    def test_diags_empty(self):
+        x = construct.diags([])
+        assert_equal(x.shape, (0, 0))
 
     def test_identity(self):
         assert_equal(construct.identity(1).toarray(), [[1]])
@@ -316,6 +322,10 @@ class TestConstructUtils(TestCase):
                      expected)
         assert_equal(construct.vstack([A.tocsr(),B.tocsr()], dtype=np.float32).dtype,
                      np.float32)
+        assert_equal(construct.vstack([A.tocsr(),B.tocsr()],
+                                      dtype=np.float32).indices.dtype, np.int32)
+        assert_equal(construct.vstack([A.tocsr(),B.tocsr()],
+                                      dtype=np.float32).indptr.dtype, np.int32)
 
     def test_hstack(self):
 
@@ -362,8 +372,27 @@ class TestConstructUtils(TestCase):
         assert_equal(construct.bmat([[None,D],[C,None]]).todense(), expected)
 
         # test failure cases
-        assert_raises(ValueError, construct.bmat, [[A],[B]])
-        assert_raises(ValueError, construct.bmat, [[A,C]])
+        with assert_raises(ValueError) as excinfo:
+            construct.bmat([[A], [B]])
+        excinfo.match(r'Got blocks\[1,0\]\.shape\[1\] == 1, expected 2')
+
+        with assert_raises(ValueError) as excinfo:
+            construct.bmat([[A, C]])
+        excinfo.match(r'Got blocks\[0,1\]\.shape\[0\] == 1, expected 2')
+
+    @pytest.mark.slow
+    def test_concatenate_int32_overflow(self):
+        """ test for indptr overflow when concatenating matrices """
+        check_free_memory(30000)
+        
+        n = 33000
+        A = csr_matrix(np.ones((n, n), dtype=bool))
+        B = A.copy()
+        C = construct._compressed_sparse_stack((A,B), 0)
+        
+        assert_(np.all(np.equal(np.diff(C.indptr), n)))
+        assert_equal(C.indices.dtype, np.int64)
+        assert_equal(C.indptr.dtype, np.int64)
 
     def test_block_diag_basic(self):
         """ basic test for block_diag """
@@ -449,6 +478,3 @@ class TestConstructUtils(TestCase):
         # for the dtype
         a = construct.random(10, 10, dtype='d')
 
-
-if __name__ == "__main__":
-    run_module_suite()

@@ -168,7 +168,7 @@ _doc_parts = dict(
     F : function(x) -> f
         Function whose root to find; should take and return an array-like
         object.
-    x0 : array_like
+    xin : array_like
         Initial guess for the solution
     """.strip(),
     params_extra="""
@@ -260,7 +260,7 @@ def nonlin_solve(F, x0, jacobian='krylov', iter=None, verbose=False,
     ----------
     .. [KIM] C. T. Kelley, \"Iterative Methods for Linear and Nonlinear
        Equations\". Society for Industrial and Applied Mathematics. (1995)
-       http://www.siam.org/books/kelley/
+       http://www.siam.org/books/kelley/fr16/index.php
 
     """
 
@@ -543,7 +543,7 @@ class Jacobian(object):
         self.dtype = F.dtype
         if self.__class__.setup is Jacobian.setup:
             # Call on the first point unless overridden
-            self.update(self, x, F)
+            self.update(x, F)
 
 
 class InverseJacobian(object):
@@ -1015,7 +1015,7 @@ class BroydenSecond(BroydenFirst):
     -----
     This algorithm implements the inverse Jacobian Quasi-Newton update
 
-    .. math:: H_+ = H + (dx - H df) df^\dagger / ( df^\dagger df)
+    .. math:: H_+ = H + (dx - H df) df^\\dagger / ( df^\\dagger df)
 
     corresponding to Broyden's second method.
 
@@ -1391,10 +1391,10 @@ class KrylovJacobian(Jacobian):
     References
     ----------
     .. [1] D.A. Knoll and D.E. Keyes, J. Comp. Phys. 193, 357 (2004).
-           doi:10.1016/j.jcp.2003.08.010
+           :doi:`10.1016/j.jcp.2003.08.010`
     .. [2] A.H. Baker and E.R. Jessup and T. Manteuffel,
            SIAM J. Matrix Anal. Appl. 26, 962 (2005).
-           doi:10.1137/S0895479803422014
+           :doi:`10.1137/S0895479803422014`
 
     """
 
@@ -1422,6 +1422,7 @@ class KrylovJacobian(Jacobian):
             self.method_kw['maxiter'] = 1
             # Carry LGMRES's `outer_v` vectors across nonlinear iterations
             self.method_kw.setdefault('outer_v', [])
+            self.method_kw.setdefault('prepend_outer_v', True)
             # But don't carry the corresponding Jacobian*v products, in case
             # the Jacobian changes a lot in the nonlinear step
             #

@@ -25,8 +25,8 @@ Sources:
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
-from matplotlib.externals import six
-from matplotlib.externals.six import unichr
+import six
+from six import unichr
 
 import binascii
 import io
@@ -306,8 +306,7 @@ class Type1Font(object):
                  b'/FontMatrix': replace(fontmatrix),
                  b'/UniqueID': suppress}
 
-        while True:
-            token, value = next(tokens)
+        for token, value in tokens:
             if token is cls._name and value in table:
                 for value in table[value](itertools.chain([(token, value)],
                                                           tokens)):

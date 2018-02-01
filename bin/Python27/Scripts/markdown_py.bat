@@ -1,1 +1,1 @@
-@"c:\users\kevin\downloads\markdown\scripts\python.exe" "c:\users\kevin\downloads\markdown\Scripts\markdown_py" %*
+@"C:\Users\kevin\Documents\meta-core\bin\Python27\Scripts\python.exe" "C:\Users\kevin\Documents\meta-core\bin\Python27\Scripts\markdown_py" %*

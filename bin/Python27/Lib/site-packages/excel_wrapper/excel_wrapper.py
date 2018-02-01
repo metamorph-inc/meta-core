@@ -146,7 +146,7 @@ class ExcelWrapper(Component):
                     cell = wb.Names(name)
                 except pythoncom.com_error as e:
                     if e.hresult == winerror.DISP_E_EXCEPTION:
-                        if (0xffffffff & e.excepinfo[-1]) == 0x800a03ecL:  # seems to be a catch-all Excel error
+                        if (0xffffffff & e.excepinfo[-1]) == 0x800a03ec:  # seems to be a catch-all Excel error
                             raise ValueError("Unknown named cell '{}'".format(name))
                     raise e
                 self.xlInstance.Range(cell.RefersToLocal).Value = params[name]

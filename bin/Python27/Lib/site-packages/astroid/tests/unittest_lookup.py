@@ -1,20 +1,11 @@
-# copyright 2003-2013 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2007-2013 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>
+# Copyright (c) 2014-2016 Claudiu Popa <pcmanticore@gmail.com>
+# Copyright (c) 2014 Google, Inc.
+# Copyright (c) 2015-2016 Cara Vinson <ceridwenv@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 """tests for the astroid variable lookup capabilities
 """
 import functools
@@ -25,7 +16,6 @@ from astroid import builder
 from astroid import exceptions
 from astroid import nodes
 from astroid import scoped_nodes
-from astroid import test_utils
 from astroid import util
 from astroid.tests import resources
 
@@ -57,12 +47,11 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
         if sys.version_info < (3, 0):
             self.assertEqual(len(astroid.lookup('b')[1]), 1)
             self.assertEqual(len(astroid.lookup('a')[1]), 1)
-            b = astroid._locals['b'][1]
+            b = astroid.locals['b'][1]
         else:
             self.assertEqual(len(astroid.lookup('b')[1]), 1)
             self.assertEqual(len(astroid.lookup('a')[1]), 1)
-            b = astroid._locals['b'][0]
-
+            b = astroid.locals['b'][0]
         stmts = a.lookup('a')[1]
         self.assertEqual(len(stmts), 1)
         self.assertEqual(b.lineno, 6)
@@ -71,7 +60,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
         self.assertEqual(b_value.value, 1)
         # c
         self.assertRaises(StopIteration, functools.partial(next, b_infer))
-        func = astroid._locals['func'][0]
+        func = astroid.locals['func'][0]
         self.assertEqual(len(func.lookup('c')[1]), 1)
 
     def test_module(self):
@@ -97,8 +86,8 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
                 pass
         '''
         astroid = builder.parse(code, __name__)
-        cls1 = astroid._locals['A'][0]
-        cls2 = astroid._locals['A'][1]
+        cls1 = astroid.locals['A'][0]
+        cls2 = astroid.locals['A'][1]
         name = next(cls2.nodes_of_class(nodes.Name))
         self.assertEqual(next(name.infer()), cls1)
 
@@ -173,9 +162,9 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
         """)
         var = astroid.body[1].value
         if sys.version_info < (3, 0):
-            self.assertEqual(var.inferred(), [util.YES])
+            self.assertEqual(var.inferred(), [util.Uninferable])
         else:
-            self.assertRaises(exceptions.UnresolvableName, var.inferred)
+            self.assertRaises(exceptions.NameInferenceError, var.inferred)
 
     def test_dict_comps(self):
         astroid = builder.parse("""
@@ -211,7 +200,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
             var
         """)
         var = astroid.body[1].value
-        self.assertRaises(exceptions.UnresolvableName, var.inferred)
+        self.assertRaises(exceptions.NameInferenceError, var.inferred)
 
     def test_generator_attributes(self):
         tree = builder.parse("""
@@ -251,7 +240,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
         self.assertTrue(p2.getattr('__name__'))
         self.assertTrue(astroid['NoName'].getattr('__name__'))
         p3 = next(astroid['p3'].infer())
-        self.assertRaises(exceptions.NotFoundError, p3.getattr, '__name__')
+        self.assertRaises(exceptions.AttributeInferenceError, p3.getattr, '__name__')
 
     def test_function_module_special(self):
         astroid = builder.parse('''
@@ -268,6 +257,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
         self.assertEqual(len(intstmts), 1)
         self.assertIsInstance(intstmts[0], nodes.ClassDef)
         self.assertEqual(intstmts[0].name, 'int')
+        # pylint: disable=no-member; union type in const_factory, this shouldn't happen
         self.assertIs(intstmts[0], nodes.const_factory(1)._proxied)
 
     def test_decorator_arguments_lookup(self):
@@ -284,7 +274,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
                 def test(self):
                     pass
         '''
-        member = test_utils.extract_node(code, __name__).targets[0]
+        member = builder.extract_node(code, __name__).targets[0]
         it = member.infer()
         obj = next(it)
         self.assertIsInstance(obj, nodes.Const)
@@ -301,7 +291,7 @@ class LookupTest(resources.SysPathSetup, unittest.TestCase):
                 def funcA():
                     return 4
         '''
-        decname = test_utils.extract_node(code, __name__)
+        decname = builder.extract_node(code, __name__)
         it = decname.infer()
         obj = next(it)
         self.assertIsInstance(obj, nodes.FunctionDef)

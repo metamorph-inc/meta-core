@@ -6,7 +6,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
-from matplotlib.externals import six
+import six
 
 from docutils.nodes import Body, Element
 from docutils.parsers.rst import directives
@@ -70,3 +70,6 @@ def setup(app):
     app.add_node(latex_only,
                  latex=(visit_perform, depart_perform),
                  html=(visit_ignore, depart_ignore))
+
+    metadata = {'parallel_read_safe': True, 'parallel_write_safe': True}
+    return metadata

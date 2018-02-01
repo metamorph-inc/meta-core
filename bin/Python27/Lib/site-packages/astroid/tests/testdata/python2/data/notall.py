@@ -3,5 +3,5 @@ _bla = 2
 other = 'o'
 class Aaa: pass
 
-def func(): print('yo')
+def func(): return 'yo'
 

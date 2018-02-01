@@ -6,7 +6,7 @@
 
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-from matplotlib.externals import six
+import six
 import warnings
 
 import matplotlib.cbook as cbook
@@ -56,14 +56,12 @@ class ToolManager(object):
         `LockDraw` object to know if the message is available to write
     """
 
-    def __init__(self, canvas):
+    def __init__(self, figure=None):
         warnings.warn('Treat the new Tool classes introduced in v1.5 as ' +
                        'experimental for now, the API will likely change in ' +
                        'version 2.1 and perhaps the rcParam as well')
-        self.canvas = canvas
 
-        self._key_press_handler_id = self.canvas.mpl_connect(
-            'key_press_event', self._key_press)
+        self._key_press_handler_id = None
 
         self._tools = {}
         self._keys = {}
@@ -74,12 +72,51 @@ class ToolManager(object):
         self.keypresslock = widgets.LockDraw()
         self.messagelock = widgets.LockDraw()
 
+        self._figure = None
+        self.set_figure(figure)
+
+    @property
+    def canvas(self):
+        """Canvas managed by FigureManager"""
+        if not self._figure:
+            return None
+        return self._figure.canvas
+
+    @property
+    def figure(self):
+        """Figure that holds the canvas"""
+        return self._figure
+
+    @figure.setter
+    def figure(self, figure):
+        self.set_figure(figure)
+
+    def set_figure(self, figure, update_tools=True):
+        """
+        Sets the figure to interact with the tools
+
+        Parameters
+        ==========
+        figure: `Figure`
+        update_tools: bool
+            Force tools to update figure
+        """
+        if self._key_press_handler_id:
+            self.canvas.mpl_disconnect(self._key_press_handler_id)
+        self._figure = figure
+        if figure:
+            self._key_press_handler_id = self.canvas.mpl_connect(
+                'key_press_event', self._key_press)
+        if update_tools:
+            for tool in self._tools.values():
+                tool.figure = figure
+
     def toolmanager_connect(self, s, func):
         """
         Connect event with string *s* to *func*.
 
         Parameters
-        -----------
+        ----------
         s : String
             Name of the event
 
@@ -138,7 +175,7 @@ class ToolManager(object):
             Name of the Tool
 
         Returns
-        ----------
+        -------
         list : list of keys associated with the Tool
         """
 
@@ -245,6 +282,11 @@ class ToolManager(object):
             else:
                 self._toggled.setdefault(tool_obj.radio_group, None)
 
+            # If initially toggled
+            if tool_obj.toggled:
+                self._handle_toggle(tool_obj, None, None, None)
+        tool_obj.set_figure(self.figure)
+
         self._tool_added_event(tool_obj)
         return tool_obj
 
@@ -273,7 +315,7 @@ class ToolManager(object):
         # radio_group None is not mutually exclusive
         # just keep track of toggled tools in this group
         if radio_group is None:
-            if tool.toggled:
+            if tool.name in self._toggled[None]:
                 self._toggled[None].remove(tool.name)
             else:
                 self._toggled[None].add(tool.name)
@@ -379,7 +421,7 @@ class ToolManager(object):
         Return the tool object, also accepts the actual tool for convenience
 
         Parameters
-        -----------
+        ----------
         name : str, ToolBase
             Name of the tool, or the tool itself
         warn : bool, optional

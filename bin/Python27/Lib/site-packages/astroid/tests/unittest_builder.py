@@ -1,20 +1,11 @@
-# copyright 2003-2013 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2006-2014 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>
+# Copyright (c) 2014-2016 Claudiu Popa <pcmanticore@gmail.com>
+# Copyright (c) 2014-2015 Google, Inc.
+# Copyright (c) 2015-2016 Cara Vinson <ceridwenv@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 """tests for the astroid builder and rebuilder module"""
 
 import os
@@ -120,7 +111,8 @@ class FromToLineNoTest(unittest.TestCase):
                 print (arg)
             ''', __name__)
         function = astroid['function']
-        self.assertEqual(function.fromlineno, 3) # XXX discussable, but that's what is expected by pylint right now
+        # XXX discussable, but that's what is expected by pylint right now
+        self.assertEqual(function.fromlineno, 3)
         self.assertEqual(function.tolineno, 5)
         self.assertEqual(function.decorators.fromlineno, 2)
         self.assertEqual(function.decorators.tolineno, 2)
@@ -255,11 +247,11 @@ class BuilderTest(unittest.TestCase):
         self.builder = builder.AstroidBuilder()
 
     def test_data_build_null_bytes(self):
-        with self.assertRaises(exceptions.AstroidBuildingException):
+        with self.assertRaises(exceptions.AstroidSyntaxError):
             self.builder.string_build('\x00')
 
     def test_data_build_invalid_x_escape(self):
-        with self.assertRaises(exceptions.AstroidBuildingException):
+        with self.assertRaises(exceptions.AstroidSyntaxError):
             self.builder.string_build('"\\x1"')
 
     def test_missing_newline(self):
@@ -267,7 +259,7 @@ class BuilderTest(unittest.TestCase):
         resources.build_file('data/noendingnewline.py')
 
     def test_missing_file(self):
-        with self.assertRaises(exceptions.AstroidBuildingException):
+        with self.assertRaises(exceptions.AstroidBuildingError):
             resources.build_file('data/inexistant.py')
 
     def test_inspect_build0(self):
@@ -331,8 +323,8 @@ class BuilderTest(unittest.TestCase):
     @test_utils.require_version(maxver='3.0')
     def test_inspect_build_instance(self):
         """test astroid tree build from a living object"""
-        import exceptions
-        builtin_ast = self.builder.inspect_build(exceptions)
+        import exceptions as builtin_exceptions
+        builtin_ast = self.builder.inspect_build(builtin_exceptions)
         fclass = builtin_ast['OSError']
         # things like OSError.strerror are now (2.5) data descriptors on the
         # class instead of entries in the __dict__ of an instance
@@ -378,6 +370,9 @@ class BuilderTest(unittest.TestCase):
         datap = resources.build_file('data/__init__.py', 'data.__init__')
         self.assertEqual(datap.name, 'data')
         self.assertEqual(datap.package, 1)
+        datap = resources.build_file('data/tmp__init__.py', 'data.tmp__init__')
+        self.assertEqual(datap.name, 'data.tmp__init__')
+        self.assertEqual(datap.package, 0)
 
     def test_yield_parent(self):
         """check if we added discard nodes as yield parent (w/ compiler)"""
@@ -387,7 +382,7 @@ class BuilderTest(unittest.TestCase):
                 if noe:
                     yield more
         """
-        func = test_utils.extract_node(code)
+        func = builder.extract_node(code)
         self.assertIsInstance(func, nodes.FunctionDef)
         stmt = func.body[0]
         self.assertIsInstance(stmt, nodes.Expr)
@@ -451,7 +446,7 @@ class BuilderTest(unittest.TestCase):
         self.assertIsInstance(astroid.getattr('CSTE')[0], nodes.AssignName)
         self.assertEqual(astroid.getattr('CSTE')[0].fromlineno, 2)
         self.assertEqual(astroid.getattr('CSTE')[1].fromlineno, 6)
-        with self.assertRaises(exceptions.NotFoundError):
+        with self.assertRaises(exceptions.AttributeInferenceError):
             astroid.getattr('CSTE2')
         with self.assertRaises(exceptions.InferenceError):
             next(astroid['global_no_effect'].ilookup('CSTE2'))
@@ -482,22 +477,22 @@ class BuilderTest(unittest.TestCase):
         n = test_utils.get_name_node(astroid, 'n')
         self.assertIsNot(n.scope(), astroid)
         self.assertEqual([i.__class__ for i in n.infer()],
-                         [util.YES.__class__])
+                         [util.Uninferable.__class__])
 
     def test_no_future_imports(self):
         mod = builder.parse("import sys")
-        self.assertEqual(set(), mod._future_imports)
+        self.assertEqual(set(), mod.future_imports)
 
     def test_future_imports(self):
         mod = builder.parse("from __future__ import print_function")
-        self.assertEqual(set(['print_function']), mod._future_imports)
+        self.assertEqual(set(['print_function']), mod.future_imports)
 
     def test_two_future_imports(self):
         mod = builder.parse("""
             from __future__ import print_function
             from __future__ import absolute_import
             """)
-        self.assertEqual(set(['print_function', 'absolute_import']), mod._future_imports)
+        self.assertEqual(set(['print_function', 'absolute_import']), mod.future_imports)
 
     def test_inferred_build(self):
         code = '''
@@ -512,8 +507,8 @@ class BuilderTest(unittest.TestCase):
         lclass = list(astroid.igetattr('A'))
         self.assertEqual(len(lclass), 1)
         lclass = lclass[0]
-        self.assertIn('assign_type', lclass._locals)
-        self.assertIn('type', lclass._locals)
+        self.assertIn('assign_type', lclass.locals)
+        self.assertIn('type', lclass.locals)
 
     def test_augassign_attr(self):
         builder.parse("""
@@ -534,22 +529,23 @@ class BuilderTest(unittest.TestCase):
             '''
         builder.parse(code)
         nonetype = nodes.const_factory(None)
-        self.assertNotIn('custom_attr', nonetype._locals)
-        self.assertNotIn('custom_attr', nonetype._instance_attrs)
+        # pylint: disable=no-member; union type in const_factory, this shouldn't happen
+        self.assertNotIn('custom_attr', nonetype.locals)
+        self.assertNotIn('custom_attr', nonetype.instance_attrs)
         nonetype = nodes.const_factory({})
-        self.assertNotIn('custom_attr', nonetype._locals)
-        self.assertNotIn('custom_attr', nonetype._instance_attrs)
+        self.assertNotIn('custom_attr', nonetype.locals)
+        self.assertNotIn('custom_attr', nonetype.instance_attrs)
 
     def test_asstuple(self):
         code = 'a, b = range(2)'
         astroid = builder.parse(code)
-        self.assertIn('b', astroid._locals)
+        self.assertIn('b', astroid.locals)
         code = '''
             def visit_if(self, node):
                 node.test, body = node.tests[0]
             '''
         astroid = builder.parse(code)
-        self.assertIn('body', astroid['visit_if']._locals)
+        self.assertIn('body', astroid['visit_if'].locals)
 
     def test_build_constants(self):
         '''test expected values of constants after rebuilding'''
@@ -568,7 +564,7 @@ class BuilderTest(unittest.TestCase):
         self.assertEqual(chain.value, 'None')
 
     def test_not_implemented(self):
-        node = test_utils.extract_node('''
+        node = builder.extract_node('''
         NotImplemented #@
         ''')
         inferred = next(node.infer())
@@ -589,7 +585,7 @@ class FileBuildTest(unittest.TestCase):
         self.assertIsNone(module.parent)
         self.assertEqual(module.frame(), module)
         self.assertEqual(module.root(), module)
-        self.assertEqual(module.source_file, os.path.abspath(resources.find('data/module.py')))
+        self.assertEqual(module.file, os.path.abspath(resources.find('data/module.py')))
         self.assertEqual(module.pure_python, 1)
         self.assertEqual(module.package, 0)
         self.assertFalse(module.is_statement)
@@ -599,8 +595,8 @@ class FileBuildTest(unittest.TestCase):
     def test_module_locals(self):
         """test the 'locals' dictionary of a astroid module"""
         module = self.module
-        _locals = module._locals
-        self.assertIs(_locals, module._globals)
+        _locals = module.locals
+        self.assertIs(_locals, module.globals)
         keys = sorted(_locals.keys())
         should = ['MY_DICT', 'NameNode', 'YO', 'YOUPI',
                   '__revision__', 'global_access', 'modutils', 'four_args',
@@ -624,7 +620,7 @@ class FileBuildTest(unittest.TestCase):
 
     def test_function_locals(self):
         """test the 'locals' dictionary of a astroid function"""
-        _locals = self.module['global_access']._locals
+        _locals = self.module['global_access'].locals
         self.assertEqual(len(_locals), 4)
         keys = sorted(_locals.keys())
         self.assertEqual(keys, ['i', 'key', 'local', 'val'])
@@ -650,11 +646,11 @@ class FileBuildTest(unittest.TestCase):
         """test the 'locals' dictionary of a astroid class"""
         module = self.module
         klass1 = module['YO']
-        locals1 = klass1._locals
+        locals1 = klass1.locals
         keys = sorted(locals1.keys())
         self.assertEqual(keys, ['__init__', 'a'])
         klass2 = module['YOUPI']
-        locals2 = klass2._locals
+        locals2 = klass2.locals
         keys = locals2.keys()
         self.assertEqual(sorted(keys),
                          ['__init__', 'class_attr', 'class_method',
@@ -664,8 +660,8 @@ class FileBuildTest(unittest.TestCase):
         module = self.module
         klass1 = module['YO']
         klass2 = module['YOUPI']
-        self.assertEqual(list(klass1._instance_attrs.keys()), ['yo'])
-        self.assertEqual(list(klass2._instance_attrs.keys()), ['member'])
+        self.assertEqual(list(klass1.instance_attrs.keys()), ['yo'])
+        self.assertEqual(list(klass2.instance_attrs.keys()), ['member'])
 
     def test_class_basenames(self):
         module = self.module
@@ -696,7 +692,7 @@ class FileBuildTest(unittest.TestCase):
     def test_method_locals(self):
         """test the 'locals' dictionary of a astroid method"""
         method = self.module['YOUPI']['method']
-        _locals = method._locals
+        _locals = method.locals
         keys = sorted(_locals)
         if sys.version_info < (3, 0):
             self.assertEqual(len(_locals), 5)
@@ -704,6 +700,10 @@ class FileBuildTest(unittest.TestCase):
         else:# ListComp variables are no more accessible outside
             self.assertEqual(len(_locals), 3)
             self.assertEqual(keys, ['autre', 'local', 'self'])
+
+    def test_unknown_encoding(self):
+        with self.assertRaises(exceptions.AstroidSyntaxError):
+            resources.build_file('data/invalid_encoding.py')
 
 
 class ModuleBuildTest(resources.SysPathSetup, FileBuildTest):
@@ -753,13 +753,13 @@ class TestGuessEncoding(unittest.TestCase):
         self.assertIsNone(e)
 
     def test_wrong_coding(self):
-        # setting "coding" varaible
+        # setting "coding" variable
         e = self.guess_encoding("coding = UTF-8")
         self.assertIsNone(e)
-        # setting a dictionnary entry
+        # setting a dictionary entry
         e = self.guess_encoding("coding:UTF-8")
         self.assertIsNone(e)
-        # setting an arguement
+        # setting an argument
         e = self.guess_encoding("def do_something(a_word_with_coding=None):")
         self.assertIsNone(e)
 

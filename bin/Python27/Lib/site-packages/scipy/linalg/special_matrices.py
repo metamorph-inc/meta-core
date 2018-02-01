@@ -164,10 +164,11 @@ def toeplitz(c, r=None):
     A : (len(c), len(r)) ndarray
         The Toeplitz matrix. Dtype is the same as ``(c[0] + r[0]).dtype``.
 
-    See also
+    See Also
     --------
     circulant : circulant matrix
     hankel : Hankel matrix
+    solve_toeplitz : Solve a Toeplitz system.
 
     Notes
     -----
@@ -217,10 +218,11 @@ def circulant(c):
     A : (N, N) ndarray
         A circulant matrix whose first column is `c`.
 
-    See also
+    See Also
     --------
     toeplitz : Toeplitz matrix
     hankel : Hankel matrix
+    solve_circulant : Solve a circulant system.
 
     Notes
     -----
@@ -267,7 +269,7 @@ def hankel(c, r=None):
     A : (len(c), len(r)) ndarray
         The Hankel matrix. Dtype is the same as ``(c[0] + r[0]).dtype``.
 
-    See also
+    See Also
     --------
     toeplitz : Toeplitz matrix
     circulant : circulant matrix
@@ -498,7 +500,8 @@ def block_diag(*arrs):
     If all the input arrays are square, the output is known as a
     block diagonal matrix.
 
-    Empty sequences (i.e., array-likes of zero size) are ignored.
+    Empty sequences (i.e., array-likes of zero size) will not be ignored.
+    Noteworthy, both [] and [[]] are treated as matrices with shape ``(1,0)``.
 
     Examples
     --------
@@ -508,9 +511,18 @@ def block_diag(*arrs):
     >>> B = [[3, 4, 5],
     ...      [6, 7, 8]]
     >>> C = [[7]]
+    >>> P = np.zeros((2, 0), dtype='int32')
     >>> block_diag(A, B, C)
     array([[1, 0, 0, 0, 0, 0],
            [0, 1, 0, 0, 0, 0],
+           [0, 0, 3, 4, 5, 0],
+           [0, 0, 6, 7, 8, 0],
+           [0, 0, 0, 0, 0, 7]])
+    >>> block_diag(A, P, B, C)
+    array([[1, 0, 0, 0, 0, 0],
+           [0, 1, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0],
            [0, 0, 3, 4, 5, 0],
            [0, 0, 6, 7, 8, 0],
            [0, 0, 0, 0, 0, 7]])
@@ -530,7 +542,7 @@ def block_diag(*arrs):
         raise ValueError("arguments in the following positions have dimension "
                          "greater than 2: %s" % bad_args)
 
-    shapes = np.array([a.shape if a.size > 0 else [0, 0] for a in arrs])
+    shapes = np.array([a.shape for a in arrs])
     out_dtype = np.find_common_type([arr.dtype for arr in arrs], [])
     out = np.zeros(np.sum(shapes, axis=0), dtype=out_dtype)
 
@@ -842,9 +854,9 @@ def pascal(n, kind='symmetric', exact=True):
     else:
         L_n = comb(*np.ogrid[:n, :n])
 
-    if kind is 'lower':
+    if kind == 'lower':
         p = L_n
-    elif kind is 'upper':
+    elif kind == 'upper':
         p = L_n.T
     else:
         p = np.dot(L_n, L_n.T)

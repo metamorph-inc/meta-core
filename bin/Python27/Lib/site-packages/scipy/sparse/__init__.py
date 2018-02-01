@@ -48,6 +48,14 @@ Building sparse matrices:
    rand - Random values in a given shape
    random - Random values in a given shape
 
+Save and load sparse matrices:
+
+.. autosummary::
+   :toctree: generated/
+
+   save_npz - Save a sparse matrix to a file using ``.npz`` format.
+   load_npz - Load a sparse matrix from a file using ``.npz`` format.
+
 Sparse matrix tools:
 
 .. autosummary::
@@ -227,13 +235,10 @@ from .dia import *
 from .bsr import *
 from .construct import *
 from .extract import *
-
-# for backward compatibility with v0.10.  This function is marked as deprecated
-from .csgraph import cs_graph_components
-
-#from spfuncs import *
+from ._matrix_io import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-from numpy.testing import Tester
-test = Tester().test
-bench = Tester().bench
+
+from scipy._lib._testutils import PytestTester
+test = PytestTester(__name__)
+del PytestTester

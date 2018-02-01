@@ -70,6 +70,8 @@ MANUAL_UNICODE_MAP = {
     u'\xf8': u'o',    # LATIN SMALL LETTER O WITH STROKE
     u'\xbb': u'"',    # RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
     u'\xdf': u'ss',   # LATIN SMALL LETTER SHARP S
+    u'\u2013': u'-',  # HYPHEN
+    u'\u2019': u"'",  # SIMPLE QUOTE
     }
 
 def unormalize(ustring, ignorenonascii=None, substitute=None):

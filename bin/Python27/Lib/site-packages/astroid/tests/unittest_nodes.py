@@ -1,20 +1,12 @@
-# copyright 2003-2013 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2006-2007, 2009-2014 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>
+# Copyright (c) 2013-2016 Claudiu Popa <pcmanticore@gmail.com>
+# Copyright (c) 2014 Google, Inc.
+# Copyright (c) 2015 Florian Bruhin <me@the-compiler.org>
+# Copyright (c) 2015-2016 Cara Vinson <ceridwenv@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 """tests for specific behaviour of astroid nodes
 """
 import os
@@ -25,6 +17,7 @@ import warnings
 
 import six
 
+import astroid
 from astroid import bases
 from astroid import builder
 from astroid import context as contextmod
@@ -53,34 +46,6 @@ class AsStringTest(resources.SysPathSetup, unittest.TestCase):
         self.assertEqual(build('(1, )').as_string(), '(1, )')
         self.assertEqual(build('1, 2, 3').as_string(), '(1, 2, 3)')
 
-    def test_as_string_for_list_containing_uninferable(self):
-        node = test_utils.extract_node('''
-        def foo(arg):
-            bar = [arg] * 1
-        ''')
-        binop = node.body[0].value
-        inferred = next(binop.infer())
-        self.assertEqual(inferred.as_string(), '[Uninferable]')
-        self.assertEqual(binop.as_string(), '([arg]) * (1)')
-
-    def test_frozenset_as_string(self):
-        nodes = test_utils.extract_node('''
-        frozenset((1, 2, 3)) #@
-        frozenset({1, 2, 3}) #@
-        frozenset([1, 2, 3,]) #@
-
-        frozenset(None) #@
-        frozenset(1) #@
-        ''')
-        nodes = [next(node.infer()) for node in nodes]
-
-        self.assertEqual(nodes[0].as_string(), 'frozenset((1, 2, 3))')
-        self.assertEqual(nodes[1].as_string(), 'frozenset({1, 2, 3})')
-        self.assertEqual(nodes[2].as_string(), 'frozenset([1, 2, 3])')
-
-        self.assertNotEqual(nodes[3].as_string(), 'frozenset(None)')
-        self.assertNotEqual(nodes[4].as_string(), 'frozenset(1)')
-
     @test_utils.require_version(minver='3.0')
     def test_func_signature_issue_185(self):
         code = textwrap.dedent('''
@@ -89,6 +54,35 @@ class AsStringTest(resources.SysPathSetup, unittest.TestCase):
         ''')
         node = parse(code)
         self.assertEqual(node.as_string().strip(), code.strip())
+
+    def test_as_string_for_list_containing_uninferable(self):
+        node = builder.extract_node('''
+        def foo():
+            bar = [arg] * 1
+        ''')
+        binop = node.body[0].value
+        inferred = next(binop.infer())
+        self.assertEqual(inferred.as_string(), '[Uninferable]')
+        self.assertEqual(binop.as_string(), '([arg]) * (1)')
+
+    def test_frozenset_as_string(self):
+        ast_nodes = builder.extract_node('''
+        frozenset((1, 2, 3)) #@
+        frozenset({1, 2, 3}) #@
+        frozenset([1, 2, 3,]) #@
+
+        frozenset(None) #@
+        frozenset(1) #@
+        ''')
+        ast_nodes = [next(node.infer()) for node in ast_nodes]
+
+        self.assertEqual(ast_nodes[0].as_string(), 'frozenset((1, 2, 3))')
+        self.assertEqual(ast_nodes[1].as_string(), 'frozenset({1, 2, 3})')
+        self.assertEqual(ast_nodes[2].as_string(), 'frozenset([1, 2, 3])')
+
+        self.assertNotEqual(ast_nodes[3].as_string(), 'frozenset(None)')
+        self.assertNotEqual(ast_nodes[4].as_string(), 'frozenset(1)')
+
     def test_varargs_kwargs_as_string(self):
         ast = abuilder.string_build('raise_string(*args, **kwargs)').body[0]
         self.assertEqual(ast.as_string(), 'raise_string(*args, **kwargs)')
@@ -184,9 +178,9 @@ class _NodeTest(unittest.TestCase):
         try:
             return self.__class__.__dict__['CODE_Astroid']
         except KeyError:
-            astroid = builder.parse(self.CODE)
-            self.__class__.CODE_Astroid = astroid
-            return astroid
+            module = builder.parse(self.CODE)
+            self.__class__.CODE_Astroid = module
+            return module
 
 
 class IfNodeTest(_NodeTest):
@@ -340,13 +334,13 @@ class ImportNodeTest(resources.SysPathSetup, unittest.TestCase):
         self.assertEqual(from_.real_name('NameNode'), 'Name')
         imp_ = self.module['os']
         self.assertEqual(imp_.real_name('os'), 'os')
-        self.assertRaises(exceptions.NotFoundError, imp_.real_name, 'os.path')
+        self.assertRaises(exceptions.AttributeInferenceError, imp_.real_name, 'os.path')
         imp_ = self.module['NameNode']
         self.assertEqual(imp_.real_name('NameNode'), 'Name')
-        self.assertRaises(exceptions.NotFoundError, imp_.real_name, 'Name')
+        self.assertRaises(exceptions.AttributeInferenceError, imp_.real_name, 'Name')
         imp_ = self.module2['YO']
         self.assertEqual(imp_.real_name('YO'), 'YO')
-        self.assertRaises(exceptions.NotFoundError, imp_.real_name, 'data')
+        self.assertRaises(exceptions.AttributeInferenceError, imp_.real_name, 'data')
 
     def test_as_string(self):
         ast = self.module['modutils']
@@ -368,7 +362,7 @@ from ..cave import wine\n\n"""
         method of this From node will be made by unpack_infer.
         inference.infer_from will try to import this module, which will fail and
         raise a InferenceException (by mixins.do_import_module). The infer_name
-        will catch this exception and yield and YES instead.
+        will catch this exception and yield and Uninferable instead.
         '''
 
         code = '''
@@ -382,8 +376,8 @@ from ..cave import wine\n\n"""
             except PickleError:
                 pass
         '''
-        astroid = builder.parse(code)
-        handler_type = astroid.body[1].handlers[0].type
+        module = builder.parse(code)
+        handler_type = module.body[1].handlers[0].type
 
         excs = list(node_classes.unpack_infer(handler_type))
         # The number of returned object can differ on Python 2
@@ -392,21 +386,21 @@ from ..cave import wine\n\n"""
         # present in the other version.
         self.assertIsInstance(excs[0], nodes.ClassDef)
         self.assertEqual(excs[0].name, 'PickleError')
-        self.assertIs(excs[-1], util.YES)
+        self.assertIs(excs[-1], util.Uninferable)
 
     def test_absolute_import(self):
-        astroid = resources.build_file('data/absimport.py')
+        module = resources.build_file('data/absimport.py')
         ctx = contextmod.InferenceContext()
         # will fail if absolute import failed
         ctx.lookupname = 'message'
-        next(astroid['message'].infer(ctx))
+        next(module['message'].infer(ctx))
         ctx.lookupname = 'email'
-        m = next(astroid['email'].infer(ctx))
-        self.assertFalse(m.source_file.startswith(os.path.join('data', 'email.py')))
+        m = next(module['email'].infer(ctx))
+        self.assertFalse(m.file.startswith(os.path.join('data', 'email.py')))
 
     def test_more_absolute_import(self):
-        astroid = resources.build_file('data/module1abs/__init__.py', 'data.module1abs')
-        self.assertIn('sys', astroid._locals)
+        module = resources.build_file('data/module1abs/__init__.py', 'data.module1abs')
+        self.assertIn('sys', module.locals)
 
 
 class CmpNodeTest(unittest.TestCase):
@@ -418,6 +412,7 @@ class CmpNodeTest(unittest.TestCase):
 class ConstNodeTest(unittest.TestCase):
 
     def _test(self, value):
+        # pylint: disable=no-member; union type in const_factory, this shouldn't happen
         node = nodes.const_factory(value)
         self.assertIsInstance(node._proxied, nodes.ClassDef)
         self.assertEqual(node._proxied.name, value.__class__.__name__)
@@ -449,7 +444,7 @@ class ConstNodeTest(unittest.TestCase):
 
 class NameNodeTest(unittest.TestCase):
     def test_assign_to_True(self):
-        """test that True and False assignements don't crash"""
+        """test that True and False assignments don't crash"""
         code = """
             True = False
             def hello(False):
@@ -457,7 +452,7 @@ class NameNodeTest(unittest.TestCase):
             del True
         """
         if sys.version_info >= (3, 0):
-            with self.assertRaises(exceptions.AstroidBuildingException):
+            with self.assertRaises(exceptions.AstroidBuildingError):
                 builder.parse(code)
         else:
             ast = builder.parse(code)
@@ -467,6 +462,53 @@ class NameNodeTest(unittest.TestCase):
             del_true = ast.body[2].targets[0]
             self.assertIsInstance(del_true, nodes.DelName)
             self.assertEqual(del_true.name, "True")
+
+
+class AnnAssignNodeTest(unittest.TestCase):
+    @test_utils.require_version(minver='3.6')
+    def test_primitive(self):
+        code = textwrap.dedent("""
+            test: int = 5
+        """)
+        assign = builder.extract_node(code)
+        self.assertIsInstance(assign, nodes.AnnAssign)
+        self.assertEqual(assign.target.name, "test")
+        self.assertEqual(assign.annotation.name, "int")
+        self.assertEqual(assign.value.value, 5)
+        self.assertEqual(assign.simple, 1)
+
+    @test_utils.require_version(minver='3.6')
+    def test_primitive_without_initial_value(self):
+        code = textwrap.dedent("""
+            test: str
+        """)
+        assign = builder.extract_node(code)
+        self.assertIsInstance(assign, nodes.AnnAssign)
+        self.assertEqual(assign.target.name, "test")
+        self.assertEqual(assign.annotation.name, "str")
+        self.assertEqual(assign.value, None)
+
+    @test_utils.require_version(minver='3.6')
+    def test_complex(self):
+        code = textwrap.dedent("""
+            test: Dict[List[str]] = {}
+        """)
+        assign = builder.extract_node(code)
+        self.assertIsInstance(assign, nodes.AnnAssign)
+        self.assertEqual(assign.target.name, "test")
+        self.assertIsInstance(assign.annotation, astroid.Subscript)
+        self.assertIsInstance(assign.value, astroid.Dict)
+
+    @test_utils.require_version(minver='3.6')
+    def test_as_string(self):
+        code = textwrap.dedent("""
+            print()
+            test: int = 5
+            test2: str
+            test3: List[Dict[(str, str)]] = []
+        """)
+        ast = abuilder.string_build(code)
+        self.assertEqual(ast.as_string().strip(), code.strip())
 
 
 class ArgumentsNodeTC(unittest.TestCase):
@@ -488,13 +530,14 @@ class ArgumentsNodeTC(unittest.TestCase):
             self.skipTest('FIXME  http://bugs.python.org/issue10445 '
                           '(no line number on function args)')
 
-    def test_builtin_fromlineno_missing(self):
-        cls = test_utils.extract_node('''
-        class Foo(Exception): #@
-            pass
+    @test_utils.require_version(minver='3.0')
+    def test_kwoargs(self):
+        ast = builder.parse('''
+            def func(*, x):
+                pass
         ''')
-        new = cls.getattr('__new__')[-1]
-        self.assertEqual(new.args.fromlineno, 0)
+        args = ast['func'].args
+        self.assertTrue(args.is_argument('x'))
 
 
 class UnboundMethodNodeTest(unittest.TestCase):
@@ -511,7 +554,7 @@ class UnboundMethodNodeTest(unittest.TestCase):
         meth = A.test
         ''')
         node = next(ast['meth'].infer())
-        with self.assertRaises(exceptions.NotFoundError):
+        with self.assertRaises(exceptions.AttributeInferenceError):
             node.getattr('__missssing__')
         name = node.getattr('__name__')[0]
         self.assertIsInstance(name, nodes.Const)
@@ -603,9 +646,8 @@ class AliasesTest(unittest.TestCase):
 
         def test_assname(node):
             if node.name == 'foo':
-                n = nodes.AssignName()
-                n.name = 'bar'
-                return n
+                return nodes.AssignName('bar', node.lineno, node.col_offset,
+                                        node.parent)
         def test_assattr(node):
             if node.attrname == 'a':
                 node.attrname = 'b'
@@ -618,7 +660,8 @@ class AliasesTest(unittest.TestCase):
 
         def test_genexpr(node):
             if node.elt.value == 1:
-                node.elt = nodes.Const(2)
+                node.elt = nodes.Const(2, node.lineno, node.col_offset,
+                                       node.parent)
                 return node
 
         self.transformer.register_transform(nodes.From, test_from)
@@ -690,17 +733,18 @@ class DeprecationWarningsTest(unittest.TestCase):
         assign_type_mixin = module.body[1].targets[0]
         parent_assign_type_mixin = module.body[2]
 
-        warnings.simplefilter('always')
-
         with warnings.catch_warnings(record=True) as w:
-            filter_stmts_mixin.ass_type()
-            self.assertIsInstance(w[0].message, PendingDeprecationWarning)
+            with test_utils.enable_warning(PendingDeprecationWarning):
+                filter_stmts_mixin.ass_type()
+                self.assertIsInstance(w[0].message, PendingDeprecationWarning)
         with warnings.catch_warnings(record=True) as w:
-            assign_type_mixin.ass_type()
-            self.assertIsInstance(w[0].message, PendingDeprecationWarning)
+            with test_utils.enable_warning(PendingDeprecationWarning):
+                assign_type_mixin.ass_type()
+                self.assertIsInstance(w[0].message, PendingDeprecationWarning)
         with warnings.catch_warnings(record=True) as w:
-            parent_assign_type_mixin.ass_type()
-            self.assertIsInstance(w[0].message, PendingDeprecationWarning)
+            with test_utils.enable_warning(PendingDeprecationWarning):
+                parent_assign_type_mixin.ass_type()
+                self.assertIsInstance(w[0].message, PendingDeprecationWarning)
 
     def test_isinstance_warnings(self):
         msg_format = ("%r is deprecated and slated for removal in astroid "
@@ -708,8 +752,8 @@ class DeprecationWarningsTest(unittest.TestCase):
         for cls in (nodes.Discard, nodes.Backquote, nodes.AssName,
                     nodes.AssAttr, nodes.Getattr, nodes.CallFunc, nodes.From):
             with warnings.catch_warnings(record=True) as w:
-                warnings.simplefilter('always')
-                isinstance(42, cls)
+                with test_utils.enable_warning(PendingDeprecationWarning):
+                    isinstance(42, cls)
             self.assertIsInstance(w[0].message, PendingDeprecationWarning)
             actual_msg = msg_format % (cls.__class__.__name__, cls.__wrapped__.__name__)
             self.assertEqual(str(w[0].message), actual_msg)
@@ -719,7 +763,7 @@ class DeprecationWarningsTest(unittest.TestCase):
 class Python35AsyncTest(unittest.TestCase):
 
     def test_async_await_keywords(self):
-        async_def, async_for, async_with, await_node = test_utils.extract_node('''
+        async_def, async_for, async_with, await_node = builder.extract_node('''
         async def func(): #@
             async for i in range(10): #@
                 f = __(await i)
@@ -758,6 +802,54 @@ class Python35AsyncTest(unittest.TestCase):
                 await 42
         ''')
         self._test_await_async_as_string(code)
+
+
+class ContextTest(unittest.TestCase):
+
+    def test_subscript_load(self):
+        node = builder.extract_node('f[1]')
+        self.assertIs(node.ctx, astroid.Load)
+
+    def test_subscript_del(self):
+        node = builder.extract_node('del f[1]')
+        self.assertIs(node.targets[0].ctx, astroid.Del)
+
+    def test_subscript_store(self):
+        node = builder.extract_node('f[1] = 2')
+        subscript = node.targets[0]
+        self.assertIs(subscript.ctx, astroid.Store)
+
+    def test_list_load(self):
+        node = builder.extract_node('[]')
+        self.assertIs(node.ctx, astroid.Load)
+
+    def test_list_del(self):
+        node = builder.extract_node('del []')
+        self.assertIs(node.targets[0].ctx, astroid.Del)
+
+    def test_list_store(self):
+        with self.assertRaises(exceptions.AstroidSyntaxError):
+            builder.extract_node('[0] = 2')
+
+    def test_tuple_load(self):
+        node = builder.extract_node('(1, )')
+        self.assertIs(node.ctx, astroid.Load)
+
+    def test_tuple_store(self):
+        with self.assertRaises(exceptions.AstroidSyntaxError):
+            builder.extract_node('(1, ) = 3')
+
+    @test_utils.require_version(minver='3.5')
+    def test_starred_load(self):
+        node = builder.extract_node('a = *b')
+        starred = node.value
+        self.assertIs(starred.ctx, astroid.Load)
+
+    @test_utils.require_version(minver='3.0')
+    def test_starred_store(self):
+        node = builder.extract_node('a, *b = 1, 2')
+        starred = node.targets[0].elts[1]
+        self.assertIs(starred.ctx, astroid.Store)
 
 
 if __name__ == '__main__':

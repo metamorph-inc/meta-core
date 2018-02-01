@@ -6,14 +6,14 @@ from scipy.optimize._differentialevolution import DifferentialEvolutionSolver
 from scipy.optimize import differential_evolution
 import numpy as np
 from scipy.optimize import rosen
-from numpy.testing import (assert_equal, TestCase, assert_allclose,
-                           run_module_suite, assert_almost_equal,
-                           assert_string_equal, assert_raises, assert_)
+from numpy.testing import (assert_equal, assert_allclose,
+                           assert_almost_equal,
+                           assert_string_equal, assert_)
+from pytest import raises as assert_raises
 
+class TestDifferentialEvolutionSolver(object):
 
-class TestDifferentialEvolutionSolver(TestCase):
-
-    def setUp(self):
+    def setup_method(self):
         self.old_seterr = np.seterr(invalid='raise')
         self.limits = np.array([[0., 0.],
                                 [2., 2.]])
@@ -32,7 +32,7 @@ class TestDifferentialEvolutionSolver(TestCase):
         population = np.atleast_2d(np.arange(0.1, 0.8, 0.1)).T
         self.dummy_solver2.population = population
 
-    def tearDown(self):
+    def teardown_method(self):
         np.seterr(**self.old_seterr)
 
     def quadratic(self, x):
@@ -135,26 +135,26 @@ class TestDifferentialEvolutionSolver(TestCase):
                                              self.bounds,
                                              mutation=mutation)
 
-        self.assertEqual(solver.dither, list(mutation))
+        assert_equal(solver.dither, list(mutation))
 
     def test_invalid_mutation_values_arent_accepted(self):
         func = rosen
         mutation = (0.5, 3)
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           DifferentialEvolutionSolver,
                           func,
                           self.bounds,
                           mutation=mutation)
 
         mutation = (-1, 1)
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           DifferentialEvolutionSolver,
                           func,
                           self.bounds,
                           mutation=mutation)
 
         mutation = (0.1, np.nan)
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           DifferentialEvolutionSolver,
                           func,
                           self.bounds,
@@ -199,7 +199,7 @@ class TestDifferentialEvolutionSolver(TestCase):
         # test that the getter property method for the best solution works.
         solver = DifferentialEvolutionSolver(self.quadratic, [(-2, 2)])
         result = solver.solve()
-        assert_equal(result.x, solver.x)
+        assert_almost_equal(result.x, solver.x)
 
     def test_callback_terminates(self):
         # test that if the callback returns true, then the minimization halts
@@ -234,7 +234,7 @@ class TestDifferentialEvolutionSolver(TestCase):
         # test that passing an invalid strategy raises ValueError
         func = rosen
         bounds = [(-3, 3)]
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           differential_evolution,
                           func,
                           bounds,
@@ -244,17 +244,17 @@ class TestDifferentialEvolutionSolver(TestCase):
         # test that the bounds checking works
         func = rosen
         bounds = [(-3, None)]
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           differential_evolution,
                           func,
                           bounds)
         bounds = [(-3)]
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           differential_evolution,
                           func,
                           bounds)
         bounds = [(-3, 3), (3, 4, 5)]
-        self.assertRaises(ValueError,
+        assert_raises(ValueError,
                           differential_evolution,
                           func,
                           bounds)
@@ -345,20 +345,6 @@ class TestDifferentialEvolutionSolver(TestCase):
 
         solver.solve()
 
-    def test__make_random_gen(self):
-        # If seed is None, return the RandomState singleton used by np.random.
-        # If seed is an int, return a new RandomState instance seeded with seed.
-        # If seed is already a RandomState instance, return it.
-        # Otherwise raise ValueError.
-        rsi = _differentialevolution._make_random_gen(1)
-        assert_equal(type(rsi), np.random.RandomState)
-        rsi = _differentialevolution._make_random_gen(rsi)
-        assert_equal(type(rsi), np.random.RandomState)
-        rsi = _differentialevolution._make_random_gen(None)
-        assert_equal(type(rsi), np.random.RandomState)
-        self.assertRaises(
-            ValueError, _differentialevolution._make_random_gen, 'a')
-
     def test_gh_4511_regression(self):
         # This modification of the differential evolution docstring example
         # uses a custom popsize that had triggered an off-by-one error.
@@ -440,6 +426,3 @@ class TestDifferentialEvolutionSolver(TestCase):
         assert_equal(solver._nfev, 0)
         assert_(np.all(np.isinf(solver.population_energies)))
 
-
-if __name__ == '__main__':
-    run_module_suite()

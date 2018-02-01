@@ -1,28 +1,18 @@
-# copyright 2003-2014 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2013-2016 Claudiu Popa <pcmanticore@gmail.com>
+# Copyright (c) 2014 Google, Inc.
+# Copyright (c) 2015-2016 Cara Vinson <ceridwenv@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 from textwrap import dedent
 import unittest
 
 from astroid import nodes
 from astroid.node_classes import Assign, Expr, YieldFrom, Name, Const
-from astroid.builder import AstroidBuilder
+from astroid.builder import AstroidBuilder, extract_node
 from astroid.scoped_nodes import ClassDef, FunctionDef
-from astroid.test_utils import require_version, extract_node
+from astroid.test_utils import require_version
 
 
 class Python3TC(unittest.TestCase):
@@ -97,7 +87,7 @@ class Python3TC(unittest.TestCase):
     @require_version('3.0')
     def test_metaclass_imported(self):
         astroid = self.builder.string_build(dedent("""
-        from abc import ABCMeta 
+        from abc import ABCMeta
         class Test(metaclass=ABCMeta): pass"""))
         klass = astroid.body[1]
 
@@ -106,9 +96,18 @@ class Python3TC(unittest.TestCase):
         self.assertEqual(metaclass.name, 'ABCMeta')
 
     @require_version('3.0')
+    def test_metaclass_multiple_keywords(self):
+        astroid = self.builder.string_build("class Test(magic=None, metaclass=type): pass")
+        klass = astroid.body[0]
+
+        metaclass = klass.metaclass()
+        self.assertIsInstance(metaclass, ClassDef)
+        self.assertEqual(metaclass.name, 'type')
+
+    @require_version('3.0')
     def test_as_string(self):
         body = dedent("""
-        from abc import ABCMeta 
+        from abc import ABCMeta
         class Test(metaclass=ABCMeta): pass""")
         astroid = self.builder.string_build(body)
         klass = astroid.body[1]
@@ -215,6 +214,23 @@ class Python3TC(unittest.TestCase):
         self.assertIsNone(func.returns)
 
     @require_version('3.0')
+    def test_kwonlyargs_annotations_supper(self):
+        node = self.builder.string_build(dedent("""
+        def test(*, a: int, b: str, c: None, d, e):
+            pass
+        """))
+        func = node['test']
+        arguments = func.args
+        self.assertIsInstance(arguments.kwonlyargs_annotations[0], Name)
+        self.assertEqual(arguments.kwonlyargs_annotations[0].name, 'int')
+        self.assertIsInstance(arguments.kwonlyargs_annotations[1], Name)
+        self.assertEqual(arguments.kwonlyargs_annotations[1].name, 'str')
+        self.assertIsInstance(arguments.kwonlyargs_annotations[2], Const)
+        self.assertIsNone(arguments.kwonlyargs_annotations[2].value)
+        self.assertIsNone(arguments.kwonlyargs_annotations[3])
+        self.assertIsNone(arguments.kwonlyargs_annotations[4])
+
+    @require_version('3.0')
     def test_annotation_as_string(self):
         code1 = dedent('''
         def test(a, b:int=4, c=2, f:'lala'=4)->2:
@@ -245,9 +261,93 @@ class Python3TC(unittest.TestCase):
     def test_unpacking_in_dict_getitem(self):
         node = extract_node('{1:2, **{2:3, 3:4}, **{5: 6}}')
         for key, expected in ((1, 2), (2, 3), (3, 4), (5, 6)):
-            value = node.getitem(key)
+            value = node.getitem(nodes.Const(key))
             self.assertIsInstance(value, nodes.Const)
             self.assertEqual(value.value, expected)
+
+    @require_version('3.6')
+    def test_format_string(self):
+        code = "f'{greetings} {person}'"
+        node = extract_node(code)
+        self.assertEqual(node.as_string(), code)
+
+    @require_version('3.6')
+    def test_underscores_in_numeral_literal(self):
+        pairs = [
+            ('10_1000', 101000),
+            ('10_000_000', 10000000),
+            ('0x_FF_FF', 65535),
+        ]
+        for value, expected in pairs:
+            node = extract_node(value)
+            inferred = next(node.infer())
+            self.assertIsInstance(inferred, nodes.Const)
+            self.assertEqual(inferred.value, expected)
+
+    @require_version('3.6')
+    def test_async_comprehensions(self):
+        async_comprehensions = [
+            extract_node("async def f(): return __([i async for i in aiter() if i % 2])"),
+            extract_node("async def f(): return __({i async for i in aiter() if i % 2})"),
+            extract_node("async def f(): return __((i async for i in aiter() if i % 2))"),
+            extract_node("async def f(): return __({i: i async for i in aiter() if i % 2})")
+        ]
+        non_async_comprehensions = [
+            extract_node("async def f(): return __({i: i for i in iter() if i % 2})")
+        ]
+
+        for comp in async_comprehensions:
+            self.assertTrue(comp.generators[0].is_async)
+        for comp in non_async_comprehensions:
+            self.assertFalse(comp.generators[0].is_async)
+
+    @require_version('3.7')
+    def test_async_comprehensions_outside_coroutine(self):
+        # When async and await will become keywords, async comprehensions
+        # will be allowed outside of coroutines body
+        comprehensions = [
+            "[i async for i in aiter() if condition(i)]",
+            "[await fun() for fun in funcs]",
+            "{await fun() for fun in funcs}",
+            "{fun: await fun() for fun in funcs}",
+            "[await fun() for fun in funcs if await smth]",
+            "{await fun() for fun in funcs if await smth}",
+            "{fun: await fun() for fun in funcs if await smth}",
+            "[await fun() async for fun in funcs]",
+            "{await fun() async for fun in funcs}",
+            "{fun: await fun() async for fun in funcs}",
+            "[await fun() async for fun in funcs if await smth]",
+            "{await fun() async for fun in funcs if await smth}",
+            "{fun: await fun() async for fun in funcs if await smth}",
+        ]
+
+        for comp in comprehensions:
+            node = extract_node(comp)
+            self.assertTrue(node.generators[0].is_async)
+
+    @require_version('3.6')
+    def test_async_comprehensions_as_string(self):
+        func_bodies = [
+            "return [i async for i in aiter() if condition(i)]",
+            "return [await fun() for fun in funcs]",
+            "return {await fun() for fun in funcs}",
+            "return {fun: await fun() for fun in funcs}",
+            "return [await fun() for fun in funcs if await smth]",
+            "return {await fun() for fun in funcs if await smth}",
+            "return {fun: await fun() for fun in funcs if await smth}",
+            "return [await fun() async for fun in funcs]",
+            "return {await fun() async for fun in funcs}",
+            "return {fun: await fun() async for fun in funcs}",
+            "return [await fun() async for fun in funcs if await smth]",
+            "return {await fun() async for fun in funcs if await smth}",
+            "return {fun: await fun() async for fun in funcs if await smth}",
+        ]
+        for func_body in func_bodies:
+            code = dedent('''
+            async def f():
+                {}'''.format(func_body))
+            func = extract_node(code)
+            self.assertEqual(func.as_string().strip(), code.strip())
 
 
 if __name__ == '__main__':

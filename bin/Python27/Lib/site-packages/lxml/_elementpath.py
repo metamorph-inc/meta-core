@@ -60,24 +60,30 @@ xpath_tokenizer_re = re.compile(
     "'[^']*'|\"[^\"]*\"|"
     "::|"
     "//?|"
-    "\.\.|"
-    "\(\)|"
-    "[/.*:\[\]\(\)@=])|"
-    "((?:\{[^}]+\})?[^/\[\]\(\)@=\s]+)|"
-    "\s+"
+    r"\.\.|"
+    r"\(\)|"
+    r"[/.*:\[\]\(\)@=])|"
+    r"((?:\{[^}]+\})?[^/\[\]\(\)@=\s]+)|"
+    r"\s+"
     )
 
 def xpath_tokenizer(pattern, namespaces=None):
+    default_namespace = namespaces.get(None) if namespaces else None
     for token in xpath_tokenizer_re.findall(pattern):
         tag = token[1]
-        if tag and tag[0] != "{" and ":" in tag:
-            try:
+        if tag and tag[0] != "{":
+            if ":" in tag:
                 prefix, uri = tag.split(":", 1)
-                if not namespaces:
-                    raise KeyError
-                yield token[0], "{%s}%s" % (namespaces[prefix], uri)
-            except KeyError:
-                raise SyntaxError("prefix %r not found in prefix map" % prefix)
+                try:
+                    if not namespaces:
+                        raise KeyError
+                    yield token[0], "{%s}%s" % (namespaces[prefix], uri)
+                except KeyError:
+                    raise SyntaxError("prefix %r not found in prefix map" % prefix)
+            elif default_namespace:
+                yield token[0], "{%s}%s" % (default_namespace, tag)
+            else:
+                yield token
         else:
             yield token
 
@@ -128,17 +134,20 @@ def prepare_predicate(next, token):
     # FIXME: replace with real parser!!! refs:
     # http://effbot.org/zone/simple-iterator-parser.htm
     # http://javascript.crockford.com/tdop/tdop.html
-    signature = []
+    signature = ''
     predicate = []
     while 1:
         token = next()
         if token[0] == "]":
             break
+        if token == ('', ''):
+            # ignore whitespace
+            continue
         if token[0] and token[0][:1] in "'\"":
             token = "'", token[0][1:-1]
-        signature.append(token[0] or "-")
+        signature += token[0] or "-"
         predicate.append(token[1])
-    signature = "".join(signature)
+
     # use signature to determine predicate type
     if signature == "@-":
         # [@attribute] predicate
@@ -157,7 +166,7 @@ def prepare_predicate(next, token):
                 if elem.get(key) == value:
                     yield elem
         return select
-    if signature == "-" and not re.match("-?\d+$", predicate[0]):
+    if signature == "-" and not re.match(r"-?\d+$", predicate[0]):
         # [tag]
         tag = predicate[0]
         def select(result):
@@ -166,16 +175,22 @@ def prepare_predicate(next, token):
                     yield elem
                     break
         return select
-    if signature == "-='" and not re.match("-?\d+$", predicate[0]):
-        # [tag='value']
+    if signature == ".='" or (signature == "-='" and not re.match(r"-?\d+$", predicate[0])):
+        # [.='value'] or [tag='value']
         tag = predicate[0]
         value = predicate[-1]
-        def select(result):
-            for elem in result:
-                for e in elem.iterchildren(tag):
-                    if "".join(e.itertext()) == value:
+        if tag:
+            def select(result):
+                for elem in result:
+                    for e in elem.iterchildren(tag):
+                        if "".join(e.itertext()) == value:
+                            yield elem
+                            break
+        else:
+            def select(result):
+                for elem in result:
+                    if "".join(elem.itertext()) == value:
                         yield elem
-                        break
         return select
     if signature == "-" or signature == "-()" or signature == "-()-":
         # [index] or [last()] or [last()-index]
@@ -230,11 +245,19 @@ _cache = {}
 
 def _build_path_iterator(path, namespaces):
     """compile selector pattern"""
-    if namespaces and (None in namespaces or '' in namespaces):
-        raise ValueError("empty namespace prefix is not supported in ElementPath")
     if path[-1:] == "/":
         path += "*"  # implicit all (FIXME: keep this?)
-    cache_key = (path, namespaces and tuple(sorted(namespaces.items())) or None)
+
+    cache_key = (path,)
+    if namespaces:
+        if '' in namespaces:
+            raise ValueError("empty namespace prefix must be passed as None, not the empty string")
+        if None in namespaces:
+            cache_key += (namespaces[None],) + tuple(sorted(
+                item for item in namespaces.items() if item[0] is not None))
+        else:
+            cache_key += tuple(sorted(namespaces.items()))
+
     try:
         return _cache[cache_key]
     except KeyError:
@@ -287,12 +310,7 @@ def iterfind(elem, path, namespaces=None):
 def find(elem, path, namespaces=None):
     it = iterfind(elem, path, namespaces)
     try:
-        try:
-            _next = it.next
-        except AttributeError:
-            return next(it)
-        else:
-            return _next()
+        return next(it)
     except StopIteration:
         return None
 

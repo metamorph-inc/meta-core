@@ -596,7 +596,7 @@ class KDTree(object):
         --------
         >>> from scipy import spatial
         >>> x, y = np.mgrid[0:5, 0:5]
-        >>> points = zip(x.ravel(), y.ravel())
+        >>> points = np.c_[x.ravel(), y.ravel()]
         >>> tree = spatial.KDTree(points)
         >>> tree.query_ball_point([2, 0], 1)
         [5, 10, 11, 15]
@@ -942,9 +942,9 @@ def distance_matrix(x, y, p=2, threshold=1000000):
     Parameters
     ----------
     x : (M, K) array_like
-        TODO: description needed
+        Matrix of M vectors in K dimensions.
     y : (N, K) array_like
-        TODO: description needed
+        Matrix of N vectors in K dimensions.
     p : float, 1 <= p <= infinity
         Which Minkowski p-norm to use.
     threshold : positive int
@@ -954,7 +954,8 @@ def distance_matrix(x, y, p=2, threshold=1000000):
     Returns
     -------
     result : (M, N) ndarray
-        Distance matrix.
+        Matrix containing the distance from every vector in `x` to every vector
+        in `y`.
 
     Examples
     --------

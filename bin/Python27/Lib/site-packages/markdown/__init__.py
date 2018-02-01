@@ -75,9 +75,6 @@ class Markdown(object):
         'xhtml5': to_xhtml_string,
     }
 
-    ESCAPED_CHARS = ['\\', '`', '*', '_', '{', '}', '[', ']',
-                     '(', ')', '>', '#', '+', '-', '.', '!']
-
     def __init__(self, *args, **kwargs):
         """
         Creates a new Markdown instance.
@@ -137,7 +134,7 @@ class Markdown(object):
         if 'safe_mode' in kwargs:
             warnings.warn('"safe_mode" is deprecated in Python-Markdown. '
                           'Use an HTML sanitizer (like '
-                          'Bleach http://bleach.readthedocs.org/) '
+                          'Bleach https://bleach.readthedocs.io/) '
                           'if you are parsing untrusted markdown text. '
                           'See the 2.6 release notes for more info',
                           DeprecationWarning)
@@ -146,6 +143,9 @@ class Markdown(object):
             warnings.warn('The "html_replacement_text" keyword is '
                           'deprecated along with "safe_mode".',
                           DeprecationWarning)
+
+        self.ESCAPED_CHARS = ['\\', '`', '*', '_', '{', '}', '[', ']',
+                              '(', ')', '>', '#', '+', '-', '.', '!']
 
         self.registeredExtensions = []
         self.docType = ""

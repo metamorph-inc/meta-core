@@ -307,12 +307,15 @@ class dia_matrix(_data_matrix):
 
     transpose.__doc__ = spmatrix.transpose.__doc__
 
-    def diagonal(self):
-        idx, = np.where(self.offsets == 0)
-        n = min(self.shape)
+    def diagonal(self, k=0):
+        rows, cols = self.shape
+        if k <= -rows or k >= cols:
+            raise ValueError("k exceeds matrix dimensions")
+        idx, = np.where(self.offsets == k)
+        first_col, last_col = max(0, k), min(rows + k, cols)
         if idx.size == 0:
-            return np.zeros(n, dtype=self.data.dtype)
-        return self.data[idx[0],:n]
+            return np.zeros(last_col - first_col, dtype=self.data.dtype)
+        return self.data[idx[0], first_col:last_col]
 
     diagonal.__doc__ = spmatrix.diagonal.__doc__
 
@@ -375,4 +378,26 @@ class dia_matrix(_data_matrix):
 
 
 def isspmatrix_dia(x):
+    """Is x of dia_matrix type?
+
+    Parameters
+    ----------
+    x
+        object to check for being a dia matrix
+
+    Returns
+    -------
+    bool
+        True if x is a dia matrix, False otherwise
+
+    Examples
+    --------
+    >>> from scipy.sparse import dia_matrix, isspmatrix_dia
+    >>> isspmatrix_dia(dia_matrix([[5]]))
+    True
+
+    >>> from scipy.sparse import dia_matrix, csr_matrix, isspmatrix_dia
+    >>> isspmatrix_dia(csr_matrix([[5]]))
+    False
+    """
     return isinstance(x, dia_matrix)

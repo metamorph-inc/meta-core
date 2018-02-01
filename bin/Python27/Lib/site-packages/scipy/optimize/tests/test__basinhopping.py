@@ -4,12 +4,12 @@ Unit tests for the basin hopping global minimization algorithm.
 from __future__ import division, print_function, absolute_import
 import copy
 
-from numpy.testing import (TestCase, run_module_suite, assert_raises,
-                           assert_almost_equal, assert_equal, assert_)
+from numpy.testing import assert_almost_equal, assert_equal, assert_
+from pytest import raises as assert_raises
 import numpy as np
 from numpy import cos, sin
 
-from scipy.optimize import (basinhopping, OptimizeResult)
+from scipy.optimize import basinhopping, OptimizeResult
 from scipy.optimize._basinhopping import (
     Storage, RandomDisplacement, Metropolis, AdaptiveStepsize)
 
@@ -106,9 +106,9 @@ class MyCallBack(object):
             return True
 
 
-class TestBasinHopping(TestCase):
+class TestBasinHopping(object):
 
-    def setUp(self):
+    def setup_method(self):
         """ Tests setup.
 
         Run tests based on the 1-D and 2-D functions described above.
@@ -283,9 +283,30 @@ class TestBasinHopping(TestCase):
         res = basinhopping(func1d, self.x0[i], minimizer_kwargs=self.kwargs,
                            niter=0, disp=self.disp)
 
+    def test_seed_reproducibility(self):
+        # seed should ensure reproducibility between runs
+        minimizer_kwargs = {"method": "L-BFGS-B", "jac": True}
 
-class Test_Storage(TestCase):
-    def setUp(self):
+        f_1 = []
+
+        def callback(x, f, accepted):
+            f_1.append(f)
+
+        basinhopping(func2d, [1.0, 1.0], minimizer_kwargs=minimizer_kwargs,
+                     niter=10, callback=callback, seed=10)
+
+        f_2 = []
+
+        def callback2(x, f, accepted):
+            f_2.append(f)
+
+        basinhopping(func2d, [1.0, 1.0], minimizer_kwargs=minimizer_kwargs,
+                     niter=10, callback=callback2, seed=10)
+        assert_equal(np.array(f_1), np.array(f_2))
+
+
+class Test_Storage(object):
+    def setup_method(self):
         self.x0 = np.array(1)
         self.f0 = 0
 
@@ -318,8 +339,8 @@ class Test_Storage(TestCase):
         assert_(ret)
 
 
-class Test_RandomDisplacement(TestCase):
-    def setUp(self):
+class Test_RandomDisplacement(object):
+    def setup_method(self):
         self.stepsize = 1.0
         self.displace = RandomDisplacement(stepsize=self.stepsize)
         self.N = 300000
@@ -335,8 +356,8 @@ class Test_RandomDisplacement(TestCase):
         assert_almost_equal(np.var(x), v, 1)
 
 
-class Test_Metropolis(TestCase):
-    def setUp(self):
+class Test_Metropolis(object):
+    def setup_method(self):
         self.T = 2.
         self.met = Metropolis(self.T)
 
@@ -369,9 +390,16 @@ class Test_Metropolis(TestCase):
         assert_(one_accept)
         assert_(one_reject)
 
+    def test_GH7495(self):
+        # an overflow in exp was producing a RuntimeWarning
+        # create own object here in case someone changes self.T
+        met = Metropolis(2)
+        with np.errstate(over='raise'):
+            met.accept_reject(0, 2000)
 
-class Test_AdaptiveStepsize(TestCase):
-    def setUp(self):
+
+class Test_AdaptiveStepsize(object):
+    def setup_method(self):
         self.stepsize = 1.
         self.ts = RandomDisplacement(stepsize=self.stepsize)
         self.target_accept_rate = 0.5
@@ -414,6 +442,3 @@ class Test_AdaptiveStepsize(TestCase):
             self.takestep.report(False)
         assert_(self.ts.stepsize < self.stepsize)
 
-
-if __name__ == "__main__":
-    run_module_suite()

@@ -38,6 +38,8 @@ Basics
    tril - Construct a lower-triangular matrix from a given matrix
    triu - Construct an upper-triangular matrix from a given matrix
    orthogonal_procrustes - Solve an orthogonal Procrustes problem
+   matrix_balance - Balance matrix entries with a similarity transformation
+   subspace_angles - Compute the subspace angles between two matrices
    LinAlgError
 
 Eigenvalue Problems
@@ -52,6 +54,8 @@ Eigenvalue Problems
    eigvalsh - Find just the eigenvalues of a Hermitian or symmetric matrix
    eig_banded - Find the eigenvalues and eigenvectors of a banded matrix
    eigvals_banded - Find just the eigenvalues of a banded matrix
+   eigh_tridiagonal - Find the eigenvalues and eigenvectors of a tridiagonal matrix
+   eigvalsh_tridiagonal - Find just the eigenvalues of a tridiagonal matrix
 
 Decompositions
 ==============
@@ -120,9 +124,17 @@ Matrix Equation Solvers
    solve_sylvester - Solve the Sylvester matrix equation
    solve_continuous_are - Solve the continuous-time algebraic Riccati equation
    solve_discrete_are - Solve the discrete-time algebraic Riccati equation
+   solve_continuous_lyapunov - Solve the continous-time Lyapunov equation
    solve_discrete_lyapunov - Solve the discrete-time Lyapunov equation
-   solve_lyapunov - Solve the (continous-time) Lyapunov equation
 
+
+Sketches and Random Projections
+===============================
+
+.. autosummary::
+   :toctree: generated/
+
+   clarkson_woodruff_transform - Applies the Clarkson Woodruff Sketch (a.k.a CountMin Sketch)
 
 Special Matrices
 ================
@@ -165,7 +177,7 @@ Low-level routines
 
    `scipy.linalg.cython_lapack` -- Low-level LAPACK functions for Cython
 
-"""
+"""  # noqa: E501
 
 from __future__ import division, print_function, absolute_import
 
@@ -188,6 +200,7 @@ from .special_matrices import *
 from ._solvers import *
 from ._procrustes import *
 from ._decomp_update import *
+from ._sketches import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]
 
@@ -206,6 +219,6 @@ except ValueError:
 
 del k, register_func
 
-from numpy.testing import Tester
-test = Tester().test
-bench = Tester().bench
+from scipy._lib._testutils import PytestTester
+test = PytestTester(__name__)
+del PytestTester

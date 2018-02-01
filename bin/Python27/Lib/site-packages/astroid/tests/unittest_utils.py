@@ -1,27 +1,15 @@
-# copyright 2003-2015 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2014, 2016 Google, Inc.
+# Copyright (c) 2015-2016 Claudiu Popa <pcmanticore@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 import unittest
 
 from astroid import builder
 from astroid import InferenceError
 from astroid import nodes
 from astroid import node_classes
-from astroid import test_utils
 from astroid import util as astroid_util
 
 
@@ -100,7 +88,7 @@ class InferenceUtil(unittest.TestCase):
         self.assertEqual(node_classes.are_exclusive(f4, f2), True)
 
     def test_unpack_infer_uninferable_nodes(self):
-        node = test_utils.extract_node('''
+        node = builder.extract_node('''
         x = [A] * 1
         f = [x, [A] * 2]
         f
@@ -108,11 +96,11 @@ class InferenceUtil(unittest.TestCase):
         inferred = next(node.infer())
         unpacked = list(node_classes.unpack_infer(inferred))
         self.assertEqual(len(unpacked), 3)
-        self.assertTrue(all(elt is astroid_util.YES
+        self.assertTrue(all(elt is astroid_util.Uninferable
                             for elt in unpacked))
 
     def test_unpack_infer_empty_tuple(self):
-        node = test_utils.extract_node('''
+        node = builder.extract_node('''
         ()
         ''')
         inferred = next(node.infer())

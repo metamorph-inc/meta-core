@@ -1,10 +1,10 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
-from matplotlib.externals import six
+import six
 
 from .axislines import Axes, Subplot, AxesZero, SubplotZero, GridHelperRectlinear, \
-     AxisArtistHelperRectlinear, AxisArtistHelper, GridHelperBase, AxisArtist
+     AxisArtistHelperRectlinear, AxisArtistHelper, GridHelperBase
 from .axis_artist import AxisArtist, GridlinesCollection
 
 from .grid_helper_curvelinear import GridHelperCurveLinear

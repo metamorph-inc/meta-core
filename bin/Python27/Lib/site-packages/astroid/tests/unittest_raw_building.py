@@ -1,10 +1,16 @@
+# Copyright (c) 2014 Google, Inc.
+# Copyright (c) 2014-2016 Claudiu Popa <pcmanticore@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 import inspect
 import os
 import unittest
 
-from six.moves import builtins # pylint: disable=import-error
+from six.moves import builtins
 
-from astroid.builder import AstroidBuilder
+from astroid.builder import AstroidBuilder, extract_node
 from astroid.raw_building import (
     attach_dummy_node, build_module,
     build_class, build_function, build_from_import
@@ -40,12 +46,14 @@ class RawBuildingTC(unittest.TestCase):
 
     def test_build_function_args(self):
         args = ['myArgs1', 'myArgs2']
+        # pylint: disable=no-member; not aware of postinit
         node = build_function('MyFunction', args)
         self.assertEqual('myArgs1', node.args.args[0].name)
         self.assertEqual('myArgs2', node.args.args[1].name)
         self.assertEqual(2, len(node.args.args))
 
     def test_build_function_defaults(self):
+        # pylint: disable=no-member; not aware of postinit
         defaults = ['defaults1', 'defaults2']
         node = build_function('MyFunction', None, defaults)
         self.assertEqual(2, len(node.args.defaults))
@@ -75,7 +83,7 @@ class RawBuildingTC(unittest.TestCase):
         for name, _ in inspect.getmembers(builtins, predicate=inspect.isbuiltin):
             if name == 'print':
                 continue
-            node = test_utils.extract_node('{0} #@'.format(name))
+            node = extract_node('{0} #@'.format(name))
             inferred = next(node.infer())
             self.assertIsInstance(inferred, nodes.FunctionDef, name)
             self.assertEqual(inferred.root().name, BUILTINS, name)

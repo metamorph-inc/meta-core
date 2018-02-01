@@ -1,26 +1,15 @@
-# copyright 2003-2015 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2015-2016 Claudiu Popa <pcmanticore@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 
 import contextlib
 import unittest
 
 import astroid
-from astroid.test_utils import extract_node, require_version
+from astroid import extract_node
+from astroid.test_utils import require_version
 from astroid import InferenceError
 from astroid import nodes
 from astroid import util
@@ -78,7 +67,7 @@ class ProtocolTests(unittest.TestCase):
 
         for1_starred = next(assign_stmts.nodes_of_class(Starred))
         assigned = next(for1_starred.assigned_stmts())
-        self.assertEqual(assigned, util.YES)
+        self.assertEqual(assigned, util.Uninferable)
 
     def _get_starred_stmts(self, code):
         assign_stmt = extract_node("{} #@".format(code))
@@ -119,16 +108,16 @@ class ProtocolTests(unittest.TestCase):
     @require_version(minver='3.0')
     def test_assigned_stmts_starred_yes(self):
         # Not something iterable and known
-        self._helper_starred_expected("a, *b = range(3) #@", util.YES)
+        self._helper_starred_expected("a, *b = range(3) #@", util.Uninferable)
         # Not something inferrable
-        self._helper_starred_expected("a, *b = balou() #@", util.YES)
+        self._helper_starred_expected("a, *b = balou() #@", util.Uninferable)
         # In function, unknown.
         self._helper_starred_expected("""
         def test(arg):
-            head, *tail = arg #@""", util.YES)
+            head, *tail = arg #@""", util.Uninferable)
         # These cases aren't worth supporting.
         self._helper_starred_expected(
-            "a, (*b, c), d = (1, (2, 3, 4), 5) #@", util.YES)
+            "a, (*b, c), d = (1, (2, 3, 4), 5) #@", util.Uninferable)
 
     @require_version(minver='3.0')
     def test_assign_stmts_starred_fails(self):
@@ -137,7 +126,7 @@ class ProtocolTests(unittest.TestCase):
         # Too many lhs values
         self._helper_starred_inference_error("a, *b, c = (1, 2) #@")
         # This could be solved properly, but it complicates needlessly the
-        # code for assigned_stmts, without oferring real benefit.
+        # code for assigned_stmts, without offering real benefit.
         self._helper_starred_inference_error(
             "(*a, b), (c, *d) = (1, 2, 3), (4, 5, 6) #@")
 
@@ -159,6 +148,23 @@ class ProtocolTests(unittest.TestCase):
         simple_mul_assnode_2 = next(assnames)
         assigned = list(simple_mul_assnode_2.assigned_stmts())
         self.assertNameNodesEqual(['c'], assigned)
+
+    @require_version(minver='3.6')
+    def test_assigned_stmts_annassignments(self):
+        annassign_stmts = extract_node("""
+        a: str = "abc"  #@
+        b: str  #@
+        """)
+        simple_annassign_node = next(annassign_stmts[0].nodes_of_class(AssignName))
+        assigned = list(simple_annassign_node.assigned_stmts())
+        self.assertEqual(1, len(assigned))
+        self.assertIsInstance(assigned[0], Const)
+        self.assertEqual(assigned[0].value, "abc")
+
+        empty_annassign_node = next(annassign_stmts[1].nodes_of_class(AssignName))
+        assigned = list(empty_annassign_node.assigned_stmts())
+        self.assertEqual(1, len(assigned))
+        self.assertIs(assigned[0], util.Uninferable)
 
     def test_sequence_assigned_stmts_not_accepting_empty_node(self):
         def transform(node):

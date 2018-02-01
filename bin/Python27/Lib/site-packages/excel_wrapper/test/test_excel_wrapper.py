@@ -48,7 +48,7 @@ class ExcelWrapperTestCase(unittest.TestCase):
         self.assertEqual(float(prob['sheet1_in']) + 100, prob['sheet2_out'], "Excel wrapper fails in multiple sheets")
 
     def test_ExcelWrapperJson(self):
-        return self._test_ExcelWrapper("testjston_1.json")
+        return self._test_ExcelWrapper("testjson_1.json")
 
     def test_ExcelWrapperJson2(self):
         return self._test_ExcelWrapper("testjson_1.json", inputs={'x': -10, 'b': False, 's': u'TEST', 'macroVar': u'macroTest', 'macroVB': 12})

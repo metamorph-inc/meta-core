@@ -1,20 +1,10 @@
-# copyright 2003-2014 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
-# contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
-#
-# This file is part of astroid.
-#
-# astroid is free software: you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation, either version 2.1 of the License, or (at your
-# option) any later version.
-#
-# astroid is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
-# for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with astroid. If not, see <http://www.gnu.org/licenses/>.
+# Copyright (c) 2006-2008, 2010-2014 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>
+# Copyright (c) 2013-2014 Google, Inc.
+# Copyright (c) 2014-2016 Claudiu Popa <pcmanticore@gmail.com>
+
+# Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+# For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
 import sys
 import unittest
 import textwrap
@@ -23,11 +13,11 @@ import six
 
 from astroid import MANAGER, Instance, nodes
 from astroid.bases import BUILTINS
-from astroid.builder import AstroidBuilder
+from astroid.builder import AstroidBuilder, extract_node
 from astroid import exceptions
 from astroid.raw_building import build_module
 from astroid.manager import AstroidManager
-from astroid.test_utils import require_version, extract_node
+from astroid.test_utils import require_version
 from astroid.tests import resources
 from astroid import transforms
 
@@ -113,28 +103,9 @@ class A(gobject.GObject):
         a = astroid['A']
         self.assertTrue(a.newstyle)
 
-
-    def test_pylint_config_attr(self):
-        try:
-            from pylint import lint # pylint: disable=unused-variable
-        except ImportError:
-            self.skipTest('pylint not available')
-        mod = MANAGER.ast_from_module_name('pylint.lint')
-        pylinter = mod['PyLinter']
-        expect = ['OptionsManagerMixIn', 'object', 'MessagesHandlerMixIn',
-                  'ReportsHandlerMixIn', 'BaseTokenChecker', 'BaseChecker',
-                  'OptionsProviderMixIn']
-        self.assertListEqual([c.name for c in pylinter.ancestors()],
-                             expect)
-        self.assertTrue(list(Instance(pylinter).getattr('config')))
-        inferred = list(Instance(pylinter).igetattr('config'))
-        self.assertEqual(len(inferred), 1)
-        self.assertEqual(inferred[0].root().name, 'optparse')
-        self.assertEqual(inferred[0].name, 'Values')
-
     def test_numpy_crash(self):
         """test don't crash on numpy"""
-        #a crash occured somewhere in the past, and an
+        #a crash occurred somewhere in the past, and an
         # InferenceError instead of a crash was better, but now we even infer!
         try:
             import numpy # pylint: disable=unused-variable
@@ -149,7 +120,7 @@ multiply(1, 2, 3)
         astroid = builder.string_build(data, __name__, __file__)
         callfunc = astroid.body[1].value.func
         inferred = callfunc.inferred()
-        self.assertEqual(len(inferred), 2)
+        self.assertEqual(len(inferred), 1)
 
     @require_version('3.0')
     def test_nameconstant(self):
@@ -251,7 +222,7 @@ def test():
 
     def test_ancestors_yes_in_bases(self):
         # Test for issue https://bitbucket.org/logilab/astroid/issue/84
-        # This used to crash astroid with a TypeError, because an YES
+        # This used to crash astroid with a TypeError, because an Uninferable
         # node was present in the bases
         node = extract_node("""
         def with_metaclass(meta, *bases):
@@ -335,6 +306,16 @@ def test():
         ''')
         inferred = next(node.infer())
         self.assertIsInstance(inferred, nodes.Const)
+
+    def test_recursive_property_method(self):
+        node = extract_node('''
+        class APropert():
+            @property
+            def property(self):
+                return self
+        APropert().property
+        ''')
+        next(node.infer())
 
     def test_uninferable_string_argument_of_namedtuple(self):
         node = extract_node('''

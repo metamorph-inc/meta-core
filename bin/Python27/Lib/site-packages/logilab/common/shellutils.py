@@ -304,7 +304,7 @@ class ProgressBar(object):
 
 
 class DummyProgressBar(object):
-    __slot__ = ('text',)
+    __slots__ = ('text',)
 
     def refresh(self):
         pass

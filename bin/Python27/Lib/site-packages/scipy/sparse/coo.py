@@ -87,12 +87,15 @@ class coo_matrix(_data_matrix, _minmax_mixin):
 
     Examples
     --------
+    
+    >>> # Constructing an empty matrix
     >>> from scipy.sparse import coo_matrix
     >>> coo_matrix((3, 4), dtype=np.int8).toarray()
     array([[0, 0, 0, 0],
            [0, 0, 0, 0],
            [0, 0, 0, 0]], dtype=int8)
 
+    >>> # Constructing a matrix using ijv format
     >>> row  = np.array([0, 3, 1, 0])
     >>> col  = np.array([0, 3, 1, 2])
     >>> data = np.array([4, 5, 7, 9])
@@ -102,11 +105,15 @@ class coo_matrix(_data_matrix, _minmax_mixin):
            [0, 0, 0, 0],
            [0, 0, 0, 5]])
 
-    >>> # example with duplicates
+    >>> # Constructing a matrix with duplicate indices
     >>> row  = np.array([0, 0, 1, 3, 1, 0, 0])
     >>> col  = np.array([0, 2, 1, 3, 1, 0, 0])
     >>> data = np.array([1, 1, 1, 1, 1, 1, 1])
-    >>> coo_matrix((data, (row, col)), shape=(4, 4)).toarray()
+    >>> coo = coo_matrix((data, (row, col)), shape=(4, 4))
+    >>> # Duplicate indices are maintained until implicitly or explicitly summed
+    >>> np.max(coo.data)
+    1
+    >>> coo.toarray()
     array([[3, 0, 1, 0],
            [0, 2, 0, 0],
            [0, 0, 0, 0],
@@ -283,7 +290,6 @@ class coo_matrix(_data_matrix, _minmax_mixin):
             return csc_matrix(self.shape, dtype=self.dtype)
         else:
             M,N = self.shape
-            self.sum_duplicates()
             idx_dtype = get_index_dtype((self.col, self.row),
                                         maxval=max(self.nnz, M))
             row = self.row.astype(idx_dtype, copy=False)
@@ -296,7 +302,10 @@ class coo_matrix(_data_matrix, _minmax_mixin):
             coo_tocsr(N, M, self.nnz, col, row, self.data,
                       indptr, indices, data)
 
-            return csc_matrix((data, indices, indptr), shape=self.shape)
+            x = csc_matrix((data, indices, indptr), shape=self.shape)
+            if not self.has_canonical_format:
+                x.sum_duplicates()
+            return x
 
     def tocsr(self, copy=False):
         """Convert this matrix to Compressed Sparse Row format
@@ -323,7 +332,6 @@ class coo_matrix(_data_matrix, _minmax_mixin):
             return csr_matrix(self.shape, dtype=self.dtype)
         else:
             M,N = self.shape
-            self.sum_duplicates()
             idx_dtype = get_index_dtype((self.row, self.col),
                                         maxval=max(self.nnz, N))
             row = self.row.astype(idx_dtype, copy=False)
@@ -336,7 +344,10 @@ class coo_matrix(_data_matrix, _minmax_mixin):
             coo_tocsr(M, N, self.nnz, row, col, self.data,
                       indptr, indices, data)
 
-            return csr_matrix((data, indices, indptr), shape=self.shape)
+            x = csr_matrix((data, indices, indptr), shape=self.shape)
+            if not self.has_canonical_format:
+                x.sum_duplicates()
+            return x
 
     def tocoo(self, copy=False):
         if copy:
@@ -374,15 +385,19 @@ class coo_matrix(_data_matrix, _minmax_mixin):
 
         self.sum_duplicates()
         dok = dok_matrix((self.shape), dtype=self.dtype)
-        dok.update(izip(izip(self.row,self.col),self.data))
+        dok._update(izip(izip(self.row,self.col),self.data))
 
         return dok
 
     todok.__doc__ = spmatrix.todok.__doc__
 
-    def diagonal(self):
-        diag = np.zeros(min(self.shape), dtype=self.dtype)
-        diag_mask = self.row == self.col
+    def diagonal(self, k=0):
+        rows, cols = self.shape
+        if k <= -rows or k >= cols:
+            raise ValueError("k exceeds matrix dimensions")
+        diag = np.zeros(min(rows + min(k, 0), cols - max(k, 0)),
+                        dtype=self.dtype)
+        diag_mask = (self.row + k) == self.col
 
         if self.has_canonical_format:
             row = self.row[diag_mask]
@@ -391,7 +406,7 @@ class coo_matrix(_data_matrix, _minmax_mixin):
             row, _, data = self._sum_duplicates(self.row[diag_mask],
                                                 self.col[diag_mask],
                                                 self.data[diag_mask])
-        diag[row] = data
+        diag[row + min(k, 0)] = data
 
         return diag
 
@@ -484,9 +499,20 @@ class coo_matrix(_data_matrix, _minmax_mixin):
         self.row = self.row[mask]
         self.col = self.col[mask]
 
-    ###########################
-    # Multiplication handlers #
-    ###########################
+    #######################
+    # Arithmetic handlers #
+    #######################
+
+    def _add_dense(self, other):
+        if other.shape != self.shape:
+            raise ValueError('Incompatible shapes.')
+        dtype = upcast_char(self.dtype.char, other.dtype.char)
+        result = np.array(other, dtype=dtype, copy=True)
+        fortran = int(result.flags.f_contiguous)
+        M, N = self.shape
+        coo_todense(M, N, self.nnz, self.row, self.col, self.data,
+                    result.ravel('A'), fortran)
+        return np.matrix(result, copy=False)
 
     def _mul_vector(self, other):
         #output array
@@ -504,4 +530,26 @@ class coo_matrix(_data_matrix, _minmax_mixin):
 
 
 def isspmatrix_coo(x):
+    """Is x of coo_matrix type?
+
+    Parameters
+    ----------
+    x
+        object to check for being a coo matrix
+
+    Returns
+    -------
+    bool
+        True if x is a coo matrix, False otherwise
+
+    Examples
+    --------
+    >>> from scipy.sparse import coo_matrix, isspmatrix_coo
+    >>> isspmatrix_coo(coo_matrix([[5]]))
+    True
+
+    >>> from scipy.sparse import coo_matrix, csr_matrix, isspmatrix_coo
+    >>> isspmatrix_coo(csr_matrix([[5]]))
+    False
+    """
     return isinstance(x, coo_matrix)
