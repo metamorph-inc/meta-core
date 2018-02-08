@@ -16,7 +16,7 @@
             DisableModify="yes"
             >
 
-        <!-- n.b. this custom bootstrapper will uninstall all RelatedBundles -->
+        <!-- n.b. this custom bootstrapper will uninstall all RelatedBundles. (Related bundle uninstalls are scheduled after everything else) -->
         <RelatedBundle Id="{C86B99E4-7F62-4037-9313-32562A0C839E}" Action="Detect" />
         <RelatedBundle Id="{5176D0AD-874A-459C-B588-D44BDD22F546}" Action="Detect" />
         <BootstrapperApplication Id='WixStandardBootstrapperApplication.RtfLicense_mod' SourceFile='.\WixStdBA.dll'>
@@ -46,7 +46,7 @@
                      />
 
       <util:FileSearch Id="SearchSystem3"
-                       Path="[WindowsFolder]System32\ucrtbase.dll"
+                       Path="[System64Folder]\ucrtbase.dll"
                        Variable="UCRTVERSION64"
                        Result="version"
                        />
@@ -169,6 +169,8 @@
                   ForcePerMachine="yes"
                   >
         <MsiProperty Name="MSIUNINSTALLSUPERSEDEDCOMPONENTS" Value="1"/>
+        <Payload Id="GME_x64_open.mst" Name="GME_x64_open.mst" Compressed="yes" SuppressSignatureVerification="yes" SourceFile="GME_x64_open.mst"/>
+        <MsiProperty Name="TRANSFORMS" Value="GME_x64_open.mst"/>
       </MsiPackage>
 
       <MsiPackage SourceFile="META_x64.msi"
