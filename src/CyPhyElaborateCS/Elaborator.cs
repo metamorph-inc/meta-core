@@ -571,12 +571,11 @@
         /// <param name="original">Original object from which the copy was made.</param>
         private void AddRecursivelyTraceability(MgaFCO copied, MgaFCO original)
         {
-            const int RELID_BASE_MAX = 0x7FFFFFF; // Mga.idl
             var componentAssembly = copied as MgaModel;
 
             foreach (MgaFCO child in componentAssembly.ChildFCOs)
             {
-                var originalChild = original.ChildObjectByRelID[child.RelID & (original.IsInstance ? Int32.MaxValue : RELID_BASE_MAX)] as MgaFCO;
+                var originalChild = original.ChildObjectByRelID[child.RelID] as MgaFCO;
                 this.Traceability.Add(child.ID, originalChild.ID);
 
                 if (child.ObjType == GME.MGA.Meta.objtype_enum.OBJTYPE_MODEL)

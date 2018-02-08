@@ -1,6 +1,8 @@
 ﻿using GME.MGA;
+using MasterInterpreterTest;
 using META;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,11 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using MasterInterpreterTest;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Xunit;
 using CyPhyGUIs;
 
@@ -630,6 +628,51 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void PET_OptimizerConstraintIntermediate_via_MasterInterpreter()
+        {
+            string objectAbsPath = "/@Testing/@ParametricExploration/@TestOptimizerIntermediateValueConstraint";
+
+            //Run CyPhyPET
+            var result = CyPhyMasterInterpreterRunner.RunMasterInterpreterAndReturnResults(
+                projectPath: this.mgaFile,
+                absPath: objectAbsPath,
+                configPath: objectAbsPath,
+                postToJobManager: false,
+                keepTempModels: false);
+
+            Assert.True(result.Success, "CyPhyMasterInterpreter run should have succeeded, but did not.");
+            var outputDir = result.OutputDirectory;
+
+            //Check mdao_config.json
+            var configContents = File.ReadAllText(Path.Combine(outputDir, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[0], "Paraboloid");
+            Assert.Equal(config.drivers["Optimizer"].constraints["constraint"].source[1], "f_xy");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[0], "Add2");
+            Assert.Equal(config.drivers["Optimizer"].intermediateVariables["z"].source[1], "y");
+
+            ////Run run_mdao
+            string stderr = "<did not start process>";
+            int retcode = Run(null, outputDir, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            //Check output.csv results
+            var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
+            Assert.Equal("GUID,z,f_xy,constraint,x,y", lines[0]);
+
+            //Check final optimized answer
+            var final_values = lines[lines.Count() - 1].Split(',');
+            Assert.Equal(6.6667, Double.Parse(final_values[1]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[2]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[3]), 4);
+            Assert.Equal(4.6667, Double.Parse(final_values[4]), 4);
+            Assert.Equal(-7.3333, Double.Parse(final_values[5]), 4);
+        }
+
+
+
+        [Fact]
         public void Test__TestTestBench_With_Files__MasterInterpreter()
         {
             string objectAbsPath = "/@Testing/@ParametricExploration/@TestTestBench_With_Files";
@@ -707,6 +750,7 @@ namespace CyPhyPETTest
                 // [Trait("THIS", "ONE")]
                 // "/trait", "Feature=CopyFiles",
                 //"/trait", "THIS=ONE",
+                //"/trait", "Type=Development", // Only run test(s) currently under development -- Those decorated with: [Trait("Type", "Development")]
             });
             Console.In.ReadLine();
             //System.Console.Out.WriteLine("HEllo World");

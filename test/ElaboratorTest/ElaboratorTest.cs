@@ -600,6 +600,32 @@ namespace ElaboratorTest
 
         [Fact]
         [Trait("Model", "Elaborator")]
+        public void ConnectorSubtypeRef()
+        {
+            string objectAbsPath = "/@02_TestBenches/@Valid/@ConnectorSubtypeRef";
+
+            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
+
+            var success = ElaboratorRunner.RunElaborator(mgaFile, objectAbsPath);
+
+            Assert.True(success, "CyPhyElaborator should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "Elaborator")]
+        public void ConnectorSubtype2Ref()
+        {
+            string objectAbsPath = "/@02_TestBenches/@Valid/@ConnectorSubtype2Ref";
+
+            Assert.True(File.Exists(this.mgaFile), "Failed to generate the mga.");
+
+            var success = ElaboratorRunner.RunElaborator(mgaFile, objectAbsPath);
+
+            Assert.True(success, "CyPhyElaborator should have succeeded, but did not.");
+        }
+
+        [Fact]
+        [Trait("Model", "Elaborator")]
         public void DesignSpaceCircularBetweenSubtrees()
         {
             string objectAbsPath = "/@03_DesignSpaces/@Invalid/@CircularBetweenSubtrees";

@@ -284,6 +284,7 @@
             // 
             // commandLinkRunParallel
             // 
+            this.commandLinkRunParallel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.commandLinkRunParallel.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.commandLinkRunParallel.Location = new System.Drawing.Point(412, 633);
             this.commandLinkRunParallel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
