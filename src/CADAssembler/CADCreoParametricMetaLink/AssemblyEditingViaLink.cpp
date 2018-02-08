@@ -742,14 +742,14 @@ throw(isis::application_exception)
     isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map[in_ConstraintComponentInstanceID];
 
     ApplyModelConstraints(//*m_cadfactory,
-                          reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
-						  m_CADComponentData_map[topAssemblyComponentInstanceID].name,
+                          //reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
+						  topAssemblyComponentInstanceID,
                           componentIDsToBeConstrained,
                           true,
                           m_CADComponentData_map,
                           // Provide for the case where the first assembled part does not have
                           // the datums front, top, and right defined.
-                          false,
+                          //false,
                           firstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound);
 
     bool regenerationSucceeded;

@@ -1,5 +1,6 @@
 #include <CommonFunctions.h>
 #include <string>
+#include <ToolKitPassThroughFunctions.h>
 
 
 namespace isis
@@ -388,6 +389,72 @@ void RetrieveUnits_withDescriptiveErrorMsg(
 
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
+									const std::string							&in_AssemblyComponentID,
+									const std::string							&in_PartComponentID,
+									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+									const MultiFormatString						&in_DatumName,
+									CADPoint									&out_CADPoint) 
+																				throw (isis::application_exception)						
+{
+
+	//wchar_t  datum_name[PRO_NAME_SIZE ];
+	//ProStringToWstring(datum_name, (char *)in_DatumName.c_str() );
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	ProModelitem  datum_point;
+	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
+		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
+		in_CADComponentData_map[in_PartComponentID].cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
+	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
+
+	ProPoint  point;
+	isis::isis_ProPointInit (	(ProSolid) datum_point.owner,  // ProSolid   owner_handle,
+								datum_point.id,
+								&point);
+
+	ProVector part_xyz_point;
+	isis::isis_ProPointCoordGet (point, part_xyz_point);
+
+
+
+	
+	double transformationMatrix[4][4];
+	//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+	//													in_CADComponentData_map[in_PartComponentID].componentPaths,
+	//													in_CADComponentData_map,  
+	//													PRO_B_TRUE,  // bottom up
+	//													transformationMatrix);
+
+	 isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+	// modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
+	//																in_CADComponentData_map[in_PartComponentID].componentPaths,
+	//																in_CADComponentData_map,  
+	//																true,  // bottom up
+	//																transformationMatrix);
+
+	 modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
+																	in_PartComponentID,
+																	in_CADComponentData_map,  
+																	true,  // bottom up
+																	transformationMatrix);
+
+			
+	 ProVector from_assembly_xyz_point;
+	 isis::isis_ProPntTrfEval( part_xyz_point, transformationMatrix, from_assembly_xyz_point);
+
+	 out_CADPoint.x = from_assembly_xyz_point[0];
+	 out_CADPoint.y = from_assembly_xyz_point[1];
+	 out_CADPoint.z = from_assembly_xyz_point[2];
+	 
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 } // END namespace isis

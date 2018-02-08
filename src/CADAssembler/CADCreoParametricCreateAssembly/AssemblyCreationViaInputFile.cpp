@@ -5,7 +5,7 @@
 #include <DiagnosticUtilities.h>
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
-#include <Metrics.h>
+#include <cc_Metrics.h>
 #include <DataExchange.h>
 #include <cc_MultiFormatString.h>
 #include <CommonFunctions.h>    // Work on this one
@@ -1126,6 +1126,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			// approach of recursively finding the children and would be more compatible with the approach in
 			// other areas of this program.
 			OutputCADMetricsToXML_Driver(	//*cAD_Factory_ptr,
+											ISIS_METRIC_FILE_VERSION,
 											regenerationSucceeded_ForAllAssemblies,
 											OutputJointInformation,
 											cADComponentAssemblies,

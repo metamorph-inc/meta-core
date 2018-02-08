@@ -184,6 +184,7 @@
     <ClInclude Include="cc_JsonHelper.h" />
     <ClInclude Include="cc_LoggerBoost.h" />
     <ClInclude Include="cc_MetaLinkInputArgumentsParser.h" />
+    <ClInclude Include="cc_Metrics.h" />
     <ClInclude Include="cc_MiscellaneousFunctions.h" />
     <ClInclude Include="cc_MultiFormatString.h" />
     <ClInclude Include="cc_Nastran.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="cc_JsonHelper.cpp" />
     <ClCompile Include="cc_LoggerBoost.cpp" />
     <ClCompile Include="cc_MetaLinkInputArgumentsParser.cpp" />
+    <ClCompile Include="cc_Metrics.cpp" />
     <ClCompile Include="cc_MiscellaneousFunctions.cpp" />
     <ClCompile Include="cc_MultiFormatString.cpp" />
     <ClCompile Include="cc_Nastran.cpp" />

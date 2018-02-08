@@ -190,7 +190,7 @@ namespace isis
 
 	struct ComputedJointData
 	{
-		std::string coordinatesystem; // This has been computed in the coordinate system of this component
+		std::string coordinateSystem_ComponentInstanceID; // This has been computed in the coordinate system of this component
 
 		bool junctiondDefined_withoutGuide;
 		isis::cad::Junction junction_withoutguide;

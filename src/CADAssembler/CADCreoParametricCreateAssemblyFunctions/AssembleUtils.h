@@ -34,12 +34,6 @@ namespace isis
 	
 	void Populate_c_id_table( const std::list<int> &in_path_list, ProIdTable out_c_id_table, int &out_c_id_table_size );
 
-	//void RetrieveTranformationMatrix_Assembly_to_Child (  
-	//						const std::string  &in_AssemblyComponentID,
-	//						const std::list<int>	   &in_ChildComponentPaths,
-	//						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-	//						bool   in_bottom_up,
-	//						double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid	   &in_assembly_model,

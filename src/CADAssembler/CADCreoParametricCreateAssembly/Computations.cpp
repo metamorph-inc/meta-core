@@ -3,7 +3,7 @@
 #include <CADPostProcessingParameters.h>   //  This is a generated file, resides in cc_
 #include <CADAnalysisMetaData.h>           //  This is a generated file, resides in cc_
 #include <cc_CommonUtilities.h>
-#include <Metrics.h>
+#include <cc_Metrics.h>
 #include <CFDAnalysis.h>
 #include <SurvivabilityAnalysis.h>
 #include <ToolKitPassThroughFunctions.h>
@@ -408,12 +408,19 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 					case COMPUTATION_POINT:
 						CADPoint point;
-						RetrieveDatumPointCoordinates(	//in_Factory, 
-														componentID_to_AssemblyComponentID_map[i.first],
-														j.componentID,
-														in_CADComponentData_map,
-														j.datumName, 
-														point); 
+						//RetrieveDatumPointCoordinates(	//in_Factory, 
+						//								componentID_to_AssemblyComponentID_map[i.first],
+						//								j.componentID,
+						//								in_CADComponentData_map,
+						//								j.datumName, 
+						//								point); 
+
+						modelOperations.retrievePointCoordinates(	componentID_to_AssemblyComponentID_map[i.first],
+																	j.componentID,
+																	in_CADComponentData_map,
+																	j.datumName, 
+																	point); 
+
 						temp_x =  point.x;
 						temp_y  = point.y;
 						temp_z =  point.z;

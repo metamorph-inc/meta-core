@@ -1,143 +1,30 @@
-#include "stdafx.h"
-#include <Metrics.h>
-#include <fstream>
-#include <CADMetrics.h>
-#include <ToolKitPassThroughFunctions.h>
-#include <iomanip>
-#include <cc_GraphicsFunctions.h>
+//#include "stdafx.h"
+#include "cc_Metrics.h"
+//#include <ToolKitPassThroughFunctions.h>
+
+#include "cc_GraphicsFunctions.h"
 #include "cc_Joint.h"
-#include <cc_CommonUtilities.h>
+#include "cc_CommonUtilities.h"
 
 
-#include <cc_CommonFunctions.h>
-#include <cc_AssemblyUtilities.h>
-#include <CommonFunctions.h>
+#include "cc_CommonFunctions.h"
+#include "cc_AssemblyUtilities.h"
 
-#ifndef ISIS_VERSION_NUMBER_H
-#define ISIS_VERSION_NUMBER_H
-#include <ISISVersionNumber.h>
-#endif
+#include <CADMetrics.h>
+
+#include <fstream>
+#include <iomanip>
+//#include <CommonFunctions.h>
+
+//#ifndef ISIS_VERSION_NUMBER_H
+//#define ISIS_VERSION_NUMBER_H
+//#include <ISISVersionNumber.h>
+//#endif
 
 
 namespace isis
 {
 
-///////////////////////////////////////////////////////////////////////////////////////
-/***  moved to factory
-void  ConvertCreoUnitToGMEUnit_Distance ( ProName in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-
-	std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	if ( unit == "in" ) { out_ShortName = "inch";	out_LongName = "inch"; }
-	if ( unit == "ft" ) { out_ShortName = "foot";	out_LongName = "foot"; }
-	if ( unit == "mm" ) { out_ShortName = "mm";		out_LongName = "millimeter"; }
-	if ( unit == "cm" ) { out_ShortName = "cm";		out_LongName = "centimeter"; }
-	if ( unit == "m" )	{ out_ShortName = "m";		out_LongName = "meter"; }
-	if ( unit == "km" )	{ out_ShortName = "km";		out_LongName = "kilometer"; }
-
-}
-**/
-///////////////////////////////////////////////////////////////////////////////////////
-/***  moved to factory
-void  ConvertCreoUnitToGMEUnit_Mass ( ProName in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
-{
-	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-
-	std::string unit = ProWstringToString( stringBuffer, in_MassUnit );
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	if ( unit == "lbm" ){ out_ShortName = "lbm";		out_LongName = "poundmass"; }
-	if ( unit == "g" )	{ out_ShortName = "g";			out_LongName = "gram"; }
-	if ( unit == "kg" )	{ out_ShortName = "kg";			out_LongName = "kilogram"; }
-	if ( unit == "tonne" )	{ out_ShortName = "tonne";  out_LongName = "tonne"; }
-
-}
-***/
-///////////////////////////////////////////////////////////////////////////////////////
-/***  moved to factory
-void  ConvertCreoUnitToGMEUnit_Force ( ProName in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	char stringBuffer[PRO_NAME_SIZE];    // PRO_NAME_SIZE = 32
-
-	std::string unit = ProWstringToString( stringBuffer, in_ForceUnit );
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	if ( unit == "lbf" ) { out_ShortName = "lbf";	out_LongName = "poundforce"; }
-	if ( unit == "N" )	 { out_ShortName = "N";		out_LongName = "newton"; }
-
-}
-***/
-///////////////////////////////////////////////////////////////////////////////////////
-/***  moved to factory
-void  ConvertCreoUnitToGMEUnit_Temperature ( ProName in_Temperature, std::string &out_ShortName, std::string &out_LongName  )
-{
-	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-
-	std::string unit = ProWstringToString( stringBuffer, in_Temperature );
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	if ( unit == "C" )	{ out_ShortName = "C";	out_LongName = "centigrade"; }
-	if ( unit == "F" )	{ out_ShortName = "F";	out_LongName = "fahrenheit"; }
-	if ( unit == "K" )	{ out_ShortName = "K";	out_LongName = "kelvin"; }
-
-}
-***/
-///////////////////////////////////////////////////////////////////////////////////////
-/****  moved to factory
-void ConvertCreoUnitToGMEUnit_Time ( ProName in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-
-	std::string unit = ProWstringToString( stringBuffer, in_TimeUnit );
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	if ( unit == "sec" ) { out_ShortName = "sec";	out_LongName = "second"; }
-
-}
-***/
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////
-/*
-void RetrieveMaterial(	const std::string &in_ModelName, 
-						ProSolid part, 
-						std::string &out_MaterialName ) throw(isis::application_exception)
-{
-
-	ProMaterial  material;
-
-	try
-	{
-		isis::isis_ProMaterialCurrentGet( part, &material );
-
-		char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-		out_MaterialName = ProWstringToString( stringBuffer, material.matl_name );	
-	}
-	catch (...)
-	{
-		// out_MaterialName = "NOT_DEFINED";
-		std::string TempError = 
-					"Material not defined for part: " + in_ModelName + 
-					".  To compute mass properties, all parts must have a material assignment. "  +
-					" Please open the model with Creo and select File Prepare \"Model Properties\"" +
-					" to assign a material to the model.";
-					throw isis::application_exception(TempError.c_str());		
-	}
-}
-*/
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void PopulateMatrix(	int					in_NumRows, 
 						int					in_NumColumns, 
@@ -430,11 +317,15 @@ void Populate_Single_MetricComponent(
 		//if ( in_CADComponentData_map[in_ComponentID].modelType == PRO_MDL_PART )
 		if ( in_CADComponentData_map[in_ComponentID].modelType == CAD_MDL_PART )
 		{
-			std::string material_temp = "Undefined";
+			//std::string material_temp = "Undefined";
+			MultiFormatString material_temp("Undefined");
+
 			try
 			{ // zzzz Material need to check for 
-				RetrieveMaterial(	in_CADComponentData_map[in_ComponentID].name,
-									static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl), material_temp );
+				//RetrieveMaterial(	in_CADComponentData_map[in_ComponentID].name,
+				//					static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl), material_temp );
+
+				material_temp = modelOperations.retrieveMaterialName(in_ComponentID, in_CADComponentData_map );
 			}
 			catch (...)
 			{
@@ -459,11 +350,11 @@ void Populate_Single_MetricComponent(
 
 				// The last item in componentPaths is the path from the parent assembly to the child.  The other
 				// entries in componentPaths are paths from higher up assemblies.  
-				std::list<int>  assemblyToChild_compentPath;
-				assemblyToChild_compentPath.push_back( in_CADComponentData_map[*i].componentPaths.back());
+				std::list<int>  assemblyToChild_componentPath;
+				assemblyToChild_componentPath.push_back( in_CADComponentData_map[*i].componentPaths.back());
 
 				//RetrieveTranformationMatrix_Assembly_to_Child ( in_ComponentID,  
-				//												assemblyToChild_compentPath,
+				//												assemblyToChild_componentPath,
 				//												in_CADComponentData_map,  
 				//												//PRO_B_FALSE,  // bottom up = False
 				//												PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
@@ -471,7 +362,7 @@ void Populate_Single_MetricComponent(
 
 
 				modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_ComponentID,  
-																				assemblyToChild_compentPath,
+																				assemblyToChild_componentPath,
 																				in_CADComponentData_map,  
 																				//false,  // bottom up = False
 																				true,  // bottom up = True, Changed this 8/8/2013, V1.4.6
@@ -990,6 +881,7 @@ void Log_Anomalies(	const std::map<int, MetricsDefined>	&in_MetricID_to_Anomalie
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void OutputCADMetricsToXML_Driver( 
 							//cad::CadFactoryAbstract							&in_Factory,
+							const std::string								&in_MetricFileVersion,
 							bool												in_regenerationSucceeded_ForAllAssemblies,
 							bool												in_OutputJoints,
 							const isis::CADAssemblies						&in_CADAssemblies,
@@ -1010,6 +902,7 @@ void OutputCADMetricsToXML_Driver(
 			
 			bool metricsErrorOccurred;
 			isis::OutputCADMetricsToXML(//in_Factory, 
+										in_MetricFileVersion,
 										in_CADAssemblies, in_CADComponentData_map,  in_MeticsOutputXML_PathAndFileName, in_OutputJoints, metricsErrorOccurred);
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created: " + in_MeticsOutputXML_PathAndFileName;
 
@@ -1029,7 +922,8 @@ void OutputCADMetricsToXML_Driver(
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void OutputCADMetricsToXML( //cad::CadFactoryAbstract							&in_Factory,
+void OutputCADMetricsToXML( //cad::CadFactoryAbstract						&in_Factory,
+						    const std::string								&in_MetricFileVersion,
 							const isis::CADAssemblies						&in_CADAssemblies,
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
 							const std::string								&in_MeticsOutputXML_PathAndFileName, 
@@ -1075,7 +969,7 @@ void OutputCADMetricsToXML( //cad::CadFactoryAbstract							&in_Factory,
 		// Cast to root of UDM object
 		//////////////////////////////
 		CADMetrics::CADMetricRoot CADMetricRoot = CADMetrics::CADMetricRoot::Cast(dn_CADMetricRoot.GetRootObject());
-		CADMetricRoot.VersionInfo() = ISIS_METRIC_FILE_VERSION;
+		CADMetricRoot.VersionInfo() = in_MetricFileVersion;
 
 		//  Anomalies
 		CADMetrics::Anomalies  anomaliesRoot = CADMetrics::Anomalies::Create( CADMetricRoot );

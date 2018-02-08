@@ -717,12 +717,12 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 
 			// Can constrain this SIZE_TO_FIT component
 			isis::ApplyModelConstraints( //in_Factory,
-											reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
+											//reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
 											in_AssemblyComponentID,
 											Single_SIZE_TO_FIT_Component,
 											in_AllowUnconstrainedModels,
 											in_CADComponentData_map, 
-											false, 
+											//false, 
 											false);
 			//isis::ApplyModelConstraints( (ProSolid*)&in_p_asm, //ProSolid	 in_assembly_model,
 			//								Single_SIZE_TO_FIT_Component,
@@ -1050,12 +1050,12 @@ void AssembleCADComponent(
 
 
 	bool fail = isis::ApplyModelConstraints( //*cAD_Factory_ptr,
-									(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
+									//(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
 									in_AssemblyComponentID,
 									SortedComponents,
 									in_AllowUnconstrainedModels,
 									in_out_CADComponentData_map,
-									constraintdata,
+									//constraintdata,
 									true);
 		
 

@@ -39,7 +39,7 @@ void Add_Subassemblies_and_Parts(
 		int									&in_out_addedToAssemblyOrdinal)
 					throw (isis::application_exception);
 
-void	RegenerateModel( ProSolid in_p_asm,
+void	 RegenerateModel( ProSolid in_p_asm,
 						 const std::string in_ParentName,
 						 const std::string in_ParentComponentID,
 						 bool  &out_RegenerationSucceeded,

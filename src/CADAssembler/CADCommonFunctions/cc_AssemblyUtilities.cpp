@@ -998,7 +998,7 @@ namespace isis
 
 							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
 							// ttttt
-							j->computedJointData.coordinatesystem = i;
+							j->computedJointData.coordinateSystem_ComponentInstanceID = i;
 							j->computedJointData.junctiondDefined_withoutGuide = true;
 							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
 
@@ -1013,7 +1013,7 @@ namespace isis
 																			j->computedJointData.junction_withoutguide,
 																			in_out_CADComponentData_map );
 						j->computedJointData.junctiondDefined_withGuide = false;
-						j->computedJointData.coordinatesystem = i;
+						j->computedJointData.coordinateSystem_ComponentInstanceID = i;
 						j->computedJointData.junctiondDefined_withoutGuide = true;
 						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
 						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);

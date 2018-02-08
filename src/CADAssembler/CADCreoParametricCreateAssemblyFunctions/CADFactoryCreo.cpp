@@ -12,6 +12,8 @@
 #include "CommonFeatureUtils.h"
 #include "CommonFunctions.h"
 #include "AssembleUtils.h"
+#include "ModelMaterials.h"
+
 
 namespace isis {
 namespace cad {
@@ -426,7 +428,7 @@ void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, con
 
         config_Pro.close();
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void ModelHandlingCreo::extractModelNameAndFamilyTableEntry(	const std::string	&in_OrigName, 
 															std::string			&out_ModelName,
@@ -720,10 +722,6 @@ void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponent
 }
 
 
-
-
-
-
 void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			//cad::CadFactoryAbstract													&in_Factory,
 			const std::vector<std::string>											&in_AssemblyComponentIDs,
@@ -816,7 +814,7 @@ void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_C
 
 					constraintData_PerFeatureTree.computedJointData.jointType_withoutguide =  GetCADJointType(constraintData_PerFeatureTree.computedJointData.junction_withoutguide.joint_pair.first.type);
 					constraintData_PerFeatureTree.computedJointData.junctiondDefined_withoutGuide = true;
-					constraintData_PerFeatureTree.computedJointData.coordinatesystem = assembledFeatureDefinition.componentInstanceID;
+					constraintData_PerFeatureTree.computedJointData.coordinateSystem_ComponentInstanceID = assembledFeatureDefinition.componentInstanceID;
 
 					try
 					{
@@ -931,8 +929,7 @@ void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 
 
 
-/****
-void ModelOperationsCreo::retrievePointCoordinates(	const std::string								&in_AssemblyComponentID,
+void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_AssemblyComponentID,
 											const std::string								&in_PartComponentID,
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 											const MultiFormatString							&in_PointName,
@@ -941,15 +938,15 @@ void ModelOperationsCreo::retrievePointCoordinates(	const std::string								&in
 {
 
 
-		RetrieveDatumPointCoordinates(	componentID_to_AssemblyComponentID_map[i.first],
-									j.componentID,
+		RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
+									in_PartComponentID,
 									in_CADComponentData_map,
-									j.datumName, 
-									point); 
+									in_PointName, 
+									out_CADPoint); 
 
 
 }
-***/
+
 
 void ModelOperationsCreo::findPartsReferencedByFeature(	
 						const std::string									&in_TopAssemblyComponentInstanceID, 
@@ -1361,9 +1358,20 @@ void ModelOperationsCreo::retrieveCADModelUnits(
 
 }
 
+MultiFormatString ModelOperationsCreo::retrieveMaterialName( 	
+										const std::string								&in_ComponentInstanceID,
+										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
+																	throw (isis::application_exception)
+{
 
 
+	std::string material_temp;
 
+	RetrieveMaterial(	in_CADComponentData_map[in_ComponentInstanceID].name,
+						static_cast<ProSolid>(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl), material_temp );
+
+	return MultiFormatString(material_temp);
+}
 
 
 } // creo

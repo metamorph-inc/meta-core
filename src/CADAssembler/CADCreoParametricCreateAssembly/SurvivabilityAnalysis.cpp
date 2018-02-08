@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <SurvivabilityAnalysis.h>
 #include "cc_SurvivabilityJasonWriter.h"
+#include <CommonFunctions.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -101,6 +102,12 @@ namespace isis
 							std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 							isis_CADCommon::CADCommon_Shotline				&out_CADCommon_Shotline )
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();	
+
 		double azimuth_radians;
 		double elevation_radians;
 
@@ -109,12 +116,21 @@ namespace isis
 
 		CADPoint targetPoint;
 
-	    RetrieveDatumPointCoordinates(	//in_Factory,
+	    //RetrieveDatumPointCoordinates(	//in_Factory,
+		//								in_AssemblyComponentID,
+		//								in_Shotline.datumPoint_ComponentID,
+		//								in_CADComponentData_map,
+		//								in_Shotline.datumPoint,
+		//								targetPoint);
+
+	    modelOperations.retrievePointCoordinates(
 										in_AssemblyComponentID,
 										in_Shotline.datumPoint_ComponentID,
 										in_CADComponentData_map,
 										in_Shotline.datumPoint,
 										targetPoint);
+
+
 
 		out_CADCommon_Shotline.targetPoint.x = targetPoint.x / 1000.0;  // Convert to meters
 		out_CADCommon_Shotline.targetPoint.y = targetPoint.y / 1000.0;

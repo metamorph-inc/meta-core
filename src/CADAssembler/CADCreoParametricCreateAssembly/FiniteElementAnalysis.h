@@ -14,13 +14,6 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 
-	void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
-										const std::string							&in_AssemblyComponentID,
-										const std::string								&in_PartComponentID,
-										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-										const MultiFormatString							&in_DatumName,
-										CADPoint										&out_CADPoint);
-
 
 	// Pre-Conditions
 	//	in_TopLevelAssemblyData.CADAnalyses.list<AnalysisFEA> can contain only one item.  Multiple Analysis

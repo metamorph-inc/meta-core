@@ -1112,14 +1112,14 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				// Get transformation matrix from the global coordinate system to the assembled .prt/.asm
 				double transformationMatrix[4][4];  // rotation 3 X 3, translation at bottom row of the 4 X 4
 				//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
-				//												in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
+				//												in_out_CADComponentData_map[j->computedJointData.coordinateSystem_ComponentInstanceID].componentPaths,
 				//												in_out_CADComponentData_map,  
 				//												PRO_B_TRUE,  // bottom up
 				//												transformationMatrix );
 
 				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 				modelOperations.retrieveTranformationMatrix_Assembly_to_Child ( in_AssemblyComponentID,
-																				j->computedJointData.coordinatesystem,  
+																				j->computedJointData.coordinateSystem_ComponentInstanceID,  
 																				in_out_CADComponentData_map,  
 																				true,  // bottom up
 																				transformationMatrix );
@@ -1130,7 +1130,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				cad::Joint jointGlobal = motorPair.move(j->computedJointData.junction_withoutguide.joint_pair.first);
 #else
 				// Use matrix multiplication until the quaternion rotation is not fixed
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinatesystem;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinateSystem_ComponentInstanceID;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   location: " << j->computedJointData.junction_withoutguide.joint_pair.first.location.c_str_e20();
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   orient  : " << j->computedJointData.junction_withoutguide.joint_pair.first.orientation.c_str_e20();
 				e3ga::vector loc = j->computedJointData.junction_withoutguide.joint_pair.first.location;
@@ -1418,7 +1418,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 					constraintData_PerFeatureTree.computedJointData.jointType_withoutguide =  GetCADJointType(constraintData_PerFeatureTree.computedJointData.junction_withoutguide.joint_pair.first.type);
 					constraintData_PerFeatureTree.computedJointData.junctiondDefined_withoutGuide = true;
-					constraintData_PerFeatureTree.computedJointData.coordinatesystem = assembledFeatureDefinition.componentInstanceID;
+					constraintData_PerFeatureTree.computedJointData.coordinateSystem_ComponentInstanceID = assembledFeatureDefinition.componentInstanceID;
 
 					try
 					{
