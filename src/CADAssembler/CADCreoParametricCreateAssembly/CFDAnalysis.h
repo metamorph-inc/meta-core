@@ -37,10 +37,11 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 
-	void CFD_Driver( 	const CFD_Fidelity								in_fidelity,
+	void CFD_Driver(//cad::CadFactoryAbstract								&in_Factory,
+					const CFD_Fidelity									in_fidelity,
 					const std::string									&in_ExtensionDirectory,
 					const std::string									&in_WorkingDirectory,
-					const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
+					const isis::TopLevelAssemblyData						&in_TopLevelAssemblyData,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																				throw (isis::application_exception);
 

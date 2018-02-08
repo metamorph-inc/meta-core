@@ -13,6 +13,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include <CreoStringToEnumConversions.h>
+#include <CommonFunctions.h>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -384,70 +385,23 @@ void MeshModel (
 //end using solid elements ****/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RetrieveDatumPointCoordinates( cad::CadFactoryAbstract						&in_Factory,
-									const std::string							&in_AssemblyComponentID,
-									const std::string							&in_PartComponentID,
-									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-									const MultiFormatString						&in_DatumName,
-									CADPoint									&out_CADPoint) 
-																				throw (isis::application_exception)						
-{
-
-	//wchar_t  datum_name[PRO_NAME_SIZE ];
-	//ProStringToWstring(datum_name, (char *)in_DatumName.c_str() );
-
-
-	ProModelitem  datum_point;
-	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
-		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
-		in_CADComponentData_map[in_PartComponentID].cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
-	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
-
-	ProPoint  point;
-	isis::isis_ProPointInit (	(ProSolid) datum_point.owner,  // ProSolid   owner_handle,
-								datum_point.id,
-								&point);
-
-	ProVector part_xyz_point;
-	isis::isis_ProPointCoordGet (point, part_xyz_point);
-
-
-
-	
-	double transformationMatrix[4][4];
-	//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
-	//													in_CADComponentData_map[in_PartComponentID].componentPaths,
-	//													in_CADComponentData_map,  
-	//													PRO_B_TRUE,  // bottom up
-	//													transformationMatrix);
-
-	 isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
-	 modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
-																	in_CADComponentData_map[in_PartComponentID].componentPaths,
-																	in_CADComponentData_map,  
-																	true,  // bottom up
-																	transformationMatrix);
-
-			
-	 ProVector from_assembly_xyz_point;
-	 isis::isis_ProPntTrfEval( part_xyz_point, transformationMatrix, from_assembly_xyz_point);
-
-	 out_CADPoint.x = from_assembly_xyz_point[0];
-	 out_CADPoint.y = from_assembly_xyz_point[1];
-	 out_CADPoint.z = from_assembly_xyz_point[2];
-	 
-}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GetPolygonAnalysisGeometry( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_AssemblyComponentID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 					const AnalysisGeometry							&in_AnalysisGeometry, 
 					std::vector<isis_CADCommon::Point_3D>			&out_Polygon ) 
 														throw (isis::application_exception)
 {
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
 	int numberPolygonPoints = 0;
 	
 	//for (std::list<AnalysisGeometryFeature>::const_iterator	l(in_AnalysisGeometry.features.begin()); l != in_AnalysisGeometry.features.end(); ++l ) 
@@ -460,12 +414,20 @@ void GetPolygonAnalysisGeometry(
 		//										*l,  // Datum Point Name
 		//										point);
 
-		isis::RetrieveDatumPointCoordinates(		in_Factory, 
+		//isis::RetrieveDatumPointCoordinates(		//in_Factory, 
+		//										in_AssemblyComponentID,
+		//										l->componentID,
+		//										in_CADComponentData_map,
+		//										l->datumName,  // // Datum Point Name 
+		//										point);
+
+		modelOperations.retrievePointCoordinates( 
 												in_AssemblyComponentID,
 												l->componentID,
 												in_CADComponentData_map,
 												l->datumName,  // // Datum Point Name 
 												point);
+
 
 		out_Polygon.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
 		++numberPolygonPoints;
@@ -613,21 +575,36 @@ void GetDatumPointsReferencedByAnalyses( const	std::list<AnalysisConstraint>				
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GetDatumPointsCoordinates(	cad::CadFactoryAbstract									&in_Factory,
+void GetDatumPointsCoordinates(	//cad::CadFactoryAbstract									&in_Factory,
 								const std::vector<ComponentInstanceID_DatumFeatureName> &in_ComponentInstanceID_DatumFeatureName,   
 								const std::string										&in_AssemblyComponentID,
 								std::map<string, isis::CADComponentData>				&in_CADComponentData_map,
 								std::vector<DatumPointCoordinates>						&out_datumPointCoordinates )
 {
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();	
+
 	for each ( const ComponentInstanceID_DatumFeatureName &i in in_ComponentInstanceID_DatumFeatureName )
 	{
 		CADPoint  point;
-		RetrieveDatumPointCoordinates(	in_Factory,
+		//RetrieveDatumPointCoordinates(	//in_Factory,
+		//								in_AssemblyComponentID,
+		//								i.componentInstanceID,
+		//								in_CADComponentData_map,
+		//								i.datumName,  // Datum Point Name
+		//								point);
+
+		modelOperations.retrievePointCoordinates(
 										in_AssemblyComponentID,
 										i.componentInstanceID,
 										in_CADComponentData_map,
 										i.datumName,  // Datum Point Name
 										point);
+
+
 		out_datumPointCoordinates.push_back( DatumPointCoordinates(i, point ));
 	}
 }
@@ -656,7 +633,7 @@ void DatumKey_to_Point_map( const std::vector<DatumPointCoordinates>	&in_datumPo
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void FindPointsOnSurface( 	cad::CadFactoryAbstract								&in_Factory,
+void FindPointsOnSurface( 	//cad::CadFactoryAbstract								&in_Factory,
 							const std::map<int,isis_CADCommon::GridPoint>		&in_GridPoints_map,
 							const std::string									&in_AssemblyComponentID,
 							const std::string									&in_PartComponentID,
@@ -666,11 +643,24 @@ void FindPointsOnSurface( 	cad::CadFactoryAbstract								&in_Factory,
 																				throw (isis::application_exception)						
 {
 
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
 	////////////////////////////////////////
 	// Get point on surface coordinates
 	////////////////////////////////////////
 	CADPoint pointOnSurface_CADPoint;
-	RetrieveDatumPointCoordinates(  in_Factory,
+	//RetrieveDatumPointCoordinates(  //in_Factory,
+	//								in_AssemblyComponentID,
+	//								in_PartComponentID,
+	//								in_CADComponentData_map,
+	//								in_DatumName_PointOnSurface,
+	//								pointOnSurface_CADPoint); 
+
+
+	modelOperations.retrievePointCoordinates(
 									in_AssemblyComponentID,
 									in_PartComponentID,
 									in_CADComponentData_map,
@@ -689,7 +679,6 @@ void FindPointsOnSurface( 	cad::CadFactoryAbstract								&in_Factory,
 	//													PRO_B_FALSE,  // bottom up
 	//													transformationMatrix);
 
-	isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
 
 	modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
 														in_PartComponentID,
@@ -866,7 +855,7 @@ void FindPointsOnSurface( 	cad::CadFactoryAbstract								&in_Factory,
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GetGridPointsWithinAnalysisGeometry( 
-	cad::CadFactoryAbstract							&in_Factory,
+	//cad::CadFactoryAbstract							&in_Factory,
 	const std::string								&in_AssemblyComponentID,
 	std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 	const AnalysisGeometry							&in_AnalysisGeometry,
@@ -875,6 +864,11 @@ void GetGridPointsWithinAnalysisGeometry(
 	std::vector<int>								&out_GridPointIds_WithinGeometry ) 
 										throw (isis::application_exception)
 {
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();	
 
 	// old with features were layed out differently, old strucs had features then feature    // if ( in_AnalysisGeometry.features.size() != 1  || in_AnalysisGeometry.setOperationDefined )  // Not supporting set operations yet
 	if (  in_AnalysisGeometry.setOperationDefined )  // Not supporting set operations yet
@@ -919,13 +913,16 @@ void GetGridPointsWithinAnalysisGeometry(
 
 			}
 
-			FindPointsOnSurface( 	in_Factory,
+			FindPointsOnSurface( 	//in_Factory,
 									in_GridPoints_map,
 									in_AssemblyComponentID,
 									i->features.begin()->componentID,
 									in_CADComponentData_map,
 									i->features.begin()->datumName,
 									gridPointIds_WithinGeometry );
+
+
+
 		}
 		else
 		{
@@ -938,12 +935,21 @@ void GetGridPointsWithinAnalysisGeometry(
 					++k )
 			{
 				isis::CADPoint  point;
-				isis::RetrieveDatumPointCoordinates(   	in_Factory,
+				//isis::RetrieveDatumPointCoordinates(   	//in_Factory,
+				//										in_AssemblyComponentID,
+				//										k->componentID,
+				//										in_CADComponentData_map,
+				//										k->datumName,  // Datum Point Name
+				//										point);
+
+
+				modelOperations.retrievePointCoordinates(
 														in_AssemblyComponentID,
 														k->componentID,
 														in_CADComponentData_map,
 														k->datumName,  // Datum Point Name
 														point);
+
 				geometry3DPoints.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
 				//++numberPolygonPoints;
 			}
@@ -1109,7 +1115,7 @@ pro_fem_analysis_type ProFemAnalysisType( e_AnalysisType in_AnalysisType )
 //		b) Add constraints
 //		c) Add loads
 //
-void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
+void CreateFEADeck(	//cad::CadFactoryAbstract							&in_Factory,
 					const std::map<std::string, Material>			&in_Materials,
 					const std::string								&in_ProgramName_Version_TimeStamp,
 					const std::string								&in_WorkingDir,  
@@ -1122,6 +1128,12 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 					std::map<std::string, std::string>				&out_NastranMaterialID_to_CompnentID_map) 
 													throw (isis::application_exception)
 {
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
 	// Must modify the parts to have a default material that is unique for each Creo part.
 	// This is necessary so that the mesh file will have a separate material for each part; and thus,
 	// each material can be mapped to a GME component ID.
@@ -1342,7 +1354,7 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 				//////////////////////////////
 				// Get points within geometry
 				//////////////////////////////
-				GetGridPointsWithinAnalysisGeometry( in_Factory,
+				GetGridPointsWithinAnalysisGeometry( //in_Factory,
 													 in_AssemblyComponentID, 
 													 in_CADComponentData_map,
 													 k->geometry, 
@@ -1420,12 +1432,21 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 							//										in_CADComponentData_map,
 							//										*l,  // Datum Point Name
 							//										point);
-							isis::RetrieveDatumPointCoordinates(	    in_Factory,
+							//isis::RetrieveDatumPointCoordinates(	    //in_Factory,
+							//										in_AssemblyComponentID,
+							//										l->componentID,
+							//										in_CADComponentData_map,
+							//										l->datumName,  // Datum Point Name
+							//										point);
+
+							modelOperations.retrievePointCoordinates(
 																	in_AssemblyComponentID,
 																	l->componentID,
 																	in_CADComponentData_map,
 																	l->datumName,  // Datum Point Name
 																	point);
+
+
 
 							geometry3DPoints.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
 							++numberPolygonPoints;
@@ -1496,12 +1517,23 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 							//										in_CADComponentData_map,
 							//										*l,  // Datum Point Name
 							//										point);
-							isis::RetrieveDatumPointCoordinates(    in_Factory,
-																	in_AssemblyComponentID,
-																	l->componentID,
-																	in_CADComponentData_map,
-																	l->datumName,  // Datum Point Name
-																	point);
+							
+							//isis::RetrieveDatumPointCoordinates(    //in_Factory,
+							//										in_AssemblyComponentID,
+							//										l->componentID,
+							//										in_CADComponentData_map,
+							//										l->datumName,  // Datum Point Name
+							//										point);
+
+							modelOperations.retrievePointCoordinates(
+										in_AssemblyComponentID,
+										l->componentID,
+										in_CADComponentData_map,
+										l->datumName,  // Datum Point Name
+										point);
+
+
+
 							geometry3DPoints.push_back( isis_CADCommon::Point_3D( point.x, point.y, point.z));
 							++numberPolygonPoints;
 						}
@@ -1585,7 +1617,7 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 						k->gridPointTemperatureDefined ||
 						k->heatFluxDefined))  // Geometry does not apply to acceleration			
 				{
-					GetGridPointsWithinAnalysisGeometry( in_Factory,
+					GetGridPointsWithinAnalysisGeometry( //in_Factory,
 														 in_AssemblyComponentID, 
 														 in_CADComponentData_map,
 														 k->geometry,
@@ -1929,7 +1961,7 @@ void CreateFEADeck(	cad::CadFactoryAbstract							&in_Factory,
 				//////////////////////////////
 				// Get points within geometry
 				//////////////////////////////
-				GetGridPointsWithinAnalysisGeometry( in_Factory,
+				GetGridPointsWithinAnalysisGeometry( //in_Factory,
 													 in_AssemblyComponentID, 
 													 in_CADComponentData_map,
 													 k->geometry, 
@@ -2419,7 +2451,7 @@ void CreateXMLFile_FEA_AnalysisMetaData(
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Create_FEADecks_BatFiles( 
-					cad::CadFactoryAbstract								&in_Factory,
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					std::map<std::string, Material>						&in_Materials,
 					const std::string									&in_WORKING_DIR,
@@ -2628,7 +2660,7 @@ void Create_FEADecks_BatFiles(
 	isis_LOG(lg, isis_FILE, isis_INFO) << "";
 	isis_LOG(lg, isis_FILE, isis_INFO)  << "Creating finite element mesh";
 	// WARNING - Do not save the assembly/models after this point.  Doing so will save the temporarily created material.
-	isis::CreateFEADeck(	    in_Factory,
+	isis::CreateFEADeck(	    //in_Factory,
 							in_Materials,
 							in_ProgramName_Version_TimeStamp, 
 							analysisWorkingDir, 

@@ -124,26 +124,7 @@ void Populate_c_id_table( const list<int> &in_path_list, ProIdTable out_c_id_tab
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/***
-void RetrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string  &in_AssemblyComponentID,
-							const list<int>	   &in_ChildComponentPaths,
-							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-							bool   in_bottom_up,
-							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
-{
 
-
-
-	RetrieveTranformationMatrix_Assembly_to_Child (  
-							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
-							in_ChildComponentPaths, 
-							Bool_to_ProBoolean(in_bottom_up),
-							out_TransformationMatrix ); 
-
-
-}
-****/
 
 void RetrieveTranformationMatrix_Assembly_to_Child (  
 							const ProSolid		&in_assembly_model,
@@ -171,10 +152,6 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 }
 
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// STEP file name case:
@@ -198,35 +175,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/***
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool  ModelTypesMatch( e_ModelTypeIndicator			in_ModelTypeIndicator,
-						   ProMdlType					in_ModelType )
-	{
-		if ( in_ModelTypeIndicator == e_PART_OR_ASSEMBLY_MODEL_TYPE ) return true;
-		if ( in_ModelTypeIndicator == e_PART_MODEL_TYPE		&& in_ModelType == PRO_MDL_PART ) return true;
-		if ( in_ModelTypeIndicator == e_ASSEMBLY_MODEL_TYPE && in_ModelType == PRO_MDL_ASSEMBLY ) return true;
 
-		return false;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	bool SelectModelIndicated (		e_ModelSelectorIndicator	in_ModelSelectorIndicator,
-									bool						in_ParametricParametersPresent )
-
-	{
-		if ( in_ModelSelectorIndicator == e_SELECT_ALL_MODELS ) 
-			return true;
-		else
-			if ( in_ParametricParametersPresent && in_ModelSelectorIndicator == e_SELECT_ONLY_PARAMETRIC_MODELS )
-				return true;
-			else
-				return false;
-	
-	}
-	**/
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void OrganizeMetricsBasedOnComponentIDs( 
 							const list<CADComputation>							&in_Metrics,
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
@@ -437,11 +386,12 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void	RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+	void	 RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
+								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
 								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-								isis_CADCommon::Point_3D						&out_BoundingBox_Point_1,
-								isis_CADCommon::Point_3D						&out_BoundingBox_Point_2,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
 								double											out_Dimensions_xyz[3] )
 																		throw (isis::application_exception)
 	{
@@ -493,13 +443,20 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 			
 			// Get Mass properties and check for zero volume, this would indicate that there was no solid geometry.  Probably just
 			// reference geometry used to define an interface.  For example, an interface between a hatch and hull.
-			ProMassProperty  mass_prop;
+			//ProMassProperty  mass_prop;
+			//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentInstanceID, in_CADComponentData_map, &mass_prop );
 
-			isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentInstanceID, in_CADComponentData_map, &mass_prop );
+			isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+			isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+			isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+			MassProperties		massProperties_temp;
+
+			modelOperations.retrieveMassProperties(in_ComponentInstanceID, in_CADComponentData_map, massProperties_temp);
 
 			//std::cout << std::endl << "-------------> Volume: mass_prop.volume" << mass_prop.volume << std::endl;
 
-			if ( mass_prop.volume == 0.0 )
+			//if ( mass_prop.volume == 0.0 )
+			if ( massProperties_temp.volume == 0.0 )
 			{
 				out_BoundingBox_Point_1.x = 0.0;
 				out_BoundingBox_Point_1.y = 0.0;
@@ -544,48 +501,10 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 		// Materials MTD Dir
 		// e.g. "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL"
 
-		return (std::string)publicDocuments_multiformat + std::string("\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL");		;
+		return (std::string)publicDocuments_multiformat + std::string("\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL");	
 	}
 
-	std::string META_PATH()
-	{
-		std::string metapath;
-		HKEY software_meta;
-		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
-		{
-			BYTE data[MAX_PATH];
-			DWORD type, size = sizeof(data) / sizeof(data[0]);
-			if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
-			{
-				metapath = std::string(data, data + strnlen((const char*)data, size));
-			}
-			RegCloseKey(software_meta);
-		}
-		return metapath;
-	}
-
-	// e.g "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
-	std::string MaterialsLibrary_PathAndFileName()
-	{
-		auto dev_path = boost::filesystem::path(META_PATH()) / "models" / "MaterialLibrary" / "material_library.json";
-		OutputDebugStringA(dev_path.string().c_str());
-		OutputDebugStringA("\n");
-		if (boost::filesystem::is_regular_file(dev_path))
-		{
-			return dev_path.string();
-		}
-
-		std::wstring publicDocuments_wide;
-
-		// Public Documents e.g. "C:\\Users\\Public\\Documents\\META Documents"
-		isis_CADCommon::GetPublicDocuments(publicDocuments_wide);
-		isis::MultiFormatString publicDocuments_multiformat(publicDocuments_wide.c_str() );
-
-		// Materials Library
-		// e.g. "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
-
-		return (std::string)publicDocuments_multiformat + std::string("\\META Documents\\MaterialLibrary\\material_library.json");	;
-	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, ProModelitem  &in_ModelItem )
@@ -769,8 +688,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 	****/
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const CreoAssembledFeatureDefinition			&in_AssembledFeatureDefinition,
 					int												in_SetIndex,
 					isis::cad::Junction								&out_Junction,
@@ -778,6 +698,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 						throw (isis::application_exception)
 	{
 		
+		//isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		//isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from feature tree)";
 
@@ -785,7 +707,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_AssembledFeatureDefinition.componentInstanceID].name;
 
-		cad::IAssembler& assembler = in_Factory.get_assembler();
+		//cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
 
 		std::vector< cad::Joint::pair_t > joint_pair_vector;
 
@@ -866,6 +788,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 	}
+
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Description:
@@ -1049,42 +972,122 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+	
 	static void transform(const e3ga::vector &location, const e3ga::vector &orientation, double m[4][4], e3ga::vector &out_location, e3ga::vector& out_orientation)
 	{
-		/*double x = m[0][0]*orientation.m_e1+m[0][1]*orientation.m_e2+m[0][2]*orientation.m_e3;
-		double y = m[1][0]*orientation.m_e1+m[1][1]*orientation.m_e2+m[1][2]*orientation.m_e3;
-		double z = m[2][0]*orientation.m_e1+m[2][1]*orientation.m_e2+m[2][2]*orientation.m_e3;
-		out_orientation.m_e1 = x;
-		out_orientation.m_e2 = y;
-		out_orientation.m_e3 = z;*/
+		//double x = m[0][0]*orientation.m_e1+m[0][1]*orientation.m_e2+m[0][2]*orientation.m_e3;
+		//double y = m[1][0]*orientation.m_e1+m[1][1]*orientation.m_e2+m[1][2]*orientation.m_e3;
+		//double z = m[2][0]*orientation.m_e1+m[2][1]*orientation.m_e2+m[2][2]*orientation.m_e3;
+		//out_orientation.m_e1 = x;
+		//out_orientation.m_e2 = y;
+		//out_orientation.m_e3 = z;
+
+		// Add logging so that functions ProPntTrfEval and ProVectorTrfEval can be replaced with non Creo functions
+		isis_LOG(lg, isis_FILE, isis_INFO) << "******************** BEGIN transform(const e3ga::vector &location, const e3ga::vector &orientation,... ****************";
+
+
 		double p[3];
 		p[0] = location.m_e1;
 		p[1] = location.m_e2;
 		p[2] = location.m_e3;
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "Transformation Matrix:";
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   " << m[0][0] << "  " << m[0][1] << "  " << m[0][2] << "  " << m[0][3]; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   " << m[1][0] << "  " << m[1][1] << "  " << m[1][2] << "  " << m[1][3]; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   " << m[2][0] << "  " << m[2][1] << "  " << m[2][2] << "  " << m[2][3]; 
+		isis_LOG(lg, isis_FILE, isis_INFO) << "   " << m[3][0] << "  " << m[3][1] << "  " << m[3][2] << "  " << m[3][3]; 
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "input point x, y, z:              " << location.m_e1 << "  " << location.m_e2 << "  " << location.m_e3;
+
 		double buff[3];
 		ProError err = ProPntTrfEval(p, m, buff);
 		out_location.m_e1 = buff[0];
 		out_location.m_e2 = buff[1];
 		out_location.m_e3 = buff[2];
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "transformed point via Creo Functions x, y, z:    " << out_location.m_e1 << "  " << out_location.m_e2 << "  " << out_location.m_e3;
+
+		/////////////////////////////////////////////////////////////////////////////
+		// BEGIN Test Math Functions Transformation of Point
+		/////////////////////////////////////////////////////////////////////////////
+
+		double	rotationMatrix[3][3];
+		std::vector<double>	offset(3, 0.0);
+
+		offset[0] = m[0][3]; 
+		offset[1] = m[1][3]; 
+		offset[2] = m[2][3]; 
+
+		for (int i = 0; i < 3; ++i ) 
+			for (int j = 0; j < 3; ++j )  rotationMatrix[i][j] = m[i][j];
+
+		isis_CADCommon::TransformationMatrix transformationMatrix;
+
+		transformationMatrix.setTransformationMatrix(rotationMatrix, offset);
+
+		isis_CADCommon::Point_3D  point_start(	location.m_e1,
+												location.m_e2,
+												location.m_e3);
+	
+		isis_CADCommon::Point_3D  point_transformed = transformationMatrix.getTransformedCoordinates( point_start);
+		isis_LOG(lg, isis_FILE, isis_INFO) << "transformed point via Math Functions x, y, z:   " << point_transformed.x << "  " << point_transformed.y  << "  " << point_transformed.z ;
+
+		/////////////////////////////////////////////////////////////////////////////
+		// END est Math Functions Transformation of Point
+		/////////////////////////////////////////////////////////////////////////////
+
 		p[0] = orientation.m_e1;
 		p[1] = orientation.m_e2;
 		p[2] = orientation.m_e3;
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "orientation x, y, z:             " << orientation.m_e1 << "  " << orientation.m_e2 << "  " << orientation.m_e3;
+
 		err = ProVectorTrfEval(p, m, buff);
 		out_orientation.m_e1 = buff[0];
 		out_orientation.m_e2 = buff[1];
 		out_orientation.m_e3 = buff[2];
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "transformed orientation via Creo Functions x, y, z: " << out_orientation.m_e1 << "  " << out_orientation.m_e2 << "  " << out_orientation.m_e3;
+
+		/////////////////////////////////////////////////////////////////////////////
+		// BEGIN Test Math Functions Transformation of Orientation
+		/////////////////////////////////////////////////////////////////////////////
+		// Only interested in rotation,  setting offset to zero
+		std::vector<double>	offset_zeros(3, 0.0);
+		transformationMatrix.setTransformationMatrix(rotationMatrix, offset_zeros);
+
+		isis_CADCommon::Point_3D  orientation_start(	orientation.m_e1,
+													orientation.m_e2,
+													orientation.m_e3);
+
+		isis_CADCommon::Point_3D  orientation_transformed = transformationMatrix.getTransformedCoordinates( orientation_start);
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "transformed orientation via Math Functions x, y, z: " << orientation_transformed.x << "  " << orientation_transformed.y << "  " << orientation_transformed.z;
+
+		/////////////////////////////////////////////////////////////////////////////
+		// END Test Math Functions Transformation of Orientation
+		/////////////////////////////////////////////////////////////////////////////
+
+		isis_LOG(lg, isis_FILE, isis_INFO) << "******************** END transform(const e3ga::vector &location, const e3ga::vector &orientation,... *****************";
+
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//    MOVE this to cc_ when the transfrom (previous function) function is moved
+
 
 	void 	PopulateMap_with_JunctionDataInGlobalCoordinates( 
-			cad::CadFactoryAbstract							&in_Factory,
+			//cad::CadFactoryAbstract							&in_Factory,
 			const std::string								&in_AssemblyComponentID,
 			const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception)
 	{		
 		
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
 		{
 			for ( std::vector<ConstraintData>::iterator j = in_out_CADComponentData_map[i].constraintDef.constraints.begin();
@@ -1098,7 +1101,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 					<< "Function - PopulateMap_with_JunctionDataInGlobalCoordinates, component does not have a junction defined, " <<
 					   std::endl << "and thus the global coordinates of the junction cannot be computed.  " <<  
 					   std::endl <<	"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << 
-					   std::endl << "   Model Type:            " <<  isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType) << 
+					   std::endl << "   Model Type:            " <<  isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType) << 
 					   std::endl << "   Component Instance ID: " <<  i;   	  
 					throw isis::application_exception(errorString);
 				}
@@ -1109,14 +1112,14 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				// Get transformation matrix from the global coordinate system to the assembled .prt/.asm
 				double transformationMatrix[4][4];  // rotation 3 X 3, translation at bottom row of the 4 X 4
 				//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
-				//												in_out_CADComponentData_map[j->computedJointData.coordinatesystem].componentPaths,
+				//												in_out_CADComponentData_map[j->computedJointData.coordinateSystem_ComponentInstanceID].componentPaths,
 				//												in_out_CADComponentData_map,  
 				//												PRO_B_TRUE,  // bottom up
 				//												transformationMatrix );
 
-				isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 				modelOperations.retrieveTranformationMatrix_Assembly_to_Child ( in_AssemblyComponentID,
-																				j->computedJointData.coordinatesystem,  
+																				j->computedJointData.coordinateSystem_ComponentInstanceID,  
 																				in_out_CADComponentData_map,  
 																				true,  // bottom up
 																				transformationMatrix );
@@ -1127,7 +1130,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				cad::Joint jointGlobal = motorPair.move(j->computedJointData.junction_withoutguide.joint_pair.first);
 #else
 				// Use matrix multiplication until the quaternion rotation is not fixed
-				isis_LOG(lg, isis_FILE, isis_INFO) << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinatesystem;
+				isis_LOG(lg, isis_FILE, isis_INFO) << "Computing global coordinates of " << i << ", In the coordinate system of: " << j->computedJointData.coordinateSystem_ComponentInstanceID;
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   location: " << j->computedJointData.junction_withoutguide.joint_pair.first.location.c_str_e20();
 				isis_LOG(lg, isis_FILE, isis_INFO) << "   orient  : " << j->computedJointData.junction_withoutguide.joint_pair.first.orientation.c_str_e20();
 				e3ga::vector loc = j->computedJointData.junction_withoutguide.joint_pair.first.location;
@@ -1224,35 +1227,9 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 	*/
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//	Description: 
-	//		This function resolves the references of in_FeatureName to the parts that are referenced by in_FeatureName.  
-	//		For example, in_FeatureName could be a datum (i.e. plane, axis, point, or coordinate system) and that datum 
-	//		could be defined by pointing to part geometry.  This function follows those refereces until it finds the parts 
-	//		that own the referenced geometry.  A common use case is a datum plane in an assembly where the datum plane 
-	//		points to a second datum plane in a sub-part, wherein the second datum plane points to geometry in the sub-part.  
-	//		This function would return the ComponentInstanceIDs of the parts that own the referenced geometry.
-	//
-	//		It should be noted that a datum can reference more than one geometries and those geometries can be in separate
-	//		parts.
-	// 
-	//	Pre-Conditions:
-	//		This function should be called with out_ComponentInstanceIDs_of_PartsReferencedByFeature_set being empty.
-	//
-	//		in_TopAssemblyModel_ComponentInstanceID must be in in_CADComponentData_map and be the top assembly for the 
-	//		entire assembly structure containing in_ComponentInstanceID
-	//
-	//		in_ComponentInstanceID must be in CADComponentData_map
-	//
-	//	Post-Conditions
-	//		if in_FeatureName not found in in_ComponentInstanceID then throw throw (isis::application_exception)
-	//
-	//		If no exceptions 
-	//			then 
-	//				out_ComponentInstanceIDs_of_PartsReferencedByFeature_set would be populated with 0 to many ComponentInstanceIDs.
-	//				It could be 0 because in_FeatureName might only have references to an assembly and this function only finds 
-	//				references to parts.
-	static void FindPartsReferencedByFeature(	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void FindPartsReferencedByFeature(	
 						const std::string							&in_TopAssemblyComponentInstanceID, 
 						const std::string							&in_ComponentInstanceID,
 						const MultiFormatString						&in_FeatureName,
@@ -1344,232 +1321,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 	}	
 
-	struct ConstraintSourceAndDestination
-	{
-		std::string Source_ComponentID_AssemblyPart;
-		std::string Destination_ComponentID_Part;
-	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// WARNING in_AssemblyComponentIDs should only be parts or assemblies from CADAssembly.xml.  If it is
-	// an assembly, it would be a leaf assembly
-	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
-			const std::string														&in_TopAssemblyComponentInstanceID,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
-			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
-																		throw (isis::application_exception)
-	{
-		
-
-		for each (  const std::string &i in in_AssemblyComponentIDs )
-		{		
-			if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_PART || 
-				(in_out_CADComponentData_map[i].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT ) )
-			// Leaf assembly without kinematic joints (i.e. treat as one body) or just a part
-			{
-				for ( std::vector<ConstraintData>::iterator j(in_out_CADComponentData_map[i].constraintDef.constraints.begin());
-					  j < in_out_CADComponentData_map[i].constraintDef.constraints.end();
-					  ++j)
-				{
-					for ( std::vector<ConstraintPair>::iterator k(j->constraintPairs.begin());
-						  k < j->constraintPairs.end(); 
-						  ++k )				
-					{
-						for ( std::vector<ConstraintFeature>::iterator l(k->constraintFeatures.begin());
-							l < k->constraintFeatures.end();
-							++l)
-						{
-							if ( l->componentInstanceID != i )  // A component cannot depend on itself
-							{						
-								if ( in_out_CADComponentData_map[l->componentInstanceID].modelType == PRO_MDL_PART ||
-									 ( in_out_CADComponentData_map[l->componentInstanceID].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT ) )
-								{
-									j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(l->componentInstanceID);
-								}
-								else
-								{			
-									// Assembly with CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
-									std::set<std::string>	componentInstanceIDs_of_PartsReferencedByFeature_set;
-									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
-																	l->componentInstanceID,
-																	l->featureName,
-																	//FeatureGeometryType_enum(k->featureGeometryType),
-																	k->featureGeometryType,
-																	//k->featureGeometryType,
-																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
-																	in_out_CADComponentData_map,
-																	componentInstanceIDs_of_PartsReferencedByFeature_set);
-									for each ( const std::string &m in componentInstanceIDs_of_PartsReferencedByFeature_set ) 
-									{
-										j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(m);
-									}
-								}
-							}
-						} // END for each ( const ConstraintFeature &l in k.constraintFeatures )
-					}  // END for each ( const ConstraintPair &k in j.constraintPairs )
-				} // END for each ( const ConstraintData &j in in_out_CADComponentData_map[i].constraintDef.constraints )
-			}
-			else
-			{
-				// At this point the following conditions must hold:
-				// 1. CADAssembly.xml has the tag HAS_KINEMATIC_JOINT (enum CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT)
-				// 2. Must be an assembly.  Only assemblies have the tag CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
-				// 3. The datums in the constraint sets for the assembly must point to parts within the assembly and
-				//    must point to one and only one part per constraint set.
-				// 4. The datums in the constraint set that point to external parts/assemblies (i.e. not in the assembly) must 
-				//	  point to one and only one part/assembly per constraint set
-				// 5. The joint type for each constraint set would have already been computed. 
-
-				// Per constraint set, this section will:
-				// 1. Follow each assembly datum reference per constraint set to its part (found part) or to its assembly for
-				//    !CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
-				// 2. Modify in_out_CADComponentData_map for the found part to have the previously computed
-				//    joint information for the assembly.
-
-				//if ( in_out_CADComponentData_map[i].modelType != PRO_MDL_ASSEMBLY )
-				if ( in_out_CADComponentData_map[i].modelType != CAD_MDL_ASSEMBLY )
-				{
-					std::stringstream errorString;
-					errorString <<
-						"Function: " << __FUNCTION__ << ", A part model has the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT\" .  Only assemblies can have this tag."  << std::endl <<
-						"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
-						"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
-						"   Component Instance ID: " <<  i;
-					throw isis::application_exception(errorString);	
-				}
-
-
-				for ( std::vector<ConstraintData>::iterator j(in_out_CADComponentData_map[i].constraintDef.constraints.begin());
-					  j < in_out_CADComponentData_map[i].constraintDef.constraints.end();
-					  ++j )
-				{
-					std::set<std::string>	componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set;
-					std::vector<isis::MultiFormatString>  featureNames_AssemblyReferences;
-
-					std::set<std::string>	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set;
-					std::vector<isis::MultiFormatString>  featureNames_NonAssemblyReferences;
-
-					std::vector<ConstraintSourceAndDestination> constraintSourceAndDestination;
-
-					for ( std::vector<ConstraintPair>::iterator k(j->constraintPairs.begin());
-						  k < j->constraintPairs.end(); 
-						  ++k )				
-					{
-						
-						for ( std::vector<ConstraintFeature>::iterator l(k->constraintFeatures.begin());
-							l < k->constraintFeatures.end();
-							++l)
-						{
-							if ( l->componentInstanceID == i )  
-							{
-								featureNames_AssemblyReferences.push_back(l->featureName);
-								// This is the assembly references,  must follow the datums to the parts in the assembly
-								FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
-																l->componentInstanceID,
-																l->featureName,
-																//FeatureGeometryType_enum(k->featureGeometryType),
-																k->featureGeometryType,
-																//k->featureGeometryType,
-																in_FeatureIDs_to_ComponentInstanceID_hashtable,
-																in_out_CADComponentData_map,
-																componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set);
-							}
-							else
-							{		
-								featureNames_NonAssemblyReferences.push_back(l->featureName);
-								componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.insert(l->componentInstanceID);
-
-								
-								// Non-assembly references.  The parts in the assembly would be constrained to these parts.
-								if ( in_out_CADComponentData_map[l->componentInstanceID].modelType == PRO_MDL_PART || 
-									(in_out_CADComponentData_map[l->componentInstanceID].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT )) 
-								{ // If part or and treat-as-one body assembly
-									j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(l->componentInstanceID);
-								}
-								else
-								{			
-									FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
-																	l->componentInstanceID,
-																	l->featureName,
-																	//FeatureGeometryType_enum(k->featureGeometryType),
-																	k->featureGeometryType,
-																	//k->featureGeometryType,
-																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
-																	in_out_CADComponentData_map,
-																	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set);
-
-									for each ( const std::string &m in componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set )
-									{
-										j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(m);
-									}
-
-								}	
-							}
-						} // END for each ( const ConstraintFeature &l in k.constraintFeatures )
-					}  // END for each ( const ConstraintPair &k in j.constraintPairs )
-
-					// The assembly references should be to only one part							
-					if ( componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set.size() != 1 )
-					{
-						std::stringstream errorString;
-						errorString <<
-							"Function: " << __FUNCTION__ << ", An assembly model with the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT\" has constraints within a constraint set that references more than one part. " <<  std::endl <<
-							"          Assemblies with this tag must reference one and only one part within the assembly per constraint set."  << std::endl <<
-							"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType) <<  std::endl <<
-							"   Component Instance ID: " <<  i <<  std::endl <<
-							"   Referenced Component Instance IDs: ";
-						for each ( const std::string &i_ref in componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set )
-							  errorString << std::endl << "       Instance ID: " << i_ref << "  Model Name: " << in_out_CADComponentData_map[i_ref].name;						 
-						 errorString << std::endl << "   Referenced Feature Names:";
-						for each ( const isis::MultiFormatString &i_feat in featureNames_AssemblyReferences)
-							 errorString << std::endl << "       Feature Name: " <<  i_feat;
-						throw isis::application_exception(errorString);	
-					}
-
-					// The references external to the assembly should point to one assembly or one part						
-					if ( componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.size() != 1 )
-					{
-						std::stringstream errorString;
-						errorString <<
-							"Function: " << __FUNCTION__ << ", An assembly model with the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT:\" has constraints within a constraint set that references more than one part or more than one treat-as-one-body assembly. " <<  std::endl <<
-							"          Assemblies with this tag must reference one and only one part or one and only one treat-as-one-body assembly that is external to the assembled model (tagged model) constraint set."  << std::endl <<
-							"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
-							"   Model Type:            " <<	 isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
-							"   Component Instance ID: " <<  i <<  std::endl <<
-							"   Referenced Component Instance IDs: ";
-						for each ( const std::string &i_ref in componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set )
-							  errorString << std::endl << "       Instance ID: " << i_ref << "  Model Name: " << in_out_CADComponentData_map[i_ref].name;					 
-						 errorString << std::endl << "   Referenced Feature Names:";
-						for each ( const isis::MultiFormatString &i_feat in featureNames_NonAssemblyReferences)
-							 errorString << std::endl << "       Feature Name: " <<  i_feat;
-						throw isis::application_exception(errorString);	
-					}
-
-					// For componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set, we need to:
-					// 1. Set the constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates
-					// 2. Transfer the joint information from the assembly to the componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set part
-
-
-					// At this point, we know that componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set
-					std::string assemblyChildConstrainingPart = *componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set.begin();
-					std::string assemblyExternalConstrainingPart = *componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.begin();
-					
-					// Add a new constraint set to in_out_CADComponentData_map[in_out_CADComponentData_map]				
-
-					ConstraintData constraintData;
-					constraintData.constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(assemblyExternalConstrainingPart);
-
-					constraintData.computedJointData = j->computedJointData;
-				
-					in_out_CADComponentData_map[assemblyChildConstrainingPart].constraintDef.constraints.push_back(constraintData);
-
-				}  // END ELSE has CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT			
-
-			} // END for each ( const ConstraintData &j in in_out_CADComponentData_map[i].constraintDef.constraints )
-		} // END for each ( const std::string &i in in_AssemblyComponentIDs )
-	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 /***
 	void PopulateMap_with_Junctions_and_ConstrainedToInfo_per_CreoAsmFeatureTrees( 
@@ -1666,7 +1418,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 					constraintData_PerFeatureTree.computedJointData.jointType_withoutguide =  GetCADJointType(constraintData_PerFeatureTree.computedJointData.junction_withoutguide.joint_pair.first.type);
 					constraintData_PerFeatureTree.computedJointData.junctiondDefined_withoutGuide = true;
-					constraintData_PerFeatureTree.computedJointData.coordinatesystem = assembledFeatureDefinition.componentInstanceID;
+					constraintData_PerFeatureTree.computedJointData.coordinateSystem_ComponentInstanceID = assembledFeatureDefinition.componentInstanceID;
 
 					try
 					{
@@ -1726,176 +1478,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	}
 	**/
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	//	Description:
-	//		Returns if in_ComponentInstanceID is a CyPhy leaf assembly.  This is  determineed  by checking if 
-	//		the immediate (i.e. not grandchildren) children of in_ComponentInstanceID have the setting of 
-	//		INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-	//
-	//	Pre-Conditions:
-	//		ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
-	//		calling this function; and if not, CyPhyLeafAssembly will always return false.
-	//
-	//	Post-Conditions:
-	//		if in_ComponentInstanceID is a part
-	//			return false
-	//		if the first immediate child has the setting of INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
-	//			return true
-	//		else
-	//			return false
-	bool CyPhyLeafAssembly (	const std::string								&in_ComponentInstanceID,
-								std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
-	{
-
-		//if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != PRO_MDL_ASSEMBLY ) return false;
-		if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != CAD_MDL_ASSEMBLY ) return false;
-		// The assembly could have no children, and thus is not actually a CyPhy leaf assembly 
-		// At this point, it could have not children because:
-		//	a) it is an empty assembly.
-		//  b) the children have not been completed by the function
-		//		ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates
-		if ( in_out_CADComponentData_map[in_ComponentInstanceID].children.size() == 0 ) return false;
-
-		for each ( const std::string &i in in_out_CADComponentData_map[in_ComponentInstanceID].children )
-		{
-			if ( in_out_CADComponentData_map[i].dataInitialSource == 
-				 INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS ) return true;			
-		}
-
-		return false;
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void AddBoundingBoxValuesToMap( 
-						const std::vector<std::string>					&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
-																				throw (isis::application_exception)
-	{
-		for each ( const std::string &i in in_AssemblyComponentIDs )
-		{
-			if ( !in_CADComponentData_map[i].boundingBox.boundingBox_Defined )
-			{
-				isis_CADCommon::Point_3D	boundingBox_Point_1;
-				isis_CADCommon::Point_3D	boundingBox_Point_2;
-				double						boundingBoxDimensions_xyz[3];
 
-				RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	i,
-																		in_CADComponentData_map,
-																		boundingBox_Point_1,
-																		boundingBox_Point_2,
-																		boundingBoxDimensions_xyz );
-
-				in_CADComponentData_map[i].boundingBox.boundingBox_Point_1 = boundingBox_Point_1;
-				in_CADComponentData_map[i].boundingBox.boundingBox_Point_2 = boundingBox_Point_2;
-				for ( int j = 0; j < 3; ++j ) in_CADComponentData_map[i].boundingBox.Dimensions_xyz[j] = boundingBoxDimensions_xyz[j];
-				in_CADComponentData_map[i].boundingBox.boundingBox_Defined = true;
-			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void AddMassPropertyValuesToMap( 
-						const std::vector<std::string>					&in_AssemblyComponentIDs,
-						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
-																				throw (isis::application_exception)
-	{
-		
-
-		for each ( const std::string &i in in_AssemblyComponentIDs )
-		{
-			if ( !in_out_CADComponentData_map[i].massProperties.massProperties_RetrievalInvoked )
-			{
-				in_out_CADComponentData_map[i].massProperties.massProperties_RetrievalInvoked = true;
-
-				ProMassProperty  mass_prop;
-
-				isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(i, in_out_CADComponentData_map, &mass_prop );
-				double   MatrixBuffer[4][4];
-				double   MatrixBuffer_temp[4][4];
-
-				/////////////////////////////////////////
-				// Check if Mass Properties are Defined
-				////////////////////////////////////////
-
-				// if mass_prop.density == 1.0, then mass properties were never set in Creo.  The never-set mode
-				// means that the geometry and density of 1.0 would be used to compute the mass properties; however,
-				// those computed values would be erroneous.
-				// ERROR - ERROR Leave off the mass_prop.density != 1.0 for now.  This will allow erroneous mass props through, must
-				// provide a better check later.
-				//if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.density != 1.0 && mass_prop.mass != 0.0 ) 
-				if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.mass != 0.0 ) 			
-					in_out_CADComponentData_map[i].massProperties.massProperties_Defined = true;
-				else
-					continue;
-			
-				in_out_CADComponentData_map[i].massProperties.volume_Defined		= true;			
-				in_out_CADComponentData_map[i].massProperties.density_Defined		= true;
-				in_out_CADComponentData_map[i].massProperties.mass_Defined			= true;
-
-				in_out_CADComponentData_map[i].massProperties.volume		= mass_prop.volume;				
-				in_out_CADComponentData_map[i].massProperties.density		= mass_prop.density;
-				in_out_CADComponentData_map[i].massProperties.mass			= mass_prop.mass;
-				
-				// Surface Area
-				if (  mass_prop.surface_area != 0.0 )
-				{
-					in_out_CADComponentData_map[i].massProperties.surfaceArea_Defined	= true;
-					in_out_CADComponentData_map[i].massProperties.surfaceArea	= mass_prop.surface_area;
-				}
-
-				// coordSysInertiaTensor
-				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.coor_sys_inertia_tensor, 0.0 )  )
-				{
-					in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor_Defined = true;
-					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.coor_sys_inertia_tensor, in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor );
-
-					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor ))
-					{
-						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
-															<< "\n       ComponentInstanceID: " << i
-															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
-															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)
-															<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
-					}
-				}
-
-				// C.G.
-				in_out_CADComponentData_map[i].massProperties.centerOfGravity_Defined = true;
-				in_out_CADComponentData_map[i].massProperties.centerOfGravity[0] = mass_prop.center_of_gravity[0];
-				in_out_CADComponentData_map[i].massProperties.centerOfGravity[1] = mass_prop.center_of_gravity[1];
-				in_out_CADComponentData_map[i].massProperties.centerOfGravity[2] = mass_prop.center_of_gravity[2];
-
-				// cGInertiaTensor
-				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3( mass_prop.cg_inertia_tensor, 0.0 )  )
-				{
-					in_out_CADComponentData_map[i].massProperties.cGInertiaTensor_Defined = true;
-					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.cg_inertia_tensor, in_out_CADComponentData_map[i].massProperties.cGInertiaTensor );
-
-					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.cGInertiaTensor ))
-					{
-						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
-															<< "\n       ComponentInstanceID: " << i
-															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
-															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)
-															<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
-					}
-
-				}
-
-				// Principal Moment of Inertia
-				in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix_Defined = true;
-				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[0] = mass_prop.principal_moments[0];
-				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[1] = mass_prop.principal_moments[1];
-				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[2] = mass_prop.principal_moments[2];
-
-				// Principal Axis
-				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.principal_axes, 0.0 )  )
-				{
-					in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix_Defined = true;
-					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.principal_axes, in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix );
-				}
-			}
-		}
-	}
 } // end namespace isis

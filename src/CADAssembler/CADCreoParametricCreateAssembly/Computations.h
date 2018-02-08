@@ -54,7 +54,7 @@ namespace isis
 	//			in_ComputationTypes.assemblyBasedComputations == true
 	//					then output (if they exists in in_CADAssemblies) computations such as bounding box, C.G. . ... if none exists, do nothing 		
 	void CreateXMLFile_ComputedValues( 
-						cad::CadFactoryAbstract								&in_Factory,
+						//cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_in_WorkingDirector,
 						const ComputationTypes								&in_ComputationTypes,
 						isis::CADAssemblies									&in_CADAssemblies,

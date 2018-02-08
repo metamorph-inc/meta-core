@@ -72,7 +72,7 @@ namespace isis
 
 
 	void CreateModelNameWithUniqueSuffix(  
-				cad::CadFactoryAbstract		&in_Factory,
+				//cad::CadFactoryAbstract		&in_Factory,
 				unsigned int				in_UniqueNameIndex, 
 				const std::string			&in_ModelName_CouldIncludeFamilyTableEntry, // e.g. Chassis_8_Wheel<Chassis>
 				std::string					&out_ModelName_Without_Suffix,				// e.g. Chassis
@@ -106,7 +106,7 @@ namespace isis
 	//		and later occurrences of the particular part/assembly that is a parametric part/assembly.  
 	//		The new and old part names are added to out_FromModel_ToModel. 
 	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
-							cad::CadFactoryAbstract							&in_Factory,
+							//cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
 							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
@@ -144,7 +144,7 @@ namespace isis
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map)
 																throw (isis::application_exception);
 
-	void CopyModels( cad::CadFactoryAbstract						&in_Factory,
+	void CopyModels( //cad::CadFactoryAbstract						&in_Factory,
 					 const std::vector<CopyModelDefinition>			&in_FromModel_ToModel )
 																	throw (isis::application_exception);
 
@@ -170,7 +170,7 @@ namespace isis
 
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
 					const std::vector<ConstraintPair>				&in_ConstraintPairs,
 					isis::cad::Junction								&out_Junction,
@@ -208,10 +208,10 @@ namespace isis
 
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
-					bool												in_Force)
+					bool												in_Force = false)
 																			throw (isis::application_exception);
 
 	const std::string manufacturingManifestJson_PathAndFileName = ".\\manufacturing.manifest.json";
@@ -240,6 +240,71 @@ namespace isis
 									bool				in_ChangeCaseOfPartStepFileToLowerCase,
 									std::map<std::string, isis::CADComponentData> &in_CADComponentData_map )
 												throw (isis::application_exception);
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Description:
+	//		This function adds ComponentInstanceIDs to the 
+	//		in_out_CADComponentData_map::…::constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs, wherein the 
+	//		ComponentInstanceIDs are either the part IDs that the datums contained in in_out_CADComponentData_map::…::constraintPairs
+	//		reference, or the assembly IDs for the assemblies that are treated as one body (i.e. CADAssembly.xml 
+	//		special instruction != HAS_KINEMATIC_JOINT ). Reference means the parts that contain the geometry 
+	//		referenced by a datum.  See the contract for 
+	//		FindPartsReferencedByFeature for more information about the meaning of a referenced part.
+	//
+	//	Pre-Conditions:
+	//		in_TopAssemblyComponentInstanceID must be the top assembly for the entire assembly.  The feature IDs leading 
+	//		to a sub-part/sub-assembly start at the top assembly.
+	//
+	//		in_AssemblyComponentIDs must be ComponentIDs in in_out_CADComponentData_map. 
+	//
+	//	Post-Conditions:
+	//		if in_AssemblyComponentIDs.size() == 0, no action taken
+	//
+	//		if a referenced ComponentID is not found in in_FeatureIDs_to_ComponentInstanceID_hashtable
+	//			then
+	//				throw isis::application_exception
+	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
+			//cad::CadFactoryAbstract													&in_Factory,
+			const std::string														&in_TopAssemblyComponentInstanceID,
+			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
+																		throw (isis::application_exception);
+
+
+
+	//	Description:
+	//		Returns if in_ComponentInstanceID is a CyPhy leaf assembly.  This is  determineed  by checking if 
+	//		the immediate (i.e. not grandchildren) children of in_ComponentInstanceID have the setting of 
+	//		INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
+	//
+	//	Pre-Conditions:
+	//		forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates must have been invoked before 
+	//		calling this function; and if not, CyPhyLeafAssembly will always return false.
+	//
+	//	Post-Conditions:
+	//		if in_ComponentInstanceID is a part
+	//			return false
+	//		if the first immediate child has the setting of INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS
+	//			return true
+	//		else
+	//			return false
+	bool CyPhyLeafAssembly (	const std::string								&in_ComponentInstanceID,
+							std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map );
+
+
+	void AddBoundingBoxValuesToMap(// cad::CadFactoryAbstract				&in_Factory,
+						const std::vector<std::string>					&in_AssemblyComponentIDs,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) throw (isis::application_exception);
+
+	void AddMassPropertyValuesToMap( 
+						cad::CadFactoryAbstract							&in_Factory,
+						const std::vector<std::string>					&in_AssemblyComponentIDs,
+						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
+																				throw (isis::application_exception);
 
 }
 

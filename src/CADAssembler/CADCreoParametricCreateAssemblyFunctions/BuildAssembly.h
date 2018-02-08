@@ -15,7 +15,7 @@ namespace isis
 
 
 void BuildAssembly( 
-		cad::CadFactoryAbstract								&in_Factory,
+		//cad::CadFactoryAbstract								&in_Factory,
 		const std::string									&in_AssemblyComponentID, 
 		const std::string									&in_WORKING_DIR,
 		bool												in_SaveAssembly,
@@ -31,7 +31,7 @@ void ReadInitialPositions(std::map<std::string, double*> &out_positions, const s
 
 
 void Add_Subassemblies_and_Parts( 
-		cad::CadFactoryAbstract				&	in_Factory,
+		//cad::CadFactoryAbstract				&	in_Factory,
 		ProMdl								in_p_asm,
 		const std::string					&	in_ParentName,
 		const std::list<std::string>		&	in_Components,
@@ -39,7 +39,7 @@ void Add_Subassemblies_and_Parts(
 		int									&in_out_addedToAssemblyOrdinal)
 					throw (isis::application_exception);
 
-void	RegenerateModel( ProSolid in_p_asm,
+void	 RegenerateModel( ProSolid in_p_asm,
 						 const std::string in_ParentName,
 						 const std::string in_ParentComponentID,
 						 bool  &out_RegenerationSucceeded,

@@ -34,7 +34,7 @@ namespace isis
 //                                        Class MetaLinkAssemblyEditor
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_cadfactory,
+MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(//cad::CadFactoryAbstract::ptr in_cadfactory,
         const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
         std::map<std::string, isis::CADComponentData> &in_CADComponentData_map) :
    // m_logcat(::log4cpp::Category::getInstance(LOGCAT_LOGFILEONLY)),
@@ -44,7 +44,7 @@ MetaLinkAssemblyEditor::MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr in_c
 {
 	isis_LOG(lg, isis_FILE, isis_DEBUG) << "MetaLinkAssemblyEditor::MetaLinkAssemblyEditor()";
 
-    m_cadfactory = in_cadfactory;
+    //m_cadfactory = in_cadfactory;
     designID = in_ProgramInputArguments.designID;
 
 }
@@ -309,7 +309,7 @@ throw(isis::application_exception)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MetaLinkAssemblyEditor::AddComponentToAssembly(
-	cad::CadFactoryAbstract			 &in_Factory,
+	//cad::CadFactoryAbstract			 &in_Factory,
     const std::string                 &in_ComponentInstanceID,
     const std::string                 &in_CreoModelName,
     //ProMdlType                        in_CreoModelType,
@@ -480,7 +480,7 @@ throw(isis::application_exception)
 
             ++m_uniqueNameIndex;
 
-            CreateModelNameWithUniqueSuffix(in_Factory,
+            CreateModelNameWithUniqueSuffix(//in_Factory,
 											m_uniqueNameIndex,
                                             in_CreoModelName,
                                             origNameWithoutFamilyEntry,
@@ -530,7 +530,7 @@ throw(isis::application_exception)
         //isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                   " << cADComponentData_map_TEMP[in_ComponentInstanceID];
         //isis_LOG(lg, isis_FILE, isis_INFO)  << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
 
-        isis::Add_Subassemblies_and_Parts(*m_cadfactory,
+        isis::Add_Subassemblies_and_Parts(//*m_cadfactory,
                                           m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl,
                                           m_CADComponentData_map[parentAssemblyInstanceID].name,
                                           toAddComponentInstanceIDs,
@@ -741,15 +741,15 @@ throw(isis::application_exception)
     isis_LOG(lg, isis_FILE, isis_INFO) << "**** Before call to ApplyModelConstraints ******";
     isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map[in_ConstraintComponentInstanceID];
 
-    ApplyModelConstraints(*m_cadfactory,
-                          reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
-						  m_CADComponentData_map[topAssemblyComponentInstanceID].name,
+    ApplyModelConstraints(//*m_cadfactory,
+                          //reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
+						  topAssemblyComponentInstanceID,
                           componentIDsToBeConstrained,
                           true,
                           m_CADComponentData_map,
                           // Provide for the case where the first assembled part does not have
                           // the datums front, top, and right defined.
-                          false,
+                          //false,
                           firstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound);
 
     bool regenerationSucceeded;
@@ -902,7 +902,7 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
 {
     GlobalModelData::Instance.Clear();
     std::vector<isis::CADCreateAssemblyError> errorList;
-    CreateAssemblyViaString(*m_cadfactory,
+    CreateAssemblyViaString(//*m_cadfactory,
                             m_programInputArguments,
                             in_AssemblyXMLString,
                             m_uniqueNameIndex,
@@ -962,7 +962,7 @@ void MetaLinkAssemblyEditor::CreateAssembly(const std::string  &in_AssemblyXMLSt
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(cad::CadFactoryAbstract						&in_Factory,
+void CreateAssemblyViaString(//cad::CadFactoryAbstract						&in_Factory,
                              const isis::MetaLinkInputArguments              &in_ProgramInputArguments,
                              const std::string                              &in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
@@ -1019,7 +1019,7 @@ throw(isis::application_exception)
         //std::map<std::string, std::string>  ToPartName_FromPartName_map;
         //isis::ModifyToHaveAUniqueNameForEachParametricPartOrAssembly( in_out_UniqueNameIndex, out_CADComponentData_map, ToPartName_FromPartName_map );
         std::vector<CopyModelDefinition>			fromModel_ToModel;
-        isis::BuildListOfCADModels_ThatShouldBeCopiedToNewNames(	in_Factory,
+        isis::BuildListOfCADModels_ThatShouldBeCopiedToNewNames(//	in_Factory,
 														in_out_UniqueNameIndex,
 														e_PART_OR_ASSEMBLY_MODEL_TYPE,
 														e_SELECT_ONLY_PARAMETRIC_MODELS,
@@ -1100,7 +1100,8 @@ throw(isis::application_exception)
         //             3) the search_META.pro has been set
         if(fromModel_ToModel.size() > 0)
         {
-            isis::CopyModels(in_Factory, fromModel_ToModel);
+            isis::CopyModels(//in_Factory, 
+								fromModel_ToModel);
         }
 
 
@@ -1112,7 +1113,8 @@ throw(isis::application_exception)
                 ++i)
         {
             bool regenerationSucceeded;
-            isis::BuildAssembly(in_Factory, i->assemblyComponentID, in_ProgramInputArguments.workingDirectory, false, out_CADComponentData_map, regenerationSucceeded, out_ErrorList, true);
+            isis::BuildAssembly(//in_Factory, 
+								i->assemblyComponentID, in_ProgramInputArguments.workingDirectory, false, out_CADComponentData_map, regenerationSucceeded, out_ErrorList, true);
 
             if(!regenerationSucceeded)
             {

@@ -791,7 +791,7 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_WARN) << "************** End Message Content *********************";
 			isis_LOG(lg, isis_FILE, isis_WARN) << "****************** End Recieved Message Add Component **********************";
 			std::vector<isis::CADCreateAssemblyError> errorList;
-			m_assembler->AddComponentToAssembly( *cAD_Factory,
+			m_assembler->AddComponentToAssembly(// *cAD_Factory,
 				componentInstanceID,
 				creoModelName,
 				creoModelType,

@@ -1,5 +1,6 @@
 #include <CommonFunctions.h>
 #include <string>
+#include <ToolKitPassThroughFunctions.h>
 
 
 namespace isis
@@ -283,6 +284,177 @@ namespace isis
 
 		return CADAssembledFeature_temp;
 	}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
+					ProMdl						in_Model,
+					CADModelUnits				&out_CADModelUnits )
+										throw(isis::application_exception)
+{
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	std::string unitsString;
+
+	ProUnitsystem unitSystem;
+	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
+	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUint;
+	//ProLine massUnitsLabel;
+	//ProUnitsystemType type;
+
+	isis::isis_ProMdlPrincipalunitsystemGet (in_Model, &unitSystem);
+
+	//  PRO_UNITTYPE_LENGTH          L
+	//  PRO_UNITTYPE_MASS            M
+	//  PRO_UNITTYPE_FORCE           F
+	//  PRO_UNITTYPE_TIME            T
+	//	PRO_UNITTYPE_TEMPERATURE     D 
+
+	
+	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_LENGTH, &lengthUnit); 
+
+	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+	modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName  );
+
+	bool derived = false;
+	try 
+	{
+		isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_MASS, &massUnit); 
+		//ConvertCreoUnitToGMEUnit_Mass(  massUnit.name, out_MassUnit_ShortName, out_MassUnit_LongName );
+
+	}
+	catch(...)
+	{
+		out_CADModelUnits.massUnit_LongName = "Derived";
+		derived = true;
+	}
+
+	if ( !derived ) modelOperations.convertCADUnitToGMEUnit_Mass(massUnit.name, out_CADModelUnits.massUnit_ShortName,out_CADModelUnits.massUnit_LongName );
+
+	derived = false;
+	try 
+	{
+		isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_FORCE, &forceUnit); 
+		//ConvertCreoUnitToGMEUnit_Force( forceUnit.name, out_ForceUnit_ShortName, out_ForceUnit_LongName );
+		
+	}
+	catch(...)
+	{
+		out_CADModelUnits.forceUnit_ShortName = "Derived";
+		out_CADModelUnits.forceUnit_LongName = "Derived";
+		derived = true;
+	}
+	if ( !derived ) modelOperations.convertCADUnitToGMEUnit_Force( forceUnit.name, out_CADModelUnits.forceUnit_ShortName, out_CADModelUnits.forceUnit_LongName );
+
+	
+	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TEMPERATURE , &temperatureUint); 
+	//ConvertCreoUnitToGMEUnit_Temperature( temperatureUint.name, out_TemperatureUnit_ShortName, out_TemperatureUnit_LongName );
+	modelOperations.convertCADUnitToGMEUnit_Temperature(temperatureUint.name, out_CADModelUnits.temperatureUnit_ShortName, out_CADModelUnits.temperatureUnit_LongName );
+	
+	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TIME, &timeUnit);  
+	//ConvertCreoUnitToGMEUnit_Time( timeUnit.name, out_TimeUnit_ShortName, out_TimeUnit_LongName );
+	modelOperations.convertCADUnitToGMEUnit_Time( timeUnit.name, out_CADModelUnits.timeUnit_ShortName, out_CADModelUnits.timeUnit_LongName );
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+					
+void RetrieveUnits_withDescriptiveErrorMsg( 
+					//cad::CadFactoryAbstract							&in_Factory,
+					const std::string								&in_ComponentInstanceID,
+					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					CADModelUnits									&out_CADModelUnits )
+											throw(isis::application_exception)
+
+{
+
+	
+	try
+	{
+		RetrieveUnits(	//in_Factory,
+						in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl,
+						out_CADModelUnits ); 
+
+	}
+	catch(const isis::application_exception &exc)
+	{		
+		std::stringstream errorString;
+		errorString << "Error retrieving model units:" <<  std::endl <<
+						"   ComponentInstanceID: " << in_ComponentInstanceID <<  std::endl <<
+						"   ModelName:           " << in_CADComponentData_map[in_ComponentInstanceID].name <<  std::endl <<
+						"   Error:               " << exc.what();
+		throw isis::application_exception(errorString.str());
+	}
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
+									const std::string							&in_AssemblyComponentID,
+									const std::string							&in_PartComponentID,
+									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+									const MultiFormatString						&in_DatumName,
+									CADPoint									&out_CADPoint) 
+																				throw (isis::application_exception)						
+{
+
+	//wchar_t  datum_name[PRO_NAME_SIZE ];
+	//ProStringToWstring(datum_name, (char *)in_DatumName.c_str() );
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	ProModelitem  datum_point;
+	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
+		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
+		in_CADComponentData_map[in_PartComponentID].cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
+	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
+
+	ProPoint  point;
+	isis::isis_ProPointInit (	(ProSolid) datum_point.owner,  // ProSolid   owner_handle,
+								datum_point.id,
+								&point);
+
+	ProVector part_xyz_point;
+	isis::isis_ProPointCoordGet (point, part_xyz_point);
+
+
+
+	
+	double transformationMatrix[4][4];
+	//RetrieveTranformationMatrix_Assembly_to_Child (	in_AssemblyComponentID,
+	//													in_CADComponentData_map[in_PartComponentID].componentPaths,
+	//													in_CADComponentData_map,  
+	//													PRO_B_TRUE,  // bottom up
+	//													transformationMatrix);
+
+	 isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+	// modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
+	//																in_CADComponentData_map[in_PartComponentID].componentPaths,
+	//																in_CADComponentData_map,  
+	//																true,  // bottom up
+	//																transformationMatrix);
+
+	 modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,
+																	in_PartComponentID,
+																	in_CADComponentData_map,  
+																	true,  // bottom up
+																	transformationMatrix);
+
+			
+	 ProVector from_assembly_xyz_point;
+	 isis::isis_ProPntTrfEval( part_xyz_point, transformationMatrix, from_assembly_xyz_point);
+
+	 out_CADPoint.x = from_assembly_xyz_point[0];
+	 out_CADPoint.y = from_assembly_xyz_point[1];
+	 out_CADPoint.z = from_assembly_xyz_point[2];
+	 
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 } // END namespace isis

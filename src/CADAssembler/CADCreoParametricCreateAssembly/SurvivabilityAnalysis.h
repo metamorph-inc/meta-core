@@ -10,13 +10,14 @@ namespace isis
 
 
 	void PopulateBallisticFiles( 
-					cad::CadFactoryAbstract								&in_Factory,
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception);
 
 	void PopulateBlastFiles( 
+					//cad::CadFactoryAbstract								&in_Factory,
 					const TopLevelAssemblyData							&in_TopLevelAssemblyData,
 					const std::string									&in_WORKING_DIR,
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
@@ -37,7 +38,8 @@ namespace isis
 	//	4.  For tracked vehicles, the tracks are parallel to the z-axis
 	//  5.  For wheeled vehicles, the portion of the wheels touching the ground form a 
 	//		plane. 
-	void ComputeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+	void ComputeVehicleGroundPlane( //cad::CadFactoryAbstract							&in_Factory,
+									const std::string								&in_AssemblyComponentID,
 									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 									std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
 																			throw (isis::application_exception);

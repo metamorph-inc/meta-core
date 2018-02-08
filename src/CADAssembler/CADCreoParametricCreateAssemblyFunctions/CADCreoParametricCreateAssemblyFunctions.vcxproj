@@ -104,6 +104,7 @@
     <ClCompile Include="ISISConstants.cpp" />
     <ClCompile Include="MaterialProperties.cpp" />
     <ClCompile Include="CreoModelMetaData.cpp" />
+    <ClCompile Include="ModelMaterials.cpp" />
     <ClCompile Include="SetCADModelParameters.cpp" />
     <ClCompile Include="ToolKitPassThroughFunctions.cpp" />
   </ItemGroup>
@@ -120,6 +121,7 @@
     <ClInclude Include="ISISConstants.h" />
     <ClInclude Include="MaterialProperties.h" />
     <ClInclude Include="CreoModelMetaData.h" />
+    <ClInclude Include="ModelMaterials.h" />
     <ClInclude Include="SetCADModelParameters.h" />
     <ClInclude Include="ToolKitPassThroughFunctions.h" />
   </ItemGroup>

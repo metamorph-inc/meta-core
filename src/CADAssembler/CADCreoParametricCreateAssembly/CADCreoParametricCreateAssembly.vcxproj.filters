@@ -34,15 +34,6 @@
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FiniteElementAnalysis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Metrics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelMaterials.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DataExchange.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,30 +52,18 @@
     <ClCompile Include="GlobalModelData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FiniteElementAnalysis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FiniteElementAnalysis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Metrics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ISISVersionNumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelMaterials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataExchange.h">
@@ -108,19 +87,10 @@
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FiniteElementAnalysis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,7 +22,7 @@ public:
     //		object created from this class
     // Post-Conditions:
     //		Instantiated Object
-    MetaLinkAssemblyEditor(cad::CadFactoryAbstract::ptr						in_cadfactory,
+    MetaLinkAssemblyEditor(//cad::CadFactoryAbstract::ptr						in_cadfactory,
                            const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
                            std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map);
 
@@ -100,7 +100,7 @@ public:
     //		the in_ParentAssemblyInstanceID assembly and cADComponentData_map updated to reflect that
     //		in_ComponentInstanceID is now part of the active Creo assembly.
     void AddComponentToAssembly(
-		cad::CadFactoryAbstract			&in_Factory,
+		//cad::CadFactoryAbstract			&in_Factory,
         const std::string 				&in_ComponentInstanceID,
         const std::string 				&in_CreoModelName,
 		// ProMdlType                        in_CreoModelType,
@@ -155,7 +155,7 @@ public:
 private:
     //::log4cpp::Category& m_logcat;
 
-    cad::CadFactoryAbstract::ptr m_cadfactory;
+    //cad::CadFactoryAbstract::ptr m_cadfactory;
 
     // Don't allow default constructor
     MetaLinkAssemblyEditor();
@@ -174,7 +174,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CreateAssemblyViaString(cad::CadFactoryAbstract				&in_Factory,
+void CreateAssemblyViaString(//cad::CadFactoryAbstract				&in_Factory,
                              const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
                              const std::string								&in_XMLInputFile_String,
                              unsigned int									&in_out_UniqueNameIndex,
