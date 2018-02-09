@@ -1034,6 +1034,10 @@ namespace CyPhyPET
 
         public void GenerateCode(CyPhy.ExcelWrapper excel)
         {
+            if (excel.Attributes.ExcelFilename == "")
+            {
+                throw new ApplicationException(String.Format("ExcelWrapper {0} must specify Excel Filename", excel.Name));
+            }
             var config = GenerateCode((CyPhy.ParametricTestBench)excel);
 
             var projectDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
