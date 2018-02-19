@@ -8,7 +8,7 @@ namespace isis
 {
 
 
-void CreateAssemblyViaInputFile( cad::CadFactoryAbstract						&in_Factory,
+void CreateAssemblyViaInputFile( // cad::CadFactoryAbstract						&in_Factory,
 								 const std::string								&in_CreateAssemblyProgramName,    // e.g. CADCreoParametricCreateAssembly
 								 const std::string								&in_CreateAssemblyProgramVersion, // e.g. v1.5.23.0
 								 const std::string								&in_CADApplicationName,			  // e.g. CreoParametric

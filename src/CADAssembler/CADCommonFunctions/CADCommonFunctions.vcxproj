@@ -164,6 +164,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface.h" />
     <ClInclude Include="..\..\..\generated\CAD\generated\AssemblyInterface_xsd.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h" />
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h" />
     <ClInclude Include="cc_AssemblyUtilities.h" />
     <ClInclude Include="c3ga.h" />
     <ClInclude Include="cc_AssemblyOptions.h" />
@@ -180,6 +184,7 @@
     <ClInclude Include="cc_JsonHelper.h" />
     <ClInclude Include="cc_LoggerBoost.h" />
     <ClInclude Include="cc_MetaLinkInputArgumentsParser.h" />
+    <ClInclude Include="cc_Metrics.h" />
     <ClInclude Include="cc_MiscellaneousFunctions.h" />
     <ClInclude Include="cc_MultiFormatString.h" />
     <ClInclude Include="cc_Nastran.h" />
@@ -194,9 +199,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\generated\CAD\generated\AssemblyInterface.cpp" />
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp" />
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp" />
     <ClCompile Include="cc_AssemblyUtilities.cpp" />
     <ClCompile Include="c3ga.cpp" />
     <ClCompile Include="cc_AssemblyOptions.cpp" />
+    <ClCompile Include="cc_CADFactoryAbstract.cpp" />
     <ClCompile Include="cc_CommonDefinitions.cpp" />
     <ClCompile Include="cc_CommonFunctions.cpp" />
     <ClCompile Include="cc_CommonStructures.cpp" />
@@ -208,6 +216,7 @@
     <ClCompile Include="cc_JsonHelper.cpp" />
     <ClCompile Include="cc_LoggerBoost.cpp" />
     <ClCompile Include="cc_MetaLinkInputArgumentsParser.cpp" />
+    <ClCompile Include="cc_Metrics.cpp" />
     <ClCompile Include="cc_MiscellaneousFunctions.cpp" />
     <ClCompile Include="cc_MultiFormatString.cpp" />
     <ClCompile Include="cc_Nastran.cpp" />

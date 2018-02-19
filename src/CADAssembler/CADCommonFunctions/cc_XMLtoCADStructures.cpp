@@ -2,10 +2,7 @@
 #include <iostream>
 #include "cc_LoggerBoost.h"
 
-#ifndef ISIS_VERSION_NUMBER_H
-#define ISIS_VERSION_NUMBER_H
 #include "cc_CommonUtilities.h"
-#endif
 
 #include "UdmBase.h"
 #include "AssemblyInterface.h"

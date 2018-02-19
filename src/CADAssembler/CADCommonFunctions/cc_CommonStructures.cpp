@@ -30,22 +30,31 @@ namespace isis
 		}
 
 
-	MassProperties::MassProperties() :	volume(0.0),
-										surfaceArea(0.0),
-										density(0.0),
-										mass(0.0),
-										massProperties_RetrievalInvoked(false),
-										massProperties_Defined(false),
-										volume_Defined(false),
-										surfaceArea_Defined(false),
-										density_Defined(false),
-										mass_Defined(false),
-										coordSysInertiaTensor_Defined(false),
-										centerOfGravity_Defined(false),
-										cGInertiaTensor_Defined(false),
-										principalMomentsOfInertia_Defined(false),
-										principalAxis_RotationMatrix_Defined(false)
+	MassProperties::MassProperties() 
 	{
+		setValuesToNotDefinedAndZeros();
+	}
+
+	void MassProperties::setValuesToNotDefinedAndZeros()
+	{
+
+		volume = 0.0;
+		surfaceArea = 0.0;
+		density = 0.0;
+		mass = 0.0;
+		massProperties_RetrievalInvoked = false;
+		massProperties_Defined = false;
+		volume_Defined = false;
+		surfaceArea_Defined = false;
+		density_Defined = false;
+		mass_Defined = false;
+		coordSysInertiaTensor_Defined = false;
+		centerOfGravity_Defined = false;
+		cGInertiaTensor_Defined = false;
+		principalMomentsOfInertia_Defined = false;
+		principalAxis_RotationMatrix_Defined = false;
+
+
 		for ( int i = 0 ; i < 3; ++i )
 			for ( int j = 0 ; j < 3; ++j)	coordSysInertiaTensor[i][j] = 0.0;
 
@@ -60,6 +69,7 @@ namespace isis
 			for ( int j = 0 ; j < 3; ++j)	principalAxis_RotationMatrix[i][j] = 0.0;
 
 	}
+
 
 	std::ostream& operator<<(std::ostream& output, const CADParameter &in_CADParameter)
 	{

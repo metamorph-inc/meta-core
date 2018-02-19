@@ -45,15 +45,15 @@ namespace isis
 
 	*/
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract				&in_Factory,
-			ProSolid							*in_assembly_model,
+			//cad::CadFactoryAbstract				&in_Factory,
+			//ProSolid							*in_assembly_model,
 			const std::string					&in_AssemblyComponentID,
 			const std::list<std::string>		&in_ComponentIDsToBeConstrained,  
 			bool								in_AllowUnconstrainedModels,
 			std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
 														// Provide for the case where the first assembled part does not have
 														// the datums front, top, and right defined. 
-			bool										in_IgnoreGuides,
+			//bool										in_IgnoreGuides,
 			bool										in_FirstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound )
 										throw (isis::application_exception);
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include <CFDAnalysis.h>
-#include <isis_ptc_toolkit_functions.h>
+//#include <isis_ptc_toolkit_functions.h>
 #include "UdmBase.h"
 #include <CADPostProcessingParameters.h>
-#include <ToolKitPassThroughFunctions.h>
+//#include <ToolKitPassThroughFunctions.h>
 #include <cc_CommonUtilities.h>
 #include <sstream>
 #include <cc_JsonHelper.h>
@@ -128,11 +128,13 @@ namespace isis
 						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																					throw (isis::application_exception);
 
-		void analyze(const CFD_Fidelity in_fidelity);
+		void analyze(//cad::CadFactoryAbstract	 &in_Factory, 
+						const CFD_Fidelity in_fidelity);
 
 	private:
 	
-		void analyze_v0();
+		void analyze_v0( //cad::CadFactoryAbstract &in_Factory
+						);
 		void analyze_v1();
 
 		const ::boost::filesystem::path     m_CADExtensionsDir;
@@ -225,17 +227,31 @@ namespace isis
 	The original placeholder analysis.
 	It builds a bottom heavy bounding box approximation of the vehicle.
 	*/
+	//void CFD_Analyzer::analyze_v0(cad::CadFactoryAbstract &in_Factory)	{
 	void CFD_Analyzer::analyze_v0()	{
 
 		isis_CADCommon::Point_3D	boundingBox_Point_1;
 		isis_CADCommon::Point_3D	boundingBox_Point_2;
 		double						boundingBoxDimensions_xyz[3];
 		
-		RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	m_TopLevelAssemblyData.assemblyComponentID,
+		//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	m_TopLevelAssemblyData.assemblyComponentID,
+		//														m_CADComponentData_map,
+		//														boundingBox_Point_1,
+		//														boundingBox_Point_2,
+		//														boundingBoxDimensions_xyz );
+	
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(//in_Factory,
+																m_TopLevelAssemblyData.assemblyComponentID,
 																m_CADComponentData_map,
 																boundingBox_Point_1,
 																boundingBox_Point_2,
 																boundingBoxDimensions_xyz );
+		
+
 
 		// {x, y, z} direction	
 		double boundingBox_Length_xAxis =  abs(boundingBox_Point_2.x - boundingBox_Point_1.x);
@@ -396,7 +412,7 @@ namespace isis
 	CFD_Analyzer::CFD_Analyzer(	
 		const std::string								    &in_CADExtensionsDir,  // Contains template for hydrostatics.json
 		const std::string									&in_WorkingDirectory,
-		const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
+		const isis::TopLevelAssemblyData						&in_TopLevelAssemblyData,
 		std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 					throw (isis::application_exception) 
 	:	//m_fileLogger(isis_FILE_CHANNEL),
@@ -430,7 +446,12 @@ namespace isis
 	CFD, for now, requires the following coordinate system.
 		Z-axis pointing up, x back, and y right.
 	*/
-	void CFD_Analyzer::analyze( const CFD_Fidelity in_fidelity )	{
+	void CFD_Analyzer::analyze( //cad::CadFactoryAbstract	&in_Factory, 
+								const CFD_Fidelity in_fidelity )	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		std::stringstream errorString;
 		isis_LOG(lg, isis_FILE, isis_INFO) << "fidelity = " << in_fidelity;
 
@@ -499,23 +520,44 @@ namespace isis
 		////////////////////////////////////
 		// Get Assembly Mass and C.G.
 		///////////////////////////////////
-		ProMassProperty  mass_prop;
+		//ProMassProperty  mass_prop;
 
-		isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(m_TopLevelAssemblyData.assemblyComponentID, 
-			m_CADComponentData_map, &mass_prop );
+		//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(m_TopLevelAssemblyData.assemblyComponentID, 
+		//	m_CADComponentData_map, &mass_prop );
 
-		if ( mass_prop.mass == 0 ) {
+		//if ( mass_prop.mass == 0 ) {
+		//	std::stringstream errorString;
+		//	errorString <<  "Function CFD_Driver retrieved zero mass for "
+		//		<< "ComponentInstanceID: " << m_TopLevelAssemblyData.assemblyComponentID << ". "
+		//		<< "Model name: " << m_CADComponentData_map[m_TopLevelAssemblyData.assemblyComponentID].name;
+		//	throw isis::application_exception(errorString.str());
+		//}
+		//m_Assembly_Mass = mass_prop.mass;
+
+		//m_CG_x = mass_prop.center_of_gravity[0];
+		//m_CG_y = mass_prop.center_of_gravity[1];
+		//m_CG_z = mass_prop.center_of_gravity[2];
+
+
+		MassProperties		massProperties_temp;
+
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+		modelOperations.retrieveMassProperties(m_TopLevelAssemblyData.assemblyComponentID, m_CADComponentData_map, massProperties_temp);
+
+		if ( massProperties_temp.mass == 0 ) {
 			std::stringstream errorString;
 			errorString <<  "Function CFD_Driver retrieved zero mass for "
 				<< "ComponentInstanceID: " << m_TopLevelAssemblyData.assemblyComponentID << ". "
 				<< "Model name: " << m_CADComponentData_map[m_TopLevelAssemblyData.assemblyComponentID].name;
 			throw isis::application_exception(errorString.str());
 		}
-		m_Assembly_Mass = mass_prop.mass;
+		m_Assembly_Mass = massProperties_temp.mass;
 
-		m_CG_x = mass_prop.center_of_gravity[0];
-		m_CG_y = mass_prop.center_of_gravity[1];
-		m_CG_z = mass_prop.center_of_gravity[2];
+		m_CG_x = massProperties_temp.centerOfGravity[0];
+		m_CG_y = massProperties_temp.centerOfGravity[1];
+		m_CG_z = massProperties_temp.centerOfGravity[2];
+
 
 		// Compute displaced volume.
 		m_DisplacedVolume = m_Assembly_Mass / m_Fluid_Density;
@@ -524,7 +566,8 @@ namespace isis
 
 		switch( in_fidelity ) {
 		case V0:
-			analyze_v0();
+			analyze_v0(//in_Factory
+				);
 			break;
 		case V1:
 			analyze_v1();
@@ -541,17 +584,20 @@ namespace isis
 	/**
 	The externally visible function.
 	*/
-	void CFD_Driver( 	const CFD_Fidelity								in_fidelity,
+	void CFD_Driver( 	
+				//cad::CadFactoryAbstract								&in_Factory,
+				const CFD_Fidelity									in_fidelity,
 				const std::string									&in_ExtensionDirectory,
 				const std::string									&in_WorkingDirectory,
-				const isis::TopLevelAssemblyData					&in_TopLevelAssemblyData,
+				const isis::TopLevelAssemblyData						&in_TopLevelAssemblyData,
 				std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																			throw (isis::application_exception) 
 	{
 		CFD_Analyzer analyzer( in_ExtensionDirectory, in_WorkingDirectory, 
 			in_TopLevelAssemblyData, in_CADComponentData_map);
 
-		analyzer.analyze(in_fidelity);
+		analyzer.analyze( // in_Factory,
+							in_fidelity);
 	}
 
 } // END namespace isis

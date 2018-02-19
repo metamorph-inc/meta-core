@@ -1,6 +1,9 @@
 #include "cc_CommonUtilities.h"
 #include <fstream>
 #include <locale>
+#include "cc_WindowsFunctions.h"
+#include	  "cc_MultiFormatString.h"
+#include <Windows.h>
 
 //#include <iostream>
 
@@ -142,5 +145,49 @@ namespace isis
 		}
 	} 
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	std::string META_PATH()
+	{
+		std::string metapath;
+		HKEY software_meta;
+		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
+		{
+			BYTE data[MAX_PATH];
+			DWORD type, size = sizeof(data) / sizeof(data[0]);
+			if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
+			{
+				metapath = std::string(data, data + strnlen((const char*)data, size));
+			}
+			RegCloseKey(software_meta);
+		}
+		return metapath;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// e.g "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
+	std::string MaterialsLibrary_PathAndFileName()
+	{
+		auto dev_path = boost::filesystem::path(META_PATH()) / "models" / "MaterialLibrary" / "material_library.json";
+		OutputDebugStringA(dev_path.string().c_str());
+		OutputDebugStringA("\n");
+		if (boost::filesystem::is_regular_file(dev_path))
+		{
+			return dev_path.string();
+		}
+
+		std::wstring publicDocuments_wide;
+
+		// Public Documents e.g. "C:\\Users\\Public\\Documents\\META Documents"
+		isis_CADCommon::GetPublicDocuments(publicDocuments_wide);
+		isis::MultiFormatString publicDocuments_multiformat(publicDocuments_wide.c_str() );
+
+		// Materials Library
+		// e.g. "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
+
+		return (std::string)publicDocuments_multiformat + std::string("\\META Documents\\MaterialLibrary\\material_library.json");	;
+	}
 
 } // end namespace isis

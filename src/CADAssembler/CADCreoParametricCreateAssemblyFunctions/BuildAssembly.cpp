@@ -517,7 +517,7 @@ void SetCreoModelRepresentation( isis::CADComponentData &in_CADComponentData )
 */
 /////////////////////////////////////////////////////////////////////////////////////////
 void Add_Subassemblies_and_Parts( 
-					cad::CadFactoryAbstract						&in_Factory,
+					//cad::CadFactoryAbstract						&in_Factory,
 					ProMdl										in_p_asm,
 					const std::string							&in_ParentName,
 					const std::list<std::string>				&in_Components,
@@ -649,7 +649,7 @@ void Add_Subassemblies_and_Parts(
 // component is constrained to Non-Size-to-Fit components that have already been added to the assembly structure, 
 // then the Size-to-Fit components can be added to the current assembly.
 void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
-									cad::CadFactoryAbstract				&	in_Factory,
+									//cad::CadFactoryAbstract				&	in_Factory,
 									const std::string							&in_AssemblyComponentID,
 									bool										in_AllowUnconstrainedModels,
 									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -689,7 +689,7 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 			Single_SIZE_TO_FIT_Component.push_back(*t);
 
 			
-			Add_Subassemblies_and_Parts( in_Factory,
+			Add_Subassemblies_and_Parts( //in_Factory,
 										in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl, 
 										 in_CADComponentData_map[in_AssemblyComponentID].name,  
 										 Single_SIZE_TO_FIT_Component, 
@@ -716,13 +716,13 @@ void For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
 			// No need to update the path to its sub-assemblies/parts.  A SIZE_TO_FIT component will always be a leaf assembly.
 
 			// Can constrain this SIZE_TO_FIT component
-			isis::ApplyModelConstraints( in_Factory,
-											reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
+			isis::ApplyModelConstraints( //in_Factory,
+											//reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl), //ProSolid	 in_assembly_model,
 											in_AssemblyComponentID,
 											Single_SIZE_TO_FIT_Component,
 											in_AllowUnconstrainedModels,
 											in_CADComponentData_map, 
-											false, 
+											//false, 
 											false);
 			//isis::ApplyModelConstraints( (ProSolid*)&in_p_asm, //ProSolid	 in_assembly_model,
 			//								Single_SIZE_TO_FIT_Component,
@@ -846,7 +846,7 @@ void AddSortOrderToMap(	const std::list<std::string>				&in_SortedComponents,
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AssembleCADComponent( 	
-							cad::CadFactoryAbstract						&in_Factory,
+							//cad::CadFactoryAbstract					&cAD_Factory_ptr,
 							const std::string							&in_AssemblyComponentID,
 							const std::string							&in_WORKING_DIR,
 							bool										in_SaveAssembly,
@@ -861,8 +861,8 @@ void AssembleCADComponent(
 {
 		
 	
-	
-
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr					cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();	
 
 
 	// *************************************
@@ -880,8 +880,8 @@ void AssembleCADComponent(
 			{
 				//isis::C8omponentData_struct ParentComponentData_temp( i->ComponentID(), i->Name() );
 
-				AssembleCADComponent( in_Factory,
-									*i,
+				AssembleCADComponent( //cAD_Factory_ptr,
+									  *i,
 									  in_WORKING_DIR,
 									  //ParentComponentData_temp,
 									  in_SaveAssembly,
@@ -906,7 +906,7 @@ void AssembleCADComponent(
 	//wchar_t  AssemblyName[PRO_FAMILY_NAME_SIZE];
 	//wchar_t  AssemblyName[ISIS_CHAR_BUFFER_LENGTH];
 	
-	void* handle = in_Factory.get_assembler().get_assembly_component
+	void* handle = cAD_Factory_ptr->get_assembler().get_assembly_component
 		(in_WORKING_DIR, in_AssemblyComponentID, in_out_CADComponentData_map);
 
 	ProMdl p_asm = *(reinterpret_cast<ProMdl*>(handle));
@@ -988,8 +988,8 @@ void AssembleCADComponent(
 	////////////////////////////////////////
 	// Add sub-assemblies and detail parts
 	////////////////////////////////////////
-	Add_Subassemblies_and_Parts( in_Factory,
-								p_asm, 
+	Add_Subassemblies_and_Parts( //*cAD_Factory_ptr,
+								 p_asm, 
 								 in_out_CADComponentData_map[in_AssemblyComponentID].name, 
 								 SortedComponents, 
 								 in_out_CADComponentData_map,
@@ -1049,13 +1049,13 @@ void AssembleCADComponent(
 	isis_LOG(lg, isis_FILE, isis_INFO) << "\n************** End map CADComponent in BuildAssembly Function ***************";
 
 
-	bool fail = isis::ApplyModelConstraints( in_Factory,
-									(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
+	bool fail = isis::ApplyModelConstraints( //*cAD_Factory_ptr,
+									//(ProSolid*)&p_asm, //ProSolid	 in_assembly_model,
 									in_AssemblyComponentID,
 									SortedComponents,
 									in_AllowUnconstrainedModels,
 									in_out_CADComponentData_map,
-									constraintdata,
+									//constraintdata,
 									true);
 		
 
@@ -1068,7 +1068,7 @@ void AssembleCADComponent(
 		///////////////////////////////////////////////////////////////////////////
 
 		For_SizeToFit_ComponentsWithDependentsPresentAtThisLevel_AddAndConstrain(
-										in_Factory,
+										//*cAD_Factory_ptr,
 										in_AssemblyComponentID,
 										in_AllowUnconstrainedModels,
 										in_out_CADComponentData_map,
@@ -1207,7 +1207,7 @@ void AssembleCADComponent(
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-void BuildAssembly( cad::CadFactoryAbstract				&in_Factory,
+void BuildAssembly( //cad::CadFactoryAbstract				&in_Factory,
 					const std::string					&in_AssemblyComponentID, 
 					const std::string					&in_WORKING_DIR,
 					bool								in_SaveAssembly,
@@ -1233,7 +1233,7 @@ void BuildAssembly( cad::CadFactoryAbstract				&in_Factory,
 	std::list<std::string>  SIZE_TO_FIT_Components; 
 
 	out_RegenerationSucceeded = true;
-	AssembleCADComponent(	in_Factory,
+	AssembleCADComponent(	//in_Factory,
 							in_AssemblyComponentID,
 							in_WORKING_DIR,
 							in_SaveAssembly,

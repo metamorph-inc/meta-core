@@ -190,7 +190,7 @@ namespace isis
 
 	struct ComputedJointData
 	{
-		std::string coordinatesystem; // This has been computed in the coordinate system of this component
+		std::string coordinateSystem_ComponentInstanceID; // This has been computed in the coordinate system of this component
 
 		bool junctiondDefined_withoutGuide;
 		isis::cad::Junction junction_withoutguide;
@@ -900,6 +900,7 @@ namespace isis
 		bool	principalAxis_RotationMatrix_Defined;
 
 		MassProperties();
+		void setValuesToNotDefinedAndZeros();
 	};
 
 	enum e_Data_Initial_Source
@@ -1261,6 +1262,26 @@ namespace isis
 
 	std::ostream& operator<<(std::ostream& output, const CopyModelDefinition &in_CopyModelDefinition); 
 	std::ostream& operator<<(std::ostream& output, const std::vector<CopyModelDefinition> &in_CopyModelDefinition_vector); 
+
+
+	struct CADModelUnits
+	{
+		std::string		distanceUnit_ShortName;
+		std::string		distanceUnit_LongName;
+					
+		std::string		massUnit_ShortName;
+		std::string		massUnit_LongName;
+
+		std::string		forceUnit_ShortName;
+		std::string		forceUnit_LongName;
+
+		std::string		timeUnit_ShortName;
+		std::string		timeUnit_LongName;
+
+		std::string		temperatureUnit_ShortName;
+		std::string		temperatureUnit_LongName;
+	};
+
 
 
 } // END namespace isis

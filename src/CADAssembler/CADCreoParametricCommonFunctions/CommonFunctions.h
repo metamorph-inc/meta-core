@@ -15,6 +15,7 @@
 #include <cc_MultiFormatString.h>
 #include <cc_GraphicsFunctions.h>
 #include <cc_CommonStructures.h>
+#include <cc_CADFactoryAbstract.h>
 #include <string>
 
 namespace isis
@@ -123,6 +124,21 @@ namespace isis
 	ProAsmcomp getProAsmcomp(const CADAssembledFeature &in_CADAssembledFeature );
 
 	CADAssembledFeature getCADAssembledFeature( const ProAsmcomp &in_ProAsmcomp );
+
+	void RetrieveUnits_withDescriptiveErrorMsg( 
+				//cad::CadFactoryAbstract							&in_Factory,
+				const std::string								&in_ComponentInstanceID,
+				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+				CADModelUnits									&out_CADModelUnits  )
+													throw(isis::application_exception);
+
+
+	void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
+										const std::string							&in_AssemblyComponentID,
+										const std::string								&in_PartComponentID,
+										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+										const MultiFormatString							&in_DatumName,
+										CADPoint										&out_CADPoint);
 
 } // END namespace isis
 

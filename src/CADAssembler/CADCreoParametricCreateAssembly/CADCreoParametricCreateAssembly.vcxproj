@@ -164,41 +164,27 @@
     </ClCompile>
     <ClCompile Include="AssemblyCreationViaInputFile.cpp" />
     <ClCompile Include="CFDAnalysis.cpp" />
+    <ClCompile Include="FiniteElementAnalysis.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SurvivabilityAnalysis.cpp" />
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp" />
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Computations.cpp" />
     <ClCompile Include="DataExchange.cpp" />
-    <ClCompile Include="FiniteElementAnalysis.cpp" />
-    <ClCompile Include="ModelMaterials.cpp" />
-    <ClCompile Include="Metrics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
     <ClInclude Include="CFDAnalysis.h" />
+    <ClInclude Include="FiniteElementAnalysis.h" />
     <ClInclude Include="GlobalModelData.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SurvivabilityAnalysis.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h" />
-    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h" />
     <ClInclude Include="Computations.h" />
     <ClInclude Include="DataExchange.h" />
-    <ClInclude Include="FiniteElementAnalysis.h" />
     <ClInclude Include="ISISVersionNumber.h" />
-    <ClInclude Include="ModelMaterials.h" />
-    <ClInclude Include="Metrics.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CADCreoParametricCreateAssembly.rc" />

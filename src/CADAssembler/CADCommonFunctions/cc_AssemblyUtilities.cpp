@@ -43,7 +43,7 @@ namespace isis
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CreateModelNameWithUniqueSuffix(  
-				cad::CadFactoryAbstract	&in_Factory,
+				//cad::CadFactoryAbstract	&in_Factory,
 				unsigned int			in_UniqueNameIndex, 
 				const std::string		&in_ModelName_CouldIncludeFamilyTableEntry,
 				std::string				&out_ModelName_Without_Suffix,		// Creo Example:	Chassis
@@ -54,6 +54,9 @@ namespace isis
 				unsigned int			in_AllowedSize )   
 														throw (isis::application_exception)
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		if ( in_ModelName_CouldIncludeFamilyTableEntry.size() > in_AllowedSize )
 		{
@@ -77,7 +80,7 @@ namespace isis
 		//									familyTableEntry,
 		//									familyTableModel );
 
-		isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+		isis::cad::IModelHandling&           modelHandling = cAD_Factory_ptr->getModelHandling();
 		modelHandling.extractModelNameAndFamilyTableEntry( in_ModelName_CouldIncludeFamilyTableEntry, 
 														out_ModelName_Without_Suffix,
 														familyTableEntry,
@@ -139,7 +142,7 @@ namespace isis
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void BuildListOfCADModels_ThatShouldBeCopiedToNewNames( 
-							cad::CadFactoryAbstract							&in_Factory,
+							//cad::CadFactoryAbstract							&in_Factory,
 							unsigned int									&in_out_UniqueNameIndex,
 							e_ModelTypeIndicator							in_ModelTypeIndicator,
 							e_ModelSelectorIndicator						in_ModelSelectorIndicator,
@@ -150,6 +153,10 @@ namespace isis
 																		throw (isis::application_exception)
 	{
 		
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr					cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 		std::set<std::string>  modelsAlreadyEncountered;
 
 		//int index = 1;
@@ -174,13 +181,13 @@ namespace isis
 			//									familyTableEntry,
 			//									familyTableModel );
 
-			isis::cad::IModelHandling&           modelHandling = in_Factory.getModelHandling();
+			isis::cad::IModelHandling&           modelHandling = cAD_Factory_ptr->getModelHandling();
 			modelHandling.extractModelNameAndFamilyTableEntry( i->second.name, 
 															origNameWithoutFamilyEntry_temp,
 															familyTableEntry,
 															familyTableModel );
 
-
+			
 
 			if ( i->second.name.size() == 0 )
 			{
@@ -223,7 +230,7 @@ namespace isis
 				std::string origNameWithoutFamilyEntry;
 				std::string modelName;
 				std::string completeName;
-				CreateModelNameWithUniqueSuffix(	in_Factory,
+				CreateModelNameWithUniqueSuffix( 	//*cAD_Factory_ptr,
 													in_out_UniqueNameIndex, 
 													i->second.name,
 													origNameWithoutFamilyEntry,
@@ -453,17 +460,20 @@ namespace isis
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void CopyModels(	cad::CadFactoryAbstract						&in_Factory,
+	void CopyModels(	//cad::CadFactoryAbstract						&cAD_Factory_ptr,
 						const std::vector<CopyModelDefinition>		&in_FromModel_ToModel )
 																	throw (isis::application_exception)
 	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
 		std::set<std::string> savedToWorkingDirSourceModels;
 
 		for each ( CopyModelDefinition i  in in_FromModel_ToModel)
 
 		{
-			isis::cad::IModelHandling&        modelHandling = in_Factory.getModelHandling();
+			isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();
 
 			std::string modelNameWithSuffix = 
 				   ConvertToUpperCase (modelHandling.combineCADModelNameAndSuffix(i.fromModelName, i.modelType) );
@@ -673,7 +683,7 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void PopulateMap_with_JunctionInformation_SingleJunction( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentID, 
 					const std::vector<ConstraintPair>				&in_ConstraintPairs,
 					isis::cad::Junction								&out_Junction,
@@ -681,12 +691,15 @@ namespace isis
 						throw (isis::application_exception)
 	{
 		
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << "*************  PopulateMap_with_JunctionInformation_SingleJunction (Constraints derived from CADAssembly.xml)";
 
 		isis_LOG(lg, isis_FILE, isis_INFO) << (std::string)in_out_CADComponentData_map[in_ComponentID].name;
 
-		cad::IAssembler& assembler = in_Factory.get_assembler();
+		cad::IAssembler& assembler = cAD_Factory_ptr->get_assembler();
 
 		std::vector< cad::Joint::pair_t > joint_pair_vector = assembler.extract_joint_pair_vector(in_ComponentID, in_ConstraintPairs, in_out_CADComponentData_map);
 		
@@ -941,7 +954,7 @@ namespace isis
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void PopulateMap_with_Junctions_per_InputXMLConstraints( 
-					cad::CadFactoryAbstract							&in_Factory,
+					//cad::CadFactoryAbstract							&in_Factory,
 					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, 
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
 					bool												in_Force)
@@ -974,7 +987,7 @@ namespace isis
 
 
 							std::vector<ConstraintPair> constraintPairs_withoutGuide = j->getConstraintPairsWithoutGuide();
-							PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+							PopulateMap_with_JunctionInformation_SingleJunction( //in_Factory, 
 																				i,
 																				constraintPairs_withoutGuide,
 																				j->computedJointData.junction_withoutguide,
@@ -985,7 +998,7 @@ namespace isis
 
 							j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
 							// ttttt
-							j->computedJointData.coordinatesystem = i;
+							j->computedJointData.coordinateSystem_ComponentInstanceID = i;
 							j->computedJointData.junctiondDefined_withoutGuide = true;
 							isis_LOG(lg, isis_FILE, isis_INFO) << "   Without guide, Joint type: " << CADJointType_string(j->computedJointData.jointType_withoutguide);
 
@@ -994,13 +1007,13 @@ namespace isis
 					}
 					else
 					{
-						PopulateMap_with_JunctionInformation_SingleJunction( in_Factory, 
+						PopulateMap_with_JunctionInformation_SingleJunction(// in_Factory, 
 																			i,
 																			j->constraintPairs,
 																			j->computedJointData.junction_withoutguide,
 																			in_out_CADComponentData_map );
 						j->computedJointData.junctiondDefined_withGuide = false;
-						j->computedJointData.coordinatesystem = i;
+						j->computedJointData.coordinateSystem_ComponentInstanceID = i;
 						j->computedJointData.junctiondDefined_withoutGuide = true;
 						//j->computedJointData.jointType_withoutguide = GetCADJointType(j->computedJointData.junction_withoutguide.joint_pair.first.type);
 						j->computedJointData.jointType_withoutguide =  AdjustJointTypeToCreoGeometryTypes(j->constraintPairs, j->computedJointData.junction_withoutguide.joint_pair.first.type);
@@ -1123,6 +1136,459 @@ namespace isis
 			isis_LOG(lg, isis_FILE, isis_ERROR) << "ERROR, Function: " << __FUNCTION__ << ", Error Message: Unkown Error"; 
 		}
 	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	struct ConstraintSourceAndDestination
+	{
+		std::string Source_ComponentID_AssemblyPart;
+		std::string Destination_ComponentID_Part;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// WARNING in_AssemblyComponentIDs should only be parts or assemblies from CADAssembly.xml.  If it is
+	// an assembly, it would be a leaf assembly
+	void PopulateMap_with_ConstrainedToInfo_per_InputXMLConstraints ( 
+		    //cad::CadFactoryAbstract													&in_Factory,
+			const std::string														&in_TopAssemblyComponentInstanceID,
+			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
+			std::map<std::string, isis::CADComponentData>							&in_out_CADComponentData_map )
+																		throw (isis::application_exception)
+	{
+		
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
+		for each (  const std::string &i in in_AssemblyComponentIDs )
+		{		
+			if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_PART || 
+				(in_out_CADComponentData_map[i].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT ) )
+			// Leaf assembly without kinematic joints (i.e. treat as one body) or just a part
+			{
+				for ( std::vector<ConstraintData>::iterator j(in_out_CADComponentData_map[i].constraintDef.constraints.begin());
+					  j < in_out_CADComponentData_map[i].constraintDef.constraints.end();
+					  ++j)
+				{
+					for ( std::vector<ConstraintPair>::iterator k(j->constraintPairs.begin());
+						  k < j->constraintPairs.end(); 
+						  ++k )				
+					{
+						for ( std::vector<ConstraintFeature>::iterator l(k->constraintFeatures.begin());
+							l < k->constraintFeatures.end();
+							++l)
+						{
+							if ( l->componentInstanceID != i )  // A component cannot depend on itself
+							{						
+								if ( in_out_CADComponentData_map[l->componentInstanceID].modelType == CAD_MDL_PART ||
+									 ( in_out_CADComponentData_map[l->componentInstanceID].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT ) )
+								{
+									j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(l->componentInstanceID);
+								}
+								else
+								{			
+									std::set<std::string>	componentInstanceIDs_of_PartsReferencedByFeature_set;
+									// Assembly with CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
+
+									//FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
+									//								l->componentInstanceID,
+									//								l->featureName,
+									//								//FeatureGeometryType_enum(k->featureGeometryType),
+									//								k->featureGeometryType,
+									//								//k->featureGeometryType,
+									//								in_FeatureIDs_to_ComponentInstanceID_hashtable,
+									//								in_out_CADComponentData_map,
+									//								componentInstanceIDs_of_PartsReferencedByFeature_set);
+
+
+
+									modelOperations.findPartsReferencedByFeature( in_TopAssemblyComponentInstanceID,
+																	l->componentInstanceID,
+																	l->featureName,
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
+																	//k->featureGeometryType,
+																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
+																	in_out_CADComponentData_map,
+																	componentInstanceIDs_of_PartsReferencedByFeature_set);
+
+
+									for each ( const std::string &m in componentInstanceIDs_of_PartsReferencedByFeature_set ) 
+									{
+										j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(m);
+									}
+								}
+							}
+						} // END for each ( const ConstraintFeature &l in k.constraintFeatures )
+					}  // END for each ( const ConstraintPair &k in j.constraintPairs )
+				} // END for each ( const ConstraintData &j in in_out_CADComponentData_map[i].constraintDef.constraints )
+			}
+			else
+			{
+				// At this point the following conditions must hold:
+				// 1. CADAssembly.xml has the tag HAS_KINEMATIC_JOINT (enum CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT)
+				// 2. Must be an assembly.  Only assemblies have the tag CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
+				// 3. The datums in the constraint sets for the assembly must point to parts within the assembly and
+				//    must point to one and only one part per constraint set.
+				// 4. The datums in the constraint set that point to external parts/assemblies (i.e. not in the assembly) must 
+				//	  point to one and only one part/assembly per constraint set
+				// 5. The joint type for each constraint set would have already been computed. 
+
+				// Per constraint set, this section will:
+				// 1. Follow each assembly datum reference per constraint set to its part (found part) or to its assembly for
+				//    !CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT
+				// 2. Modify in_out_CADComponentData_map for the found part to have the previously computed
+				//    joint information for the assembly.
+
+				//if ( in_out_CADComponentData_map[i].modelType != PRO_MDL_ASSEMBLY )
+				if ( in_out_CADComponentData_map[i].modelType != CAD_MDL_ASSEMBLY )
+				{
+					std::stringstream errorString;
+					errorString <<
+						"Function: " << __FUNCTION__ << ", A part model has the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT\" .  Only assemblies can have this tag."  << std::endl <<
+						"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
+						"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+						"   Component Instance ID: " <<  i;
+					throw isis::application_exception(errorString);	
+				}
+
+
+				for ( std::vector<ConstraintData>::iterator j(in_out_CADComponentData_map[i].constraintDef.constraints.begin());
+					  j < in_out_CADComponentData_map[i].constraintDef.constraints.end();
+					  ++j )
+				{
+					std::set<std::string>	componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set;
+					std::vector<isis::MultiFormatString>  featureNames_AssemblyReferences;
+
+					std::set<std::string>	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set;
+					std::vector<isis::MultiFormatString>  featureNames_NonAssemblyReferences;
+
+					std::vector<ConstraintSourceAndDestination> constraintSourceAndDestination;
+
+					for ( std::vector<ConstraintPair>::iterator k(j->constraintPairs.begin());
+						  k < j->constraintPairs.end(); 
+						  ++k )				
+					{
+						
+						for ( std::vector<ConstraintFeature>::iterator l(k->constraintFeatures.begin());
+							l < k->constraintFeatures.end();
+							++l)
+						{
+							if ( l->componentInstanceID == i )  
+							{
+								featureNames_AssemblyReferences.push_back(l->featureName);
+								// This is the assembly references,  must follow the datums to the parts in the assembly
+								//FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
+								//								l->componentInstanceID,
+								//								l->featureName,
+								//								//FeatureGeometryType_enum(k->featureGeometryType),
+								//								k->featureGeometryType,
+								//								//k->featureGeometryType,
+								//								in_FeatureIDs_to_ComponentInstanceID_hashtable,
+								//								in_out_CADComponentData_map,
+								//								componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set);
+
+								modelOperations.findPartsReferencedByFeature(in_TopAssemblyComponentInstanceID,
+																l->componentInstanceID,
+																l->featureName,
+																//FeatureGeometryType_enum(k->featureGeometryType),
+																k->featureGeometryType,
+																//k->featureGeometryType,
+																in_FeatureIDs_to_ComponentInstanceID_hashtable,
+																in_out_CADComponentData_map,
+																componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set);
+
+							}
+							else
+							{		
+								featureNames_NonAssemblyReferences.push_back(l->featureName);
+								componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.insert(l->componentInstanceID);
+
+								
+								// Non-assembly references.  The parts in the assembly would be constrained to these parts.
+								if ( in_out_CADComponentData_map[l->componentInstanceID].modelType == CAD_MDL_PART || 
+									(in_out_CADComponentData_map[l->componentInstanceID].specialInstruction != CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT )) 
+								{ // If part or and treat-as-one body assembly
+									j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(l->componentInstanceID);
+								}
+								else
+								{			
+									//FindPartsReferencedByFeature(	in_TopAssemblyComponentInstanceID,
+									//								l->componentInstanceID,
+									//								l->featureName,
+									//								//FeatureGeometryType_enum(k->featureGeometryType),
+									//								k->featureGeometryType,
+									//								//k->featureGeometryType,
+									//								in_FeatureIDs_to_ComponentInstanceID_hashtable,
+									//								in_out_CADComponentData_map,
+									//								componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set);
+
+									modelOperations.findPartsReferencedByFeature( in_TopAssemblyComponentInstanceID,
+																	l->componentInstanceID,
+																	l->featureName,
+																	//FeatureGeometryType_enum(k->featureGeometryType),
+																	k->featureGeometryType,
+																	//k->featureGeometryType,
+																	in_FeatureIDs_to_ComponentInstanceID_hashtable,
+																	in_out_CADComponentData_map,
+																	componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set);
+
+									for each ( const std::string &m in componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set )
+									{
+										j->constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(m);
+									}
+
+								}	
+							}
+						} // END for each ( const ConstraintFeature &l in k.constraintFeatures )
+					}  // END for each ( const ConstraintPair &k in j.constraintPairs )
+
+					// The assembly references should be to only one part							
+					if ( componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set.size() != 1 )
+					{
+						std::stringstream errorString;
+						errorString <<
+							"Function: " << __FUNCTION__ << ", An assembly model with the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT\" has constraints within a constraint set that references more than one part. " <<  std::endl <<
+							"          Assemblies with this tag must reference one and only one part within the assembly per constraint set."  << std::endl <<
+							"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
+							"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType) <<  std::endl <<
+							"   Component Instance ID: " <<  i <<  std::endl <<
+							"   Referenced Component Instance IDs: ";
+						for each ( const std::string &i_ref in componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set )
+							  errorString << std::endl << "       Instance ID: " << i_ref << "  Model Name: " << in_out_CADComponentData_map[i_ref].name;						 
+						 errorString << std::endl << "   Referenced Feature Names:";
+						for each ( const isis::MultiFormatString &i_feat in featureNames_AssemblyReferences)
+							 errorString << std::endl << "       Feature Name: " <<  i_feat;
+						throw isis::application_exception(errorString);	
+					}
+
+					// The references external to the assembly should point to one assembly or one part						
+					if ( componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.size() != 1 )
+					{
+						std::stringstream errorString;
+						errorString <<
+							"Function: " << __FUNCTION__ << ", An assembly model with the CADAssembly.xml tag SpecialInstruction=\"HAS_KINEMATIC_JOINT:\" has constraints within a constraint set that references more than one part or more than one treat-as-one-body assembly. " <<  std::endl <<
+							"          Assemblies with this tag must reference one and only one part or one and only one treat-as-one-body assembly that is external to the assembled model (tagged model) constraint set."  << std::endl <<
+							"   Model Name:            " <<	 in_out_CADComponentData_map[i].name << std::endl <<
+							"   Model Type:            " <<	 isis::CADMdlType_string(in_out_CADComponentData_map[i].modelType)<<  std::endl <<
+							"   Component Instance ID: " <<  i <<  std::endl <<
+							"   Referenced Component Instance IDs: ";
+						for each ( const std::string &i_ref in componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set )
+							  errorString << std::endl << "       Instance ID: " << i_ref << "  Model Name: " << in_out_CADComponentData_map[i_ref].name;					 
+						 errorString << std::endl << "   Referenced Feature Names:";
+						for each ( const isis::MultiFormatString &i_feat in featureNames_NonAssemblyReferences)
+							 errorString << std::endl << "       Feature Name: " <<  i_feat;
+						throw isis::application_exception(errorString);	
+					}
+
+					// For componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set, we need to:
+					// 1. Set the constrainedTo_ComponentInstanceIDs_InferredFromLeafAssemblySubordinates
+					// 2. Transfer the joint information from the assembly to the componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set part
+
+
+					// At this point, we know that componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set
+					std::string assemblyChildConstrainingPart = *componentInstanceIDs_of_Assembly_PartsReferencedByFeature_set.begin();
+					std::string assemblyExternalConstrainingPart = *componentInstanceIDs_of_NonAssembly_ModelsReferencedByFeature_set.begin();
+					
+					// Add a new constraint set to in_out_CADComponentData_map[in_out_CADComponentData_map]				
+
+					ConstraintData constraintData;
+					constraintData.constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs.insert(assemblyExternalConstrainingPart);
+
+					constraintData.computedJointData = j->computedJointData;
+				
+					in_out_CADComponentData_map[assemblyChildConstrainingPart].constraintDef.constraints.push_back(constraintData);
+
+				}  // END ELSE has CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT			
+
+			} // END for each ( const ConstraintData &j in in_out_CADComponentData_map[i].constraintDef.constraints )
+		} // END for each ( const std::string &i in in_AssemblyComponentIDs )
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	bool CyPhyLeafAssembly (	const std::string								&in_ComponentInstanceID,
+								std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
+	{
+
+		//if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != PRO_MDL_ASSEMBLY ) return false;
+		if ( in_out_CADComponentData_map[in_ComponentInstanceID].modelType != CAD_MDL_ASSEMBLY ) return false;
+		// The assembly could have no children, and thus is not actually a CyPhy leaf assembly 
+		// At this point, it could have not children because:
+		//	a) it is an empty assembly.
+		//  b) the children have not been completed by the function
+		//		ForEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates
+		if ( in_out_CADComponentData_map[in_ComponentInstanceID].children.size() == 0 ) return false;
+
+		for each ( const std::string &i in in_out_CADComponentData_map[in_ComponentInstanceID].children )
+		{
+			if ( in_out_CADComponentData_map[i].dataInitialSource == 
+				 INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS ) return true;			
+		}
+
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void AddBoundingBoxValuesToMap( //cad::CadFactoryAbstract				&in_Factory,
+						const std::vector<std::string>					&in_AssemblyComponentIDs,
+						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
+																				throw (isis::application_exception)
+	{
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		for each ( const std::string &i in in_AssemblyComponentIDs )
+		{
+			if ( !in_CADComponentData_map[i].boundingBox.boundingBox_Defined )
+			{
+				isis_CADCommon::Point_3D	boundingBox_Point_1;
+				isis_CADCommon::Point_3D	boundingBox_Point_2;
+				double						boundingBoxDimensions_xyz[3];
+
+				//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	i,
+				//														in_CADComponentData_map,
+				//														boundingBox_Point_1,
+				//														boundingBox_Point_2,
+				//														boundingBoxDimensions_xyz );
+
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+				modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(//in_Factory,
+																		i,
+																		in_CADComponentData_map,
+																		boundingBox_Point_1,
+																		boundingBox_Point_2,
+																		boundingBoxDimensions_xyz );
+
+				in_CADComponentData_map[i].boundingBox.boundingBox_Point_1 = boundingBox_Point_1;
+				in_CADComponentData_map[i].boundingBox.boundingBox_Point_2 = boundingBox_Point_2;
+				for ( int j = 0; j < 3; ++j ) in_CADComponentData_map[i].boundingBox.Dimensions_xyz[j] = boundingBoxDimensions_xyz[j];
+				in_CADComponentData_map[i].boundingBox.boundingBox_Defined = true;
+			}
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void AddMassPropertyValuesToMap( cad::CadFactoryAbstract				&in_Factory,
+						const std::vector<std::string>					&in_AssemblyComponentIDs,
+						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
+																				throw (isis::application_exception)
+	{
+		isis::cad::IModelOperations&         modelOperations = in_Factory.getModelOperations();
+
+		for each ( const std::string &i in in_AssemblyComponentIDs )
+		{
+			if ( !in_out_CADComponentData_map[i].massProperties.massProperties_RetrievalInvoked )
+			{
+
+				//MassProperties massProperties_temp;  
+				//modelOperations.retrieveMassProperties(i, in_out_CADComponentData_map, massProperties_temp );
+				//in_out_CADComponentData_map[i].massProperties = massProperties_temp;
+
+				modelOperations.retrieveMassProperties(i, in_out_CADComponentData_map, in_out_CADComponentData_map[i].massProperties );
+
+	
+				/***
+				in_out_CADComponentData_map[i].massProperties.massProperties_RetrievalInvoked = true;
+
+				ProMassProperty  mass_prop;
+
+				isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(i, in_out_CADComponentData_map, &mass_prop );
+				double   MatrixBuffer[4][4];
+				double   MatrixBuffer_temp[4][4];
+
+				/////////////////////////////////////////
+				// Check if Mass Properties are Defined
+				////////////////////////////////////////
+
+				// if mass_prop.density == 1.0, then mass properties were never set in Creo.  The never-set mode
+				// means that the geometry and density of 1.0 would be used to compute the mass properties; however,
+				// those computed values would be erroneous.
+				// ERROR - ERROR Leave off the mass_prop.density != 1.0 for now.  This will allow erroneous mass props through, must
+				// provide a better check later.
+				//if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.density != 1.0 && mass_prop.mass != 0.0 ) 
+				if ( mass_prop.volume != 0.0 && mass_prop.density != 0.0 && mass_prop.mass != 0.0 ) 			
+					in_out_CADComponentData_map[i].massProperties.massProperties_Defined = true;
+				else
+					continue;
+			
+				in_out_CADComponentData_map[i].massProperties.volume_Defined		= true;			
+				in_out_CADComponentData_map[i].massProperties.density_Defined		= true;
+				in_out_CADComponentData_map[i].massProperties.mass_Defined			= true;
+
+				in_out_CADComponentData_map[i].massProperties.volume		= mass_prop.volume;				
+				in_out_CADComponentData_map[i].massProperties.density		= mass_prop.density;
+				in_out_CADComponentData_map[i].massProperties.mass			= mass_prop.mass;
+				
+				// Surface Area
+				if (  mass_prop.surface_area != 0.0 )
+				{
+					in_out_CADComponentData_map[i].massProperties.surfaceArea_Defined	= true;
+					in_out_CADComponentData_map[i].massProperties.surfaceArea	= mass_prop.surface_area;
+				}
+
+				// coordSysInertiaTensor
+				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.coor_sys_inertia_tensor, 0.0 )  )
+				{
+					in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor_Defined = true;
+					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.coor_sys_inertia_tensor, in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor );
+
+					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.coordSysInertiaTensor ))
+					{
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
+															<< "\n       ComponentInstanceID: " << i
+															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
+															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)
+															<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
+					}
+				}
+
+				// C.G.
+				in_out_CADComponentData_map[i].massProperties.centerOfGravity_Defined = true;
+				in_out_CADComponentData_map[i].massProperties.centerOfGravity[0] = mass_prop.center_of_gravity[0];
+				in_out_CADComponentData_map[i].massProperties.centerOfGravity[1] = mass_prop.center_of_gravity[1];
+				in_out_CADComponentData_map[i].massProperties.centerOfGravity[2] = mass_prop.center_of_gravity[2];
+
+				// cGInertiaTensor
+				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3( mass_prop.cg_inertia_tensor, 0.0 )  )
+				{
+					in_out_CADComponentData_map[i].massProperties.cGInertiaTensor_Defined = true;
+					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.cg_inertia_tensor, in_out_CADComponentData_map[i].massProperties.cGInertiaTensor );
+
+					if ( !isis_CADCommon::Positive_Definite_3_x_3( in_out_CADComponentData_map[i].massProperties.cGInertiaTensor ))
+					{
+						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
+															<< "\n       ComponentInstanceID: " << i
+															<< "\n       Model Name:          " << in_out_CADComponentData_map[i].name 
+															<< "\n       Model Type:          " << isis::ProMdlType_string(in_out_CADComponentData_map[i].modelType)
+															<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
+					}
+
+				}
+
+				// Principal Moment of Inertia
+				in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix_Defined = true;
+				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[0] = mass_prop.principal_moments[0];
+				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[1] = mass_prop.principal_moments[1];
+				in_out_CADComponentData_map[i].massProperties.principalMomentsOfInertia[2] = mass_prop.principal_moments[2];
+
+				// Principal Axis
+				if ( !isis_CADCommon::AllMatrixValuesEqualTarget_3X3(  mass_prop.principal_axes, 0.0 )  )
+				{
+					in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix_Defined = true;
+					isis_CADCommon::SetFromToMatrix_3X3( mass_prop.principal_axes, in_out_CADComponentData_map[i].massProperties.principalAxis_RotationMatrix );
+				}
+
+				**/
+			}
+		}
+	}
+
 
 }

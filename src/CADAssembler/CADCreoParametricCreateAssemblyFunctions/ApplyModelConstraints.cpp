@@ -3845,16 +3845,20 @@ void BuildIncrementalConstraintOrder(
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary( 
-										const ProSolid								&in_assembly_model,
-										const std::string							&in_ComponentID,
-										const MultiFormatString						&in_model_name,		
-										ProMdlType									in_model_type,
-										const ConstraintOrder						&in_ConstraintOrder,
-										std::vector<PerSetConstraintDefinition_2>	&in_out_PerSetConstraintDefinitions )
+										//const ProSolid									&in_assembly_model,
+										const std::string								&in_AssemblyComponentID,
+										//const std::string								&in_ComponentID,
+										ProMdlType										in_model_type,
+										const ConstraintOrder							&in_ConstraintOrder,
+										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+										std::vector<PerSetConstraintDefinition_2>		&in_out_PerSetConstraintDefinitions )
 {
+	
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
-	
-	
+	ProSolid* assembly_model_handle = reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl);	
 
 	for each ( int i in in_ConstraintOrder.constraintDefinitionOrder )
 	{
@@ -3866,7 +3870,7 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 			if ( cFD.pro_datum_type == PRO_AXIS )
 			{
 				ProSelection axis_added_model_select;
-				RetrieveProSelectionForGeometry(in_assembly_model,			// Used as the starting point of model_path_list
+				RetrieveProSelectionForGeometry(*assembly_model_handle,			// Used as the starting point of model_path_list
 												cFD.added_model_path_list,	// Used to locate the model in the assembly containing the geometry
 												cFD.added_model_component_instance_ID,				// Used for logging error messages
 												cFD.added_model_name,				// Used for logging error messages
@@ -3876,7 +3880,7 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 												axis_added_model_select);	// Returned pro_selection
 
 				ProSelection axis_base_model_select;
-				RetrieveProSelectionForGeometry(in_assembly_model,			// Used as the starting point of model_path_list
+				RetrieveProSelectionForGeometry(*assembly_model_handle,			// Used as the starting point of model_path_list
 												cFD.base_model_path_list,	// Used to locate the model in the assembly containing the geometry
 												cFD.base_model_component_instance_ID,	// Used for logging error messages
 												cFD.base_model_name,				// Used for logging error messages
@@ -3915,14 +3919,30 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 				double   matrixBuffer_added[4][4];
 				double   matrixBuffer_base[4][4];
 
-				RetrieveTranformationMatrix_Assembly_to_Child ( in_assembly_model,  
+				//RetrieveTranformationMatrix_Assembly_to_Child ( *assembly_model_handle,  
+				//												cFD.added_model_path_list,
+				//												PRO_B_FALSE,  // bottom up = False
+				//												//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+				//												matrixBuffer_added );
+
+
+				modelOperations.retrieveTranformationMatrix_Assembly_to_Child( in_AssemblyComponentID,  
 																cFD.added_model_path_list,
+																in_CADComponentData_map, 
 																PRO_B_FALSE,  // bottom up = False
 																//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
 																matrixBuffer_added );
 
-				RetrieveTranformationMatrix_Assembly_to_Child ( in_assembly_model,  
+
+				//RetrieveTranformationMatrix_Assembly_to_Child ( *assembly_model_handle,  
+				//												cFD.base_model_path_list,
+				//												PRO_B_FALSE,  // bottom up = False
+				//												//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
+				//												matrixBuffer_base );
+
+				modelOperations.retrieveTranformationMatrix_Assembly_to_Child(in_AssemblyComponentID,  
 																cFD.base_model_path_list,
+																in_CADComponentData_map, 
 																PRO_B_FALSE,  // bottom up = False
 																//PRO_B_TRUE,  // bottom up = True, Changed this 8/8/2013, V1.4.6
 																matrixBuffer_base );
@@ -4050,32 +4070,32 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Apply_CADDatum_ModelConstraints_2( 
-				cad::CadFactoryAbstract						&in_Factory,
-				ProSolid									&in_assembly_model,   // This ProSolid is modified by this function.
-																				  // The modification is to add constraints to the assembly
-																				  // to position a part or sub-assembly.
+				//cad::CadFactoryAbstract						&in_Factory,
+				//ProSolid									&in_assembly_model,   // This ProSolid is modified by this function.
+				//																  // The modification is to add constraints to the assembly
+				//																  // to position a part or sub-assembly.
 				const std::string							&in_AssemblyComponentID,
-				const std::string							&in_ComponentID,		
+				const std::string							&in_ComponentIDToBeConstrained,		
 				const ConstraintDefinition					&in_ConstraintDefinition,
 				std::map<string, isis::CADComponentData>	&in_CADComponentData_map )
 													throw (isis::application_exception)
 {
 
-	
-	
+	ProSolid* assembly_model_handle = reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl);
 
 	bool stop = false;
 
 	// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 	std::vector<std::string>			listOfComponentIDsInTheAssembly;
-	listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
-	PopulateMap_with_Junctions_per_InputXMLConstraints(	in_Factory,
+	listOfComponentIDsInTheAssembly.push_back(in_ComponentIDToBeConstrained);
+
+	PopulateMap_with_Junctions_per_InputXMLConstraints(	//in_Factory,
 													listOfComponentIDsInTheAssembly, 
 													in_CADComponentData_map );
 		
 	std::vector<PerSetConstraintDefinition_2>     perSetConstraintDefinitions;
 
-	Populate_PerSetConstraintDefinitions(	in_ComponentID,		
+	Populate_PerSetConstraintDefinitions(	in_ComponentIDToBeConstrained,		
 											in_ConstraintDefinition,
 											in_CADComponentData_map,
 											perSetConstraintDefinitions );
@@ -4129,10 +4149,10 @@ bool Apply_CADDatum_ModelConstraints_2(
 
 
 	ProAsmcomp					assembledFeature_temp;			
-	//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
-	//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
-	//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
-	assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+	//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.type);
+	//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.id;
+	//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.owner; 
+	assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature);
 
 
 	for each ( int i in constraintOrder.constraintDefinitionOrder )
@@ -4158,8 +4178,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 		{
 			std::string warnings;
 			SetConstraints_2 (	
-					in_assembly_model, 
-					in_ComponentID, 
+					*assembly_model_handle, 
+					in_ComponentIDToBeConstrained, 
 					in_CADComponentData_map, 
 					constraintOrder_temp,
 					perSetConstraintDefinitions,
@@ -4168,13 +4188,13 @@ bool Apply_CADDatum_ModelConstraints_2(
 
 
 
-			// isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentID].assembledFeature, PRO_B_TRUE);
+			// isis::isis_ProAsmcompRegenerate( &in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature, PRO_B_TRUE);
 			isis::isis_ProAsmcompRegenerate( &assembledFeature_temp, PRO_B_TRUE);
 			
 			// The following isis_ProSolidRegenerate is required.  The axes would not be collinear without this regeneration.
 			try
 			{
-				isis::isis_ProSolidRegenerate (in_assembly_model, PRO_REGEN_UPDATE_ASSEMBLY_ONLY);
+				isis::isis_ProSolidRegenerate (*assembly_model_handle, PRO_REGEN_UPDATE_ASSEMBLY_ONLY);
 			}
 			catch (...)
 			{
@@ -4184,17 +4204,18 @@ bool Apply_CADDatum_ModelConstraints_2(
 
 
 			CheckAxesAlignments_FlipOrientationIndicatorAsNecessary( 
-											in_assembly_model,
-											in_ComponentID,
-											in_CADComponentData_map[in_ComponentID].name,		
-											ProMdlType_enum(in_CADComponentData_map[in_ComponentID].modelType),
+											//*assembly_model_handle,
+											in_AssemblyComponentID,
+											//in_ComponentIDToBeConstrained,	
+											ProMdlType_enum(in_CADComponentData_map[in_ComponentIDToBeConstrained].modelType),
 											constraintOrder_temp,
+											in_CADComponentData_map,
 											perSetConstraintDefinitions );
 	
 			// Delete the constraints
 
 			isis::isis_ProAsmcompConstrRemove (	&assembledFeature_temp, -1 );
-			//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+			//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature, -1 );
 		}
 	}
 
@@ -4230,8 +4251,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 									constraintOrder );
 		std::string warnings;
 		SetConstraints_2 (	
-				in_assembly_model, 
-				in_ComponentID, 
+				*assembly_model_handle, 
+				in_ComponentIDToBeConstrained, 
 				in_CADComponentData_map, 
 				constraintOrder,
 				perSetConstraintDefinitions,
@@ -4253,15 +4274,15 @@ bool Apply_CADDatum_ModelConstraints_2(
 
 
 		ProAsmcomp					assembledFeature_temp;			
-		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
-		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
-		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
-		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.type);
+		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.id;
+		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.owner; 
+		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature);
 
-		//isis::isis_ProAsmcompPositionGet (&in_CADComponentData_map[in_ComponentID].assembledFeature, position);
+		//isis::isis_ProAsmcompPositionGet (&in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature, position);
 		isis::isis_ProAsmcompPositionGet (&assembledFeature_temp, position);
 		// Delete the constraints
-		//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentID].assembledFeature, -1 );
+		//isis::isis_ProAsmcompConstrRemove (	&in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature, -1 );
 		isis::isis_ProAsmcompConstrRemove (	&assembledFeature_temp, -1 );
 
 	} // END if ( hasAGuideConstraint )
@@ -4289,8 +4310,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 								constraintOrder );
 	std::string warnings;
 	SetConstraints_2 (	
-			in_assembly_model, 
-			in_ComponentID, 
+			*assembly_model_handle, 
+			in_ComponentIDToBeConstrained, 
 			in_CADComponentData_map, 
 			constraintOrder,
 			perSetConstraintDefinitions,
@@ -4320,20 +4341,20 @@ bool Apply_CADDatum_ModelConstraints_2(
 		ProIdTable	c_id_table;
 		int			c_id_table_size;
 					
-		Populate_c_id_table(in_CADComponentData_map[in_ComponentID].componentPaths, c_id_table, c_id_table_size );
+		Populate_c_id_table(in_CADComponentData_map[in_ComponentIDToBeConstrained].componentPaths, c_id_table, c_id_table_size );
 				
-		isis::isis_ProAsmcomppathInit (static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl),	//ProSolid   p_solid_handle
+		isis::isis_ProAsmcomppathInit (static_cast<ProSolid>(in_CADComponentData_map[in_ComponentIDToBeConstrained].cADModel_hdl),	//ProSolid   p_solid_handle
 							c_id_table,			// ProIdTable 
 							c_id_table_size,	// table_size 
 							&comp_path);		// ProAsmcomppath *p_handle
 
 		ProAsmcomp					assembledFeature_temp;			
-		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentID].assembledFeature.type);
-		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.id;
-		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentID].assembledFeature.owner; 
-		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentID].assembledFeature);
+		//assembledFeature_temp.type =	FeatureGeometryType_enum(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.type);
+		//assembledFeature_temp.id   =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.id;
+		//assembledFeature_temp.owner =	                         in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature.owner; 
+		assembledFeature_temp = getProAsmcomp(in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature);
 
-		//isis::isis_ProAsmcompPositionSet (&comp_path, &in_CADComponentData_map[in_ComponentID].assembledFeature,  position);
+		//isis::isis_ProAsmcompPositionSet (&comp_path, &in_CADComponentData_map[in_ComponentIDToBeConstrained].assembledFeature,  position);
 		isis::isis_ProAsmcompPositionSet (&comp_path, &assembledFeature_temp,  position);
 
 	}
@@ -4409,7 +4430,7 @@ constraints are irreconcilable.
 */
 
 bool Apply_CADDatum_ModelConstraints( 
-				cad::CadFactoryAbstract						&in_Factory,
+				//cad::CadFactoryAbstract						&in_Factory,
 				ProSolid									&in_assembly_model,
 				const std::string							&in_ComponentID,		
 				ConstraintDefinition						&in_ConstraintDefinition,
@@ -4419,7 +4440,7 @@ bool Apply_CADDatum_ModelConstraints(
 			// First need to determine the joint type (e.g. Fixed, Revolute, Prismatic)
 			std::vector<std::string>			listOfComponentIDsInTheAssembly;
 			listOfComponentIDsInTheAssembly.push_back(in_ComponentID);
-			PopulateMap_with_Junctions_per_InputXMLConstraints(	in_Factory,
+			PopulateMap_with_Junctions_per_InputXMLConstraints(//	in_Factory,
 													listOfComponentIDsInTheAssembly, 
 													in_CADComponentData_map );
 			
@@ -5126,15 +5147,15 @@ void ApplyModelConstraints(
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool ApplyModelConstraints( 
-			cad::CadFactoryAbstract						&in_Factory,
-			ProSolid									*in_assembly_model,
+			//cad::CadFactoryAbstract						&in_Factory,
+			//ProSolid									*in_assembly_model,
 			const std::string							&in_AssemblyComponentID,
 			const std::list<std::string>				&in_ComponentIDsToBeConstrained, 
 			bool										in_AllowUnconstrainedModels,
 			std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
 														// Provide for the case where the first assembled part does not have
 														// the datums front, top, and right defined. 
-			bool										in_IgnoreGuides,
+			//bool										in_IgnoreGuides,
 			bool										in_FirstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound )  
 														
 										throw (isis::application_exception)
@@ -5173,8 +5194,8 @@ bool ApplyModelConstraints(
 				//									in_CADComponentData_map[*i].constraintDef, 
 				//									in_CADComponentData_map,
 				//									in_IgnoreGuides);	
-				bool stop = Apply_CADDatum_ModelConstraints_2(	in_Factory, 
-													*in_assembly_model,
+				bool stop = Apply_CADDatum_ModelConstraints_2(//	in_Factory, 
+													//*in_assembly_model,
 													in_AssemblyComponentID,
 													*i,
 													in_CADComponentData_map[*i].constraintDef, 

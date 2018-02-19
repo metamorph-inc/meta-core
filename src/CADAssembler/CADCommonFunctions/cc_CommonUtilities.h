@@ -67,6 +67,10 @@ namespace isis
 		bool FileExists(const char * in_PathAndFilename) ;
 
 
+		std::string META_PATH();
+
+		// e.g "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\material_library.json"
+		std::string MaterialsLibrary_PathAndFileName();
 
 } // end namespace isis
 

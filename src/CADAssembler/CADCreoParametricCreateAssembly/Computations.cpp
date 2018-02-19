@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include <Computations.h>
-#include <CADPostProcessingParameters.h>
-#include <CADAnalysisMetaData.h>
+#include <CADPostProcessingParameters.h>   //  This is a generated file, resides in cc_
+#include <CADAnalysisMetaData.h>           //  This is a generated file, resides in cc_
 #include <cc_CommonUtilities.h>
-#include <Metrics.h>
+#include <cc_Metrics.h>
 #include <CFDAnalysis.h>
 #include <SurvivabilityAnalysis.h>
 #include <ToolKitPassThroughFunctions.h>
 #include <cc_MiscellaneousFunctions.h>
+#include <CommonFunctions.h>
 #include <sstream>
 #include <iomanip>
 
@@ -202,7 +203,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 //		COMPUTATION_PLANE
 //
 void CreateXMLFile_ComputedValues_ComputedByThisProgram( 
-						cad::CadFactoryAbstract								&in_Factory,
+						//cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_PathAndFileName,
 						const std::string									&in_ConfigruationID,
 						const std::string									&in_AssemblyComponentID,
@@ -231,7 +232,10 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 	//
 	//
 
-	
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
 	std::map<std::string, std::list<CADComputation>> componentID_to_ListofComputations_map;
 	std::map<std::string, std::string> componentID_to_AssemblyComponentID_map;
@@ -284,30 +288,19 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 			// Units
 			////////////////////////
 
-			std::string		distanceUnit_LongName;
-			std::string		distanceUnit_ShortName;
-		
-			std::string		massUnit_LongName;
-			std::string		massUnit_ShortName;
-
-			std::string		forceUnit_LongName;
-			std::string		forceUnit_ShortName;
-
-			std::string		temperatureUnit_LongName;
-			std::string		temperatureUnit_ShortName;
-		
-			std::string		timeUnit_LongName;
-			std::string		timeUnit_ShortName;
+			CADModelUnits	cADModelUnits_temp; 
 			
-			RetrieveUnits_withDescriptiveErrorMsg( 
-							in_CADComponentData_map[i.first].componentID,
-							in_CADComponentData_map[i.first].name,
-							in_CADComponentData_map[i.first].cADModel_hdl, 
-							distanceUnit_ShortName,		distanceUnit_LongName, 
-							massUnit_ShortName,			massUnit_LongName, 
-							forceUnit_ShortName,			forceUnit_LongName, 
-							timeUnit_ShortName,			timeUnit_LongName, 
-							temperatureUnit_ShortName,	temperatureUnit_LongName );
+			//RetrieveUnits_withDescriptiveErrorMsg( 
+			//				in_Factory,
+			//				i.first,
+			//				in_CADComponentData_map,
+			//				cADModelUnits_temp );
+
+			modelOperations.retrieveCADModelUnits(
+							//in_Factory,
+							i.first,
+							in_CADComponentData_map,
+							cADModelUnits_temp );
 
 			/////////////////////////////////////////////////////////////////////
 			// Add ComponentID and FEAElementID
@@ -330,7 +323,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				//
 				/////////////////////////////////////////////////////////////////////
 
-				Pro3dPnt  r_outline_points[2];
+				//Pro3dPnt  r_outline_points[2];
 
 				double temp_x;
 				double temp_y;
@@ -338,13 +331,16 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				double temp_scalar;
 				std::vector<isis_CADCommon::Point_3D> temp_points;			
 
-				ProMassProperty  mass_prop;
+				//ProMassProperty  mass_prop;
+				MassProperties		massProperties_temp;
 				double   MatrixBuffer[4][4];
-				std::string temp_units = distanceUnit_LongName;
+				std::string temp_units = cADModelUnits_temp.distanceUnit_LongName;
 
 				isis_CADCommon::Point_3D	boundingBox_Point_1;
 				isis_CADCommon::Point_3D	boundingBox_Point_2;
 				double						boundingBoxDimensions_xyz[3];		
+
+				isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
 
 				switch ( j.computationType)
 				{
@@ -358,11 +354,20 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 	
 
-						RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
+						//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
+						//										in_CADComponentData_map,
+						//										boundingBox_Point_1,
+						//										boundingBox_Point_2,
+						//										boundingBoxDimensions_xyz );
+
+
+						modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( //in_Factory,
+																in_CADComponentData_map[i.first].componentID,
 																in_CADComponentData_map,
 																boundingBox_Point_1,
 																boundingBox_Point_2,
 																boundingBoxDimensions_xyz );
+
 
 						temp_x  = boundingBoxDimensions_xyz[0]; // Typically Width  x direction	
 						temp_y =  boundingBoxDimensions_xyz[1];  // Typically Height y direction
@@ -370,30 +375,52 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 						break;			
 					case COMPUTATION_CG:
-						isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );
-						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
-						temp_x =  mass_prop.center_of_gravity[0];
-						temp_y  = mass_prop.center_of_gravity[1];
-						temp_z =  mass_prop.center_of_gravity[2];
+
+						//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );
+						// old isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
+						//temp_x =  mass_prop.center_of_gravity[0];
+						//temp_y  = mass_prop.center_of_gravity[1];
+						//temp_z =  mass_prop.center_of_gravity[2];
+
+						massProperties_temp.setValuesToNotDefinedAndZeros();
+						modelOperations.retrieveMassProperties( i.first, in_CADComponentData_map, massProperties_temp);
+
+						temp_x =  massProperties_temp.centerOfGravity[0];
+						temp_y  = massProperties_temp.centerOfGravity[1];
+						temp_z =  massProperties_temp.centerOfGravity[2];
+
 						break;
 
 					case COMPUTATION_MASS:
-						isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );						
-						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
+						//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( i.first, in_CADComponentData_map, &mass_prop );						
+						//  old isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[i.first].modelHandle, NULL, &mass_prop );
 
 						//isis::isis_ProSolidMassPropertyGet( in_CADComponentData_map[j.componentID].modelHandle, NULL, &mass_prop );
-						temp_scalar =  mass_prop.mass;
-						temp_units = massUnit_LongName;
+						//temp_scalar =  mass_prop.mass;
+						//temp_units = massUnit_LongName;
+
+						massProperties_temp.setValuesToNotDefinedAndZeros();
+						modelOperations.retrieveMassProperties( i.first, in_CADComponentData_map, massProperties_temp);
+						temp_scalar =  massProperties_temp.mass;
+						temp_units = cADModelUnits_temp.massUnit_LongName;
+
 						break;
 
 					case COMPUTATION_POINT:
 						CADPoint point;
-						RetrieveDatumPointCoordinates(	in_Factory, 
-														componentID_to_AssemblyComponentID_map[i.first],
-														j.componentID,
-														in_CADComponentData_map,
-														j.datumName, 
-														point); 
+						//RetrieveDatumPointCoordinates(	//in_Factory, 
+						//								componentID_to_AssemblyComponentID_map[i.first],
+						//								j.componentID,
+						//								in_CADComponentData_map,
+						//								j.datumName, 
+						//								point); 
+
+						modelOperations.retrievePointCoordinates(	componentID_to_AssemblyComponentID_map[i.first],
+																	j.componentID,
+																	in_CADComponentData_map,
+																	j.datumName, 
+																	point); 
+
 						temp_x =  point.x;
 						temp_y  = point.y;
 						temp_z =  point.z;
@@ -402,9 +429,10 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						// For now, only supporting ground plane
 						if ( j.computationSubType == COMPUTATION_SUBTYPE_GROUND )
 						{
-							ComputeVehicleGroundPlane(	componentID_to_AssemblyComponentID_map[i.first],
-													in_CADComponentData_map,
-													temp_points );
+							ComputeVehicleGroundPlane(	//in_Factory, 
+														componentID_to_AssemblyComponentID_map[i.first],
+														in_CADComponentData_map,
+														temp_points );
 						}
 						else
 						{
@@ -672,7 +700,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 																			
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void CreateXMLFile_ComputedValues( 
-						cad::CadFactoryAbstract								&in_Factory,
+						//cad::CadFactoryAbstract								&in_Factory,
 						const std::string									&in_WorkingDirector,
 						const ComputationTypes								&in_ComputationTypes,
 						isis::CADAssemblies									&in_CADAssemblies,
@@ -795,7 +823,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				// If no computations by this program, then the following function will do nothing.
 				// Always call the following function. 
 				CreateXMLFile_ComputedValues_ComputedByThisProgram( 
-														in_Factory,
+														//in_Factory,
 														computedValues_PathAndFileName,
 														i.configurationID,
 														i.assemblyComponentID,

@@ -137,7 +137,7 @@ $(CREO_INSTALL)/protoolkit/protk_appls/includes;
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>PRO_USE_VAR_ARGS;PRO_MACHINE=36;PRO_OS=4;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/CADCreoParametricToolkitFunctions;$(SolutionDir)/CADCreoUtils;$(CREO_INSTALL)/protoolkit/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/CADCreoParametricToolkitFunctions;$(SolutionDir)/CADCreoUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

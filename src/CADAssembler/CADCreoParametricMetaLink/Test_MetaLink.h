@@ -14,7 +14,7 @@ void Test_CreateAssembly(std::map<std::string, isis::CADComponentData>	&in_out_C
                          std::string &out_ParentAssemblyInstanceID)
 throw(isis::application_exception);
 
-void Test_AddComponentToAssembly(cad::CadFactoryAbstract						&in_Factory,
+void Test_AddComponentToAssembly(//cad::CadFactoryAbstract						&in_Factory,
 								 const std::string								&in_ParentAssemblyInstanceID,
                                  std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
                                  isis::MetaLinkAssemblyEditor					&in_out_MetaLinkAssemblyEditor)

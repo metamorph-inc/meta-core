@@ -106,6 +106,21 @@
     <ClInclude Include="cc_CADFactoryAbstract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADMetrics_xsd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters_xsd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc_Metrics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="isis_application_exception.cpp">
@@ -178,6 +193,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cc_AssemblyUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADMetrics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\generated\CAD\generated\CADPostProcessingParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_CADFactoryAbstract.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_Metrics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
