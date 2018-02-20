@@ -193,10 +193,20 @@ namespace CyPhyComponentAuthoring
                     }
                 }
 
+                CATgut.SuspendLayout();
+                CATgut.AutoScaleDimensions = new SizeF(6F, 13F);
                 foreach (Tuple<CATName, Type, MethodInfo> item in listofCATmethods.OrderBy(i => i.Item1.RoleVal))
                 {
                     AddButtontoDialogBox(CATgut, item.Item1, item.Item2, item.Item3);
                 }
+                CATgut.ResumeLayout();
+                CATgut.tableLayoutPanel0.CellPaint += (sender, e) =>
+                {
+                    if (e.Row > 2)
+                    {
+                        ControlPaint.DrawBorder3D(e.Graphics, e.CellBounds, Border3DStyle.Etched, Border3DSide.Top);
+                    }
+                };
 
                 // META-2679 Set the start position of CAT dialog box to the center of the screen.
                 CATgut.StartPosition = FormStartPosition.CenterScreen;
@@ -277,8 +287,7 @@ namespace CyPhyComponentAuthoring
             ev.AddEventHandler(button, handler);
 
             // Add a second event handler to each button to close the CAT dialog box after executing the first event handler
-            Delegate closer = Delegate.CreateDelegate(ev.EventHandlerType, this, this.GetType().GetMethod("close_dialog_box"));
-            ev.AddEventHandler(button, closer);
+            ev.AddEventHandler(button, (EventHandler)((sender, e) => close_dialog_box(sender, e)));
 
             // add another row to the table - each "row" is actually a smaller 2 column table
             TableLayoutPanel new_mini_table = new TableLayoutPanel();
@@ -293,7 +302,7 @@ namespace CyPhyComponentAuthoring
             Label description = new Label();
             description.Text = a.DescriptionVal;
             description.MinimumSize = new System.Drawing.Size(CAT_DESCRIPTION_WIDTH, CAT_DESCRIPTION_HEIGHT);
-            description.Anchor = AnchorStyles.Top;
+            // description.Anchor = AnchorStyles.Top;
             description.TextAlign = ContentAlignment.MiddleCenter;
             
             // set the description

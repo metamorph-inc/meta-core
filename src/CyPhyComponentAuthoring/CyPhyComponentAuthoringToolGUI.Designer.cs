@@ -30,52 +30,36 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CyPhyComponentAuthoringToolGUI));
             this.tableLayoutPanel0 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel0.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel0
             // 
             this.tableLayoutPanel0.AutoSize = true;
-            this.tableLayoutPanel0.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tableLayoutPanel0.ColumnCount = 1;
             this.tableLayoutPanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel0.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel0.Location = new System.Drawing.Point(-4, -13);
+            this.tableLayoutPanel0.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel0.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel0.Name = "tableLayoutPanel0";
             this.tableLayoutPanel0.RowCount = 1;
             this.tableLayoutPanel0.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel0.Size = new System.Drawing.Size(634, 68);
+            this.tableLayoutPanel0.Size = new System.Drawing.Size(935, 105);
             this.tableLayoutPanel0.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 5);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(0, 0);
-            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // CyPhyComponentAuthoringToolGUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(624, 51);
+            this.ClientSize = new System.Drawing.Size(936, 78);
             this.Controls.Add(this.tableLayoutPanel0);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CyPhyComponentAuthoringToolGUI";
             this.Text = "Component Authoring Tool (CAT)";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.CyPhyComponentAuthoringToolGUI_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.CyPhyComponentAuthoringToolGUI_DragEnter);
-            this.tableLayoutPanel0.ResumeLayout(false);
-            this.tableLayoutPanel0.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,7 +68,6 @@
         #endregion
 
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel0;
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 
     }
 }
