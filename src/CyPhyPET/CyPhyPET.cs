@@ -1222,7 +1222,6 @@ namespace CyPhyPET
                         if (File.Exists(oldPath))
                         {
                             dialog.FileName = Path.GetFileName(oldPath);
-                            dialog.ShowHelp = true; // https://connect.microsoft.com/VisualStudio/feedback/details/525070/openfiledialog-show-part-of-file-name-in-win7
                         }
                     }
                     else
