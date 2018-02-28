@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 import pyparsing
 import re
+import struct
 
 if sys.platform == 'darwin':
     # on Mac let's assume omc is installed
@@ -19,6 +20,24 @@ if sys.platform == 'darwin':
 
 # TODO: replace this with the new parser
 from OMPython import OMTypedParser, OMParser
+
+def is_64bit_exe(exe):
+    if not os.path.isfile(exe):
+        return False
+
+    with open(exe) as pe:
+        # IMAGE_DOS_HEADER.e_lfanew
+        pe.seek(60)
+        pe_offset = pe.read(4)
+        if len(pe_offset) != 4:
+            return False
+        pe_offset = struct.unpack("I", pe_offset)[0]
+        pe.seek(pe_offset + 4)
+        # _IMAGE_FILE_HEADER.Machine
+        machine = pe.read(2)
+        if len(machine) != 2:
+            return False
+        return struct.unpack("H", machine)[0] == 0x8664
 
 
 class OMCSession(object):
@@ -37,8 +56,19 @@ class OMCSession(object):
         try:
             self.omhome = os.environ['OPENMODELICAHOME']
             # add OPENMODELICAHOME\lib to PYTHONPATH so python can load omniORB libraries
-            sys.path.append(os.path.join(self.omhome, 'lib'))
-            sys.path.append(os.path.join(self.omhome, 'lib', 'python'))
+
+            if is_64bit_exe(os.path.join(self.omhome, "lib", "python", "_omnipy.pyd")):
+                # we can't load OpenModelica's 64-bit _omnipy.pyd. So use the bin\Python27 one
+                # FIXME this needs a recent OpenModelica
+                index = len(sys.path)
+            else:
+                index = 0
+            sys.path.insert(index, os.path.join(self.omhome, 'lib'))
+            sys.path.insert(index, os.path.join(self.omhome, 'lib', 'python'))
+            # n.b. use OpenModelica bundled idl stubs. ours has _omnipy.checkVersion(3,0, __file__), but:
+            # OpenModelica 1.12 has version 4.2
+            # OpenModelica 1.9.2 has version 3.0
+            sys.path.insert(0, os.path.join(self.omhome, 'share/omc/scripts/PythonInterface'))
             # add OPENMODELICAHOME\bin to path so python can find the omniORB binaries
             pathVar = os.getenv('PATH')
             pathVar += ';'
