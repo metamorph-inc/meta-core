@@ -66,6 +66,7 @@ namespace PythonTest
                     "PCC",
                     "py_modelica",
                     "py_modelica_exporter",
+                    "omniORB.CORBA", // needed by py_modelica_exporter for openmodelica
                     "run_mdao",
                     "run_mdao.cad.update_parameters",
                     "testbenchexecutor",

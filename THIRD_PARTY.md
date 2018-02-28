@@ -107,6 +107,7 @@ Bundled Python packages
 * `numexpr` - [NumExpr](https://github.com/pydata/numexpr) - MIT License
 * `numpy`, `numpydoc` - [NumPy](http://www.numpy.org/) - BSD License
 * `openmdao` - [OpenMDAO](http://openmdao.org/) - Apache License, Version 2.0
+* `omniORB` - [omniORB](http://www.omniorb.net) - LGPL2.1 or later + explicit Python link permission
 * `pip` - [pip](https://pip.pypa.io/en/stable/) - MIT License
 * `pygments` - [Pygments](http://pygments.org/) - BSD License
 * `pylint` - [Pylint](https://github.com/PyCQA/pylint) - GPLv2

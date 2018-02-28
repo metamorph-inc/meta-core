@@ -15,6 +15,16 @@
 #  python -m pip install %userprofile%\Downloads\matplotlib-1.5.2-cp27-cp27m-win32.whl # Ricardo tool
 #  python -m pip install %userprofile%\Downloads\pyparsing-2.1.6-py2.py3-none-any.whl # simviz tool
 #  python -m pip install --egg -r Python27\requirements
+# rem openmodelica importer needs omniORB
+# unzip %userprofile%\Downloads\omniORBpy-4.2.0-win32-py27.zip -d bin\Python27\Lib\site-packages
+# copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omniORB420_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omnithread40_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# git add -f --all bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\python bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# git clean -xdf bin\Python27\Lib\site-packages\omniORBpy-4.2.0
+# echo omniORBpy-4.2.0\lib\python > bin\Python27\Lib\site-packages\omniORBpy.pth
+# echo omniORBpy-4.2.0\lib\x86_win32 >> bin\Python27\Lib\site-packages\omniORBpy.pth
+
+
 # apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
 #  git checkout HEAD -- ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib/site-packages/sitecustomize.py
 #  bash: cd $(git rev-parse --show-toplevel) && git status --porcelain bin/Python27/Scripts | grep '^ D ' | grep -E '(\.pyd|dll)' | sed 's/^...//' | xargs git checkout HEAD -- bin/Python27/Scripts/{activate.bat,Python27.zip} bin/Python27/libs/python27.lib
