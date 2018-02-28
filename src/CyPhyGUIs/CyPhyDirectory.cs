@@ -17,11 +17,11 @@ namespace CyPhyGUIs
             {
                 if (e.Message.Contains("The directory is not empty") == false)
                 {
-                    throw;
+                    throw new IOException("Could not delete " + path, e);
                 }
                 if (Directory.GetFileSystemEntries(path).Length > 0)
                 {
-                    throw;
+                    throw new IOException("Could not delete " + path, e);
                 }
                 return;
             }

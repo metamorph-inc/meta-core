@@ -38,13 +38,16 @@ namespace PythonTest
                     FileName = VersionInfo.PythonVEnvExe,
                     Arguments = command,
                     CreateNoWindow = true,
-                    UseShellExecute = false
+                    UseShellExecute = false,
+
+                    RedirectStandardError = true
                 };
                 p.Start();
+                string stderr = p.StandardError.ReadToEnd();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
                 {
-                    throw new Exception("python.exe exited with non-zero code " + p.ExitCode);
+                    throw new Exception("python.exe exited with non-zero code " + p.ExitCode + ". " + stderr);
                 }
             }
             catch (Exception e)
