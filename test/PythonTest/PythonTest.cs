@@ -28,7 +28,7 @@ namespace PythonTest
             return CheckCommand(String.Format("import {0}", moduleName));
         }
 
-        private Exception CheckCommand(string command)
+        private Exception CheckPython(string command)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace PythonTest
                 p.StartInfo = new ProcessStartInfo()
                 {
                     FileName = VersionInfo.PythonVEnvExe,
-                    Arguments = String.Format("-c \"{0}\"", command),
+                    Arguments = command,
                     CreateNoWindow = true,
                     UseShellExecute = false
                 };
@@ -52,6 +52,11 @@ namespace PythonTest
                 return e;
             }
             return null;
+        }
+
+        private Exception CheckCommand(string command)
+        {
+            return CheckPython(String.Format("-c \"{0}\"", command));
         }
 
         [Fact]
@@ -113,6 +118,20 @@ namespace PythonTest
             p.Start();
             p.WaitForExit();
             Assert.Equal(42, p.ExitCode);
+        }
+
+        [Fact]
+        public void TestModelicaExporter()
+        {
+            if (Environment.GetEnvironmentVariable("OPENMODELICAHOME") == null)
+            {
+                return;
+            }
+            var e = CheckPython("-m py_modelica_exporter --standard --json");
+            if (e != null)
+            {
+                Assert.True(e == null, "py_modelica_exporter failed: " + e.ToString());
+            }
         }
 
         [Fact]
