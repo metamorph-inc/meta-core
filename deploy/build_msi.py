@@ -11,6 +11,7 @@ import glob
 import subprocess
 import re
 import itertools
+import six
 
 import xml.etree.ElementTree as ET
 
@@ -86,7 +87,7 @@ def build_msi():
         return os.path.splitext(file)[0] + ".wixobj"
 
     def adjacent_file(file):
-        return os.path.join(os.path.dirname(__file__), file)
+        return os.path.join(this_dir, file)
 
     gen_analysis_tool_wxi.main(r"..\analysis_tools", diskId='5')
 
@@ -177,8 +178,6 @@ def build_msi():
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentGroupRef':
                 include_wxis.append(node.attrib['Id'] + '.wxi')
                 include_wxis.append(node.attrib['Id'] + '_x64.wxi')
-                if 'Proe' in node.attrib['Id'] + '_x64.wxi':
-                    print node.attrib['Id'] + '_x64.wxi'
             if node.tag == '{http://schemas.microsoft.com/wix/2006/wi}ComponentRef':
                 include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '.wxi')
                 include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '_x64.wxi')
@@ -239,13 +238,13 @@ def build_msi():
             arch = ['-arch', ('x86' if source.find('x64') == -1 else 'x64')]
             system(['candle', '-ext', 'WiXUtilExtension'] + ['-d' + d[0] + '=' + d[1] for d in defines] + arch + ['-out', get_wixobj(source), source] + ['-nologo'])
         except Exception as e:
-            pool_exceptions.append(e)
+            pool_exceptions.append(sys.exc_info())
             raise
     candle_results = pool.map_async(candle, sources, chunksize=1)
     pool.close()
     pool.join()
     if pool_exceptions:
-        raise pool_exceptions[0]
+        six.reraise(*pool_exceptions[0])
     assert candle_results.successful()
 
     # ignore warning 1055, ICE82 from VC10 merge modules
@@ -256,7 +255,7 @@ def build_msi():
             try:
                 download_bundle_deps('META_bundle_x64.wxs')
             except Exception as e:
-                pool_exceptions.append(e)
+                pool_exceptions.append(sys.exc_info())
 
         import threading
         download_thread = threading.Thread(target=download)
@@ -271,7 +270,7 @@ def build_msi():
 
         download_thread.join()
         if pool_exceptions:
-            raise pool_exceptions[0]
+            six.reraise(*pool_exceptions[0])
         system('candle.exe META_bundle_x64.wxs -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
         system('candle.exe META_bundle_ba.wxi -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
         system('light.exe -o META_bundle_x64.exe META_bundle_ba.wixobj META_bundle_x64.wixobj -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension -ext WixNetFxExtension'.split())
