@@ -33,7 +33,6 @@ class OMCSession(object):
         return self._omc_command
 
     def _start_omc(self):
-        self._server = None
         self._omc_command = None
         try:
             self.omhome = os.environ['OPENMODELICAHOME']
@@ -118,6 +117,9 @@ class OMCSession(object):
     def __init__(self, readonly=False):
         self.readonly = readonly
         self.omc_cache = {}
+        self._omc = None
+        self._omc_log_file = None
+        self._server = None
 
         self._REGEX_PATTERN_getComponents = r'{?{?([\w\d\.]+),([\w\d\.]+),"([^\"]*)", "([\w]+)", ([\w]+), ([\w]+), ([\w]+), ([\w]+), "([\w]+)", "([\w]+)", "([\w]+)",{(([\d]*|:)(,([\d]*|:))*)'
         self._REGEX_getComponents = re.compile(self._REGEX_PATTERN_getComponents)
@@ -160,10 +162,12 @@ class OMCSession(object):
         self._connect_to_omc()
 
     def __del__(self):
-        self._omc.sendExpression("quit();") # FIXME: does not work in a virtual python environment
-        self._omc_log_file.close()
+        if self._omc:
+            self._omc.sendExpression("quit();")  # FIXME: does not work in a virtual python environment
+        if self._omc_log_file:
+            self._omc_log_file.close()
         # kill self._server process if it is still running/exists
-        if self._server.returncode is None:
+        if self._server is not None and self._server.returncode is None:
             self._server.kill()
 
     # TODO: this method will be replaced by the new parser

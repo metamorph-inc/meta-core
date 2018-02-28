@@ -1692,7 +1692,7 @@ namespace ModelicaImporter
                 if (e.Data != null)
                 {
                     stderr.Append(e.Data);
-                    stdout.Append(Environment.NewLine);
+                    stderr.Append(Environment.NewLine);
                 }
             });
 
@@ -1715,12 +1715,14 @@ namespace ModelicaImporter
 
             if (process.ExitCode != 0)
             {
+                var msg = System.Security.SecurityElement.Escape(stderr.ToString()).Replace("\n", "<br>");
+
                 if (process.ExitCode == 99)
                 {
                     lock (this.m_Logger)
                     {
                         this.m_Logger.WriteError("py_modelica_exporter failed. ExitCode: {0}", process.ExitCode);
-                        this.m_Logger.WriteDebug(stderr.ToString());
+                        this.m_Logger.WriteDebug(msg);
                     }
 
                     throw new Exception(
@@ -1732,7 +1734,7 @@ namespace ModelicaImporter
                 {
                     lock (this.m_Logger)
                     {
-                        this.m_Logger.WriteError(stderr.ToString());
+                        this.m_Logger.WriteError(msg);
                         this.m_Logger.WriteError("Python script exporter failed! ExitCode: {0}", process.ExitCode);
                     }
 
