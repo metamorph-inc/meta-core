@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
+using CyPhyGUIs;
 
 namespace CyPhyPropagateTest
 {
@@ -120,7 +121,7 @@ namespace CyPhyPropagateTest
                     metalink.WaitForExit();
                     metalink.Dispose();
                     metalink = null;
-                    CyPhyMetaLink.JobObjectPinvoke.CloseHandle(metalinkJob);
+                    JobObjectPinvoke.CloseHandle(metalinkJob);
                     metalinkJob = IntPtr.Zero;
                 }
             }
@@ -176,7 +177,7 @@ namespace CyPhyPropagateTest
                             CyPhyMetaLink.CyPhyMetalinkInterpreter interpreter = new CyPhyMetaLink.CyPhyMetalinkInterpreter();
                             propagate.TestMode = true;
                             propagate.TestMode_NoAutomaticCreoStart = true;
-                            propagate.TestMode_CreoJobObject = CyPhyMetaLink.JobObjectPinvoke.CreateKillOnCloseJob();
+                            propagate.TestMode_CreoJobObject = JobObjectPinvoke.CreateKillOnCloseJob();
                             interpreter.GMEConsole = GME.CSharp.GMEConsole.CreateFromProject(project);
                             interpreter.MgaGateway = new MgaGateway(project);
 
@@ -189,7 +190,7 @@ namespace CyPhyPropagateTest
                         {
                             if (propagate != null)
                             {
-                                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(propagate.TestMode_CreoJobObject);
+                                JobObjectPinvoke.CloseHandle(propagate.TestMode_CreoJobObject);
                                 propagate.TestMode_CreoJobObject = IntPtr.Zero;
                             }
                             project.Save(project.ProjectConnStr + "_posttest.mga", true);
@@ -331,7 +332,7 @@ namespace CyPhyPropagateTest
                     metalinkOutput.Add(dataArgs.Data);
                 };
                 metalink.Start();
-                metalinkJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(metalink);
+                metalinkJob = JobObjectPinvoke.AssignProcessToKillOnCloseJob(metalink);
                 metalink.BeginOutputReadLine();
                 metalink.BeginErrorReadLine();
             }

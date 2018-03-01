@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CyPhyGUIs;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -40,7 +41,7 @@ namespace CADCreoTest
             extractXml.StartInfo = info;
 
             extractXml.Start();
-            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(extractXml);
+            IntPtr createAssemblyJob = JobObjectPinvoke.AssignProcessToKillOnCloseJob(extractXml);
 
             try
             {
@@ -80,7 +81,7 @@ namespace CADCreoTest
             }
             finally
             {
-                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+                JobObjectPinvoke.CloseHandle(createAssemblyJob);
             }
         }
     }

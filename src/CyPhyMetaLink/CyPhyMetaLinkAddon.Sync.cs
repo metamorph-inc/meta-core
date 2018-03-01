@@ -30,6 +30,7 @@ using System.Reflection;
 using META;
 using System.Threading.Tasks;
 using CyPhyMetaLinkBridgeClient;
+using CyPhyGUIs;
 
 namespace CyPhyMetaLink
 {

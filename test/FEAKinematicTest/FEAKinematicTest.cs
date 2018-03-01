@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using GME.MGA.Meta;
+using CyPhyGUIs;
 
 namespace FEAKinematicTest
 {
@@ -110,7 +111,7 @@ namespace FEAKinematicTest
             process.StartInfo = info;
 
             process.Start();
-            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(process);
+            IntPtr createAssemblyJob = JobObjectPinvoke.AssignProcessToKillOnCloseJob(process);
 
             bool exited = false;
             try
@@ -125,7 +126,7 @@ namespace FEAKinematicTest
             }
             finally
             {
-                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+                JobObjectPinvoke.CloseHandle(createAssemblyJob);
             }
 
             return exited;

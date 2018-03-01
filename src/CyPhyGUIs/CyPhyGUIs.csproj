@@ -114,6 +114,7 @@
     <Compile Include="Interfaces.cs" />
     <Compile Include="InterpreterConfiguration.cs" />
     <Compile Include="InterpreterException.cs" />
+    <Compile Include="JobObject.cs" />
     <Compile Include="MgaGateway.cs" />
     <Compile Include="PCCInputDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,6 +6,7 @@ using System.IO;
 using Xunit;
 using System.Diagnostics;
 using System.Threading;
+using CyPhyGUIs;
 
 namespace CADCreoTest
 {
@@ -152,7 +153,7 @@ namespace CADCreoTest
             };
 
             createAssembly.Start();
-            IntPtr createAssemblyJob = CyPhyMetaLink.JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
+            IntPtr createAssemblyJob = JobObjectPinvoke.AssignProcessToKillOnCloseJob(createAssembly);
 
             try
             {
@@ -172,7 +173,7 @@ namespace CADCreoTest
             }
             finally
             {
-                CyPhyMetaLink.JobObjectPinvoke.CloseHandle(createAssemblyJob);
+                JobObjectPinvoke.CloseHandle(createAssemblyJob);
             }
 
             Assert.True(createAssembly.ExitCode == 0, string.Format("CADCreoParametricCreateAssembly failed with code {0}", createAssembly.ExitCode));
