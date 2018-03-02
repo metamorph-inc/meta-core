@@ -91,15 +91,15 @@ class OMCSession(object):
 
             if is_64bit_exe(os.path.join(self.omhome, "lib", "python", "_omnipy.pyd")):
                 # we can't load OpenModelica's 64-bit _omnipy.pyd. So use the bin\Python27 one
-                # FIXME this needs a recent OpenModelica
+                # this needs an OpenModelica >1.9.7, but there's no x64 release <=1.9.7, so we are ok
                 index = len(sys.path)
             else:
                 index = 0
             sys.path.insert(index, os.path.join(self.omhome, 'lib'))
             sys.path.insert(index, os.path.join(self.omhome, 'lib', 'python'))
             # n.b. use OpenModelica bundled idl stubs. ours has _omnipy.checkVersion(3,0, __file__), but:
-            # OpenModelica 1.12 has version 4.2
-            # OpenModelica 1.9.2 has version 3.0
+            # OpenModelica 1.11, 1.12 have version 4.2
+            # OpenModelica 1.9.2, 1.9.7 have version 3.0
             sys.path.insert(0, os.path.join(self.omhome, 'share/omc/scripts/PythonInterface'))
             # add OPENMODELICAHOME\bin to path so python can find the omniORB binaries
             pathVar = os.getenv('PATH')
