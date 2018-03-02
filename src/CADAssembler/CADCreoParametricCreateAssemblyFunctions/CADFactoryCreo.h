@@ -34,7 +34,7 @@ public:
 	components.
 	*/
 	std::vector< Joint::pair_t >  extract_joint_pair_vector
-		(const std::string in_component_id,
+		(const std::string in_component_instance_id,
 		 std::vector<ConstraintPair> in_vector,
 		 std::map<std::string, isis::CADComponentData> &	in_map);
 
@@ -99,6 +99,12 @@ class  ModelHandlingCreo : public IModelHandling {
 									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
 									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
 
+	virtual void cADModelRetrieve(	const std::string					&in_ComponentInstanceID,		// this is included for logging purposes; otherwise this function does not use in_ComponentInstanceID	
+									const isis::MultiFormatString		&in_ModelName,				// model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,				// CAD_MDL_ASSEMBLY or CAD_MDL_PART
+									const MultiFormatString				&in_GeometryRepresentation, // This would be null if no simplified representation was specified
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception);
+
 	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception);
 
 	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
@@ -106,7 +112,7 @@ class  ModelHandlingCreo : public IModelHandling {
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
 
 	virtual void cADModelSave( 
-					const std::string								&in_ComponentID,
+					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																		throw (isis::application_exception);
 
@@ -147,7 +153,7 @@ class  ModelOperationsCreo : public IModelOperations {
 		std::string name() { return "ModelOperationsCreo";}
 
 	virtual void forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+					const std::vector<std::string>					&in_ListOfComponentInstanceIDsInTheAssembly, // This includes the assembly component ID
 					int												&in_out_NonCyPhyID_counter,
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
@@ -160,21 +166,21 @@ class  ModelOperationsCreo : public IModelOperations {
 
 	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			//cad::CadFactoryAbstract													&in_Factory,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::vector<std::string>											&in_AssemblyComponentInstanceIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception);
 
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_AssemblyComponentInstanceID,
 								const std::string									&in_ChildComponentID,
 								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 								bool  in_bottom_up,
 								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_AssemblyComponentInstanceID,
 								const std::list<int>									&in_ChildComponentPaths,
 								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 								bool  in_bottom_up,
@@ -189,7 +195,7 @@ class  ModelOperationsCreo : public IModelOperations {
 								double											out_Dimensions_xyz[3] )
 																		throw (isis::application_exception);
 
-	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string			&in_AssemblyComponentID,
+	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string			&in_AssemblyComponentInstanceID,
 											const std::string								&in_PartComponentID,
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 											const MultiFormatString							&in_PointName,
@@ -198,7 +204,7 @@ class  ModelOperationsCreo : public IModelOperations {
 
 
 	virtual void findPartsReferencedByFeature(	
-						const std::string								&in_TopAssemblyComponentInstanceID, 
+						const std::string								&in_TopAssemblyComponentID, 
 						const std::string								&in_ComponentInstanceID,
 						const MultiFormatString							&in_FeatureName,
 						e_CADFeatureGeometryType							in_FeatureGeometryType,
@@ -207,7 +213,7 @@ class  ModelOperationsCreo : public IModelOperations {
 						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
 																			throw (isis::application_exception);
 	virtual void retrieveMassProperties( 
-						const std::string								&in_ComponentID,
+						const std::string								&in_ComponentInstanceID,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception);
@@ -240,6 +246,62 @@ class  ModelOperationsCreo : public IModelOperations {
 	virtual MultiFormatString retrieveMaterialName( 	const std::string								&in_ComponentInstanceID,
 													std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception);
+
+
+	virtual void ModelOperationsCreo::addModelsToAssembly( 
+					const std::string									&in_AssemblyComponentInstanceID,
+					const std::list<std::string>							&in_ModelComponentIDsToAdd,
+					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					int													&in_out_AddedToAssemblyOrdinal)
+																											throw (isis::application_exception);
+
+
+	virtual bool ModelOperationsCreo::applySingleModelConstraints( 
+				const std::string								&in_AssemblyComponentInstanceID,
+				const std::string								&in_ComponentIDToBeConstrained,		
+				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																			throw (isis::application_exception);
+	
+
+	virtual bool	 dataExchangeFormatSupported(const DataExchangeSpecification &in_DataExchangeSpecification);
+
+	virtual void exportDataExchangeFile_STEP( void 								*in_ModelHandle_ptr,
+											  e_CADMdlType						in_ModelType,
+											  const DataExchangeSpecification	&in_DataExchangeSpecification,
+											  const MultiFormatString			&in_OutputDirectory,		// Only the path to the directory
+											  const MultiFormatString			&in_OutputFileName_noDotSuffixes )		// This is just the name, not the path
+																			throw (isis::application_exception);
+
+	virtual void exportDataExchangeFile_Stereolithography(	void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception);
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_Inventor(			void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception);
+
+
+	virtual void exportDataExchangeFile_DXF(					void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception);
+
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_Parasolid(			void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception);
+
 };
 
 

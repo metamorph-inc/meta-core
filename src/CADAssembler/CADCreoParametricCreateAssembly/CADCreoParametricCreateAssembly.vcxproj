@@ -172,7 +172,6 @@
     <ClCompile Include="SurvivabilityAnalysis.cpp" />
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp" />
     <ClCompile Include="Computations.cpp" />
-    <ClCompile Include="DataExchange.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
@@ -183,7 +182,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SurvivabilityAnalysis.h" />
     <ClInclude Include="Computations.h" />
-    <ClInclude Include="DataExchange.h" />
     <ClInclude Include="ISISVersionNumber.h" />
   </ItemGroup>
   <ItemGroup>

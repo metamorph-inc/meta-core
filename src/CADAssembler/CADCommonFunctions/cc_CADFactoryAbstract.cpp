@@ -49,6 +49,19 @@ CadFactoryAbstract::ptr CadFactoryAbstract_global::getCadFactoryAbstract_ptr() t
 }
 
 
+MultiFormatString ICADSession::getCADWorkingDirectory () throw (isis::application_exception)
+{
+
+	if ( cADWorkingDirectory.size() == 0 )
+	{
+		std::stringstream errorString;
+		errorString <<	"Function - " << __FUNCTION__ << ", " << std::endl <<
+						"Null value for ICADSession::cADWorkingDirectory. Prior to invoking this function, the ICADSession::setCADWorkingDirectory function must be called with a non null value.";
+		throw isis::application_exception(errorString);		
+	}
+	return cADWorkingDirectory;
+}
+
 
 } // cad
 } // isis

@@ -13,6 +13,7 @@
 #include "CommonFunctions.h"
 #include "AssembleUtils.h"
 #include "ModelMaterials.h"
+#include <cc_ApplyModelConstraints.h>
 
 
 namespace isis {
@@ -69,7 +70,7 @@ extract the constraint feature.
 Separate the pair into added and base components.
 */
 std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
-	(std::string in_component_id, 
+	(std::string in_component_insctance_id, 
 	 std::vector<ConstraintPair> in_component_pair_vector,
 	 std::map<string, isis::CADComponentData> &	in_CADComponentData_map)
 {
@@ -103,8 +104,8 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 			const ConstraintFeature& feature = *l;
 			// is myself or one of my decendants
 			model_in_family_tree[ix] = 
-				feature.componentInstanceID == in_component_id 
-				|| ComponentIDChildOf( feature.componentInstanceID, in_component_id, in_CADComponentData_map );
+				feature.componentInstanceID == in_component_insctance_id 
+				|| ComponentIDChildOf( feature.componentInstanceID, in_component_insctance_id, in_CADComponentData_map );
 
 			model_path_list[ix] = in_CADComponentData_map[feature.componentInstanceID].componentPaths;
 			model_datum_name[ix] = feature.featureName;
@@ -116,7 +117,7 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 		if ( model_in_family_tree[0] == model_in_family_tree[1])
 		{
 			err_str << "Erroneous constraint pair.  "
-				<< " Assembled Component Instance ID: " << in_component_id 
+				<< " Assembled Component Instance ID: " << in_component_insctance_id 
 				<< " Constraint Feature Component IDs: " 
 					<< model_constraint_feature_component_ID[1] << ", " 
 					<< model_constraint_feature_component_ID[0];
@@ -137,9 +138,9 @@ std::vector< Joint::pair_t >  AssemblerCreo::extract_joint_pair_vector
 
 			ProModelitem datum_model; 
 			isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
-				in_component_id, 
-				in_CADComponentData_map[in_component_id].name,
-				ProMdlType_enum(in_CADComponentData_map[in_component_id].modelType),
+				in_component_insctance_id, 
+				in_CADComponentData_map[in_component_insctance_id].name,
+				ProMdlType_enum(in_CADComponentData_map[in_component_insctance_id].modelType),
 				component_model, pro_datum_type, model_datum_name[ix], 
 				&datum_model);
 
@@ -240,16 +241,19 @@ void CADSessionCreo::getCADProgramVersion(	bool	&out_IntVersionNumber_Set,
 	out_IntVersionNumber_Set = true;
 }
 
-// This function is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer
-// in the setCreoWorkingDirectory function) must be persisted between calls to isis_ProDirectoryChange.
-// This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
-// access the address of the buffer used in the previous call.  Therefore, the same address must be used 
-// between calls, or at least, the previously used buffer address must still be valid.
+//	"static wchar_t *setCreoWorkingDirectory_buffer" MUST be static.
+//	This is necessary  because the working directory buffer (e.g. setCreoWorkingDirectory_buffer)
+//	in the setCreoWorkingDirectory function must be persisted between calls to isis_ProDirectoryChange.
+//	This is because after the initial call to isis_ProDirectoryChange, isis_ProDirectoryChange appears to 
+//	access the address of the buffer used in the previous call.  Therefore, the same address must be used 
+//	between calls, or at least, the previously used buffer address must still be valid.
 //
-// This function is not thread safe.
+// This function is NOT thread safe.
 void CADSessionCreo::setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception)
 {
 	
+	cADWorkingDirectory = in_MultiFormatString;
+
 	static wchar_t *setCreoWorkingDirectory_buffer = NULL;
 
 	if ( !setCreoWorkingDirectory_buffer) setCreoWorkingDirectory_buffer = new wchar_t[PRO_PATH_SIZE];
@@ -514,6 +518,26 @@ void ModelHandlingCreo::cADModelRetrieve(	const isis::MultiFormatString	&in_Mode
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelHandlingCreo::cADModelRetrieve(	const std::string			&in_ComponentInstanceID,		
+									const isis::MultiFormatString		&in_ModelName,				
+									e_CADMdlType 						in_ModelType,				
+									const MultiFormatString				&in_GeometryRepresentation, 
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception)
+{
+
+	isis_ProMdlRetrieve_WithDescriptiveErrorMsg( 
+											// Added Arguments
+											in_ComponentInstanceID,
+											in_ModelName,
+											in_GeometryRepresentation,
+											// Original arguments
+											in_ModelName, 
+											ProMdlType_enum(in_ModelType),
+											out_RetrievedModelHandle_ptr);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void  ModelHandlingCreo::cADModelSave( void	*in_ModelHandle ) const throw (isis::application_exception)
 {
@@ -528,11 +552,11 @@ void  ModelHandlingCreo::cADModelFileCopy (	e_CADMdlType 						in_ModelType,
 	isis::isis_ProMdlfileCopy (ProMdlType_enum(in_ModelType), in_FromModelName, in_ToModelName);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
- void ModelHandlingCreo::cADModelSave(	const std::string								&in_ComponentID,
+ void ModelHandlingCreo::cADModelSave(	const std::string								&in_ComponentInstanceID,
 										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																		throw (isis::application_exception)
  {
-	isis::isis_ProMdlSave(in_CADComponentData_map[in_ComponentID].cADModel_hdl);
+	isis::isis_ProMdlSave(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl);
 
  }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -542,13 +566,13 @@ void  ModelHandlingCreo::cADModelFileCopy (	e_CADMdlType 						in_ModelType,
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-				const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+				const std::vector<std::string>					&in_ListOfComponentInstanceIDsInTheAssembly, // This includes the assembly component ID
 				int												&in_out_NonCyPhyID_counter,
 				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																	throw (isis::application_exception)
 {
 		
-	for each ( const std::string &i in in_ListOfComponentIDsInTheAssembly )
+	for each ( const std::string &i in in_ListOfComponentInstanceIDsInTheAssembly )
 	{			
 		//if ( in_out_CADComponentData_map[i].modelType == PRO_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
 		if ( in_out_CADComponentData_map[i].modelType == CAD_MDL_ASSEMBLY && in_out_CADComponentData_map[i].children.size() == 0 )
@@ -724,13 +748,13 @@ void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponent
 
 void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			//cad::CadFactoryAbstract													&in_Factory,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::vector<std::string>											&in_AssemblyComponentInstanceIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception)
 {
 		std::vector<std::string> trimmedListOfComponentIDs;
-		FurtherTrimList_Remove_TreatAsOneBodeParts( in_AssemblyComponentIDs,
+		FurtherTrimList_Remove_TreatAsOneBodeParts( in_AssemblyComponentInstanceIDs,
 													in_out_CADComponentData_map,
 													trimmedListOfComponentIDs );
 
@@ -875,7 +899,7 @@ void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_C
 
 
 void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string									&in_AssemblyComponentID,
+							const std::string									&in_AssemblyComponentInstanceID,
 							const std::string									&in_ChildComponentID,
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							bool  in_bottom_up,
@@ -883,14 +907,14 @@ void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (
 {
 
 		RetrieveTranformationMatrix_Assembly_to_Child (  
-							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
 							in_CADComponentData_map[in_ChildComponentID].componentPaths, 
 							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
 }
 
 void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string									&in_AssemblyComponentID,
+							const std::string									&in_AssemblyComponentInstanceID,
 							const std::list<int>									&in_ChildComponentPaths,
 							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							bool  in_bottom_up,
@@ -898,7 +922,7 @@ void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (
 {
 
 		RetrieveTranformationMatrix_Assembly_to_Child (  
-							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl),
+							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
 							in_ChildComponentPaths, 
 							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
@@ -929,7 +953,7 @@ void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 
 
 
-void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_AssemblyComponentID,
+void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_AssemblyComponentInstanceID,
 											const std::string								&in_PartComponentID,
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 											const MultiFormatString							&in_PointName,
@@ -938,7 +962,7 @@ void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_A
 {
 
 
-		RetrieveDatumPointCoordinates(	in_AssemblyComponentID,
+		RetrieveDatumPointCoordinates(	in_AssemblyComponentInstanceID,
 									in_PartComponentID,
 									in_CADComponentData_map,
 									in_PointName, 
@@ -949,7 +973,7 @@ void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_A
 
 
 void ModelOperationsCreo::findPartsReferencedByFeature(	
-						const std::string									&in_TopAssemblyComponentInstanceID, 
+						const std::string									&in_TopAssemblyComponentID, 
 						const std::string									&in_ComponentInstanceID,
 						const MultiFormatString								&in_FeatureName,
 						e_CADFeatureGeometryType								in_FeatureGeometryType,
@@ -959,7 +983,7 @@ void ModelOperationsCreo::findPartsReferencedByFeature(
 																			throw (isis::application_exception)
 {
 	FindPartsReferencedByFeature(	
-						in_TopAssemblyComponentInstanceID, 
+						in_TopAssemblyComponentID, 
 						in_ComponentInstanceID,
 						in_FeatureName,
 						in_FeatureGeometryType,
@@ -970,7 +994,7 @@ void ModelOperationsCreo::findPartsReferencedByFeature(
 }
 
 void ModelOperationsCreo::retrieveMassProperties( 
-						const std::string								&in_ComponentID,
+						const std::string								&in_ComponentInstanceID,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception)
@@ -986,7 +1010,7 @@ void ModelOperationsCreo::retrieveMassProperties(
 
 	ProMassProperty  mass_prop;
 
-	isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentID, in_CADComponentData_map, &mass_prop );
+	isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentInstanceID, in_CADComponentData_map, &mass_prop );
 
 
 	/////////////////////////////////////////
@@ -1056,9 +1080,9 @@ void ModelOperationsCreo::retrieveMassProperties(
 		if ( !isis_CADCommon::Positive_Definite_3_x_3( out_MassProperties.coordSysInertiaTensor ))
 		{
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the default coordinate system." 
-												<< "\n       ComponentInstanceID: " << in_ComponentID
-												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentID].name 
-												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)
+												<< "\n       ComponentInstanceID: " << in_ComponentInstanceID
+												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentInstanceID].name 
+												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType)
 												<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
 		}
 	}
@@ -1075,9 +1099,9 @@ void ModelOperationsCreo::retrieveMassProperties(
 		if ( !isis_CADCommon::Positive_Definite_3_x_3( out_MassProperties.cGInertiaTensor ))
 		{
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO)	<< "\n\nERROR: Non-positive-definite inertia tensor at the center of gravity." 
-												<< "\n       ComponentInstanceID: " << in_ComponentID
-												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentID].name 
-												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)
+												<< "\n       ComponentInstanceID: " << in_ComponentInstanceID
+												<< "\n       Model Name:          " << in_CADComponentData_map[in_ComponentInstanceID].name 
+												<< "\n       Model Type:          " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType)
 												<< "\n       Note: In the future, this will be treated as a fatal error.  Corrections to the mass properties in the CAD model are required.";
 		}
 
@@ -1372,6 +1396,457 @@ MultiFormatString ModelOperationsCreo::retrieveMaterialName(
 
 	return MultiFormatString(material_temp);
 }
+
+
+void ModelOperationsCreo::addModelsToAssembly( 
+					const std::string									&in_AssemblyComponentInstanceID,
+					const std::list<std::string>							&in_ModelComponentIDsToAdd,
+					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					int													&in_out_AddedToAssemblyOrdinal)
+														throw (isis::application_exception) 
+
+{
+
+	Add_Subassemblies_and_Parts( in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl, 
+								 in_CADComponentData_map[in_AssemblyComponentInstanceID].name,  
+								 in_ModelComponentIDsToAdd, 
+								 in_CADComponentData_map,
+								 in_out_AddedToAssemblyOrdinal);
+
+
+}
+
+bool ModelOperationsCreo::applySingleModelConstraints( 
+				const std::string								&in_AssemblyComponentInstanceID,
+				const std::string								&in_ComponentIDToBeConstrained,		
+				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																			throw (isis::application_exception)
+{
+	
+	bool stop = ApplySingleModelConstraints_Creo(	in_AssemblyComponentInstanceID,
+													in_ComponentIDToBeConstrained,
+													in_CADComponentData_map );	
+
+	return stop;
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+bool	 ModelOperationsCreo::dataExchangeFormatSupported(const DataExchangeSpecification &in_DataExchangeSpecification)
+{
+	bool formatSupported = false;
+
+	switch ( in_DataExchangeSpecification.dataExchangeFormat )
+	{
+		case DATA_EXCHANGE_FORMAT_STEP:
+			switch(in_DataExchangeSpecification.dataExchangeVersion)
+			{
+				case AP203_SINGLE_FILE:
+				case AP203_E2_SINGLE_FILE:
+				case AP203_E2_SEPARATE_PART_FILES:
+				case AP214_SINGLE_FILE:
+				case AP214_SEPARATE_PART_FILES:
+					formatSupported = true;
+					break;	
+				default:
+					break;
+			}
+			break;
+		case DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY:
+			switch(in_DataExchangeSpecification.dataExchangeVersion)
+			{
+				case ASCII:
+				case BINARY:
+					formatSupported = true;
+					break;	
+				default:
+					break;
+			}
+			break;
+		case DATA_EXCHANGE_FORMAT_INVENTOR:
+			formatSupported = true;
+			break;
+		case DATA_EXCHANGE_FORMAT_PARASOLID:
+			formatSupported = true;
+			break;
+		case DATA_EXCHANGE_DXF:
+			switch(in_DataExchangeSpecification.dataExchangeVersion)
+			{
+				case Y2013:
+					formatSupported = true;
+					break;	
+				default:
+					break;
+			}
+			break;
+		default:
+			break;
+	}
+	return 	formatSupported;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ModelOperationsCreo::exportDataExchangeFile_STEP(	void 								*in_ModelHandle_ptr,
+														e_CADMdlType							in_ModelType,
+														const DataExchangeSpecification		&in_DataExchangeSpecification,
+														const MultiFormatString				&in_OutputDirectoryPath,		
+														const MultiFormatString				&in_OutputFileName )         
+																			throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::ICADSession&            cADsession = cAD_Factory_ptr->getCADSession();	
+
+
+	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
+
+	ProName		optionName;
+	ProPath		optionValue;
+
+	wcscpy( optionName, L"intf3d_out_datums_by_default");
+	wcscpy( optionValue, L"yes");
+	isis_ProConfigoptSet(optionName, optionValue  );
+
+	wcscpy( optionName, L"intf3d_out_parameters");
+	wcscpy( optionValue, L"all");
+	isis_ProConfigoptSet(optionName, optionValue  );
+
+	wcscpy( optionName, L"intf_out_blanked_entities");
+	wcscpy( optionValue, L"no");
+	isis_ProConfigoptSet(optionName, optionValue  );
+
+	switch(in_DataExchangeSpecification.dataExchangeVersion)
+	{
+		case AP203_SINGLE_FILE:
+			wcscpy( optionName, L"step_export_format");
+			wcscpy( optionValue, L"ap203_is");			
+			isis_ProConfigoptSet(optionName, optionValue  );
+			break;
+		case AP203_E2_SINGLE_FILE:
+			wcscpy( optionName, L"step_export_format");
+			wcscpy( optionValue, L"ap203_e2");			
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			// Note - there is not a step_export_ap203_e2_asm_def_mode config function.
+			//		  Creo honors the 214 setting for 203_e2
+			wcscpy( optionName,  L"step_export_ap214_asm_def_mode");
+			wcscpy( optionValue, L"single_file");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			break;
+		case AP203_E2_SEPARATE_PART_FILES:
+			wcscpy( optionName, L"step_export_format");
+			wcscpy( optionValue, L"ap203_e2");			
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			// Note - there is not a step_export_ap203_e2_asm_def_mode config function.
+			//		  Creo honors the 214 setting for 203_e2
+			wcscpy( optionName,  L"step_export_ap214_asm_def_mode");
+			wcscpy( optionValue, L"separate_parts_only");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			break;
+		case AP214_SINGLE_FILE:
+			wcscpy( optionName, L"step_export_format");
+			wcscpy( optionValue, L"ap214_is");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			wcscpy( optionName,  L"step_export_ap214_asm_def_mode");
+			wcscpy( optionValue, L"single_file");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			break;
+		case AP214_SEPARATE_PART_FILES:
+			wcscpy( optionName, L"step_export_format");
+			wcscpy( optionValue, L"ap214_is");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			wcscpy( optionName,  L"step_export_ap214_asm_def_mode");
+			wcscpy( optionValue, L"separate_parts_only");
+			isis_ProConfigoptSet(optionName, optionValue  );
+
+			break;
+
+		default:
+
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", Was passed an erroneous dataExchangeVersion enum.  " << std::endl <<
+						 "\nAllowed enum values are AP203_SINGLE_FILE, AP203_E2_SINGLE_FILE, AP203_E2_SEPARATE_PART_FILES, AP214_SINGLE_FILE and AP214_SEPARATE_PART_FILES.";
+			throw isis::application_exception(errorString);	
+	}
+
+
+	// Write Data Exchange file (e.g. STEP File)
+	int Arg_2 = 1;
+
+
+	//MultiFormatString StepFileName_multiString(StepFileName_string, PRO_FILE_NAME_SIZE - 1 );
+
+		
+
+		//isis_ProOutputFileWrite(	p_Model,    // This function was deprecated as of Creo 3.0
+		isis_ProOutputFileMdlnameWrite(	in_ModelHandle_ptr,
+								in_OutputFileName,
+								PRO_STEP_FILE,
+								NULL,
+								&Arg_2,
+								NULL,
+								NULL );
+
+
+}
+
+
+void ModelOperationsCreo::exportDataExchangeFile_Stereolithography(	void 					*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global		*cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr		cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::ICADSession&					cADsession = cAD_Factory_ptr->getCADSession();	
+
+	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
+
+
+	// Write Data Exchange file (e.g. Stereolithography File)
+	int Arg_2 = 1;
+
+	std::string suffix = ".stl";
+
+	//std::string StepFileName_string;
+	MultiFormatString OutputFileName_string;
+	switch (in_ModelType)
+	{
+		case CAD_MDL_PART:
+			OutputFileName_string = (std::string)in_OutputFileName + "_prt" + suffix;
+			break;
+		case CAD_MDL_ASSEMBLY:
+			OutputFileName_string = (std::string)in_OutputFileName + "_asm" + suffix;
+			break;
+		default:
+			OutputFileName_string = (std::string)in_OutputFileName + suffix;
+	}
+
+	ProImportExportFile ExportFileType;
+
+	
+	ProName		optionName;
+	ProPath		optionValue;
+
+	wcscpy( optionName, L"intf3d_out_prop_chord_heights");
+	wcscpy( optionValue, L"yes");
+	isis_ProConfigoptSet(optionName, optionValue  );
+
+	if ( in_DataExchangeSpecification.dataExchangeVersion == ASCII )
+			ExportFileType = PRO_SLA_ASCII_FILE;
+		else
+			ExportFileType = PRO_SLA_BINARY_FILE;
+	
+
+	//isis_ProOutputFileWrite(	p_Model,   // This function was deprecated as of Creo 3.0
+	isis_ProOutputFileMdlnameWrite(	in_ModelHandle_ptr,
+							OutputFileName_string,
+							ExportFileType,
+							NULL,
+							&Arg_2,
+							NULL,
+							NULL );
+
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelOperationsCreo::exportDataExchangeFile_Inventor(	void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global		*cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr		cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::ICADSession&					cADsession = cAD_Factory_ptr->getCADSession();	
+
+	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
+
+	// Write Data Exchange file (e.g. Stereolithography File)
+	int Arg_2 = 1;
+
+	std::string suffix = ".iv";
+
+	//std::string StepFileName_string;
+	MultiFormatString OutputFileName_string;
+	switch (in_ModelType)
+	{
+		case CAD_MDL_PART:
+			OutputFileName_string = (std::string)in_OutputFileName + "_prt" + suffix;
+			break;
+		case CAD_MDL_ASSEMBLY:
+			OutputFileName_string = (std::string)in_OutputFileName + "_asm" + suffix;
+			break;
+		default:
+			OutputFileName_string = (std::string)in_OutputFileName + suffix;
+	}
+
+	ProImportExportFile ExportFileType;
+
+
+	ExportFileType = PRO_INVENTOR_FILE;
+		
+
+	//isis_ProOutputFileWrite(	p_Model,   // This function was deprecated as of Creo 3.0
+	isis_ProOutputFileMdlnameWrite(	in_ModelHandle_ptr,
+							OutputFileName_string,
+							ExportFileType,
+							NULL,
+							&Arg_2,
+							NULL,
+							NULL );
+
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ModelOperationsCreo::exportDataExchangeFile_DXF(		void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global		*cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr		cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::ICADSession&					cADsession = cAD_Factory_ptr->getCADSession();	
+
+
+	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
+
+
+	ProIntf3DExportType ExportFileType = PRO_INTF_EXPORT_DXF;
+
+	ProName		optionName;
+	ProPath		optionValue;
+	wcscpy( optionName, L"intf3d_out_prop_chord_heights");
+	wcscpy( optionValue, L"yes");
+
+	wcscpy( optionName, L"dxf_export_format");
+	wcscpy( optionValue, L"2013");
+
+	ProBoolean is_supported;
+
+	pro_output_assembly_configuration assembly_configuration  = PRO_OUTPUT_ASSEMBLY_FLAT_FILE;
+	isis_ProOutputAssemblyConfigurationIsSupported( ExportFileType,
+           											assembly_configuration,
+													&is_supported);
+													
+	if ( is_supported == PRO_B_TRUE )
+	{
+		//ProOutputBrepRepresentation representation;
+		//isis_ProOutputBrepRepresentationAlloc( &representation);
+														
+
+		//isis_ProOutputBrepRepresentationFlagsSet(	representation,
+		//											PRO_B_FALSE,   //as_wireframe
+		//											PRO_B_FALSE,    // as_surfaces
+		//											PRO_B_FALSE,   // as_solid
+		//											PRO_B_TRUE);   // as_quilts
+
+		//ProBoolean brepRepresentationFlags_supported;
+		//isis_ProOutputBrepRepresentationIsSupported( ExportFileType, representation, &brepRepresentationFlags_supported);
+
+		//if ( brepRepresentationFlags_supported == PRO_B_FALSE )
+		//{
+		//	stringstream errorMsg_temp;
+		//	errorMsg_temp << "Functions " << __FUNCTION__ << ", ProOutputBrepRepresentationIsSupported flags not supported: " <<
+		//		" as_wireframe == false, surfaces == false, solid = false, quilts = true";
+		//	
+		//	throw isis::application_exception(errorMsg_temp);
+		// }
+
+		//ProOutputInclusion inclusion;
+		//isis_ProOutputInclusionAlloc( &inclusion);
+
+		//isis_ProOutputInclusionFlagsSet( inclusion,
+		//								  PRO_B_FALSE, //		 ProBoolean include_datums,
+		//								  PRO_B_FALSE, //		 ProBoolean include_blanked,
+		//								  PRO_B_TRUE); //		 ProBoolean include_facetted)
+
+		// Suface models are not being exported via DXF. The resulting DXF file is empty.
+		// Setting inclusion and/or representation does not help.
+
+		isis::isis_ProIntf3DFileWrite( (ProSolid)in_ModelHandle_ptr, 
+										ExportFileType, 
+										(wchar_t*)(const wchar_t*)in_OutputFileName, 
+										assembly_configuration,
+										NULL, NULL, NULL, NULL);
+										//NULL, NULL, inclusion, NULL);
+										//NULL, representation, NULL, NULL);
+
+		//isis_ProOutputBrepRepresentationFree( representation);
+			//isis_ProOutputInclusionFree (inclusion);
+	}
+	else
+	{
+		stringstream errorMsg_temp;
+		errorMsg_temp << "Failed to create DXF file." <<
+			"\n   The Creo function ProOutputAssemblyConfigurationIsSupported indicated that the DXF format is not supported for the assembly." <<
+			"\n   To reproduce the problem, with Creo, open the assembly and try to save it to the DXF format.";
+		ofstream DXF_Failed;
+		DXF_Failed.open ((string)in_OutputDirectoryPath + "\\_FAILED_Data_Exchange.txt", std::ofstream::app);
+		DXF_Failed << errorMsg_temp.str();
+		DXF_Failed.close();
+
+
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << errorMsg_temp;
+
+		// Don't throw an exception.  The failed message will be in the output directory.
+		//throw isis::application_exception(errorMsg_temp);
+	}
+
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelOperationsCreo::exportDataExchangeFile_Parasolid(	void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+									
+	isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();
+	isis::cad::ICADSession&            cADsession = cAD_Factory_ptr->getCADSession();
+
+
+	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
+
+
+	pro_intf3d_export_type ExportFileType = PRO_INTF_EXPORT_PARASOLID;
+
+	isis::isis_ProIntf3DFileWrite( (ProSolid)in_ModelHandle_ptr, 
+									ExportFileType, 
+									(wchar_t*)(const wchar_t*)in_OutputFileName, 
+									PRO_OUTPUT_ASSEMBLY_FLAT_FILE,
+									NULL, NULL, NULL, NULL);
+
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 } // creo

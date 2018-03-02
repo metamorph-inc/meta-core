@@ -6,7 +6,7 @@
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
 #include <cc_Metrics.h>
-#include <DataExchange.h>
+#include <cc_DataExchange.h>
 #include <cc_MultiFormatString.h>
 #include <CommonFunctions.h>    // Work on this one
 #include <SurvivabilityAnalysis.h>
@@ -351,8 +351,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		isis::MultiFormatString workingDir_MultiFormat(workingDirector, in_MaxCADPathLength);
 
 		//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
-		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 		cADsession.setCADWorkingDirectory(workingDir_MultiFormat);
+		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 
 		// Copy template model to the working directory
 		isis::CopyFileIsis( in_templateFile_PathAndFileName,  workingDirector );
@@ -585,8 +585,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, in_MaxCADPathLength);
 						//isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
-						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
 						cADsession.setCADWorkingDirectory(scratchFEADir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
+
 
 
 						isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
@@ -595,8 +596,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 						// Change back to the working dir
 						//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
-						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 						cADsession.setCADWorkingDirectory(workingDir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
+
 					}
 
 
@@ -1181,7 +1183,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//std::cout << std::endl << "Exporting STEP file for " + unusedComp->name + ", this could take several seconds...";
 				isis::ExportDataExchangeFiles(	unusedComp->componentID,
 												unusedComp->name,
-												ProMdlType_enum(unusedComp->modelType),
+												//ProMdlType_enum(unusedComp->modelType),
+												unusedComp->modelType,
 												unusedComp->geometryRepresentation,
 												workingDirector,
 												cADComponentAssemblies.DataExchangeSpecifications, true );

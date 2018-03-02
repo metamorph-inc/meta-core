@@ -25,6 +25,7 @@
 #include <cc_CommonFunctions.h>
 #include <cc_CommonDefinitions.h>
 #include <cc_AssemblyUtilities.h>
+#include <cc_ApplyModelConstraints.h>
 
 
 namespace isis
@@ -320,9 +321,13 @@ void MetaLinkAssemblyEditor::AddComponentToAssembly(
     const std::vector<CADParameter>    &in_CADParameters,
     std::vector<isis::CADCreateAssemblyError> &out_ErrorList,
     std::vector<isis::CADComponentConnector> &in_ConnectorList
-)
-throw(isis::application_exception)
+)	throw(isis::application_exception)
 {
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "***************** Begin MetaLinkAssemblyEditor::AddComponentToAssembly ******************";
     std::stringstream generalMsg;
@@ -530,12 +535,18 @@ throw(isis::application_exception)
         //isis_LOG(lg, isis_FILE, isis_INFO) << "cADComponentData_map_TEMP[in_ComponentInstanceID]:                   " << cADComponentData_map_TEMP[in_ComponentInstanceID];
         //isis_LOG(lg, isis_FILE, isis_INFO)  << "************ End Temp Structure - Call to Creo SDK to Add the Component ***************";
 
-        isis::Add_Subassemblies_and_Parts(//*m_cadfactory,
-                                          m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl,
-                                          m_CADComponentData_map[parentAssemblyInstanceID].name,
-                                          toAddComponentInstanceIDs,
-                                          cADComponentData_map_TEMP,
-                                          m_addedToAssemblyOrdinal);
+        //isis::Add_Subassemblies_and_Parts(//*m_cadfactory,
+        //                                  m_CADComponentData_map[parentAssemblyInstanceID].cADModel_hdl,
+        //                                  m_CADComponentData_map[parentAssemblyInstanceID].name,
+        //                                  toAddComponentInstanceIDs,
+        //                                  cADComponentData_map_TEMP,
+        //                                  m_addedToAssemblyOrdinal);
+
+		modelOperations.addModelsToAssembly(	 parentAssemblyInstanceID,
+											 toAddComponentInstanceIDs,
+											 cADComponentData_map_TEMP,
+											 m_addedToAssemblyOrdinal);
+
 
         //isis::isis_ProMdlDisplay( cADComponentData_map_TEMP[in_ComponentInstanceID].modelHandle);
 
@@ -738,10 +749,10 @@ throw(isis::application_exception)
     componentIDsToBeConstrained.push_back(in_ConstraintComponentInstanceID);
 
 
-    isis_LOG(lg, isis_FILE, isis_INFO) << "**** Before call to ApplyModelConstraints ******";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "**** Before call to ApplyListedModelsConstraints ******";
     isis_LOG(lg, isis_FILE, isis_INFO) << m_CADComponentData_map[in_ConstraintComponentInstanceID];
 
-    ApplyModelConstraints(//*m_cadfactory,
+    ApplyListedModelsConstraints(//*m_cadfactory,
                           //reinterpret_cast<ProSolid*>(&m_CADComponentData_map[topAssemblyComponentInstanceID].cADModel_hdl),
 						  topAssemblyComponentInstanceID,
                           componentIDsToBeConstrained,
@@ -761,7 +772,7 @@ throw(isis::application_exception)
 
     isis::isis_ProWindowRepaint(windowID);
 
-    isis_LOG(lg, isis_FILE, isis_INFO) << "**** After call to ApplyModelConstraints ******";
+    isis_LOG(lg, isis_FILE, isis_INFO) << "**** After call to ApplyListedModelsConstraints ******";
 
     isis_LOG(lg, isis_FILE, isis_INFO) << "Constraint applied successfully";
     isis_LOG(lg, isis_FILE, isis_INFO) << "***************** End MetaLinkAssemblyEditor::ConstrainComponent ******************";
