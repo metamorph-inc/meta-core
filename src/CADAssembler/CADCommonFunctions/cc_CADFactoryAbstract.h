@@ -481,9 +481,12 @@ public:
 																			throw (isis::application_exception) = 0;
 
 
-	//	If a particular CAD system does not support a particular output format (e.g. STEP AP203_E2) then this
-	//	program (i.e. the overall program) does not return an error.  The particular output format will not be created
-	//  and a warning message would be logged.
+	//	If a particular CAD system does not support a particular output format (e.g. STEP AP203_E2) then:
+	//		1) this program (i.e. the overall program) does not return an error.  
+	//		2) the particular output format will not be created.
+	//		3) a warning message will be logged.
+	//		4) in the directory that would normally contain the exported data-exchange files, _FAILED_Data_Exchange.txt will be 
+	//			created and will explain that the particular CAD system does not support that export type.
 	//	In general, it is the responsibility of the CyPhy Test Bench developer to assure the format that is 
 	//	requested is supported by the particular CAD system.
 	virtual bool	 dataExchangeFormatSupported(const DataExchangeSpecification &in_DataExchangeSpecificationt) = 0;  

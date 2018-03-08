@@ -166,13 +166,7 @@ void ExportDataExchangeFiles_driver(
 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
 	{
 
-		if ( !modelOperations.dataExchangeFormatSupported(i) )
-		{
-			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "Data Exchange Format not supported for the particular CAD system, DataExchangeFormat: " 
-				<< DataExchangeFormat_string(i.dataExchangeFormat) << ",  DataExchangeVersion: " << DataExchangeVersion_string(i.dataExchangeVersion) <<
-				",  Model: " << in_ModelName;
-			continue;
-		}
+
 
 
 		MultiFormatString   outputPathAndDir_multi;
@@ -183,6 +177,28 @@ void ExportDataExchangeFiles_driver(
 																in_ModelType, 
 																outputPathAndDir_multi, 
 																outputFileName_multi);
+
+
+		if ( !modelOperations.dataExchangeFormatSupported(i) )
+		{
+			// Note -	We can use function DataExchangeFormat_string and DataExchangeVersion_string because CreateOutputDir_GetOutputDirFullPath_GetOutputFileName
+			//			would have thrown an exception if i.dataExchangeFormat or i.dataExchangeVersion were invalid.
+
+			std::stringstream errorMsg_temp;
+			errorMsg_temp << "Failed to create DataExchange file." <<  std::endl <<
+				"Data Exchange Format not supported for the particular CAD system, DataExchangeFormat: " << 
+				DataExchangeFormat_string(i.dataExchangeFormat) << ",  DataExchangeVersion: " << DataExchangeVersion_string(i.dataExchangeVersion) <<
+				",  Model: " << in_ModelName << std::endl <<
+				"modelOperations.dataExchangeFormatSupported() function returned that the format is not supported.";
+
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << errorMsg_temp;
+
+			std::ofstream DataExchangeNotSupported_file;
+			DataExchangeNotSupported_file.open ((std::string)outputPathAndDir_multi + "\\_FAILED_Data_Exchange.txt", std::ofstream::app);
+			DataExchangeNotSupported_file << errorMsg_temp.str();
+			DataExchangeNotSupported_file.close();
+			continue;
+		}
 
 
 		switch ( i.dataExchangeFormat )
