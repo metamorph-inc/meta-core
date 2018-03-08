@@ -1415,7 +1415,7 @@ void ModelOperationsCreo::addModelsToAssembly(
 
 
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 bool ModelOperationsCreo::applySingleModelConstraints( 
 				const std::string								&in_AssemblyComponentInstanceID,
 				const std::string								&in_ComponentIDToBeConstrained,		
@@ -1485,7 +1485,6 @@ bool	 ModelOperationsCreo::dataExchangeFormatSupported(const DataExchangeSpecifi
 	return 	formatSupported;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 void ModelOperationsCreo::exportDataExchangeFile_STEP(	void 								*in_ModelHandle_ptr,
 														e_CADMdlType							in_ModelType,
 														const DataExchangeSpecification		&in_DataExchangeSpecification,
@@ -1598,7 +1597,7 @@ void ModelOperationsCreo::exportDataExchangeFile_STEP(	void 								*in_ModelHan
 
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 void ModelOperationsCreo::exportDataExchangeFile_Stereolithography(	void 					*in_ModelHandle_ptr,
 															e_CADMdlType						in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
@@ -1617,21 +1616,6 @@ void ModelOperationsCreo::exportDataExchangeFile_Stereolithography(	void 					*i
 	// Write Data Exchange file (e.g. Stereolithography File)
 	int Arg_2 = 1;
 
-	std::string suffix = ".stl";
-
-	//std::string StepFileName_string;
-	MultiFormatString OutputFileName_string;
-	switch (in_ModelType)
-	{
-		case CAD_MDL_PART:
-			OutputFileName_string = (std::string)in_OutputFileName + "_prt" + suffix;
-			break;
-		case CAD_MDL_ASSEMBLY:
-			OutputFileName_string = (std::string)in_OutputFileName + "_asm" + suffix;
-			break;
-		default:
-			OutputFileName_string = (std::string)in_OutputFileName + suffix;
-	}
 
 	ProImportExportFile ExportFileType;
 
@@ -1651,7 +1635,7 @@ void ModelOperationsCreo::exportDataExchangeFile_Stereolithography(	void 					*i
 
 	//isis_ProOutputFileWrite(	p_Model,   // This function was deprecated as of Creo 3.0
 	isis_ProOutputFileMdlnameWrite(	in_ModelHandle_ptr,
-							OutputFileName_string,
+							in_OutputFileName,
 							ExportFileType,
 							NULL,
 							&Arg_2,
@@ -1679,31 +1663,14 @@ void ModelOperationsCreo::exportDataExchangeFile_Inventor(	void 							*in_Model
 	// Write Data Exchange file (e.g. Stereolithography File)
 	int Arg_2 = 1;
 
-	std::string suffix = ".iv";
-
-	//std::string StepFileName_string;
-	MultiFormatString OutputFileName_string;
-	switch (in_ModelType)
-	{
-		case CAD_MDL_PART:
-			OutputFileName_string = (std::string)in_OutputFileName + "_prt" + suffix;
-			break;
-		case CAD_MDL_ASSEMBLY:
-			OutputFileName_string = (std::string)in_OutputFileName + "_asm" + suffix;
-			break;
-		default:
-			OutputFileName_string = (std::string)in_OutputFileName + suffix;
-	}
 
 	ProImportExportFile ExportFileType;
 
-
 	ExportFileType = PRO_INVENTOR_FILE;
-		
-
+	
 	//isis_ProOutputFileWrite(	p_Model,   // This function was deprecated as of Creo 3.0
 	isis_ProOutputFileMdlnameWrite(	in_ModelHandle_ptr,
-							OutputFileName_string,
+							in_OutputFileName,
 							ExportFileType,
 							NULL,
 							&Arg_2,
@@ -1829,7 +1796,7 @@ void ModelOperationsCreo::exportDataExchangeFile_Parasolid(	void 							*in_Mode
 	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 									
 	isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();
-	isis::cad::ICADSession&            cADsession = cAD_Factory_ptr->getCADSession();
+	isis::cad::ICADSession&           cADsession = cAD_Factory_ptr->getCADSession();
 
 
 	cADsession.setCADWorkingDirectory(in_OutputDirectoryPath);
@@ -1845,7 +1812,6 @@ void ModelOperationsCreo::exportDataExchangeFile_Parasolid(	void 							*in_Mode
 
 
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 

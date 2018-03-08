@@ -546,9 +546,7 @@ public:
 																							throw (isis::application_exception) = 0;
 
 
-	
 
-		//exportDataExchangeFile_Parasolid
 
 };
 

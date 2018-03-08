@@ -32,6 +32,7 @@ void	 GetDataExchangeOutputDirectoryName(	const	DataExchangeSpecification		&in_D
 		default:
 			// Force this to be updated if new format is added.
 			std::stringstream errorString;
+			// WARNING - Do not call DataExchangeFormat_string in the following message. This could result in another exception being thrown.
 			errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_DataExchangeSpecification.dataExchangeFormat  <<
 				", which is an erroneous value. Allowed values are: " <<
 				"DATA_EXCHANGE_FORMAT_STEP   DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY   DATA_EXCHANGE_FORMAT_INVENTOR   DATA_EXCHANGE_FORMAT_PARASOLID   DATA_EXCHANGE_DXF";
@@ -68,6 +69,7 @@ void	 GetDataExchangeOutputFileName(	const	DataExchangeSpecification		&in_DataEx
 		default:
 			// Force this to be updated if new format is added.
 			std::stringstream errorString;
+			// WARNING - Do not call DataExchangeFormat_string in the following message. This could result in another exception being thrown.
 			errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_DataExchangeSpecification.dataExchangeFormat  <<
 				", which is an erroneous value. Allowed values are: " <<
 				"DATA_EXCHANGE_FORMAT_STEP   DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY   DATA_EXCHANGE_FORMAT_INVENTOR   DATA_EXCHANGE_FORMAT_PARASOLID   DATA_EXCHANGE_DXF";
@@ -145,7 +147,8 @@ void ExportDataExchangeFiles_driver(
 
 	isis::cad::IModelHandling&				modelHandling = cAD_Factory_ptr->getModelHandling();
 	isis::cad::ICADSession&					cADsession = cAD_Factory_ptr->getCADSession();	
-	isis::cad::IModelOperations&				modelOperations = cAD_Factory_ptr->getModelOperations();
+	isis::cad::IModelOperations&			modelOperations = cAD_Factory_ptr->getModelOperations();
+
 
 	void     *p_Model;
 
@@ -163,6 +166,15 @@ void ExportDataExchangeFiles_driver(
 	for each ( DataExchangeSpecification i in in_DataExchangeSpecifications )
 	{
 
+		if ( !modelOperations.dataExchangeFormatSupported(i) )
+		{
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "Data Exchange Format not supported for the particular CAD system, DataExchangeFormat: " 
+				<< DataExchangeFormat_string(i.dataExchangeFormat) << ",  DataExchangeVersion: " << DataExchangeVersion_string(i.dataExchangeVersion) <<
+				",  Model: " << in_ModelName;
+			continue;
+		}
+
+
 		MultiFormatString   outputPathAndDir_multi;
 		MultiFormatString	outputFileName_multi;
 		CreateOutputDir_GetOutputDirFullPath_GetOutputFileName( in_WORKING_DIR, 
@@ -172,11 +184,12 @@ void ExportDataExchangeFiles_driver(
 																outputPathAndDir_multi, 
 																outputFileName_multi);
 
+
 		switch ( i.dataExchangeFormat )
 		{
 			case DATA_EXCHANGE_FORMAT_STEP:
 
-				modelOperations.exportDataExchangeFile_STEP(					p_Model,
+				modelOperations.exportDataExchangeFile_STEP(				p_Model,
 																			in_ModelType,
 																			i,
 																			outputPathAndDir_multi,
@@ -226,6 +239,7 @@ void ExportDataExchangeFiles_driver(
 			default:
 				// Force this to be updated if new format is added.
 				std::stringstream errorString;
+				// WARNING - Do not call DataExchangeFormat_string in the following message. This could result in another exception being thrown.
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << i.dataExchangeFormat  <<
 					", which is an erroneous value. Allowed values are: " <<
 					"DATA_EXCHANGE_FORMAT_STEP   DATA_EXCHANGE_FORMAT_STEREOLITHOGRAPHY   DATA_EXCHANGE_FORMAT_INVENTOR   DATA_EXCHANGE_FORMAT_PARASOLID   DATA_EXCHANGE_DXF";

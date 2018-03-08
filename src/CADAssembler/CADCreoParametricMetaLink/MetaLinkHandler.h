@@ -47,7 +47,6 @@ For an example using this <b>handler</h> object see "meta-link-main.cpp".
 #include "cc_LoggerBoost.h"
 
 #include "gen/MetaLinkMsg.pb.h"
-#include "EventLoopMonitor.h"
 #include <queue>
 /* */
 

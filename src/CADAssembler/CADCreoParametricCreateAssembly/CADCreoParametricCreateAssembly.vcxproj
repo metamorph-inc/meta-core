@@ -174,7 +174,6 @@
     <ClCompile Include="Computations.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h" />
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
     <ClInclude Include="CFDAnalysis.h" />
     <ClInclude Include="FiniteElementAnalysis.h" />
