@@ -191,7 +191,9 @@ void ExportDataExchangeFiles_driver(
 				"       Model: " << in_ModelName << std::endl <<
 				"   modelOperations.dataExchangeFormatSupported() function returned that the format is not supported.";
 
-			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "qqqqq999" << errorMsg_temp;
+
+			// Must have .str() on errorMsg_temp.str(); otherwise only the address of errorMsg_temp will be logged.
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << errorMsg_temp.str();
 
 			std::ofstream DataExchangeNotSupported_file;
 			DataExchangeNotSupported_file.open ((std::string)outputPathAndDir_multi + "\\_FAILED_Data_Exchange.txt", std::ofstream::app);
