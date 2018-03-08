@@ -1474,7 +1474,7 @@ bool	 ModelOperationsCreo::dataExchangeFormatSupported(const DataExchangeSpecifi
 			{
 				case Y2013:
 					formatSupported = true;
-					formatSupported = false;   // Temp change for testing zzz
+					formatSupported = false;
   					break;	
 				default:
 					break;

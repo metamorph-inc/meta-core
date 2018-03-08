@@ -186,16 +186,16 @@ void ExportDataExchangeFiles_driver(
 
 			std::stringstream errorMsg_temp;
 			errorMsg_temp << "Failed to create DataExchange file." <<  std::endl <<
-				"Data Exchange Format not supported for the particular CAD system, DataExchangeFormat: " << 
-				DataExchangeFormat_string(i.dataExchangeFormat) << ",  DataExchangeVersion: " << DataExchangeVersion_string(i.dataExchangeVersion) <<
-				",  Model: " << in_ModelName << std::endl <<
-				"modelOperations.dataExchangeFormatSupported() function returned that the format is not supported.";
+				"   Data Exchange Format not supported for the particular CAD system." <<  std::endl <<
+				"       DataExchangeFormat: " << DataExchangeFormat_string(i.dataExchangeFormat) << "  DataExchangeVersion: " << DataExchangeVersion_string(i.dataExchangeVersion) << std::endl <<
+				"       Model: " << in_ModelName << std::endl <<
+				"   modelOperations.dataExchangeFormatSupported() function returned that the format is not supported.";
 
-			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << errorMsg_temp;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "qqqqq999" << errorMsg_temp;
 
 			std::ofstream DataExchangeNotSupported_file;
 			DataExchangeNotSupported_file.open ((std::string)outputPathAndDir_multi + "\\_FAILED_Data_Exchange.txt", std::ofstream::app);
-			DataExchangeNotSupported_file << errorMsg_temp.str();
+			DataExchangeNotSupported_file << errorMsg_temp.str() << std::endl;
 			DataExchangeNotSupported_file.close();
 			continue;
 		}
