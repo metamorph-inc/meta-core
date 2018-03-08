@@ -250,11 +250,12 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			// Log Part Copy/Renames
 			///////////////////////////
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** Begin Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "****************** if ( UniquelyNameAllCADModelInstances ) **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Modified Part Names for Analysis Purposes *****************";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
 			isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** End Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Modified Part Names for Analysis Purposes *****************";
 		}
 		
 
@@ -441,6 +442,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			//////////////////////////////////////////////
 			if (CompleteTheHierarchyForLeafAssemblies )
 			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin CompleteTheHierarchyForLeafAssemblies *****************";
+
 				//////////////////////////////////////////////
 				// Complete The Hierarchy For Leaf Assemblies
 				//////////////////////////////////////////////
@@ -455,11 +459,17 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//											cADComponentData_map );
 
 				isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
+
+
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates *****************";
 				modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 															assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 															NonCyPhyID_counter,
 															cADComponentData_map );
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates *******************";
 
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End CompleteTheHierarchyForLeafAssemblies *****************";
 			}		
 
 			
@@ -487,7 +497,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 					// Log Part Copy/Renames
 					///////////////////////////
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
-					isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Modified Part Names for Analysis Purposes *****************";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "**** if (CompleteTheHierarchyForLeafAssemblies && UniquelyNameAllCADModelInstances) ***";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Modified Part Names for Analysis Purposes *****************";
 					isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
 					isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel_FEA;
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";

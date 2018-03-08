@@ -571,6 +571,7 @@ void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSu
 				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																	throw (isis::application_exception)
 {
+
 		
 	for each ( const std::string &i in in_ListOfComponentInstanceIDsInTheAssembly )
 	{			
@@ -666,7 +667,9 @@ void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSu
 					in_out_CADComponentData_map[nonCyPhyComponentID.str()] = cADComponentData_temp;
 					in_out_CADComponentData_map[i].children.push_back(nonCyPhyComponentID.str());
 
-					if ( j.modelType == PRO_MDL_ASSEMBLY )
+					isis_LOG(lg, isis_FILE, isis_INFO) << "   Adding subordinate information, Modelname: " << cADComponentData_temp.name << ", modelType: " << CADMdlType_string(cADComponentData_temp.modelType);
+
+					if ( j.modelType == CAD_MDL_ASSEMBLY )
 					{
 							std::vector<std::string> listOfComponentIDs_temp;
 							listOfComponentIDs_temp.push_back(nonCyPhyComponentID.str());
@@ -679,6 +682,7 @@ void ModelOperationsCreo::forEachLeafAssemblyInTheInputXML_AddInformationAboutSu
 			}
 		}
 	}
+	
 }
 
 void ModelOperationsCreo::modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
