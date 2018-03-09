@@ -1838,11 +1838,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 					for (std::vector<AssemblyInterface::CadComponentMLData>::const_iterator it = cadComponentMLDataVector.begin(); it != cadComponentMLDataVector.end(); ++it)
 					{
 						std::string id = it->ID();
-						if (id[0] != '{')
-						{
-							id = "{"+id+"}";
-						}
-						try{
+						try {
 							CADComponentData &data = out_CADComponentData_map.at(id);
 							data.avmComponentId = it->AvmID();
 							vector<AssemblyInterface::ConnectorMLData> connectorMLDataVector = it->ConnectorMLData_kind_children();
