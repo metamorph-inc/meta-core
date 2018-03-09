@@ -1,6 +1,8 @@
 #include "ParametricParameters.h"
 #include <cc_CommonUtilities.h>
 #include <cc_CommonConstants.h>
+#include <cc_CommonStructures.h>
+#include "CommonFunctions.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -18,10 +20,12 @@ const int MAX_STRING_PARAMETER_LENGTH = 79;
 void SetParametricParameter(  
 				const std::string	&in_model_name,
 				ProMdl				*in_p_model, 
-				const std::string   in_ParameterName,
+				const std::string   &in_ParameterName,
 				//const std::string	in_ParameterType,
 				e_CADParameterType	in_ParameterType,
-				const std::string   in_ParameterValue)
+				const std::string   &in_ParameterValue,
+				const std::string   &in_ParameterUnits,
+				bool                is_mmKs)
 									throw (isis::application_exception)
 {
 
@@ -33,14 +37,12 @@ void SetParametricParameter(
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Name           "	<<  in_ParameterName;
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value          "	<<  in_ParameterValue;
 
-	
-
 	//typedef wchar_t	ProName[PRO_NAME_SIZE];
 	if ( in_ParameterName.size() >= PRO_NAME_SIZE )
 	{
 		char temp_char_array[ISIS_CHAR_BUFFER_LENGTH];
 		std::string err_str = "exception : Exceeded maximum number of characters. Parameter Name: "  + std::string(in_ParameterName) + ", Maximum allowed characters: " + itoa(PRO_NAME_SIZE - 1, temp_char_array, 10);
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;			
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;
 		throw isis::application_exception("C01001", err_str.c_str());
 	}
 
@@ -66,8 +68,40 @@ void SetParametricParameter(
 		switch ( in_ParameterType )
 		{
 			case CAD_FLOAT:
+				ProUnititem creo_parameter_units;
+				ProParameterValueWithUnitsGet(&ProParameter_struct, &ProParamvalue_struct, &creo_parameter_units);
 				ProParamvalue_struct.type = PRO_PARAM_DOUBLE;
 				ProParamvalue_struct.value.d_val = atof(in_ParameterValue.c_str());
+				if (is_mmKs == false && wcscmp(creo_parameter_units.name, L"") == 0)
+				{
+					std::string err_str = "warning : Parameter: " + in_ParameterName + " has no units specified and " + in_model_name +
+						" is not mmKs. The unit should be specified in Creo. and Relations>\"Set Relations to be sensitive to units of parameters and dimensions\" should be set";
+					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;
+				}
+
+				if (wcscmp(creo_parameter_units.name, L"") != 0 && in_ParameterUnits != "")
+				{
+					ProUnititem proUnit;
+					ProPath expr;
+					if (in_ParameterUnits.length() >= _countof(expr))
+					{
+						throw isis::application_exception("Units name '" + in_ParameterUnits + "' is too long");
+					}
+					ProStringToWstring(expr, const_cast<char*>(in_ParameterUnits.c_str()));
+					isis::isis_ProUnitCreateByExpression(*in_p_model, L"customunit", expr, &proUnit);
+					struct UnitCleanup {
+						ProUnititem &_proUnit;
+						UnitCleanup(ProUnititem &proUnit) : _proUnit(proUnit) { }
+
+						~UnitCleanup()
+						{
+							isis::isis_ProUnitDelete(&_proUnit);
+						}
+					} _cleanup(proUnit);
+					ProUnitConversion conversion = {};
+					isis::isis_ProUnitConversionCalculate(&proUnit, &creo_parameter_units, &conversion, expr);
+					ProParamvalue_struct.value.d_val = ProParamvalue_struct.value.d_val * conversion.scale + conversion.offset;
+				}
 
 				break;
 
@@ -104,16 +138,10 @@ void SetParametricParameter(
 				throw isis::application_exception(err_str.c_str());
 		}
 
-		isis::isis_ProParameterValueSet( &ProParameter_struct, &ProParamvalue_struct );
+		isis::isis_ProParameterValueWithUnitsSet(&ProParameter_struct, &ProParamvalue_struct, nullptr);
 
 		//std::cout << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
 		//std::clog << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
-
-		// Note - we are not using the units (i.e. k->CADValue().Units().present()).  If we were using units,
-		//        then ProUnitConversionGet() would probably be needed to compute the converstion factor.  Also,
-		//		  if the parameter units were set then they would be used for computing the scaling factor;
-		//		  otherwise, the module units would be used.
-
 	}
 	catch ( isis::application_exception& ex )
 	{
@@ -462,5 +490,34 @@ ProError SetParametricParameter(
 	return result;
 		
 }  // end ForceParametricParameter
+
+void ParametricParameter_WarnForPartUnitsMismatch(
+	isis::CADComponentData &in_cadata,
+	bool *out_is_mmKs)
+	throw (isis::application_exception)
+{
+	CADModelUnits default_units;
+	auto p_model = (ProMdl*)in_cadata.cADModel_ptr_ptr;
+	RetrieveUnits_withDescriptiveErrorMsg(in_cadata.cyphyInstanceId, in_cadata, default_units);
+	*out_is_mmKs =
+		(default_units.distanceUnit_ShortName == "mm") &&
+		(default_units.massUnit_ShortName == "kg") &&
+		(default_units.timeUnit_ShortName == "s");
+
+	ProModelitem item;
+	isis::isis_ProMdlToModelitem(*p_model, &item);
+	ProRelset relation_set;
+	ProError e = ProModelitemToRelset(&item, &relation_set);
+	isis_ProError_Throw("ProModelitemToRelset", e);
+	ProBool units_sensitive;
+	e = ProRelsetIsUnitsSensitive(&relation_set, &units_sensitive);
+	isis_ProError_Throw("ProRelsetIsUnitsSensitive", e);
+	if (*out_is_mmKs == false && units_sensitive == PRO_B_FALSE)
+	{
+		std::string err_str = "warning : Model: " + static_cast<const std::string&>(in_cadata.name) + " is not mmKs and relations are not sensitive to units."
+			" Relations>\"Set Relations to be sensitive to units of parameters and dimensions\" should be set";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;
+	}
+}
 
 } // end namespace isis

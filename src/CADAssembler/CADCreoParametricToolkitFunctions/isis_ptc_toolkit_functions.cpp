@@ -703,6 +703,16 @@ namespace isis
 		return err;
 	}
 
+	void isis_ProError_Throw(const char* func_name, ProError err)
+	{
+		if (err != PRO_TK_NO_ERROR)
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf(err_str, "exception : %s returned ProError: %s(%d)", func_name, ProToolKitError_string(err).c_str(), err);
+			throw isis::application_exception("C06999", err_str);
+		}
+	}
+
 	ProError isis_ProArrayAlloc ( int n_objs,
                                   int obj_size,
                                   int reallocation_size,
@@ -1451,23 +1461,24 @@ namespace isis
 	}
 
 
-	ProError isis_ProParameterValueSet(	ProParameter   *param, 
-										ProParamvalue  *proval )
-											throw(isis::application_exception)
+	ProError isis_ProParameterValueWithUnitsSet(ProParameter   *param,
+												ProParamvalue  *proval,
+												ProUnititem    *units)
+													throw(isis::application_exception)
 	{
 
-		ProError err = ProParameterValueSet ( param, proval );
+		ProError err = ProParameterValueWithUnitsSet ( param, proval, units );
 
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProParameterValueSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			sprintf( err_str, "exception : ProParameterValueWithUnitsSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
 			throw isis::application_exception("C06065",err_str);  
 		}
 		return err;
 	}
 
-	ProError isis_ProParameterCreate(	ProModelitem  *owner, 
+	ProError isis_ProParameterCreate(	ProModelitem  *owner,
 										const ProName        name, 
 										ProParamvalue *proval, 
 										ProParameter  *param )
@@ -1485,7 +1496,7 @@ namespace isis
 	}
 
 	ProError isis_ProParameterValueGet(	ProParameter   *param, 
-                                      ProParamvalue  *proval )
+										ProParamvalue  *proval )
 											throw(isis::application_exception)
 	{
 
@@ -1501,18 +1512,19 @@ namespace isis
 	}
 
 
-  	ProError isis_ProParameterScaledvalueSet(ProParameter   *param, 
-                                            ProParamvalue  *proval,
-                                            ProUnititem    *units)
+	ProError isis_ProUnitConversionCalculate(ProUnititem *from,
+		ProUnititem *to,
+		ProUnitConversion *conversion,
+		wchar_t *from_name)
 										throw(isis::application_exception)
 	{
 
-		ProError err = ProParameterScaledvalueSet ( param, proval, units );
+		ProError err = ProUnitConversionCalculate( from, to, conversion );
 
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProParameterScaledvalueSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			sprintf( err_str, "exception : ProUnitConversionCalculate returned ProError: %s(%d). Could not convert from %S to %S", ProToolKitError_string(err).c_str(), err, from_name, to->name);
 			throw isis::application_exception("C06068",err_str);  
 		}
 		return err;
@@ -1537,6 +1549,38 @@ namespace isis
 		return err;
 	}
 
+	ProError isis_ProUnitCreateByExpression(ProMdl			mdl,
+		const ProName   unit_name,
+		const ProPath	expression,
+		ProUnititem*	unit)
+		throw(isis::application_exception)
+	{
+
+		ProError err = ProUnitCreateByExpression(mdl, const_cast<wchar_t*>(unit_name), const_cast<wchar_t*>(expression), unit);
+
+		if (err != PRO_TK_NO_ERROR)
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf(err_str, "exception : ProUnitCreateByExpression returned ProError: %s(%d)", ProToolKitError_string(err).c_str(), err);
+			throw isis::application_exception("C06069", err_str);
+		}
+		return err;
+	}
+
+	ProError isis_ProUnitDelete(ProUnititem*	unit)
+		throw(isis::application_exception)
+	{
+
+		ProError err = ProUnitDelete(unit);
+
+		if (err != PRO_TK_NO_ERROR)
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf(err_str, "exception : ProUnitDelete returned ProError: %s(%d)", ProToolKitError_string(err).c_str(), err);
+			throw isis::application_exception("C06069", err_str);
+		}
+		return err;
+	}
 
 	ProError isis_ProMacroLoad(	wchar_t* macro )
 										throw(isis::application_exception)

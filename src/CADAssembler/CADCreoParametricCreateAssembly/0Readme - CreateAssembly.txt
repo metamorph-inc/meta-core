@@ -1103,6 +1103,8 @@ v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
 			exportDataExchangeFile_DXF
 			exportDataExchangeFile_Parasolid
 
+v1.5.26.0 	3/21/2018
+		Convert values from CyPhy for Creo parameters that have units defined
 
 Known Defects
 -------------

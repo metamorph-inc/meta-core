@@ -363,7 +363,7 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 void RetrieveUnits_withDescriptiveErrorMsg( 
 					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					isis::CADComponentData							&in_CADComponentData,
 					CADModelUnits									&out_CADModelUnits )
 											throw(isis::application_exception)
 
@@ -373,7 +373,7 @@ void RetrieveUnits_withDescriptiveErrorMsg(
 	try
 	{
 		RetrieveUnits(	//in_Factory,
-						in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl,
+						in_CADComponentData.cADModel_hdl,
 						out_CADModelUnits ); 
 
 	}
@@ -382,7 +382,7 @@ void RetrieveUnits_withDescriptiveErrorMsg(
 		std::stringstream errorString;
 		errorString << "Error retrieving model units:" <<  std::endl <<
 						"   ComponentInstanceID: " << in_ComponentInstanceID <<  std::endl <<
-						"   ModelName:           " << in_CADComponentData_map[in_ComponentInstanceID].name <<  std::endl <<
+						"   ModelName:           " << in_CADComponentData.name <<  std::endl <<
 						"   Error:               " << exc.what();
 		throw isis::application_exception(errorString.str());
 	}

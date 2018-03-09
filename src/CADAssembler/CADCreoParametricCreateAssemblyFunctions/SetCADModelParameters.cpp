@@ -28,6 +28,10 @@ void ApplyParametricParameters( std::list<std::string>                          
 
 		if ( cadata->parametricParametersPresent )
 		{
+			ProMdl* p_model = (ProMdl*)cadata->cADModel_ptr_ptr;
+			bool is_mmKs;
+			ParametricParameter_WarnForPartUnitsMismatch(*cadata, &is_mmKs);
+
 			for( std::list<CADParameter>::const_iterator p( cadata->parametricParameters.begin());
 			p != cadata->parametricParameters.end();
 			++ p )
@@ -40,7 +44,7 @@ void ApplyParametricParameters( std::list<std::string>                          
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->value:  " <<	p->value;
 				try 
 				{
-					SetParametricParameter( ModelNameWithSuffix, cadata->cADModel_ptr_ptr, p->name, p->type, p->value);
+					SetParametricParameter( ModelNameWithSuffix, cadata->cADModel_ptr_ptr, p->name, p->type, p->value, p->units, is_mmKs);
 
 				} catch (isis::application_exception &ex)
 				{

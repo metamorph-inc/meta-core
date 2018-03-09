@@ -164,6 +164,8 @@ namespace isis
 	extern ProError isis_ProMdlToModelitem (	ProMdl mdl, 
 										ProModelitem* p_model_item ) throw(isis::application_exception);
 
+	extern void isis_ProError_Throw(const char* func_name, ProError err);
+
 	extern ProError isis_ProArrayAlloc ( int n_objs,
                                   int obj_size,
                                   int reallocation_size,
@@ -343,8 +345,8 @@ namespace isis
 												ProParameter *param )
 													throw(isis::application_exception);
 
-	extern	ProError isis_ProParameterValueSet(	ProParameter   *param, 
-										ProParamvalue  *proval )
+	extern	ProError isis_ProParameterValueWithUnitsSet(	ProParameter   *param,
+										ProParamvalue  *proval, ProUnititem *units )
 											throw(isis::application_exception);
 
 	extern ProError isis_ProParameterCreate(	ProModelitem  *owner, 
@@ -357,9 +359,10 @@ namespace isis
                                       ProParamvalue  *proval )
 											throw(isis::application_exception);
 
-	extern 	ProError isis_ProParameterScaledvalueSet(ProParameter   *param, 
-                                            ProParamvalue  *proval,
-                                            ProUnititem    *units)
+	extern 	ProError isis_ProUnitConversionCalculate(ProUnititem *from,
+                                            ProUnititem *to,
+                                            ProUnitConversion *conversion,
+											wchar_t *from_name)
 										throw(isis::application_exception);
 
 	 extern	ProError isis_ProUnitInit(	ProMdl        mdl,
@@ -367,7 +370,16 @@ namespace isis
 										ProUnititem*  unit)
 										throw(isis::application_exception);
 
-	 extern	ProError isis_ProSolidMassPropertyGet(ProSolid solid,
+	extern	ProError isis_ProUnitCreateByExpression(ProMdl			mdl,
+													const ProName   unit_name,
+													const ProPath	expression,
+													ProUnititem*	unit)
+													throw(isis::application_exception);
+
+	extern	ProError isis_ProUnitDelete(ProUnititem*	unit)
+		throw(isis::application_exception);
+
+	extern	ProError isis_ProSolidMassPropertyGet(ProSolid solid,
                                           const ProName  csys_name,
                                           ProMassProperty* mass_prop )
 										throw(isis::application_exception);
