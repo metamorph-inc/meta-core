@@ -128,7 +128,7 @@ namespace isis
 	void RetrieveUnits_withDescriptiveErrorMsg( 
 				//cad::CadFactoryAbstract							&in_Factory,
 				const std::string								&in_ComponentInstanceID,
-				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+				isis::CADComponentData							&in_CADComponentData,
 				CADModelUnits									&out_CADModelUnits  )
 													throw(isis::application_exception);
 

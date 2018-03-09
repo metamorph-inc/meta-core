@@ -634,7 +634,7 @@ void Add_Subassemblies_and_Parts(
 				if( err == PRO_TK_E_NOT_FOUND)
 					 isis::isis_ProParameterCreate(&assembled_feat_handle, name, &value, &param);
 				else
-					 isis::isis_ProParameterValueSet(&param, &value);
+					 isis::isis_ProParameterValueWithUnitsSet(&param, &value, nullptr);
 
 			}
 

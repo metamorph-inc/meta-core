@@ -1495,7 +1495,7 @@ void NewTraverser::EvaluateCADParameters()
 				}
 
 			}
-			// if unit is not specified, assume mm kg s deg
+			// if unit is not specified, assume mm kg s deg (mmKs)
 			if (cyphy_unit == Udm::null && unit_name == "")
 			{
 				auto lengthRep = UnitUtil::DimensionRep::zeroes;
@@ -1521,6 +1521,8 @@ void NewTraverser::EvaluateCADParameters()
 
 				auto angleRep = UnitUtil::DimensionRep::zeroes;
 				// FIXME: default to deg
+
+				ci->Unit() = unit_name;
 			}
 			if (cyphy_unit == Udm::null && unit_name != "")
 			{

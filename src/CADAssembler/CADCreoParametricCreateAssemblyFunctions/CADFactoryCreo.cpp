@@ -1352,7 +1352,7 @@ void ModelOperationsCreo::retrieveCADModelUnits(
 
 	RetrieveUnits_withDescriptiveErrorMsg(	//in_Factory,
 											in_ComponentInstanceID,
-											in_CADComponentData_map,  
+											in_CADComponentData_map[in_ComponentInstanceID],
 											out_CADModelUnits );
 
 

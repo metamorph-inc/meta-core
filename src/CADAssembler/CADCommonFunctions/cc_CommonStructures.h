@@ -303,6 +303,7 @@ namespace isis
 		MultiFormatString		name;   /**<  Parameter name. */
 		e_CADParameterType		type;   /**<  CAD_FLOAT, CAD_INTEGER, CAD_BOOLEAN */ 
 		MultiFormatString		value;  /**<   Parameter value (e.g 1.4, 34...) */
+		MultiFormatString		units;
 
 		CADParameter() : name(CAD_NAME_SIZE - 1), value(CAD_LINE_SIZE-1){}
 

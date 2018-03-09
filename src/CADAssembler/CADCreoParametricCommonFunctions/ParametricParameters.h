@@ -12,6 +12,7 @@
 #include <isis_application_exception.h>
 #include <isis_ptc_toolkit_functions.h>
 #include <isis_include_ptc_headers.h>
+#include "cc_CommonStructures.h"
 #include <CreoStringToEnumConversions.h>
 #include <string>
 
@@ -74,10 +75,12 @@ namespace isis
 void SetParametricParameter(  
 				const std::string	&in_model_name,
 				ProMdl				*in_p_model, 
-				const std::string   in_ParameterName,
+				const std::string   &in_ParameterName,
 				//const std::string	in_ParameterType,
 				e_CADParameterType	in_ParameterType,
-				const std::string   in_ParameterValue)
+				const std::string   &in_ParameterValue,
+				const std::string   &in_ParameterUnits,
+				bool                is_mmKs)
 									throw (isis::application_exception);
 
 
@@ -159,6 +162,10 @@ ProError SetParametricParameter(
 
 
 
+void ParametricParameter_WarnForPartUnitsMismatch(
+	isis::CADComponentData &in_cadata,
+	bool *out_is_mmKs)
+	throw (isis::application_exception);
 
 } // End namespace isis
 

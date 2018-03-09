@@ -47,6 +47,8 @@ extern "C"
 #include <ProFit.h>
 #include <ProIntf3Dexport.h>
 #include <ProSurface.h>
+#include <ProMdlUnits.h>
+#include <ProRelSet.h>
 //#include <TestError.h>
 }
 
