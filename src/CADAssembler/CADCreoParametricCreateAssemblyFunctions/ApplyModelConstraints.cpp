@@ -4078,6 +4078,8 @@ bool ApplySingleModelConstraints_Creo(
 													throw (isis::application_exception)
 {
 
+	// 3/13/2018 - WARNING - The following assignment does not work.  It appears that the assignment operator does not perform 
+	// a deep assignment throughout all sub structures, sub vectors...
 	//ConstraintDefinition constraintDefinition = in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef;
 
 

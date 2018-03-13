@@ -1088,7 +1088,7 @@ v1.5.24.0 	2/8/2018 CAD_035_Add_More_Generic_CAD_Interfaces
 		retrievePointCoordinates
 		retrieveMaterialName
 
-v1.5.25.0 	3/8/2018 CAD_036_Add_More_Generic_CAD_Interfaces
+v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
 		Changed the naming of exported DXF files.  Added the _asm, _prt (e.g. <model_name>_asm.dxf,
 		<model_name>_asm.dxf).  Discussed the DXF naming change with the developer that used 
 		dxf files, and he said Test Benches that exported DXF file are not not being used going forward. 

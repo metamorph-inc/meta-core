@@ -447,7 +447,7 @@ public:
 	//		b)	determine the transformation to the part in space.
 	//		c)	remove the constraints
 	//		d)	apply the transformation
-	//		d)	apply the constraints without the guide
+	//		e)	apply the constraints without the guide
 	//
 	//	if guide is not present:
 	//		a) apply the constraints
