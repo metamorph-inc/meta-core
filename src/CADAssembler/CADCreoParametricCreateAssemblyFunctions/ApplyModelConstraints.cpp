@@ -4078,7 +4078,7 @@ bool ApplySingleModelConstraints_Creo(
 													throw (isis::application_exception)
 {
 
-	ConstraintDefinition constraintDefinition = in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef;
+	//ConstraintDefinition constraintDefinition = in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef;
 
 
 	ProSolid* assembly_model_handle = reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl);
@@ -4096,7 +4096,8 @@ bool ApplySingleModelConstraints_Creo(
 	std::vector<PerSetConstraintDefinition_2>     perSetConstraintDefinitions;
 
 	Populate_PerSetConstraintDefinitions(	in_ComponentIDToBeConstrained,		
-											constraintDefinition,
+											//constraintDefinition,
+											in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef,
 											in_CADComponentData_map,
 											perSetConstraintDefinitions );
 
