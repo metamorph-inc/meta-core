@@ -3,7 +3,7 @@ Opens an xme, runs AddOns (to refresh libraries), then saves the xme
 
 After updating a library, run on all xmes under META\test\InterchangeTest or regression tests fail
 cd test\InterchangeTest
-find -iname *.xme -exec c:\python27\python.exe ..\..\meta\refresh_xme_libraries.py "{}" ;
+find -iname *.xme | xargs -d \n -n 1 -P 5 c:\python27\python.exe ..\..\meta\refresh_xme_libraries.py
 For merge conflict, take tf and run this after:
 svn status -q | grep xme | sed s/........// | sed s!\\!/!g | xargs -n 1 c:\python27\python.exe ..\..\meta\refresh_xme_libraries.py
 """
