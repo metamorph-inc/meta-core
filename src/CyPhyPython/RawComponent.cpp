@@ -59,6 +59,13 @@ struct RAIIFreeLibrary
 STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,  
 									IMgaFCOs *selectedobjs,  long param) 
 {
+	bool quiet_mode = false;
+	auto _quiet_mode_it = componentParameters.find(_bstr_t(L"_quiet_mode"));
+	if (_quiet_mode_it != componentParameters.end() && _quiet_mode_it->second.vt == VT_BOOL && _quiet_mode_it->second.boolVal == VARIANT_TRUE)
+	{
+		quiet_mode = true;
+	}
+
 	CComPtr<IMgaProject>ccpProject(project);
     long status = 0;
     ccpProject->get_ProjectStatus(&status);
@@ -191,13 +198,19 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 				}
 			}
 		}
-		GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
+		if (quiet_mode == false)
+		{
+			GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
+		}
 		GMEConsole::Console::gmeoleapp = 0;
 		ThrowComError(E_FAIL, _bstr_t(e.what()));
 	}
 	catch (std::exception& e)
 	{
-		GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
+		if (quiet_mode == false)
+		{
+			GMEConsole::Console::Error::writeLine(html_encode<char>(e.what()));
+		}
 		GMEConsole::Console::gmeoleapp = 0;
 		ThrowComError(E_FAIL, _bstr_t(e.what()));
 	}

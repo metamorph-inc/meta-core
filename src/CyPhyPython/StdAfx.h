@@ -38,6 +38,7 @@ std::wstring html_encode(const std::basic_string<char_type> & data) {
 		case '\'': buffer.append(L"&apos;");      break;
 		case '<':  buffer.append(L"&lt;");        break;
 		case '>':  buffer.append(L"&gt;");        break;
+		case '\n': buffer.append(L"<br/>");       break;
 		default:   buffer.append((size_t)1, static_cast<char_type>(data[pos]));  break;
 		}
 	}

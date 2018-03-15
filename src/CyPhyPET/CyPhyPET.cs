@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using CyPhyMasterInterpreter.Rules;
 using AVM.DDP;
+using System.Security;
 
 namespace CyPhyPET
 {
@@ -1275,7 +1276,7 @@ namespace CyPhyPET
             }
             catch (Exception e)
             {
-                console.Error.WriteLine(e.Message);
+                console.Error.WriteLine(SecurityElement.Escape(e.Message).Replace("\n", "<br/>"));
             }
             finally
             {
@@ -1451,6 +1452,7 @@ namespace CyPhyPET
             var fcos = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
 
             cyPhyPython.ComponentParameter["openmdao_py"] = filename;
+            cyPhyPython.ComponentParameter["_quiet_mode"] = true;
 
             cyPhyPython.InvokeEx(obj.Impl.Project, (MgaFCO)obj.Impl, fcos, 128);
 
