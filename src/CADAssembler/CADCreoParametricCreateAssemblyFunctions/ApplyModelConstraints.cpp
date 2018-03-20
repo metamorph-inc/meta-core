@@ -12,6 +12,7 @@
 #include "cc_AssemblyOptions.h"
 #include "DatumRefResolver.h"
 #include "cc_GraphicsFunctions.h"
+#include <cc_ApplyModelConstraints.h>
 #include "JointCreo.h"
 
 /*
@@ -44,7 +45,7 @@ Notes:
 
 	if ( !added_model_defined  &&  ( l->ComponentID() == i->ComponentID() || 
 		 l->ComponentID() != Assembly_ComponentID))   // Note would have to pass Assembly_ComponentID
-													  // into ApplyModelConstraints(…)
+													  // into ApplyListedModelsConstraints(…)
 
 	This approach would be computationally faster but would not catch the error condition due to 
 	the XML containing incorrect data.  The current approach results in an exception if the 
@@ -71,10 +72,10 @@ struct ContraintFeatureDefinition
 	list<int>				added_model_path_list;   // list of Creo feature IDs leading to the part/assembly
 	ProType					pro_datum_type;			// enum PRO_SURFACE, PRO_AXIS
 	ProName					base_model_datum_name;	// ASM_RIGHT, A_1..
-	ProDatumside			base_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	ProDatumside				base_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 	ProName					added_model_datum_name;	// RIGHT, A23 ..
-	ProDatumside			added_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
-	ProAsmcompConstrType	constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+	ProDatumside				added_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
+	ProAsmcompConstrType		constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 	double					offset_between_datums;	// This is currently not used; would only be used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 
 	int						setID;
@@ -103,7 +104,7 @@ struct ContraintFeatureDefinition_2
 	ProDatumside			base_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
 	ProName					added_model_datum_name;	// RIGHT, A23 ..
 	ProDatumside			added_model_datum_side;	// enum PRO_DATUM_SIDE_YELLOW (SIDE_A), PRO_DATUM_SIDE_RED (SIDE_B), PRO_DATUM_SIDE_NONE
-	ProAsmcompConstrType	constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
+	ProAsmcompConstrType	 constraint_type;		// enum PRO_ASM_ALIGN, PRO_ASM_ALIGN_OFF...
 	double					offset_between_datums;	// This is currently not used; would only be used if in_constraint_type == PRO_ASM_ALIGN_OFF or PRO_ASM_MATE_OFF
 	bool					flip_orientation;		// This applies to axes and would be set if the initial constraint 
 													// resulted in an insolvent constraint. For example, if the start and end points of two
@@ -133,7 +134,7 @@ struct PerSetConstraintDefinition
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void SortOrderBasedOnJointType( e_CADJointType			in_JointType,
-								std::vector<ProType>	&out_SortOrder_vector )
+								std::vector<ProType>		&out_SortOrder_vector )
 {
 	out_SortOrder_vector.clear();
 
@@ -2841,6 +2842,7 @@ void PopulateOneConstraintInConstraintStructure(
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+/***
 bool ComponentIDChildOf(	const string &in_ChildID,
 							const string &in_ParentID,
 							std::map<string, isis::CADComponentData> &in_CADComponentData_map )
@@ -2872,7 +2874,7 @@ bool ComponentIDChildOf(	const string &in_ChildID,
 	//clog << std::endl << "   return found:  "  << found;
 	return found;
 }
-
+**/
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -4069,17 +4071,17 @@ void CheckAxesAlignments_FlipOrientationIndicatorAsNecessary(
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool Apply_CADDatum_ModelConstraints_2( 
-				//cad::CadFactoryAbstract						&in_Factory,
-				//ProSolid									&in_assembly_model,   // This ProSolid is modified by this function.
-				//																  // The modification is to add constraints to the assembly
-				//																  // to position a part or sub-assembly.
+bool ApplySingleModelConstraints_Creo( 
 				const std::string							&in_AssemblyComponentID,
 				const std::string							&in_ComponentIDToBeConstrained,		
-				const ConstraintDefinition					&in_ConstraintDefinition,
-				std::map<string, isis::CADComponentData>	&in_CADComponentData_map )
+				std::map<string, isis::CADComponentData>		&in_CADComponentData_map )
 													throw (isis::application_exception)
 {
+
+	// 3/13/2018 - WARNING - The following assignment does not work.  It appears that the assignment operator does not perform 
+	// a deep assignment throughout all sub structures, sub vectors...
+	//ConstraintDefinition constraintDefinition = in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef;
+
 
 	ProSolid* assembly_model_handle = reinterpret_cast<ProSolid*>(&in_CADComponentData_map[in_AssemblyComponentID].cADModel_hdl);
 
@@ -4096,7 +4098,8 @@ bool Apply_CADDatum_ModelConstraints_2(
 	std::vector<PerSetConstraintDefinition_2>     perSetConstraintDefinitions;
 
 	Populate_PerSetConstraintDefinitions(	in_ComponentIDToBeConstrained,		
-											in_ConstraintDefinition,
+											//constraintDefinition,
+											in_CADComponentData_map[in_ComponentIDToBeConstrained].constraintDef,
 											in_CADComponentData_map,
 											perSetConstraintDefinitions );
 
@@ -5109,7 +5112,7 @@ void Apply_CADModelInterface_ModelConstraints(
 ***********/
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /*  KEEP for the example switch switch( FeatureInterfaceType_enum )
-void ApplyModelConstraints( 
+void ApplyListedModelsConstraints( 
 			ProSolid	 *in_assembly_model,
 			AssemblyType::CADComponent_type::CADComponent_const_iterator in_Begin,
 			AssemblyType::CADComponent_type::CADComponent_const_iterator in_End,
@@ -5143,90 +5146,10 @@ void ApplyModelConstraints(
 
 		}  // End for ( AssemblyType::CADComponent_type::CADComponent_const_iterator i(++in_Begin); i != in_End; ++i )
 
-} // End ApplyModelConstraints
+} // End ApplyListedModelsConstraints
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool ApplyModelConstraints( 
-			//cad::CadFactoryAbstract						&in_Factory,
-			//ProSolid									*in_assembly_model,
-			const std::string							&in_AssemblyComponentID,
-			const std::list<std::string>				&in_ComponentIDsToBeConstrained, 
-			bool										in_AllowUnconstrainedModels,
-			std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-														// Provide for the case where the first assembled part does not have
-														// the datums front, top, and right defined. 
-			//bool										in_IgnoreGuides,
-			bool										in_FirstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound )  
-														
-										throw (isis::application_exception)
-{
-	bool fail = false;
-	
-	try
-	{
-		int count = 0;
-		for ( std::list<std::string>::const_iterator i(in_ComponentIDsToBeConstrained.begin()); 
-			  i != in_ComponentIDsToBeConstrained.end(); ++i, ++count )
-		{
 
-			//std::cout << std::endl << "*** in_AllowUnconstrainedModels: " << in_AllowUnconstrainedModels;
-			//std::cout << std::endl << "*** Number of Constraints:       " << in_CADComponentData_map[*i].constraintDef.constraints.size();
-
-			if ( in_AllowUnconstrainedModels && in_CADComponentData_map[*i].constraintDef.constraints.size() == 0 )
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Unconstrained";
-				continue;
-			}
-			if ( in_CADComponentData_map[*i].constraintDef.constraints.size() == 0 )
-			{
-				std::stringstream errorString;
-				errorString <<
-					"Unconstrained Component, Component Instance ID: " <<  in_CADComponentData_map[*i].componentID << "  Component Name: " << in_CADComponentData_map[*i].name;
-				throw isis::application_exception("C04002",errorString.str().c_str());			
-			}
-			
-			try
-			{
-
-				//bool stop = Apply_CADDatum_ModelConstraints(	in_Factory, 
-				//									*in_assembly_model,
-				//									*i,
-				//									in_CADComponentData_map[*i].constraintDef, 
-				//									in_CADComponentData_map,
-				//									in_IgnoreGuides);	
-				bool stop = Apply_CADDatum_ModelConstraints_2(//	in_Factory, 
-													//*in_assembly_model,
-													in_AssemblyComponentID,
-													*i,
-													in_CADComponentData_map[*i].constraintDef, 
-													in_CADComponentData_map );		
-				if (stop)
-				{
-					fail = true;
-					break;
-				}
-			}
-			catch (...)
-			{
-				if ( count == 0 && in_FirstComponentToBePositionedAsIntiiallyPlaced_IfDatumsCannotBeFound)
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
-				}
-				else
-				{
-					throw;
-				}
-			}  // END try - Catch
-			isis_LOG(lg, isis_FILE, isis_INFO) << "      "  << 	in_CADComponentData_map[*i].name << "::Coordinate System --> Assembly Coordinate System";
-		}
-	}
-	catch (...)
-	{
-		//isis::isis_ProMdlSave( &in_assembly_model);
-		throw;
-	}
-	return fail;
-} // End ApplyModelConstraints_2
 
 // This function sets the selections in the ContraintFeatureDefinition structure
 // These are used many times and it's inefficient to 

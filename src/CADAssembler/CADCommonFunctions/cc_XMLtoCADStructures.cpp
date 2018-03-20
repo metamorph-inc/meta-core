@@ -1359,7 +1359,7 @@ void PopulateAnalyses (	 const AssemblyInterface::Analyses &in_Analyses_FromXML,
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-void PopulateProEAssemblyStructures (	AssemblyInterface::Assemblies    &in_Assemblies_ptr,
+void PopulateCADAssemblyStructures (	AssemblyInterface::Assemblies    &in_Assemblies_ptr,
 										CADAssemblies					 &out_Assemblies,
 										std::map<std::string, CADComponentData> &out_CADComponentData_map )
 													throw (isis::application_exception)
@@ -1644,7 +1644,7 @@ void FromXMLFile_PopulateCADComponentAssemblyAndMap(
 			// Populate Assembly Structures
 			/////////////////////////////////
 
-			isis::PopulateProEAssemblyStructures ( Assemblies_ptr, out_CADComponentAssemblies, out_CADComponentData_map );
+			isis::PopulateCADAssemblyStructures ( Assemblies_ptr, out_CADComponentAssemblies, out_CADComponentData_map );
 
 			/////////////////////////
 			// Log Assembly Info

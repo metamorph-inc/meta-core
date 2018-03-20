@@ -30,11 +30,15 @@ namespace isis
 		void*    owner;   					// ProMdl owner; where typedef void* ProMdl;
 	};
 
-	const int CAD_NAME_SIZE = 32;	// This is the same size as PRO_NAME_SIZE, which means the max model name is 31 characters.  The 32nd character is a null terminator.
-									// In general, other CAD systems allow longer names, but we probably should stick to the shorter Creo name limitation so that we can
-									// build the same CyPhy model using multiple CAD systems.
+	const int CAD_NAME_SIZE = 32;	 // This is the same size as PRO_NAME_SIZE, which means the max model name is 31 characters.  The 32nd character is a null terminator.
+									 // In general, other CAD systems allow longer names, but we probably should stick to the shorter Creo name limitation so that we can
+									 // build the same CyPhy model using multiple CAD systems.
 
-	const int CAD_LINE_SIZE = 81;   // Same comment as for CAD_NAME_SIZE but applies to PRO_LINE_SIZE.
+
+	const int CAD_PATH_SIZE = 260;   // This is the same size as PRO_PATH_SIZE
+
+	const int CAD_LINE_SIZE = 81;    // Same comment as for CAD_NAME_SIZE but applies to PRO_LINE_SIZE.
+
 
 	typedef std::list<int> IntList;
 

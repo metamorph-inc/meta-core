@@ -1087,7 +1087,22 @@ v1.5.24.0 	2/8/2018 CAD_035_Add_More_Generic_CAD_Interfaces
 		Made the CadFactory a global singleton. Added abstract functions:
 		retrievePointCoordinates
 		retrieveMaterialName
+
+v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
+		Changed the naming of exported DXF files.  Added the _asm, _prt (e.g. <model_name>_asm.dxf,
+		<model_name>_asm.dxf).  Discussed the DXF naming change with the developer that used 
+		dxf files, and he said Test Benches that exported DXF file are not not being used going forward. 
 		
+		Added the abstract functions:
+			addModelsToAssembly
+			applySingleModelConstraints
+			dataExchangeFormatSupported
+			exportDataExchangeFile_STEP
+			exportDataExchangeFile_Stereolithography
+			exportDataExchangeFile_Inventor
+			exportDataExchangeFile_DXF
+			exportDataExchangeFile_Parasolid
+
 
 Known Defects
 -------------

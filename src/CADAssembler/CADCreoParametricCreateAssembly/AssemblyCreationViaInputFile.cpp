@@ -6,7 +6,7 @@
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
 #include <cc_Metrics.h>
-#include <DataExchange.h>
+#include <cc_DataExchange.h>
 #include <cc_MultiFormatString.h>
 #include <CommonFunctions.h>    // Work on this one
 #include <SurvivabilityAnalysis.h>
@@ -250,11 +250,12 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			// Log Part Copy/Renames
 			///////////////////////////
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** Begin Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "****************** if ( UniquelyNameAllCADModelInstances ) **********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Modified Part Names for Analysis Purposes *****************";
 			isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
 			isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << isis_EOL << "************** End Modified Part Names for Analysis Purposes *****************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "************** End Modified Part Names for Analysis Purposes *****************";
 		}
 		
 
@@ -351,8 +352,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		isis::MultiFormatString workingDir_MultiFormat(workingDirector, in_MaxCADPathLength);
 
 		//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
-		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 		cADsession.setCADWorkingDirectory(workingDir_MultiFormat);
+		isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 
 		// Copy template model to the working directory
 		isis::CopyFileIsis( in_templateFile_PathAndFileName,  workingDirector );
@@ -441,6 +442,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			//////////////////////////////////////////////
 			if (CompleteTheHierarchyForLeafAssemblies )
 			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin CompleteTheHierarchyForLeafAssemblies *****************";
+
 				//////////////////////////////////////////////
 				// Complete The Hierarchy For Leaf Assemblies
 				//////////////////////////////////////////////
@@ -455,11 +459,17 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//											cADComponentData_map );
 
 				isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
+
+
+				isis_LOG(lg, isis_FILE, isis_INFO) << "";
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates *****************";
 				modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
 															assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 															NonCyPhyID_counter,
 															cADComponentData_map );
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates *******************";
 
+				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End CompleteTheHierarchyForLeafAssemblies *****************";
 			}		
 
 			
@@ -487,7 +497,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 					// Log Part Copy/Renames
 					///////////////////////////
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
-					isis_LOG(lg, isis_FILE, isis_INFO)  << "************** Begin Modified Part Names for Analysis Purposes *****************";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "**** if (CompleteTheHierarchyForLeafAssemblies && UniquelyNameAllCADModelInstances) ***";
+					isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin Modified Part Names for Analysis Purposes *****************";
 					isis_LOG(lg, isis_FILE, isis_INFO) << "From_Part_Name   To_Part_Name";
 					isis_LOG(lg, isis_FILE, isis_INFO) << fromModel_ToModel_FEA;
 					isis_LOG(lg, isis_FILE, isis_INFO) << "";
@@ -585,8 +596,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 						isis::MultiFormatString scratchFEADir_MultiFormat(scratchFEADir, in_MaxCADPathLength);
 						//isis::setCreoWorkingDirectory( scratchFEADir_MultiFormat );
-						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
 						cADsession.setCADWorkingDirectory(scratchFEADir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << scratchFEADir_MultiFormat;
+
 
 
 						isis::isis_ProMdlSave(cADComponentData_map[i->assemblyComponentID].cADModel_hdl);
@@ -595,8 +607,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 						// Change back to the working dir
 						//isis::setCreoWorkingDirectory( workingDir_MultiFormat );
-						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
 						cADsession.setCADWorkingDirectory(workingDir_MultiFormat );
+						isis_LOG(lg, isis_FILE, isis_INFO)	<< "setCADWorkingDirectory: " << workingDir_MultiFormat;
+
 					}
 
 
@@ -1181,7 +1194,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//std::cout << std::endl << "Exporting STEP file for " + unusedComp->name + ", this could take several seconds...";
 				isis::ExportDataExchangeFiles(	unusedComp->componentID,
 												unusedComp->name,
-												ProMdlType_enum(unusedComp->modelType),
+												//ProMdlType_enum(unusedComp->modelType),
+												unusedComp->modelType,
 												unusedComp->geometryRepresentation,
 												workingDirector,
 												cADComponentAssemblies.DataExchangeSpecifications, true );

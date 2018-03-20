@@ -34,9 +34,6 @@
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DataExchange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Computations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
     <ClInclude Include="ISISVersionNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataExchange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Computations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,9 +76,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GlobalModelData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CADCreoParametricCommonFunctions\EventLoopMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">

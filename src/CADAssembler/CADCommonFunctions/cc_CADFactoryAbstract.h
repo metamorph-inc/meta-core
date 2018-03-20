@@ -40,7 +40,7 @@ public:
 	Given a set of constraints infer the joint.
 	*/
 	virtual std::vector<Joint::pair_t>  extract_joint_pair_vector
-		(const std::string in_component_id,
+		(const std::string in_component_instance_id,
 		 std::vector<ConstraintPair> in_component_pair_vector,
 		 std::map<std::string, isis::CADComponentData> &	in_CADComponentData_map)
 		 = 0;
@@ -63,6 +63,8 @@ public:
 
 
 class ICADSession {
+protected:
+	MultiFormatString cADWorkingDirectory;
 public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
@@ -70,15 +72,33 @@ public:
 	virtual void startCADProgram( const std::string &in_StartCommand ) const throw (isis::application_exception) = 0;
 	virtual void stopCADProgram( )  const throw (isis::application_exception) = 0;
 
-	// The CAD session must have been started before calling this function.  This function retreives the version
+	// The CAD session must have been started before calling this function.  This function retrieves the version
 	// number of the current CAD session.
-	virtual void getCADProgramVersion(	bool	&out_IntVersionNumber_Set,  
+	virtual void getCADProgramVersion(	bool		&out_IntVersionNumber_Set,  
 										int		&out_IntVersionNumber, 
-										bool	&out_FloatVersionNumber_Set,
+										bool		&out_FloatVersionNumber_Set,
 										double  &out_FloatVersionNumber )  const throw (isis::application_exception) = 0;
 
-	// For Creo, the following function is not thread safe.
+	// The working directory is passed in as a command line argument to the CreateAssemble... exe.
+	// cc (CAD Common) functions automatically call setCADWorkingDirectory.  setCADWorkingDirectory must persist the command line 
+	// argument in ICADSession::cADWorkingDirectory.  Failure to persist this value will cause an exception when getCADWorkingDirectory
+	// is invoked.
+	//
+	// For Creo setCADWorkingDirectory does:
+	//	1)	saves in_MultiFormatString to ICADSession::cADWorkingDirectory.  This is so other functions can retrieve it via
+	//		getCADWorkingDirectory
+	//	2)  call the Creo toolkit API to set the working directory.  This is because Creo has the concepty of a working 
+	//		directroy which must be set.  Models (parts, assemblies, STEP files...) are save to this working directory. 
+	//
+	// Other CAD systems may not have the concept of setting a working directory.  Other systems may simply prompt
+	// or allow the user to specify where to  save the models.  If that is the case, then setCADWorkingDirectory should
+	// only set ICADSession::cADWorkingDirectory.  Use getCADWorkingDirectory to determine where to save the model.
 	virtual void setCADWorkingDirectory ( const MultiFormatString &in_MultiFormatString ) throw (isis::application_exception) = 0;
+
+	// There is NO NEED to OVERRIDE this function.  There is a default implementation that returns ICADSession::cADWorkingDirectory.
+	// ICADSession::cADWorkingDirectory must be set by setCADWorkingDirectory.  If this function is called prior to calling
+	// setCADWorkingDirectory then application_exception will be thown.
+	virtual MultiFormatString getCADWorkingDirectory () throw (isis::application_exception);
 
 
 	// Description:
@@ -165,10 +185,26 @@ public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
 
-	// out_RetrievedModelHandle handle is an in memory handle to the model
-	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,  // model name without the suffix.  e.g  1234567  not 1234567.prt
-									e_CADMdlType 						in_ModelType,      // CAD_MDL_ASSEMBLY CAD_MDL_PART,
+	//	out_RetrievedModelHandle handle is an in memory handle to the model
+	//	This function is useful for the case where a simplified represenations is not needed. 
+	//	For example, reading a model (from the component library) and saving it to the current 
+	//  working directory.  This example is equivalent to copying a model.
+	//	This function is also used for unassembled components, which do not appear in in_CADComponentData_map
+	virtual void cADModelRetrieve(	const isis::MultiFormatString		&in_ModelName,		// model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,		// CAD_MDL_ASSEMBLY CAD_MDL_PART,
 									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
+
+	// Use this function when retrieving a model that might have a simplified representation specified.
+	// We cannot just specidfy in_ComponentInstanceID and in_CADComponentData_map because unassembled 
+	// components would not be included in in_CADComponentData_map.  Unassembled components are specified
+	// in CADAssembly.xml and are not placed in in_CADComponentData_map because most of the information
+	// in in_CADComponentData_map is not relevant to unassembled components.
+	virtual void cADModelRetrieve(	const std::string					&in_ComponentInstanceID,		// this is included for logging purposes; otherwise this function does not use in_ComponentInstanceID	
+									const isis::MultiFormatString		&in_ModelName,				// model name without the suffix.  e.g  1234567  not 1234567.prt
+									e_CADMdlType 						in_ModelType,				// CAD_MDL_ASSEMBLY or CAD_MDL_PART
+									const MultiFormatString				&in_GeometryRepresentation, // This would be null if no simplified representation was specified
+									void 								**out_RetrievedModelHandle_ptr ) const throw (isis::application_exception) = 0;
+
 
 	// in_ModelHandle handle is an in memory handle to the model
 	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
@@ -178,7 +214,7 @@ public:
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
 
 	virtual void cADModelSave( 
-					const std::string								&in_ComponentID,
+					const std::string								&in_ComponentInstanceID,
 					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																		throw (isis::application_exception) = 0;	
 
@@ -206,7 +242,6 @@ public:
 		virtual std::string combineCADModelNameAndSuffix ( const std::string &in_ModelName, e_CADMdlType in_ModelType )
 															throw (isis::application_exception) = 0 ;
 
-
 };
 
 
@@ -219,14 +254,13 @@ public:
 	// provide the name of the concrete assembler
 	virtual std::string name() = 0;
 
-
 	//	The CADAssembly.xml contains an assembly tree (i.e. hierarchy), where leafs in the 
 	//	tree can be parts or sub-assemblies.  For the case where where the leaf is an assembly, 
 	//	this function completes the hierarchy in in_out_CADComponentData_map such that the tree 
 	//	is complete.  The in_out_NonCyPhyID_counter is a counter that is used to create component
 	//	IDs for the subordinate parts/sub-assemblies. 
 	virtual void forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
-					const std::vector<std::string>					&in_ListOfComponentIDsInTheAssembly, // This includes the assembly component ID
+					const std::vector<std::string>					&in_ListOfComponentInstanceIDsInTheAssembly, // This includes the assembly component ID
 					int												&in_out_NonCyPhyID_counter,
 					std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception) = 0;
@@ -242,8 +276,6 @@ public:
 	//		1) The in_CopyModelDefinition.toModelName must exist in the CAD search path.
 	//		2) The assembly containing in_CopyModelDefinition.fromModelName must be in memory
 	//		3) In the case of Creo, in_CopyModelDefinition.toModelName must be in memory
-
-
 	virtual void modify_CADInternalHierarchyRepresentation_CADComponentData__ForCopiedModel( 
 					const std::string								&in_TopAssemblyComponentID,
 					const isis::CopyModelDefinition					&in_CopyModelDefinition, 
@@ -255,20 +287,20 @@ public:
 	// ?? Documenation of this function is needed.
 	virtual void populateMap_with_Junctions_and_ConstrainedToInfo_per_CADAsmFeatureTrees( 
 			//cad::CadFactoryAbstract													&in_Factory,
-			const std::vector<std::string>											&in_AssemblyComponentIDs,
+			const std::vector<std::string>											&in_AssemblyComponentInstanceIDs,
 			const std::unordered_map<IntList, std::string, ContainerHash<IntList>>	&in_FeatureIDs_to_ComponentInstanceID_hashtable,
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception) = 0;
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_AssemblyComponentInstanceID,
 								const std::string									&in_ChildComponentID,
 								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 								bool  in_bottom_up,
 								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentID,
+								const std::string									&in_AssemblyComponentInstanceID,
 								const std::list<int>									&in_ChildComponentPaths,
 								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 								bool  in_bottom_up,
@@ -289,8 +321,8 @@ public:
 																		throw (isis::application_exception) = 0;
 
 
-	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentID assembly
-	virtual void retrievePointCoordinates(	const std::string								&in_AssemblyComponentID,
+	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentInstanceID assembly
+	virtual void retrievePointCoordinates(	const std::string								&in_AssemblyComponentInstanceID,
 											const std::string								&in_PartComponentID,
 											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 											const MultiFormatString							&in_PointName,
@@ -328,7 +360,7 @@ public:
 	//				references to parts.
 
 	virtual void findPartsReferencedByFeature(	
-						const std::string								&in_TopAssemblyComponentInstanceID, 
+						const std::string								&in_TopAssemblyComponentID, 
 						const std::string								&in_ComponentInstanceID,
 						const MultiFormatString							&in_FeatureName,
 						e_CADFeatureGeometryType							in_FeatureGeometryType,
@@ -340,7 +372,7 @@ public:
 
 	// See the ModelOperationsCreo::retrieveMassProperties funtion for how out_MassProperties should be set
 	virtual void retrieveMassProperties( 
-						const std::string								&in_ComponentID,
+						const std::string								&in_ComponentInstanceID,
 						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception) = 0;
@@ -372,6 +404,152 @@ public:
 	virtual MultiFormatString retrieveMaterialName( 	const std::string								&in_ComponentInstanceID,
 													std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception) = 0;
+
+	// This function only adds in_ModelComponentIDsToAdd parts/sub-assemblies to the in_AssemblyComponentInstanceID assembly.  It does
+	// not constrain the added parts/sub-assemblies.
+	virtual void addModelsToAssembly( 
+					const std::string									&in_AssemblyComponentInstanceID,
+					const std::list<std::string>							&in_ModelComponentIDsToAdd,
+					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					int													&in_out_AddedToAssemblyOrdinal)
+																			throw (isis::application_exception) = 0;
+
+	// Description:
+	// -----------
+	//	This function constrains a single CAD model.  Constraining a CAD model entails aligning/mating features 
+	//	in the assembled CAD model to features in models that are already in the assembly or features in the top assembly.  
+	//	The features would be planes, axes, points, etc.
+	//
+	//	Implementing this function in Creo was very difficult.  This is because in Creo you must:
+	//		a)	tell the systems what type of joint is being created.  For example, an axis and and an orthogonal plane 
+	//			would normally define a revolute joint, but you must tell Creo that it is a revolute joint.  The system does
+	//			not figure this out on its own. To know the type joint, there must be code that determines that the plane is 
+	//			orthogonal to the axis.
+	//		b)	order the constraints in a manner compatible to joint type.  For example, for a revolute joint, the axis 
+	//			must be constrained first; otherwise, Creo will not treat the joint as a revolute joint.
+	//		c)	properly orient axes.  In Creo, an axis has an orientation, which is not directly exposed via the UI; however, 
+	//			from the toolkit (i.e. API) perspective the orientation must be correct to result in solvent kinematic joint.
+	//		d)	treat the added model (e.g. part/sub-assembly) and the constrained to model(s) differently in the API.  The Creo 
+	//			API makes a distinction of which model is the added model and thus this function must determine that.  This is 
+	//			not as straightforward as one might think.  For example, the added model could be an assembly and the features used 
+	//			to constrain the added assembly could be models (parts/sub-assemblies) subordinate to the added assembly. 
+	//
+	//	Ideally, a list of constraints could be given to the system and the system would order them properly and determine the 
+	//	correct type of joint (e.g. fixed, revolute, cylindrical, planar, slider...).  Hopefully, other CAD systems will do 
+	//	this and the complexity of the Creo implementation for this function will not be needed for other CAD systems.  If the
+	//  complexity is needed for other CAD systems, then the Creo implementation of this function should be refactored so that
+	//	most of the functionality goes through the abstract factory.
+	//
+	//	In general this function performs the following steps:
+	//	if guide is present (i.e. in CADAssembly.xml):
+	//		a)	apply the constraints including the guide.  This provides an orientation of the part.  For example, if the joint 
+	//			is a revolute joint, then the guide would provide the clocking position.
+	//		b)	determine the transformation to the part in space.
+	//		c)	remove the constraints
+	//		d)	apply the transformation
+	//		e)	apply the constraints without the guide
+	//
+	//	if guide is not present:
+	//		a) apply the constraints
+	//		
+	//	if InputJoint information (e.g. limits of rotation) is present (i.e. in CADAssembly.xml):
+	//		a) apply the joint information in addition to the previously applied constraints
+	//
+	//	Regenerate - Normally would not need to regenerate the entire assembly, just the constrained model.
+	//
+	// Pre-Conditions
+	// --------------
+	//	1) in_AssemblyComponentInstanceID and in_ComponentIDToBeConstrained must be in memory.  
+	//
+	// Post-Conditions
+	// ---------------
+	//  if no exceptions:
+	//		1) in_ComponentIDToBeConstrained would be properly constrained
+	//		2) if constraint features would result in a kinematic constraint, then the joint will be kinematic joint
+	//		3) if limits (e.g. rotation limits) exist, then the joint will adhere to those limits.
+	//
+	//	an exception would occur if:
+	//		1)	if the constraint features are not compatible or possible.  For example, if one model has three 
+	//			orthogonal planes that are being constrained to another model but the planes are not orthogonal
+	//			in the other model, then the features are not compatible.
+	//		2)	if the model will not regenerate after applying the constraints.  This would indicate that the
+	//			the constraints are malformed.
+	virtual bool applySingleModelConstraints( 
+				const std::string								&in_AssemblyComponentInstanceID,
+				const std::string								&in_ComponentIDToBeConstrained,		
+				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+																			throw (isis::application_exception) = 0;
+
+
+	//	If a particular CAD system does not support a particular output format (e.g. STEP AP203_E2) then:
+	//		1) this program (i.e. the overall program) does not return an error.  
+	//		2) the particular output format will not be created.
+	//		3) a warning message will be logged.
+	//		4) in the directory that would normally contain the exported data-exchange files, _FAILED_Data_Exchange.txt will be 
+	//			created and will explain that the particular CAD system does not support that export type.
+	//	In general, it is the responsibility of the CyPhy Test Bench developer to assure the format that is 
+	//	requested is supported by the particular CAD system.
+	virtual bool	 dataExchangeFormatSupported(const DataExchangeSpecification &in_DataExchangeSpecificationt) = 0;  
+
+	//	Notes:
+	//		1)	We export files (e.g. unassembled components) that are not in in_CADComponentData_map.  Therefore, we
+	//			must use the model handle. 
+	//		2)  in_ModelHandle_ptr must point to a model in memory.  cc_DataExchange.c/.h retrieves a model before 
+	//			calling this function.
+	//		3)  The directory defined by in_OutputDirectoryPath must exist prior to calling this function. cc_DataExchange.c/.h 
+	//			assures that this directory exists.
+	//		4)	This function may change the working directory to in_OutputDirectory. Typically, this would be to 
+	//			a sub-directory (.e.g. STEP) under the current working directory.  It is the caller's responsibility to change the
+	//			the working directory back to the desired location after calling this function. cc_DataExchange.c/.h performs
+	//			this change back to the original location automatically. 
+	//		5)	If a format (i.e. format specified in in_DataExchangeSpecification) is not supported by the particular CAD
+	//			system, then the lack of support should be logged and a filed file created, but an exception should not be thrown.  
+	//			This is necessary because all formats will not be supported by all CAD systems.  The Test Bench developer will need to be 
+	//			cognizant of what formats are supported by a particular CAD system.
+	//			The failed file should be created in in_OutputDirectoryPath and should be called _FAILED_Data_Exchange.txt.  This file 
+	//			should contain a message indicating the the particular format is not supported.
+	virtual void exportDataExchangeFile_STEP(				void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception) = 0;
+
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_Stereolithography(	void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception) = 0;
+
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_Inventor(			void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception) = 0;
+
+
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_DXF(					void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception) = 0;
+
+	// Notes - Same notes as exportDataExchangeFile_STEP
+	virtual void exportDataExchangeFile_Parasolid(			void 							*in_ModelHandle_ptr,
+															e_CADMdlType						in_ModelType,
+															const DataExchangeSpecification	&in_DataExchangeSpecification,
+															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
+															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
+																							throw (isis::application_exception) = 0;
+
+
+
 
 };
 
