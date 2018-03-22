@@ -234,7 +234,12 @@ namespace CyPhyPropagateTest
 
         private string GetJavaInstallationPath()
         {
-            return CyPhyMetaLink.CyPhyMetalinkInterpreter.GetJavaInstallationPath();
+            string javaPath = CyPhyMetaLink.CyPhyMetalinkInterpreter.GetJavaInstallationPath();
+            if (javaPath == null)
+            {
+                Assert.False(true, "Could not find Java installation");
+            }
+            return javaPath;
         }
 
         ManualResetEvent metalinkReady;

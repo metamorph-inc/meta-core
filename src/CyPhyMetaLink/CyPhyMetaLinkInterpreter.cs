@@ -282,6 +282,8 @@ namespace CyPhyMetaLink
         {
 
             foreach (var javaKey in new[] {
+                new { key = "SOFTWARE\\JavaSoft\\JRE", view = RegistryView.Registry64 },
+                new { key = "SOFTWARE\\JavaSoft\\JRE", view = RegistryView.Registry32 },
                 new { key = "SOFTWARE\\JavaSoft\\Java Runtime Environment", view = RegistryView.Registry64 },
                 new { key = "SOFTWARE\\JavaSoft\\Java Runtime Environment", view = RegistryView.Registry32 },
                 new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry64 },
