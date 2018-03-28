@@ -1045,7 +1045,6 @@ namespace CyPhyPET
             {
                 // TODO: maybe generate a relative path instead of making absolute here
                 {"excelFile", Path.Combine(projectDir, excel.Attributes.ExcelFilename)},
-                {"varFile", generateXLFileJson(excel)}
             };
             config.type = "excel_wrapper.excel_wrapper.ExcelWrapper";
 
@@ -1054,14 +1053,18 @@ namespace CyPhyPET
 
             HashSet<string> xlInputs = new HashSet<string>();
             HashSet<string> xlOutputs = new HashSet<string>();
-            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo) =>
+            Dictionary<string, ExcelInterop.ExcelType> types = new Dictionary<string, ExcelInterop.ExcelType>();
+            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo, ExcelInterop.ExcelType type) =>
             {
                 outputs.Remove(name);
-            }, (string name, string refersTo) =>
+                types[name] = type;
+            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type) =>
             {
                 inputs.Remove(name);
+                types[name] = type;
             },
             () => { });
+            config.details["varFile"] = generateXLFileJson(excel, types);
 
             if (inputs.Count > 0)
             {
@@ -1449,35 +1452,53 @@ namespace CyPhyPET
             return config;
         }
 
-        private string generateXLFileJson(CyPhy.ExcelWrapper excel)
+        private string generateXLFileJson(CyPhy.ExcelWrapper excel, Dictionary<string, ExcelInterop.ExcelType> types)
         {
-            List<Dictionary<string, object>> paramss = new List<Dictionary<string, object>>();
+            List<Dictionary<string, object>> params_ = new List<Dictionary<string, object>>();
             foreach (var param in excel.Children.ParameterCollection)
             {
-                double val = 0.0;
-                Double.TryParse(param.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
-                paramss.Add(new Dictionary<string, object>()
+                ExcelInterop.ExcelType type = types[param.Name];
+                var details = new Dictionary<string, object>()
                 {
                     {"name", param.Name },
-                    {"type", "Float" },
+                    {"type", type.ToString() },
                     {"desc", param.Attributes.Description },
-                    {"val", val }
                     // TODO sheet, row, column, units
-                });
+                };
+                if (type == ExcelInterop.ExcelType.Float)
+                {
+                    double val = 0.0;
+                    Double.TryParse(param.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
+                    details["val"] = val;
+                }
+                else if (type == ExcelInterop.ExcelType.Str)
+                {
+                    details["val"] = param.Attributes.Value;
+                }
+                params_.Add(details);
             }
             List<Dictionary<string, object>> metrics = new List<Dictionary<string, object>>();
             foreach (var metric in excel.Children.MetricCollection)
             {
-                double val = 0.0;
-                Double.TryParse(metric.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
-                metrics.Add(new Dictionary<string, object>()
+                ExcelInterop.ExcelType type = types[metric.Name];
+                var details = new Dictionary<string, object>()
                 {
                     {"name", metric.Name },
-                    {"type", "Float" },
+                    {"type", type.ToString() },
                     {"desc", metric.Attributes.Description },
-                    {"val", val }
                     // TODO sheet, row, column, units
-                });
+                };
+                if (type == ExcelInterop.ExcelType.Float)
+                {
+                    double val = 0.0;
+                    Double.TryParse(metric.Attributes.Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val);
+                    details["val"] = val;
+                }
+                else if (type == ExcelInterop.ExcelType.Str)
+                {
+                    details["val"] = metric.Attributes.Value;
+                }
+                metrics.Add(details);
             }
             var macros = new List<string>();
             if (string.IsNullOrEmpty(excel.Attributes.Macro) == false)
@@ -1487,7 +1508,7 @@ namespace CyPhyPET
             Dictionary<string, object> varFile = new Dictionary<string, object>()
             {
                 {"unknowns", metrics},
-                {"params", paramss},
+                {"params", params_},
                 {"macros", macros }
             };
             var filename = Path.Combine(this.outputDirectory, excel.Name + ".json");

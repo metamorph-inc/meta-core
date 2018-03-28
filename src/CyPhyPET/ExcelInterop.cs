@@ -14,7 +14,15 @@ namespace CyPhyPET
         [DllImport("kernel32.dll")]
         static extern int GetCurrentThreadId();
 
-        internal static void GetExcelInputsAndOutputs(string xlFilename, Action<string, string> addOutput, Action<string, string> addInput, Action done)
+        public enum ExcelType
+        {
+            Float,
+            Str,
+            // Bool,
+            // Int
+        };
+
+        internal static void GetExcelInputsAndOutputs(string xlFilename, Action<string, string, ExcelType> addOutput, Action<string, string, string, ExcelType> addInput, Action done)
         {
             int REGDB_E_CLASSNOTREG = unchecked((int)0x80040154);
             Excel.Application excelApp;
@@ -90,14 +98,20 @@ namespace CyPhyPET
                             }
 
                             val = range.Value;
+                            ExcelType type = ExcelType.Float;
+                            if (excelApp.WorksheetFunction.IsText(val))
+                            {
+                                type = ExcelType.Str;
+                            }
+                            // TODO if (val == true || val == false)
                             formula = range.Formula;
                             if (formula is string && ((string)formula).StartsWith("="))
                             {
-                                addOutput(nameName, rt);
+                                addOutput(nameName, rt, type);
                             }
                             else
                             {
-                                addInput(nameName, rt);
+                                addInput(nameName, rt, val.ToString(), type);
                             }
                         }
                         finally

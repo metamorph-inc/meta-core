@@ -800,7 +800,7 @@ namespace CyPhyPET.Rules
 
                             var value = tbParam.Attributes.Value;
                             double dummy;
-                            if (value != "" && double.TryParse(value, out dummy) == false)
+                            if ((tbParamParent is CyPhy.ExcelWrapper) == false && (tbParamParent is CyPhy.PythonWrapper) == false && value != "" && double.TryParse(value, out dummy) == false)
                             {
                                 var feedback = new GenericRuleFeedback()
                                 {

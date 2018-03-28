@@ -1542,14 +1542,13 @@ namespace CyPhyPET
             var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)excel.Impl.MetaBase).AspectByName["ValueFlowAspect"];
             int maxMetricYPosition = excel.Children.MetricCollection.Select(getYPosition).DefaultIfEmpty().Max();
             int maxParamYPosition = excel.Children.ParameterCollection.Select(getYPosition).DefaultIfEmpty().Max();
-            ExcelInterop.GetExcelInputsAndOutputs(dialog.FileName, (string name, string refersTo) =>
+            ExcelInterop.GetExcelInputsAndOutputs(dialog.FileName, (string name, string refersTo, ExcelInterop.ExcelType type) =>
             {
                 var metric = excel.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
                 if (metric == null)
                 {
                     metric = CyPhyClasses.Metric.Create(excel);
                     metric.Name = name;
-                    metric.Attributes.Description = refersTo;
                     maxMetricYPosition += 60;
                     ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, maxMetricYPosition);
                 }
@@ -1557,14 +1556,14 @@ namespace CyPhyPET
                 {
                     metricsAndParameters.Remove(metric);
                 }
-            }, (string name, string refersTo) =>
+                metric.Attributes.Description = refersTo;
+            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type) =>
             {
                 var param = excel.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
                 if (param == null)
                 {
                     param = CyPhyClasses.Parameter.Create(excel);
                     param.Name = name;
-                    param.Attributes.Description = refersTo;
                     maxParamYPosition += 60;
                     ((IMgaFCO)param.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 100, maxParamYPosition);
                 }
@@ -1572,6 +1571,8 @@ namespace CyPhyPET
                 {
                     metricsAndParameters.Remove(param);
                 }
+                param.Attributes.Description = refersTo;
+                param.Attributes.Value = value;
             }, () =>
             {
                 foreach (var metricOrParameter in metricsAndParameters)
