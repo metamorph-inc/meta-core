@@ -1526,7 +1526,16 @@ namespace CyPhyPET
             {
                 return;
             }
-            excel.Attributes.ExcelFilename = dialog.FileName;
+
+            filename = dialog.FileName;
+            CreateParametersAndMetricsForExcel(excel, filename);
+        }
+
+        public static void CreateParametersAndMetricsForExcel(CyPhy.ExcelWrapper excel, string filename)
+        {
+            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+
+            excel.Attributes.ExcelFilename = filename;
             // make relative if possible
             if (excel.Attributes.ExcelFilename.StartsWith(mgaDir + "\\"))
             {
@@ -1542,7 +1551,7 @@ namespace CyPhyPET
             var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)excel.Impl.MetaBase).AspectByName["ValueFlowAspect"];
             int maxMetricYPosition = excel.Children.MetricCollection.Select(getYPosition).DefaultIfEmpty().Max();
             int maxParamYPosition = excel.Children.ParameterCollection.Select(getYPosition).DefaultIfEmpty().Max();
-            ExcelInterop.GetExcelInputsAndOutputs(dialog.FileName, (string name, string refersTo, ExcelInterop.ExcelType type) =>
+            ExcelInterop.GetExcelInputsAndOutputs(filename, (string name, string refersTo, ExcelInterop.ExcelType type) =>
             {
                 var metric = excel.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
                 if (metric == null)

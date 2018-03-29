@@ -167,6 +167,81 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void TestExcel()
+        {
+            var excelType = Type.GetTypeFromProgID("Excel.Application");
+            if (excelType == null)
+            {
+                Console.Out.WriteLine("Skipping " + GetCurrentMethod() + " because Excel is not installed");
+                return;
+            }
+
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@" + GetCurrentMethod();
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "ExcelWrapper.json"));
+            var config = JsonConvert.DeserializeObject<Dictionary<string, object>>(configContents);
+
+            var unknowns = ((JArray)config["unknowns"]).Cast<JObject>().ToDictionary(u => u["name"], u => u);
+            Assert.Equal("Float", unknowns["y"]["type"]);
+            Assert.Equal("Str", unknowns["sout"]["type"]);
+            var params_ = ((JArray)config["params"]).Cast<JObject>().ToDictionary(u => u["name"], u => u);
+            Assert.Equal("Float", params_["b"]["type"]);
+            Assert.Equal("Str", params_["s"]["type"]);
+        }
+
+        [Fact]
+        public void TestExcelImport()
+        {
+            var excelType = Type.GetTypeFromProgID("Excel.Application");
+            if (excelType == null)
+            {
+                Console.Out.WriteLine("Skipping " + GetCurrentMethod() + " because Excel is not installed");
+                return;
+            }
+
+            MgaProject project = new MgaProject();
+            project.OpenEx("MGA=" + this.mgaFile, "CyPhyML", null);
+            try
+            {
+                var terr = project.BeginTransactionInNewTerr();
+
+                var excel = (IMgaModel)project.ObjectByPath["/@Testing/@ParametricExploration/@TestExcel/@ExcelWrapper"];
+                foreach (var fco in excel.ChildFCOs.Cast<IMgaFCO>().ToList())
+                {
+                    fco.DestroyObject();
+                }
+
+                var excelDS = ISIS.GME.Dsml.CyPhyML.Classes.ExcelWrapper.Cast(excel);
+                string mgaDir = Path.GetDirectoryName(Path.GetFullPath(excel.Project.ProjectConnStr.Substring("MGA=".Length)));
+
+                CyPhyPET.CyPhyPETInterpreter.CreateParametersAndMetricsForExcel(excelDS, Path.Combine(mgaDir, excelDS.Attributes.ExcelFilename));
+
+                Dictionary<string, ISIS.GME.Dsml.CyPhyML.Interfaces.Parameter> params_ = excelDS.Children.ParameterCollection.ToDictionary(p => p.Name, p => p);
+                Assert.Contains("x", params_.Keys);
+                Assert.Contains("b", params_.Keys);
+                Assert.Contains("s", params_.Keys);
+                Assert.Equal("12", params_["x"].Attributes.Value);
+
+                Dictionary<string, ISIS.GME.Dsml.CyPhyML.Interfaces.Metric> metrics = excelDS.Children.MetricCollection.ToDictionary(m => m.Name, m => m);
+                Assert.Contains("y", metrics.Keys);
+                Assert.Contains("bout", metrics.Keys);
+                Assert.Contains("sout", metrics.Keys);
+            }
+            finally
+            {
+                project.AbortTransaction();
+                project.Close();
+            }
+        }
+
+
+        [Fact]
         public void OptimizationInitialConditionProfiling_OptimizationProblem()
         {
             string outputDir = "results/" + GetCurrentMethod();
