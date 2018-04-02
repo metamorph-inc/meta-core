@@ -50,6 +50,8 @@
       <![CDATA[Installed OR (WIX_DIR_COMMON_DOCUMENTS <> "")]]>
     </Condition>
 
+    <Property Id='META_FULLVERSION' Value='$(var.VCSDESCRIPTION))'/>
+
     <Property Id='ARPPRODUCTICON' Value='META.ico' />
     <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
 

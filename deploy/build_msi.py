@@ -5,7 +5,7 @@ import os
 import os.path
 import win32com.client
 import gen_dir_wxi
-from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps
+from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps, CommentedTreeBuilder
 import gen_analysis_tool_wxi
 import glob
 import subprocess
@@ -14,6 +14,7 @@ import itertools
 import six
 
 import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ElementTree
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(this_dir)
@@ -48,7 +49,7 @@ def get_nuget_packages():
         system([r'..\src\.nuget\nuget.exe', 'install', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
         for filename in itertools.chain(glob.glob(package_dir + '/*'), glob.glob(package_dir + '/lib/*')):
-            # if os.path.basename(filename) == 'svnversion':
+            #if os.path.basename(filename) == 'svnversion':
             #    with open(os.path.join(this_dir, filename), 'rb') as svnversion:
             #        print filename + ': ' + svnversion.read()
             destination_file = [fn for fn in destination_files if os.path.basename(fn) == os.path.basename(filename)]
@@ -64,6 +65,24 @@ def get_nuget_packages():
     if destination_files:
         raise Exception('Could not find files %s in NuGet packages' % repr(destination_files))
 
+def bin_mods():
+    output_filename = 'bin.wxi'
+    ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
+    tree = ElementTree.parse(output_filename, parser=CommentedTreeBuilder()).getroot()
+    parent_map = dict((c, p) for p in tree.getiterator() for c in p)
+    fragment = tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Fragment")[0]
+    for element in ("""<Property Id="pywin219"/>""",
+            """<CustomActionRef Id="WixRemoveFoldersEx" />""",
+            r"""<CustomAction Id="Setpywin219" Property="pywin219" Value="[ProgramFilesFolder]META\bin\Python27"/>""",
+            """<InstallExecuteSequence>
+                <Custom Action="Setpywin219" Before="WixRemoveFoldersEx" />
+            </InstallExecuteSequence>"""):
+        fragment.insert(0, ElementTree.fromstring(element))
+
+    python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python27_Scripts']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python27\Scripts\python.exe']")[0]
+    parent_map[python_exe].insert(0, ElementTree.fromstring("""<util:RemoveFolderEx xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" On="install" Property="pywin219" />"""))
+
+    ElementTree.ElementTree(tree).write(output_filename, xml_declaration=True, encoding='utf-8')
 
 def generate_license_rtf():
     with open('../license.rtf', 'wb') as rtf:
@@ -108,6 +127,7 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
+    bin_mods()
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
@@ -204,7 +224,8 @@ def build_msi():
                 include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '.wxi')
                 include_wxis.append(node.attrib['Id'].rsplit(".", 1)[0] + '_x64.wxi')
 
-    sources = [source for source in sources_all if (os.path.basename(source) in include_wxis)]
+    include_wxis = set((wxi.lower() for wxi in include_wxis))
+    sources = [source for source in sources_all if (os.path.basename(source).lower() in include_wxis)]
     sources.append(source_wxs)
 
     if len(sources) == 0:
