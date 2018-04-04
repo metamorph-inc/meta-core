@@ -68,7 +68,7 @@ def _indent(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
-def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
+def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None, file_map={}):
     while src[-1] in ('/', '\\'):
         src = src[:-1]
     name = os.path.basename(src)
@@ -112,19 +112,27 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None):
         if filename == src or os.path.isdir(filename):
             continue
         dir_ = get_dir(os.path.dirname(filename))
+        mapped_filename = file_map.get(os.path.normpath(filename), -1)
+        if mapped_filename is None:
+            continue
+        elif mapped_filename != -1:
+            filename = mapped_filename
 
         component = SubElement(component_group, 'Component')
         component.set('Directory', dir_.attrib['Id'])
         component.set('Id', 'cmp_' + hashlib.md5(filename).hexdigest())
         file_ = SubElement(component, 'File')
         file_.set('Source', filename)
-        file_.set('Id', 'fil_' + hashlib.md5(filename).hexdigest())
+        file_.set('Id', get_file_id(filename))
         if diskId:
             component.attrib['DiskId'] = diskId
 
     _indent(wix)
     ElementTree.ElementTree(wix).write(output_filename, xml_declaration=True, encoding='utf-8')
 
+
+def get_file_id(filename):
+    return 'fil_' + hashlib.md5(filename).hexdigest()
 
 def download_file(url, filename):
     if os.path.isfile(filename):

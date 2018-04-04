@@ -5,7 +5,7 @@ import os
 import os.path
 import win32com.client
 import gen_dir_wxi
-from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps, CommentedTreeBuilder
+from gen_dir_wxi import add_wix_to_path, system, download_bundle_deps, CommentedTreeBuilder, get_file_id
 import gen_analysis_tool_wxi
 import glob
 import subprocess
@@ -82,6 +82,16 @@ def bin_mods():
     python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python27_Scripts']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python27\Scripts\python.exe']")[0]
     parent_map[python_exe].insert(0, ElementTree.fromstring("""<util:RemoveFolderEx xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" On="install" Property="pywin219" />"""))
 
+    #for element in parent_map.keys():
+    #    if element.tag == '{http://schemas.microsoft.com/wix/2006/wi}File':
+    #        source = element.attrib['Source']
+    #        import pdb
+    #        pdb.set_trace()
+    #        if source.startswith(r'..\bin\Python27\Lib') and source.endswith('.py'):
+    #            element.attrib['Source'] = source + 'c'
+    python_zip = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}" + "File[@Id='{}']".format(get_file_id(r"..\bin\Python27\Scripts\Python27.zip")))[0]
+    python_zip.attrib['Source'] = 'Python27.zip'
+
     ElementTree.ElementTree(tree).write(output_filename, xml_declaration=True, encoding='utf-8')
 
 def generate_license_rtf():
@@ -126,7 +136,11 @@ def build_msi():
     gen_dir_wxi.gen_dir_from_vc(r"..\WebGME",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
     gen_dir_wxi.gen_dir_from_vc(r"..\models\Validation",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3')
+
+    import package_python
+    bin_file_map = package_python.compileall()
+    bin_file_map.update(package_python.zipall())
+    gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3', file_map=bin_file_map)
     bin_mods()
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
