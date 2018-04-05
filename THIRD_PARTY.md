@@ -82,7 +82,6 @@ Bundled Python packages
 * `PyQt4`, `sip.pyd` - [PyQt4](https://riverbankcomputing.com/software/pyqt/intro) - GPLv3
 * `_markerlib` - [Markerlib](https://bitbucket.org/dholth/markerlib/) - MIT License
 * `alabaster` - [Alabaster Sphinx theme](https://alabaster.readthedocs.io/) - BSD License
-* `astroid` - [Astroid](https://github.com/PyCQA/astroid) - LGPLv2.1
 * `babel` - [Babel](http://babel.pocoo.org/) - BSD License
 * `colorama` - [Colorama](https://github.com/tartley/colorama) - BSD License
 * `cycler.py` - [Cycler](https://github.com/matplotlib/cycler) - BSD License
@@ -110,7 +109,6 @@ Bundled Python packages
 * `omniORB` - [omniORB](http://www.omniorb.net) - LGPL2.1 or later + explicit Python link permission
 * `pip` - [pip](https://pip.pypa.io/en/stable/) - MIT License
 * `pygments` - [Pygments](http://pygments.org/) - BSD License
-* `pylint` - [Pylint](https://github.com/PyCQA/pylint) - GPLv2
 * `pyparsing.py` - [Pyparsing](http://pyparsing.wikispaces.com/) - MIT License
 * `pytz` [pytz](http://pythonhosted.org/pytz/) - MIT License
 * `pywin32-219-py2.7-win32.egg`, `pywin32-220-py2.7-win32.egg` - [Python for Windows Extensions](https://sourceforge.net/projects/pywin32/) - Python Software Foundation License

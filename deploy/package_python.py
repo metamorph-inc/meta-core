@@ -8,7 +8,7 @@ import shutil
 import zipfile
 import py_compile
 
-PYC_EXCLUDES = ('matlab_proxy', 'astroid\\tests\\testdata\\python3', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests', r'pylint\test\input')
+PYC_EXCLUDES = ('matlab_proxy', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests')
 
 def pyc_exclude(filename):
     for exclude in PYC_EXCLUDES:
@@ -95,7 +95,7 @@ def zipall():
 
 
 if __name__ == '__main__':
-    # print_zip_safe()
-    bin_file_map = compileall()
-    bin_file_map.update(zipall())
-    print(bin_file_map)
+    print_zip_safe()
+    # bin_file_map = compileall()
+    # bin_file_map.update(zipall())
+    # print(bin_file_map)
