@@ -218,23 +218,23 @@ class  ModelOperationsCreo : public IModelOperations {
 						MassProperties									&out_MassProperties) 
 																				throw (isis::application_exception);
 
-	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
-													 std::string &out_ShortName, 
-													 std::string &out_LongName  )
-																				throw (isis::application_exception);
+	//virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
+	//												 std::string &out_ShortName, 
+	//												 std::string &out_LongName  )
+	//																			throw (isis::application_exception);
 
-	virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
-													 std::string &out_ShortName, 
-													 std::string &out_LongName  )
-																				throw (isis::application_exception);
+	//virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
+	//												 std::string &out_ShortName, 
+	//												 std::string &out_LongName  )
+	//																			throw (isis::application_exception);
 
-	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
 
-	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
-	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
 
 	virtual void retrieveCADModelUnits( 
 					//cad::CadFactoryAbstract							&in_Factory,
@@ -301,6 +301,16 @@ class  ModelOperationsCreo : public IModelOperations {
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
 																							throw (isis::application_exception);
+
+	virtual void computePartInterferences(  const std::string								&in_AssemblyComponentInstanceID,  // This must be an assembly
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<PartInterferences>					&out_PartInterferences )
+																							throw (isis::application_exception);
+
+	virtual void computeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+																			throw (isis::application_exception);
 
 };
 

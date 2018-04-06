@@ -48,6 +48,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
 	isis::cad::CadFactoryAbstract::ptr	                cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+	isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
 
 	unsigned int uniqueNameIndex = 1;
 	std::string xMLInputFile_PathAndFileName = in_ProgramInputArguments.inputXmlFileName;
@@ -437,6 +438,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			time_start=time(NULL); // reset start time for subsequent assemblies if any
 
 
+
+
 			///////////////////////////////////////////////
 			// Complete The Hierarchy For Leaf Assemblies
 			//////////////////////////////////////////////
@@ -458,7 +461,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//											NonCyPhyID_counter,
 				//											cADComponentData_map );
 
-				isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
+
 
 
 				isis_LOG(lg, isis_FILE, isis_INFO) << "";
@@ -1057,9 +1060,17 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Created:    " + InterferenceReport_PathAndFileName;
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Populating: " + InterferenceReport_PathAndFileName + ", Note: For large assemblies, this could take several minutes.";
+
+					std::vector<PartInterferences>	partInterferences;
+					bool interferenceAnalysisCompletedWithoutError = false;
+
 					try 
 					{
-						CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], cADComponentData_map );
+						//CreateInterferenceReport( InterferenceReport_PathAndFileName, i->assemblyComponentID, interferenceCount_CADComputations[0], cADComponentData_map );
+						modelOperations.computePartInterferences(	i->assemblyComponentID, // This must be an assembly
+																	cADComponentData_map, 
+																	partInterferences);
+						interferenceAnalysisCompletedWithoutError = true;
 					}
 
 					catch ( isis::application_exception& ex )
@@ -1077,6 +1088,13 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nError occurred when computing interferences: ";
 						isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "\nContinue processing...";
 					}
+
+					WriteInterferenceReport(		i->assemblyComponentID,  
+												cADComponentData_map,	
+												interferenceCount_CADComputations[0],
+												InterferenceReport_PathAndFileName,
+												interferenceAnalysisCompletedWithoutError,
+												partInterferences);
 				}
 				else
 				{

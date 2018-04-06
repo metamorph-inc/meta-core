@@ -34,9 +34,6 @@
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Computations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SurvivabilityAnalysis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ISISVersionNumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Computations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SurvivabilityAnalysis.h">

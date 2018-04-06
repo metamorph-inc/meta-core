@@ -7,7 +7,6 @@
 #define CC_STRING_TO_ENUM_CONVERSIONS_H
 
 #include "isis_application_exception.h"
-
 #include <string>
 
 #pragma warning( disable : 4290 )  // a future feature : exception specification, i.e. throw
@@ -63,12 +62,42 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
+	enum e_CADUnitsType
+	{
+		CAD_UNITS_DISTANCE,
+		CAD_UNITS_AREA,
+		CAD_UNITS_VOLUME,
+		CAD_UNITS_DENSITY,
+		CAD_UNITS_MASS,
+		CAD_UNITS_FORCE,
+		CAD_UNITS_MOMENT,
+		CAD_UNITS_PRESSURE,
+		CAD_UNITS_ACCELERATION,
+		CAD_UNITS_HEAT_CAPACITY,
+		CAD_UNITS_THERMAL_CONDUCTIVITY,
+		CAD_UNITS_ANGLE,
+		CAD_UNITS_TIME,
+		CAD_UNITS_TEMPERATURE,
+		CAD_UNITS_TYPE_NA,
+	};
+
+	e_CADUnitsType CADUnitsType_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsType_string( e_CADUnitsType in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
 	enum e_CADUnitsDistance
 	{
 		CAD_UNITS_MM,
 		CAD_UNITS_CM,
+		CAD_UNITS_M,
+		CAD_UNITS_KM,
 		CAD_UNITS_INCH,
-		CAD_UNITS_NA,
+		CAD_UNITS_FOOT,
+		CAD_UNITS_DISTANCE_NA,
 	};
 
 	e_CADUnitsDistance CADUnitsDistance_enum( const std::string &in_String)
@@ -79,10 +108,63 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
+	enum e_CADUnitsArea
+	{
+		CAD_UNITS_MM_SQUARED,
+		CAD_UNITS_CM_SQUARED,
+		CAD_UNITS_INCH_SQUARED,
+		CAD_UNITS_AREA_NA,
+	};
+
+	e_CADUnitsArea CADUnitsArea_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsArea_string( e_CADUnitsArea in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADUnitsVolume
+	{
+		CAD_UNITS_MM_CUBED,
+		CAD_UNITS_CM_CUBED,
+		CAD_UNITS_M_CUBED,
+		CAD_UNITS_KM_CUBED,
+		CAD_UNITS_INCH_CUBED,
+		CAD_UNITS_FOOT_CUBED,
+		CAD_UNITS_VOLUME_NA,
+	};
+
+	e_CADUnitsVolume CADUnitsVolume_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsVolume_string( e_CADUnitsVolume in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADUnitsMass
+	{
+		CAD_UNITS_LBM,
+		CAD_UNITS_GRAM,
+		CAD_UNITS_KGRAM,
+		CAD_UNITS_TONNE,
+		CAD_UNITS_MASS_NA,
+	};
+
+	e_CADUnitsMass CADUnitsMass_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsMass_string( e_CADUnitsMass in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
 	enum e_CADUnitsForce
 	{
 		CAD_UNITS_LBF,
 		CAD_UNITS_N,
+		CAD_UNITS_FORCE_NA,
 	};
 
 	e_CADUnitsForce CADUnitsForce_enum( const std::string &in_String)
@@ -153,6 +235,22 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
+	enum e_CADUnitsTemperature
+	{
+		CAD_UNITS_CELSIUS,
+		CAD_UNITS_FAHRENHEIT,
+		CAD_UNITS_KELVIN,
+		CAD_UNITS_TEMPERATURE_NA,
+	};
+
+	e_CADUnitsTemperature CADUnitsTemperature_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsTemperature_string( e_CADUnitsTemperature in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
 	enum e_CADUnitsHeatCapacity
 	{
 		CAD_UNITS_J_PER_KG_K,
@@ -190,6 +288,21 @@ namespace isis
 										throw (isis::application_exception);
 
 	std::string CADUnitsAngle_string( e_CADUnitsAngle in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CADUnitsTime
+	{
+		CAD_UNITS_SECOND,
+		CAD_UNITS_HOUR,
+		CAD_UNITS_TIME_NA,
+	};
+
+	e_CADUnitsTime CADUnitsTime_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CADUnitsTime_string( e_CADUnitsTime in_Enum )
 										throw (isis::application_exception);
 
 	////////////////////////////////////////////////////////////////////////////////////////

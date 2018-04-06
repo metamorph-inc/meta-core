@@ -112,12 +112,13 @@ namespace isis
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
 	void OrganizeMetricsBasedOnComponentIDs( 
 							const std::list<CADComputation>							&in_Metrics,
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
 							std::set<std::string>								&out_ComponentIDs_set );
 
-
+   */
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	struct ModelInstanceData

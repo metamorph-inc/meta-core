@@ -378,19 +378,20 @@ public:
 																				throw (isis::application_exception) = 0;
 
 
-	virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
-	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
+
+	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
 	virtual void retrieveCADModelUnits( 
 					const std::string								&in_ComponentInstanceID,
@@ -509,13 +510,14 @@ public:
 	//			The failed file should be created in in_OutputDirectoryPath and should be called _FAILED_Data_Exchange.txt.  This file 
 	//			should contain a message indicating the the particular format is not supported.
 	virtual void exportDataExchangeFile_STEP(				void 							*in_ModelHandle_ptr,
-															e_CADMdlType						in_ModelType,
+															e_CADMdlType					in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
 																							throw (isis::application_exception) = 0;
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
+	// Need to add control over the size of the mesh (e.g. in Creo terms: Chord height, Angle control, Step size)
 	virtual void exportDataExchangeFile_Stereolithography(	void 							*in_ModelHandle_ptr,
 															e_CADMdlType						in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
@@ -533,8 +535,8 @@ public:
 
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
-	virtual void exportDataExchangeFile_DXF(					void 							*in_ModelHandle_ptr,
-															e_CADMdlType						in_ModelType,
+	virtual void exportDataExchangeFile_DXF(				void 							*in_ModelHandle_ptr,
+															e_CADMdlType					in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
@@ -542,7 +544,7 @@ public:
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
 	virtual void exportDataExchangeFile_Parasolid(			void 							*in_ModelHandle_ptr,
-															e_CADMdlType						in_ModelType,
+															e_CADMdlType					in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
@@ -551,9 +553,49 @@ public:
 
 
 
+	//	Pre-Conditions: 
+	//		None
+	//	Post-Conditions
+	//		This function empties (i.e. clears) out_PartInterferences before doing any other operations.
+	//
+	//		If in_AssemblyComponentInstanceID is not an assembly, then isis::application_exception will be thrown
+	//
+	//      In the case of Creo, the interference analysis will fail some of the time because the SDK interference function fails.  
+	//		For those failure cases:
+	//			a)	isis::application_exception would be thrown. 
+	//			b)	The WriteInterferenceReport routine will called (not by computePartInterferences, but other code in this solution) to write the results to a file.  
+	//
+	//		If no interferences are found, then out_PartInterferences.size() will be zero
+	//		
+	//		The order of PartInterferences in out_PartInterferences is the order that the particular CAD system SDK returns the interferneces.
+
+	virtual void computePartInterferences(  const std::string								&in_AssemblyComponentInstanceID,  // This must be an assembly
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<PartInterferences>					&out_PartInterferences )
+																							throw (isis::application_exception) = 0;
+																										
+
+	// This function assumes:
+	//	1. The assembly is of a vehicle
+	//	2. The coordinate system of the vehicle is as follows:
+	//		z axis pointing in the direction of backward motion of the vehicle
+	//		y axis pointing upward
+	//		x axis in accordance to the right-hand rule
+	//	3.	Pt_0  x, y, z values
+	//		Pt_1  x, y, z values
+	//		Pt_2  x, y, z values
+	//		Where
+    //           Vector ( Pt_0 to Pt_1 )   X  Vector ( Pt_0 to Pt_2 )   would define the upward direction for a vehicle.
+    //           X represents the cross product
+	//	4.  For tracked vehicles, the tracks are parallel to the z-axis
+	//  5.  For wheeled vehicles, the portion of the wheels touching the ground form a 
+	//		plane. 
+	virtual void computeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+																			throw (isis::application_exception) = 0;
+
 };
-
-
 
 
 class CadFactoryAbstract {

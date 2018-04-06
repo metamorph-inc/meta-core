@@ -171,7 +171,6 @@
     </ClCompile>
     <ClCompile Include="SurvivabilityAnalysis.cpp" />
     <ClCompile Include="CADCreoParametricCreateAssembly.cpp" />
-    <ClCompile Include="Computations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssemblyCreationViaInputFile.h" />
@@ -180,7 +179,6 @@
     <ClInclude Include="GlobalModelData.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SurvivabilityAnalysis.h" />
-    <ClInclude Include="Computations.h" />
     <ClInclude Include="ISISVersionNumber.h" />
   </ItemGroup>
   <ItemGroup>

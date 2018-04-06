@@ -1130,7 +1130,7 @@ void ModelOperationsCreo::retrieveMassProperties(
 
 }
 
-
+/***
 void ModelOperationsCreo::convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
 															 std::string &out_ShortName, 
 															 std::string &out_LongName  )
@@ -1195,8 +1195,9 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Distance ( const MultiFormatSt
 	}
 
 }
+*****/
 
-
+/***
 void ModelOperationsCreo::convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
 														 std::string &out_ShortName, 
 														 std::string &out_LongName  )
@@ -1251,8 +1252,8 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Mass ( const MultiFormatString
 
 
 }
-
-
+***/
+/***
 void ModelOperationsCreo::convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	//char stringBuffer[PRO_NAME_SIZE];    // PRO_NAME_SIZE = 32
@@ -1290,7 +1291,8 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Force ( const MultiFormatStrin
 	}
 
 }
-
+***/
+/****
 void ModelOperationsCreo::convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -1335,7 +1337,9 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Temperature ( const MultiForma
 	}
 
 }
+****/
 ///////////////////////////////////////////////////////////////////////////////////////
+/***
 void ModelOperationsCreo::convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
 {
 	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
@@ -1367,7 +1371,7 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Time ( const MultiFormatString
 	}
 
 }
-
+***/
 
 void ModelOperationsCreo::retrieveCADModelUnits( 
 					//cad::CadFactoryAbstract							&in_Factory,
@@ -1817,6 +1821,186 @@ void ModelOperationsCreo::exportDataExchangeFile_Parasolid(	void 							*in_Mode
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelOperationsCreo::computePartInterferences( const std::string								&in_AssemblyComponentInstanceID,  // This must be an assembly
+													std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+													std::vector<PartInterferences>					&out_PartInterferences )
+																							throw (isis::application_exception)
+{
+
+	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
+	out_PartInterferences.clear();
+
+	if ( in_CADComponentData_map[in_AssemblyComponentInstanceID].modelType != CAD_MDL_ASSEMBLY )
+	{
+		std::stringstream errorString;
+		errorString <<	"Function - " << __FUNCTION__  << std::endl <<
+						"in_AssemblyComponentInstanceID.modelType != CAD_MDL_ASSEMBLY, interferences can only be computed on assemblies." << std::endl <<
+						"   Model Name: " <<  in_CADComponentData_map[in_AssemblyComponentInstanceID].name		<< std::endl <<
+						"   Model Type: " <<  in_CADComponentData_map[in_AssemblyComponentInstanceID].modelType;
+		
+		throw isis::application_exception(errorString.str());
+	}
+
+
+	// This code is based on UgGeomInterferCheck.c (located in the PTC installed examples)
+	ProInterferenceInfo   *interf_info_arr = NULL;
+
+	try 
+	{
+		 
+		ProAssembly assembly = static_cast<ProAssembly>( in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl);
+
+		isis_ProFitGlobalinterferenceCompute(	assembly,
+												//PRO_FIT_SUB_ASSEMBLY,  Not sure
+												PRO_FIT_SUB_ASSEMBLY_DETAILED,
+												PRO_B_FALSE,   // The options to include facets.
+												PRO_B_FALSE,   // The options to include quilts
+												PRO_B_FALSE,   // fast_calculation
+												&interf_info_arr);
+
+		int   n_intf_parts;
+		isis_ProArraySizeGet(interf_info_arr, &n_intf_parts);
+			
+		for ( int i = 0; i < n_intf_parts; ++i )
+		{
+			double          volume;
+			isis_ProFitInterferencevolumeCompute(interf_info_arr[i].interf_data, &volume);
+
+			//ProAsmcomppath  cmp_path_1, cmp_path_2;
+			//isis_ProSelectionAsmcomppathGet(interf_info_arr[i].part_1, &cmp_path_1);
+			//isis_ProSelectionAsmcomppathGet(interf_info_arr[i].part_2, &cmp_path_2);
+
+			ProModelitem modelitem_1;
+			ProModelitem modelitem_2;
+			isis_ProSelectionModelitemGet(interf_info_arr[i].part_1, &modelitem_1);
+			isis_ProSelectionModelitemGet(interf_info_arr[i].part_2, &modelitem_2);
+
+			ProMdldata           info_1;
+			ProMdldata           info_2;
+
+			isis_ProMdlDataGet (modelitem_1.owner, &info_1);
+			isis_ProMdlDataGet (modelitem_2.owner, &info_2);
+
+			char name_1[80];
+			char name_2[80];
+			
+			PartInterferences partInterferences_temp;
+
+			partInterferences_temp.modelName_1 = info_1.name;
+			partInterferences_temp.modelName_2 = info_2.name;
+			partInterferences_temp.volume = volume;
+
+			CADModelUnits	cADModelUnits_temp; 
+
+			modelOperations.retrieveCADModelUnits(
+							in_AssemblyComponentInstanceID,
+							in_CADComponentData_map,
+							cADModelUnits_temp );
+
+			partInterferences_temp.volumeUnits = convertDistanceUnitToVolumeUnit(cADModelUnits_temp.distanceUnit);
+
+			//interferenceReport_file << std::endl << std::left << std::setw(32) << ProWstringToString (name_1, info_1.name) <<   std::left <<  std::setw(32) << ProWstringToString (name_2, info_2.name) <<  volume;
+		}
+
+		// Free interf_info_arr
+		isis_ProInterferenceInfoProarrayFree(interf_info_arr);
+		
+	}
+
+	catch ( ... )
+	{
+		isis_ProInterferenceInfoProarrayFree(interf_info_arr);
+		throw;
+	}
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ModelOperationsCreo::computeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+													 std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+													std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+																			throw (isis::application_exception)
+{
+
+		/*
+		Pro3dPnt  r_outline_points[2];
+		isis::isis_ProSolidOutlineGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, r_outline_points);
+		
+			
+		// Need the smallest Y coordinate
+		double minimum_y;
+
+		if ( r_outline_points[0][1] < r_outline_points[1][1] )
+			minimum_y = r_outline_points[0][1];
+		else
+			minimum_y = r_outline_points[1][1];
+
+		isis_CADCommon::Point_3D  point;
+		point.x = 0;
+		point.y = minimum_y;  
+		point.z = 0;
+		out_GroundPlanePoints.push_back( point);
+		
+		point.z = 1;
+		out_GroundPlanePoints.push_back( point);
+		point.x = 1;
+		point.z = 0;
+		out_GroundPlanePoints.push_back( point);
+
+		*/
+		//Pro3dPnt  r_outline_points[2];
+		//isis::isis_ProSolidOutlineGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, r_outline_points);
+		
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+
+		isis_CADCommon::Point_3D	boundingBox_Point_1;
+		isis_CADCommon::Point_3D	boundingBox_Point_2;
+		double						boundingBoxDimensions_xyz[3];
+
+		//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_AssemblyComponentID,
+		//														in_CADComponentData_map,
+		//														boundingBox_Point_1,
+		//														boundingBox_Point_2,
+		//														boundingBoxDimensions_xyz );
+
+
+
+		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
+
+		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(// in_Factory,
+																in_AssemblyComponentID,
+																in_CADComponentData_map,
+																boundingBox_Point_1,
+																boundingBox_Point_2,
+																boundingBoxDimensions_xyz );
+
+		
+		// Need the smallest Y coordinate
+		double minimum_y;
+
+		if ( boundingBox_Point_1.y < boundingBox_Point_2.y )
+			minimum_y =  boundingBox_Point_1.y;
+		else
+			minimum_y =  boundingBox_Point_2.y;
+
+		isis_CADCommon::Point_3D  point;
+		point.x = 0;
+		point.y = minimum_y;  
+		point.z = 0;
+		out_GroundPlanePoints.push_back( point);
+		
+		point.z = 1;
+		out_GroundPlanePoints.push_back( point);
+		point.x = 1;
+		point.z = 0;
+		out_GroundPlanePoints.push_back( point);
+
+}
 
 
 } // creo

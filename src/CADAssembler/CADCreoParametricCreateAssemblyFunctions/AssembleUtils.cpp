@@ -175,7 +175,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+/***
 	void OrganizeMetricsBasedOnComponentIDs( 
 							const list<CADComputation>							&in_Metrics,
 							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
@@ -187,7 +187,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 				out_ComponentIDs_set.insert(i.componentID);
 			}
 	}
-
+***/
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

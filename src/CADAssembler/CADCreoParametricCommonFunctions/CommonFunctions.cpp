@@ -1,6 +1,7 @@
 #include <CommonFunctions.h>
-#include <string>
 #include <ToolKitPassThroughFunctions.h>
+#include <cc_CommonFunctions.h>
+#include <string>
 
 
 namespace isis
@@ -299,7 +300,7 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 
 	ProUnitsystem unitSystem;
 	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
-	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUint;
+	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUnit;
 	//ProLine massUnitsLabel;
 	//ProUnitsystemType type;
 
@@ -316,7 +317,11 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 
 	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
 	isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
-	modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName  );
+	//modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName  );
+	MultiFormatString distanceUnit_multiformat( lengthUnit.name);
+	out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( distanceUnit_multiformat );
+	ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+
 
 	bool derived = false;
 	try 
@@ -331,7 +336,13 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 		derived = true;
 	}
 
-	if ( !derived ) modelOperations.convertCADUnitToGMEUnit_Mass(massUnit.name, out_CADModelUnits.massUnit_ShortName,out_CADModelUnits.massUnit_LongName );
+	if ( !derived ) 
+	{
+		//modelOperations.convertCADUnitToGMEUnit_Mass(massUnit.name, out_CADModelUnits.massUnit_ShortName,out_CADModelUnits.massUnit_LongName );
+		MultiFormatString massUnit_multiformat( massUnit.name);
+		out_CADModelUnits.massUnit = CADUnitsMass_enum( massUnit_multiformat );
+		ComputeUnitNames_Mass(  out_CADModelUnits.massUnit , out_CADModelUnits.massUnit_ShortName, out_CADModelUnits.massUnit_LongName );
+	}
 
 	derived = false;
 	try 
@@ -343,19 +354,32 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 	catch(...)
 	{
 		out_CADModelUnits.forceUnit_ShortName = "Derived";
-		out_CADModelUnits.forceUnit_LongName = "Derived";
+		out_CADModelUnits.forceUnit_LongName  = "Derived";
 		derived = true;
 	}
-	if ( !derived ) modelOperations.convertCADUnitToGMEUnit_Force( forceUnit.name, out_CADModelUnits.forceUnit_ShortName, out_CADModelUnits.forceUnit_LongName );
+	if ( !derived ) 
+	{
+		//modelOperations.convertCADUnitToGMEUnit_Force( forceUnit.name, out_CADModelUnits.forceUnit_ShortName, out_CADModelUnits.forceUnit_LongName );
+		MultiFormatString forceUnit_multiformat( forceUnit.name);
+		out_CADModelUnits.forceUnit = CADUnitsForce_enum( forceUnit_multiformat );
+		ComputeUnitNames_Force(  out_CADModelUnits.forceUnit , out_CADModelUnits.forceUnit_ShortName, out_CADModelUnits.forceUnit_LongName );
+	}
 
 	
-	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TEMPERATURE , &temperatureUint); 
+	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TEMPERATURE , &temperatureUnit); 
 	//ConvertCreoUnitToGMEUnit_Temperature( temperatureUint.name, out_TemperatureUnit_ShortName, out_TemperatureUnit_LongName );
-	modelOperations.convertCADUnitToGMEUnit_Temperature(temperatureUint.name, out_CADModelUnits.temperatureUnit_ShortName, out_CADModelUnits.temperatureUnit_LongName );
-	
+	//modelOperations.convertCADUnitToGMEUnit_Temperature(temperatureUnit.name, out_CADModelUnits.temperatureUnit_ShortName, out_CADModelUnits.temperatureUnit_LongName );
+	MultiFormatString temperatureUnit_multiformat( temperatureUnit.name);
+	out_CADModelUnits.temperatureUnit = CADUnitsTemperature_enum( temperatureUnit_multiformat );
+	ComputeUnitNames_Temperature(  out_CADModelUnits.temperatureUnit , out_CADModelUnits.temperatureUnit_ShortName, out_CADModelUnits.temperatureUnit_LongName );
+
 	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_TIME, &timeUnit);  
 	//ConvertCreoUnitToGMEUnit_Time( timeUnit.name, out_TimeUnit_ShortName, out_TimeUnit_LongName );
-	modelOperations.convertCADUnitToGMEUnit_Time( timeUnit.name, out_CADModelUnits.timeUnit_ShortName, out_CADModelUnits.timeUnit_LongName );
+	//modelOperations.convertCADUnitToGMEUnit_Time( timeUnit.name, out_CADModelUnits.timeUnit_ShortName, out_CADModelUnits.timeUnit_LongName );
+	MultiFormatString timeUnit_multiformat( timeUnit.name);
+	out_CADModelUnits.timeUnit = CADUnitsTime_enum( timeUnit_multiformat );
+	ComputeUnitNames_Time(  out_CADModelUnits.timeUnit , out_CADModelUnits.timeUnit_ShortName, out_CADModelUnits.timeUnit_LongName );
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -454,7 +478,7 @@ void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 } // END namespace isis

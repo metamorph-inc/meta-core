@@ -163,7 +163,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile> 
+    </ClCompile>
     <ClCompile Include="AssemblyEditingViaLink.cpp" />
     <ClCompile Include="CreoMetaDataExporter.cpp" />
     <ClCompile Include="CreoPlugins\CreoPluginFunctions.cpp" />

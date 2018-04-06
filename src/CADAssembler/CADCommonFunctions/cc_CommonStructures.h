@@ -54,6 +54,17 @@ namespace isis
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	struct PartInterferences
+	{
+		// These would always be parts (i.e. .prt files)
+		MultiFormatString			modelName_1;  // Part name without the .prt suffix
+		MultiFormatString			modelName_2;  // ""
+		double						volume;
+		e_CADUnitsVolume				volumeUnits;  
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	struct CopyModelDefinition
 	{
 		std::string					componentInstanceID;
@@ -1271,20 +1282,27 @@ namespace isis
 
 	struct CADModelUnits
 	{
-		std::string		distanceUnit_ShortName;
-		std::string		distanceUnit_LongName;
-					
-		std::string		massUnit_ShortName;
-		std::string		massUnit_LongName;
+		e_CADUnitsDistance		distanceUnit;
+		std::string				distanceUnit_ShortName;
+		std::string				distanceUnit_LongName;
+			
+		e_CADUnitsMass			massUnit;
+		std::string				massUnit_ShortName;
+		std::string				massUnit_LongName;
 
-		std::string		forceUnit_ShortName;
-		std::string		forceUnit_LongName;
+		e_CADUnitsForce			forceUnit;
+		std::string				forceUnit_ShortName;
+		std::string				forceUnit_LongName;
 
-		std::string		timeUnit_ShortName;
-		std::string		timeUnit_LongName;
+		e_CADUnitsTime			timeUnit;
+		std::string				timeUnit_ShortName;
+		std::string				timeUnit_LongName;
 
-		std::string		temperatureUnit_ShortName;
-		std::string		temperatureUnit_LongName;
+		e_CADUnitsTemperature	temperatureUnit;
+		std::string				temperatureUnit_ShortName;
+		std::string				temperatureUnit_LongName;
+
+		CADModelUnits();
 	};
 
 
