@@ -1244,7 +1244,7 @@ void ModelOperationsCreo::convertCADUnitToGMEUnit_Mass ( const MultiFormatString
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
 					"received in_MassUnit: " << std::endl << (const string)in_MassUnit << 
-					", which is an unkown unit type.  Valid unit types are  case-insenstive lbm, g, kg, and tonne.";
+					", which is an unknown unit type.  Valid unit types are case-insensitive lbm, g, kg, and tonne.";
 
 		throw isis::application_exception(errorString);		
 	}

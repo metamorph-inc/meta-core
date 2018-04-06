@@ -1720,7 +1720,7 @@ namespace isis
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProUnitsystemUnitGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			sprintf( err_str, "exception : ProUnitsystemUnitGet returned ProError: %s(%d)", ProToolKitError_string(err).c_str(), err );
 			throw isis::application_exception("C06075",err_str);  
 			
 		}

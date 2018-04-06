@@ -72,23 +72,24 @@ void SetParametricParameter(
 				ProParameterValueWithUnitsGet(&ProParameter_struct, &ProParamvalue_struct, &creo_parameter_units);
 				ProParamvalue_struct.type = PRO_PARAM_DOUBLE;
 				ProParamvalue_struct.value.d_val = atof(in_ParameterValue.c_str());
-				if (is_mmKs == false && wcscmp(creo_parameter_units.name, L"") == 0)
+
+				if (is_mmKs == false && in_ParameterUnits == "")
 				{
 					std::string err_str = "warning : Parameter: " + in_ParameterName + " has no units specified and " + in_model_name +
 						" is not mmKs. The unit should be specified in Creo. and Relations>\"Set Relations to be sensitive to units of parameters and dimensions\" should be set";
 					isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;
+					throw isis::application_exception(err_str);
 				}
-
-				if (wcscmp(creo_parameter_units.name, L"") != 0 && in_ParameterUnits != "")
+				else if (in_ParameterUnits != "")
 				{
-					ProUnititem proUnit;
+					ProUnititem xmlProUnit;
 					ProPath expr;
 					if (in_ParameterUnits.length() >= _countof(expr))
 					{
 						throw isis::application_exception("Units name '" + in_ParameterUnits + "' is too long");
 					}
 					ProStringToWstring(expr, const_cast<char*>(in_ParameterUnits.c_str()));
-					isis::isis_ProUnitCreateByExpression(*in_p_model, L"customunit", expr, &proUnit);
+					isis::isis_ProUnitCreateByExpression(*in_p_model, L"customunit", expr, &xmlProUnit);
 					struct UnitCleanup {
 						ProUnititem &_proUnit;
 						UnitCleanup(ProUnititem &proUnit) : _proUnit(proUnit) { }
@@ -97,11 +98,27 @@ void SetParametricParameter(
 						{
 							isis::isis_ProUnitDelete(&_proUnit);
 						}
-					} _cleanup(proUnit);
-					ProUnitConversion conversion = {};
-					isis::isis_ProUnitConversionCalculate(&proUnit, &creo_parameter_units, &conversion, expr);
+					} _cleanup(xmlProUnit);
+
+					if (wcscmp(creo_parameter_units.name, L"") == 0)
+					{
+						// The Creo parameter has no unit specified. Get the default unit that matches the type of the XML parameter
+						ProUnitType type;
+						auto err = ProUnitTypeGet(&xmlProUnit, &type);
+						isis_ProError_Throw("ProUnitTypeGet", err);
+
+						ProUnitsystem unitSystem;
+						isis::isis_ProMdlPrincipalunitsystemGet(*in_p_model, &unitSystem);
+
+						isis::isis_ProUnitsystemUnitGet(&unitSystem, type, &creo_parameter_units);
+					}
+
+					ProUnitConversion conversion = {1.0, 0.0};
+					isis::isis_ProUnitConversionCalculate(&xmlProUnit, &creo_parameter_units, &conversion, expr);
 					ProParamvalue_struct.value.d_val = ProParamvalue_struct.value.d_val * conversion.scale + conversion.offset;
 				}
+				// else if (is_mmKs == true && in_ParameterUnits == "")
+				// do not convert
 
 				break;
 
@@ -503,21 +520,6 @@ void ParametricParameter_WarnForPartUnitsMismatch(
 		(default_units.distanceUnit_ShortName == "mm") &&
 		(default_units.massUnit_ShortName == "kg") &&
 		(default_units.timeUnit_ShortName == "s");
-
-	ProModelitem item;
-	isis::isis_ProMdlToModelitem(*p_model, &item);
-	ProRelset relation_set;
-	ProError e = ProModelitemToRelset(&item, &relation_set);
-	isis_ProError_Throw("ProModelitemToRelset", e);
-	ProBool units_sensitive;
-	e = ProRelsetIsUnitsSensitive(&relation_set, &units_sensitive);
-	isis_ProError_Throw("ProRelsetIsUnitsSensitive", e);
-	if (*out_is_mmKs == false && units_sensitive == PRO_B_FALSE)
-	{
-		std::string err_str = "warning : Model: " + static_cast<const std::string&>(in_cadata.name) + " is not mmKs and relations are not sensitive to units."
-			" Relations>\"Set Relations to be sensitive to units of parameters and dimensions\" should be set";
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_ERROR) << err_str;
-	}
 }
 
 } // end namespace isis

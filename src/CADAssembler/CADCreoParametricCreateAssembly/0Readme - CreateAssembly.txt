@@ -1106,6 +1106,10 @@ v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
 v1.5.26.0 	3/21/2018
 		Convert values from CyPhy for Creo parameters that have units defined
 
+v1.5.27.0 	4/6/2018
+		For Creo parameters that don't have units defined, convert value from the XML unit to the part's default unit system.
+        If the XML input doesn't have a unit, throw an error if the part is not mmKs.
+
 Known Defects
 -------------
 
