@@ -486,10 +486,10 @@ namespace CyPhyElaborateCS
                 return;
             }
 
-            this.RunInTransaction(project, currentobj, selectedobjs, param);
+            this.RunInTransaction(project, currentobj, selectedobjs, param, commitTransaction: param != 128);
         }
 
-        public bool RunInTransaction(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param, string outputDirectory=null)
+        public bool RunInTransaction(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param, string outputDirectory=null, bool commitTransaction=false)
         {
             bool success = false;
             bool shouldDisposeLogger = false;
@@ -558,7 +558,7 @@ namespace CyPhyElaborateCS
                             UpdateMetricsInTestbenchManifest(currentobj, outputDirectory);
                         }
                     },
-                    transactiontype_enum.TRANSACTION_NON_NESTED);
+                    transactiontype_enum.TRANSACTION_NON_NESTED, abort: !commitTransaction);
 
                     // call old elaborator
                     ////this.CallOldElaborator(project, currentobj);
