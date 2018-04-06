@@ -20,7 +20,8 @@ struct UnitUtil
 			current(std::numeric_limits<double>::quiet_NaN()),
 			temperature(std::numeric_limits<double>::quiet_NaN()),
 			amountSubstance(std::numeric_limits<double>::quiet_NaN()),
-			luminous(std::numeric_limits<double>::quiet_NaN()) {}
+			luminous(std::numeric_limits<double>::quiet_NaN()),
+			angle(std::numeric_limits<double>::quiet_NaN()) {}
 
 		double length;		// length
 		double mass;		// mass
@@ -29,6 +30,7 @@ struct UnitUtil
 		double temperature;		// temperature
 		double amountSubstance;		// amount sustance
 		double luminous;		// luminous intensity
+		double angle; // SI defines radian as a "derived unit" m/m, but be pragmatic here instead
 
 	private: DimensionRep(double) :
 			length(0),
@@ -37,7 +39,8 @@ struct UnitUtil
 			current(0),
 			temperature(0),
 			amountSubstance(0),
-			luminous(0) {}
+			luminous(0),
+			angle(0) {}
 
 	public:
 		static DimensionRep zeroes;
@@ -51,6 +54,7 @@ struct UnitUtil
 			mass = rhs.mass;
 			time = rhs.time;
 			temperature = rhs.temperature;
+			angle = rhs.angle;
 			return *this;
 		}
 
@@ -65,7 +69,8 @@ struct UnitUtil
 				&& equal(rhs.luminous, luminous)
 				&& equal(rhs.mass, mass)
 				&& equal(rhs.temperature, temperature)
-				&& equal(rhs.time, time);
+				&& equal(rhs.time, time)
+				&& equal(rhs.angle, angle);
 		}
 
 		bool operator!=(const DimensionRep &rhs) const
@@ -88,6 +93,7 @@ struct UnitUtil
 			add(length, rhs.length);
 			add(amountSubstance, rhs.amountSubstance);
 			add(time, rhs.time);
+			add(angle, rhs.angle);
 		    return *this;
 		}
 
@@ -100,6 +106,7 @@ struct UnitUtil
 			length *= n;
 			amountSubstance *= n;
 			time *= n;
+			angle *= n;
 		}
 
 	};

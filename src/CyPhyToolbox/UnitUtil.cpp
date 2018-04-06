@@ -133,8 +133,14 @@ UnitUtil::DimensionRep UnitUtil::DimensionRep::zeroes = UnitUtil::DimensionRep(0
 			rep.length = siUnit.length_exponent();
 			rep.amountSubstance = siUnit.amount_of_substance_exponent();
 			rep.time = siUnit.time_exponent();
+			rep.angle = 0;
+			if (siUnit.name() == "Radian")
+			{
+				rep.angle = 1;
+			}
 
-			DimensionRep_Table[siUnit] = rep;
+			// FIXME this map is not cleared, but Udm::Objects from different project may have the same id!
+			// DimensionRep_Table[siUnit] = rep;
 		}
 		else
 		{
