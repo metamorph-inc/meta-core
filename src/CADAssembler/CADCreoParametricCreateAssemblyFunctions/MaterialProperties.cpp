@@ -104,7 +104,7 @@ void stream_AnalysisMaterialProperties_Allowables( const AnalysisMaterialPropert
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-bool	StressValueComputed(	bool	in_Value_1_Defined,
+bool 	StressValueComputed(	bool	in_Value_1_Defined,
 								double	in_Value_1,	
 								bool	in_Value_2_Defined,
 								double	in_Value_2,

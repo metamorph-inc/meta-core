@@ -512,6 +512,11 @@ void WriteInterferenceReport(	const std::string								&in_AssemblyComponentInst
 								const std::vector<PartInterferences>				&in_PartInterferences)
 																			throw (isis::application_exception)
 {
+
+		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr	                cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();
+
 		std::ofstream interferenceReport_file(in_PathAndFileName, std::ofstream::out);
 
 		if ( !interferenceReport_file.is_open() )
@@ -524,8 +529,11 @@ void WriteInterferenceReport(	const std::string								&in_AssemblyComponentInst
 		interferenceReport_file << isis_CADCommon::GetDayMonthTimeYear();
 
 		interferenceReport_file << std::endl << "Assembly Name: " << 
-			(std::string)in_CADComponentData_map[in_AssemblyComponentInstanceID].name << "." << 
-			CADMdlType_string(in_CADComponentData_map[in_AssemblyComponentInstanceID].modelType);
+			//(std::string)in_CADComponentData_map[in_AssemblyComponentInstanceID].name << "." << 
+			//CADMdlType_string(in_CADComponentData_map[in_AssemblyComponentInstanceID].modelType);
+			modelHandling.combineCADModelNameAndSuffix(in_CADComponentData_map[in_AssemblyComponentInstanceID].name, in_CADComponentData_map[in_AssemblyComponentInstanceID].modelType );
+
+
 		// WARNING UpdateReportJson_CAD.py uses "MetricID:" and "InterferenceCount:".  Do NOT change these strings
 		// without updating UpdateReportJson_CAD.py
 		interferenceReport_file << std::endl << "MetricID: " << in_CADComputation.metricID; 
@@ -704,7 +712,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 				//ProMassProperty  mass_prop;
 				MassProperties		massProperties_temp;
-				double   MatrixBuffer[4][4];
+				//double   MatrixBuffer[4][4];
 				std::string temp_units = cADModelUnits_temp.distanceUnit_LongName;
 
 				isis_CADCommon::Point_3D	boundingBox_Point_1;

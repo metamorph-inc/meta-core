@@ -1904,6 +1904,7 @@ void ModelOperationsCreo::computePartInterferences( const std::string								&in
 			partInterferences_temp.volumeUnits = convertDistanceUnitToVolumeUnit(cADModelUnits_temp.distanceUnit);
 
 			//interferenceReport_file << std::endl << std::left << std::setw(32) << ProWstringToString (name_1, info_1.name) <<   std::left <<  std::setw(32) << ProWstringToString (name_2, info_2.name) <<  volume;
+			out_PartInterferences.push_back(partInterferences_temp);
 		}
 
 		// Free interf_info_arr
