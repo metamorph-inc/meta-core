@@ -416,11 +416,11 @@ void RetrieveUnits_withDescriptiveErrorMsg(
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
-									const std::string							&in_AssemblyComponentID,
-									const std::string							&in_PartComponentID,
-									std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-									const MultiFormatString						&in_DatumName,
-									CADPoint									&out_CADPoint) 
+									const std::string								&in_AssemblyComponentID,
+									const std::string								&in_PartComponentID,
+									const std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+									const MultiFormatString							&in_DatumName,
+									CADPoint											&out_CADPoint) 
 																				throw (isis::application_exception)						
 {
 
@@ -430,11 +430,25 @@ void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
 	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
 	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
 
+	std::map<std::string, isis::CADComponentData>::const_iterator itr_part;
+	itr_part = in_CADComponentData_map.find(in_PartComponentID);
+	if ( itr_part == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_PartComponentID that is not in in_CADComponentData_map. in_PartComponentID:  " << in_PartComponentID;
+		throw isis::application_exception(errorString);	
+	}
+
 	ProModelitem  datum_point;
+	//isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
+	//	in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
+	//	in_CADComponentData_map[in_PartComponentID].cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
+
 	isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (
-		in_PartComponentID, in_CADComponentData_map[in_PartComponentID].name, ProMdlType_enum(in_CADComponentData_map[in_PartComponentID].modelType),
-		in_CADComponentData_map[in_PartComponentID].cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
-	//in_CADComponentData_map[in_PartComponentID].modelHandle, PRO_POINT, datum_name, &datum_point);
+		in_PartComponentID, 
+		itr_part->second.name, ProMdlType_enum( itr_part->second.modelType),
+		itr_part->second.cADModel_hdl, PRO_POINT, (wchar_t*)(const wchar_t*)in_DatumName, &datum_point);
+
 
 	ProPoint  point;
 	isis::isis_ProPointInit (	(ProSolid) datum_point.owner,  // ProSolid   owner_handle,

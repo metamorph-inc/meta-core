@@ -292,19 +292,26 @@ public:
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception) = 0;
 
-	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::string									&in_ChildComponentID,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
 
+	//	If in_AssemblyComponentInstanceID and/or in_ChildComponentID does not exist in in_CADComponentData_map 
+	//		then
+	//			isis::application_exception will be thrown
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::list<int>									&in_ChildComponentPaths,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::string										&in_ChildComponentID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+
+	//	If in_AssemblyComponentInstanceID does not exist in in_CADComponentData_map 
+	//		then
+	//			isis::application_exception will be thrown
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::list<int>										&in_ChildComponentPaths,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
 
 
 	// This function computes the bounding box based on excluding all geometry except for the solid geometry.
@@ -322,11 +329,11 @@ public:
 
 
 	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentInstanceID assembly
-	virtual void retrievePointCoordinates(	const std::string								&in_AssemblyComponentInstanceID,
-											const std::string								&in_PartComponentID,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-											const MultiFormatString							&in_PointName,
-											CADPoint											&out_CADPoint) 
+	virtual void retrievePointCoordinates(	const std::string									&in_AssemblyComponentInstanceID,
+											const std::string									&in_PartComponentID,
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString								&in_PointName,
+											CADPoint												&out_CADPoint) 
 																				throw (isis::application_exception)	= 0;
 
 
@@ -510,7 +517,7 @@ public:
 	//			The failed file should be created in in_OutputDirectoryPath and should be called _FAILED_Data_Exchange.txt.  This file 
 	//			should contain a message indicating the the particular format is not supported.
 	virtual void exportDataExchangeFile_STEP(				void 							*in_ModelHandle_ptr,
-															e_CADMdlType					in_ModelType,
+															e_CADMdlType						in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)

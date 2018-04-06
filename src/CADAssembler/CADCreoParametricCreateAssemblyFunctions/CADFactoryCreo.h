@@ -173,18 +173,18 @@ class  ModelOperationsCreo : public IModelOperations {
 
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::string									&in_ChildComponentID,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::string										&in_ChildComponentID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::list<int>									&in_ChildComponentPaths,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::list<int>										&in_ChildComponentPaths,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 								//cad::CadFactoryAbstract							&in_Factory,
@@ -195,13 +195,13 @@ class  ModelOperationsCreo : public IModelOperations {
 								double											out_Dimensions_xyz[3] )
 																		throw (isis::application_exception);
 
-	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string			&in_AssemblyComponentInstanceID,
-											const std::string								&in_PartComponentID,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-											const MultiFormatString							&in_PointName,
-											CADPoint											&out_CADPoint) 
+	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string				&in_AssemblyComponentInstanceID,
+											const std::string									&in_PartComponentID,
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString								&in_PointName,
+											CADPoint												&out_CADPoint) 
 																				throw (isis::application_exception);
-
+	//------ const map to here
 
 	virtual void findPartsReferencedByFeature(	
 						const std::string								&in_TopAssemblyComponentID, 

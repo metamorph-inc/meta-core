@@ -903,30 +903,75 @@ void ModelOperationsCreo::populateMap_with_Junctions_and_ConstrainedToInfo_per_C
 
 
 void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string									&in_AssemblyComponentInstanceID,
-							const std::string									&in_ChildComponentID,
-							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							const std::string										&in_AssemblyComponentInstanceID,
+							const std::string										&in_ChildComponentID,
+							const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							bool  in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
 {
 
+		
+		std::map<std::string, isis::CADComponentData>::const_iterator itr_assembly;
+		itr_assembly = in_CADComponentData_map.find(in_AssemblyComponentInstanceID);
+		
+		if ( itr_assembly == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_AssemblyComponentInstanceID that is not in in_CADComponentData_map. in_AssemblyComponentInstanceID:  " << in_AssemblyComponentInstanceID;
+			throw isis::application_exception(errorString);	
+		}
+
+		std::map<std::string, isis::CADComponentData>::const_iterator itr_child;
+		itr_child = in_CADComponentData_map.find(in_ChildComponentID);
+		
+		if ( itr_child == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_ChildComponentID that is not in in_CADComponentData_map. in_ChildComponentID:  " << in_ChildComponentID;
+			throw isis::application_exception(errorString);	
+		}
+
+		//RetrieveTranformationMatrix_Assembly_to_Child (  
+		//					static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
+		//					in_CADComponentData_map[in_ChildComponentID].componentPaths, 
+		//					Bool_to_ProBoolean(in_bottom_up),
+		//					out_TransformationMatrix ); 
+
 		RetrieveTranformationMatrix_Assembly_to_Child (  
-							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
-							in_CADComponentData_map[in_ChildComponentID].componentPaths, 
+							static_cast<ProSolid>(itr_assembly->second.cADModel_hdl),
+							itr_child->second.componentPaths, 
 							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
+
 }
 
 void ModelOperationsCreo::retrieveTranformationMatrix_Assembly_to_Child (  
-							const std::string									&in_AssemblyComponentInstanceID,
-							const std::list<int>									&in_ChildComponentPaths,
-							std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+							const std::string										&in_AssemblyComponentInstanceID,
+							const std::list<int>										&in_ChildComponentPaths,
+							const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
 							bool  in_bottom_up,
 							double out_TransformationMatrix[4][4] )  throw (isis::application_exception)
 {
 
+		std::map<std::string, isis::CADComponentData>::const_iterator itr;
+		itr = in_CADComponentData_map.find(in_AssemblyComponentInstanceID);
+		
+		if ( itr == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_AssemblyComponentInstanceID that is not in in_CADComponentData_map. in_AssemblyComponentInstanceID:  " << in_AssemblyComponentInstanceID;
+			throw isis::application_exception(errorString);	
+		}
+
+		//RetrieveTranformationMatrix_Assembly_to_Child (  
+		//					static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
+		//					in_ChildComponentPaths, 
+		//					Bool_to_ProBoolean(in_bottom_up),
+		//					out_TransformationMatrix ); 
+
+
 		RetrieveTranformationMatrix_Assembly_to_Child (  
-							static_cast<ProSolid>(in_CADComponentData_map[in_AssemblyComponentInstanceID].cADModel_hdl),
+							static_cast<ProSolid>(itr->second.cADModel_hdl),
 							in_ChildComponentPaths, 
 							Bool_to_ProBoolean(in_bottom_up),
 							out_TransformationMatrix ); 
@@ -957,11 +1002,11 @@ void	 ModelOperationsCreo::retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
 
 
 
-void ModelOperationsCreo::retrievePointCoordinates(	const std::string						&in_AssemblyComponentInstanceID,
-											const std::string								&in_PartComponentID,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-											const MultiFormatString							&in_PointName,
-											CADPoint											&out_CADPoint) 
+void ModelOperationsCreo::retrievePointCoordinates(	const std::string							&in_AssemblyComponentInstanceID,
+											const std::string									&in_PartComponentID,
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString								&in_PointName,
+											CADPoint												&out_CADPoint) 
 																				throw (isis::application_exception)
 {
 
