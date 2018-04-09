@@ -151,9 +151,9 @@ namespace META
             bHasFolderSpecified = bHasFolderSpecified
                                   && !PathContainsIllegalChar(path);
 
-            if (bHasFolderSpecified && !Directory.Exists(path))
+            if (bHasFolderSpecified && !Directory.Exists(Path.Combine(p_ProjectRoot, path)))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(Path.Combine(p_ProjectRoot, path));
             }
             // Only create new folders for archetypes
             else if (!bHasFolderSpecified && bIsArchetype)
@@ -287,6 +287,7 @@ namespace META
         public static bool TryGetResourcePath(CyPhy.DomainModel domainModel, out string path, PathConvention pathConvention = PathConvention.REL_TO_COMP_DIR)
         {
             if (false == (domainModel.ParentContainer is CyPhy.Component)
+                && false == (domainModel.ParentContainer is CyPhy.ComponentAssembly)
                 && (pathConvention == PathConvention.REL_TO_PROJ_ROOT || pathConvention == PathConvention.ABSOLUTE))
             {
                 throw new NotSupportedException(String.Format("{0} doesn't support PathConvention of type {1} if domainModel.ParentContainer is not a CyPhy.Component",
@@ -312,6 +313,17 @@ namespace META
             }
 
             // At least one Resource was found, so return the path of the first.
+            Func<string> getDirPath = delegate
+            {
+                if (domainModel.ParentContainer is CyPhy.Component)
+                {
+                    return GetComponentFolderPath((CyPhy.Component)domainModel.ParentContainer);
+                }
+                else
+                {
+                    return ((CyPhy.ComponentAssembly)domainModel.ParentContainer).Attributes.Path;
+                }
+            };
             var resourcePath = l_Resources.FirstOrDefault().Attributes.Path;
             if (pathConvention == PathConvention.REL_TO_COMP_DIR)
             {
@@ -319,12 +331,12 @@ namespace META
             }
             else if (pathConvention == PathConvention.REL_TO_PROJ_ROOT)
             {
-                var compDirPath = GetComponentFolderPath(domainModel.ParentContainer as CyPhy.Component);
+                string compDirPath = getDirPath();
                 path = Path.Combine(compDirPath, resourcePath);
             }
             else if (pathConvention == PathConvention.ABSOLUTE)
             {
-                var compDirPath = GetComponentFolderPath(domainModel.ParentContainer as CyPhy.Component);
+                string compDirPath = getDirPath();
                 var projRootPath = domainModel.Impl.Project.GetRootDirectoryPath();
                 path = Path.Combine(projRootPath, compDirPath, resourcePath);
             }

@@ -22,9 +22,11 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
-            NameVal = "Rename CAD File",
-            DescriptionVal = "Rename a previously imported Creo CAD model in this CyPhy Component.",
-            RoleVal = CyPhyComponentAuthoringInterpreter.Role.Modify
+                NameVal = "Rename CAD File",
+                DescriptionVal = "Rename a previously imported Creo CAD model in this CyPhy Component.",
+                RoleVal = CyPhyComponentAuthoringInterpreter.Role.Modify,
+                IconResourceKey = "rename_cad",
+                SupportedDesignEntityTypes = CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component
             )
         ]
         public void callRenameCADFile(object sender, EventArgs e)
@@ -34,16 +36,12 @@ namespace CyPhyComponentAuthoring.Modules
             // Close the calling dialog box if the module ran successfully
             if (Close_Dlg)
             {
-                // calling object is a button
-                Button callerBtn = (Button)sender;
-                // the button is in a layout panel
-                TableLayoutPanel innerTLP = (TableLayoutPanel)callerBtn.Parent;
-                // the layout panel is a table within a table
-                TableLayoutPanel outerTLP = (TableLayoutPanel)innerTLP.Parent;
-                // the TLP is in the dialog box
-                Form parentDB = (Form)outerTLP.Parent;
-                // the dialog box is what we want to close
-                parentDB.Close();
+                if (sender is Form)
+                {
+                    // the TLP is in the dialog box
+                    Form parentDB = (Form)sender;
+                    parentDB.Close();
+                }
             }
         }
 
@@ -88,7 +86,7 @@ namespace CyPhyComponentAuthoring.Modules
             if (cad_file_chosen)
             {
                 // -    file chosen is in the component folder structure
-                string must_be_in_dir = GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE).Replace("/", "\\");
+                string must_be_in_dir = ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE).Replace("/", "\\");
                 if (!StartingCadFilename.Contains(must_be_in_dir))
                 {
                     if (!test_mode_only)
@@ -171,13 +169,14 @@ namespace CyPhyComponentAuthoring.Modules
                 //- Does the file path chosen match the "Path" attribute of a Resource? 
                 //  - If not, quit. 
                 CyPhy.Resource ResourceObj = null;
-                var resourcePath = ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
+                var resourcePath = ComponentLibraryManager.MakeRelativePath(
+                    ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
                         AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(StartingCadFilename));
                 // n.b. current dir doesn't matter, we just want to canonicalize .. . / et al
                 resourcePath = Path.GetFullPath(resourcePath);
                 try
                 {
-                    ResourceObj = GetCurrentComp().Children.ResourceCollection
+                    ResourceObj = ((CyPhy.Component) GetCurrentDesignElement()).Children.ResourceCollection
                         .Where(p => Path.GetFullPath(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(p.Attributes.Path))
                             == resourcePath).First();
                 }
@@ -185,7 +184,8 @@ namespace CyPhyComponentAuthoring.Modules
                 {
                     if (!test_mode_only)
                     {
-                        this.Logger.WriteError("No resource found with that CAD file path", ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE), StartingCadFilename), ex.Message);
+                        this.Logger.WriteError("No resource found with that CAD file path", ComponentLibraryManager.MakeRelativePath(
+                            ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE), StartingCadFilename), ex.Message);
                     }
                     cleanup(false);
                     return;
@@ -244,7 +244,7 @@ namespace CyPhyComponentAuthoring.Modules
                 // Step 4 - Change that "Path" attribute to the new name. 
                 // change the resource name and path
                 // Path name needs to be relative to component folder
-                string new_path = ComponentLibraryManager.MakeRelativePath(GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
+                string new_path = ComponentLibraryManager.MakeRelativePath(((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE),
                     AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(RenamedCadFilename));
                 ResourceObj.Attributes.Path = new_path;
 
@@ -263,7 +263,7 @@ namespace CyPhyComponentAuthoring.Modules
                 try
                 {
                     // FIXME: check that it is connected to ResourceObj
-                    ModelObj = GetCurrentComp().Children.CADModelCollection.Where(p => p.Name == modelObjName).First();
+                    ModelObj = ((CyPhy.Component) GetCurrentDesignElement()).Children.CADModelCollection.Where(p => p.Name == modelObjName).First();
                 }
                 // check if ModelObj exists
                 catch (InvalidOperationException)
@@ -304,7 +304,7 @@ namespace CyPhyComponentAuthoring.Modules
                 ofd.DefaultExt = "test.mdl";
                 ofd.Multiselect = false;
                 // Explorer doesn't like paths with mixed seperators, make them all the same
-                string initial_directory = GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE).Replace("/", "\\");
+                string initial_directory = ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE).Replace("/", "\\");
                 ofd.InitialDirectory = initial_directory;
                 ofd.Filter = "ASM and PRT files (*.asm,*prt)|*.asm*;*.prt*|ASM files (*.asm)|*.asm*|PRT files (*.prt)|*.prt*|All files (*.*)|*.*";
                 dr = ofd.ShowDialog();

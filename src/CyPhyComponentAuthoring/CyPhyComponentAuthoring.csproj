@@ -94,6 +94,7 @@
     <Compile Include="Modules\RenameCADFile.cs" />
     <Compile Include="Registrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs" />
     <!--$ADDITIONALFILES$-->
   </ItemGroup>
   <ItemGroup>
@@ -145,11 +146,20 @@
     <EmbeddedResource Include="CyPhyComponentAuthoringToolGUI.resx">
       <DependentUpon>CyPhyComponentAuthoringToolGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CyPhyComponentAuthoring.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\add_cad.ico" />
+    <Content Include="Resources\add_icon.ico" />
+    <Content Include="Resources\add_mfg.ico" />
+    <Content Include="Resources\add_modelica.ico" />
+    <Content Include="Resources\export_component_folder.ico" />
+    <Content Include="Resources\generic_module.ico" />
+    <Content Include="Resources\open_folder.ico" />
+    <Content Include="Resources\rename_cad.ico" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -17,9 +17,11 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
-            NameVal = "Open Folder",
-            DescriptionVal = "Locate the Component's resource folder on the disk, and open it in Windows Explorer.",
-            RoleVal = CyPhyComponentAuthoringInterpreter.Role.Publish
+                NameVal = "Open Folder",
+                DescriptionVal = "Locate the Component's resource folder on the disk, and open it in Windows Explorer.",
+                RoleVal = CyPhyComponentAuthoringInterpreter.Role.Publish,
+                IconResourceKey = "open_folder",
+                SupportedDesignEntityTypes = CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component | CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.ComponentAssembly
             )
         ]
         public void OpenFolder(object sender, EventArgs e)
@@ -29,15 +31,12 @@ namespace CyPhyComponentAuthoring.Modules
             // Close the calling dialog box if the module ran successfully
             if (Close_Dlg)
             {
-                // calling object is a button
-                Button callerBtn = (Button)sender;
-                // the button is in a layout panel
-                TableLayoutPanel innerTLP = (TableLayoutPanel)callerBtn.Parent;
-                // the layout panel is a table within a table
-                TableLayoutPanel outerTLP = (TableLayoutPanel)innerTLP.Parent;
-                // the TLP is in the dialog box
-                Form parentDB = (Form)outerTLP.Parent;
-                parentDB.Close();
+                if (sender is Form)
+                {
+                    // the TLP is in the dialog box
+                    Form parentDB = (Form)sender;
+                    parentDB.Close();
+                }
             }
         }
 
@@ -45,8 +44,19 @@ namespace CyPhyComponentAuthoring.Modules
         {
             this.Logger = new CyPhyGUIs.GMELogger(CurrentProj, this.GetType().Name);
 
-            CyPhy.Component comp = GetCurrentComp();
-            var absPath = comp.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+            string absPath;
+
+            if (GetCurrentDesignElement() is CyPhy.Component)
+            {
+                CyPhy.Component comp = (CyPhy.Component)GetCurrentDesignElement();
+                absPath = comp.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+            }
+            else
+            {
+                CyPhy.ComponentAssembly comp = (CyPhy.ComponentAssembly)GetCurrentDesignElement();
+                absPath = comp.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+            }
+            
 
             if (false == Directory.Exists(absPath))
             {

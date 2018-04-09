@@ -12,18 +12,25 @@ namespace CyPhyComponentAuthoring
     [CyPhyComponentAuthoringInterpreter.IsCATModule(ContainsCATmethod = true)]
     public abstract class CATModule
     {
-        private CyPhy.Component CurrentComp;
-        public CyPhy.Component GetCurrentComp()
+        private CyPhy.DesignElement CurrentDesignElement;
+        public CyPhy.DesignElement GetCurrentDesignElement()
         {
-            return CurrentComp;
+            return CurrentDesignElement;
         }
-        public void SetCurrentComp(CyPhy.Component comp)
+        public void SetCurrentDesignElement(CyPhy.DesignElement comp)
         {
-            CurrentComp = comp;
+            CurrentDesignElement = comp;
         }
-        //        CyPhy.Component CurrentComp { get; set; }
+        //        CyPhy.Component CurrentDesignElement { get; set; }
 
-        public MgaProject CurrentProj { get; set; }
+        public MgaProject CurrentProj
+        {
+            get
+            {
+                return CurrentDesignElement.Impl.Project;
+            }
+        }
+
         public MgaFCO CurrentObj { get; set; }
     }
 }
