@@ -165,10 +165,12 @@ namespace JobManagerFramework
         }
 
         public static readonly string ServerName = "JobServer";
-        public static readonly string ChannelName = "MetaJobManager";
+        public static readonly string ChannelName_base = "MetaJobManager";
 
         private void InitializeChannels()
         {
+            string ChannelName = ChannelName_base + Environment.UserName;
+
             var provider = new BinaryServerFormatterSinkProvider();
             provider.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
 

@@ -18,7 +18,13 @@ namespace CyPhyMasterInterpreter
             this.JobCollectionID = JobCollectionID;
         }
 
-        public static readonly Uri JobServerConnection = new Uri("ipc://MetaJobManager/JobServer");
+        Uri JobServerConnection
+        {
+            get
+            {
+                return new Uri("ipc://MetaJobManager" + Environment.UserName + "/JobServer");
+            }
+        }
 
         public Queue<KeyValuePair<JobServer, Job>> jobsToAdd = new Queue<KeyValuePair<JobServer, Job>>();
         public void AddJobs()
