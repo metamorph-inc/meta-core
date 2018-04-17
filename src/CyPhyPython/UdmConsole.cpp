@@ -38,7 +38,7 @@ namespace GMEConsole
 		return ret;
 	}
 
-	CComPtr<IGMEOLEApp> Console::gmeoleapp=0;
+	thread_local CComPtr<IGMEOLEApp> Console::gmeoleapp=0;
 
 	void Console::setupConsole(CComPtr<IMgaProject> project)
 	{

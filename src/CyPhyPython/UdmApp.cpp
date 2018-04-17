@@ -40,6 +40,19 @@ struct PyObject_RAII : private NonCopyable
 	~PyObject_RAII() { Py_XDECREF(p); }
 };
 
+static PyObject* get_builtin(const char* name)
+{
+#if PY_MAJOR_VERSION > 2
+	PyObject_RAII builtins = PyImport_ImportModule("builtins");
+#else
+	PyObject_RAII builtins = PyImport_ImportModule("__builtin__");
+#endif
+
+	PyObject* builtin_dict = PyModule_GetDict(builtins);
+	PyObject* ValueError = PyDict_GetItemString(builtin_dict, name);
+	return ValueError;
+}
+
 std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 {
 	PyObject_RAII type, value, traceback;
@@ -185,14 +198,35 @@ static PyObject *CyPhyPython_log(PyObject *self, PyObject *args)
 		GMEConsole::Console::Out::writeLine(html_encode<char>(PyString_AsString(arg1)));
 	}
 	else
+	{
+		PyErr_Format(get_builtin("ValueError"), "Argument must be str or unicode");
 		return NULL;
+	}
 	return return_Py_None();
 }
 
+static PyObject *CyPhyPython_console_message(PyObject *self, PyObject *arg1)
+{
+	if (PyUnicode_Check(arg1))
+	{
+		GMEConsole::Console::Out::writeLine(PyUnicode_AsUnicode(arg1));
+	}
+	else if (PyString_Check(arg1))
+	{
+		GMEConsole::Console::Out::writeLine(PyString_AsString(arg1));
+	}
+	else
+	{
+		PyErr_Format(get_builtin("ValueError"), "Argument must be str or unicode");
+		return NULL;
+	}
+	return return_Py_None();
+}
 
 static PyMethodDef CyPhyPython_methods[] = {
-    {"log",  CyPhyPython_log, METH_VARARGS, "Log in the GME console"},
-    {NULL, NULL, 0, NULL}        /* Sentinel */
+	{ "log",  CyPhyPython_log, METH_VARARGS, "Log in the GME console or results log file" },
+	{ "console_message",  (PyCFunction)CyPhyPython_console_message, METH_O, "Log in the GME console" },
+	{NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
 

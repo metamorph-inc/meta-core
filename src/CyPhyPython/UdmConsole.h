@@ -23,7 +23,7 @@ namespace GMEConsole
 #else
 	public:
 #endif
-		static CComPtr<IGMEOLEApp> gmeoleapp;
+		static thread_local CComPtr<IGMEOLEApp> gmeoleapp;
 	public:
 		static void setupConsole(CComPtr<IMgaProject> project);
 		static void freeConsole()
