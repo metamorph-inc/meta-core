@@ -54,16 +54,6 @@ namespace JobManagerFramework
          */
         public LocalPool(int initialThreadCount = 0)
         {
-            if (initialThreadCount == 0)
-            {
-                initialThreadCount = GetNumberOfPhysicalCores();
-            }
-
-            int coreCount = initialThreadCount;
-            int numCommandThread = coreCount;
-            int numMatLabThread = coreCount;
-            int numCADThread = 2;
-
             ts = new CancellationTokenSource();
             ct = ts.Token;
 
@@ -73,28 +63,19 @@ namespace JobManagerFramework
                 TaskContinuationOptions.None,
                 null);
 
-            int numAllThread = numCommandThread + numMatLabThread + numCADThread;
-
-            // do not use more threads than cores
-            numAllThread = Math.Min(numAllThread, coreCount);
-
-            NumAllThread = numAllThread;
-            NumCommandThread = numCommandThread;
-            NumMatLabThread = numMatLabThread;
-            NumCADThread = numCADThread;
-
-            lock (QueuedJobs)
+            // GetNumberOfPhysicalCores might take a long time, offload it onto the pool
+            Task t = tf.StartNew(() =>
             {
-                JobCapacities.Add(Job.TypeEnum.Command, numCommandThread);
-                JobCapacities.Add(Job.TypeEnum.Matlab, numMatLabThread);
-                JobCapacities.Add(Job.TypeEnum.CAD, numCADThread);
-            }
-            for (int i = 0; i < numAllThread; i++)
-            {
-                Task t = tf.StartNew(JobRunner);
-            }
+                if (initialThreadCount == 0)
+                {
+                    initialThreadCount = GetNumberOfPhysicalCores();
+                }
+                for (int i = 0; i < initialThreadCount; i++)
+                {
+                    tf.StartNew(JobRunner);
+                }
+            });
         }
-        Dictionary<Job.TypeEnum, int> JobCapacities = new Dictionary<Job.TypeEnum, int>();
 
         private bool disposed = false;
         /// <summary>
@@ -380,13 +361,6 @@ namespace JobManagerFramework
             {
                 Trace.TraceError(ex.ToString());
             }
-            finally
-            {
-                lock (QueuedJobs)
-                {
-                    JobCapacities[job.Type]++;
-                }
-            }
         }
 
         private Job GetNextJob()
@@ -396,13 +370,9 @@ namespace JobManagerFramework
             {
                 for (LinkedListNode<Job> node = QueuedJobs.First; node != null; node = node.Next)
                 {
-                    if (JobCapacities[node.Value.Type] > 0)
-                    {
-                        JobCapacities[node.Value.Type]--;
-                        job = node.Value;
-                        QueuedJobs.Remove(node);
-                        break;
-                    }
+                    job = node.Value;
+                    QueuedJobs.Remove(node);
+                    break;
                 }
             }
 
