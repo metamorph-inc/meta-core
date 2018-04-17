@@ -23,8 +23,12 @@ namespace JobManager
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                Func<JobManagerFramework.JobManager> createJobManager = () => new JobManagerFramework.JobManager();
+                var createJobManagerResult = createJobManager.BeginInvoke(null, null);
+                Func<JobManagerFramework.JobManager> getJobManager = () => createJobManager.EndInvoke(createJobManagerResult);
+
                 //TODO: read from settings
-                JobManagerForm managerForm = new JobManagerForm(settings);
+                JobManagerForm managerForm = new JobManagerForm(getJobManager, settings);
                 Console.Out.WriteLine("JobManager has started");
 
                 managerForm.Text = "JobManager";

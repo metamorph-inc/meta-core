@@ -151,8 +151,11 @@ namespace JobManager
         public string TraceFileName { get; set; }
         private string password { get; set; }
 
-        public JobManagerForm(Dictionary<string, string> settings = null)
+        public JobManagerForm(Func<JobManagerFramework.JobManager> getJobManager, Dictionary<string, string> settings = null)
         {
+            Func<string> getHeader = () => META.Logger.Header();
+            var getHeaderResult = getHeader.BeginInvoke(null, null);
+
             InitializeComponent();
 
             InitJobQueue();
@@ -207,10 +210,9 @@ namespace JobManager
             Trace.AutoFlush = true;
             Trace.Listeners.Add(fileTL);
 
-            Trace.TraceInformation(META.Logger.Header());
+            Trace.TraceInformation(getHeader.EndInvoke(getHeaderResult));
 
-            manager = new JobManagerFramework.JobManager();
-
+            manager = getJobManager();
             this.FormClosing += (sender, args) =>
             {
                 if (manager.HasIncompleteSots)
