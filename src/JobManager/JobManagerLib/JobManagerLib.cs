@@ -54,13 +54,6 @@ namespace JobManager
             set;
         }
 
-        public enum TypeEnum
-        {
-            Command,
-            Matlab,
-            CAD,
-        }
-
         public bool IsFailed()
         {
             return Job.IsFailedStatus(Status);
@@ -75,8 +68,6 @@ namespace JobManager
                    status == StatusEnum.FailedToDownload ||
                    status == StatusEnum.Failed;
         }
-
-        public TypeEnum Type { get; set; }
 
         public string Labels { get; set; }
 

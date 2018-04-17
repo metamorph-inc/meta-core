@@ -14,9 +14,6 @@ namespace JobManager
         public CreateJob()
         {
             InitializeComponent();
-
-            cbType.DataSource = Enum.GetValues(typeof(Job.TypeEnum));
-            cbType.SelectedItem = Job.TypeEnum.Command;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -27,17 +24,6 @@ namespace JobManager
                 string title = txtTitle.Text;
                 string workingDirectory = System.IO.Path.GetFullPath(txtWorkingDir.Text);
                 string runCommand = txtRunCommand.Text;
-                Job.TypeEnum type = Job.TypeEnum.Command;
-
-                if (Enum.TryParse(cbType.SelectedItem.ToString(), out type) == false)
-                {
-                    MessageBox.Show(
-                        "Invalid type.",
-                        "Enum type is invalid",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
-                }
 
                 // create new job(s) on the server
                 for (int i = 1; i <= nupNumJob.Value; ++i)

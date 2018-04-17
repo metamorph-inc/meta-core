@@ -34,7 +34,6 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.nupNumJob = new System.Windows.Forms.NumericUpDown();
-            this.cbType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nupNumJob)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,21 +89,11 @@
             0,
             0});
             // 
-            // cbType
-            // 
-            this.cbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(13, 90);
-            this.cbType.Name = "cbType";
-            this.cbType.Size = new System.Drawing.Size(101, 21);
-            this.cbType.TabIndex = 3;
-            // 
             // CreateJob
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 177);
-            this.Controls.Add(this.cbType);
             this.Controls.Add(this.nupNumJob);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtRunCommand);
@@ -127,6 +116,5 @@
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.NumericUpDown nupNumJob;
-		private System.Windows.Forms.ComboBox cbType;
 	}
 }

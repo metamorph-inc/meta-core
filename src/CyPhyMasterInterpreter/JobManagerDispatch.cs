@@ -65,8 +65,7 @@ namespace CyPhyMasterInterpreter
             string testbenchName,
             string workingDirectory,
             string projectDirectory,
-            ComComponent interpreter,
-            Job.TypeEnum type = Job.TypeEnum.Command)
+            ComComponent interpreter)
         {
             // TODO: cut down the number of input variables. interpreter and title should be enough
             JobServer manager;
@@ -76,7 +75,6 @@ namespace CyPhyMasterInterpreter
             j.Title = title;
             j.TestBenchName = testbenchName;
             j.WorkingDirectory = workingDirectory;
-            j.Type = type;
 
             j.Labels = String.IsNullOrWhiteSpace(interpreter.result.Labels) ?
                 Job.DefaultLabels :
