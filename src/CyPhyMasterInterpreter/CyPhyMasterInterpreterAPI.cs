@@ -672,10 +672,11 @@
                         // user master interpreter's result set in case user canceled the execution
                         foreach (var result in results)
                         {
-                            string message = string.Format(" {0} {1} {2} ",
+                            string message = string.Format(" {0} {1} <a href=\"file:///{2}\" target=\"_blank\">results folder</a> {3}",
                                 GME.CSharp.GmeConsoleHelper.ToMgaHyperLink(result.Context, this.Logger.Traceability, true),
                                 GME.CSharp.GmeConsoleHelper.ToMgaHyperLink(result.Configuration, this.Logger.Traceability, true),
-                                result.Message);
+                                result.OutputDirectory,
+                                SecurityElement.Escape(result.Message));
 
                             if (result.Success)
                             {
@@ -1334,8 +1335,8 @@
 
                 bool isVerbose = this.Logger.GMEConsoleLoggingLevel == CyPhyGUIs.SmartLogger.MessageType_enum.Debug;
 
-                analysisModelProcessor.RunInterpreters(passTraceability, isVerbose);
                 result.OutputDirectory = analysisModelProcessor.OutputDirectory;
+                analysisModelProcessor.RunInterpreters(passTraceability, isVerbose);
 
                 this.Logger.WriteDebug("Interpreters finished.");
 
