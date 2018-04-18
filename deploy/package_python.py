@@ -10,6 +10,7 @@ import py_compile
 
 PYC_EXCLUDES = ('matlab_proxy', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests')
 
+
 def pyc_exclude(filename):
     for exclude in PYC_EXCLUDES:
         if exclude in filename:
@@ -18,8 +19,6 @@ def pyc_exclude(filename):
 
 
 def print_zip_safe():
-    safes = []
-
     for egg_dir in os.listdir('../bin/Python27/Lib/site-packages'):
         egg_dir = '../bin/Python27/Lib/site-packages/' + egg_dir
         if egg_dir.endswith('.dist-info'):
@@ -48,7 +47,7 @@ def compileall():
             continue
         if os.path.isdir(filename):
             continue
-        dfile = 'META\\' +  os.path.relpath(filename, '..')
+        dfile = 'META\\' + os.path.relpath(filename, '..')
 
         # tmp_name = '__tmp.pyc'   'cfile': tmp_name,
         kwargs = {'file': filename, 'dfile': dfile, 'doraise': True}
@@ -70,7 +69,7 @@ def zipall():
         # TODO fix openmdao """with open(os.path.join(os.path.dirname(__file__), 'unit_library.ini')) as default_lib:"""
         # TODO add "markupsafe", "lazy_object_proxy" once .pyds are handled
         for package in ("dateutil", "excel_wrapper", "markdown", "mpl_toolkits", "mpmath", "networkx",
-                "OMPython", "colorama", "wrapt", "pytz"
+                "OMPython", "colorama", "wrapt", "pytz",
                 # avoid `git grep getframe **pth` manipulators
                 "sphinxcontrib", "logilab", "mpl_toolkits",
                 ):
