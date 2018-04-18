@@ -70,7 +70,10 @@ def zipall():
         # TODO fix openmdao """with open(os.path.join(os.path.dirname(__file__), 'unit_library.ini')) as default_lib:"""
         # TODO add "markupsafe", "lazy_object_proxy" once .pyds are handled
         for package in ("dateutil", "excel_wrapper", "markdown", "mpl_toolkits", "mpmath", "networkx",
-                "OMPython", "colorama", "wrapt", "pytz"):
+                "OMPython", "colorama", "wrapt", "pytz"
+                # avoid `git grep getframe **pth` manipulators
+                "sphinxcontrib", "logilab", "mpl_toolkits",
+                ):
             ls_files = subprocess.Popen('git ls-files  ../bin/Python27/Lib/site-packages/{}/**'.format(package), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = ls_files.communicate()
             exit_code = ls_files.poll()
