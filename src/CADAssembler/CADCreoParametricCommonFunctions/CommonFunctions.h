@@ -128,17 +128,16 @@ namespace isis
 	void RetrieveUnits_withDescriptiveErrorMsg( 
 				//cad::CadFactoryAbstract							&in_Factory,
 				const std::string								&in_ComponentInstanceID,
-				isis::CADComponentData							&in_CADComponentData,
+				const isis::CADComponentData						&in_CADComponentData,
 				CADModelUnits									&out_CADModelUnits  )
 													throw(isis::application_exception);
 
 
-	void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,
-										const std::string							&in_AssemblyComponentID,
-										const std::string								&in_PartComponentID,
-										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-										const MultiFormatString							&in_DatumName,
-										CADPoint										&out_CADPoint);
+	void RetrieveDatumPointCoordinates( const std::string									&in_AssemblyComponentID,
+										const std::string									&in_PartComponentID,
+										const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+										const MultiFormatString								&in_DatumName,
+										CADPoint												&out_CADPoint);
 
 } // END namespace isis
 

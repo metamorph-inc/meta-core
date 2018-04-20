@@ -60,22 +60,67 @@ ENUM_NEW e_CADSpecialInstruction SpecialInstruction  CAD
 	CAD_SPECIAL_INSTRUCTION_SIZE_TO_FIT				SIZE_TO_FIT	
 	CAD_SPECIAL_INSTRUCTION_HAS_KINEMATIC_JOINT		HAS_KINEMATIC_JOINT	
 	
+ENUM_NEW e_CADUnitsType CADUnitsType  CAD
+	CAD_UNITS_DISTANCE				distance
+	CAD_UNITS_AREA					area	
+	CAD_UNITS_VOLUME				volume	
+	CAD_UNITS_DENSITY				density	
+	CAD_UNITS_MASS					mass		
+	CAD_UNITS_FORCE					force	
+	CAD_UNITS_MOMENT				moment	
+	CAD_UNITS_PRESSURE				pressure	
+	CAD_UNITS_ACCELERATION			acceleration	
+	CAD_UNITS_HEAT_CAPACITY			heat_capacity	
+	CAD_UNITS_THERMAL_CONDUCTIVITY	thermal_conductivity
+	CAD_UNITS_ANGLE					angle		
+	CAD_UNITS_TIME					time
+	CAD_UNITS_TEMPERATURE			temperature
+	CAD_UNITS_TYPE_NA				N/A		
 	
 ENUM_NEW e_CADUnitsDistance CADUnitsDistance  CAD
-	CAD_UNITS_MM		MM MILLIMETER	
-	CAD_UNITS_CM		CM	
-	CAD_UNITS_INCH		INCH	
-	CAD_UNITS_NA		N/A		
+	CAD_UNITS_MM				mm  millimeter	
+	CAD_UNITS_CM				cm	centimeter
+	CAD_UNITS_M					m   meter
+	CAD_UNITS_KM				km   kilometer	
+	CAD_UNITS_INCH				inch in
+	CAD_UNITS_FOOT				foot ft
+	CAD_UNITS_DISTANCE_NA		N/A			
+	
+ENUM_NEW e_CADUnitsArea CADUnitsArea  CAD
+	CAD_UNITS_MM_SQUARED		mm2 mm^2 
+	CAD_UNITS_CM_SQUARED		cm2 cm^2 
+	CAD_UNITS_INCH_SQUARED		inch2 in2 inch^2 in^2
+	CAD_UNITS_AREA_NA			N/A				
+	
+	
+ENUM_NEW e_CADUnitsVolume CADUnitsVolume  CAD
+	CAD_UNITS_MM_CUBED			mm3 mm^3 millimeter3  millimeter^3
+	CAD_UNITS_CM_CUBED			cm3 cm^3 centimeter3  centimeter^3
+	CAD_UNITS_M_CUBED			m3 m^3 meter3 meter^3
+	CAD_UNITS_KM_CUBED			km3 km^3 kilometer kilometer^3	
+	CAD_UNITS_INCH_CUBED		inch3 in3 inch^3 in^3
+	CAD_UNITS_FOOT_CUBED		foot3 ft3 foot^3 ft^3	
+	CAD_UNITS_VOLUME_NA			N/A			
+
+	
+ENUM_NEW e_CADUnitsMass CADUnitsMass  CAD
+	CAD_UNITS_LBM		lbm	
+	CAD_UNITS_GRAM		g gram
+	CAD_UNITS_KGRAM		kg kilogram
+	CAD_UNITS_TONNE		tonne
+	CAD_UNITS_MASS_NA	N/A		
+	
 	
 ENUM_NEW e_CADUnitsForce CADUnitsForce  CAD
-	CAD_UNITS_LBF		LBF	
-	CAD_UNITS_N			N NEWTON	
+	CAD_UNITS_LBF		lbf	
+	CAD_UNITS_N			N newton
+	CAD_UNITS_FORCE_NA	N/A		
 
 ENUM_NEW e_CADUnitsMoment CADUnitsMoment  CAD
-	CAD_UNITS_FT_LBF	FT-LBF	
-	CAD_UNITS_IN_LBF	IN-LBF	
-	CAD_UNITS_N_M		N-M   NEWTON-M
-	CAD_UNITS_N_MM		N-MM  NEWTON-MM	
+	CAD_UNITS_FT_LBF	ft-lbf	
+	CAD_UNITS_IN_LBF	in-lbf	
+	CAD_UNITS_N_M		N-m   newton-m
+	CAD_UNITS_N_MM		N-mm  newton-mm	
 	
 ENUM_NEW e_CADUnitsPressure CADUnitsPressure  CAD
 	CAD_UNITS_MPA				MPa	
@@ -83,13 +128,19 @@ ENUM_NEW e_CADUnitsPressure CADUnitsPressure  CAD
 	CAD_UNITS_PA				Pa	PASCAL
 	
 ENUM_NEW e_CADUnitsAcceleration CADUnitsAcceleration  CAD
-	CAD_UNITS_FT_PER_SEC_SQ			FT/S^2 	FT/S2
-	CAD_UNITS_MM_PER_SEC_SQ			MM/S^2  MM/S2
-	CAD_UNITS_M_PER_SEC_SQ			M/S^2	M/S2	
+	CAD_UNITS_FT_PER_SEC_SQ			ft/s2  ft/s^2 	
+	CAD_UNITS_MM_PER_SEC_SQ			mm/s2  mm/s^2  
+	CAD_UNITS_M_PER_SEC_SQ			m/s2   m/s^2		
 	
 ENUM_NEW e_CADUnitsDensity 		CADUnitsDensity  CAD
 	CAD_UNITS_KG_PER_MM_CUBED		kg/mm3
 	CAD_UNITS_KG_PER_M_CUBED		kg/m3
+	
+ENUM_NEW e_CADUnitsTemperature 		CADUnitsTemperature  CAD
+	CAD_UNITS_CELSIUS				celsius C
+	CAD_UNITS_FAHRENHEIT			fahrenheit F
+	CAD_UNITS_KELVIN				kelvin	K
+	CAD_UNITS_TEMPERATURE_NA		N/A		
 	
 ENUM_NEW e_CADUnitsHeatCapacity 		CADUnitsHeatCapacity  CAD
 	CAD_UNITS_J_PER_KG_K			J/KgK
@@ -98,10 +149,16 @@ ENUM_NEW e_CADUnitsThermalConductivity 		CADUnitsThermalConductivity  CAD
 	CAD_UNITS_W_PER_MM_K			W/mmK	
 	
 ENUM_NEW e_CADUnitsAngle 		CADUnitsAngle  CAD
-	CAD_UNITS_RADIAN			Radian
-	CAD_UNITS_DEGREE			Degree  Degrees Deg
+	CAD_UNITS_RADIAN			radian
+	CAD_UNITS_DEGREE			degree  Degrees Deg
 	CAD_UNITS_ANGLE_NA			N/A	
 
+ENUM_NEW e_CADUnitsTime 		CADUnitsTime  CAD
+	CAD_UNITS_SECOND			second sec
+	CAD_UNITS_HOUR				hour   hr
+	CAD_UNITS_TIME_NA			N/A		
+	
+	
 ENUM_NEW e_AnalysisType 		AnalysisType  CAD
 	ANALYSIS_STRUCTURAL			STRUCTURAL
 	ANALYSIS_BUCKLING			BUCKLING

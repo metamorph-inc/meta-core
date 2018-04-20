@@ -207,15 +207,15 @@ public:
 
 
 	// in_ModelHandle handle is an in memory handle to the model
-	virtual void cADModelSave(	   void 								*in_ModelHandle ) const throw (isis::application_exception) = 0;
+	virtual void cADModelSave(	   void 									*in_ModelHandle ) const throw (isis::application_exception) = 0;
 
-	virtual void cADModelFileCopy (e_CADMdlType 						in_ModelType,
-								   const isis::MultiFormatString		&in_FromModelName,
+	virtual void cADModelFileCopy (e_CADMdlType 							in_ModelType,
+								   const isis::MultiFormatString			&in_FromModelName,
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception) = 0;
 
 	virtual void cADModelSave( 
-					const std::string								&in_ComponentInstanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+					const std::string									&in_ComponentInstanceID,
+					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																		throw (isis::application_exception) = 0;	
 
 	virtual void extractModelNameAndFamilyTableEntry(	
@@ -292,41 +292,45 @@ public:
 			std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																		throw (isis::application_exception) = 0;
 
-	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::string									&in_ChildComponentID,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
 
+	//	If in_AssemblyComponentInstanceID and/or in_ChildComponentID does not exist in in_CADComponentData_map 
+	//		then
+	//			isis::application_exception will be thrown
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::list<int>									&in_ChildComponentPaths,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::string										&in_ChildComponentID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
+
+	//	If in_AssemblyComponentInstanceID does not exist in in_CADComponentData_map 
+	//		then
+	//			isis::application_exception will be thrown
+	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::list<int>										&in_ChildComponentPaths,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception) = 0;
 
 
 	// This function computes the bounding box based on excluding all geometry except for the solid geometry.
 	// This means that datums, coordinate system, and sketch curves/lines would be excluded.
-	// If the bounding box information has already been computed for in_ComponentInstanceID then those
-	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
-	// and then returned.
-	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
-								const std::string								&in_ComponentInstanceID,
-								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
-								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
-								double											out_Dimensions_xyz[3] )
+	virtual void	 retrieveBoundingBox( 
+								const std::string										&in_ComponentInstanceID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+								isis_CADCommon::Point_3D									&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D									&out_BoundingBox_Point_2,
+								double													out_Dimensions_xyz[3] )
 																		throw (isis::application_exception) = 0;
 
 
 	// The point coordinates are relative to the coordinate system in the in_AssemblyComponentInstanceID assembly
-	virtual void retrievePointCoordinates(	const std::string								&in_AssemblyComponentInstanceID,
-											const std::string								&in_PartComponentID,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-											const MultiFormatString							&in_PointName,
-											CADPoint											&out_CADPoint) 
+	virtual void retrievePointCoordinates(	const std::string									&in_AssemblyComponentInstanceID,
+											const std::string									&in_PartComponentID,
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString								&in_PointName,
+											CADPoint												&out_CADPoint) 
 																				throw (isis::application_exception)	= 0;
 
 
@@ -360,57 +364,64 @@ public:
 	//				references to parts.
 
 	virtual void findPartsReferencedByFeature(	
-						const std::string								&in_TopAssemblyComponentID, 
-						const std::string								&in_ComponentInstanceID,
-						const MultiFormatString							&in_FeatureName,
-						e_CADFeatureGeometryType							in_FeatureGeometryType,
+						const std::string									&in_TopAssemblyComponentID, 
+						const std::string									&in_ComponentInstanceID,
+						const MultiFormatString								&in_FeatureName,
+						e_CADFeatureGeometryType								in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::set<std::string>								&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
 																			throw (isis::application_exception) = 0;
-
 
 	// See the ModelOperationsCreo::retrieveMassProperties funtion for how out_MassProperties should be set
 	virtual void retrieveMassProperties( 
-						const std::string								&in_ComponentInstanceID,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						MassProperties									&out_MassProperties) 
+						const std::string									&in_ComponentInstanceID,
+						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						MassProperties										&out_MassProperties) 
 																				throw (isis::application_exception) = 0;
+		//------ const map to here
 
+	//virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
-	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
-	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception) = 0;
+	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception) = 0;
 
 	virtual void retrieveCADModelUnits( 
-					const std::string								&in_ComponentInstanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
-					CADModelUnits									&out_CADModelUnits )
+					const std::string									&in_ComponentInstanceID,
+					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					CADModelUnits										&out_CADModelUnits )
 																	throw (isis::application_exception) = 0;
 
 	// Only parts have designated materials.  Assemblies do not have designated materials; and thus, an exception will be
 	// thrown if this functions is called if in_ComponentInstanceID is a assembly.
 	// A part can have no material defined. For that case this function will throw an exception.
-	virtual MultiFormatString retrieveMaterialName( 	const std::string								&in_ComponentInstanceID,
-													std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
+	virtual MultiFormatString retrieveMaterialName( 	const std::string									&in_ComponentInstanceID,
+													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception) = 0;
 
 	// This function only adds in_ModelComponentIDsToAdd parts/sub-assemblies to the in_AssemblyComponentInstanceID assembly.  It does
 	// not constrain the added parts/sub-assemblies.
+	// This function modifies in_out_CADComponentData_map.  For Creo, The following fields are modified:
+	//		in_out_CADComponentData_map[*itr].cADModel_ptr_ptr = p_model;
+	//		in_out_CADComponentData_map[*itr].cADModel_hdl =	(ProSolid)*p_model;
+	//		in_out_CADComponentData_map[*itr].assembledFeature = getCADAssembledFeature(assembled_feat_handle);
+	//		in_out_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
+	//		in_out_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
+	//	For other CAD systems, only the above type fields should be modified.
 	virtual void addModelsToAssembly( 
 					const std::string									&in_AssemblyComponentInstanceID,
 					const std::list<std::string>							&in_ModelComponentIDsToAdd,
-					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					std::map<std::string, isis::CADComponentData>		&in_out_CADComponentData_map,
 					int													&in_out_AddedToAssemblyOrdinal)
 																			throw (isis::application_exception) = 0;
 
@@ -455,7 +466,7 @@ public:
 	//	if InputJoint information (e.g. limits of rotation) is present (i.e. in CADAssembly.xml):
 	//		a) apply the joint information in addition to the previously applied constraints
 	//
-	//	Regenerate - Normally would not need to regenerate the entire assembly, just the constrained model.
+	//	Regenerate - Normally, would not need to regenerate the entire assembly, just the constrained model.
 	//
 	// Pre-Conditions
 	// --------------
@@ -474,10 +485,15 @@ public:
 	//			in the other model, then the features are not compatible.
 	//		2)	if the model will not regenerate after applying the constraints.  This would indicate that the
 	//			the constraints are malformed.
+
+	// Note -	This function modifies in_out_CADComponentData_map with computed junction information.
+	//			Should consider refactoring so that modifications to in_out_CADComponentData_map could
+	//			be done by a cad common (cc) function that would retrieve the necessary information via
+	//			abstract functions and the cc function would modify the map.
 	virtual bool applySingleModelConstraints( 
 				const std::string								&in_AssemblyComponentInstanceID,
 				const std::string								&in_ComponentIDToBeConstrained,		
-				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception) = 0;
 
 
@@ -516,6 +532,7 @@ public:
 																							throw (isis::application_exception) = 0;
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
+	// Need to add control over the size of the mesh (e.g. in Creo terms: Chord height, Angle control, Step size)
 	virtual void exportDataExchangeFile_Stereolithography(	void 							*in_ModelHandle_ptr,
 															e_CADMdlType						in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
@@ -533,8 +550,8 @@ public:
 
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
-	virtual void exportDataExchangeFile_DXF(					void 							*in_ModelHandle_ptr,
-															e_CADMdlType						in_ModelType,
+	virtual void exportDataExchangeFile_DXF(				void 							*in_ModelHandle_ptr,
+															e_CADMdlType					in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
@@ -542,7 +559,7 @@ public:
 
 	// Notes - Same notes as exportDataExchangeFile_STEP
 	virtual void exportDataExchangeFile_Parasolid(			void 							*in_ModelHandle_ptr,
-															e_CADMdlType						in_ModelType,
+															e_CADMdlType					in_ModelType,
 															const DataExchangeSpecification	&in_DataExchangeSpecification,
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
@@ -551,9 +568,48 @@ public:
 
 
 
+	//	Pre-Conditions: 
+	//		None
+	//	Post-Conditions
+	//		This function empties (i.e. clears) out_PartInterferences before doing any other operations.
+	//
+	//		If in_AssemblyComponentInstanceID is not an assembly, then isis::application_exception will be thrown
+	//
+	//      In the case of Creo, the interference analysis will fail some of the time because the SDK interference function fails.  
+	//		For those failure cases:
+	//			a)	isis::application_exception would be thrown. 
+	//			b)	The WriteInterferenceReport routine will called (not by computePartInterferences, but other code in this solution) to write the results to a file.  
+	//
+	//		If no interferences are found, then out_PartInterferences.size() will be zero
+	//		
+	//		The order of PartInterferences in out_PartInterferences is the order that the particular CAD system SDK returns the interferneces.
+	virtual void computePartInterferences(  const std::string									&in_AssemblyComponentInstanceID,  // This must be an assembly
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<PartInterferences>						&out_PartInterferences )
+																							throw (isis::application_exception) = 0;
+																										
+
+	// This function assumes:
+	//	1. The assembly is of a vehicle
+	//	2. The coordinate system of the vehicle is as follows:
+	//		z axis pointing in the direction of backward motion of the vehicle
+	//		y axis pointing upward
+	//		x axis in accordance to the right-hand rule
+	//	3.	Pt_0  x, y, z values
+	//		Pt_1  x, y, z values
+	//		Pt_2  x, y, z values
+	//		Where
+    //           Vector ( Pt_0 to Pt_1 )   X  Vector ( Pt_0 to Pt_2 )   would define the upward direction for a vehicle.
+    //           X represents the cross product
+	//	4.  For tracked vehicles, the tracks are parallel to the z-axis
+	//  5.  For wheeled vehicles, the portion of the wheels touching the ground form a 
+	//		plane. 
+//	virtual void computeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+//											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+//											std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+//																			throw (isis::application_exception) = 0;
+
 };
-
-
 
 
 class CadFactoryAbstract {

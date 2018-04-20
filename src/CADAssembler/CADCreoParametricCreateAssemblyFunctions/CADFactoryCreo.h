@@ -112,8 +112,8 @@ class  ModelHandlingCreo : public IModelHandling {
 								   const isis::MultiFormatString        &in_ToModelName) const throw (isis::application_exception);
 
 	virtual void cADModelSave( 
-					const std::string								&in_ComponentInstanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+					const std::string									&in_ComponentInstanceID,
+					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
 																		throw (isis::application_exception);
 
 	// e.g. in_OrigName				Chassis_8_Wheel<Chassis>
@@ -173,85 +173,85 @@ class  ModelOperationsCreo : public IModelOperations {
 
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::string									&in_ChildComponentID,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::string										&in_ChildComponentID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
 	virtual void retrieveTranformationMatrix_Assembly_to_Child (  
-								const std::string									&in_AssemblyComponentInstanceID,
-								const std::list<int>									&in_ChildComponentPaths,
-								std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
-								bool  in_bottom_up,
-								double out_TransformationMatrix[4][4] )  throw (isis::application_exception);
+								const std::string										&in_AssemblyComponentInstanceID,
+								const std::list<int>										&in_ChildComponentPaths,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,  
+								bool														in_bottom_up,
+								double													out_TransformationMatrix[4][4] )  throw (isis::application_exception);
 
-	virtual void	 retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
-								//cad::CadFactoryAbstract							&in_Factory,
-								const std::string								&in_ComponentInstanceID,
-								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
-								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
-								double											out_Dimensions_xyz[3] )
+
+	virtual void	 retrieveBoundingBox( 
+								const std::string										&in_ComponentInstanceID,
+								const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+								isis_CADCommon::Point_3D									&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D									&out_BoundingBox_Point_2,
+								double													out_Dimensions_xyz[3] )
 																		throw (isis::application_exception);
 
-	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string			&in_AssemblyComponentInstanceID,
-											const std::string								&in_PartComponentID,
-											std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-											const MultiFormatString							&in_PointName,
-											CADPoint											&out_CADPoint) 
+
+	virtual void ModelOperationsCreo::retrievePointCoordinates(	const std::string				&in_AssemblyComponentInstanceID,
+											const std::string									&in_PartComponentID,
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											const MultiFormatString								&in_PointName,
+											CADPoint												&out_CADPoint) 
 																				throw (isis::application_exception);
 
 
 	virtual void findPartsReferencedByFeature(	
-						const std::string								&in_TopAssemblyComponentID, 
-						const std::string								&in_ComponentInstanceID,
-						const MultiFormatString							&in_FeatureName,
-						e_CADFeatureGeometryType							in_FeatureGeometryType,
+						const std::string									&in_TopAssemblyComponentID, 
+						const std::string									&in_ComponentInstanceID,
+						const MultiFormatString								&in_FeatureName,
+						e_CADFeatureGeometryType								in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::set<std::string>							&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						std::set<std::string>								&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
 																			throw (isis::application_exception);
 	virtual void retrieveMassProperties( 
-						const std::string								&in_ComponentInstanceID,
-						std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-						MassProperties									&out_MassProperties) 
+						const std::string									&in_ComponentInstanceID,
+						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+						MassProperties										&out_MassProperties) 
 																				throw (isis::application_exception);
 
-	virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
-													 std::string &out_ShortName, 
-													 std::string &out_LongName  )
-																				throw (isis::application_exception);
+	//virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
+	//												 std::string &out_ShortName, 
+	//												 std::string &out_LongName  )
+	//																			throw (isis::application_exception);
 
-	virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
-													 std::string &out_ShortName, 
-													 std::string &out_LongName  )
-																				throw (isis::application_exception);
+	//virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
+	//												 std::string &out_ShortName, 
+	//												 std::string &out_LongName  )
+	//																			throw (isis::application_exception);
 
-	virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
 
-	virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
-	virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-																											throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
+	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
+	//																										throw (isis::application_exception);
 
 	virtual void retrieveCADModelUnits( 
-					//cad::CadFactoryAbstract							&in_Factory,
-					const std::string								&in_ComponentInstanceID,
-					std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
-					CADModelUnits									&out_CADModelUnits )
+					const std::string									&in_ComponentInstanceID,
+					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
+					CADModelUnits										&out_CADModelUnits )
 																	throw (isis::application_exception);
 
-	virtual MultiFormatString retrieveMaterialName( 	const std::string								&in_ComponentInstanceID,
-													std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
+	virtual MultiFormatString retrieveMaterialName( 	const std::string									&in_ComponentInstanceID,
+													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception);
 
 
 	virtual void ModelOperationsCreo::addModelsToAssembly( 
 					const std::string									&in_AssemblyComponentInstanceID,
 					const std::list<std::string>							&in_ModelComponentIDsToAdd,
-					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+					std::map<std::string, isis::CADComponentData>		&in_out_CADComponentData_map,
 					int													&in_out_AddedToAssemblyOrdinal)
 																											throw (isis::application_exception);
 
@@ -259,7 +259,7 @@ class  ModelOperationsCreo : public IModelOperations {
 	virtual bool ModelOperationsCreo::applySingleModelConstraints( 
 				const std::string								&in_AssemblyComponentInstanceID,
 				const std::string								&in_ComponentIDToBeConstrained,		
-				std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map )
+				std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map )
 																			throw (isis::application_exception);
 	
 
@@ -301,6 +301,16 @@ class  ModelOperationsCreo : public IModelOperations {
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
 																							throw (isis::application_exception);
+
+	virtual void computePartInterferences(  const std::string									&in_AssemblyComponentInstanceID,  // This must be an assembly
+											const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+											std::vector<PartInterferences>						&out_PartInterferences )
+																							throw (isis::application_exception);
+
+	//virtual void computeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+	//										std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+	//										std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+	//																		throw (isis::application_exception);
 
 };
 

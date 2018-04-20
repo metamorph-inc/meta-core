@@ -137,6 +137,94 @@ namespace isis
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsType CADUnitsType_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("DISTANCE") == 0 ) return CAD_UNITS_DISTANCE;
+		else if	(strUpper.compare("AREA") == 0 ) return CAD_UNITS_AREA;
+		else if	(strUpper.compare("VOLUME") == 0 ) return CAD_UNITS_VOLUME;
+		else if	(strUpper.compare("DENSITY") == 0 ) return CAD_UNITS_DENSITY;
+		else if	(strUpper.compare("MASS") == 0 ) return CAD_UNITS_MASS;
+		else if	(strUpper.compare("FORCE") == 0 ) return CAD_UNITS_FORCE;
+		else if	(strUpper.compare("MOMENT") == 0 ) return CAD_UNITS_MOMENT;
+		else if	(strUpper.compare("PRESSURE") == 0 ) return CAD_UNITS_PRESSURE;
+		else if	(strUpper.compare("ACCELERATION") == 0 ) return CAD_UNITS_ACCELERATION;
+		else if	(strUpper.compare("HEAT_CAPACITY") == 0 ) return CAD_UNITS_HEAT_CAPACITY;
+		else if	(strUpper.compare("THERMAL_CONDUCTIVITY") == 0 ) return CAD_UNITS_THERMAL_CONDUCTIVITY;
+		else if	(strUpper.compare("ANGLE") == 0 ) return CAD_UNITS_ANGLE;
+		else if	(strUpper.compare("TIME") == 0 ) return CAD_UNITS_TIME;
+		else if	(strUpper.compare("TEMPERATURE") == 0 ) return CAD_UNITS_TEMPERATURE;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_TYPE_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"distance   area   volume   density   mass   force   moment   pressure   acceleration   heat_capacity   thermal_conductivity   angle   time   temperature   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsType_string( e_CADUnitsType in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_DISTANCE:
+				return "distance";
+				break;
+			case CAD_UNITS_AREA:
+				return "area";
+				break;
+			case CAD_UNITS_VOLUME:
+				return "volume";
+				break;
+			case CAD_UNITS_DENSITY:
+				return "density";
+				break;
+			case CAD_UNITS_MASS:
+				return "mass";
+				break;
+			case CAD_UNITS_FORCE:
+				return "force";
+				break;
+			case CAD_UNITS_MOMENT:
+				return "moment";
+				break;
+			case CAD_UNITS_PRESSURE:
+				return "pressure";
+				break;
+			case CAD_UNITS_ACCELERATION:
+				return "acceleration";
+				break;
+			case CAD_UNITS_HEAT_CAPACITY:
+				return "heat_capacity";
+				break;
+			case CAD_UNITS_THERMAL_CONDUCTIVITY:
+				return "thermal_conductivity";
+				break;
+			case CAD_UNITS_ANGLE:
+				return "angle";
+				break;
+			case CAD_UNITS_TIME:
+				return "time";
+				break;
+			case CAD_UNITS_TEMPERATURE:
+				return "temperature";
+				break;
+			case CAD_UNITS_TYPE_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_DISTANCE   CAD_UNITS_AREA   CAD_UNITS_VOLUME   CAD_UNITS_DENSITY   CAD_UNITS_MASS   CAD_UNITS_FORCE   CAD_UNITS_MOMENT   CAD_UNITS_PRESSURE   CAD_UNITS_ACCELERATION   CAD_UNITS_HEAT_CAPACITY   CAD_UNITS_THERMAL_CONDUCTIVITY   CAD_UNITS_ANGLE   CAD_UNITS_TIME   CAD_UNITS_TEMPERATURE   CAD_UNITS_TYPE_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
 	e_CADUnitsDistance CADUnitsDistance_enum( const std::string &in_String)
 										throw (isis::application_exception)
 	{
@@ -145,13 +233,21 @@ namespace isis
 		if    	(strUpper.compare("MM") == 0 ) return CAD_UNITS_MM;
 		else if	(strUpper.compare("MILLIMETER") == 0 ) return CAD_UNITS_MM;
 		else if	(strUpper.compare("CM") == 0 ) return CAD_UNITS_CM;
+		else if	(strUpper.compare("CENTIMETER") == 0 ) return CAD_UNITS_CM;
+		else if	(strUpper.compare("M") == 0 ) return CAD_UNITS_M;
+		else if	(strUpper.compare("METER") == 0 ) return CAD_UNITS_M;
+		else if	(strUpper.compare("KM") == 0 ) return CAD_UNITS_KM;
+		else if	(strUpper.compare("KILOMETER") == 0 ) return CAD_UNITS_KM;
 		else if	(strUpper.compare("INCH") == 0 ) return CAD_UNITS_INCH;
-		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_NA;
+		else if	(strUpper.compare("IN") == 0 ) return CAD_UNITS_INCH;
+		else if	(strUpper.compare("FOOT") == 0 ) return CAD_UNITS_FOOT;
+		else if	(strUpper.compare("FT") == 0 ) return CAD_UNITS_FOOT;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_DISTANCE_NA;
 
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"MM   MILLIMETER   CM   INCH   N/A";
+			"mm   millimeter   cm   centimeter   m   meter   km   kilometer   inch   in   foot   ft   N/A";
 		throw isis::application_exception(errorString);
 	}
 
@@ -161,22 +257,204 @@ namespace isis
 		switch ( in_Enum )
 		{
 			case CAD_UNITS_MM:
-				return "MM";
+				return "mm";
 				break;
 			case CAD_UNITS_CM:
-				return "CM";
+				return "cm";
+				break;
+			case CAD_UNITS_M:
+				return "m";
+				break;
+			case CAD_UNITS_KM:
+				return "km";
 				break;
 			case CAD_UNITS_INCH:
-				return "INCH";
+				return "inch";
 				break;
-			case CAD_UNITS_NA:
+			case CAD_UNITS_FOOT:
+				return "foot";
+				break;
+			case CAD_UNITS_DISTANCE_NA:
 				return "N/A";
 				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"CAD_UNITS_MM   CAD_UNITS_CM   CAD_UNITS_INCH   CAD_UNITS_NA";
+					"CAD_UNITS_MM   CAD_UNITS_CM   CAD_UNITS_M   CAD_UNITS_KM   CAD_UNITS_INCH   CAD_UNITS_FOOT   CAD_UNITS_DISTANCE_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsArea CADUnitsArea_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("MM2") == 0 ) return CAD_UNITS_MM_SQUARED;
+		else if	(strUpper.compare("MM^2") == 0 ) return CAD_UNITS_MM_SQUARED;
+		else if	(strUpper.compare("CM2") == 0 ) return CAD_UNITS_CM_SQUARED;
+		else if	(strUpper.compare("CM^2") == 0 ) return CAD_UNITS_CM_SQUARED;
+		else if	(strUpper.compare("INCH2") == 0 ) return CAD_UNITS_INCH_SQUARED;
+		else if	(strUpper.compare("IN2") == 0 ) return CAD_UNITS_INCH_SQUARED;
+		else if	(strUpper.compare("INCH^2") == 0 ) return CAD_UNITS_INCH_SQUARED;
+		else if	(strUpper.compare("IN^2") == 0 ) return CAD_UNITS_INCH_SQUARED;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_AREA_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"mm2   mm^2   cm2   cm^2   inch2   in2   inch^2   in^2   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsArea_string( e_CADUnitsArea in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_MM_SQUARED:
+				return "mm2";
+				break;
+			case CAD_UNITS_CM_SQUARED:
+				return "cm2";
+				break;
+			case CAD_UNITS_INCH_SQUARED:
+				return "inch2";
+				break;
+			case CAD_UNITS_AREA_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_MM_SQUARED   CAD_UNITS_CM_SQUARED   CAD_UNITS_INCH_SQUARED   CAD_UNITS_AREA_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsVolume CADUnitsVolume_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("MM3") == 0 ) return CAD_UNITS_MM_CUBED;
+		else if	(strUpper.compare("MM^3") == 0 ) return CAD_UNITS_MM_CUBED;
+		else if	(strUpper.compare("MILLIMETER3") == 0 ) return CAD_UNITS_MM_CUBED;
+		else if	(strUpper.compare("MILLIMETER^3") == 0 ) return CAD_UNITS_MM_CUBED;
+		else if	(strUpper.compare("CM3") == 0 ) return CAD_UNITS_CM_CUBED;
+		else if	(strUpper.compare("CM^3") == 0 ) return CAD_UNITS_CM_CUBED;
+		else if	(strUpper.compare("CENTIMETER3") == 0 ) return CAD_UNITS_CM_CUBED;
+		else if	(strUpper.compare("CENTIMETER^3") == 0 ) return CAD_UNITS_CM_CUBED;
+		else if	(strUpper.compare("M3") == 0 ) return CAD_UNITS_M_CUBED;
+		else if	(strUpper.compare("M^3") == 0 ) return CAD_UNITS_M_CUBED;
+		else if	(strUpper.compare("METER3") == 0 ) return CAD_UNITS_M_CUBED;
+		else if	(strUpper.compare("METER^3") == 0 ) return CAD_UNITS_M_CUBED;
+		else if	(strUpper.compare("KM3") == 0 ) return CAD_UNITS_KM_CUBED;
+		else if	(strUpper.compare("KM^3") == 0 ) return CAD_UNITS_KM_CUBED;
+		else if	(strUpper.compare("KILOMETER") == 0 ) return CAD_UNITS_KM_CUBED;
+		else if	(strUpper.compare("KILOMETER^3") == 0 ) return CAD_UNITS_KM_CUBED;
+		else if	(strUpper.compare("INCH3") == 0 ) return CAD_UNITS_INCH_CUBED;
+		else if	(strUpper.compare("IN3") == 0 ) return CAD_UNITS_INCH_CUBED;
+		else if	(strUpper.compare("INCH^3") == 0 ) return CAD_UNITS_INCH_CUBED;
+		else if	(strUpper.compare("IN^3") == 0 ) return CAD_UNITS_INCH_CUBED;
+		else if	(strUpper.compare("FOOT3") == 0 ) return CAD_UNITS_FOOT_CUBED;
+		else if	(strUpper.compare("FT3") == 0 ) return CAD_UNITS_FOOT_CUBED;
+		else if	(strUpper.compare("FOOT^3") == 0 ) return CAD_UNITS_FOOT_CUBED;
+		else if	(strUpper.compare("FT^3") == 0 ) return CAD_UNITS_FOOT_CUBED;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_VOLUME_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"mm3   mm^3   millimeter3   millimeter^3   cm3   cm^3   centimeter3   centimeter^3   m3   m^3   meter3   meter^3   km3   km^3   kilometer   kilometer^3   inch3   in3   inch^3   in^3   foot3   ft3   foot^3   ft^3   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsVolume_string( e_CADUnitsVolume in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_MM_CUBED:
+				return "mm3";
+				break;
+			case CAD_UNITS_CM_CUBED:
+				return "cm3";
+				break;
+			case CAD_UNITS_M_CUBED:
+				return "m3";
+				break;
+			case CAD_UNITS_KM_CUBED:
+				return "km3";
+				break;
+			case CAD_UNITS_INCH_CUBED:
+				return "inch3";
+				break;
+			case CAD_UNITS_FOOT_CUBED:
+				return "foot3";
+				break;
+			case CAD_UNITS_VOLUME_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_MM_CUBED   CAD_UNITS_CM_CUBED   CAD_UNITS_M_CUBED   CAD_UNITS_KM_CUBED   CAD_UNITS_INCH_CUBED   CAD_UNITS_FOOT_CUBED   CAD_UNITS_VOLUME_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsMass CADUnitsMass_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("LBM") == 0 ) return CAD_UNITS_LBM;
+		else if	(strUpper.compare("G") == 0 ) return CAD_UNITS_GRAM;
+		else if	(strUpper.compare("GRAM") == 0 ) return CAD_UNITS_GRAM;
+		else if	(strUpper.compare("KG") == 0 ) return CAD_UNITS_KGRAM;
+		else if	(strUpper.compare("KILOGRAM") == 0 ) return CAD_UNITS_KGRAM;
+		else if	(strUpper.compare("TONNE") == 0 ) return CAD_UNITS_TONNE;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_MASS_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"lbm   g   gram   kg   kilogram   tonne   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsMass_string( e_CADUnitsMass in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_LBM:
+				return "lbm";
+				break;
+			case CAD_UNITS_GRAM:
+				return "g";
+				break;
+			case CAD_UNITS_KGRAM:
+				return "kg";
+				break;
+			case CAD_UNITS_TONNE:
+				return "tonne";
+				break;
+			case CAD_UNITS_MASS_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_LBM   CAD_UNITS_GRAM   CAD_UNITS_KGRAM   CAD_UNITS_TONNE   CAD_UNITS_MASS_NA";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -190,11 +468,12 @@ namespace isis
 		if    	(strUpper.compare("LBF") == 0 ) return CAD_UNITS_LBF;
 		else if	(strUpper.compare("N") == 0 ) return CAD_UNITS_N;
 		else if	(strUpper.compare("NEWTON") == 0 ) return CAD_UNITS_N;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_FORCE_NA;
 
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"LBF   N   NEWTON";
+			"lbf   N   newton   N/A";
 		throw isis::application_exception(errorString);
 	}
 
@@ -204,16 +483,19 @@ namespace isis
 		switch ( in_Enum )
 		{
 			case CAD_UNITS_LBF:
-				return "LBF";
+				return "lbf";
 				break;
 			case CAD_UNITS_N:
 				return "N";
+				break;
+			case CAD_UNITS_FORCE_NA:
+				return "N/A";
 				break;
 			default:
 				std::stringstream errorString;
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
-					"CAD_UNITS_LBF   CAD_UNITS_N";
+					"CAD_UNITS_LBF   CAD_UNITS_N   CAD_UNITS_FORCE_NA";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -234,7 +516,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"FT-LBF   IN-LBF   N-M   NEWTON-M   N-MM   NEWTON-MM";
+			"ft-lbf   in-lbf   N-m   newton-m   N-mm   newton-mm";
 		throw isis::application_exception(errorString);
 	}
 
@@ -244,16 +526,16 @@ namespace isis
 		switch ( in_Enum )
 		{
 			case CAD_UNITS_FT_LBF:
-				return "FT-LBF";
+				return "ft-lbf";
 				break;
 			case CAD_UNITS_IN_LBF:
-				return "IN-LBF";
+				return "in-lbf";
 				break;
 			case CAD_UNITS_N_M:
-				return "N-M";
+				return "N-m";
 				break;
 			case CAD_UNITS_N_MM:
-				return "N-MM";
+				return "N-mm";
 				break;
 			default:
 				std::stringstream errorString;
@@ -311,17 +593,17 @@ namespace isis
 	{
 		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
 
-		if    	(strUpper.compare("FT/S^2") == 0 ) return CAD_UNITS_FT_PER_SEC_SQ;
-		else if	(strUpper.compare("FT/S2") == 0 ) return CAD_UNITS_FT_PER_SEC_SQ;
-		else if	(strUpper.compare("MM/S^2") == 0 ) return CAD_UNITS_MM_PER_SEC_SQ;
+		if    	(strUpper.compare("FT/S2") == 0 ) return CAD_UNITS_FT_PER_SEC_SQ;
+		else if	(strUpper.compare("FT/S^2") == 0 ) return CAD_UNITS_FT_PER_SEC_SQ;
 		else if	(strUpper.compare("MM/S2") == 0 ) return CAD_UNITS_MM_PER_SEC_SQ;
-		else if	(strUpper.compare("M/S^2") == 0 ) return CAD_UNITS_M_PER_SEC_SQ;
+		else if	(strUpper.compare("MM/S^2") == 0 ) return CAD_UNITS_MM_PER_SEC_SQ;
 		else if	(strUpper.compare("M/S2") == 0 ) return CAD_UNITS_M_PER_SEC_SQ;
+		else if	(strUpper.compare("M/S^2") == 0 ) return CAD_UNITS_M_PER_SEC_SQ;
 
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"FT/S^2   FT/S2   MM/S^2   MM/S2   M/S^2   M/S2";
+			"ft/s2   ft/s^2   mm/s2   mm/s^2   m/s2   m/s^2";
 		throw isis::application_exception(errorString);
 	}
 
@@ -331,13 +613,13 @@ namespace isis
 		switch ( in_Enum )
 		{
 			case CAD_UNITS_FT_PER_SEC_SQ:
-				return "FT/S^2";
+				return "ft/s2";
 				break;
 			case CAD_UNITS_MM_PER_SEC_SQ:
-				return "MM/S^2";
+				return "mm/s2";
 				break;
 			case CAD_UNITS_M_PER_SEC_SQ:
-				return "M/S^2";
+				return "m/s2";
 				break;
 			default:
 				std::stringstream errorString;
@@ -380,6 +662,53 @@ namespace isis
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
 					"CAD_UNITS_KG_PER_MM_CUBED   CAD_UNITS_KG_PER_M_CUBED";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsTemperature CADUnitsTemperature_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("CELSIUS") == 0 ) return CAD_UNITS_CELSIUS;
+		else if	(strUpper.compare("C") == 0 ) return CAD_UNITS_CELSIUS;
+		else if	(strUpper.compare("FAHRENHEIT") == 0 ) return CAD_UNITS_FAHRENHEIT;
+		else if	(strUpper.compare("F") == 0 ) return CAD_UNITS_FAHRENHEIT;
+		else if	(strUpper.compare("KELVIN") == 0 ) return CAD_UNITS_KELVIN;
+		else if	(strUpper.compare("K") == 0 ) return CAD_UNITS_KELVIN;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_TEMPERATURE_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"celsius   C   fahrenheit   F   kelvin   K   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsTemperature_string( e_CADUnitsTemperature in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_CELSIUS:
+				return "celsius";
+				break;
+			case CAD_UNITS_FAHRENHEIT:
+				return "fahrenheit";
+				break;
+			case CAD_UNITS_KELVIN:
+				return "kelvin";
+				break;
+			case CAD_UNITS_TEMPERATURE_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_CELSIUS   CAD_UNITS_FAHRENHEIT   CAD_UNITS_KELVIN   CAD_UNITS_TEMPERATURE_NA";
 				throw isis::application_exception(errorString);
 		}
 	}
@@ -463,7 +792,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"Radian   Degree   Degrees   Deg   N/A";
+			"radian   degree   Degrees   Deg   N/A";
 		throw isis::application_exception(errorString);
 	}
 
@@ -473,10 +802,10 @@ namespace isis
 		switch ( in_Enum )
 		{
 			case CAD_UNITS_RADIAN:
-				return "Radian";
+				return "radian";
 				break;
 			case CAD_UNITS_DEGREE:
-				return "Degree";
+				return "degree";
 				break;
 			case CAD_UNITS_ANGLE_NA:
 				return "N/A";
@@ -486,6 +815,48 @@ namespace isis
 				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
 					", which is an erroneous value. Allowed values are: " <<
 					"CAD_UNITS_RADIAN   CAD_UNITS_DEGREE   CAD_UNITS_ANGLE_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CADUnitsTime CADUnitsTime_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("SECOND") == 0 ) return CAD_UNITS_SECOND;
+		else if	(strUpper.compare("SEC") == 0 ) return CAD_UNITS_SECOND;
+		else if	(strUpper.compare("HOUR") == 0 ) return CAD_UNITS_HOUR;
+		else if	(strUpper.compare("HR") == 0 ) return CAD_UNITS_HOUR;
+		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_TIME_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"second   sec   hour   hr   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CADUnitsTime_string( e_CADUnitsTime in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CAD_UNITS_SECOND:
+				return "second";
+				break;
+			case CAD_UNITS_HOUR:
+				return "hour";
+				break;
+			case CAD_UNITS_TIME_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CAD_UNITS_SECOND   CAD_UNITS_HOUR   CAD_UNITS_TIME_NA";
 				throw isis::application_exception(errorString);
 		}
 	}

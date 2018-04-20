@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <SurvivabilityAnalysis.h>
 #include "cc_SurvivabilityJasonWriter.h"
+#include <cc_AssemblyUtilities.h>
 #include <CommonFunctions.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -8,88 +9,7 @@
 namespace isis
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void ComputeVehicleGroundPlane( //cad::CadFactoryAbstract							&in_Factory,
-									const std::string								&in_AssemblyComponentID,
-									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-									std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
-																			throw (isis::application_exception)
-	{
-		/*
-		Pro3dPnt  r_outline_points[2];
-		isis::isis_ProSolidOutlineGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, r_outline_points);
-		
-			
-		// Need the smallest Y coordinate
-		double minimum_y;
 
-		if ( r_outline_points[0][1] < r_outline_points[1][1] )
-			minimum_y = r_outline_points[0][1];
-		else
-			minimum_y = r_outline_points[1][1];
-
-		isis_CADCommon::Point_3D  point;
-		point.x = 0;
-		point.y = minimum_y;  
-		point.z = 0;
-		out_GroundPlanePoints.push_back( point);
-		
-		point.z = 1;
-		out_GroundPlanePoints.push_back( point);
-		point.x = 1;
-		point.z = 0;
-		out_GroundPlanePoints.push_back( point);
-
-		*/
-		//Pro3dPnt  r_outline_points[2];
-		//isis::isis_ProSolidOutlineGet( in_CADComponentData_map[in_AssemblyComponentID].modelHandle, r_outline_points);
-		
-
-		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
-		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
-
-		isis_CADCommon::Point_3D	boundingBox_Point_1;
-		isis_CADCommon::Point_3D	boundingBox_Point_2;
-		double						boundingBoxDimensions_xyz[3];
-
-		//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_AssemblyComponentID,
-		//														in_CADComponentData_map,
-		//														boundingBox_Point_1,
-		//														boundingBox_Point_2,
-		//														boundingBoxDimensions_xyz );
-
-
-
-		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
-
-		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(// in_Factory,
-																in_AssemblyComponentID,
-																in_CADComponentData_map,
-																boundingBox_Point_1,
-																boundingBox_Point_2,
-																boundingBoxDimensions_xyz );
-
-		
-		// Need the smallest Y coordinate
-		double minimum_y;
-
-		if ( boundingBox_Point_1.y < boundingBox_Point_2.y )
-			minimum_y =  boundingBox_Point_1.y;
-		else
-			minimum_y =  boundingBox_Point_2.y;
-
-		isis_CADCommon::Point_3D  point;
-		point.x = 0;
-		point.y = minimum_y;  
-		point.z = 0;
-		out_GroundPlanePoints.push_back( point);
-		
-		point.z = 1;
-		out_GroundPlanePoints.push_back( point);
-		point.x = 1;
-		point.z = 0;
-		out_GroundPlanePoints.push_back( point);
-
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// For azimuth, north is in the direction of forward movement of the vehicle.  Since the vehicle coordinate 
@@ -152,13 +72,23 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 	{
+
+
+		//isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		//isis::cad::CadFactoryAbstract::ptr	                cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		//isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
+
 		// Must find the bounding box and the shotlines
 		std::vector<isis_CADCommon::Point_3D>  groundPlanePoints;
 
-		ComputeVehicleGroundPlane(	//in_Factory,
-									in_TopLevelAssemblyData.assemblyComponentID,
+		ComputeVehicleGroundPlane(	in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
 									groundPlanePoints);
+
+		//modelOperations.computeVehicleGroundPlane ( in_TopLevelAssemblyData.assemblyComponentID,
+		//											in_CADComponentData_map,
+		//											groundPlanePoints);
+
 
 		// Must use interators here.  A for each loop will not actually change the values
 		for ( std::vector<isis_CADCommon::Point_3D>::iterator i = groundPlanePoints.begin(); 
@@ -221,13 +151,22 @@ namespace isis
 					std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map )
 																	throw (isis::application_exception)
 	{
+
+
+		//isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		//isis::cad::CadFactoryAbstract::ptr	                cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		//isis::cad::IModelOperations& modelOperations = cAD_Factory_ptr->getModelOperations();
+
 		// Must find the bounding box and the shotlines
 		std::vector<isis_CADCommon::Point_3D>  groundPlanePoints;
 
-		ComputeVehicleGroundPlane(	//in_Factory,
-									in_TopLevelAssemblyData.assemblyComponentID,
+		ComputeVehicleGroundPlane(	in_TopLevelAssemblyData.assemblyComponentID,
 									in_CADComponentData_map,
 									groundPlanePoints);
+
+		//modelOperations.computeVehicleGroundPlane(	in_TopLevelAssemblyData.assemblyComponentID,
+		//											in_CADComponentData_map,
+		//											groundPlanePoints);
 
 	
 		// Must use interators here.  A for each loop will not actually change the values

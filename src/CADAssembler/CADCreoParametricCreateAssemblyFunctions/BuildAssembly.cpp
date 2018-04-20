@@ -22,7 +22,7 @@
 #include <sstream>
 #include "cc_LoggerBoost.h"
 #include "ProAssembly.h"
-#include "CreoModelMetaData.h"
+//#include "CreoModelMetaData.h"
 #include "cc_AssemblyOptions.h"
 #include <cc_BuildAssembly.h>
 #include <cc_ApplyModelConstraints.h>
@@ -82,24 +82,22 @@ void SetCreoModelRepresentation( isis::CADComponentData &in_CADComponentData )
 */
 /////////////////////////////////////////////////////////////////////////////////////////
 void Add_Subassemblies_and_Parts( 
-					//cad::CadFactoryAbstract						&in_Factory,
 					ProMdl										in_p_asm,
 					const std::string							&in_ParentName,
-					const std::list<std::string>				&in_Components,
-					std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
+					const std::list<std::string>					&in_Components,
+					std::map<string, isis::CADComponentData>		&in_out_CADComponentData_map,
 					int											&in_out_addedToAssemblyOrdinal)
 														throw (isis::application_exception)
 {
 	
 	isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
-	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
-									
+	isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();								
 	isis::cad::IModelHandling&        modelHandling = cAD_Factory_ptr->getModelHandling();	
 
-	CreoModelMetaData constraintData("constraintdata.xml");
 
 	for ( std::list<std::string>::const_iterator itr = in_Components.begin(); itr != in_Components.end(); ++itr )
 	{
+
 
 			// Note - the following "new" is not deleted.  This is a memory leak by design. The contents of this 
 			// new are needed up unitl the program exits.  Will let the OS clean this up.
@@ -108,79 +106,65 @@ void Add_Subassemblies_and_Parts(
 			ProMdl     *p_model = new ProMdl;
 
 			std::string ModelNameWithSuffix = AmalgamateModelNameWithSuffix ( 
-												in_CADComponentData_map[*itr].name, 
-												in_CADComponentData_map[*itr].modelType);
+												in_out_CADComponentData_map[*itr].name, 
+												in_out_CADComponentData_map[*itr].modelType);
 
-			//wchar_t  PartName[ISIS_CHAR_BUFFER_LENGTH];
-			//ProStringToWstring(PartName, (char *)(const char *)in_CADComponentData_map[*itr].name );
-
-			//isis::isis_ProMdlRetrieve_WithDescriptiveErrorMsg(
-			//	*itr, in_CADComponentData_map[*itr].name, in_CADComponentData_map[*itr].geometryRepresentation,   // Added arguments
-			//	in_CADComponentData_map[*itr].name,ProMdlType_enum(in_CADComponentData_map[*itr].modelType), p_model);	// Original Arguments
-			//	//PartName,in_CADComponentData_map[*itr].modelType, p_model);	// Original Arguments
 
 			modelHandling.cADModelRetrieve(	*itr, 
-											in_CADComponentData_map[*itr].name, 
-											in_CADComponentData_map[*itr].modelType,
-											in_CADComponentData_map[*itr].geometryRepresentation,
+											in_out_CADComponentData_map[*itr].name, 
+											in_out_CADComponentData_map[*itr].modelType,
+											in_out_CADComponentData_map[*itr].geometryRepresentation,
 											p_model);
 
-			ProMatrix identity_matrix = {{ 1.0, 0.0, 0.0, 0.0 }, 
-							{0.0, 1.0, 0.0, 0.0}, 
-							{0.0, 0.0, 1.0, 0.0}, 
-							{0.0, 0.0, 0.0, 1.0}};
+			// NOTE - The constructor for CADComponentData::CADComponentData() sets in_out_CADComponentData_map[*itr].initialPosition to 
+			//			the identiy matrix.  Should not make any change here because another function my be added that would
+			//			change the position prior to calling this funciton
 
-			if (constraintData.GetInitialPos(*itr) != 0)
-			{
-				memcpy (in_CADComponentData_map[*itr].initialPosition, constraintData.GetInitialPos(*itr), sizeof(double)*16);
-			} else {
-				memcpy (in_CADComponentData_map[*itr].initialPosition, identity_matrix, sizeof(double)*16);
-			}
 
-			// fixfixfix add try catch here to support the case where the first part added into the assembly
-			// does not have the default datums. fixfixfix qqqqqq
-			isis::AddComponentToAssembly( (ProAssembly)in_p_asm, (ProSolid)*p_model, &assembled_feat_handle, in_CADComponentData_map[*itr].initialPosition);
+			isis::AddComponentToAssembly( (ProAssembly)in_p_asm, (ProSolid)*p_model, &assembled_feat_handle, in_out_CADComponentData_map[*itr].initialPosition);
 
-			// in_CADComponentData_map[itr->ComponentID()].ComponentID =	itr->ComponentID();
-			// in_CADComponentData_map[itr->ComponentID()].Name =			itr->Name;
+			// in_out_CADComponentData_map[itr->ComponentID()].ComponentID =	itr->ComponentID();
+			// in_out_CADComponentData_map[itr->ComponentID()].Name =			itr->Name;
 
-			in_CADComponentData_map[*itr].cADModel_ptr_ptr = p_model;
-			in_CADComponentData_map[*itr].cADModel_hdl =	(ProSolid)*p_model;
+			in_out_CADComponentData_map[*itr].cADModel_ptr_ptr = p_model;
+			in_out_CADComponentData_map[*itr].cADModel_hdl =	(ProSolid)*p_model;
 			
-			//in_CADComponentData_map[*itr].assembledFeature = assembled_feat_handle;
-			//in_CADComponentData_map[*itr].assembledFeature.type = CADFeatureGeometryType_enum(assembled_feat_handle.type);
-			//in_CADComponentData_map[*itr].assembledFeature.id = assembled_feat_handle.id;
-			//in_CADComponentData_map[*itr].assembledFeature.owner = assembled_feat_handle.owner;
-			in_CADComponentData_map[*itr].assembledFeature = getCADAssembledFeature(assembled_feat_handle);
+			//in_out_CADComponentData_map[*itr].assembledFeature = assembled_feat_handle;
+			//in_out_CADComponentData_map[*itr].assembledFeature.type = CADFeatureGeometryType_enum(assembled_feat_handle.type);
+			//in_out_CADComponentData_map[*itr].assembledFeature.id = assembled_feat_handle.id;
+			//in_out_CADComponentData_map[*itr].assembledFeature.owner = assembled_feat_handle.owner;
+			in_out_CADComponentData_map[*itr].assembledFeature = getCADAssembledFeature(assembled_feat_handle);
 
-			in_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
-			in_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
+			in_out_CADComponentData_map[*itr].componentPaths.push_back((assembled_feat_handle).id);
+			in_out_CADComponentData_map[*itr].addedToAssemblyOrdinal =	in_out_addedToAssemblyOrdinal++;
 
 			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Assembly: " << in_ParentName << "   Added Model: "  << ModelNameWithSuffix; 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_CADComponentData_map[*itr].componentID;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_CADComponentData_map[*itr].parentComponentID;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_ptr_ptr:      " <<  (const void*)in_CADComponentData_map[*itr].cADModel_ptr_ptr; 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_hdl:          "  << (const void*)in_CADComponentData_map[*itr].cADModel_hdl;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_CADComponentData_map[*itr].assembledFeature.id;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_CADComponentData_map[*itr].assembledFeature.type;
-			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_CADComponentData_map[*itr].specialInstruction );
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  in_CADComponentData_map[*itr].specialInstruction;
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  representation:        " <<  in_CADComponentData_map[*itr].geometryRepresentation;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_out_CADComponentData_map[*itr].componentID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_out_CADComponentData_map[*itr].parentComponentID;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_ptr_ptr:      " <<  (const void*)in_out_CADComponentData_map[*itr].cADModel_ptr_ptr; 
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_hdl:          "  << (const void*)in_out_CADComponentData_map[*itr].cADModel_hdl;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_out_CADComponentData_map[*itr].assembledFeature.id;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_out_CADComponentData_map[*itr].assembledFeature.type;
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_out_CADComponentData_map[*itr].specialInstruction );
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  in_out_CADComponentData_map[*itr].specialInstruction;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  representation:        " <<  in_out_CADComponentData_map[*itr].geometryRepresentation;
 		
 			//////////////////////////////////////////////
 			// Set DDP parameters in the assembly feature
 			/////////////////////////////////////////////
 
-			if ( in_CADComponentData_map[*itr].componentID.size() > 79 )
+			if ( in_out_CADComponentData_map[*itr].componentID.size() > 79 )
 			{
 				/*std::stringstream errorString;
 				errorString <<
-				"exception : The ComponentID string is too long to store as a paramter in the Creo model.  Component Instance ID: " <<  in_CADComponentData_map[*itr].componentID;
+				"exception : The ComponentID string is too long to store as a paramter in the Creo model.  Component Instance ID: " <<  in_out_CADComponentData_map[*itr].componentID;
 				throw isis::application_exception("C04002",errorString.str().c_str());*/
 				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "";
 				isis_LOG(lg, isis_CONSOLE_FILE, isis_WARN) << "WARNING: Couldn't set DDP_COMPONENT_INSTANCE_ID. STEP export might not work on this model.";
 				
-			} else {	
+			} 
+			else 
+			{	
 
 				ProError      err;
 				//ProName       name;
@@ -195,10 +179,10 @@ void Add_Subassemblies_and_Parts(
 				//ProStringToWstring(name, "DDP_COMPONENT_INSTANCE_ID" );
 				MultiFormatString name("DDP_COMPONENT_INSTANCE_ID", PRO_NAME_SIZE - 1);
 
-				MultiFormatString value_multiString(in_CADComponentData_map[*itr].componentID, PRO_LINE_SIZE - 2);
+				MultiFormatString value_multiString(in_out_CADComponentData_map[*itr].componentID, PRO_LINE_SIZE - 2);
 
 				value.type = PRO_PARAM_STRING;
-				//ProStringToWstring(value.value.s_val, (char *) in_CADComponentData_map[*itr].componentID.c_str() );
+				//ProStringToWstring(value.value.s_val, (char *) in_out_CADComponentData_map[*itr].componentID.c_str() );
 				wcscpy_s( value.value.s_val, PRO_LINE_SIZE, value_multiString);
 			
 				err = ProParameterInit(&assembled_feat_handle, (wchar_t *)(const wchar_t *)name, &param);

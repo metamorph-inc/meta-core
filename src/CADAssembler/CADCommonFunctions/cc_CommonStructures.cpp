@@ -71,6 +71,35 @@ namespace isis
 	}
 
 
+		CADComponentData::CADComponentData():dataInitialSource( INITIAL_SOURCE_INPUT_XML_FILE),
+							name(CAD_NAME_SIZE - 1), 
+							cADModel_ptr_ptr(0), cADModel_hdl(0), 
+							parametricParametersPresent(false),  
+							//specialInstruction(CAD_SPECIAL_INSTRUCTION_NONE), 
+							analysisTempMaterialDefined(false), 
+							cyPhyComponent(true),
+							geometryRepresentation(CAD_NAME_SIZE - 1),
+							addedToAssemblyOrdinal(LONG_MAX),
+							partOrdinal(-1),
+							partAssemblyOrdinal(-1)
+		{
+			assembledFeature.id = 0;
+			//assembledFeature.type = PRO_TYPE_INVALID;
+			assembledFeature.type = CAD_FEATURE_GEOMETRY_TYPE_INVALID;
+			assembledFeature.owner = 0;
+
+			// Set initial position to identity matrix
+			for (int i = 0; i < 4; ++i)
+				for (int j = 0; j < 4; ++j) initialPosition[i][j] = 0.0;
+
+			initialPosition[0][0] = 1.0;
+			initialPosition[1][1] = 1.0;
+			initialPosition[2][2] = 1.0;
+			initialPosition[3][3] = 1.0;
+
+		}
+
+
 	std::ostream& operator<<(std::ostream& output, const CADParameter &in_CADParameter)
 	{
 
@@ -408,6 +437,13 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	CADModelUnits::CADModelUnits() :	distanceUnit(CAD_UNITS_DISTANCE_NA), 
+									massUnit(		CAD_UNITS_MASS_NA), 
+									forceUnit(		CAD_UNITS_FORCE_NA), 
+									timeUnit(		CAD_UNITS_TIME_NA) , 
+									temperatureUnit(CAD_UNITS_TEMPERATURE_NA) {};
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }
 

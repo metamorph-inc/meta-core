@@ -176,21 +176,6 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	void OrganizeMetricsBasedOnComponentIDs( 
-							const list<CADComputation>							&in_Metrics,
-							std::map<std::string, std::list<CADComputation>>	&out_componentID_to_ListofComputations_map,
-							std::set<std::string>								&out_ComponentIDs_set )
-	{											 
-			for each ( const CADComputation i in in_Metrics)
-			{
-				out_componentID_to_ListofComputations_map[i.componentID].push_back(i);
-				out_ComponentIDs_set.insert(i.componentID);
-			}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	void RetrieveNameOfAssembledFeature( ProFeature	*in_AssyCompFeature, isis::MultiFormatString &out_ModelName )
 	{
 		ProElement component_element_tree;
@@ -386,108 +371,37 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/****
 	void	 RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(
-								//cad::CadFactoryAbstract							&in_Factory,
 								const std::string								&in_ComponentInstanceID,
-								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
 								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
 								double											out_Dimensions_xyz[3] )
 																		throw (isis::application_exception)
 	{
+		isis::cad::CadFactoryAbstract_global		*cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
+		isis::cad::CadFactoryAbstract::ptr		cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
+		isis::cad::IModelOperations&				modelOperations = cAD_Factory_ptr->getModelOperations();		
 
-		
-
-		try
+		if ( !in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Defined )
 		{
-			if ( !in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Defined )
-			{
-
-				try
-				{
-					ComputeBoundingBox(		CAD_PRO_SOLID_OUTLINE_COMPUTE,
-											static_cast<ProSolid>(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl),
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1,
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2,
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz);
-				}
-				catch (...)
-				{
-					isis_LOG(lg, isis_FILE, isis_INFO) << "";
-					isis_LOG(lg, isis_FILE, isis_INFO) << "WARNING - Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
-					in_CADComponentData_map[in_ComponentInstanceID].name << ".  isis_ProSolidOutlineCompute failed, using isis_ProSolidOutlineGet.  isis_ProSolidOutlineGet is less accurate."; 
-					isis_LOG(lg, isis_FILE, isis_INFO) << "";
-
-					ComputeBoundingBox(		CAD_PRO_SOLID_OUTLINE_GET,
-											static_cast<ProSolid>(in_CADComponentData_map[in_ComponentInstanceID].cADModel_hdl),
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1,
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2,
-											in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz);
-
-				} 
-
-
-				in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Defined = true;
-
-			}
-	
-			out_BoundingBox_Point_1 = in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1;
-			out_BoundingBox_Point_2 = in_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2;
-
-			out_Dimensions_xyz[0] = in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[0];
-			out_Dimensions_xyz[1] = in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[1];
-			out_Dimensions_xyz[2] = in_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[2];
-		}
-		catch ( isis::application_exception& ex )
-		{
-			
-			// Get Mass properties and check for zero volume, this would indicate that there was no solid geometry.  Probably just
-			// reference geometry used to define an interface.  For example, an interface between a hatch and hull.
-			//ProMassProperty  mass_prop;
-			//isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg(in_ComponentInstanceID, in_CADComponentData_map, &mass_prop );
-
-			isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
-			isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
-			isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
-			MassProperties		massProperties_temp;
-
-			modelOperations.retrieveMassProperties(in_ComponentInstanceID, in_CADComponentData_map, massProperties_temp);
-
-			//std::cout << std::endl << "-------------> Volume: mass_prop.volume" << mass_prop.volume << std::endl;
-
-			//if ( mass_prop.volume == 0.0 )
-			if ( massProperties_temp.volume == 0.0 )
-			{
-				out_BoundingBox_Point_1.x = 0.0;
-				out_BoundingBox_Point_1.y = 0.0;
-				out_BoundingBox_Point_1.z = 0.0;
-				out_BoundingBox_Point_2.x = 0.0;
-				out_BoundingBox_Point_2.y = 0.0;
-				out_BoundingBox_Point_2.z = 0.0;
-
-				out_Dimensions_xyz[0] = 0.0;
-				out_Dimensions_xyz[1] = 0.0;
-				out_Dimensions_xyz[2] = 0.0;
-			
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-				isis_LOG(lg, isis_FILE, isis_INFO) << "   Component Instance ID: " << in_ComponentInstanceID << ".  Model Name: " << 
-					in_CADComponentData_map[in_ComponentInstanceID].name << ".  Model has zero volume, setting bounding box to size of zero."; 
-				isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			}
-			else
-			{
-				std::stringstream errorString;
-					errorString <<
-							"Failed to retrieve bounding box information:"  << std::endl <<
-							"   Model Name:            " <<	 in_CADComponentData_map[in_ComponentInstanceID].name << std::endl <<
-							"   Model Type:            " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType)<<  std::endl <<
-							"   Component Instance ID: " <<  in_ComponentInstanceID <<  std::endl <<
-							"   Exception Message: " << ex.what();
-					throw isis::application_exception("C05002",errorString.str().c_str());
-			}
+			modelOperations.retrieveBoundingBox(		in_ComponentInstanceID,
+													in_out_CADComponentData_map,
+													in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1,
+													in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2,
+													in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz);											
 		}
 
+		out_BoundingBox_Point_1 = in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_1;
+		out_BoundingBox_Point_2 = in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.boundingBox_Point_2;
+
+		out_Dimensions_xyz[0] = in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[0];
+		out_Dimensions_xyz[1] = in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[1];
+		out_Dimensions_xyz[2] = in_out_CADComponentData_map[in_ComponentInstanceID].boundingBox.Dimensions_xyz[2];
 	}
+	****/
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// e.g. "C:\\Users\\Public\\Documents\\META Documents\\MaterialLibrary\\MATERIALS_CREO_MTL"
 	std::string CreoMaterialMTLFilesDir_Path()
@@ -1230,17 +1144,38 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void FindPartsReferencedByFeature(	
-						const std::string							&in_TopAssemblyComponentInstanceID, 
-						const std::string							&in_ComponentInstanceID,
-						const MultiFormatString						&in_FeatureName,
-						//ProType									in_FeatureGeometryType,
-						e_CADFeatureGeometryType						in_FeatureGeometryType,
+						const std::string									&in_TopAssemblyComponentInstanceID, 
+						const std::string									&in_ComponentInstanceID,
+						const MultiFormatString								&in_FeatureName,
+						//ProType											in_FeatureGeometryType,
+						e_CADFeatureGeometryType								in_FeatureGeometryType,
 						const std::unordered_map<IntList, std::string, ContainerHash<IntList>>		&in_FeatureIDs_to_ComponentInstanceID_hashtable,
-						std::map<string, isis::CADComponentData>	&in_CADComponentData_map,
-						std::set<std::string>						&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
+						const std::map<string, isis::CADComponentData>		&in_CADComponentData_map,
+						std::set<std::string>								&out_ComponentInstanceIDs_of_PartsReferencedByFeature_set)
 																			throw (isis::application_exception)
 	{
-		if ( in_CADComponentData_map[in_ComponentInstanceID].modelType == PRO_MDL_PART )
+
+		std::map<std::string, isis::CADComponentData>::const_iterator itr_assembly;
+		itr_assembly = in_CADComponentData_map.find(in_TopAssemblyComponentInstanceID);
+		
+		if ( itr_assembly == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_TopAssemblyComponentInstanceID that is not in in_CADComponentData_map. in_TopAssemblyComponentInstanceID:  " << in_TopAssemblyComponentInstanceID;
+			throw isis::application_exception(errorString);	
+		}			
+		
+		std::map<std::string, isis::CADComponentData>::const_iterator itr_component;
+		itr_component = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+		if ( itr_component == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+			throw isis::application_exception(errorString);	
+		}
+
+		if ( itr_component->second.modelType == CAD_MDL_PART )
 		{
 			// If in_ComponentInstanceID is a part, then in_FeatureName is owned by in_ComponentInstanceID
 			out_ComponentInstanceIDs_of_PartsReferencedByFeature_set.insert(in_ComponentInstanceID);
@@ -1248,8 +1183,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 		}
 
 		ProAsmcomppath	comp_path;
-		isis::Retrieve_ProAsmcomppath_WithExceptions(	static_cast<ProSolid>(in_CADComponentData_map[in_TopAssemblyComponentInstanceID].cADModel_hdl), 
-														in_CADComponentData_map[in_ComponentInstanceID].componentPaths, 
+		isis::Retrieve_ProAsmcomppath_WithExceptions(	static_cast<ProSolid>(itr_assembly->second.cADModel_hdl), 
+														itr_component->second.componentPaths, 
 														comp_path );
 
 		//////////////////////////////////////////////////////////
@@ -1264,8 +1199,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 
 		isis::isis_ProModelitemByNameInit_WithDescriptiveErrorMsg (	
 												in_ComponentInstanceID, // Added arguments
-												in_CADComponentData_map[in_ComponentInstanceID].name, 
-												ProMdlType_enum(in_CADComponentData_map[in_ComponentInstanceID].modelType),   
+												itr_component->second.name, 
+												ProMdlType_enum(itr_component->second.modelType),   
 																	//in_ContraintDef.p_base_model, //base_model, // Original arguments
 												model, //base_model, // Original arguments
 												//in_FeatureGeometryType, 
@@ -1289,7 +1224,7 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 			isis_ProSelectionAsmcomppathGet(i, &comppath);
 			list<int> pathaslist;
 			isis::ProAsmcomppathToList(pathaslist, comppath);
-			list<int> fullist = in_CADComponentData_map[in_ComponentInstanceID].componentPaths;
+			list<int> fullist = itr_component->second.componentPaths;
 			fullist.insert(fullist.end(), pathaslist.begin(), pathaslist.end());
 
 			std::unordered_map<IntList, std::string, ContainerHash<IntList>>::const_iterator itr; 
@@ -1297,12 +1232,25 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 	
 			if ( itr != in_FeatureIDs_to_ComponentInstanceID_hashtable.end() )
 			{
+				std::map<std::string, isis::CADComponentData>::const_iterator itr_component_feature_ref;
+				itr_component_feature_ref = in_CADComponentData_map.find(itr->second);
+				if ( itr_component_feature_ref == in_CADComponentData_map.end())
+				{
+					std::stringstream errorString;
+					errorString << "Function - " << __FUNCTION__ << ", a part that was identifed as a referenced feature was not found in in_CADComponentData_map. reference feature ComponentInstanceID:  " << itr->second <<
+						". This would indicate an error/bug in in_FeatureIDs_to_ComponentInstanceID_hashtable, which was passed to " << __FUNCTION__;
+					throw isis::application_exception(errorString);	
+				}
+
 				// We are only interested in parts constrained to parts.  A part constrained
 				// to an assembly is not of interest because an assembly is just an abstract
 				// concept for organizing parts.  In a physical assembly, parts are constrained
 				// to parts.
-				if (in_CADComponentData_map[itr->second].modelType == PRO_MDL_PART )
+				//if (in_CADComponentData_map[itr->second].modelType == CAD_MDL_PART )
+				//				out_ComponentInstanceIDs_of_PartsReferencedByFeature_set.insert(itr->second);
+				if (itr_component_feature_ref->second.modelType == CAD_MDL_PART )
 								out_ComponentInstanceIDs_of_PartsReferencedByFeature_set.insert(itr->second);
+
 			}	
 			else
 			{	
@@ -1310,8 +1258,8 @@ void ValidatePathAndModelItem_ThrowExceptionIfInvalid( ProAsmcomppath	&in_Path, 
 				errorString << "Function - " << __FUNCTION__ << ", could not find a known ComponentInstanceID for in_ProSelection." << std::endl <<
 								"One possible cause for this error is that CADAssembly.xml does not have the the following entry:  "  << std::endl <<
 							    "<ProcessingInstruction Primary=\"COMPLETE_THE_HIERARCHY_FOR_LEAF_ASSEMBLIES\" Secondary=\"\" />:  "  << std::endl <<
-								"   Model Name:            " <<	 in_CADComponentData_map[in_ComponentInstanceID].name << std::endl <<
-								"   Model Type:            " <<	 isis::ProMdlType_string(in_CADComponentData_map[in_ComponentInstanceID].modelType)<<  std::endl <<
+								"   Model Name:            " <<	 itr_component->second.name << std::endl <<
+								"   Model Type:            " <<	 isis::ProMdlType_string(itr_component->second.modelType)<<  std::endl <<
 								"   Component Instance ID: " <<  in_ComponentInstanceID <<  std::endl <<
 								"   FeatureName:           " <<  (std::string)in_FeatureName <<  std::endl <<
 								"   Path Feature IDs:     ";

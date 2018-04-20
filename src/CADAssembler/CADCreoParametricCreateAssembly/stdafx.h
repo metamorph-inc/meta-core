@@ -9,6 +9,5 @@
 #include <CommonUtilities.h>
 #include <FiniteElementAnalysis.h>
 #include <AssembleUtils.h>
-#include <Computations.h>
 #include <ModelMaterials.h>
 

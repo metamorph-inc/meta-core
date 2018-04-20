@@ -54,9 +54,9 @@ namespace isis
 												throw(isis::application_exception); 
 
 	void isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( 
-						const std::string									&in_ComponentID,
-						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
-						ProMassProperty*									mass_prop )
+						const std::string										&in_ComponentID,
+						const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+						ProMassProperty*											mass_prop )
 										throw(isis::application_exception); 
 } // end namespace isis
 
