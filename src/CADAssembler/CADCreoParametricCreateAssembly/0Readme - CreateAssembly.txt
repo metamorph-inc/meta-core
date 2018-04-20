@@ -1106,14 +1106,27 @@ v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
 v1.5.26.0 	3/21/2018
 		Convert values from CyPhy for Creo parameters that have units defined.  Kevin S. made this change.
 		
-v1.5.27.0 	4/7/2018
-			Added abstract functions:
-				computePartInterferences
-				computeVehicleGroundPlane
+v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces
+		Added abstract functions:
+			computePartInterferences
+			computeVehicleGroundPlane
 			
-			Added function:
-				WriteInterferenceReport
-		
+		Added function:
+			WriteInterferenceReport
+
+		Made in_CADComponentData_map constant in the following functions:
+			cADModelSave
+			retrieveTranformationMatrix_Assembly_to_Child	// in_ChildComponentID
+			retrieveTranformationMatrix_Assembly_to_Child   // in_ChildComponentPaths
+			retrieveMassProperties
+			retrievePointCoordinates
+			findPartsReferencedByFeature
+			retrieveCADModelUnits
+
+		Replaced retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed with retrieveBoundingBox.
+		Removed the need to have an abstract function computeVehicleGroundPlane.  This is handled
+		via a cad common computeVehicleGroundPlane function that calls the abstract function computeVehicleGroundPlane.
+	
 
 Known Defects
 -------------

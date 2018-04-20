@@ -385,14 +385,11 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 ///////////////////////////////////////////////////////////////////////////////////////
 					
 void RetrieveUnits_withDescriptiveErrorMsg( 
-					//cad::CadFactoryAbstract							&in_Factory,
 					const std::string								&in_ComponentInstanceID,
-					isis::CADComponentData							&in_CADComponentData,
+					const isis::CADComponentData						&in_CADComponentData,
 					CADModelUnits									&out_CADModelUnits )
 											throw(isis::application_exception)
-
 {
-
 	
 	try
 	{
@@ -412,7 +409,6 @@ void RetrieveUnits_withDescriptiveErrorMsg(
 	}
 
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void RetrieveDatumPointCoordinates( //cad::CadFactoryAbstract						&in_Factory,

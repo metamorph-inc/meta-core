@@ -10,66 +10,66 @@
 namespace isis
 {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//	Description:
-	//		Create Creo model name with a unique suffix.  Examples:
-	//			Non-Family Table - Within in_AllowedSize:
-	//				in_UniqueNameIndex:							123
-	//				in_ModelName_CouldIncludeFamilyTableEntry:	bracket					// Length: 7
-	//				out_ModelName_Without_Suffix:               bracket					// Length: 7
-	//				out_ModelName_With_Suffix:                  bracketZ123Z			// Length: 12
-	//				out_CompleteName:                           bracketZ123Z			// Length: 12
-	//
-	//			Family Table  - Within in_AllowedSiZe
-	//				in_UniqueNameIndex:							123
-	//				in_ModelName_CouldIncludeFamilyTableEntry:	M3-50-10<NAS132-Bolt>		// Length: 21
-	//				out_ModelName_Without_Suffix:               NAS132-Bolt					// Length: 11
-	//				out_ModelName_With_Suffix:                  NAS132-BoltZ123Z			// Length: 16
-	//				out_CompleteName:                           M3-50-10<NAS132-BoltZ123Z>	// Length: 26
-	//
-	//			Non-Family Table - Truncation Required:	
-	//				in_UniqueNameIndex:                        99999
-	//				in_ModelName_CouldIncludeFamilyTableEntry: 12345678901234567890123456789   // Length: 29
-	//				out_ModelName_Without_Suffix:              12345678901234567890123456789   // Length: 29
-	//				out_ModelName_With_Suffix:                 123456789012345678901234Z99999Z //  Length: 31
-	//				out_CompleteName:                          123456789012345678901234Z99999Z //  Length: 31
-	//
-	//			Family Table - Truncation Required
-	//				in_UniqueNameIndex:                        123
-	//				in_ModelName_CouldIncludeFamilyTableEntry: Bolst_M3-50-10_Plated<NAS132>	// Length: 29
-	//				out_ModelName_Without_Suffix:              NAS132							// Length: 6
-	//				out_ModelName_With_Suffix:                 NASZ123Z							// Length: 8
-	//				out_CompleteName:                          Bolst_M3-50-10_Plated<NASZ123Z>  // Length: 31
-	//
-	//	Pre-Conditions:
-	//		in_ModelName_CouldIncludeFamilyTableEntry must be a legitimate Creo model name.
-	//
-	//		0 < in_UniqueNameIndex  < max unsigned int
-	//
-	//		if in_ModelName_CouldIncludeFamilyTableEntry describes a family table
-	//			then
-	//				in_ModelName_CouldIncludeFamilyTableEntry must contain '<', and '>', where '>' appears later in the string than '<'
-	//			Examples:
-	//				Engine						// Non family table example
-	//				Chassis_8_Wheel<Chassis>	// Family table example, If '<' exists then '>' must exist. One and only
-	//											// one '<' and one and only one '>'
-	// 	Post-Conditions	
-	//		throw application_exception if:
-	//			a) in_ModelName_CouldIncludeFamilyTableEntry.size() > 31
-	//			b) out_CompleteName.size() > 31. This would occur if the in_UniqueNameIndex forced the string to be too large.
-	//			c) in_ModelName_CouldIncludeFamilyTableEntry has a malformed name e.g. one "<" but not a closing ">"
-	//
-	//			Example of out_CompleteName.size() > 31
-	//				in_UniqueNameIndex:							12345
-	//				in_ModelName_CouldIncludeFamilyTableEntry:	Bolst_M3-50-10_Plated_S<NAS132>		// Length: 31
-	//				out_ModelName_Without_Suffix:               NAS132								// Length: 6
-	//				out_ModelName_With_Suffix:                  Z12345Z								// Length: 7
-	//				out_CompleteName:                           Bolst_M3-50-10_Plated_S<Z12345Z>	// Length: 32
-	//
-	//		if no exceptions, return out_... variables.  An example follows:	
-	//			a) Non Family Table - out_ModelName_With_Suffix="EngineZ1Z",	out_CompleteName="EngineZ1Z"
-	//			b) Family table		- out_ModelName_With_Suffix="ChassisZ1Z",	out_CompleteName="Chassis_8_Wheel<ChassisZ1Z>"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Description:
+//		Create Creo model name with a unique suffix.  Examples:
+//			Non-Family Table - Within in_AllowedSize:
+//				in_UniqueNameIndex:							123
+//				in_ModelName_CouldIncludeFamilyTableEntry:	bracket					// Length: 7
+//				out_ModelName_Without_Suffix:               bracket					// Length: 7
+//				out_ModelName_With_Suffix:                  bracketZ123Z			// Length: 12
+//				out_CompleteName:                           bracketZ123Z			// Length: 12
+//
+//			Family Table  - Within in_AllowedSiZe
+//				in_UniqueNameIndex:							123
+//				in_ModelName_CouldIncludeFamilyTableEntry:	M3-50-10<NAS132-Bolt>		// Length: 21
+//				out_ModelName_Without_Suffix:               NAS132-Bolt					// Length: 11
+//				out_ModelName_With_Suffix:                  NAS132-BoltZ123Z			// Length: 16
+//				out_CompleteName:                           M3-50-10<NAS132-BoltZ123Z>	// Length: 26
+//
+//			Non-Family Table - Truncation Required:	
+//				in_UniqueNameIndex:                        99999
+//				in_ModelName_CouldIncludeFamilyTableEntry: 12345678901234567890123456789   // Length: 29
+//				out_ModelName_Without_Suffix:              12345678901234567890123456789   // Length: 29
+//				out_ModelName_With_Suffix:                 123456789012345678901234Z99999Z //  Length: 31
+//				out_CompleteName:                          123456789012345678901234Z99999Z //  Length: 31
+//
+//			Family Table - Truncation Required
+//				in_UniqueNameIndex:                        123
+//				in_ModelName_CouldIncludeFamilyTableEntry: Bolst_M3-50-10_Plated<NAS132>	// Length: 29
+//				out_ModelName_Without_Suffix:              NAS132							// Length: 6
+//				out_ModelName_With_Suffix:                 NASZ123Z							// Length: 8
+//				out_CompleteName:                          Bolst_M3-50-10_Plated<NASZ123Z>  // Length: 31
+//
+//	Pre-Conditions:
+//		in_ModelName_CouldIncludeFamilyTableEntry must be a legitimate Creo model name.
+//
+//		0 < in_UniqueNameIndex  < max unsigned int
+//
+//		if in_ModelName_CouldIncludeFamilyTableEntry describes a family table
+//			then
+//				in_ModelName_CouldIncludeFamilyTableEntry must contain '<', and '>', where '>' appears later in the string than '<'
+//			Examples:
+//				Engine						// Non family table example
+//				Chassis_8_Wheel<Chassis>	// Family table example, If '<' exists then '>' must exist. One and only
+//											// one '<' and one and only one '>'
+// 	Post-Conditions	
+//		throw application_exception if:
+//			a) in_ModelName_CouldIncludeFamilyTableEntry.size() > 31
+//			b) out_CompleteName.size() > 31. This would occur if the in_UniqueNameIndex forced the string to be too large.
+//			c) in_ModelName_CouldIncludeFamilyTableEntry has a malformed name e.g. one "<" but not a closing ">"
+//
+//			Example of out_CompleteName.size() > 31
+//				in_UniqueNameIndex:							12345
+//				in_ModelName_CouldIncludeFamilyTableEntry:	Bolst_M3-50-10_Plated_S<NAS132>		// Length: 31
+//				out_ModelName_Without_Suffix:               NAS132								// Length: 6
+//				out_ModelName_With_Suffix:                  Z12345Z								// Length: 7
+//				out_CompleteName:                           Bolst_M3-50-10_Plated_S<Z12345Z>	// Length: 32
+//
+//		if no exceptions, return out_... variables.  An example follows:	
+//			a) Non Family Table - out_ModelName_With_Suffix="EngineZ1Z",	out_CompleteName="EngineZ1Z"
+//			b) Family table		- out_ModelName_With_Suffix="ChassisZ1Z",	out_CompleteName="Chassis_8_Wheel<ChassisZ1Z>"
 
 	void CreateModelNameWithUniqueSuffix(  
 				//cad::CadFactoryAbstract		&in_Factory,
@@ -82,7 +82,6 @@ namespace isis
 																						// otherwise, same as out_ModelName_With_Suffix
 				unsigned int in_AllowedSize   )											// e.g. PRO_NAME_SIZE - 1 
 														throw (isis::application_exception);
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -305,6 +304,40 @@ namespace isis
 						const std::vector<std::string>					&in_AssemblyComponentIDs,
 						std::map<std::string, isis::CADComponentData>	&in_out_CADComponentData_map) 
 																				throw (isis::application_exception);
+
+
+	// This function computes the bounding box based on excluding all geometry except for the solid geometry.
+	// This means that datums, coordinate system, and sketch curves/lines would be excluded.
+	// If the bounding box information has already been computed for in_ComponentInstanceID then those
+	// values would be returned; otherwise, the values are computed and persisted in in_CADComponentData_map 
+	// and then returned.
+	void 	RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( 
+								const std::string								&in_ComponentInstanceID,
+								std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_1,
+								isis_CADCommon::Point_3D							&out_BoundingBox_Point_2,
+								double											out_Dimensions_xyz[3] )
+																		throw (isis::application_exception);	
+
+	// This function assumes:
+	//	1. The assembly is of a vehicle
+	//	2. The coordinate system of the vehicle is as follows:
+	//		z axis pointing in the direction of backward motion of the vehicle
+	//		y axis pointing upward
+	//		x axis in accordance to the right-hand rule
+	//	3.	Pt_0  x, y, z values
+	//		Pt_1  x, y, z values
+	//		Pt_2  x, y, z values
+	//		Where
+    //           Vector ( Pt_0 to Pt_1 )   X  Vector ( Pt_0 to Pt_2 )   would define the upward direction for a vehicle.
+    //           X represents the cross product
+	//	4.  For tracked vehicles, the tracks are parallel to the z-axis
+	//  5.  For wheeled vehicles, the portion of the wheels touching the ground form a 
+	//		plane. 
+	void ComputeVehicleGroundPlane( const std::string								&in_AssemblyComponentID,
+									std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+									std::vector<isis_CADCommon::Point_3D>			&out_GroundPlanePoints )
+																			throw (isis::application_exception);
 
 }
 

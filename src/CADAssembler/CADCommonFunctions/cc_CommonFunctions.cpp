@@ -7,6 +7,7 @@
 #include "cc_MiscellaneousFunctions.h"
 #include "cc_CADFactoryAbstract.h"
 #include "cc_CommonUtilities.h"
+#include "cc_AssemblyUtilities.h"
 #include <ostream>
 #include <fstream>
 #include <iomanip>
@@ -733,15 +734,7 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 
 	
 
-						//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
-						//										in_CADComponentData_map,
-						//										boundingBox_Point_1,
-						//										boundingBox_Point_2,
-						//										boundingBoxDimensions_xyz );
-
-
-						modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed( //in_Factory,
-																in_CADComponentData_map[i.first].componentID,
+						RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	in_CADComponentData_map[i.first].componentID,
 																in_CADComponentData_map,
 																boundingBox_Point_1,
 																boundingBox_Point_2,
@@ -808,14 +801,13 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 						// For now, only supporting ground plane
 						if ( j.computationSubType == COMPUTATION_SUBTYPE_GROUND )
 						{
-							//ComputeVehicleGroundPlane(	//in_Factory, 
-							//							componentID_to_AssemblyComponentID_map[i.first],
-							//							in_CADComponentData_map,
-							//							temp_points );
+							ComputeVehicleGroundPlane(	componentID_to_AssemblyComponentID_map[i.first],
+														in_CADComponentData_map,
+														temp_points );
 
-							modelOperations.computeVehicleGroundPlane(	componentID_to_AssemblyComponentID_map[i.first],
-																		in_CADComponentData_map,
-																		temp_points );
+							//modelOperations.computeVehicleGroundPlane(	componentID_to_AssemblyComponentID_map[i.first],
+							//											in_CADComponentData_map,
+							//											temp_points );
 						}
 						else
 						{

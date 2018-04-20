@@ -9,6 +9,7 @@
 #include <cc_JsonHelper.h>
 #include <boost/filesystem.hpp>
 #include <ExteriorShell.h>
+#include <cc_AssemblyUtilities.h>
 
 
 namespace isis
@@ -230,27 +231,15 @@ namespace isis
 	//void CFD_Analyzer::analyze_v0(cad::CadFactoryAbstract &in_Factory)	{
 	void CFD_Analyzer::analyze_v0()	{
 
-		isis_CADCommon::Point_3D	boundingBox_Point_1;
-		isis_CADCommon::Point_3D	boundingBox_Point_2;
+		isis_CADCommon::Point_3D 	boundingBox_Point_1;
+		isis_CADCommon::Point_3D		boundingBox_Point_2;
 		double						boundingBoxDimensions_xyz[3];
 		
-		//RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	m_TopLevelAssemblyData.assemblyComponentID,
-		//														m_CADComponentData_map,
-		//														boundingBox_Point_1,
-		//														boundingBox_Point_2,
-		//														boundingBoxDimensions_xyz );
-	
-		isis::cad::CadFactoryAbstract_global *cadFactoryAbstract_global_ptr = isis::cad::CadFactoryAbstract_global::instance();
-		isis::cad::CadFactoryAbstract::ptr	cAD_Factory_ptr = cadFactoryAbstract_global_ptr->getCadFactoryAbstract_ptr();
-
-		isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
-		modelOperations.retrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(//in_Factory,
-																m_TopLevelAssemblyData.assemblyComponentID,
+		RetrieveBoundingBox_ComputeFirstIfNotAlreadyComputed(	m_TopLevelAssemblyData.assemblyComponentID,
 																m_CADComponentData_map,
 																boundingBox_Point_1,
 																boundingBox_Point_2,
 																boundingBoxDimensions_xyz );
-		
 
 
 		// {x, y, z} direction	

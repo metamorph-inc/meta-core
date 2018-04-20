@@ -291,24 +291,37 @@ namespace isis
 
 
 	void isis_ProSolidMassPropertyGet_WithDescriptiveErrorMsg( 
-						const std::string									&in_ComponentID,
-						std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
-						ProMassProperty*									mass_prop )
+						const std::string										&in_ComponentID,
+						const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+						ProMassProperty*											mass_prop )
 																throw(isis::application_exception) 									
 	{
+
+		std::map<std::string, isis::CADComponentData>::const_iterator itr;
+		itr = in_CADComponentData_map.find(in_ComponentID);
+		
+		if ( itr == in_CADComponentData_map.end())
+		{
+			std::stringstream errorString;
+			errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentID that is not in in_CADComponentData_map. in_ComponentID:  " << in_ComponentID;
+			throw isis::application_exception(errorString);	
+		}
+
+
 		try
 		{
-			isis::isis_ProSolidMassPropertyGet( static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl), NULL, mass_prop );
+			//isis::isis_ProSolidMassPropertyGet( static_cast<ProSolid>(in_CADComponentData_map[in_ComponentID].cADModel_hdl), NULL, mass_prop );
+			isis::isis_ProSolidMassPropertyGet( static_cast<ProSolid>(itr->second.cADModel_hdl), NULL, mass_prop );
 		}
 		catch ( isis::application_exception& ex )
 		{
 			std::stringstream errorString;
 				errorString <<
 						"Failed to retrieve mass properties:"  << std::endl <<
-						"   Model Name:            " <<	 in_CADComponentData_map[in_ComponentID].name << std::endl <<
-						"   Model Type:            " << isis::ProMdlType_string(in_CADComponentData_map[in_ComponentID].modelType)<<  std::endl <<
+						"   Model Name:            " <<	 itr->second.name << std::endl <<
+						"   Model Type:            " << isis::ProMdlType_string(itr->second.modelType)<<  std::endl <<
 						"   Component Instance ID: " <<  in_ComponentID <<  std::endl <<
-						"   Exception Message: " << ex.what();
+						"   Exception Message:     " << ex.what();
 				throw isis::application_exception("C05002",errorString.str().c_str());
 		}
 	}

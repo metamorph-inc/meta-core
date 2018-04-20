@@ -7,8 +7,8 @@ namespace isis
 
 ProError AddComponentToAssembly( ProAssembly asm_model, 
 							     ProSolid	 comp_model,
-							     ProAsmcomp	*out_p_assembled_feat_handle,
-								 ProMatrix matrix) 
+							     ProAsmcomp	 *out_p_assembled_feat_handle,
+								 ProMatrix   matrix) 
 											throw (isis::application_exception)
 {
 	ProError status;

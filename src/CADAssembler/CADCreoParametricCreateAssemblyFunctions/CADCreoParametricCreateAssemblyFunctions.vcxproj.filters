@@ -51,9 +51,6 @@
     <ClCompile Include="..\..\..\generated\CAD\generated\CreoMetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CreoModelMetaData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CADFactoryCreo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,13 +92,7 @@
     <ClInclude Include="..\..\..\generated\CAD\generated\CreoMetaData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CreoModelMetaData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CADFactoryCreo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblyOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DatumRefResolver.h">

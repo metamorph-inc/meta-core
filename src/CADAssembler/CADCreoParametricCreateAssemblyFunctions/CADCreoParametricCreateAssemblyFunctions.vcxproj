@@ -103,7 +103,6 @@
     <ClCompile Include="DiagnosticUtilities.cpp" />
     <ClCompile Include="ISISConstants.cpp" />
     <ClCompile Include="MaterialProperties.cpp" />
-    <ClCompile Include="CreoModelMetaData.cpp" />
     <ClCompile Include="ModelMaterials.cpp" />
     <ClCompile Include="SetCADModelParameters.cpp" />
     <ClCompile Include="ToolKitPassThroughFunctions.cpp" />
@@ -112,7 +111,6 @@
     <ClInclude Include="..\..\..\generated\CAD\generated\CreoMetaData.h" />
     <ClInclude Include="ApplyModelConstraints.h" />
     <ClInclude Include="AssembleUtils.h" />
-    <ClInclude Include="AssemblyOptions.h" />
     <ClInclude Include="BuildAssembly.h" />
     <ClInclude Include="CADEnvironmentSettings.h" />
     <ClInclude Include="CADFactoryCreo.h" />
@@ -120,7 +118,6 @@
     <ClInclude Include="DiagnosticUtilities.h" />
     <ClInclude Include="ISISConstants.h" />
     <ClInclude Include="MaterialProperties.h" />
-    <ClInclude Include="CreoModelMetaData.h" />
     <ClInclude Include="ModelMaterials.h" />
     <ClInclude Include="SetCADModelParameters.h" />
     <ClInclude Include="ToolKitPassThroughFunctions.h" />

@@ -1006,23 +1006,7 @@ namespace isis
 															 // assembly.  Leaf-assembly subordinates are not tracked and thus the LONG_MAX
 															 // setting.
 
-		CADComponentData() :dataInitialSource( INITIAL_SOURCE_INPUT_XML_FILE),
-							name(CAD_NAME_SIZE - 1), 
-							cADModel_ptr_ptr(0), cADModel_hdl(0), 
-							parametricParametersPresent(false),  
-							//specialInstruction(CAD_SPECIAL_INSTRUCTION_NONE), 
-							analysisTempMaterialDefined(false), 
-							cyPhyComponent(true),
-							geometryRepresentation(CAD_NAME_SIZE - 1),
-							addedToAssemblyOrdinal(LONG_MAX),
-							partOrdinal(-1),
-							partAssemblyOrdinal(-1)
-		{
-			assembledFeature.id = 0;
-			//assembledFeature.type = PRO_TYPE_INVALID;
-			assembledFeature.type = CAD_FEATURE_GEOMETRY_TYPE_INVALID;
-			assembledFeature.owner = 0;
-		}
+		CADComponentData();
 
 	};
 
