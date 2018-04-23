@@ -234,6 +234,15 @@ void CreateXMLFile_RequestedMetrics(
 		return true;
 	};
 
+	 bool SelectAllParts::operator() ( const isis::CADComponentData &in_CADComponentData)
+	{
+		if ( in_CADComponentData.modelType == CAD_MDL_PART )
+			return true;
+		else 
+			return false;
+	};
+
+
 	 bool SelectComponentDerivedFromLeafAssembly::operator() ( const isis::CADComponentData &in_CADComponentData)
 	{
 		if ( in_CADComponentData.dataInitialSource == INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS )

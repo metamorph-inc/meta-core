@@ -84,6 +84,13 @@ namespace isis
 			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
 	};
 
+	class SelectAllParts : public ComponentPredicate
+	{
+		public:
+			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
+	};
+
+
 	class SelectComponentDerivedFromLeafAssembly : public ComponentPredicate
 	{
 		public:

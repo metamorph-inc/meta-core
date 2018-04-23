@@ -396,6 +396,17 @@ public:
 	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
 	//																										throw (isis::application_exception) = 0;
 
+	// Description:
+	//		Every CAD model (assemblies and parts) should have a unit system.
+	//		This function retrieves the units from the CAD model.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//				in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//				The CreateAssembly framework reads the models into memory before calling this function.
+	//		if no exception
+	//			out_CADModelUnits is populated:
 	virtual void retrieveCADModelUnits( 
 					const std::string									&in_ComponentInstanceID,
 					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
@@ -408,6 +419,51 @@ public:
 	virtual MultiFormatString retrieveMaterialName( 	const std::string									&in_ComponentInstanceID,
 													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception) = 0;
+
+	// Description:
+	//		This function determines if in_ParameterName is in the CAD Model designated by in_ComponentInstanceID.
+	//		Note - A parameter can be in a part or assembly.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//			The CreateAssembly framework reads the models into memory before calling this function.
+	//		if no exception
+	//			return true/false
+	virtual bool isParameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+												const std::string										&in_ComponentInstanceID,	
+												const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception) = 0;
+	// Description:
+	//		A parameter in a CAD model may/may-not have units assigned to the parameter.
+	//		This function determines if units are assigned.  For now, only distance units are determined. 
+	//		Only determining distance units is probably OK because almost always distance units are modified
+	//		via CyPhy.  Mass, force, time, and temperature units are not normally modified by CyPhy.
+	//		Note - A parameter can be in a part or assembly.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			1)	in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//				The CreateAssembly framework reads the models into memory before calling this function.
+	//			2)	in_ParameterName	 does not exist in in_ComponentInstanceID CAD model.  Typically, you would call isParameterDefinedInCADModel
+	//				before calling this function.
+	//		if no exception
+	//			out_CADModelUnits is set as follows:
+	//				out_CADModelUnit.distanceUnit  if no units defined for parameter CAD_UNITS_DISTANCE_NA  otherwise the unit for the parameter
+	//				out_CADModelUnit.massUnit =			CAD_UNITS_MASS_NA			// Always set to this for now 
+	//				out_CADModelUnit.forceUnit =			CAD_UNITS_FORCE_NA  			// Always set to this for now 
+	//				out_CADModelUnit.timeUnit =			CAD_UNITS_TIME_NA 			// Always set to this for now  
+	//				out_CADModelUnit.temperatureUnit =  CAD_UNITS_TEMPERATURE_NA		// Always set to this for now 
+	virtual void retrieveParameterUnits ( const MultiFormatString									&in_ParameterName,
+												const std::string									&in_ComponentInstanceID,	
+												const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+												CADModelUnits										&out_CADModelUnits ) 
+																											throw (isis::application_exception) = 0;
+
+	// need get parameter units
+
 
 	// This function only adds in_ModelComponentIDsToAdd parts/sub-assemblies to the in_AssemblyComponentInstanceID assembly.  It does
 	// not constrain the added parts/sub-assemblies.

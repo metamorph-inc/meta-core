@@ -643,7 +643,14 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
 
     try
     {
-        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, data.displayName);
+        //isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, data.displayName);
+
+		std::string displayName_temp = data.displayName;
+		if (displayName_temp.size() >= MAX_STRING_PARAMETER_LENGTH )
+		{
+			displayName_temp = displayName_temp.substr(0, MAX_STRING_PARAMETER_LENGTH-3) + "...";
+		}
+        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, displayName_temp);
     }
     catch(isis::application_exception &ex)
     {

@@ -258,6 +258,11 @@ namespace isis
 												int                regeneration_flags)
 												throw(isis::application_exception);
 
+    extern ProError  isis_ProParameterValueWithUnitsGet(		ProParameter   *param, 
+															ProParamvalue  *proval,
+															ProUnititem *units)
+												throw(isis::application_exception);
+
 	extern	ProError isis_ProElementAlloc (		ProElemId name_id,
 												ProElement *p_elem)
 												throw(isis::application_exception);

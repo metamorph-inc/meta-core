@@ -1290,6 +1290,8 @@ namespace isis
 	};
 
 
+	std::ostream& operator<<(std::ostream& output, CADModelUnits &in_CADModelUnits); 
+
 
 } // END namespace isis
 

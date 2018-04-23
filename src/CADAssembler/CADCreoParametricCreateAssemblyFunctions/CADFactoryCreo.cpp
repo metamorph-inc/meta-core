@@ -1580,6 +1580,89 @@ MultiFormatString ModelOperationsCreo::retrieveMaterialName(
 	return MultiFormatString(material_temp);
 }
 
+bool ModelOperationsCreo::isParameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+														 const std::string										&in_ComponentInstanceID,	
+														 const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception)
+{
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	try
+	{
+		//ProName ParameterName;
+		//ProStringToWstring(ParameterName, (char *)in_ParameterName.c_str() );
+
+		//std::cout << std::endl << "ParameterName: " << ProWstringToString(temp_string, ParameterName);	
+		//std::cout << std::endl << "in_p_model:    " << in_p_model;
+		//std::cout << std::endl << "*in_p_model:    " << *in_p_model;
+
+		ProModelitem  ParameterModelItem_struct;
+	
+		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+	
+		ProParameter  ProParameter_struct;
+
+		//isis::isis_ProParameterInit ( &ParameterModelItem_struct, ParameterName, &ProParameter_struct);
+		isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+	}
+	catch (...)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+// Warning this function only supports distance units (e.g. mm, inch...)
+void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString								&in_ParameterName,
+													const std::string									&in_ComponentInstanceID,	
+													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+													CADModelUnits										&out_CADModelUnits ) 
+																											throw (isis::application_exception)
+{
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	ProModelitem  ParameterModelItem_struct;
+	isis::isis_ProMdlToModelitem ( itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+	ProParameter  ProParameter_struct;
+
+	isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+
+	out_CADModelUnits.distanceUnit =		CAD_UNITS_DISTANCE_NA; 
+	out_CADModelUnits.massUnit =			CAD_UNITS_MASS_NA;
+	out_CADModelUnits.forceUnit =		CAD_UNITS_FORCE_NA; 
+	out_CADModelUnits.timeUnit =			CAD_UNITS_TIME_NA; 
+	out_CADModelUnits.temperatureUnit = CAD_UNITS_TEMPERATURE_NA;	
+
+	ProParamvalue  ProParamvalue_struct;
+
+	ProUnititem creo_parameter_units;
+	isis_ProParameterValueWithUnitsGet(&ProParameter_struct, &ProParamvalue_struct, &creo_parameter_units);
+
+	if ( wcslen(creo_parameter_units.name) == 0 ) return;  // No units specified for the parameter
+
+	MultiFormatString distanceUnit_multiformat( creo_parameter_units.name);
+	out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( distanceUnit_multiformat );
+	ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+}
+
 
 void ModelOperationsCreo::addModelsToAssembly( 
 					const std::string									&in_AssemblyComponentInstanceID,

@@ -1114,6 +1114,25 @@ namespace isis
 	}
 
 
+    ProError  isis_ProParameterValueWithUnitsGet(	ProParameter   *param, 
+													ProParamvalue  *proval,
+													ProUnititem *units)
+	{
+
+		ProError err = ProParameterValueWithUnitsGet (	param, 
+														proval,
+														units);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProParameterValueWithUnitsGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06055",err_str);  
+		}
+		return err;
+
+	}
+
 	ProError isis_ProElementAlloc ( ProElemId name_id,
 									ProElement *p_elem)
 												throw(isis::application_exception)

@@ -445,5 +445,15 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+	std::ostream& operator<<(std::ostream& output, CADModelUnits &in_CADModelUnits)
+	{
+		output << "Distance:    " << CADUnitsDistance_string(in_CADModelUnits.distanceUnit)       << "  Short Name: " << in_CADModelUnits.distanceUnit_ShortName    << "  Long Name: " << in_CADModelUnits.distanceUnit_LongName << std::endl;
+		output << "Mass:        " << CADUnitsMass_string(in_CADModelUnits.massUnit)               << "  Short Name: " << in_CADModelUnits.massUnit_ShortName        << "  Long Name: " << in_CADModelUnits.massUnit_LongName << std::endl;
+		output << "Force:       " << CADUnitsForce_string(in_CADModelUnits.forceUnit)             << "  Short Name: " << in_CADModelUnits.forceUnit_ShortName       << "  Long Name: " << in_CADModelUnits.forceUnit_LongName << std::endl;	
+		output << "Time:        " << CADUnitsTime_string(in_CADModelUnits.timeUnit)               << "  Short Name: " << in_CADModelUnits.timeUnit_ShortName        << "  Long Name: " << in_CADModelUnits.timeUnit_LongName << std::endl;	
+		output << "Temperature: " << CADUnitsTemperature_string(in_CADModelUnits.temperatureUnit) << "  Short Name: " << in_CADModelUnits.temperatureUnit_ShortName << "  Long Name: " << in_CADModelUnits.temperatureUnit_LongName << std::endl;
+		return output;
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

@@ -28,8 +28,6 @@ void SetParametricParameter(
 				bool                is_mmKs)
 									throw (isis::application_exception)
 {
-
-	
 	
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   CADParameter";
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name     "  <<  in_model_name;	
@@ -509,7 +507,7 @@ ProError SetParametricParameter(
 }  // end ForceParametricParameter
 
 void ParametricParameter_WarnForPartUnitsMismatch(
-	isis::CADComponentData &in_cadata,
+	const isis::CADComponentData &in_cadata,
 	bool *out_is_mmKs)
 	throw (isis::application_exception)
 {

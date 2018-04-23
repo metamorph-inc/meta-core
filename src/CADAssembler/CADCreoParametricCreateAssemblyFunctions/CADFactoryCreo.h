@@ -247,6 +247,15 @@ class  ModelOperationsCreo : public IModelOperations {
 													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception);
 
+	virtual bool isParameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+												const std::string										&in_ComponentInstanceID,	
+												const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception);
+	virtual void retrieveParameterUnits ( const MultiFormatString								&in_ParameterName,
+										  const std::string										&in_ComponentInstanceID,	
+										  const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+										  CADModelUnits											&out_CADModelUnits ) 
+																											throw (isis::application_exception);
 
 	virtual void ModelOperationsCreo::addModelsToAssembly( 
 					const std::string									&in_AssemblyComponentInstanceID,

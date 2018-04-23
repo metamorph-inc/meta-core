@@ -163,7 +163,7 @@ ProError SetParametricParameter(
 
 
 void ParametricParameter_WarnForPartUnitsMismatch(
-	isis::CADComponentData &in_cadata,
+	const isis::CADComponentData &in_cadata,
 	bool *out_is_mmKs)
 	throw (isis::application_exception);
 

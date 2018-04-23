@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include <AssemblyCreationViaInputFile.h>
 
-#include <BuildAssembly.h>
 #include <DiagnosticUtilities.h>
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
@@ -12,6 +11,7 @@
 #include <SurvivabilityAnalysis.h>
 #include <CFDAnalysis.h>
 #include <MaterialProperties.h>
+#include <BuildAssembly.h>
 #include <sstream>
 #include <fstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -438,6 +438,21 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			time_start=time(NULL); // reset start time for subsequent assemblies if any
 
 
+			///////////////////////////////////////////////////////
+			// Log the Units for Each Model (Assemblies and Parts)
+			//////////////////////////////////////////////////////			
+			isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly(false);
+			isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
+
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Units ***********************";
+			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
+			{
+				CADModelUnits cADModelUnits;
+				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
+				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << cADModelUnits;
+			}
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** END Units *************************";
 
 
 			///////////////////////////////////////////////
@@ -475,7 +490,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End CompleteTheHierarchyForLeafAssemblies *****************";
 			}		
 
-			
+
+
 			///////////////////////////////////////////////
 			// Uniquely Name All CAD Model Instances
 			//////////////////////////////////////////////
