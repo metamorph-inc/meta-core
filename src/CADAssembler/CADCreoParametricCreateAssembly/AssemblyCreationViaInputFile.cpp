@@ -445,15 +445,50 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Units ***********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units ***********************";
 			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
 			{
 				CADModelUnits cADModelUnits;
 				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
 				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << cADModelUnits;
 			}
-			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** END Units *************************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units ***********************";
 
+
+			///////////////////////////////////////////////////////
+			// Log the Parameter Unit Information
+			//////////////////////////////////////////////////////		
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Parameter Units Defined in CAD Model (not defined is normal) ***********************";
+			// Top assemly would never have parameter.  Use assemblyComponentIDs_IncludingTopAssembly because it is available.
+			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
+			{
+				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name; 
+				if (cADComponentData_map[i_comp].parametricParameters.size() == 0 )
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "---- No parameters defined in CyPhy/CADAssembly.xml ----";
+				}
+				else
+				{
+					for each ( const CADParameter &i_param in cADComponentData_map[i_comp].parametricParameters )
+					{
+						if ( modelOperations.isParameterDefinedInCADModel ( i_param.name, i_comp, cADComponentData_map) )
+						{
+							CADModelUnits cADModelUnits;
+							modelOperations.retrieveParameterUnits( i_param.name, i_comp, cADComponentData_map, cADModelUnits);
+							isis_LOG(lg, isis_FILE, isis_INFO) << "Parameter Name: "<< i_param.name << std::endl << cADModelUnits;
+						}
+						else
+						{
+							isis_LOG(lg, isis_FILE, isis_INFO) << "---- Parameter defined in CyPhy/CADAssembly.xml, but not in CAD model. ----";
+						}
+					}
+				}
+				CADModelUnits cADModelUnits;
+				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
+				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << cADModelUnits;
+			}
+			isis_LOG(lg, isis_FILE, isis_INFO) << "********************* END Parameter Units Defined in CAD Model (not defined is normal) ************************";
 
 			///////////////////////////////////////////////
 			// Complete The Hierarchy For Leaf Assemblies
@@ -475,8 +510,6 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//											assemblyComponentIDs_ExcludingTopAssembly.listOfComponentIDs, 
 				//											NonCyPhyID_counter,
 				//											cADComponentData_map );
-
-
 
 
 				isis_LOG(lg, isis_FILE, isis_INFO) << "";

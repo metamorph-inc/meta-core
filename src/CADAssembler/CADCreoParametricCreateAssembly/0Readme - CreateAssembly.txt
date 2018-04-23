@@ -1142,6 +1142,7 @@ v1.5.28.0 	4/20/2018 CAD_038_Add_More_Generic_CAD_Interfaces
 			
 		Logged:
 			Units for each model
+			Units for each parameter
 
 Known Defects
 -------------
