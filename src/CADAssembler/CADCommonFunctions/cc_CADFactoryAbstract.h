@@ -379,22 +379,6 @@ public:
 						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties										&out_MassProperties) 
 																				throw (isis::application_exception) = 0;
-		//------ const map to here
-
-	//virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
 
 	// Description:
 	//		Every CAD model (assemblies and parts) should have a unit system.
@@ -431,7 +415,7 @@ public:
 	//			The CreateAssembly framework reads the models into memory before calling this function.
 	//		if no exception
 	//			return true/false
-	virtual bool isParameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+	virtual bool parameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
 												const std::string										&in_ComponentInstanceID,	
 												const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
 																											throw (isis::application_exception) = 0;
@@ -447,7 +431,7 @@ public:
 	//		isis::application_exception will be thrown if
 	//			1)	in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
 	//				The CreateAssembly framework reads the models into memory before calling this function.
-	//			2)	in_ParameterName	 does not exist in in_ComponentInstanceID CAD model.  Typically, you would call isParameterDefinedInCADModel
+	//			2)	in_ParameterName	 does not exist in in_ComponentInstanceID CAD model.  Typically, you would call parameterDefinedInCADModel
 	//				before calling this function.
 	//		if no exception
 	//			out_CADModelUnits is set as follows:

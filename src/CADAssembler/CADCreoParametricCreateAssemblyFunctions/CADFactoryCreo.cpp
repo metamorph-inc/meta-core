@@ -1283,248 +1283,6 @@ void ModelOperationsCreo::retrieveMassProperties(
 
 }
 
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
-															 std::string &out_ShortName, 
-															 std::string &out_LongName  )
-																				throw (isis::application_exception)
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_DistanceUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "in" ) 
-	{ 
-		out_ShortName = "inch";	
-		out_LongName	  = "inch";			
-		valid_unit = true;
-	} 
-	else if ( unit == "ft" ) 
-	{ 
-		out_ShortName = "foot";	
-		out_LongName  = "foot";			
-		valid_unit = true;
-	}
-	else if ( unit == "mm" ) 
-	{ 
-		out_ShortName = "mm";		
-		out_LongName  = "millimeter";		
-		valid_unit = true;
-	}
-	else if ( unit == "cm" ) 
-	{ 
-		out_ShortName = "cm";		
-		out_LongName  = "centimeter";		
-		valid_unit = true;
-	}
-	else if ( unit == "m" )	
-	{ 
-		out_ShortName = "m";		
-		out_LongName  = "meter";			
-		valid_unit = true;
-	}
-	else if ( unit == "km" )
-	{ 
-		out_ShortName = "km";		
-		out_LongName  = "kilometer";		
-		valid_unit = true;
-	}
-
-	
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_DistanceUnit: " << std::endl << (const string)in_DistanceUnit << 
-					", which is an unkown unit type.  Valid unit types are case-insentive in, ft, mm, cm, m, and km.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-*****/
-
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
-														 std::string &out_ShortName, 
-														 std::string &out_LongName  )
-																				throw (isis::application_exception)
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_MassUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-
-	if ( unit == "lbm" )
-	{ 
-		out_ShortName = "lbm";		
-		out_LongName = "poundmass"; 
-		valid_unit = true;
-	}
-	else if ( unit == "g" )	
-	{ 
-		out_ShortName = "g";			
-		out_LongName = "gram"; 
-		valid_unit = true;
-	}
-	else if ( unit == "kg" )	
-	{ 
-		out_ShortName = "kg";			
-		out_LongName = "kilogram"; 
-		valid_unit = true;
-	}
-	else if ( unit == "tonne" )	
-	{ 
-		out_ShortName = "tonne";  
-		out_LongName = "tonne"; 
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_MassUnit: " << std::endl << (const string)in_MassUnit << 
-					", which is an unknown unit type.  Valid unit types are case-insensitive lbm, g, kg, and tonne.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-
-}
-***/
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];    // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_ForceUnit );
-
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_ForceUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "lbf" ) 
-	{ 
-		out_ShortName = "lbf";	
-		out_LongName = "poundforce"; 
-		valid_unit = true;
-	}
-	else if ( unit == "n" )	 
-	{ 
-		out_ShortName = "N";		
-		out_LongName = "newton"; 
-		valid_unit = true;
-	}
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_ForceUnit: " << std::endl << (const string)in_ForceUnit << 
-					", which is an unkown unit type.  Valid unit types are  case-insenstive lbf and N.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-***/
-/****
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_Temperature );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_TemperatureUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-
-	if ( unit == "c" )	
-	{ 
-		out_ShortName = "C";
-		out_LongName = "centigrade"; 
-		valid_unit = true;
-	}
-	else if ( unit == "f" )	
-	{ 
-		out_ShortName = "F";	
-		out_LongName = "fahrenheit"; 
-		valid_unit = true;
-	}
-	else if ( unit == "k" )	
-	{ 
-		out_ShortName = "K";
-		out_LongName = "kelvin";
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_TemperatureUnit: " << std::endl << (const string)in_TemperatureUnit << 
-					", which is an unkown unit type.  Valid unit types are case-insenstive C, F, and K";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-****/
-///////////////////////////////////////////////////////////////////////////////////////
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_TimeUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_TimeUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "sec" ) 
-	{ 
-		out_ShortName = "sec";	
-		out_LongName = "second"; 
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_TimeUnit: " << std::endl << (const string)in_TimeUnit << 
-					", which is an unkown unit type.  Valid unit type is case-insenstive sec.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-***/
 
 void ModelOperationsCreo::retrieveCADModelUnits( 
 					const std::string									&in_ComponentInstanceID,
@@ -1580,7 +1338,7 @@ MultiFormatString ModelOperationsCreo::retrieveMaterialName(
 	return MultiFormatString(material_temp);
 }
 
-bool ModelOperationsCreo::isParameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+bool ModelOperationsCreo::parameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
 														 const std::string										&in_ComponentInstanceID,	
 														 const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
 																											throw (isis::application_exception)
@@ -1607,7 +1365,7 @@ bool ModelOperationsCreo::isParameterDefinedInCADModel ( const MultiFormatString
 		ProModelitem  ParameterModelItem_struct;
 	
 		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
-		isis::isis_ProMdlToModelitem ( itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
 	
 		ProParameter  ProParameter_struct;
 
@@ -1640,7 +1398,7 @@ void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString						
 	}
 
 	ProModelitem  ParameterModelItem_struct;
-	isis::isis_ProMdlToModelitem ( itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+	isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
 	ProParameter  ProParameter_struct;
 
 	isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);

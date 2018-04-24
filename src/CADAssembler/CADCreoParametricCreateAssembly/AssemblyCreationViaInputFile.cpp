@@ -472,7 +472,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				{
 					for each ( const CADParameter &i_param in cADComponentData_map[i_comp].parametricParameters )
 					{
-						if ( modelOperations.isParameterDefinedInCADModel ( i_param.name, i_comp, cADComponentData_map) )
+						if ( modelOperations.parameterDefinedInCADModel ( i_param.name, i_comp, cADComponentData_map) )
 						{
 							CADModelUnits cADModelUnits;
 							modelOperations.retrieveParameterUnits( i_param.name, i_comp, cADComponentData_map, cADModelUnits);
@@ -480,7 +480,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 						}
 						else
 						{
-							isis_LOG(lg, isis_FILE, isis_INFO) << "---- Parameter defined in CyPhy/CADAssembly.xml, but not in CAD model. ----";
+							isis_LOG(lg, isis_FILE, isis_INFO) << "---- Parameter ( " << i_param.name << " ) defined in CyPhy/CADAssembly.xml, but not in CAD model. ----";
 						}
 					}
 				}

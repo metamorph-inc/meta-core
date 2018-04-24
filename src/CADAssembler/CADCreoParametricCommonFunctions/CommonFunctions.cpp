@@ -315,9 +315,6 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 	
 	isis::isis_ProUnitsystemUnitGet (&unitSystem, PRO_UNITTYPE_LENGTH, &lengthUnit); 
 
-	//ConvertCreoUnitToGMEUnit_Distance( lengthUnit.name,out_DistanceUnit_ShortName, out_DistanceUnit_LongName  );
-	//isis::cad::IModelOperations&         modelOperations = cAD_Factory_ptr->getModelOperations();
-	//modelOperations.convertCADUnitToGMEUnit_Distance(lengthUnit.name,out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName  );
 	MultiFormatString distanceUnit_multiformat( lengthUnit.name);
 	out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( distanceUnit_multiformat );
 	ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
