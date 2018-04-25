@@ -121,7 +121,17 @@ namespace META
                             if (property.GetCustomAttributes(typeof(WorkflowConfigItemAttribute), false).Length > 0
                                 && property.Name == parameter)
                             {
-                                property.SetValue(InterpreterConfig, value, null);
+                                if (property.PropertyType == typeof(bool))
+                                {
+                                    if (value != null)
+                                    {
+                                        property.SetValue(InterpreterConfig, value.Equals("true", StringComparison.InvariantCultureIgnoreCase), null);
+                                    }
+                                }
+                                else
+                                {
+                                    property.SetValue(InterpreterConfig, value, null);
+                                }
                                 return;
                             }
                         }
