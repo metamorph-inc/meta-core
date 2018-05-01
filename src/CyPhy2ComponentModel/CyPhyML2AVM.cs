@@ -85,6 +85,8 @@ namespace CyPhyML2AVM
         public static Dictionary<string, CreatorBase> _avmNameCreateMethodMap = new Dictionary<String, CreatorBase>() {
             { typeof(CyPhyMLClasses.Axis).ToString(),                       Creator<avm.cad.Axis>.get_singleton()                   },
             { typeof(CyPhyMLClasses.CoordinateSystem).ToString(),           Creator<avm.cad.CoordinateSystem>.get_singleton()       },
+	        // TODO
+            // { typeof(CyPhyMLClasses.ReferenceCoordinateSystem).ToString(),                  Creator<avm.cad.ReferenceCoordinateSystem>.get_singleton()              },
             { typeof(CyPhyMLClasses.Surface).ToString(),                    Creator<avm.cad.Plane>.get_singleton()                  },
             { typeof(CyPhyMLClasses.Point).ToString(),                      Creator<avm.cad.Point>.get_singleton()                  },
             { typeof(CyPhyMLClasses.AbstractPort).ToString(),               Creator<avm.AbstractPort>.get_singleton()               },
@@ -465,7 +467,7 @@ namespace CyPhyML2AVM
             return avmPrimitiveProperty;
         }
 
-        public void createAVMPort(List<avm.Port> avmPortList, CyPhyML.DomainModelPort cyPhyMLDomainModelPort, List<avm.ConnectorFeature> connectorFeatures = null)
+        public void createAVMPort(List<avm.Port> avmPortList, CyPhyML.Port cyPhyMLDomainModelPort, List<avm.ConnectorFeature> connectorFeatures = null)
         {
             string cyPhyMLDomainModelPortTypeName = cyPhyMLDomainModelPort.GetType().ToString();
 
@@ -1221,7 +1223,7 @@ namespace CyPhyML2AVM
 
                 foreach (CyPhyML.PortComposition cyPhyMLPortComposition in cyPhyMLCADDatum.SrcConnections.PortCompositionCollection.Where(c => c.IsRefportConnection() == false))
                 {
-                    CyPhyML.DomainModelPort cyPhyMLDomainModelPort = cyPhyMLPortComposition.SrcEnds.DomainModelPort;
+                    CyPhyML.Port cyPhyMLDomainModelPort = cyPhyMLPortComposition.SrcEnds.Port;
                     string id = getIDAttribute(cyPhyMLDomainModelPort);
                     if (id != "")
                     {
@@ -1384,6 +1386,11 @@ namespace CyPhyML2AVM
             foreach (CyPhyML.DomainModelPort cyPhyMLDomainModelPort in cyPhyMLComponent.Children.DomainModelPortCollection)
             {
                 createAVMPort(cyPhyMLDomainModelPort);
+            }
+            foreach (CyPhyML.ReferenceCoordinateSystem cyPhyMLDomainModelPort in cyPhyMLComponent.Children.ReferenceCoordinateSystemCollection)
+            {
+	        // TODO
+                // createAVMPort(cyPhyMLDomainModelPort);
             }
 
             foreach (CyPhyML.Resource cyPhyMLResource in cyPhyMLComponent.Children.ResourceCollection)

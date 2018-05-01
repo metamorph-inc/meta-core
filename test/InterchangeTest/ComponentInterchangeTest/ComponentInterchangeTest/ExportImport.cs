@@ -782,5 +782,71 @@ namespace ComponentInterchangeTest
                 Assert.False(any_missing, list_of_missing_names);
             });
         }
+
+        [Fact]
+        [Trait("Interchange", "CAD")]
+        public void CoordinateSystem()
+        {
+            String testName = GetCurrentMethod();
+
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var comp = fixture.proj.GetComponentsByName("CoordinateSystem")
+                                       .First();
+
+                // Export then Import the component
+                CyPhy.Components importedcomponents;
+                CyPhy.Component newcomp = ExportThenImport(comp, out importedcomponents, testName);
+
+                try
+                {
+                    CyPhy.ReferenceCoordinateSystem sysInComponent = null;
+                    CyPhy.ReferenceCoordinateSystem sysInConnector = null;
+                    foreach (CyPhy.PortComposition portcomp in newcomp.Children.PortCompositionCollection)
+                    {
+                        CyPhy.ReferenceCoordinateSystem sys = null;
+                        if (portcomp.SrcEnds.ReferenceCoordinateSystem != null && portcomp.SrcEnds.ReferenceCoordinateSystem.ParentContainer.Kind == typeof(CyPhy.CADModel).Name)
+                        {
+                            sys = portcomp.DstEnds.ReferenceCoordinateSystem;
+                        }
+                        else if (portcomp.DstEnds.ReferenceCoordinateSystem != null)
+                        {
+                            sys = portcomp.SrcEnds.ReferenceCoordinateSystem;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        if (sys.ParentContainer == newcomp)
+                        {
+                            if (sysInComponent != null)
+                            {
+                                Assert.False(true, "Found two PortCompositions connected to a ReferenceCoordinateSystem in the component. Only expected one");
+                            }
+                            sysInComponent = sys;
+                        }
+                        else if (sys.ParentContainer.Kind == typeof(CyPhy.Connector).Name)
+                        {
+                            if (sysInConnector != null)
+                            {
+                                Assert.False(true, "Found two PortCompositions connected to a ReferenceCoordinateSystem in the component's Connector. Only expected one");
+                            }
+                            sysInConnector = sys;
+                        }
+                    }
+                    // TODO
+                    // Assert.True(sysInComponent != null, "Did not find a connection from CADModel ReferenceCoordinateSystem to a ReferenceCoordinateSystem in the Component");
+                    // Assert.True(sysInConnector != null, "Did not find a connection from CADModel ReferenceCoordinateSystem to a ReferenceCoordinateSystem in the Component's Connector");
+                }
+                finally
+                {
+                    // cleanup
+                    newcomp.Delete();
+                    importedcomponents.Delete();
+                }
+            });
+        }
+
+
     }
 }
