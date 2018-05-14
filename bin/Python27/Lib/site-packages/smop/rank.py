@@ -2,7 +2,6 @@ from __future__ import absolute_import
 import operator
 
 from constraint import Problem,RecursiveBacktrackingSolver
-import networkx as nx
 import smop.node as node
 from six.moves import range
 extend = node.extend

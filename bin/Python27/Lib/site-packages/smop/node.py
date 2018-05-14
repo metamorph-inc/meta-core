@@ -102,6 +102,11 @@ class stmt_list(node,list):
     def __repr__(self):
         return "stmt_list(%s)" % list.__repr__(self)
 
+class comments(node,list):
+    def __str__(self):
+        return "\n".join([str(t) for t in self])
+    def __repr__(self):
+        return "comments(%s)" % list.__repr__(self)
 #####################
 #
 #  ATOMS

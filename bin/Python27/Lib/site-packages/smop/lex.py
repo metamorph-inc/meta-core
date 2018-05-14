@@ -904,11 +904,8 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
     # Collect parser information from the dictionary
     linfo = LexerReflect(ldict, log=errorlog, reflags=reflags)
     linfo.get_all()
-    if not optimize:
-        if linfo.validate_all():
-            raise SyntaxError("Can't build lexer")
 
-    if optimize and lextab:
+    if lextab:
         try:
             lexobj.readtab(lextab, ldict)
             token = lexobj.token
@@ -918,6 +915,9 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
 
         except ImportError:
             pass
+
+    if linfo.validate_all():
+        raise SyntaxError("Can't build lexer")
 
     # Dump some basic debugging information
     if debug:
@@ -1021,7 +1021,7 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
     lexer = lexobj
 
     # If in optimize mode, we write the lextab
-    if lextab and optimize:
+    if lextab:
         if outputdir is None:
             # If no output directory is set, the location of the output files
             # is determined according to the following rules:
