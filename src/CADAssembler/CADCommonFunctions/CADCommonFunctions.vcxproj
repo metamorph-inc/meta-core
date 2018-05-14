@@ -191,6 +191,7 @@
     <ClInclude Include="cc_MiscellaneousFunctions.h" />
     <ClInclude Include="cc_MultiFormatString.h" />
     <ClInclude Include="cc_Nastran.h" />
+    <ClInclude Include="cc_ParametricParameters.h" />
     <ClInclude Include="cc_ParserCommon.h" />
     <ClInclude Include="cc_StringToEnumConversions.h" />
     <ClInclude Include="cc_SurvivabilityJasonWriter.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="cc_MiscellaneousFunctions.cpp" />
     <ClCompile Include="cc_MultiFormatString.cpp" />
     <ClCompile Include="cc_Nastran.cpp" />
+    <ClCompile Include="cc_ParametricParameters.cpp" />
     <ClCompile Include="cc_StringToEnumConversions.cpp" />
     <ClCompile Include="cc_SurvivabilityJasonWriter.cpp" />
     <ClCompile Include="cc_WindowsFunctions.cpp" />

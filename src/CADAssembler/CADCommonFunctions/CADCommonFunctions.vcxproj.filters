@@ -133,6 +133,9 @@
     <ClInclude Include="cc_DataExchange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cc_ParametricParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="isis_application_exception.cpp">
@@ -226,6 +229,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cc_DataExchange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cc_ParametricParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

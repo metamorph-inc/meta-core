@@ -146,8 +146,6 @@ class  ModelHandlingCreo : public IModelHandling {
 };
 
 
-
-
 class  ModelOperationsCreo : public IModelOperations {
 	public:
 		std::string name() { return "ModelOperationsCreo";}
@@ -238,6 +236,22 @@ class  ModelOperationsCreo : public IModelOperations {
 										  const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 										  CADModelUnits											&out_CADModelUnits ) 
 																											throw (isis::application_exception);
+
+	virtual void unitConversionFactorsComputation (	const std::string										&in_ComponentInstanceID,	
+													const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+													const std::string										&in_FromUnit,
+													const std::string										&in_ToUnit,
+													double													&out_ScaleFactor,
+													double													&out_Offset ) 
+																											throw (isis::application_exception);
+
+	virtual void setParameter (		e_CADParameterType										in_ParameterType,
+									const MultiFormatString									&in_ParameterName,
+									const std::string										&in_ParameterValue,
+									const std::string										&in_ComponentInstanceID,	
+									const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception);
+
 
 	virtual void ModelOperationsCreo::addModelsToAssembly( 
 					const std::string									&in_AssemblyComponentInstanceID,

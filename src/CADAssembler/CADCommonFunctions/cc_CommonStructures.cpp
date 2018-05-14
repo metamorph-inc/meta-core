@@ -448,7 +448,7 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 
 	std::ostream& operator<<(std::ostream& output, CADModelUnits &in_CADModelUnits)
 	{
-		output << "Unit_Type     Unit_eNum_String   Short_Name    Long_Name";
+		output << "Unit_Type     Unit_eNum_String   Short_Name    Long_Name" << std::endl;
 		output << "Distance:    " << CADUnitsDistance_string(in_CADModelUnits.distanceUnit)       << "  " << in_CADModelUnits.distanceUnit_ShortName    << "  " << in_CADModelUnits.distanceUnit_LongName << std::endl;
 		output << "Mass:        " << CADUnitsMass_string(in_CADModelUnits.massUnit)               << "  " << in_CADModelUnits.massUnit_ShortName        << "  " << in_CADModelUnits.massUnit_LongName << std::endl;
 		output << "Force:       " << CADUnitsForce_string(in_CADModelUnits.forceUnit)             << "  " << in_CADModelUnits.forceUnit_ShortName       << "  " << in_CADModelUnits.forceUnit_LongName << std::endl;	

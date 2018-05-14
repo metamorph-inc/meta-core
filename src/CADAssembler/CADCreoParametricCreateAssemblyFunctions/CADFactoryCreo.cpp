@@ -20,6 +20,8 @@ namespace isis {
 namespace cad {
 namespace creo {
 
+const int MAX_STRING_PARAMETER_LENGTH = 79;
+
 // Forward declare
 void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments);
 
@@ -1365,7 +1367,8 @@ bool ModelOperationsCreo::parameterDefinedInCADModel ( const MultiFormatString		
 		ProModelitem  ParameterModelItem_struct;
 	
 		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
-		isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+		//isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( itr->second.cADModel_hdl, &ParameterModelItem_struct );
 	
 		ProParameter  ProParameter_struct;
 
@@ -1398,7 +1401,8 @@ void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString						
 	}
 
 	ProModelitem  ParameterModelItem_struct;
-	isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+	//isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+	isis::isis_ProMdlToModelitem ( itr->second.cADModel_hdl, &ParameterModelItem_struct );
 	ProParameter  ProParameter_struct;
 
 	isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
@@ -1419,6 +1423,196 @@ void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString						
 	MultiFormatString distanceUnit_multiformat( creo_parameter_units.name);
 	out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( distanceUnit_multiformat );
 	ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+}
+
+
+void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string										&in_ComponentInstanceID,	
+																const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+																const std::string										&in_FromUnit,
+																const std::string										&in_ToUnit,
+																double													&out_ScaleFactor,
+																double													&out_Offset ) 
+																											throw (isis::application_exception)
+{
+
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	out_ScaleFactor = 0.0;
+	out_Offset = 0.0;
+
+	if (  in_FromUnit.size() > (PRO_PATH_SIZE - 1 ))
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_FromUnit string that is longer than the allowed size.  Allowed size: " << (PRO_PATH_SIZE - 1 );
+		throw isis::application_exception(errorString);	
+
+	}
+
+	if (  in_ToUnit.size() > (PRO_PATH_SIZE - 1 ))
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ToUnit string that is longer than the allowed size.  Allowed size: " << (PRO_PATH_SIZE - 1 );
+		throw isis::application_exception(errorString);	
+
+	}
+
+	MultiFormatString  fromUnit_MultiFromat (in_FromUnit);
+	MultiFormatString  toUnit_MultiFromat (in_ToUnit);
+
+	ProUnititem fromProUnit;
+	ProUnititem toProUnit;
+
+
+	isis::isis_ProUnitCreateByExpression(	*itr->second.cADModel_ptr_ptr, 
+											L"customunit", 
+											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
+											&fromProUnit);
+
+
+	isis::isis_ProUnitCreateByExpression(	*itr->second.cADModel_ptr_ptr, 
+											L"customunit", 
+											const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat),
+											&toProUnit);
+
+
+	ProUnitConversion conversion = {1.0, 0.0};
+
+	isis::isis_ProUnitConversionCalculate(&fromProUnit, &toProUnit, &conversion);
+
+	out_ScaleFactor = conversion.scale;
+	out_Offset = conversion.offset;
+
+	isis::isis_ProUnitDelete(&fromProUnit);
+	isis::isis_ProUnitDelete(&toProUnit);
+}
+
+
+void ModelOperationsCreo::setParameter (		e_CADParameterType										in_ParameterType,
+											const MultiFormatString									&in_ParameterName,
+											const std::string										&in_ParameterValue,
+											const std::string										&in_ComponentInstanceID,	
+											const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception)
+{
+
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Setting CADParameter";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name:       "  <<  itr->second.name;	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type:             "  <<  CADParameterType_string(in_ParameterType);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Parameter Name:   "  <<  in_ParameterName;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Parameter Value:  "  <<  in_ParameterValue;
+
+
+	//typedef wchar_t	ProName[PRO_NAME_SIZE];
+	if ( in_ParameterName.size() >= PRO_NAME_SIZE )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", Exceeded maximum number of characters. Parameter Name: "  << std::string(in_ParameterName) + ", Maximum allowed characters: " << PRO_NAME_SIZE;
+		throw isis::application_exception(errorString);	
+	}
+
+	try
+	{
+		//ProName ParameterName;
+		//ProStringToWstring(ParameterName, (char *)in_ParameterName.c_str() );
+		//std::cout << std::endl << "ParameterName: " << ProWstringToString(temp_string, ParameterName);	
+		//std::cout << std::endl << "in_p_model:    " << in_p_model;
+		//std::cout << std::endl << "*in_p_model:    " << *in_p_model;
+
+		ProModelitem  ParameterModelItem_struct;
+	
+		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( *itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+	
+		ProParameter  ProParameter_struct;
+
+		//isis::isis_ProParameterInit ( &ParameterModelItem_struct, ParameterName, &ProParameter_struct);
+		isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+		ProParamvalue  ProParamvalue_struct;
+
+		//switch ( CADParameterType_enum(in_ParameterType) )
+		switch ( in_ParameterType )
+		{
+			case CAD_FLOAT:
+				ProParamvalue_struct.type = PRO_PARAM_DOUBLE;
+				ProParamvalue_struct.value.d_val = atof(in_ParameterValue.c_str());
+
+				break;
+
+			case CAD_INTEGER:
+				ProParamvalue_struct.type = PRO_PARAM_INTEGER;
+				ProParamvalue_struct.value.i_val = atoi(in_ParameterValue.c_str());
+
+				break;
+			
+			case CAD_BOOLEAN:
+				ProParamvalue_struct.type = PRO_PARAM_BOOLEAN;
+				ProParamvalue_struct.value.l_val = isis::ProBoolean_enum(in_ParameterValue);
+				break;
+
+			case CAD_STRING:
+
+				if ( in_ParameterValue.size() > MAX_STRING_PARAMETER_LENGTH )
+				{
+					std::stringstream errorString;
+					errorString <<
+					"Erroneous CADParameter Value, Parameter: " <<  CADParameterType_string(in_ParameterType) <<
+					"  Value: " << in_ParameterValue << ", Value must be " << MAX_STRING_PARAMETER_LENGTH << 
+					" characters or less.";
+					throw isis::application_exception(errorString.str());
+				}
+				ProParamvalue_struct.type = PRO_PARAM_STRING;
+				ProStringToWstring(ProParamvalue_struct.value.s_val,(char*)in_ParameterValue.c_str());
+				break;
+
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", Erroneous CADParameter Type: " <<  CADParameterType_string(in_ParameterType) << ", Should be FLOAT, INTEGER, or BOOLEAN.";
+				throw isis::application_exception(errorString);	
+		}
+
+		isis::isis_ProParameterValueSet( &ProParameter_struct, &ProParamvalue_struct );
+
+		//std::cout << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
+		//std::clog << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
+
+		// Note - we are not using the units (i.e. k->CADValue().Units().present()).  If we were using units,
+		//        then ProUnitConversionGet() would probably be needed to compute the converstion factor.  Also,
+		//		  if the parameter units were set then they would be used for computing the scaling factor;
+		//		  otherwise, the module units would be used.
+
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex.setComponentInfo(itr->second.name);
+		ex.setParameterInfo(in_ParameterName);
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", exception : Part/Assembly Name: " << itr->second.name <<
+								", Parameter Name: " << in_ParameterName << ", " << ex.what();
+		throw isis::application_exception(errorString);	
+
+	}
+
+
+
 }
 
 

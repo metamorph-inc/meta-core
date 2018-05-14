@@ -16,7 +16,7 @@ namespace isis
 const int MAX_STRING_PARAMETER_LENGTH = 79;
 
 ////////////////////////////////////////////////////////////////////////
-
+/***  moved to cc_ParametricParameter.cpp  new name SetParametricParameterInCADModel
 void SetParametricParameter(  
 				const std::string	&in_model_name,
 				ProMdl				*in_p_model, 
@@ -112,7 +112,8 @@ void SetParametricParameter(
 					}
 
 					ProUnitConversion conversion = {1.0, 0.0};
-					isis::isis_ProUnitConversionCalculate(&xmlProUnit, &creo_parameter_units, &conversion, expr);
+					//isis::isis_ProUnitConversionCalculate(&xmlProUnit, &creo_parameter_units, &conversion, expr);
+					isis::isis_ProUnitConversionCalculate(&xmlProUnit, &creo_parameter_units, &conversion);
 					ProParamvalue_struct.value.d_val = ProParamvalue_struct.value.d_val * conversion.scale + conversion.offset;
 				}
 				// else if (is_mmKs == true && in_ParameterUnits == "")
@@ -169,7 +170,7 @@ void SetParametricParameter(
 	}
 
 }  // end SetParametricParameter
-
+****/
 ////////////////////////////////////////////////////////////////////////
 
 std::string GetParametricParameter(  
@@ -517,7 +518,7 @@ void ParametricParameter_WarnForPartUnitsMismatch(
 	*out_is_mmKs =
 		(default_units.distanceUnit_ShortName == "mm") &&
 		(default_units.massUnit_ShortName == "kg") &&
-		(default_units.timeUnit_ShortName == "s");
+		(default_units.timeUnit_ShortName == "sec");
 }
 
 } // end namespace isis

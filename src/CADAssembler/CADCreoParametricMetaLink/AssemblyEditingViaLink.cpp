@@ -26,6 +26,7 @@
 #include <cc_CommonDefinitions.h>
 #include <cc_AssemblyUtilities.h>
 #include <cc_ApplyModelConstraints.h>
+#include <cc_ParametricParameters.h>
 
 
 namespace isis
@@ -860,9 +861,12 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
     // Change the parameters
     for each(CADParameter i in in_Parameters)
     {
-        SetParametricParameter(modelNameWithSuffix,
-			in_ComponentInstance.cADModel_ptr_ptr,
-                               i.name, i.type, i.value, i.units, is_mmKs);
+        //SetParametricParameter(modelNameWithSuffix,
+		//	in_ComponentInstance.cADModel_ptr_ptr,
+        //                      i.name, i.type, i.value, i.units, is_mmKs);
+
+		SetParametricParameterInCADModel ( in_ComponentInstanceID, this->get_CADComponentData_map_ref(), i );
+
     }
 
     bool regenerationSucceeded;
@@ -1496,6 +1500,13 @@ void MetaLinkAssemblyEditor::UpdateAvmComponentViaXML(const std::string  &in_Ass
 {
     isis_LOG(lg, isis_FILE, isis_WARN) << " MetaLinkAssemblyEditor::UpdateComponentViaXML" << " NOT YET IMPLEMENTED";
 }
+
+
+std::map<std::string, isis::CADComponentData>& MetaLinkAssemblyEditor::get_CADComponentData_map_ref() 
+{
+	return m_CADComponentData_map;
+}
+
 
 } // END namespace isis
 

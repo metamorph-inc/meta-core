@@ -438,32 +438,37 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			time_start=time(NULL); // reset start time for subsequent assemblies if any
 
 
-			///////////////////////////////////////////////////////
-			// Log the Units for Each Model (Assemblies and Parts)
-			//////////////////////////////////////////////////////			
+			////////////////////////
+			// Log the Units 
+			////////////////////////			
 			isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly(false);
 			isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
+			// This is logged in the section below
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units ***********************";
+			//for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
+			//{
+			//	CADModelUnits cADModelUnits;
+			//	modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
+			//	isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name << std::endl << "Units of the CAD Model:" << std::endl << cADModelUnits;
+			//}
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units ***********************";
+
+
+			////////////////////////////////////////////////////////////////////////////////
+			// Log the Units for Each Model (Assemblies and Parts) and for Each Parameter
+			////////////////////////////////////////////////////////////////////////////////		
 			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units ***********************";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units and Parameter Units Defined in CAD Model (not defined is normal) ***********************";
+			// Top assemly would never have parameter.  Use assemblyComponentIDs_IncludingTopAssembly because it is available.
 			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
 			{
 				CADModelUnits cADModelUnits;
 				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
-				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << cADModelUnits;
-			}
-			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units ***********************";
+				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << "Units of the CAD Model:" << std::endl << cADModelUnits;
 
-
-			///////////////////////////////////////////////////////
-			// Log the Parameter Unit Information
-			//////////////////////////////////////////////////////		
-			isis_LOG(lg, isis_FILE, isis_INFO) << "";
-			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Parameter Units Defined in CAD Model (not defined is normal) ***********************";
-			// Top assemly would never have parameter.  Use assemblyComponentIDs_IncludingTopAssembly because it is available.
-			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
-			{
-				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name; 
+				//isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name; 
 				if (cADComponentData_map[i_comp].parametricParameters.size() == 0 )
 				{
 					isis_LOG(lg, isis_FILE, isis_INFO) << "---- No parameters defined in CyPhy/CADAssembly.xml ----";
@@ -476,7 +481,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 						{
 							CADModelUnits cADModelUnits;
 							modelOperations.retrieveParameterUnits( i_param.name, i_comp, cADComponentData_map, cADModelUnits);
-							isis_LOG(lg, isis_FILE, isis_INFO) << "Parameter Name: "<< i_param.name << std::endl << cADModelUnits;
+							isis_LOG(lg, isis_FILE, isis_INFO) << "Parameter Name: "<< i_param.name << std::endl << "Units Assigned to the Parameter in the CAD Model: " << std::endl << cADModelUnits;
 						}
 						else
 						{
@@ -484,11 +489,10 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 						}
 					}
 				}
-				CADModelUnits cADModelUnits;
-				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
-				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << cADModelUnits;
+
 			}
-			isis_LOG(lg, isis_FILE, isis_INFO) << "********************* END Parameter Units Defined in CAD Model (not defined is normal) ************************";
+
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units and Parameter Units Defined in CAD Model (not defined is normal) ***********************";
 
 			///////////////////////////////////////////////
 			// Complete The Hierarchy For Leaf Assemblies

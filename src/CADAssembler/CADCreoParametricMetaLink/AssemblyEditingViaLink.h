@@ -22,9 +22,8 @@ public:
     //		object created from this class
     // Post-Conditions:
     //		Instantiated Object
-    MetaLinkAssemblyEditor(//cad::CadFactoryAbstract::ptr						in_cadfactory,
-                           const isis::MetaLinkInputArguments				&in_ProgramInputArguments,
-                           std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map);
+    MetaLinkAssemblyEditor( const isis::MetaLinkInputArguments					&in_ProgramInputArguments,
+                            std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map);
 
     // Description:
     //      De-Select (remove highlight) for all objects
@@ -151,6 +150,8 @@ public:
 
     // Select a datum
     void HighlightDatum(const std::string parentID, const std::string datumName);
+
+	std::map<std::string, isis::CADComponentData>& get_CADComponentData_map_ref();
 
 private:
     //::log4cpp::Category& m_logcat;

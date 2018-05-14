@@ -1132,17 +1132,22 @@ v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces     // Should have 
 		via a cad common computeVehicleGroundPlane function that calls the abstract function computeVehicleGroundPlane.
 	
 
-v1.5.28.0 	4/20/2018 CAD_038_Add_More_Generic_CAD_Interfaces
+v1.5.28.0 	5/14/2018 CAD_038_Add_More_Generic_CAD_Interfaces
 		Modified ApplyParametricParameters to make in_CADComponentData_map const
 		Modified MetaLinkAssemblyEditor::UpdateComponentName to assure data.displayName.size() < MAX_STRING_PARAMETER_LENGTH
 
 		Added abstract functions:
 			isParameterDefinedInCADModel
 			retrieveParameterUnits
+			unitConversionFactorsComputation
+			setParameter
 			
 		Logged:
 			Units for each model
 			Units for each parameter
+			
+		Added:
+		cc_ParametricParameters.h/.cpp
 
 Known Defects
 -------------

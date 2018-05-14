@@ -6,6 +6,7 @@
 #include "cc_CommonDefinitions.h"
 #include <map>
 #include "cc_LoggerBoost.h"
+#include <cc_ParametricParameters.h>
 
 
 namespace isis
@@ -55,7 +56,9 @@ void ApplyParametricParameters( const std::list<std::string>						&in_ComponentI
 				isis_LOG(lg, isis_FILE, isis_INFO) << "    p->value:  " <<	p->value;
 				try 
 				{
-					SetParametricParameter( ModelNameWithSuffix, itr->second.cADModel_ptr_ptr, p->name, p->type, p->value, p->units, is_mmKs);
+					//SetParametricParameter( ModelNameWithSuffix, itr->second.cADModel_ptr_ptr, p->name, p->type, p->value, p->units, is_mmKs);
+					SetParametricParameterInCADModel (	itr->second.componentID,  in_CADComponentData_map, *p );
+
 
 				} catch (isis::application_exception &ex)
 				{
