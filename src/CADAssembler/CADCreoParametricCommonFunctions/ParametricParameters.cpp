@@ -519,7 +519,7 @@ void ParametricParameter_WarnForPartUnitsMismatch(
 	*out_is_mmKs =
 		(default_units.distanceUnit_ShortName == "mm") &&
 		(default_units.massUnit_ShortName == "kg") &&
-		(default_units.timeUnit_ShortName == "s");
+		(default_units.timeUnit_ShortName == "s" || (default_units.timeUnit_ShortName == "sec"));
 }
 
 } // end namespace isis
