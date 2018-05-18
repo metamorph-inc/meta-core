@@ -1,9 +1,22 @@
 #include "cc_MultiFormatString.h"
 #include <sstream>
 #include <wchar.h>
+#include <algorithm>
 
 namespace isis
 {
+
+// OPENMETA-496 Creo memcpys strings. The return value of MultiFormatString::operator wchar_t* is used in Creo API functions. Be sure that we allocate enough memory so that the memcpy doesn't crash
+// FIXME: this is a hack. After we inspect every call site of Creo APIs and use an explicit size, this should be removed
+// typedef wchar_t ProFamilyMdlName[PRO_FAMILY_MDLNAME_SIZE];
+#define MAX_CREO_STRING_LENGTH 362
+	static size_t max_wchar_length(size_t size) {
+		return (std::max)(size, (size_t)MAX_CREO_STRING_LENGTH);
+	}
+
+	static wchar_t* new_wchar(size_t size) {
+		return new wchar_t[max_wchar_length(size)];
+	}
 	
 	void WideCharArray_to_NarrowCharArray( char *out_NarrowCharArray, const wchar_t *in_WideCharArray)
 	{
@@ -36,7 +49,9 @@ namespace isis
 		char  *tempNarrowCharArray = new char[string_length + 1];
 		WideCharArray_to_NarrowCharArray(tempNarrowCharArray, (wchar_t *)in_WideCharArray);
 
-		return tempNarrowCharArray;
+		std::string ret = tempNarrowCharArray;
+		delete[] tempNarrowCharArray;
+		return ret;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool ExceededMaxStringLength( const std::string &in_String, int in_MaxNumberChars )
@@ -153,13 +168,13 @@ namespace isis
 		{		
 			int buffer_length = static_cast<int>(narrowString.size() + 1);
 			//std::cout << std::endl << "SIZE buffer_length: " << buffer_length;
-			wideCharArray = new wchar_t[buffer_length];
+			wideCharArray = new_wchar(buffer_length);
 			NarrowCharArray_to_WideCharArray( wideCharArray, (char *) narrowString.c_str());
 		}
 		else if ( narrowCharArray )
 		{
 			int buffer_length = static_cast<int>(strlen(narrowCharArray) + 1);
-			wideCharArray = new wchar_t[buffer_length];
+			wideCharArray = new_wchar(buffer_length);
 			NarrowCharArray_to_WideCharArray( wideCharArray, narrowCharArray);
 		}
 		else
@@ -188,7 +203,7 @@ namespace isis
 	void MultiFormatString::setString(const wchar_t *in_WideCharArray )
 	{
 		int buffer_length= static_cast<int>(wcslen(in_WideCharArray) + 1);
-		wideCharArray = new wchar_t[buffer_length ];
+		wideCharArray = new_wchar(buffer_length);
 		wcscpy_s( wideCharArray, buffer_length, in_WideCharArray); 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
