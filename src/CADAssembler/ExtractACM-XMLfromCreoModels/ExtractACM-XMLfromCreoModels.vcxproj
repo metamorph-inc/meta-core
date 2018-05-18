@@ -96,33 +96,29 @@
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;MetaLinkLib.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;MetaLinkLib.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includess;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;MetaLinkLib.lib;prodevmd.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,15 +126,14 @@
       <PreprocessorDefinitions>PRO_MACHINE=36;PRO_OS=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\prodevelop\x86e_win64\obj;$(MSBuildThisFileDirectory)..\x64\Release\CADCreoParametricCreateAssemblyFunctions.lib;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\protoolkit\x86e_win64\obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Psapi.lib;Netapi32.lib;Mpr.lib;protkmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -149,39 +144,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\generated\CAD\generated\CADAnalysisMetaData.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="AssembleUtils.cpp" />
-    <ClCompile Include="ExtractACM-XMLfromCreoModels.cpp" />
-    <ClCompile Include="CADEnvironmentSettings.cpp" />
-    <ClCompile Include="ISISConstants.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AssembleUtils.h" />
-    <ClInclude Include="CADEnvironmentSettings.h" />
-    <ClInclude Include="ISISConstants.h" />
-    <ClInclude Include="ISISVersionNumber.h" />
+    <ClCompile Include="Deprecated_ExtractACM-XMLfromCreoModels.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ExtractACM-XMLfromCreoModels.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CADCommonFunctions\CADCommonFunctions.vcxproj">
-      <Project>{9438fde8-a6e2-41e7-8523-250484cb4981}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CADCreoParametricCommonFunctions\CADCreoParametricCommonFunctions.vcxproj">
-      <Project>{49c0c132-dfd9-47e4-a860-01fd6e34ac3a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CADCreoParametricCreateAssemblyFunctions\CADCreoParametricCreateAssemblyFunctions.vcxproj">
-      <Project>{081f0b37-fda9-4921-a171-8b3feaa0fdd3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CADCreoParametricToolkitFunctions\CADCreoParametricToolkitFunctions.vcxproj">
-      <Project>{7cfd6932-09b9-4c2d-9483-c70a460e6996}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CADCreoUtils\CADCreoUtils.vcxproj">
-      <Project>{8b88c487-8f58-4622-997b-b0ba84f8b881}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -70,8 +70,15 @@
 #include <boost/exception/all.hpp>
 
 
+int ExtractACM_XML_main(int argc, char *argv[]);
+
 int main( int argc, char *argv[] )
 {
+
+	if (argc >= 2 && stricmp(argv[1], "ExtractACM-XMLfromCreoModels") == 0) {
+		return ExtractACM_XML_main(argc - 1, argv + 1);
+	}
+
 	::boost::filesystem::path original_directory = ::boost::filesystem::current_path();
 
 	int ExitCode = 0;

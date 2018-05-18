@@ -106,7 +106,7 @@ namespace CyPhyComponentAuthoring.Modules
                     // assemble the arg string
                     // first the input CAD file
                     // include quotation marks to handle paths with white spaces
-                    string argstring = "-c \"";
+                    string argstring = "ExtractACM-XMLfromCreoModels -c \"";
                     argstring += cadFilename;
                     argstring += "\"";
 
@@ -119,22 +119,22 @@ namespace CyPhyComponentAuthoring.Modules
 
                     Process firstProc = new Process();
 
-                    string path = Path.Combine(META.VersionInfo.MetaPath, "bin\\CAD\\Creo\\bin\\ExtractACM-XMLfromCreoModels.exe");
+                    string path = Path.Combine(META.VersionInfo.MetaPath, "bin\\CAD\\Creo\\bin\\CADCreoParametricCreateAssembly.exe");
                     if (!File.Exists(path))
                     {
                         this.Logger.WriteError(String.Format("Cannot find '{0}'", path));
-                        throw new Exception("ExtractACM-XMLfromCreoModels.exe not found.");
+                        throw new Exception("CADCreoParametricCreateAssembly.exe not found.");
                     }
 
                     firstProc.StartInfo.FileName = path;
                     firstProc.StartInfo.Arguments = argstring;
-                    this.Logger.WriteDebug("Calling ExtractACM-XMLfromCreoModels.exe with argument string: " + argstring);
+                    this.Logger.WriteDebug("Calling CADCreoParametricCreateAssembly.exe with argument string: " + argstring);
 
                     firstProc.Start();
 
                     firstProc.WaitForExit();
 
-                    this.Logger.WriteDebug("ExtractACM-XMLfromCreoModels.exe has completed.");
+                    this.Logger.WriteDebug("CADCreoParametricCreateAssembly.exe ExtractACM-XMLfromCreoModels has completed.");
 
                     if (firstProc.ExitCode == 0)
                     {
@@ -142,7 +142,7 @@ namespace CyPhyComponentAuthoring.Modules
                     }
                     else
                     {
-                        this.Logger.WriteDebug("ExtractACM-XMLfromCreoModels.exe returned error code " + firstProc.ExitCode.ToString());
+                        this.Logger.WriteDebug("CADCreoParametricCreateAssembly.exe ExtractACM-XMLfromCreoModels returned error code " + firstProc.ExitCode.ToString());
                         throw new Exception("Extract executable returned error code " + firstProc.ExitCode.ToString());
                     }
                 }

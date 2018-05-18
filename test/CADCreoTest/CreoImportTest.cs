@@ -8,13 +8,13 @@ using Xunit;
 
 namespace CADCreoTest
 {
-    public class CreoImportTest : IUseFixture<CADCreoTest.Cyphy2CADCreoTest.ExtractACMXMLFixture>
+    public class CreoImportTest : IUseFixture<CADCreoTest.Cyphy2CADCreoTest.CadAssemblyFixture>
     {
 
         string CADCreoTestPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), "..", ".."));
-        private Cyphy2CADCreoTest.ExtractACMXMLFixture fixture;
+        private Cyphy2CADCreoTest.CadAssemblyFixture fixture;
 
-        public void SetFixture(Cyphy2CADCreoTest.ExtractACMXMLFixture data)
+        public void SetFixture(Cyphy2CADCreoTest.CadAssemblyFixture data)
         {
             this.fixture = data;
         }
@@ -30,8 +30,8 @@ namespace CADCreoTest
             }
             ProcessStartInfo info = new ProcessStartInfo()
             {
-                FileName = fixture.extractXmlExe,
-                Arguments = string.Format("-c \"{0}\"", inputPrt),
+                FileName = fixture.createAssemblyExe,
+                Arguments = string.Format("ExtractACM-XMLfromCreoModels -c \"{0}\"", inputPrt),
                 UseShellExecute = false,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,

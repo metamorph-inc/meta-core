@@ -22,8 +22,6 @@
     <MSBuild Projects="$(MSBuildThisFileDirectory)\src\CADAssembler\All_CAD.sln" Targets="Build" Properties="Configuration=Release;Platform=x64;CREO_PARAMETRIC_TOOLKIT_PARENT_DIR=$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR);VisualStudioVersion=11.0;PlatformToolset=v110"/>
     <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricCreateAssembly.exe&quot;"
         WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
-    <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\ExtractACM-XMLfromCreoModels.exe&quot;"
-        WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
     <Exec Command="cmd /s /c &quot;&quot;$(CREO_PARAMETRIC_TOOLKIT_PARENT_DIR)\..\Parametric\bin\protk_unlock.bat&quot; src\CADAssembler\x64\Release\CADCreoParametricMetaLink.exe&quot;"
         WorkingDirectory="$(MSBuildThisFileDirectory)" IgnoreExitCode="false"/>
   </Target>
