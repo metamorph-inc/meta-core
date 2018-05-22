@@ -1471,23 +1471,25 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 	ProUnititem toProUnit;
 
 
-	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", BEGIN isis_ProUnitCreateByExpression";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", BEGIN isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "*(itr->second.cADModel_ptr_ptr):                            " << *(itr->second.cADModel_ptr_ptr);
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat): " << const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat);
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat):   " << const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat);
 		
 	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
-											L"customunit", 
+											L"customunitfrom", 
 											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
 											&fromProUnit);
 
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "fromProUnit initialized";
+
 	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
-											L"customunit", 
+											L"customunitto", 
 											const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat),
 											&toProUnit);
 
-	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", END isis_ProUnitCreateByExpression";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "toProUnit initialized";
 
 	ProUnitConversion conversion = {1.0, 0.0};
 
@@ -1495,6 +1497,11 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 
 	out_ScaleFactor = conversion.scale;
 	out_Offset = conversion.offset;
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "out_ScaleFactor: " << out_ScaleFactor;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "out_Offset:      " << out_Offset;
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", END isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
 
 	isis::isis_ProUnitDelete(&fromProUnit);
 	isis::isis_ProUnitDelete(&toProUnit);
