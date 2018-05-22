@@ -1471,17 +1471,23 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 	ProUnititem toProUnit;
 
 
-	isis::isis_ProUnitCreateByExpression(	*itr->second.cADModel_ptr_ptr, 
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", BEGIN isis_ProUnitCreateByExpression";
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "*(itr->second.cADModel_ptr_ptr):                            " << *(itr->second.cADModel_ptr_ptr);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat): " << const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat):   " << const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat);
+		
+	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
 											L"customunit", 
 											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
 											&fromProUnit);
 
-
-	isis::isis_ProUnitCreateByExpression(	*itr->second.cADModel_ptr_ptr, 
+	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
 											L"customunit", 
 											const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat),
 											&toProUnit);
 
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", END isis_ProUnitCreateByExpression";
 
 	ProUnitConversion conversion = {1.0, 0.0};
 
