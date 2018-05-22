@@ -71,6 +71,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 	bool Template_Copied = false;
 	int NonCyPhyID_counter = 0;  // This will be incremented before it is used.
 	int ExitCode = 0;
+
+	std::vector<CADCreateAssemblyError> errorList;
+
 	try
 	{
 		time_t time_start; /* calendar time */
@@ -87,7 +90,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		} 
 
 
-		std::vector<CADCreateAssemblyError> errorList;
+
 
 		//Initial load of the map, one entry for each part/assembly file.
 	
@@ -95,8 +98,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 													XML_DEFINED_BY_FILE,
 													xMLInputFile_PathAndFileName,
 													cADComponentAssemblies,
-													cADComponentData_map,
-													errorList);
+													cADComponentData_map );
+													//errorList);
 
 		if ( cADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
 		{
@@ -1319,7 +1322,6 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				throw isis::application_exception(errorString.str());
 		}
 
-
 	} // END Try
 
 
@@ -1338,6 +1340,30 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		throw isis::application_exception(exceptionErrorStringStream.str().c_str());
 	}
 
+	// Check if errorList has entries
+	if ( errorList.size() > 0 )
+	{
+		bool fatal_error = false;
+
+		std::stringstream	exceptionErrorStringStream;
+		for each ( const CADCreateAssemblyError &error_temp in errorList )
+			if ( error_temp.Severity == CADCreateAssemblyError_Severity_Error || error_temp.Severity == CADCreateAssemblyError_Severity_Error ) fatal_error = true;
+	
+		if ( fatal_error )
+		{
+			std::stringstream	exceptionErrorStringStream;
+			for each ( const CADCreateAssemblyError &error_temp in errorList )
+				exceptionErrorStringStream << CADCreateAssemblyError_Severity_string(error_temp.Severity)  << ": " << error_temp.Text <<	 std::endl;
+
+			throw isis::application_exception(exceptionErrorStringStream.str());
+		}
+		else
+		{
+			for each ( const CADCreateAssemblyError &error_temp in errorList )
+				isis_LOG(lg, isis_FILE, isis_WARN) << error_temp.Text;
+		}
+	}
+	
 }
 
 } // END namespace isis

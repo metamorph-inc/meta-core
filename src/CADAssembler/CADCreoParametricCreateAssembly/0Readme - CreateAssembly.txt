@@ -1132,7 +1132,7 @@ v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces     // Should have 
 		via a cad common computeVehicleGroundPlane function that calls the abstract function computeVehicleGroundPlane.
 	
 
-v1.5.28.0 	5/14/2018 CAD_038_Add_More_Generic_CAD_Interfaces
+v1.5.28.0 	5/22/2018 CAD_038_Add_More_Generic_CAD_Interfaces
 		Modified ApplyParametricParameters to make in_CADComponentData_map const
 		Modified MetaLinkAssemblyEditor::UpdateComponentName to assure data.displayName.size() < MAX_STRING_PARAMETER_LENGTH
 
@@ -1148,6 +1148,10 @@ v1.5.28.0 	5/14/2018 CAD_038_Add_More_Generic_CAD_Interfaces
 			
 		Added:
 		cc_ParametricParameters.h/.cpp
+		
+		isis::BuildAssembly returns errorList.  If errorList contained any values, then no actions were taken. For 
+		CreateAssemblyViaInputFile changed this to throw an exception for fatal errors and log warnings. For  
+		CreateAssemblyViaString logged fatal errors and warnings but did not throw an exception.
 
 Known Defects
 -------------

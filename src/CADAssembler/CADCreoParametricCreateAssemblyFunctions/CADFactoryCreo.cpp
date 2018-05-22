@@ -1514,7 +1514,7 @@ void ModelOperationsCreo::setParameter (		e_CADParameterType										in_Paramet
 	}
 
 	
-	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Setting CADParameter";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Setting CAD Parameter";
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name:       "  <<  itr->second.name;	
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type:             "  <<  CADParameterType_string(in_ParameterType);
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Parameter Name:   "  <<  in_ParameterName;

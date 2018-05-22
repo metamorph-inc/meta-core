@@ -151,12 +151,12 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 										in_ComponentInstanceID,
 										in_CADComponentData_map);
 
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "Parameter Successfully Set in CAD Model";
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name            "  <<  itr->second.name;	
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      ComponentID           "  <<  itr->second.componentID;	
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type                  "  <<  in_CADParameter.type;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Parameter Successfully Set in CAD Model";
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name            "  <<	itr->second.name;	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      ComponentID           "  <<	itr->second.componentID;	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type                  "  <<   CADParameterType_string(in_CADParameter.type);
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Name                  "	<<  in_CADParameter.name;
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value                 "	<<  in_CADParameter.value;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value                 "	<<  (std::string)in_CADParameter.value;
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Factor          "	<<  scaleFactor;
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Offset          "	<<  scaleOffset;
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value after Scaling   "	<<  value_string;
@@ -170,14 +170,18 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 										in_CADComponentData_map);
 
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "Parameter Successfully Set in CAD Model";
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name            "  <<  itr->second.name;	
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      ComponentID           "  <<  itr->second.componentID;	
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type                  "  <<  in_CADParameter.type;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name            "  <<   itr->second.name;	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      ComponentID           "  <<   itr->second.componentID;	
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type                  "  <<   CADParameterType_string(in_CADParameter.type);
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Name                  "	<<  in_CADParameter.name;
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value                 "	<<  in_CADParameter.value;
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Factor          "	<<  scaleFactor;
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Offset          "	<<  scaleOffset;
-		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value after Scaling   "	<<  in_CADParameter.value;
+		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value                 "	<<  (std::string)in_CADParameter.value;
+
+		if ( in_CADParameter.type == CAD_FLOAT || in_CADParameter.type == CAD_INTEGER  )
+		{
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Factor          "	<<  scaleFactor;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Scale Offset          "	<<  scaleOffset;
+			isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Value after Scaling   "	<<  (std::string)in_CADParameter.value;
+		}
 	}
 						
 

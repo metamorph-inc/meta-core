@@ -1251,6 +1251,9 @@ namespace isis
 		CADCreateAssemblyError_Severity_Critical, // These are the non-recoverable errors
 	};
 	
+	std::string CADCreateAssemblyError_Severity_string ( CADCreateAssemblyError_Severity in_CADCreateAssemblyError_Severity);
+
+
 	struct CADCreateAssemblyError
 	{
 		CADCreateAssemblyError(const std::string &txt, CADCreateAssemblyError_Severity severity) : Text(txt), Severity(severity)

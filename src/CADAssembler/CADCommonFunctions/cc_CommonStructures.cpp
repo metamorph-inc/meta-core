@@ -457,5 +457,29 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 		return output;
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	std::string CADCreateAssemblyError_Severity_string ( CADCreateAssemblyError_Severity in_CADCreateAssemblyError_Severity)
+	{
+
+		switch ( in_CADCreateAssemblyError_Severity )
+		{
+			case CADCreateAssemblyError_Severity_Warning:
+				return "Warning";
+				break;
+					
+			case CADCreateAssemblyError_Severity_Error:
+				return "Error";
+				break;
+
+			case CADCreateAssemblyError_Severity_Critical:
+				return "Critical";
+				break;
+			default:
+				return "Critical";
+				break;
+		}
+
+	}
+
 }
 
