@@ -19,7 +19,7 @@ tokens = [
     "IDENT", "LBRACE", "LBRACKET", "LE", "LPAREN", "LT",
     "MINUS","MINUSMINUS","MINUSEQ","MUL","MULEQ","NE", "NEG",
     "NUMBER", "OR","OREQ", "OROR", "PLUS", "PLUSEQ","PLUSPLUS",
-    "RBRACE", "RBRACKET", "RPAREN", "SEMI", "STRING", "TRANSPOSE"
+    "RBRACE", "RBRACKET", "RPAREN", "SEMI", "STRING", "TRANSPOSE", "COMMENT"
 ]
 
 reserved = {
@@ -133,6 +133,7 @@ def new():
 
     @TOKEN(r"(\.%s)?%s" % (ws0,id))
     def t_IDENT(t):
+        t.lexer.had_ident = True
         t.lexer.lineno += t.value.count("\n")
         if t.value[0] == ".":
             # Reserved words are not reserved when used as fields.
@@ -232,7 +233,10 @@ def new():
 
     def t_comment(t):
         r"(%|\#)(?!{)[^\n]*"
-        pass
+        if not t.lexer.had_ident:
+            t.type = "COMMENT"
+            t.value = t.value[1:]
+            return t
 
     def t_multicomment(t):
         r"%\{"
@@ -315,6 +319,7 @@ def new():
         raise IllegalCharacterError(t.lineno,column,t.value[0])
 
     lexer = lex.lex(reflags=re.I)
+    lexer.had_ident = False
     lexer.brackets = 0  # count open square brackets
     lexer.parens = 0    # count open parentheses
     lexer.braces = 0    # count open curly braces

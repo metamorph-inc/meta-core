@@ -7,7 +7,6 @@ import sys,six.moves.cPickle,glob,os
 import getopt,re
 from smop import lexer,parse,resolve,backend,options,graphviz
 import smop.node as node
-import networkx as nx
 from smop.runtime import *
 from smop.core import *
 from six.moves import input

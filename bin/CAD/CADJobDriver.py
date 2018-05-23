@@ -434,7 +434,12 @@ if __name__ == '__main__':
     import win32api
     import win32job
     hProcess = win32api.GetCurrentProcess()
-    if not win32job.IsProcessInJob(hProcess, None):
+
+    def os_supports_nested_jobs():
+        "Nested jobs were introduced in Windows 8 and Windows Server 2012"
+        return sys.getwindowsversion()[0:2] >= (6,2)
+
+    if not win32job.IsProcessInJob(hProcess, None) or os_supports_nested_jobs():
         hJob = win32job.CreateJobObject(None, "")
         extended_info = win32job.QueryInformationJobObject(hJob, win32job.JobObjectExtendedLimitInformation)
         extended_info['BasicLimitInformation']['LimitFlags'] = win32job.JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | win32job.JOB_OBJECT_LIMIT_BREAKAWAY_OK
@@ -443,4 +448,5 @@ if __name__ == '__main__':
         # n.b. intentionally leak hJob. Otherwise, when running on Windows Server 2008R2 SP1, AssignProcessToJobObject closes hJob (try !handle
         # in windbg before and after), and we crash with invalid handle in CloseHandle on exit
         hJob.Detach()
+
     main()

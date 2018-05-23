@@ -73,7 +73,7 @@
 #include "CADFactoryCreo.h"
 
 
-ProError ProTermAction( ProeTerminationStatus term_type )
+static ProError ProTermAction( ProeTerminationStatus term_type )
 {
 	std::stringstream errorString;
 	errorString << "Creo-Parametric has terminated with status : " << term_type;
@@ -84,7 +84,7 @@ ProError ProTermAction( ProeTerminationStatus term_type )
 // determine if the creo file name is a part file or an assembly file
 // kind of tricky since creo adds a ".number" extension for revision control
 // returns true if the file is ASM, false if not (i.e. it is a PRT or unknown type)
-bool fileISasm(string sourcefile)
+static bool fileISasm(string sourcefile)
 {
 	int locateASM = sourcefile.rfind(".asm");
     int locatePRT = sourcefile.rfind(".prt");
@@ -99,7 +99,7 @@ bool fileISasm(string sourcefile)
 	}
 }
 
-string getpartname(string sourcefile)
+static string getpartname(string sourcefile)
 {
 	int location = sourcefile.rfind(".asm");
 	if (location == string::npos)
@@ -110,7 +110,7 @@ string getpartname(string sourcefile)
 }
 
 
-int main( int argc, char *argv[] )
+int ExtractACM_XML_main( int argc, char *argv[] )
 {
 	const std::string ASSEMBLE_PTC_VERSION = ISIS_PRODUCT_VERSION_WITH_v_AND_DOTS;
 

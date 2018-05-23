@@ -164,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="AssemblyCreationViaInputFile.cpp" />
     <ClCompile Include="CFDAnalysis.cpp" />
+    <ClCompile Include="ExtractACM-XMLfromCreoModels.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="FiniteElementAnalysis.cpp" />
     <ClCompile Include="GlobalModelData.cpp" />
     <ClCompile Include="StdAfx.cpp">

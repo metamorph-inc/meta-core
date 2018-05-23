@@ -1447,13 +1447,18 @@ namespace CyPhyPET
                 // no longer in MATLAB function declaration
                 metricOrParameter.Delete();
             }
-            // make relative if filename is in same directory as GME project
-            string mgaDir = Path.GetDirectoryName(Path.GetFullPath(((MgaFCO)tb.Impl).Project.ProjectConnStr.Substring("MGA=".Length)));
-            if (fileName.StartsWith(mgaDir + "\\"))
-            {
-                fileName = fileName.Substring((mgaDir + "\\").Length);
-            }
+            // make relative
+            fileName = MakeRelativePathToProjectDir(tb.Impl.Project, fileName);
             return fileName;
+        }
+
+        private static string MakeRelativePathToProjectDir(MgaProject project, string fileName)
+        {
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(project.ProjectConnStr.Substring("MGA=".Length)));
+
+            System.Uri pyFileUri = new Uri(fileName);
+            System.Uri projectDirUri = new Uri(projectDir + "\\");
+            return Uri.UnescapeDataString(projectDirUri.MakeRelativeUri(pyFileUri).ToString());
         }
 
         public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj)
@@ -1536,11 +1541,8 @@ namespace CyPhyPET
             string mgaDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
 
             excel.Attributes.ExcelFilename = filename;
-            // make relative if possible
-            if (excel.Attributes.ExcelFilename.StartsWith(mgaDir + "\\"))
-            {
-                excel.Attributes.ExcelFilename = excel.Attributes.ExcelFilename.Substring((mgaDir + "\\").Length);
-            }
+            // make relative
+            excel.Attributes.ExcelFilename = MakeRelativePathToProjectDir(excel.Impl.Project, excel.Attributes.ExcelFilename);
 
             HashSet<ISIS.GME.Common.Interfaces.FCO> metricsAndParameters = new HashSet<ISIS.GME.Common.Interfaces.FCO>(new DsmlFCOComparer());
             foreach (var metricOrParameter in excel.Children.MetricCollection.Concat<ISIS.GME.Common.Interfaces.FCO>(excel.Children.ParameterCollection))

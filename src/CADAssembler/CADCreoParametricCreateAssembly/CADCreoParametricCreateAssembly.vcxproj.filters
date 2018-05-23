@@ -55,6 +55,9 @@
     <ClCompile Include="FiniteElementAnalysis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExtractACM-XMLfromCreoModels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ISISVersionNumber.h">

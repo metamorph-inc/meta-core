@@ -94,6 +94,18 @@ class TestParse(unittest.TestCase):
         self.assert_(t)
         self.assertEqual(3, len(t))
 
+    def test_initial_comment(self):
+        s = """
+        % asdf
+        % asdf 2
+        function fn(x)
+            y = ~x
+        end
+        """
+        t = parse.parse(s)
+        self.assert_(t)
+        self.assertEqual(' asdf 2', t.toplevel_comments[1])
+
     @unittest.skip('broken')
     def broken_test_command(self):
         s = "zlabel y_3(1)\n"

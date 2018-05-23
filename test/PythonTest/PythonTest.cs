@@ -147,6 +147,18 @@ namespace PythonTest
             Assert.True(0 == retcode, stderr);
         }
 
+        [Fact]
+        public void TestSmop()
+        {
+            var e = CheckPython(String.Format("\"{0}\" \"{1}\"",
+                Path.Combine(VersionInfo.MetaPath, "bin\\Python27\\Lib\\site-packages\\smop\\main.py"),
+                Path.Combine(VersionInfo.MetaPath, "bin/Python27/Lib/site-packages/matlab_wrapper/test/stat2.m")));
+            if (e != null)
+            {
+                Assert.True(e == null, "smop failed: " + e.ToString());
+            }
+        }
+
         public int Run(string runCommand, string cwd, string args, out string stderr)
         {
             ProcessStartInfo info = new ProcessStartInfo()
