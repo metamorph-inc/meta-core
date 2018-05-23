@@ -42,7 +42,7 @@ void ApplyParametricParameters( const std::list<std::string>						&in_ComponentI
 			ProMdl* p_model = (ProMdl*)itr->second.cADModel_ptr_ptr;
 			bool is_mmKs;
 			//ParametricParameter_WarnForPartUnitsMismatch(*cadata, &is_mmKs);
-			ParametricParameter_WarnForPartUnitsMismatch(itr->second, &is_mmKs);
+			//ParametricParameter_WarnForPartUnitsMismatch(itr->second, &is_mmKs);
 
 			for( std::list<CADParameter>::const_iterator p( itr->second.parametricParameters.begin());
 			p != itr->second.parametricParameters.end();

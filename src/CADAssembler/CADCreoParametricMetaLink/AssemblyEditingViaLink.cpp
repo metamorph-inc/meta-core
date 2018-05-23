@@ -856,8 +856,8 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
     }
 
     ProMdl* p_model = (ProMdl*)in_ComponentInstance.cADModel_ptr_ptr;
-    bool is_mmKs;
-    ParametricParameter_WarnForPartUnitsMismatch(in_ComponentInstance, &is_mmKs);
+    //bool is_mmKs;
+    //ParametricParameter_WarnForPartUnitsMismatch(in_ComponentInstance, &is_mmKs);
     // Change the parameters
     for each(CADParameter i in in_Parameters)
     {

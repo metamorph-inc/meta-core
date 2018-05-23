@@ -162,10 +162,10 @@ ProError SetParametricParameter(
 
 
 
-void ParametricParameter_WarnForPartUnitsMismatch(
-	const isis::CADComponentData &in_cadata,
-	bool *out_is_mmKs)
-	throw (isis::application_exception);
+//void ParametricParameter_WarnForPartUnitsMismatch(
+//	const isis::CADComponentData &in_cadata,
+//	bool *out_is_mmKs)
+//	throw (isis::application_exception);
 
 } // End namespace isis
 

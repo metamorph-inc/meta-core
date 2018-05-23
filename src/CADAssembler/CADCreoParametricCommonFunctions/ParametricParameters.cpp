@@ -506,7 +506,7 @@ ProError SetParametricParameter(
 	return result;
 		
 }  // end ForceParametricParameter
-
+/**
 void ParametricParameter_WarnForPartUnitsMismatch(
 	const isis::CADComponentData &in_cadata,
 	bool *out_is_mmKs)
@@ -520,5 +520,6 @@ void ParametricParameter_WarnForPartUnitsMismatch(
 		(default_units.massUnit_ShortName == "kg") &&
 		(default_units.timeUnit_ShortName == "sec");
 }
+***/
 
 } // end namespace isis
