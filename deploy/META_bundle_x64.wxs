@@ -10,15 +10,35 @@
             IconSourceFile="META.ico"
             Version="$(var.VERSIONSTR)"
             Manufacturer="$(var.CompanyName)"
-            dep:ProviderKey="$(var.ProviderKey)"
             UpgradeCode="$(var.BundleUpgradeCode)"
             UpdateUrl="$(var.UpdateURL)"
             DisableModify="yes"
             >
 
+        <!--
+	n.b. we don't add:
+	    dep:ProviderKey="$(var.ProviderKey)"
+	because for downgrades or same-version upgrades, our bundle registers the old bundle as a dependency.
+	Then when the old bundle is trying to uninstall, it refuses because it is a dependent
+	-->
+
         <!-- n.b. this custom bootstrapper will uninstall all RelatedBundles -->
-        <RelatedBundle Id="{C86B99E4-7F62-4037-9313-32562A0C839E}" Action="Detect" />
-        <RelatedBundle Id="{5176D0AD-874A-459C-B588-D44BDD22F546}" Action="Detect" />
+        <!-- meta-core/master -->
+        <RelatedBundle Id="5ff09863-d383-4f3d-9d12-15b797c842eb" Action="Detect" />
+
+
+        <!-- reserved for future use: -->
+        <RelatedBundle Id="36E03381-7C78-4DE0-AE0B-CF9B841B604B" Action="Detect" />
+        <RelatedBundle Id="AD70D102-F87A-4AEE-91B2-B8BED9462059" Action="Detect" />
+        <RelatedBundle Id="ADA41AA2-1057-4DA7-B8E0-45E01C530FE1" Action="Detect" />
+        <RelatedBundle Id="83D570CD-4073-4C3B-9625-5BE1314DB3E3" Action="Detect" />
+        <RelatedBundle Id="C1CBDB26-C030-475B-9C7B-80F68068E068" Action="Detect" />
+        <RelatedBundle Id="4952FCF6-73AB-4FF3-BC1D-CCAF4A5FE347" Action="Detect" />
+        <RelatedBundle Id="4F1A9732-6202-4AB5-A2F3-8BA2E74D0B71" Action="Detect" />
+        <RelatedBundle Id="E71C804B-EAC5-4DE4-BA30-9F3E64A108E1" Action="Detect" />
+        <RelatedBundle Id="AC1D7520-5688-47AC-BEDF-CE16119B8C82" Action="Detect" />
+        <RelatedBundle Id="33DA5446-EF47-4D9D-9487-C5B13DFDCD86" Action="Detect" />
+
         <BootstrapperApplication Id='WixStandardBootstrapperApplication.RtfLicense_mod' SourceFile='.\WixStdBA.dll'>
             <PayloadGroupRef Id='WixStdbaRtfLicensePayloads_mod' />
         </BootstrapperApplication>
