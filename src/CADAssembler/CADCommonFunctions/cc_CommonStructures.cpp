@@ -186,8 +186,9 @@ namespace isis
 					  ++i )
 				{
 					output << std::endl << "      name:    " << i->name;
-					output << std::endl << "      name:    " << CADParameterType_string(i->type);
+					output << std::endl << "      type:    " << CADParameterType_string(i->type);
 					output << std::endl << "      value:   " << i->value;
+					output << std::endl << "      units:   " << i->units;
 				}
 			}
 
@@ -441,9 +442,46 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 									massUnit(		CAD_UNITS_MASS_NA), 
 									forceUnit(		CAD_UNITS_FORCE_NA), 
 									timeUnit(		CAD_UNITS_TIME_NA) , 
-									temperatureUnit(CAD_UNITS_TEMPERATURE_NA) {};
+									temperatureUnit(CAD_UNITS_TEMPERATURE_NA),
+									angleUnit(      CAD_UNITS_ANGLE_NA) {};
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+	std::ostream& operator<<(std::ostream& output, CADModelUnits &in_CADModelUnits)
+	{
+		output << "Unit_Type     Unit_eNum_String   Short_Name    Long_Name" << std::endl;
+		output << "Distance:    " << CADUnitsDistance_string(in_CADModelUnits.distanceUnit)       << "  " << in_CADModelUnits.distanceUnit_ShortName    << "  " << in_CADModelUnits.distanceUnit_LongName << std::endl;
+		output << "Mass:        " << CADUnitsMass_string(in_CADModelUnits.massUnit)               << "  " << in_CADModelUnits.massUnit_ShortName        << "  " << in_CADModelUnits.massUnit_LongName << std::endl;
+		output << "Force:       " << CADUnitsForce_string(in_CADModelUnits.forceUnit)             << "  " << in_CADModelUnits.forceUnit_ShortName       << "  " << in_CADModelUnits.forceUnit_LongName << std::endl;	
+		output << "Time:        " << CADUnitsTime_string(in_CADModelUnits.timeUnit)               << "  " << in_CADModelUnits.timeUnit_ShortName        << "  " << in_CADModelUnits.timeUnit_LongName << std::endl;	
+		output << "Temperature: " << CADUnitsTemperature_string(in_CADModelUnits.temperatureUnit) << "  " << in_CADModelUnits.temperatureUnit_ShortName << "  " << in_CADModelUnits.temperatureUnit_LongName;
+		return output;
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	std::string CADCreateAssemblyError_Severity_string ( CADCreateAssemblyError_Severity in_CADCreateAssemblyError_Severity)
+	{
+
+		switch ( in_CADCreateAssemblyError_Severity )
+		{
+			case CADCreateAssemblyError_Severity_Warning:
+				return "Warning";
+				break;
+					
+			case CADCreateAssemblyError_Severity_Error:
+				return "Error";
+				break;
+
+			case CADCreateAssemblyError_Severity_Critical:
+				return "Critical";
+				break;
+			default:
+				return "Critical";
+				break;
+		}
+
+	}
 
 }
 

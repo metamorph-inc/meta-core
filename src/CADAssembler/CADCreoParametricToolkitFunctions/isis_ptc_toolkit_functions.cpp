@@ -1114,6 +1114,25 @@ namespace isis
 	}
 
 
+    ProError  isis_ProParameterValueWithUnitsGet(	ProParameter   *param, 
+													ProParamvalue  *proval,
+													ProUnititem *units)
+	{
+
+		ProError err = ProParameterValueWithUnitsGet (	param, 
+														proval,
+														units);
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProParameterValueWithUnitsGet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06055",err_str);  
+		}
+		return err;
+
+	}
+
 	ProError isis_ProElementAlloc ( ProElemId name_id,
 									ProElement *p_elem)
 												throw(isis::application_exception)
@@ -1461,6 +1480,23 @@ namespace isis
 	}
 
 
+	ProError isis_ProParameterValueSet(	ProParameter   *param, 
+										ProParamvalue  *proval )
+											throw(isis::application_exception)
+	{
+
+		ProError err = ProParameterValueSet ( param, proval );
+
+		if ( err != PRO_TK_NO_ERROR ) 
+		{
+			char  err_str[ERROR_STRING_BUFFER_LENGTH];
+			sprintf( err_str, "exception : ProParameterValueSet returned ProError: %s(%d)",ProToolKitError_string(err).c_str(), err );
+			throw isis::application_exception("C06065",err_str);  
+		}
+		return err;
+	}
+
+
 	ProError isis_ProParameterValueWithUnitsSet(ProParameter   *param,
 												ProParamvalue  *proval,
 												ProUnititem    *units)
@@ -1512,11 +1548,10 @@ namespace isis
 	}
 
 
-	ProError isis_ProUnitConversionCalculate(ProUnititem *from,
-		ProUnititem *to,
-		ProUnitConversion *conversion,
-		wchar_t *from_name)
-										throw(isis::application_exception)
+	ProError isis_ProUnitConversionCalculate(	ProUnititem *from,
+												ProUnititem *to,
+												ProUnitConversion *conversion)
+														throw(isis::application_exception)
 	{
 
 		ProError err = ProUnitConversionCalculate( from, to, conversion );
@@ -1524,7 +1559,7 @@ namespace isis
 		if ( err != PRO_TK_NO_ERROR ) 
 		{
 			char  err_str[ERROR_STRING_BUFFER_LENGTH];
-			sprintf( err_str, "exception : ProUnitConversionCalculate returned ProError: %s(%d). Could not convert from %S to %S", ProToolKitError_string(err).c_str(), err, from_name, to->name);
+			sprintf( err_str, "exception : ProUnitConversionCalculate returned ProError: %s(%d). Could not convert from %S to %S", ProToolKitError_string(err).c_str(), err );
 			throw isis::application_exception("C06068",err_str);  
 		}
 		return err;
@@ -1549,14 +1584,16 @@ namespace isis
 		return err;
 	}
 
-	ProError isis_ProUnitCreateByExpression(ProMdl			mdl,
-		const ProName   unit_name,
-		const ProPath	expression,
-		ProUnititem*	unit)
-		throw(isis::application_exception)
+	ProError isis_ProUnitCreateByExpression(		ProMdl       mdl,
+												ProName      unit_name,
+												ProPath      expression,
+												ProUnititem* new_unit)
+															throw (isis::application_exception)
 	{
 
-		ProError err = ProUnitCreateByExpression(mdl, const_cast<wchar_t*>(unit_name), const_cast<wchar_t*>(expression), unit);
+		//ProError err = ProUnitCreateByExpression(mdl, const_cast<wchar_t*>(unit_name), const_cast<wchar_t*>(expression), unit);
+
+		ProError err = ProUnitCreateByExpression(mdl, unit_name, expression, new_unit);
 
 		if (err != PRO_TK_NO_ERROR)
 		{

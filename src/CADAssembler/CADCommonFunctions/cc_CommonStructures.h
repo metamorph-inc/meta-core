@@ -1251,6 +1251,9 @@ namespace isis
 		CADCreateAssemblyError_Severity_Critical, // These are the non-recoverable errors
 	};
 	
+	std::string CADCreateAssemblyError_Severity_string ( CADCreateAssemblyError_Severity in_CADCreateAssemblyError_Severity);
+
+
 	struct CADCreateAssemblyError
 	{
 		CADCreateAssemblyError(const std::string &txt, CADCreateAssemblyError_Severity severity) : Text(txt), Severity(severity)
@@ -1286,9 +1289,15 @@ namespace isis
 		std::string				temperatureUnit_ShortName;
 		std::string				temperatureUnit_LongName;
 
+		e_CADUnitsAngle			angleUnit;
+		std::string				angleUnit_ShortName;
+		std::string				angleUnit_LongName;
+
 		CADModelUnits();
 	};
 
+
+	std::ostream& operator<<(std::ostream& output, CADModelUnits &in_CADModelUnits); 
 
 
 } // END namespace isis

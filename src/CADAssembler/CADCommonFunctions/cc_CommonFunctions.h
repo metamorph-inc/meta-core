@@ -84,6 +84,13 @@ namespace isis
 			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
 	};
 
+	class SelectAllParts : public ComponentPredicate
+	{
+		public:
+			virtual bool operator() ( const isis::CADComponentData &in_CADComponentData);
+	};
+
+
 	class SelectComponentDerivedFromLeafAssembly : public ComponentPredicate
 	{
 		public:
@@ -118,6 +125,9 @@ namespace isis
 																	throw (isis::application_exception);
 	void ComputeUnitNames_Temperature ( e_CADUnitsTemperature in_Unit, std::string &out_ShortName, std::string &out_LongName  )
 																	throw (isis::application_exception);
+
+	void ComputeUnitNames_Angle ( e_CADUnitsAngle in_Unit, std::string &out_ShortName, std::string &out_LongName  )
+																			throw (isis::application_exception);
 
 	e_CADUnitsVolume convertDistanceUnitToVolumeUnit( e_CADUnitsDistance in_CADUnitsDistance )
 													throw (isis::application_exception);

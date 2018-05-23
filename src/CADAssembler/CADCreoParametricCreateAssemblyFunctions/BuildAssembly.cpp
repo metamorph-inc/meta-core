@@ -142,7 +142,8 @@ void Add_Subassemblies_and_Parts(
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  componentInstanceID:   " <<  in_out_CADComponentData_map[*itr].componentID;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  parentComponentID:     " <<  in_out_CADComponentData_map[*itr].parentComponentID;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_ptr_ptr:      " <<  (const void*)in_out_CADComponentData_map[*itr].cADModel_ptr_ptr; 
-			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_hdl:          "  << (const void*)in_out_CADComponentData_map[*itr].cADModel_hdl;
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  *cADModel_ptr_ptr:     " <<  (const void*)*(in_out_CADComponentData_map[*itr].cADModel_ptr_ptr);
+			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  cADModel_hdl:          " <<  (const void*)in_out_CADComponentData_map[*itr].cADModel_hdl;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.id:   " <<  in_out_CADComponentData_map[*itr].assembledFeature.id;
 			isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  assembledFeature.type: " <<  in_out_CADComponentData_map[*itr].assembledFeature.type;
 			//isis_LOG(lg, isis_FILE, isis_INFO) << "       Added Model  specialInstruction:    " <<  isis::SpecialInstruction_string( in_out_CADComponentData_map[*itr].specialInstruction );

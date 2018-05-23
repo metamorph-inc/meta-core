@@ -379,23 +379,18 @@ public:
 						const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
 						MassProperties										&out_MassProperties) 
 																				throw (isis::application_exception) = 0;
-		//------ const map to here
 
-	//virtual void  convertCADUnitToGMEUnit_Distance( const MultiFormatString &in_DistanceUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void  convertCADUnitToGMEUnit_Mass( const MultiFormatString &in_MassUnit,  std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
-	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception) = 0;
-
+	// Description:
+	//		Every CAD model (assemblies and parts) should have a unit system.
+	//		This function retrieves the units from the CAD model.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//				in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//				The CreateAssembly framework reads the models into memory before calling this function.
+	//		if no exception
+	//			out_CADModelUnits is populated:
 	virtual void retrieveCADModelUnits( 
 					const std::string									&in_ComponentInstanceID,
 					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
@@ -408,6 +403,171 @@ public:
 	virtual MultiFormatString retrieveMaterialName( 	const std::string									&in_ComponentInstanceID,
 													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
 																											throw (isis::application_exception) = 0;
+
+	// Description:
+	//		This function determines if in_ParameterName is in the CAD Model designated by in_ComponentInstanceID.
+	//		Note - A parameter can be in a part or assembly.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//			The CreateAssembly framework reads the models into memory before calling this function.
+	//		if no exception
+	//			return true/false
+	virtual bool parameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+												const std::string										&in_ComponentInstanceID,	
+												const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception) = 0;
+	// Description:
+	//		A parameter in a CAD model may/may-not have units assigned to the parameter.
+	//		This function determines if units are assigned.  For now, only distance and angle units are determined. 
+	//		Only determining distance and angle units is probably OK because almost always distance or angle units are modified
+	//		via CyPhy.  Mass, force, time, and temperature units are not normally modified by CyPhy.
+	//		Note - A parameter can be in a part or assembly.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			1)	in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//				The CreateAssembly framework reads the models into memory before calling this function.
+	//			2)	in_ParameterName	 does not exist in in_ComponentInstanceID CAD model.  Typically, you would call parameterDefinedInCADModel
+	//				before calling this function.
+	//		if no exception
+	//			out_CADModelUnits is set as follows:
+	//				out_CADModelUnit.distanceUnit  if no units defined for parameter CAD_UNITS_DISTANCE_NA  otherwise the unit for the parameter
+	//				out_CADModelUnit.massUnit =			CAD_UNITS_MASS_NA			// Always set to this for now 
+	//				out_CADModelUnit.forceUnit =			CAD_UNITS_FORCE_NA  			// Always set to this for now 
+	//				out_CADModelUnit.timeUnit =			CAD_UNITS_TIME_NA 			// Always set to this for now  
+	//				out_CADModelUnit.temperatureUnit =  CAD_UNITS_TEMPERATURE_NA		// Always set to this for now 
+	//				out_CADModelUnit.angleUnit  if no angle units defined for parameter CAD_UNITS_ANGL_NA  otherwise the unit for the parameter
+	virtual void retrieveParameterUnits (	const MultiFormatString									&in_ParameterName,
+											const std::string										&in_ComponentInstanceID,	
+											const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+											CADModelUnits											&out_CADModelUnits ) 
+																											throw (isis::application_exception) = 0;
+
+	// Description:
+	//		CAD systems usually provide functions for converting between units. This function invokes the particular
+	//		CAD systems unit conversion capabilities.
+	//		Since this function takes string as input for the in_FromUnit/in_ToUnit, it is important to assure that the strings
+	//		are valid and compatible with the CAD systems unit conversion inputs.
+	//		In general, you would use the following functions to retrieve the strings:
+	//			std::string CADUnitsDistance_string( e_CADUnitsDistance in_Enum )
+	//			std::string CADUnitsArea_string( e_CADUnitsArea in_Enum )
+	//			std::string CADUnitsVolume_string( e_CADUnitsVolume in_Enum )
+	//			std::string CADUnitsMass_string( e_CADUnitsMass in_Enum )
+	//			std::string CADUnitsForce_string( e_CADUnitsForce in_Enum )
+	//			std::string CADUnitsMoment_string( e_CADUnitsMoment in_Enum )
+	//			std::string CADUnitsPressure_string( e_CADUnitsPressure in_Enum )
+	//			std::string CADUnitsAcceleration_string( e_CADUnitsAcceleration in_Enum )
+	//			std::string CADUnitsTemperature_string( e_CADUnitsTemperature in_Enum )
+	//			std::string CADUnitsHeatCapacity_string( e_CADUnitsHeatCapacity in_Enum )
+	//			std::string CADUnitsThermalConductivity_string( e_CADUnitsThermalConductivity in_Enum )
+	//			std::string CADUnitsAngle_string( e_CADUnitsAngle in_Enum )
+	//
+	//
+	//		The .h and .cpp files for the enums are auto generated. See meta-core\src\CADAssembler\CodeGenerationTools\enums
+	//		for information on adding new enums.
+	//
+	//		The current use in this program is to convert distance units, so it is not known
+	//		if the other unit systems will be converted properly.  If they are not converted 
+	//		properly, then an exception will be thrown.
+	//
+	//		If you would like to convert other units other than the ones in the above functions,
+	//		then CAD systems usually supply robust conversions functions that can take many 
+	//		different types of names for units (e.g. s, sec, second, seconds) and do the conversion.
+	//		Again if the conversion fails, then an exception would be thrown.
+	//
+	//		All of Creo unit conversions functions require a reference model.  That is why 
+	//	    in_ComponentInstanceID and in_CADComponentData_map needed.  This capability 
+	//		needs to be replaced with a generic unit conversion capability.  Will use Creos approach
+	//		for now.  Hopefully, other CAD systems will not need a reference model.
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			the unit conversion fails.  This would typically be causes by
+	//				a) The CAD system conversion routine does not know the unit names
+	//				b) the in_FromUnit and in_ToUnit are incompatible
+	//		if no exception
+	//			out_ScaleFactor and out_Offset will be set
+	//			out_Offset is typically zero except for temperature conversions	
+	virtual void unitConversionFactorsComputation (	const std::string										&in_ComponentInstanceID,	
+													const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+													const std::string										&in_FromUnit,
+													const std::string										&in_ToUnit,
+													double													&out_ScaleFactor,
+													double													&out_Offset ) 
+																											throw (isis::application_exception) = 0;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////// Begin: How Parameter Units are Handled ///////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	//	Notes:
+	//		1) This program only converts distance/length (e.g. mm, inch, m...) units for parameters.  This is the primary use case for parameters.
+	//		2) If CADAssembly.xml contains a non distance/length dimension for a parameter, then this program would throw an exception.
+	//
+	//	if ( CADAssembly.xml does not have a unit set for the parameter )	// e.g. <CADParameter Name="Wall_Attachment_Plate_Length" Type="Float" Value="200" _id="id142">
+	//		then																//	  <Units Value="" _id="id143" />
+	//			Do no unit conversions.  
+	//			Assign the parameter value in CADAssembly.xml to the parameter in the CAD Model
+	//
+	//		else                                                           // e.g. <CADParameter Name="Wall_Attachment_Plate_Length" Type="Float" Value="200" _id="id142">
+	//																	   //	  <Units Value="mm" _id="id143" />
+	//			if ( units are assigned to the parameter in the CAD Model)
+	//				then
+	//					Convert between the units in CADAssembly.xml to the units for the parameter in the CAD model
+	//					Assign the converted parameter to the parameter in the CAD model			
+	//				else
+	//					if ( units are assigned to the CAD Model)
+	//						then
+	//							Convert between the units in CADAssembly.xml to the units for the CAD model
+	//							Assign the converted parameter to the parameter in the CAD Model			
+	//						else
+	//							// No information to do the conversion
+	//							// In Creo this would not happen. Parts/assemblies always have units by default
+	//							// If another CAD system will allow you to create a part/assembly without units, then this would be a problem
+	//							Assign the parameter value in CADAssembly.xml to the parameter in the CAD Model
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////// End: How Parameter Units are Handled /////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// Description:
+	//		This function sets a parameter value in a CAD model
+	//		Notes:
+	//			1)	A parameter can be in a part or assembly.
+	//			2)	For CAD_FLOAT or CAD_INTEGER in_ParameterType, note that this function does not do unit conversions.  
+	//				Before calling this function unit conversions should be done such that in_ParameterValue is correct.
+	//				See "How Parameter Units are Handled" in this .h file for more information
+	//			3) The supported types (i.e. in_ParameterType) are:
+	//				FLOAT	
+	//				INTEGER
+	//				BOOLEAN
+	//				STRING
+	//			4) in_ParameterName and in_ParameterType are case insensitive (e.g. 
+	//			   in_ParameterName="HeigHT" in_ParameterType="FloAT")
+	//			5) Creo limits in_ParameterValue to 79 characters, longer values will result in an exception
+	//
+	// Pre-Conditions:
+	//		none
+	// Post-Conditions:
+	//		isis::application_exception will be thrown if
+	//			1)	in_ComponentInstanceID does not represent a CAD model in memory where the in-memory address is defined in in_CADComponentData_map.
+	//				The CreateAssembly framework reads the models into memory before calling this function.
+	//			2)	in_ParameterName	 does not exist in in_ComponentInstanceID CAD model.  Typically, you would call parameterDefinedInCADModel
+	//				before calling this function.
+	//		if no exception
+	//			in_ParameterName in in_ComponentInstanceID would be set to in_ParameterValue
+	virtual void setParameter (		e_CADParameterType										in_ParameterType,
+									const MultiFormatString									&in_ParameterName,
+									const std::string										&in_ParameterValue,
+									const std::string										&in_ComponentInstanceID,	
+									const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception) = 0;
+
 
 	// This function only adds in_ModelComponentIDsToAdd parts/sub-assemblies to the in_AssemblyComponentInstanceID assembly.  It does
 	// not constrain the added parts/sub-assemblies.
@@ -564,7 +724,6 @@ public:
 															const MultiFormatString			&in_OutputDirectoryPath,		// Only the path to the directory
 															const MultiFormatString			&in_OutputFileName)		    // This the complete file name (e.g. bracket_asm.stp)
 																							throw (isis::application_exception) = 0;
-
 
 
 

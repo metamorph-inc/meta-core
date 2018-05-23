@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include <AssemblyCreationViaInputFile.h>
 
-#include <BuildAssembly.h>
 #include <DiagnosticUtilities.h>
 #include <cc_XMLtoCADStructures.h>
 #include <cc_CommonUtilities.h>
@@ -12,6 +11,7 @@
 #include <SurvivabilityAnalysis.h>
 #include <CFDAnalysis.h>
 #include <MaterialProperties.h>
+#include <BuildAssembly.h>
 #include <sstream>
 #include <fstream>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -71,6 +71,9 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 	bool Template_Copied = false;
 	int NonCyPhyID_counter = 0;  // This will be incremented before it is used.
 	int ExitCode = 0;
+
+	std::vector<CADCreateAssemblyError> errorList;
+
 	try
 	{
 		time_t time_start; /* calendar time */
@@ -87,7 +90,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		} 
 
 
-		std::vector<CADCreateAssemblyError> errorList;
+
 
 		//Initial load of the map, one entry for each part/assembly file.
 	
@@ -95,8 +98,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 													XML_DEFINED_BY_FILE,
 													xMLInputFile_PathAndFileName,
 													cADComponentAssemblies,
-													cADComponentData_map,
-													errorList);
+													cADComponentData_map );
+													//errorList);
 
 		if ( cADComponentAssemblies.topLevelAssemblies.size() == 0 ) 
 		{
@@ -438,7 +441,61 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 			time_start=time(NULL); // reset start time for subsequent assemblies if any
 
 
+			////////////////////////
+			// Log the Units 
+			////////////////////////			
+			isis::ComponentVistorBuildListOfComponentIDs  assemblyComponentIDs_IncludingTopAssembly(false);
+			isis::VisitComponents(i->assemblyComponentID, cADComponentData_map, assemblyComponentIDs_IncludingTopAssembly );
 
+			// This is logged in the section below
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units ***********************";
+			//for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
+			//{
+			//	CADModelUnits cADModelUnits;
+			//	modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
+			//	isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name << std::endl << "Units of the CAD Model:" << std::endl << cADModelUnits;
+			//}
+			//isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units ***********************";
+
+
+			////////////////////////////////////////////////////////////////////////////////
+			// Log the Units for Each Model (Assemblies and Parts) and for Each Parameter
+			////////////////////////////////////////////////////////////////////////////////		
+			isis_LOG(lg, isis_FILE, isis_INFO) << "";
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** Begin Assembly/Part Units and Parameter Units Defined in CAD Model (not defined is normal) ***********************";
+			// Top assemly would never have parameter.  Use assemblyComponentIDs_IncludingTopAssembly because it is available.
+			for each ( const std::string i_comp in assemblyComponentIDs_IncludingTopAssembly.listOfComponentIDs )
+			{
+				CADModelUnits cADModelUnits;
+				modelOperations.retrieveCADModelUnits( i_comp, cADComponentData_map, cADModelUnits);
+				isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name  << std::endl << "Units of the CAD Model:" << std::endl << cADModelUnits;
+
+				//isis_LOG(lg, isis_FILE, isis_INFO) << i_comp << "  " << cADComponentData_map[i_comp].name; 
+				if (cADComponentData_map[i_comp].parametricParameters.size() == 0 )
+				{
+					isis_LOG(lg, isis_FILE, isis_INFO) << "---- No parameters defined in CyPhy/CADAssembly.xml ----";
+				}
+				else
+				{
+					for each ( const CADParameter &i_param in cADComponentData_map[i_comp].parametricParameters )
+					{
+						if ( modelOperations.parameterDefinedInCADModel ( i_param.name, i_comp, cADComponentData_map) )
+						{
+							CADModelUnits cADModelUnits;
+							modelOperations.retrieveParameterUnits( i_param.name, i_comp, cADComponentData_map, cADModelUnits);
+							isis_LOG(lg, isis_FILE, isis_INFO) << "Parameter Name: "<< i_param.name << std::endl << "Units Assigned to the Parameter in the CAD Model: " << std::endl << cADModelUnits;
+						}
+						else
+						{
+							isis_LOG(lg, isis_FILE, isis_INFO) << "---- Parameter ( " << i_param.name << " ) defined in CyPhy/CADAssembly.xml, but not in CAD model. ----";
+						}
+					}
+				}
+
+			}
+
+			isis_LOG(lg, isis_FILE, isis_INFO) << "******************** End Assembly/Part Units and Parameter Units Defined in CAD Model (not defined is normal) ***********************";
 
 			///////////////////////////////////////////////
 			// Complete The Hierarchy For Leaf Assemblies
@@ -462,8 +519,6 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//											cADComponentData_map );
 
 
-
-
 				isis_LOG(lg, isis_FILE, isis_INFO) << "";
 				isis_LOG(lg, isis_FILE, isis_INFO) << "************** Begin modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates *****************";
 				modelOperations.forEachLeafAssemblyInTheInputXML_AddInformationAboutSubordinates( 
@@ -475,7 +530,8 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				isis_LOG(lg, isis_FILE, isis_INFO) << "************** End CompleteTheHierarchyForLeafAssemblies *****************";
 			}		
 
-			
+
+
 			///////////////////////////////////////////////
 			// Uniquely Name All CAD Model Instances
 			//////////////////////////////////////////////
@@ -1266,7 +1322,6 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				throw isis::application_exception(errorString.str());
 		}
 
-
 	} // END Try
 
 
@@ -1285,6 +1340,30 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 		throw isis::application_exception(exceptionErrorStringStream.str().c_str());
 	}
 
+	// Check if errorList has entries
+	if ( errorList.size() > 0 )
+	{
+		bool fatal_error = false;
+
+		std::stringstream	exceptionErrorStringStream;
+		for each ( const CADCreateAssemblyError &error_temp in errorList )
+			if ( error_temp.Severity == CADCreateAssemblyError_Severity_Error || error_temp.Severity == CADCreateAssemblyError_Severity_Error ) fatal_error = true;
+	
+		if ( fatal_error )
+		{
+			std::stringstream	exceptionErrorStringStream;
+			for each ( const CADCreateAssemblyError &error_temp in errorList )
+				exceptionErrorStringStream << CADCreateAssemblyError_Severity_string(error_temp.Severity)  << ": " << error_temp.Text <<	 std::endl;
+
+			throw isis::application_exception(exceptionErrorStringStream.str());
+		}
+		else
+		{
+			for each ( const CADCreateAssemblyError &error_temp in errorList )
+				isis_LOG(lg, isis_FILE, isis_WARN) << error_temp.Text;
+		}
+	}
+	
 }
 
 } // END namespace isis

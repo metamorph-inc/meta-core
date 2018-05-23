@@ -784,6 +784,7 @@ namespace isis
 		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
 
 		if    	(strUpper.compare("RADIAN") == 0 ) return CAD_UNITS_RADIAN;
+		else if	(strUpper.compare("RAD") == 0 ) return CAD_UNITS_RADIAN;
 		else if	(strUpper.compare("DEGREE") == 0 ) return CAD_UNITS_DEGREE;
 		else if	(strUpper.compare("DEGREES") == 0 ) return CAD_UNITS_DEGREE;
 		else if	(strUpper.compare("DEG") == 0 ) return CAD_UNITS_DEGREE;
@@ -792,7 +793,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"radian   degree   Degrees   Deg   N/A";
+			"radian   rad   degree   Degrees   Deg   N/A";
 		throw isis::application_exception(errorString);
 	}
 
@@ -827,6 +828,7 @@ namespace isis
 
 		if    	(strUpper.compare("SECOND") == 0 ) return CAD_UNITS_SECOND;
 		else if	(strUpper.compare("SEC") == 0 ) return CAD_UNITS_SECOND;
+		else if	(strUpper.compare("S") == 0 ) return CAD_UNITS_SECOND;
 		else if	(strUpper.compare("HOUR") == 0 ) return CAD_UNITS_HOUR;
 		else if	(strUpper.compare("HR") == 0 ) return CAD_UNITS_HOUR;
 		else if	(strUpper.compare("N/A") == 0 ) return CAD_UNITS_TIME_NA;
@@ -834,7 +836,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"second   sec   hour   hr   N/A";
+			"second   sec   s   hour   hr   N/A";
 		throw isis::application_exception(errorString);
 	}
 

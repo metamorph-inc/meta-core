@@ -234,6 +234,15 @@ void CreateXMLFile_RequestedMetrics(
 		return true;
 	};
 
+	 bool SelectAllParts::operator() ( const isis::CADComponentData &in_CADComponentData)
+	{
+		if ( in_CADComponentData.modelType == CAD_MDL_PART )
+			return true;
+		else 
+			return false;
+	};
+
+
 	 bool SelectComponentDerivedFromLeafAssembly::operator() ( const isis::CADComponentData &in_CADComponentData)
 	{
 		if ( in_CADComponentData.dataInitialSource == INITIAL_SOURCE_DERIVED_FROM_LEAF_ASSEMBLY_DESCENDANTS )
@@ -459,6 +468,38 @@ void ComputeUnitNames_Temperature ( e_CADUnitsTemperature in_Unit, std::string &
 	}
 
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void ComputeUnitNames_Angle ( e_CADUnitsAngle in_Unit, std::string &out_ShortName, std::string &out_LongName  )
+																			throw (isis::application_exception)
+{
+	bool valid_unit = false;
+
+	if ( in_Unit == CAD_UNITS_RADIAN )	
+	{ 
+		out_ShortName = "rad";
+		out_LongName = "radian"; 
+		valid_unit = true;
+	}
+	else if ( in_Unit == CAD_UNITS_DEGREE )	
+	{ 
+		out_ShortName = "deg";	
+		out_LongName = "degree"; 
+		valid_unit = true;
+	}
+
+	if ( !valid_unit )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
+					"received in_Unit: " << std::endl << CADUnitsAngle_string(in_Unit) << 
+					", which is an unkown unit type.  Valid unit types are CAD_UNITS_RADIAN and CAD_UNITS_DEGREE";
+
+		throw isis::application_exception(errorString);		
+	}
+
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 e_CADUnitsVolume convertDistanceUnitToVolumeUnit( e_CADUnitsDistance in_CADUnitsDistance )
 													throw (isis::application_exception)
@@ -1221,5 +1262,11 @@ void CreateXMLFile_ComputedValues_ComputedByThisProgram(
 				out_ComponentIDs_set.insert(i.componentID);
 			}
 	}
+
+
+
+
+
+
 
 } // END namespace isis

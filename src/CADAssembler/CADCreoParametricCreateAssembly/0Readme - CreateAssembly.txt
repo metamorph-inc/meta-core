@@ -1105,8 +1105,12 @@ v1.5.25.0 	3/20/2018 CAD_036_Add_More_Generic_CAD_Interfaces
 
 v1.5.26.0 	3/21/2018
 		Convert values from CyPhy for Creo parameters that have units defined.  Kevin S. made this change.
+
+v1.5.27.0 	4/6/2018
+		For Creo parameters that don't have units defined, convert value from the XML unit to the part's default unit system.
+                If the XML input doesn't have a unit, throw an error if the part is not mmKs.
 		
-v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces
+v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces     // Should have incremented the version to v1.5.28.0 
 		Added abstract functions:
 			computePartInterferences
 			computeVehicleGroundPlane
@@ -1116,8 +1120,8 @@ v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces
 
 		Made in_CADComponentData_map constant in the following functions:
 			cADModelSave
-			retrieveTranformationMatrix_Assembly_to_Child	// in_ChildComponentID
-			retrieveTranformationMatrix_Assembly_to_Child   // in_ChildComponentPaths
+			retrieveTranformationMatrix_Assembly_to_Child	// also made const in_ChildComponentID
+			retrieveTranformationMatrix_Assembly_to_Child   // also made const in_ChildComponentPaths
 			retrieveMassProperties
 			retrievePointCoordinates
 			findPartsReferencedByFeature
@@ -1128,9 +1132,26 @@ v1.5.27.0 	4/20/2018 CAD_037_Add_More_Generic_CAD_Interfaces
 		via a cad common computeVehicleGroundPlane function that calls the abstract function computeVehicleGroundPlane.
 	
 
-v1.5.27.0 	4/6/2018
-		For Creo parameters that don't have units defined, convert value from the XML unit to the part's default unit system.
-        If the XML input doesn't have a unit, throw an error if the part is not mmKs.
+v1.5.28.0 	5/23/2018 CAD_038_Add_More_Generic_CAD_Interfaces
+		Modified ApplyParametricParameters to make in_CADComponentData_map const
+		Modified MetaLinkAssemblyEditor::UpdateComponentName to assure data.displayName.size() < MAX_STRING_PARAMETER_LENGTH
+
+		Added abstract functions:
+			isParameterDefinedInCADModel
+			retrieveParameterUnits
+			unitConversionFactorsComputation
+			setParameter
+			
+		Logged:
+			Units for each model
+			Units for each parameter
+			
+		Added:
+		cc_ParametricParameters.h/.cpp
+		
+		isis::BuildAssembly returns errorList.  If errorList contained any values, then no actions were taken. For 
+		CreateAssemblyViaInputFile changed this to throw an exception for fatal errors and log warnings. For  
+		CreateAssemblyViaString logged fatal errors and warnings but did not throw an exception.
 
 Known Defects
 -------------

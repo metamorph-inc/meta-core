@@ -71,7 +71,7 @@ namespace isis
 //		should be set so this does not happen.
 //
 //		Otherwise, the parameter would be modified in the Pro/E Model.
-
+/***   moved to cc_ParametricParameter.h  new name SetParametricParameterInCADModel
 void SetParametricParameter(  
 				const std::string	&in_model_name,
 				ProMdl				*in_p_model, 
@@ -83,7 +83,7 @@ void SetParametricParameter(
 				bool                is_mmKs)
 									throw (isis::application_exception);
 
-
+***/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Description: 
@@ -162,10 +162,10 @@ ProError SetParametricParameter(
 
 
 
-void ParametricParameter_WarnForPartUnitsMismatch(
-	isis::CADComponentData &in_cadata,
-	bool *out_is_mmKs)
-	throw (isis::application_exception);
+//void ParametricParameter_WarnForPartUnitsMismatch(
+//	const isis::CADComponentData &in_cadata,
+//	bool *out_is_mmKs)
+//	throw (isis::application_exception);
 
 } // End namespace isis
 

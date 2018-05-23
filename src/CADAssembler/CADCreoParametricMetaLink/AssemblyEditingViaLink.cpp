@@ -26,6 +26,7 @@
 #include <cc_CommonDefinitions.h>
 #include <cc_AssemblyUtilities.h>
 #include <cc_ApplyModelConstraints.h>
+#include <cc_ParametricParameters.h>
 
 
 namespace isis
@@ -643,7 +644,14 @@ void MetaLinkAssemblyEditor::UpdateComponentName(const std::string &in_Constrain
 
     try
     {
-        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, data.displayName);
+        //isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, data.displayName);
+
+		std::string displayName_temp = data.displayName;
+		if (displayName_temp.size() >= MAX_STRING_PARAMETER_LENGTH )
+		{
+			displayName_temp = displayName_temp.substr(0, MAX_STRING_PARAMETER_LENGTH-3) + "...";
+		}
+        isis::SetParametricParameter(FORCE_KEY, ModelNameWithSuffix, data.cADModel_ptr_ptr, CYPHY_NAME, CAD_STRING, displayName_temp);
     }
     catch(isis::application_exception &ex)
     {
@@ -848,14 +856,17 @@ void MetaLinkAssemblyEditor::ModifyParameters(const std::string  &in_ComponentIn
     }
 
     ProMdl* p_model = (ProMdl*)in_ComponentInstance.cADModel_ptr_ptr;
-    bool is_mmKs;
-    ParametricParameter_WarnForPartUnitsMismatch(in_ComponentInstance, &is_mmKs);
+    //bool is_mmKs;
+    //ParametricParameter_WarnForPartUnitsMismatch(in_ComponentInstance, &is_mmKs);
     // Change the parameters
     for each(CADParameter i in in_Parameters)
     {
-        SetParametricParameter(modelNameWithSuffix,
-			in_ComponentInstance.cADModel_ptr_ptr,
-                               i.name, i.type, i.value, i.units, is_mmKs);
+        //SetParametricParameter(modelNameWithSuffix,
+		//	in_ComponentInstance.cADModel_ptr_ptr,
+        //                      i.name, i.type, i.value, i.units, is_mmKs);
+
+		SetParametricParameterInCADModel ( in_ComponentInstanceID, this->get_CADComponentData_map_ref(), i );
+
     }
 
     bool regenerationSucceeded;
@@ -1002,8 +1013,8 @@ throw(isis::application_exception)
             XML_DEFINED_BY_STRING,
             in_XMLInputFile_String,
             out_CADComponentAssemblies,
-            out_CADComponentData_map,
-            out_ErrorList);
+            out_CADComponentData_map);
+            //out_ErrorList);
 
 
         if(out_CADComponentAssemblies.topLevelAssemblies.size() == 0)
@@ -1163,6 +1174,17 @@ throw(isis::application_exception)
         exceptionErrorStringStream << " std::exception: Caught exception (...).  Please report the error to the help desk.";
         throw isis::application_exception(exceptionErrorStringStream);
     }
+
+	if ( out_ErrorList.size() > 0 )
+	{
+		for each ( const CADCreateAssemblyError &error_temp in out_ErrorList )
+		{
+			if ( error_temp.Severity == CADCreateAssemblyError_Severity_Warning )
+				isis_LOG(lg, isis_FILE, isis_WARN) << error_temp.Text;
+			else
+				isis_LOG(lg, isis_FILE, isis_ERROR) << error_temp.Text;
+		}
+	}
 
 }
 
@@ -1489,6 +1511,13 @@ void MetaLinkAssemblyEditor::UpdateAvmComponentViaXML(const std::string  &in_Ass
 {
     isis_LOG(lg, isis_FILE, isis_WARN) << " MetaLinkAssemblyEditor::UpdateComponentViaXML" << " NOT YET IMPLEMENTED";
 }
+
+
+std::map<std::string, isis::CADComponentData>& MetaLinkAssemblyEditor::get_CADComponentData_map_ref() 
+{
+	return m_CADComponentData_map;
+}
+
 
 } // END namespace isis
 

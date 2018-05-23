@@ -75,9 +75,9 @@ namespace isis
 //
 //		Otherwise, the parameter would be modified in the Pro/E Model.
 
-void ApplyParametricParameters( std::list<std::string>                          &in_ComponentIDs, 
-							   std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
-							   std::vector<isis::CADCreateAssemblyError>		&out_ErrorList)
+void ApplyParametricParameters( const std::list<std::string>						&in_ComponentIDs, 
+								const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+								std::vector<isis::CADCreateAssemblyError>			&out_ErrorList)
 																		throw (isis::application_exception);
 
 } // End namespace isis

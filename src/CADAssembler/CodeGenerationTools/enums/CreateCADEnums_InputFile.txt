@@ -36,9 +36,6 @@ FILE	Creo			..\..\CADCreoParametricCommonFunctions\CreoStringToEnumConversions
 #	CAD_ASM_MATE_OFF 		SLDW_ASM_MATE_OFF
 
 
-
-
-
 #####################################################################
 ##############  CADStringToEnumConversions  #########################
 #####################################################################
@@ -84,7 +81,22 @@ ENUM_NEW e_CADUnitsDistance CADUnitsDistance  CAD
 	CAD_UNITS_KM				km   kilometer	
 	CAD_UNITS_INCH				inch in
 	CAD_UNITS_FOOT				foot ft
-	CAD_UNITS_DISTANCE_NA		N/A			
+	CAD_UNITS_DISTANCE_NA		N/A		
+
+# Note - the Creo default unit strings (i.e. in and ft) are different than the default unit string (e.g. inch foot) for CADUnitsDistance. 
+# 		 This is needed for the function unitConversionFactorsComputation.  The particular CAD system may have different string 
+#		 representations of units.
+#		 To determine the unit strings that Creo uses, 1) Open a Creo Model, 2) Tools Parameter, 3) right click on row in the Unit Column
+#		 4) Sel "Insert Unit"  // This will display the unit names.
+ENUM_NEW e_CreoUnitsDistance  CreoUnitsDistance  Creo
+	CREO_UNITS_MM				mm  millimeter	
+	CREO_UNITS_CM				cm	centimeter
+	CREO_UNITS_M				m   meter
+	CREO_UNITS_KM				km   kilometer	
+	CREO_UNITS_INCH				in inch
+	CREO_UNITS_FOOT				ft foot
+	CREO_UNITS_DISTANCE_NA		N/A		
+	
 	
 ENUM_NEW e_CADUnitsArea CADUnitsArea  CAD
 	CAD_UNITS_MM_SQUARED		mm2 mm^2 
@@ -149,12 +161,23 @@ ENUM_NEW e_CADUnitsThermalConductivity 		CADUnitsThermalConductivity  CAD
 	CAD_UNITS_W_PER_MM_K			W/mmK	
 	
 ENUM_NEW e_CADUnitsAngle 		CADUnitsAngle  CAD
-	CAD_UNITS_RADIAN			radian
+	CAD_UNITS_RADIAN			radian rad
 	CAD_UNITS_DEGREE			degree  Degrees Deg
 	CAD_UNITS_ANGLE_NA			N/A	
 
+# Note - The Creo default unit strings (i.e. rad and deg) are different than the default unit string (e.g. radian degree) for CADUnitsAngle
+# 		 This is needed for the function unitConversionFactorsComputation.  The particular CAD system may have different string 
+#		 representations of units.
+#		 To determine the unit strings that Creo uses, 1) Open a Creo Model, 2) Tools Parameter, 3) right click on row in the Unit Column
+#		 4) Sel "Insert Unit"  // This will display the unit names
+ENUM_NEW e_CreoUnitsAngle 		CreoUnitsAngle  Creo
+	CREO_UNITS_RADIAN			rad radian
+	CREO_UNITS_DEGREE			deg degree  Degrees 
+	CREO_UNITS_ANGLE_NA			N/A		
+	
+	
 ENUM_NEW e_CADUnitsTime 		CADUnitsTime  CAD
-	CAD_UNITS_SECOND			second sec
+	CAD_UNITS_SECOND			second sec s
 	CAD_UNITS_HOUR				hour   hr
 	CAD_UNITS_TIME_NA			N/A		
 	

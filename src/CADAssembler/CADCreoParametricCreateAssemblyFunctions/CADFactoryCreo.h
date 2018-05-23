@@ -146,8 +146,6 @@ class  ModelHandlingCreo : public IModelHandling {
 };
 
 
-
-
 class  ModelOperationsCreo : public IModelOperations {
 	public:
 		std::string name() { return "ModelOperationsCreo";}
@@ -219,24 +217,6 @@ class  ModelOperationsCreo : public IModelOperations {
 						MassProperties										&out_MassProperties) 
 																				throw (isis::application_exception);
 
-	//virtual void  convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
-	//												 std::string &out_ShortName, 
-	//												 std::string &out_LongName  )
-	//																			throw (isis::application_exception);
-
-	//virtual void  convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
-	//												 std::string &out_ShortName, 
-	//												 std::string &out_LongName  )
-	//																			throw (isis::application_exception);
-
-	//virtual void convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception);
-
-	//virtual void convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception);
-	//virtual void convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-	//																										throw (isis::application_exception);
-
 	virtual void retrieveCADModelUnits( 
 					const std::string									&in_ComponentInstanceID,
 					const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,  
@@ -245,6 +225,31 @@ class  ModelOperationsCreo : public IModelOperations {
 
 	virtual MultiFormatString retrieveMaterialName( 	const std::string									&in_ComponentInstanceID,
 													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map) 
+																											throw (isis::application_exception);
+
+	virtual bool parameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+											  const std::string											&in_ComponentInstanceID,	
+											  const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception);
+	virtual void retrieveParameterUnits ( const MultiFormatString								&in_ParameterName,
+										  const std::string										&in_ComponentInstanceID,	
+										  const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+										  CADModelUnits											&out_CADModelUnits ) 
+																											throw (isis::application_exception);
+
+	virtual void unitConversionFactorsComputation (	const std::string										&in_ComponentInstanceID,	
+													const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+													const std::string										&in_FromUnit,
+													const std::string										&in_ToUnit,
+													double													&out_ScaleFactor,
+													double													&out_Offset ) 
+																											throw (isis::application_exception);
+
+	virtual void setParameter (		e_CADParameterType										in_ParameterType,
+									const MultiFormatString									&in_ParameterName,
+									const std::string										&in_ParameterValue,
+									const std::string										&in_ComponentInstanceID,	
+									const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
 																											throw (isis::application_exception);
 
 

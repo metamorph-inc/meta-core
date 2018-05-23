@@ -20,8 +20,8 @@ namespace isis
 																		// if XML_DEFINED_BY_STRING this would be a string containing the XML 
 					const std::string 									&in_AssemblyDefinitionXML,  
 					isis::CADAssemblies									&out_CADComponentAssemblies,
-					std::map<std::string, isis::CADComponentData>		&out_CADComponentData_map,
-					std::vector<CADCreateAssemblyError>					&errorList )
+					std::map<std::string, isis::CADComponentData>		&out_CADComponentData_map )
+					//std::vector<CADCreateAssemblyError>					&errorList )
 										throw (isis::application_exception );
 
 

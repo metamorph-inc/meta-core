@@ -258,6 +258,11 @@ namespace isis
 												int                regeneration_flags)
 												throw(isis::application_exception);
 
+    extern ProError  isis_ProParameterValueWithUnitsGet(		ProParameter   *param, 
+															ProParamvalue  *proval,
+															ProUnititem *units)
+												throw(isis::application_exception);
+
 	extern	ProError isis_ProElementAlloc (		ProElemId name_id,
 												ProElement *p_elem)
 												throw(isis::application_exception);
@@ -345,6 +350,11 @@ namespace isis
 												ProParameter *param )
 													throw(isis::application_exception);
 
+	extern	ProError isis_ProParameterValueSet(	ProParameter   *param, 
+										ProParamvalue  *proval )
+											throw(isis::application_exception);
+
+
 	extern	ProError isis_ProParameterValueWithUnitsSet(	ProParameter   *param,
 										ProParamvalue  *proval, ProUnititem *units )
 											throw(isis::application_exception);
@@ -361,8 +371,7 @@ namespace isis
 
 	extern 	ProError isis_ProUnitConversionCalculate(ProUnititem *from,
                                             ProUnititem *to,
-                                            ProUnitConversion *conversion,
-											wchar_t *from_name)
+                                            ProUnitConversion *conversion )
 										throw(isis::application_exception);
 
 	 extern	ProError isis_ProUnitInit(	ProMdl        mdl,
@@ -370,10 +379,10 @@ namespace isis
 										ProUnititem*  unit)
 										throw(isis::application_exception);
 
-	extern	ProError isis_ProUnitCreateByExpression(ProMdl			mdl,
-													const ProName   unit_name,
-													const ProPath	expression,
-													ProUnititem*	unit)
+	extern	ProError isis_ProUnitCreateByExpression(ProMdl       mdl,
+													ProName      unit_name,
+													ProPath      expression,
+													ProUnititem* new_unit)
 													throw(isis::application_exception);
 
 	extern	ProError isis_ProUnitDelete(ProUnititem*	unit)

@@ -20,6 +20,8 @@ namespace isis {
 namespace cad {
 namespace creo {
 
+const int MAX_STRING_PARAMETER_LENGTH = 79;
+
 // Forward declare
 void writeMetaLinkConfigProFile(const ::boost::filesystem::path &workingDir, const isis::MetaLinkInputArguments &programInputArguments);
 
@@ -1283,248 +1285,6 @@ void ModelOperationsCreo::retrieveMassProperties(
 
 }
 
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Distance ( const MultiFormatString &in_DistanceUnit, 
-															 std::string &out_ShortName, 
-															 std::string &out_LongName  )
-																				throw (isis::application_exception)
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_DistanceUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "in" ) 
-	{ 
-		out_ShortName = "inch";	
-		out_LongName	  = "inch";			
-		valid_unit = true;
-	} 
-	else if ( unit == "ft" ) 
-	{ 
-		out_ShortName = "foot";	
-		out_LongName  = "foot";			
-		valid_unit = true;
-	}
-	else if ( unit == "mm" ) 
-	{ 
-		out_ShortName = "mm";		
-		out_LongName  = "millimeter";		
-		valid_unit = true;
-	}
-	else if ( unit == "cm" ) 
-	{ 
-		out_ShortName = "cm";		
-		out_LongName  = "centimeter";		
-		valid_unit = true;
-	}
-	else if ( unit == "m" )	
-	{ 
-		out_ShortName = "m";		
-		out_LongName  = "meter";			
-		valid_unit = true;
-	}
-	else if ( unit == "km" )
-	{ 
-		out_ShortName = "km";		
-		out_LongName  = "kilometer";		
-		valid_unit = true;
-	}
-
-	
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_DistanceUnit: " << std::endl << (const string)in_DistanceUnit << 
-					", which is an unkown unit type.  Valid unit types are case-insentive in, ft, mm, cm, m, and km.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-*****/
-
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Mass ( const MultiFormatString &in_MassUnit, 
-														 std::string &out_ShortName, 
-														 std::string &out_LongName  )
-																				throw (isis::application_exception)
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_DistanceUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_MassUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-
-	if ( unit == "lbm" )
-	{ 
-		out_ShortName = "lbm";		
-		out_LongName = "poundmass"; 
-		valid_unit = true;
-	}
-	else if ( unit == "g" )	
-	{ 
-		out_ShortName = "g";			
-		out_LongName = "gram"; 
-		valid_unit = true;
-	}
-	else if ( unit == "kg" )	
-	{ 
-		out_ShortName = "kg";			
-		out_LongName = "kilogram"; 
-		valid_unit = true;
-	}
-	else if ( unit == "tonne" )	
-	{ 
-		out_ShortName = "tonne";  
-		out_LongName = "tonne"; 
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_MassUnit: " << std::endl << (const string)in_MassUnit << 
-					", which is an unknown unit type.  Valid unit types are case-insensitive lbm, g, kg, and tonne.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-
-}
-***/
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Force ( const MultiFormatString &in_ForceUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];    // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_ForceUnit );
-
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_ForceUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "lbf" ) 
-	{ 
-		out_ShortName = "lbf";	
-		out_LongName = "poundforce"; 
-		valid_unit = true;
-	}
-	else if ( unit == "n" )	 
-	{ 
-		out_ShortName = "N";		
-		out_LongName = "newton"; 
-		valid_unit = true;
-	}
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_ForceUnit: " << std::endl << (const string)in_ForceUnit << 
-					", which is an unkown unit type.  Valid unit types are  case-insenstive lbf and N.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-***/
-/****
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Temperature ( const MultiFormatString &in_TemperatureUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_Temperature );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_TemperatureUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-
-	if ( unit == "c" )	
-	{ 
-		out_ShortName = "C";
-		out_LongName = "centigrade"; 
-		valid_unit = true;
-	}
-	else if ( unit == "f" )	
-	{ 
-		out_ShortName = "F";	
-		out_LongName = "fahrenheit"; 
-		valid_unit = true;
-	}
-	else if ( unit == "k" )	
-	{ 
-		out_ShortName = "K";
-		out_LongName = "kelvin";
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_TemperatureUnit: " << std::endl << (const string)in_TemperatureUnit << 
-					", which is an unkown unit type.  Valid unit types are case-insenstive C, F, and K";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-****/
-///////////////////////////////////////////////////////////////////////////////////////
-/***
-void ModelOperationsCreo::convertCADUnitToGMEUnit_Time ( const MultiFormatString &in_TimeUnit, std::string &out_ShortName, std::string &out_LongName  )
-{
-	//char stringBuffer[PRO_NAME_SIZE];  // PRO_NAME_SIZE = 32
-	//std::string unit = ProWstringToString( stringBuffer, in_TimeUnit );
-
-	string unit = boost::algorithm::to_lower_copy((const string)in_TimeUnit);
-
-	out_ShortName	= unit;
-	out_LongName	= unit;
-
-	bool valid_unit = false;
-
-	if ( unit == "sec" ) 
-	{ 
-		out_ShortName = "sec";	
-		out_LongName = "second"; 
-		valid_unit = true;
-	}
-
-
-	if ( !valid_unit )
-	{
-		std::stringstream errorString;
-		errorString << "Function - " << __FUNCTION__ << ", " << std::endl <<
-					"received in_TimeUnit: " << std::endl << (const string)in_TimeUnit << 
-					", which is an unkown unit type.  Valid unit type is case-insenstive sec.";
-
-		throw isis::application_exception(errorString);		
-	}
-
-}
-***/
 
 void ModelOperationsCreo::retrieveCADModelUnits( 
 					const std::string									&in_ComponentInstanceID,
@@ -1578,6 +1338,368 @@ MultiFormatString ModelOperationsCreo::retrieveMaterialName(
 						static_cast<ProSolid>(itr->second.cADModel_hdl), material_temp );
 
 	return MultiFormatString(material_temp);
+}
+
+bool ModelOperationsCreo::parameterDefinedInCADModel ( const MultiFormatString									&in_ParameterName,
+														 const std::string										&in_ComponentInstanceID,	
+														 const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception)
+{
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	try
+	{
+		//ProName ParameterName;
+		//ProStringToWstring(ParameterName, (char *)in_ParameterName.c_str() );
+
+		//std::cout << std::endl << "ParameterName: " << ProWstringToString(temp_string, ParameterName);	
+		//std::cout << std::endl << "in_p_model:    " << in_p_model;
+		//std::cout << std::endl << "*in_p_model:    " << *in_p_model;
+
+		ProModelitem  ParameterModelItem_struct;
+	
+		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
+		//isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( itr->second.cADModel_hdl, &ParameterModelItem_struct );
+	
+		ProParameter  ProParameter_struct;
+
+		//isis::isis_ProParameterInit ( &ParameterModelItem_struct, ParameterName, &ProParameter_struct);
+		isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+	}
+	catch (...)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+// Warning this function only supports distance units (e.g. mm, inch...) and angle units (deg, radians)
+void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString								&in_ParameterName,
+													const std::string									&in_ComponentInstanceID,	
+													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
+													CADModelUnits										&out_CADModelUnits ) 
+																											throw (isis::application_exception)
+{
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	ProModelitem  ParameterModelItem_struct;
+	//isis::isis_ProMdlToModelitem ( *(itr->second.cADModel_ptr_ptr), &ParameterModelItem_struct );
+	isis::isis_ProMdlToModelitem ( itr->second.cADModel_hdl, &ParameterModelItem_struct );
+	ProParameter  ProParameter_struct;
+
+	isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+
+	out_CADModelUnits.distanceUnit =		CAD_UNITS_DISTANCE_NA; 
+	out_CADModelUnits.massUnit =			CAD_UNITS_MASS_NA;
+	out_CADModelUnits.forceUnit =		CAD_UNITS_FORCE_NA; 
+	out_CADModelUnits.timeUnit =			CAD_UNITS_TIME_NA; 
+	out_CADModelUnits.temperatureUnit = CAD_UNITS_TEMPERATURE_NA;	
+	out_CADModelUnits.angleUnit       = CAD_UNITS_ANGLE_NA;
+
+	ProParamvalue  ProParamvalue_struct;
+
+	ProUnititem creo_parameter_units;
+	isis_ProParameterValueWithUnitsGet(&ProParameter_struct, &ProParamvalue_struct, &creo_parameter_units);
+
+	MultiFormatString unit_multiformat( creo_parameter_units.name);
+	if ( wcslen(creo_parameter_units.name) == 0 ) return;  // No units specified for the parameter
+
+	bool identifiedUnitsProperly = false;
+	std::string ex_string_1;
+	std::string ex_string_2;
+	// At this point we don't know if the units are distance or angles.  Try both
+	try
+	{
+		out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( unit_multiformat );
+		ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+		identifiedUnitsProperly = true;
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex_string_1 = ex.what();
+	}
+
+	try
+	{
+		out_CADModelUnits.angleUnit = CADUnitsAngle_enum( unit_multiformat );
+		ComputeUnitNames_Angle(  out_CADModelUnits.angleUnit, out_CADModelUnits.angleUnit_ShortName, out_CADModelUnits.angleUnit_LongName );
+		identifiedUnitsProperly = true;
+	}
+	catch (isis::application_exception& ex)
+	{
+		ex_string_2 = ex.what();
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", in_ComponentInstanceID: " << in_ComponentInstanceID << ", in_ParameterName:  " << in_ParameterName << 
+			", Failed to retreive distance or angle units, " << std::endl << ex_string_1 << std::endl << ", "<< ex_string_2;
+
+		throw isis::application_exception(errorString);	
+	}
+
+}
+
+// Only supporting distance and angle units
+void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string										&in_ComponentInstanceID,	
+																const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
+																const std::string										&in_FromUnit,
+																const std::string										&in_ToUnit,
+																double													&out_ScaleFactor,
+																double													&out_Offset ) 
+																											throw (isis::application_exception)
+{
+
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	out_ScaleFactor = 0.0;
+	out_Offset = 0.0;
+
+	if (  in_FromUnit.size() > (PRO_PATH_SIZE - 1 ))
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_FromUnit string that is longer than the allowed size.  Allowed size: " << (PRO_PATH_SIZE - 1 );
+		throw isis::application_exception(errorString);	
+
+	}
+
+	if (  in_ToUnit.size() > (PRO_PATH_SIZE - 1 ))
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ToUnit string that is longer than the allowed size.  Allowed size: " << (PRO_PATH_SIZE - 1 );
+		throw isis::application_exception(errorString);	
+
+	}
+
+	MultiFormatString  fromUnit_MultiFromat;
+	MultiFormatString  toUnit_MultiFromat;
+
+	bool identifiedUnitsProperly = false;
+	std::string ex_string_1;
+	std::string ex_string_2;
+	// At this point we don't know if the units are distance or angles.  Try both
+	try
+	{
+		// We must assure that the strings are called the correct name (e.g. in, mm) that Creo uses.  This will be assured by calling  CreoUnitsDistance_string/CreoUnitsDistance_enum
+		fromUnit_MultiFromat = CreoUnitsDistance_string(CreoUnitsDistance_enum(in_FromUnit));
+		toUnit_MultiFromat  =  CreoUnitsDistance_string(CreoUnitsDistance_enum(in_ToUnit));
+		identifiedUnitsProperly = true;
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex_string_1 = ex.what();
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		try
+		{
+			// We must assure that the strings are called the correct name (e.g. in, mm) that Creo uses.  This will be assured by calling  CreoUnitsDistance_string/CreoUnitsDistance_enum
+			fromUnit_MultiFromat = CreoUnitsAngle_string(CreoUnitsAngle_enum(in_FromUnit));
+			toUnit_MultiFromat  =  CreoUnitsAngle_string(CreoUnitsAngle_enum(in_ToUnit));
+			identifiedUnitsProperly = true;
+		}
+		catch (isis::application_exception& ex)
+		{
+			ex_string_2 = ex.what();
+		}
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", in_ComponentInstanceID: " << in_ComponentInstanceID << ", in_FromUnit:  " << in_FromUnit << ", in_ToUnit: " << in_ToUnit << std::endl <<
+			", Unknown distance or angle units, " << std::endl << ex_string_1 << std::endl << ", "<< ex_string_2;
+
+		throw isis::application_exception(errorString);	
+	}
+
+	ProUnititem fromProUnit;
+	ProUnititem toProUnit;
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", BEGIN isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "*(itr->second.cADModel_ptr_ptr):                            " << *(itr->second.cADModel_ptr_ptr);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat): " << const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat):   " << const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat);
+	
+
+	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
+											L"customunitfrom", 
+											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
+											&fromProUnit);
+
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "fromProUnit initialized";
+
+	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
+											L"customunitto", 
+											const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat),
+											&toProUnit);
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "toProUnit initialized";
+
+	ProUnitConversion conversion = {1.0, 0.0};
+
+	isis::isis_ProUnitConversionCalculate(&fromProUnit, &toProUnit, &conversion);
+
+	out_ScaleFactor = conversion.scale;
+	out_Offset = conversion.offset;
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "out_ScaleFactor: " << out_ScaleFactor;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "out_Offset:      " << out_Offset;
+
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", END isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
+
+	isis::isis_ProUnitDelete(&fromProUnit);
+	isis::isis_ProUnitDelete(&toProUnit);
+}
+
+void ModelOperationsCreo::setParameter (		e_CADParameterType										in_ParameterType,
+											const MultiFormatString									&in_ParameterName,
+											const std::string										&in_ParameterValue,
+											const std::string										&in_ComponentInstanceID,	
+											const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map ) 
+																											throw (isis::application_exception)
+{
+
+	std::map<std::string, isis::CADComponentData>::const_iterator itr;
+	itr = in_CADComponentData_map.find(in_ComponentInstanceID);
+		
+	if ( itr == in_CADComponentData_map.end())
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed an in_ComponentInstanceID that is not in in_CADComponentData_map. in_ComponentInstanceID:  " << in_ComponentInstanceID;
+		throw isis::application_exception(errorString);	
+	}
+
+	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "   Setting CAD Parameter";
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Model Name:       "  <<  itr->second.name;	
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Type:             "  <<  CADParameterType_string(in_ParameterType);
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Parameter Name:   "  <<  in_ParameterName;
+	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) <<  "      Parameter Value:  "  <<  in_ParameterValue;
+
+
+	//typedef wchar_t	ProName[PRO_NAME_SIZE];
+	if ( in_ParameterName.size() >= PRO_NAME_SIZE )
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", Exceeded maximum number of characters. Parameter Name: "  << std::string(in_ParameterName) + ", Maximum allowed characters: " << PRO_NAME_SIZE;
+		throw isis::application_exception(errorString);	
+	}
+
+	try
+	{
+		//ProName ParameterName;
+		//ProStringToWstring(ParameterName, (char *)in_ParameterName.c_str() );
+		//std::cout << std::endl << "ParameterName: " << ProWstringToString(temp_string, ParameterName);	
+		//std::cout << std::endl << "in_p_model:    " << in_p_model;
+		//std::cout << std::endl << "*in_p_model:    " << *in_p_model;
+
+		ProModelitem  ParameterModelItem_struct;
+	
+		//isis::isis_ProMdlToModelitem ( *in_p_model, &ParameterModelItem_struct );
+		isis::isis_ProMdlToModelitem ( *itr->second.cADModel_ptr_ptr, &ParameterModelItem_struct );
+	
+		ProParameter  ProParameter_struct;
+
+		//isis::isis_ProParameterInit ( &ParameterModelItem_struct, ParameterName, &ProParameter_struct);
+		isis::isis_ProParameterInit ( &ParameterModelItem_struct, in_ParameterName, &ProParameter_struct);
+		ProParamvalue  ProParamvalue_struct;
+
+		//switch ( CADParameterType_enum(in_ParameterType) )
+		switch ( in_ParameterType )
+		{
+			case CAD_FLOAT:
+				ProParamvalue_struct.type = PRO_PARAM_DOUBLE;
+				ProParamvalue_struct.value.d_val = atof(in_ParameterValue.c_str());
+
+				break;
+
+			case CAD_INTEGER:
+				ProParamvalue_struct.type = PRO_PARAM_INTEGER;
+				ProParamvalue_struct.value.i_val = atoi(in_ParameterValue.c_str());
+
+				break;
+			
+			case CAD_BOOLEAN:
+				ProParamvalue_struct.type = PRO_PARAM_BOOLEAN;
+				ProParamvalue_struct.value.l_val = isis::ProBoolean_enum(in_ParameterValue);
+				break;
+
+			case CAD_STRING:
+
+				if ( in_ParameterValue.size() > MAX_STRING_PARAMETER_LENGTH )
+				{
+					std::stringstream errorString;
+					errorString <<
+					"Erroneous CADParameter Value, Parameter: " <<  CADParameterType_string(in_ParameterType) <<
+					"  Value: " << in_ParameterValue << ", Value must be " << MAX_STRING_PARAMETER_LENGTH << 
+					" characters or less.";
+					throw isis::application_exception(errorString.str());
+				}
+				ProParamvalue_struct.type = PRO_PARAM_STRING;
+				ProStringToWstring(ProParamvalue_struct.value.s_val,(char*)in_ParameterValue.c_str());
+				break;
+
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", Erroneous CADParameter Type: " <<  CADParameterType_string(in_ParameterType) << ", Should be FLOAT, INTEGER, or BOOLEAN.";
+				throw isis::application_exception(errorString);	
+		}
+
+		isis::isis_ProParameterValueSet( &ProParameter_struct, &ProParamvalue_struct );
+
+		//std::cout << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
+		//std::clog << std::endl << "   Modified parameter: " <<  in_model_name << "::" <<  in_ParameterName << " --> " << in_ParameterValue;
+
+		// Note - we are not using the units (i.e. k->CADValue().Units().present()).  If we were using units,
+		//        then ProUnitConversionGet() would probably be needed to compute the converstion factor.  Also,
+		//		  if the parameter units were set then they would be used for computing the scaling factor;
+		//		  otherwise, the module units would be used.
+
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex.setComponentInfo(itr->second.name);
+		ex.setParameterInfo(in_ParameterName);
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", exception : Part/Assembly Name: " << itr->second.name <<
+								", Parameter Name: " << in_ParameterName << ", " << ex.what();
+		throw isis::application_exception(errorString);	
+
+	}
+
+
+
 }
 
 
