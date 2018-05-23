@@ -62,7 +62,7 @@ void ApplyParametricParameters( const std::list<std::string>						&in_ComponentI
 
 				} catch (isis::application_exception &ex)
 				{
-					out_ErrorList.push_back(CADCreateAssemblyError(ex.what(), CADCreateAssemblyError_Severity_Warning));
+					out_ErrorList.push_back(CADCreateAssemblyError(ex.what(), CADCreateAssemblyError_Severity_Error));
 				}
 			}
 			// R.O. 8/25/2015 Moved the following isis_ProSolidRegenerate to be within "if ( itr->second.parametricParametersPresent )", previously 
