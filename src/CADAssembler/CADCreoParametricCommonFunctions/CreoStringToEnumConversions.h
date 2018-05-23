@@ -29,6 +29,40 @@ namespace isis
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
+	enum e_CreoUnitsDistance
+	{
+		CREO_UNITS_MM,
+		CREO_UNITS_CM,
+		CREO_UNITS_M,
+		CREO_UNITS_KM,
+		CREO_UNITS_INCH,
+		CREO_UNITS_FOOT,
+		CREO_UNITS_DISTANCE_NA,
+	};
+
+	e_CreoUnitsDistance CreoUnitsDistance_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CreoUnitsDistance_string( e_CreoUnitsDistance in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	enum e_CreoUnitsAngle
+	{
+		CREO_UNITS_RADIAN,
+		CREO_UNITS_DEGREE,
+		CREO_UNITS_ANGLE_NA,
+	};
+
+	e_CreoUnitsAngle CreoUnitsAngle_enum( const std::string &in_String)
+										throw (isis::application_exception);
+
+	std::string CreoUnitsAngle_string( e_CreoUnitsAngle in_Enum )
+										throw (isis::application_exception);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
 	ProBoolean ProBoolean_enum( const std::string &in_String)
 										throw (isis::application_exception);
 

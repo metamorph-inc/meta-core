@@ -784,6 +784,7 @@ namespace isis
 		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
 
 		if    	(strUpper.compare("RADIAN") == 0 ) return CAD_UNITS_RADIAN;
+		else if	(strUpper.compare("RAD") == 0 ) return CAD_UNITS_RADIAN;
 		else if	(strUpper.compare("DEGREE") == 0 ) return CAD_UNITS_DEGREE;
 		else if	(strUpper.compare("DEGREES") == 0 ) return CAD_UNITS_DEGREE;
 		else if	(strUpper.compare("DEG") == 0 ) return CAD_UNITS_DEGREE;
@@ -792,7 +793,7 @@ namespace isis
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
 			", which is an erroneous value. Allowed values are: " <<
-			"radian   degree   Degrees   Deg   N/A";
+			"radian   rad   degree   Degrees   Deg   N/A";
 		throw isis::application_exception(errorString);
 	}
 

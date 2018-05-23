@@ -58,27 +58,50 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 												in_CADComponentData_map,
 												parameterInCADModel_Units );
 
-		// We are only concerned with distance units.  Not setting other units at this time. Parameters are usually varying length in the CAD model
-
-		if ( parameterInCADModel_Units.distanceUnit != CAD_UNITS_DISTANCE_NA )
+		// We are only concerned with distance or angle units.  Not setting other units at this time. Parameters are usually varying length or angles in the CAD model
+		if ( parameterInCADModel_Units.distanceUnit != CAD_UNITS_DISTANCE_NA  || parameterInCADModel_Units.angleUnit != CAD_UNITS_ANGLE_NA )
 		{
 			// This case:
 			//		1) CADAssembly.xml has units set for the parameter
 			//		2) Parameter in CAD model has units set
 
-			if ( CADUnitsDistance_enum( parameterInCADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units))
+			// Note - if this section fails to do the conversion, an exception will be throw.  If that happens, then more unit types will need to be added to
+			//		  the enums (e.g. CADUnitsDistance_enum and CADUnitsAngle_enum )
+
+			if ( parameterInCADModel_Units.distanceUnit != CAD_UNITS_DISTANCE_NA  )
 			{
-				// This case:
-				//		1) CADAssembly.xml has units set for the parameter
-				//		2) Parameter in CAD model has units set
-				//		3) The parameter units in the CAD model are different from the units for the parameter in the CADAssembly.xml
-				modelOperations.unitConversionFactorsComputation(	
-					in_ComponentInstanceID,
-					in_CADComponentData_map,
-					CADUnitsDistance_string(CADUnitsDistance_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize
-					parameterInCADModel_Units.distanceUnit_ShortName,
-					scaleFactor,
-					scaleOffset );	
+				if ( CADUnitsDistance_enum( parameterInCADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units))
+				{
+					// This case:
+					//		1) CADAssembly.xml has units set for the parameter
+					//		2) Parameter in CAD model has units set
+					//		3) The parameter units in the CAD model are different from the units for the parameter in the CADAssembly.xml
+					modelOperations.unitConversionFactorsComputation(	
+						in_ComponentInstanceID,
+						in_CADComponentData_map,
+						CADUnitsDistance_string(CADUnitsDistance_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize
+						parameterInCADModel_Units.distanceUnit_ShortName,
+						scaleFactor,
+						scaleOffset );	
+				}
+			}
+			else
+			{
+				// This must be a CAD_UNITS_ANGLE
+				if ( CADUnitsAngle_enum( parameterInCADModel_Units.angleUnit_ShortName) != CADUnitsAngle_enum(in_CADParameter.units))
+				{
+					// This case:
+					//		1) CADAssembly.xml has units set for the parameter
+					//		2) Parameter in CAD model has units set
+					//		3) The parameter units in the CAD model are different from the units for the parameter in the CADAssembly.xml
+					modelOperations.unitConversionFactorsComputation(	
+						in_ComponentInstanceID,
+						in_CADComponentData_map,
+						CADUnitsAngle_string(CADUnitsAngle_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize
+						parameterInCADModel_Units.angleUnit_ShortName,
+						scaleFactor,
+						scaleOffset );	
+				}
 			}
 		}
 		else
@@ -86,6 +109,8 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 			// This case:
 			//		1) CADAssembly.xml has units set for the parameter
 			//		2) Parameter in CAD model does NOT have units set
+
+			// CAD models do not have angle units, so this section only applies to distance units.
 
 			// Check the units for the CAD model.
 
@@ -105,7 +130,8 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 			}
 			else
 			{
-				if ( CADUnitsDistance_enum( cADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units) )
+				if ( CADUnitsDistance_enum( cADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units))
+
 				{
 					// This case:
 					//		1) CADAssembly.xml has units set for the parameter

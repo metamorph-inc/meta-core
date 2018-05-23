@@ -1383,7 +1383,7 @@ bool ModelOperationsCreo::parameterDefinedInCADModel ( const MultiFormatString		
 	return true;
 }
 
-// Warning this function only supports distance units (e.g. mm, inch...)
+// Warning this function only supports distance units (e.g. mm, inch...) and angle units (deg, radians)
 void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString								&in_ParameterName,
 													const std::string									&in_ComponentInstanceID,	
 													const std::map<std::string, isis::CADComponentData>	&in_CADComponentData_map,
@@ -1412,20 +1412,54 @@ void ModelOperationsCreo::retrieveParameterUnits (	const MultiFormatString						
 	out_CADModelUnits.forceUnit =		CAD_UNITS_FORCE_NA; 
 	out_CADModelUnits.timeUnit =			CAD_UNITS_TIME_NA; 
 	out_CADModelUnits.temperatureUnit = CAD_UNITS_TEMPERATURE_NA;	
+	out_CADModelUnits.angleUnit       = CAD_UNITS_ANGLE_NA;
 
 	ProParamvalue  ProParamvalue_struct;
 
 	ProUnititem creo_parameter_units;
 	isis_ProParameterValueWithUnitsGet(&ProParameter_struct, &ProParamvalue_struct, &creo_parameter_units);
 
+	MultiFormatString unit_multiformat( creo_parameter_units.name);
 	if ( wcslen(creo_parameter_units.name) == 0 ) return;  // No units specified for the parameter
 
-	MultiFormatString distanceUnit_multiformat( creo_parameter_units.name);
-	out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( distanceUnit_multiformat );
-	ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+	bool identifiedUnitsProperly = false;
+	std::string ex_string_1;
+	std::string ex_string_2;
+	// At this point we don't know if the units are distance or angles.  Try both
+	try
+	{
+		out_CADModelUnits.distanceUnit = CADUnitsDistance_enum( unit_multiformat );
+		ComputeUnitNames_Distance(  out_CADModelUnits.distanceUnit , out_CADModelUnits.distanceUnit_ShortName, out_CADModelUnits.distanceUnit_LongName );
+		identifiedUnitsProperly = true;
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex_string_1 = ex.what();
+	}
+
+	try
+	{
+		out_CADModelUnits.angleUnit = CADUnitsAngle_enum( unit_multiformat );
+		ComputeUnitNames_Angle(  out_CADModelUnits.angleUnit, out_CADModelUnits.angleUnit_ShortName, out_CADModelUnits.angleUnit_LongName );
+		identifiedUnitsProperly = true;
+	}
+	catch (isis::application_exception& ex)
+	{
+		ex_string_2 = ex.what();
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", in_ComponentInstanceID: " << in_ComponentInstanceID << ", in_ParameterName:  " << in_ParameterName << 
+			", Failed to retreive distance or angle units, " << std::endl << ex_string_1 << std::endl << ", "<< ex_string_2;
+
+		throw isis::application_exception(errorString);	
+	}
+
 }
 
-
+// Only supporting distance and angle units
 void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string										&in_ComponentInstanceID,	
 																const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
 																const std::string										&in_FromUnit,
@@ -1464,23 +1498,64 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 
 	}
 
-	MultiFormatString  fromUnit_MultiFromat (in_FromUnit);
-	MultiFormatString  toUnit_MultiFromat (in_ToUnit);
+	MultiFormatString  fromUnit_MultiFromat;
+	MultiFormatString  toUnit_MultiFromat;
+
+	bool identifiedUnitsProperly = false;
+	std::string ex_string_1;
+	std::string ex_string_2;
+	// At this point we don't know if the units are distance or angles.  Try both
+	try
+	{
+		// We must assure that the strings are called the correct name (e.g. in, mm) that Creo uses.  This will be assured by calling  CreoUnitsDistance_string/CreoUnitsDistance_enum
+		fromUnit_MultiFromat = CreoUnitsDistance_string(CreoUnitsDistance_enum(in_FromUnit));
+		toUnit_MultiFromat  =  CreoUnitsDistance_string(CreoUnitsDistance_enum(in_ToUnit));
+		identifiedUnitsProperly = true;
+	}
+	catch ( isis::application_exception& ex )
+	{
+		ex_string_1 = ex.what();
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		try
+		{
+			// We must assure that the strings are called the correct name (e.g. in, mm) that Creo uses.  This will be assured by calling  CreoUnitsDistance_string/CreoUnitsDistance_enum
+			fromUnit_MultiFromat = CreoUnitsAngle_string(CreoUnitsAngle_enum(in_FromUnit));
+			toUnit_MultiFromat  =  CreoUnitsAngle_string(CreoUnitsAngle_enum(in_ToUnit));
+			identifiedUnitsProperly = true;
+		}
+		catch (isis::application_exception& ex)
+		{
+			ex_string_2 = ex.what();
+		}
+	}
+
+	if ( !identifiedUnitsProperly)
+	{
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", in_ComponentInstanceID: " << in_ComponentInstanceID << ", in_FromUnit:  " << in_FromUnit << ", in_ToUnit: " << in_ToUnit << std::endl <<
+			", Unknown distance or angle units, " << std::endl << ex_string_1 << std::endl << ", "<< ex_string_2;
+
+		throw isis::application_exception(errorString);	
+	}
 
 	ProUnititem fromProUnit;
 	ProUnititem toProUnit;
-
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", BEGIN isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "*(itr->second.cADModel_ptr_ptr):                            " << *(itr->second.cADModel_ptr_ptr);
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat): " << const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat);
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat):   " << const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat);
-		
+	
+
 	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
 											L"customunitfrom", 
 											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
 											&fromProUnit);
+
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "fromProUnit initialized";
 
@@ -1506,7 +1581,6 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 	isis::isis_ProUnitDelete(&fromProUnit);
 	isis::isis_ProUnitDelete(&toProUnit);
 }
-
 
 void ModelOperationsCreo::setParameter (		e_CADParameterType										in_ParameterType,
 											const MultiFormatString									&in_ParameterName,

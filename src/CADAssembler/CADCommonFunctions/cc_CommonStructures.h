@@ -1289,6 +1289,10 @@ namespace isis
 		std::string				temperatureUnit_ShortName;
 		std::string				temperatureUnit_LongName;
 
+		e_CADUnitsAngle			angleUnit;
+		std::string				angleUnit_ShortName;
+		std::string				angleUnit_LongName;
+
 		CADModelUnits();
 	};
 

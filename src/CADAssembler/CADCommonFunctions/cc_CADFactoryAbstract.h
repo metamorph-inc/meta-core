@@ -421,8 +421,8 @@ public:
 																											throw (isis::application_exception) = 0;
 	// Description:
 	//		A parameter in a CAD model may/may-not have units assigned to the parameter.
-	//		This function determines if units are assigned.  For now, only distance units are determined. 
-	//		Only determining distance units is probably OK because almost always distance units are modified
+	//		This function determines if units are assigned.  For now, only distance and angle units are determined. 
+	//		Only determining distance and angle units is probably OK because almost always distance or angle units are modified
 	//		via CyPhy.  Mass, force, time, and temperature units are not normally modified by CyPhy.
 	//		Note - A parameter can be in a part or assembly.
 	// Pre-Conditions:
@@ -440,6 +440,7 @@ public:
 	//				out_CADModelUnit.forceUnit =			CAD_UNITS_FORCE_NA  			// Always set to this for now 
 	//				out_CADModelUnit.timeUnit =			CAD_UNITS_TIME_NA 			// Always set to this for now  
 	//				out_CADModelUnit.temperatureUnit =  CAD_UNITS_TEMPERATURE_NA		// Always set to this for now 
+	//				out_CADModelUnit.angleUnit  if no angle units defined for parameter CAD_UNITS_ANGL_NA  otherwise the unit for the parameter
 	virtual void retrieveParameterUnits (	const MultiFormatString									&in_ParameterName,
 											const std::string										&in_ComponentInstanceID,	
 											const std::map<std::string, isis::CADComponentData>		&in_CADComponentData_map,
@@ -464,6 +465,7 @@ public:
 	//			std::string CADUnitsHeatCapacity_string( e_CADUnitsHeatCapacity in_Enum )
 	//			std::string CADUnitsThermalConductivity_string( e_CADUnitsThermalConductivity in_Enum )
 	//			std::string CADUnitsAngle_string( e_CADUnitsAngle in_Enum )
+	//
 	//
 	//		The .h and .cpp files for the enums are auto generated. See meta-core\src\CADAssembler\CodeGenerationTools\enums
 	//		for information on adding new enums.

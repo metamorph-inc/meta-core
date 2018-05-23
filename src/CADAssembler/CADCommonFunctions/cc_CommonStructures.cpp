@@ -442,7 +442,9 @@ std::string AmalgamateModelNameWithSuffix ( const std::string &in_Name, e_CADMdl
 									massUnit(		CAD_UNITS_MASS_NA), 
 									forceUnit(		CAD_UNITS_FORCE_NA), 
 									timeUnit(		CAD_UNITS_TIME_NA) , 
-									temperatureUnit(CAD_UNITS_TEMPERATURE_NA) {};
+									temperatureUnit(CAD_UNITS_TEMPERATURE_NA),
+									angleUnit(      CAD_UNITS_ANGLE_NA) {};
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

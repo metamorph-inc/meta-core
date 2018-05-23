@@ -13,6 +13,111 @@ namespace isis
 {
 
 	////////////////////////////////////////////////////////////////////////////////////////
+	e_CreoUnitsDistance CreoUnitsDistance_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("MM") == 0 ) return CREO_UNITS_MM;
+		else if	(strUpper.compare("MILLIMETER") == 0 ) return CREO_UNITS_MM;
+		else if	(strUpper.compare("CM") == 0 ) return CREO_UNITS_CM;
+		else if	(strUpper.compare("CENTIMETER") == 0 ) return CREO_UNITS_CM;
+		else if	(strUpper.compare("M") == 0 ) return CREO_UNITS_M;
+		else if	(strUpper.compare("METER") == 0 ) return CREO_UNITS_M;
+		else if	(strUpper.compare("KM") == 0 ) return CREO_UNITS_KM;
+		else if	(strUpper.compare("KILOMETER") == 0 ) return CREO_UNITS_KM;
+		else if	(strUpper.compare("IN") == 0 ) return CREO_UNITS_INCH;
+		else if	(strUpper.compare("INCH") == 0 ) return CREO_UNITS_INCH;
+		else if	(strUpper.compare("FT") == 0 ) return CREO_UNITS_FOOT;
+		else if	(strUpper.compare("FOOT") == 0 ) return CREO_UNITS_FOOT;
+		else if	(strUpper.compare("N/A") == 0 ) return CREO_UNITS_DISTANCE_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"mm   millimeter   cm   centimeter   m   meter   km   kilometer   in   inch   ft   foot   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CreoUnitsDistance_string( e_CreoUnitsDistance in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CREO_UNITS_MM:
+				return "mm";
+				break;
+			case CREO_UNITS_CM:
+				return "cm";
+				break;
+			case CREO_UNITS_M:
+				return "m";
+				break;
+			case CREO_UNITS_KM:
+				return "km";
+				break;
+			case CREO_UNITS_INCH:
+				return "in";
+				break;
+			case CREO_UNITS_FOOT:
+				return "ft";
+				break;
+			case CREO_UNITS_DISTANCE_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CREO_UNITS_MM   CREO_UNITS_CM   CREO_UNITS_M   CREO_UNITS_KM   CREO_UNITS_INCH   CREO_UNITS_FOOT   CREO_UNITS_DISTANCE_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	e_CreoUnitsAngle CreoUnitsAngle_enum( const std::string &in_String)
+										throw (isis::application_exception)
+	{
+		std::string strUpper = boost::to_upper_copy<std::string>(in_String);
+
+		if    	(strUpper.compare("RAD") == 0 ) return CREO_UNITS_RADIAN;
+		else if	(strUpper.compare("RADIAN") == 0 ) return CREO_UNITS_RADIAN;
+		else if	(strUpper.compare("DEG") == 0 ) return CREO_UNITS_DEGREE;
+		else if	(strUpper.compare("DEGREE") == 0 ) return CREO_UNITS_DEGREE;
+		else if	(strUpper.compare("DEGREES") == 0 ) return CREO_UNITS_DEGREE;
+		else if	(strUpper.compare("N/A") == 0 ) return CREO_UNITS_ANGLE_NA;
+
+		std::stringstream errorString;
+		errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_String <<
+			", which is an erroneous value. Allowed values are: " <<
+			"rad   radian   deg   degree   Degrees   N/A";
+		throw isis::application_exception(errorString);
+	}
+
+	std::string CreoUnitsAngle_string( e_CreoUnitsAngle in_Enum )
+										throw (isis::application_exception)
+	{
+		switch ( in_Enum )
+		{
+			case CREO_UNITS_RADIAN:
+				return "rad";
+				break;
+			case CREO_UNITS_DEGREE:
+				return "deg";
+				break;
+			case CREO_UNITS_ANGLE_NA:
+				return "N/A";
+				break;
+			default:
+				std::stringstream errorString;
+				errorString << "Function - " << __FUNCTION__ << ", was passed: " << in_Enum <<
+					", which is an erroneous value. Allowed values are: " <<
+					"CREO_UNITS_RADIAN   CREO_UNITS_DEGREE   CREO_UNITS_ANGLE_NA";
+				throw isis::application_exception(errorString);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
 	ProBoolean ProBoolean_enum( const std::string &in_String)
 										throw (isis::application_exception)
 	{
