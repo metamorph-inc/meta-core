@@ -1,3 +1,5 @@
+def CAD_REV = 'UNKNOWN'
+
 pipeline {
     agent none
     stages {
@@ -12,11 +14,17 @@ pipeline {
                 checkout scm
                 bat($/cmd /c set/$)
                 bat($/del deploy\META_*.exe/$)
-                bat($/"c:\Program Files\Git\Usr\bin\find.exe" src/CADAssembler -iname META.\*.nupkg -print -delete/$)
+
+                dir('deploy') {
+                    script {
+                        CAD_REV = bat (script: '@..\\bin\\Python27\\Scripts\\python -c "import vc_info; print vc_info.last_cad_rev()"', returnStdout: true).trim()
+                    }
+                }
+                bat($/"c:\Program Files\Git\Usr\bin\find.exe" src/CADAssembler -iname META.\*.nupkg ! -iname META.\*${CAD_REV}.nupkg -print -delete/$)
                 bat($/cmd /c register_interpreters.cmd || git clean -xdf/$)
                 bat($/"c:\Program Files\Git\Usr\bin\find.exe" -iname \*UnmanagedRegistration.cache -print -delete/$)
                 bat($/Setlocal EnableDelayedExpansion
-rem Push_All_NuGet 
+rem Push_All_NuGet
 c:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild make_CAD.msbuild /t:All /fl /m /nodeReuse:false || exit /b !ERRORLEVEL!
 
 pushd src\CADAssembler
