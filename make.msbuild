@@ -53,7 +53,9 @@
   </Target>
   
   <Target Name="DownloadNuGetPackages">
-    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"/>
+    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"
+        CustomErrorRegularExpression="is not found in the following primary source"
+    />
   </Target>
   
   <Target Name="All" DependsOnTargets="Install_PythonLibs;MetaLink;CyPhyML;DownloadNuGetPackages">
