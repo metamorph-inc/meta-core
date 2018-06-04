@@ -48,7 +48,7 @@ The actual name of the subdirectory depends on what version you have installed.
 GME_x64 is the best-tested (but 32-bit should work too)
 
 ## UDM x64 3.2.14+
-[Download it here](http://repo.isis.vanderbilt.edu/UDM/3.2.14/)
+[Download it here](http://repo.isis.vanderbilt.edu/UDM/3.2.15/)
 
 ## Windows Updates
 Again, install Windows updates until everything is current. Restart your computer.
