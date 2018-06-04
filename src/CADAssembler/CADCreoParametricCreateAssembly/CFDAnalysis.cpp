@@ -296,7 +296,7 @@ namespace isis
 
 		double boundingBoxVolume = boundingBox_Height_zAxis * boundingBox_Width_yAxis * boundingBox_Length_xAxis;
 
-		// Waterline = Bounding_box_height * (1/3 + (Mass/Fluid_density/Bounding_box_volume – 1/5)*5/6)
+		// Waterline = Bounding_box_height * (1/3 + (Mass/Fluid_density/Bounding_box_volume - 1/5)*5/6)
 		m_WaterLine_Height_zAxis = 
 			boundingBox_Height_zAxis * 
 			(1.0/3.0 
@@ -309,7 +309,7 @@ namespace isis
 		// Adjust for the start of the z axis relative to the global corrdinate system.
 		m_WaterLine_Height_zAxis +=  boundingBox_OffsetToStartOfBoundingBox_zCoordinate;
 
-		// Reference_Area = (2 * Bounding_box_height * Bounding_box_width + 3 * Bounding_box_length * Bounding_box_height ) * (3/5 + (Mass/Fluid_density/Bounding_box_volume – 1/3)*3/5)
+		// Reference_Area = (2 * Bounding_box_height * Bounding_box_width + 3 * Bounding_box_length * Bounding_box_height ) * (3/5 + (Mass/Fluid_density/Bounding_box_volume - 1/3)*3/5)
 		m_ReferenceArea = 
 			(2.0 * boundingBox_Height_zAxis * boundingBox_Width_yAxis 
 			+ 3.0 * boundingBox_Length_xAxis * boundingBox_Height_zAxis ) 

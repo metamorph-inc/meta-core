@@ -19,9 +19,9 @@ namespace isis
 //
 //	Description: 
 //
-//		The following function modifies Pro/E parameters within a model or assembly.  These are 
-//		the parameters that are displayed in the Pro/E parameters table (displayed via 
-//		“Tools” “Parameters” menu option).  
+//		The following function modifies Pro/E parameters within a model or assembly.  These are
+//		the parameters that are displayed in the Pro/E parameters table (displayed via
+//		"Tools" "Parameters" menu option).
 //
 //		Example XML follows:
 //
@@ -42,7 +42,7 @@ namespace isis
 //			INTEGER
 //			BOOLEAN
 //
-//		Note – 1)	Type and Name are case insensitive (e.g. Name="HeigHT" Type="FloAT")
+//		Note - 1)	Type and Name are case insensitive (e.g. Name="HeigHT" Type="FloAT")
 //			   2)	Units are optional and are not used by this function.  If they are set, 
 //					they would be ignored.  The units will always be in the units of the Pro/E model.
 //
@@ -53,7 +53,7 @@ namespace isis
 //		in_p_model must point to an active Pro/E model
 //
 //		in_ParametricParameters must point to a xml tree defined with the contents of 
-//		<ParametricParameters> … </ParametricParameters>
+//		<ParametricParameters> ... </ParametricParameters>
 //
 //		The type in the xml file and the type in the Pro/E parameters table must align as follows:
 //

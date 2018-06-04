@@ -328,8 +328,8 @@ void	RegenerateModel( ProSolid in_p_asm,
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "";
 		isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "   Regenerating:     " << in_ParentName << "  " << in_ParentComponentID;
 
-		//	"Pro/TOOLKIT® User’s Guide" Section "Regenerating a Solid":
-		//	PRO_REGEN_NO_RESOLVE_MODE—Specifies the
+		//	"Pro/TOOLKIT User's Guide" Section "Regenerating a Solid":
+		//	PRO_REGEN_NO_RESOLVE_MODE-Specifies the
 		//	No-Resolve mode introduced in Pro/ENGINEER Wildfire 5.0.
 		//	This is the default mode in Pro/ENGINEER Wildfire 5.0. In this
 		//	mode, if a model and feature regeneration fails, failed features

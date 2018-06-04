@@ -27,13 +27,13 @@ namespace isis
 		double ConvertToDouble(const std::string &in_String) throw (isis::application_exception);
 
 
-		// in_PathAndFileName_or_FileName must not contain double quotes (i.e. “);
+		// in_PathAndFileName_or_FileName must not contain double quotes (i.e. ");
 		// if in_PathAndFileName_or_FileName will be enclosed in double quotes. This is 
 		//	necessary because an error would occur if the string contained spaces, dashes, commas...
 		void isis_DeleteFile(const std::string &in_FileName);
 
 
-		// in_PathAndFileName_or_FileName must not contain double quotes (i.e. “);
+		// in_PathAndFileName_or_FileName must not contain double quotes (i.e. ");
 		// if in_PathAndFileName_or_FileName will be enclosed in double quotes.  This is 
 		//	necessary because an error would occur if the string contained spaces, dashes, commas...
 		void IfFileExists_DeleteFile(const std::string &in_PathAndFileName_or_FileName);
@@ -45,7 +45,7 @@ namespace isis
 		//		Copy in_From_PathAndFileName to in_To_Path_or_PathAndFileName
 		//
 		// Pre-Conditoins
-		//		The input strings must not contain double quotes (i.e. “);
+		//		The input strings must not contain double quotes (i.e. ");
 		//		in_From_PathAndFileName must exist.
 		//		in_To_Path_or_PathAndFileName must contain a valid path and optionally a file name.
 		//

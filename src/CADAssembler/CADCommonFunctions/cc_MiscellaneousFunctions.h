@@ -57,10 +57,10 @@ namespace isis_CADCommon
 	//
 	//		if in_Path_B defines a path subordinate to in_Path_A
 	//			then
-	//				out_RelativePath = “..\..\”    \\ as appropriate
+	//				out_RelativePath = "..\..\"    \\ as appropriate
 	//				return true
 	//			else
-	//				out_RelativePath = “”    \\ null string
+	//				out_RelativePath = ""    \\ null string
 	//				return false
 	//
 	//		Notes: 

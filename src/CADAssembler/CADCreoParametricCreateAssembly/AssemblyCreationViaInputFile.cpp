@@ -730,7 +730,7 @@ void CreateAssemblyViaInputFile( //cad::CadFactoryAbstract						&in_Factory,
 				//  ggggggggggggggggggggggggg good to here  no creo dependencies   zzzzzzzzzzzzzzzzzz
 
 				//	We must recalculate the junctions here.  The junctions were originally calculated in Apply_CADDatum_ModelConstraints;  
-				//	however, that calculation was just to determine the joint type( revolute, prismatic…).  The actual position 
+				//	however, that calculation was just to determine the joint type( revolute, prismatic...).  The actual position 
 				//	(i.e. markers) could have been incorrect based on the Apply_CADDatum_ModelConstraints junction computations because 
 				//	a kinematic assembly could have repositioned the parts based on the complete assembly.  An example is a prismatic joint
 				//	defined in a leaf assembly where the markers for the joint would only be valid in the context of the complete assembly.	

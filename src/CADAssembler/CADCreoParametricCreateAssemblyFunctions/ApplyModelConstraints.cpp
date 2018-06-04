@@ -45,7 +45,7 @@ Notes:
 
 	if ( !added_model_defined  &&  ( l->ComponentID() == i->ComponentID() || 
 		 l->ComponentID() != Assembly_ComponentID))   // Note would have to pass Assembly_ComponentID
-													  // into ApplyListedModelsConstraints(…)
+													  // into ApplyListedModelsConstraints(...)
 
 	This approach would be computationally faster but would not catch the error condition due to 
 	the XML containing incorrect data.  The current approach results in an exception if the 
@@ -3121,7 +3121,7 @@ void CreateConstriantSet_and_SetAllowAssumptions ( ProAsmcomppath *assem_path,  
 
 // When the Allow Assumptions check box is cleared, the third constraint must be defined before the component is 
 // considered fully constrained. You can leave the bolt packaged, or you can create another constraint that explicitly 
-// constrains the bolt’s rotational degree of freedom. 
+// constrains the bolt's rotational degree of freedom. 
 
 // When Allow Assumptions is disabled, you can use the Move tab options to move a component out of a previously 
 // assumed position, where it will remain. The component automatically snaps back to the assumed position if 
@@ -4373,17 +4373,17 @@ of the terms and the algorithm follow:
 	
 Definitions:
 -----------
-Round – This function using the term round to indicate the sequence for applying constraints.  For example, for a fixed 
+Round - This function using the term round to indicate the sequence for applying constraints.  For example, for a fixed 
 		constraint with no guides, there would only be one round for applying constraints.  For a constraint with a guide, 
 		there would be two rounds per the following sequence:
 			Round 1: apply the constraints with the guide, regenerate, remove the constraints
 			Round 2: Apply the constraints except for the guide constraint
 	 
-Guide – an extra constraint that typically fixes all six degrees of freedom.  For example, a revolute joint would typically be 
+Guide - an extra constraint that typically fixes all six degrees of freedom.  For example, a revolute joint would typically be 
 		constrained to an axis and a plane.  A guide would be an extra constraint that positions the initial, 
 		position (i.e. angular position).  
 
-Implied Guide – There are cases where the constraints do not have a guide, but where a guide is implied.  For example, with a 
+Implied Guide - There are cases where the constraints do not have a guide, but where a guide is implied.  For example, with a 
 				revolute joint defined as a revolute joint in Creo, the datum plane side A/B is not honored.  Therefore, the constraints 
 				have to be applied first as a non-kinematic joint (user defined joint instead of a revolute joint) and then in the 
 				second round as a revolute joint.  

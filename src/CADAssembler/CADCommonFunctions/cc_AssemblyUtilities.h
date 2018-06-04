@@ -246,8 +246,8 @@ namespace isis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Description:
 	//		This function adds ComponentInstanceIDs to the 
-	//		in_out_CADComponentData_map::…::constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs, wherein the 
-	//		ComponentInstanceIDs are either the part IDs that the datums contained in in_out_CADComponentData_map::…::constraintPairs
+	//		in_out_CADComponentData_map::...::constrainedTo_ComponentInstanceIDs_DerivedFromConstraintPairs, wherein the
+	//		ComponentInstanceIDs are either the part IDs that the datums contained in in_out_CADComponentData_map::...::constraintPairs
 	//		reference, or the assembly IDs for the assemblies that are treated as one body (i.e. CADAssembly.xml 
 	//		special instruction != HAS_KINEMATIC_JOINT ). Reference means the parts that contain the geometry 
 	//		referenced by a datum.  See the contract for 

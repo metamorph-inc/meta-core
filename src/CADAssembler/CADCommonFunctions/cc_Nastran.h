@@ -806,9 +806,9 @@ namespace isis_CADCommon
 
 			// MAT1 MID E G NU RHO A TREF GE ST SC SS MCSID
 			// MID Material identification number
-			// E Young’s modulus
+			// E Young's modulus
 			// G Shear modulus
-			// NU Poisson’s ratio
+			// NU Poisson's ratio
 			// RHO Mass density
 			// A Thermal expansion coefficient
 			// TREF Reference temperature

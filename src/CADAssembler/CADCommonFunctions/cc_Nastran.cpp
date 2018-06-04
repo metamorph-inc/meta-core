@@ -1801,7 +1801,7 @@ namespace isis_CADCommon
 					std::stringstream errorString;
 					errorString <<
 					"Function: ReplaceMaterialTokens_ReturnMaterialToComponentID, A material key was not found" << std::endl << 
-					"in the <working_dir>/Analysis/…orig.nas deck. This could be caused by a material being" << std::endl <<
+					"in the <working_dir>/Analysis/...orig.nas deck. This could be caused by a material being" << std::endl <<
 					"assigned in Creo Simulate (Creo UI, Applications Simulate).  Normally Creo Simulate would" << std::endl <<
 					"not be used at all when performing analysis per this program.  If there is a material" << std::endl <<
 					"assigned via Creo Simulate, please un-assign it." << std::endl <<

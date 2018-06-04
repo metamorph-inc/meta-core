@@ -29,7 +29,7 @@ namespace isis
 //
 //		The following function modifies Pro/E parameters within a model or assembly.  These are 
 //		the parameters that are displayed in the Pro/E parameters table (displayed via 
-//		“Tools” “Parameters” menu option).  
+//		"Tools" "Parameters" menu option).  
 //
 //
 //		The supported types (i.e. in_ParameterType) are:
@@ -38,7 +38,7 @@ namespace isis
 //			BOOLEAN
 //			STRING
 //
-//		Note –	in_ParameterName and in_ParameterType are case insensitive (e.g. 
+//		Note -	in_ParameterName and in_ParameterType are case insensitive (e.g. 
 //				in_ParameterName="HeigHT" in_ParameterType="FloAT")
 //
 //	Pre-Conditions:
@@ -90,7 +90,7 @@ void SetParametricParameter(
 //
 //		The following function retrieves a Pro/E parameter from a part or assembly.  These are 
 //		the parameters that are displayed in the Pro/E parameters table (i.e. Pro/E UI 
-//		“Tools” “Parameters” menu option; select "Filter by" drop down option "Current and all sublevels",
+//		"Tools" "Parameters" menu option; select "Filter by" drop down option "Current and all sublevels",
 //		to view all the parameters). 
 //
 //		The supported Pro/E Parameter-Table types are:
@@ -99,7 +99,7 @@ void SetParametricParameter(
 //			String 
 //			Yes No 
 //
-//		Note –	in_ParameterOwner and in_ParameterName are case insensitive. 
+//		Note -	in_ParameterOwner and in_ParameterName are case insensitive. 
 //
 //	Pre-Conditions:
 //
@@ -109,7 +109,7 @@ void SetParametricParameter(
 //
 //		if the parameter owner is the in_p_model model (i.e. Part/Assembly), then in_ParameterOwner 
 //		must be set to "MODEL"; otherwise, in_ParameterOwner must be set to the parameter owner 
-//		listed in Pro/E UI “Tools” “Parameters”.
+//		listed in Pro/E UI "Tools" "Parameters".
 //
 //	Post-Conditions:
 //

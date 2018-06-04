@@ -24,7 +24,7 @@ namespace isis
 	//			else
 	//				settings are retrieved from the registry
 	//
-	//	Note –	This function also sets the system environment variable PRO_COMM_MSG_EXE.  This setting is 
+	//	Note -	This function also sets the system environment variable PRO_COMM_MSG_EXE.  This setting is
 	//			required to run the Creo SDK.
 	//	
 	//	Pre-Conditions:

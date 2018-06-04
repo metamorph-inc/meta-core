@@ -15,7 +15,7 @@ namespace isis
 //
 //		The following function modifies Pro/E parameters within a model or assembly.  These are 
 //		the parameters that are displayed in the Pro/E parameters table (displayed via 
-//		“Tools” “Parameters” menu option).  
+//		"Tools" "Parameters" menu option).  
 //
 //
 //		The supported types (i.e. in_ParameterType) are:
@@ -24,7 +24,7 @@ namespace isis
 //			BOOLEAN
 //			STRING
 //
-//		Note –	in_ParameterName and in_ParameterType are case insensitive (e.g. 
+//		Note -	in_ParameterName and in_ParameterType are case insensitive (e.g. 
 //				in_ParameterName="HeigHT" in_ParameterType="FloAT")
 //
 //	Pre-Conditions:

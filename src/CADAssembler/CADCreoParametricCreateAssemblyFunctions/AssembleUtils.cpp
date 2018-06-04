@@ -209,8 +209,8 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Description:
-	//		This function renames a model in the assembly tree.  The analogous Creo UI functionality is “right-click on a model 
-	//		in the model tree, select “By Copy”, and  follow prompts”.  Note, the UI function does not rename assemblies; however, 
+	//		This function renames a model in the assembly tree.  The analogous Creo UI functionality is "right-click on a model 
+	//		in the model tree, select "By Copy", and  follow prompts".  Note, the UI function does not rename assemblies; however, 
 	//		it is imperative that we are able to rename assemblies.  This function is intended to work on .prts and .ams.
 	//
 	//		Note - This function was supplied by PTC support.
@@ -348,7 +348,7 @@ void RetrieveTranformationMatrix_Assembly_to_Child (
 		if ( fromModelHandle != in_FromModelInstanceData.modelHandle )
 		{
 			std::stringstream errorString;
-			errorString << "Assembly_RenameSubPartOrSubAssembly - This function renames a model; however this program’s internal data structures for the address of the rename-from model ";
+			errorString << "Assembly_RenameSubPartOrSubAssembly - This function renames a model; however this program's internal data structures for the address of the rename-from model ";
 			errorString << std::endl <<	"do not agree with the Creo data structures for the rename-from model.  These addresses must be the same. ";
 			errorString << std::endl <<	"This is due to a software error; and therefore, there is not a change you can make that would correct this. ";
 			errorString << std::endl <<	"Please report this error to the support desk.";
