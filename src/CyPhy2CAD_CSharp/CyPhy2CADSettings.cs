@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Xml.Serialization;
 
 namespace CyPhy2CAD_CSharp
 {   
@@ -43,16 +44,29 @@ namespace CyPhy2CAD_CSharp
         public List<string> StepFormats { get; set; }
         public OtherDataFormat OtherDataFormat { get; set; }
         public SpecialInstructions SpecialInstructions { get; set; }
-        public bool PrepIFab { get; set; }
-        public bool MetaLink { get; set; }
+        [XmlIgnore]
+        [NonSerialized]
+        public bool wasDeserialized = false;
+        [XmlIgnore]
+        [NonSerialized]
+        public bool _metaLink = false;
+        public bool MetaLink {
+            get
+            {
+                return _metaLink;
+            }
+            set
+            {
+                wasDeserialized = true;
+                _metaLink = value;
+            }
+        }
 
         public CyPhy2CADSettings()
         {
             OtherDataFormat = new OtherDataFormat();
             SpecialInstructions = new SpecialInstructions();
             StepFormats = new List<string>();
-            PrepIFab = false;
-            MetaLink = false;
         }
     }
 }

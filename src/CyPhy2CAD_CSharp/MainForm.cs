@@ -20,7 +20,7 @@ namespace CyPhy2CAD_CSharp
         public string OutputDir { get; set; }
 
 
-        public MainForm(CyPhy2CADSettings settings, 
+        public MainForm(CyPhy2CADSettings settings,
                         bool automated = false,
                         bool prepareifab = false)
         {
@@ -39,7 +39,7 @@ namespace CyPhy2CAD_CSharp
             }
             else
             {
-                textBox_OutputDir.Text = ConfigOptions==null?"":ConfigOptions.OutputDirectory;
+                textBox_OutputDir.Text = ConfigOptions == null ? "" : ConfigOptions.OutputDirectory;
             }
 
             textBox_AuxiliaryDir.Text = ConfigOptions.AuxiliaryDirectory;
@@ -51,25 +51,17 @@ namespace CyPhy2CAD_CSharp
                 SetCheckListBoxItem("AP203_E2_Separate_Part_Files");
                 clb_Step.Enabled = false;
             }
-            else if (automated)
+            else
             {
-                if (ConfigOptions.StepFormats.Count == 0)
+                for (int i = 0; i < ConfigOptions.StepFormats.Count; i++)
+                {
+                    SetCheckListBoxItem(ConfigOptions.StepFormats[i]);
+                }
+                if (ConfigOptions.wasDeserialized == false)
                 {
                     SetCheckListBoxItem("AP203_E2_Single_File");
                     SetCheckListBoxItem("AP203_E2_Separate_Part_Files");
                 }
-                else
-                {
-                    foreach (var checkListBoxItem in settings.StepFormats)
-                    {
-                        SetCheckListBoxItem(checkListBoxItem);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < ConfigOptions.StepFormats.Count; i++)
-                    SetCheckListBoxItem(ConfigOptions.StepFormats[i]);
             }
         }
 

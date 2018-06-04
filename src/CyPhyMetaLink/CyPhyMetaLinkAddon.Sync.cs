@@ -570,7 +570,7 @@ namespace CyPhyMetaLink
                 CyPhy2CAD_CSharp.CyPhy2CADSettings cadSettings = new CyPhy2CAD_CSharp.CyPhy2CADSettings();
                 cadSettings.AuxiliaryDirectory = syncedCompData.AuxDir;
                 cadSettings.OutputDirectory = syncedCompData.WorkingDir;
-                cadSettings.MetaLink = true;
+                cadSettings._metaLink = true;
 
                 CyPhy2CAD_CSharp.Logger.Instance.Reset();
                 CyPhy2CAD_CSharp.CADFlatDataCreator datacreator = new CyPhy2CAD_CSharp.CADFlatDataCreator(cadSettings.OutputDirectory, GetProjectDir(), metalink: true);
