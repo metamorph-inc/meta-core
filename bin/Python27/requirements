@@ -7,7 +7,6 @@
 #  c:\Python27\python.exe -m virtualenv Python27
 #  Python27\scripts\activate.bat
 #  git checkout Python27/requirements
-#  python -m easy_install %userprofile%\Downloads\pywin32-220.win32-py2.7.exe
 #  python -m easy_install %userprofile%\Downloads\elementtree-1.2.7-20070827-preview.win32.exe
 #  python -m pip install %userprofile%\Downloads\numpy-1.11.1+mkl-cp27-cp27m-win32.whl
 #  python -m pip install %userprofile%\Downloads\scipy-0.18.0-cp27-cp27m-win32.whl
@@ -42,7 +41,7 @@ decorator==4.0.4 # simviz
 lxml==3.6.1
 elementtree==1.2.7-20070827-preview
 mpmath==0.17 # PCC
-pywin32==220
+pywin32==223
 numpy==1.11.1+mkl
 scipy==0.18.0
 Cheetah==2.4.4
