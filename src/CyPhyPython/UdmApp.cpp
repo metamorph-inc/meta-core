@@ -436,14 +436,8 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		HMODULE pythoncom = GetModuleHandleA(pythoncomname);
 		if (pythoncom == nullptr) {
 			PyObject_RAII ret = PyRun_StringFlags(
-				// pythoncom.py calls LoadLibrary("pythoncom27.dll"), which will load via %PATH%
-				// Anaconda's pythoncom27.dll (for one) doesn't include the correct SxS activation info, so trying to load it results in "An application has made an attempt to load the C runtime library incorrectly."
-				// load our pythoncom27.dll(which we know works) with an explicit path
-
-				"import imp\n"
-				"import afxres\n"
-				// FIXME: would this be better : pkg_resources.resource_filename('win32api', 'pythoncom27.dll')
-				"imp.load_dynamic('pythoncom', os.path.join(os.path.dirname(afxres.__file__), 'pythoncom" CYPHY_PYTHON_VERSION ".dll'))\n"
+				// sitecustomize.py contains code to load the correct pythoncom27.dll
+				"import pythoncom\n"
 				, Py_file_input, main_namespace, main_namespace, NULL);
 			if (ret == NULL && PyErr_Occurred())
 			{

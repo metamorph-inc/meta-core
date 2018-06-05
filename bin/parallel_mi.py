@@ -10,16 +10,6 @@ import uuid
 import subprocess
 import argparse
 
-import imp
-# taken from CyPhyPython:
-#  pythoncom.py calls LoadLibrary("pythoncom27.dll"), which will load via %PATH%
-#  Anaconda's pythoncom27.dll (for one) doesn't include the correct SxS activation info, so trying to load it results in "An application has made an attempt to load the C runtime library incorrectly."
-#  load our pythoncom27.dll (which we know works) with an explicit path
-import os.path
-import afxres
-from six.moves import range
-# FIXME: would this be better : pkg_resources.resource_filename('win32api', 'pythoncom27.dll')
-imp.load_dynamic('pythoncom', os.path.join(os.path.dirname(afxres.__file__), 'pythoncom%d%d.dll' % sys.version_info[0:2]))
 import pythoncom
 
 import six.moves.winreg as winreg
