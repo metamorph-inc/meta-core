@@ -110,8 +110,6 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 			//		1) CADAssembly.xml has units set for the parameter
 			//		2) Parameter in CAD model does NOT have units set
 
-			// CAD models do not have angle units, so this section only applies to distance units.
-
 			// Check the units for the CAD model.
 
 			CADModelUnits cADModel_Units;
@@ -130,20 +128,32 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 			}
 			else
 			{
-				if ( CADUnitsDistance_enum( cADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units))
-
+				bool isAngle = strcmp(in_CADParameter.units, "deg") == 0 || strcmp(in_CADParameter.units, "rad") == 0;
+				if (isAngle) {
+					if (cADModel_Units.angleUnit != CAD_UNITS_ANGLE_NA && CADUnitsAngle_enum(cADModel_Units.angleUnit_ShortName) != CADUnitsAngle_enum(in_CADParameter.units))
+					{
+						modelOperations.unitConversionFactorsComputation(
+							in_ComponentInstanceID,
+							in_CADComponentData_map,
+							CADUnitsAngle_string(CADUnitsAngle_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize,
+							cADModel_Units.angleUnit_ShortName,
+							scaleFactor,
+							scaleOffset);
+					}
+				}
+				else if (CADUnitsDistance_enum( cADModel_Units.distanceUnit_ShortName) != CADUnitsDistance_enum(in_CADParameter.units))
 				{
 					// This case:
 					//		1) CADAssembly.xml has units set for the parameter
 					//		2) Parameter in CAD model does NOT have units set
 					//		3) The CAD model units are different from the units for the parameter in the CADAssembly.xml
 					modelOperations.unitConversionFactorsComputation(	
-					in_ComponentInstanceID,
-					in_CADComponentData_map,
-					CADUnitsDistance_string(CADUnitsDistance_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize
-					cADModel_Units.distanceUnit_ShortName,
-					scaleFactor,
-					scaleOffset );
+						in_ComponentInstanceID,
+						in_CADComponentData_map,
+						CADUnitsDistance_string(CADUnitsDistance_enum(in_CADParameter.units)), // These are the units from CADAssembly.xml, must normalize
+						cADModel_Units.distanceUnit_ShortName,
+						scaleFactor,
+						scaleOffset );
 				}
 
 			}  // END Else

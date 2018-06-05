@@ -1551,10 +1551,20 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat):   " << const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat);
 	
 
+	struct UnitCleanup {
+		ProUnititem &_proUnit;
+		explicit UnitCleanup(ProUnititem &proUnit) : _proUnit(proUnit) { }
+
+		~UnitCleanup()
+		{
+			isis::isis_ProUnitDelete(&_proUnit);
+		}
+	};
 	isis::isis_ProUnitCreateByExpression(	*(itr->second.cADModel_ptr_ptr), 
 											L"customunitfrom", 
 											const_cast<wchar_t*>((const wchar_t*)fromUnit_MultiFromat),
 											&fromProUnit);
+	UnitCleanup _fromUnitCleanup(fromProUnit);
 
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "fromProUnit initialized";
@@ -1563,6 +1573,7 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 											L"customunitto", 
 											const_cast<wchar_t*>((const wchar_t*)toUnit_MultiFromat),
 											&toProUnit);
+	UnitCleanup _toUnitCleanup(toProUnit);
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "toProUnit initialized";
 
@@ -1577,9 +1588,6 @@ void ModelOperationsCreo::unitConversionFactorsComputation (		const std::string	
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << "out_Offset:      " << out_Offset;
 
 	isis_LOG(lg, isis_CONSOLE_FILE, isis_INFO) << __FUNCTION__ << ", END isis_ProUnitCreateByExpression, isis_ProUnitConversionCalculate";
-
-	isis::isis_ProUnitDelete(&fromProUnit);
-	isis::isis_ProUnitDelete(&toProUnit);
 }
 
 void ModelOperationsCreo::setParameter (		e_CADParameterType										in_ParameterType,

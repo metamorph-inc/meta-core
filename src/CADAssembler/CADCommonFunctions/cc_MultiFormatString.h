@@ -58,7 +58,10 @@ namespace isis
 			// The cast (std::string) is necessary because by default cout favors char*.
 			// If you know that MultiFormatString was created with a std::string, then use the cast (std::string)
 			// so that an internal conversion to a char* would not be necessary.
-			operator const std::string& () const; 
+			operator const std::string& () const;
+
+			// This is declared but not defined to cause an error if you do MultiFormatString == "string literal". Do static_cast<const std::string&>(mfs) == "string literal" or use strcmp instead.
+			bool operator ==(const char* b) const;
 
 			MultiFormatString& operator=( const char* );
 			MultiFormatString& operator=( const wchar_t* );

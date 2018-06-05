@@ -300,7 +300,7 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 
 	ProUnitsystem unitSystem;
 	//ProUnititem unit, forceUnit, timeUnit, lengthUnit;
-	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUnit;
+	ProUnititem massUnit, forceUnit, timeUnit, lengthUnit, temperatureUnit, angleUnit;
 	//ProLine massUnitsLabel;
 	//ProUnitsystemType type;
 
@@ -377,6 +377,12 @@ void RetrieveUnits( //cad::CadFactoryAbstract		&in_Factory,
 	out_CADModelUnits.timeUnit = CADUnitsTime_enum( timeUnit_multiformat );
 	ComputeUnitNames_Time(  out_CADModelUnits.timeUnit , out_CADModelUnits.timeUnit_ShortName, out_CADModelUnits.timeUnit_LongName );
 
+	isis::isis_ProUnitsystemUnitGet(&unitSystem, PRO_UNITTYPE_ANGLE, &angleUnit);
+	// FIXME Creo reports rad, but it seems deg is used everywhere
+	// MultiFormatString angleUnit_multiformat(angleUnit.name);
+	MultiFormatString angleUnit_multiformat("deg");
+	out_CADModelUnits.angleUnit = CADUnitsAngle_enum(angleUnit_multiformat);
+	ComputeUnitNames_Angle(out_CADModelUnits.angleUnit, out_CADModelUnits.angleUnit_ShortName, out_CADModelUnits.angleUnit_LongName);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
