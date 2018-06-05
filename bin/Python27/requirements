@@ -36,6 +36,7 @@
 # copy lib2to3 to Lib\  (ref https://bugs.python.org/issue24960)
 # copy over python27.lib
 # cmd /c "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86 ^& editbin.exe /largeaddressaware   bin\Python27\Scripts\python.exe
+Udm==3.2.2
 openmdao==1.7.3
 decorator==4.0.4 # simviz
 lxml==3.6.1

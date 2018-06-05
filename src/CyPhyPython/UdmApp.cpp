@@ -304,8 +304,9 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	PyObject_RAII main = PyImport_ImportModule("__main__");
 	PyObject* main_namespace = PyModule_GetDict(main);
 	{
-		PyObject_RAII ret = PyRun_StringFlags("import sys\n"
-			"import udm\n", Py_file_input, main_namespace, main_namespace, NULL);
+		PyObject_RAII ret = PyRun_StringFlags(
+			"import sys\n"
+			, Py_file_input, main_namespace, main_namespace, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
 			throw python_error(GetPythonError());
@@ -425,6 +426,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			"reload(sitecustomize)\n"
 			"import site\n"
 			"import os.path\n"
+			"import udm\n"
 			, Py_file_input, main_namespace, main_namespace, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
