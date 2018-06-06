@@ -36,7 +36,7 @@ void SetParametricParameterInCADModel ( const std::string									&in_ComponentI
 	{
 		std::stringstream errorString;
 		errorString << "Function - " << __FUNCTION__ << ", was passed an in_CADParameter that does not exists in the CAD Model, in_ComponentInstanceID:  " 
-									<< in_ComponentInstanceID << ", CAD nodel name: " << itr->second.name;
+									<< in_ComponentInstanceID << ", CAD nodel name: " << itr->second.name << ", CADParameter: " << in_CADParameter.name;
 		throw isis::application_exception(errorString);	
 	}
 
