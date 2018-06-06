@@ -87,7 +87,7 @@ namespace CyPhyPropagateTest
                             }
                         }
                     } while (ts.TotalSeconds < 90 && !success);
-                    Assert.True(success);
+                    Assert.True(success, "Test did not succeed within 90 seconds");
                 }
             );
         }
@@ -134,7 +134,7 @@ namespace CyPhyPropagateTest
                             }
                         }
                     } while (ts.TotalSeconds < 90 && !success);
-                    Assert.True(success);
+                    Assert.True(success, "Test did not succeed within 90 seconds");
                 }
             );
         }
@@ -181,7 +181,7 @@ namespace CyPhyPropagateTest
                             }
                         }
                     } while (ts.TotalSeconds < 90 && !success);
-                    Assert.True(success);
+                    Assert.True(success, "Test did not succeed within 90 seconds");
                 }
             );
         }
