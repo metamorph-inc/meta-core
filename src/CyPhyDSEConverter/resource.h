@@ -15,14 +15,16 @@
 #define IDC_EXRADIO                     251
 #define IDC_DCRADIO                     252
 #define IDC_RADIO3                      253
+#define IDC_COMMAND_DESIGNCONTAINER     254
+#define IDC_COMMAND_COMPONENTASSEMBLY   255
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        225
+#define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         32769
-#define _APS_NEXT_CONTROL_VALUE         252
+#define _APS_NEXT_CONTROL_VALUE         256
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

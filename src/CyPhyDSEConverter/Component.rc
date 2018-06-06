@@ -93,6 +93,7 @@ END
 // remains consistent on all systems.
 IDI_COMPICON            ICON                    "compicon.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
@@ -107,16 +108,15 @@ BEGIN
     EDITTEXT        IDC_EDIT1,7,7,241,18,ES_AUTOHSCROLL | WS_DISABLED | NOT WS_BORDER
 END
 
-IDD_DSEREFACTOR_DIALOG DIALOGEX 0, 0, 276, 95
+IDD_DSEREFACTOR_DIALOG DIALOGEX 0, 0, 277, 79
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "CyPhy DesignSpace Refactor"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,77,70,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,145,70,50,14
-    GROUPBOX        "Convert the selected Component(s) to:",IDC_STATIC,10,7,255,50
-    CONTROL         "a new DesignContainer",IDC_DC_RADIO,"Button",BS_AUTORADIOBUTTON,14,23,90,10
-    CONTROL         "a new ComponentAssembly",IDC_CA_RADIO,"Button",BS_AUTORADIOBUTTON,14,38,163,10
+    CONTROL         "Convert to a new Design Container",IDC_COMMAND_DESIGNCONTAINER,
+                    "Button",BS_COMMANDLINK | WS_TABSTOP,7,7,263,25
+    CONTROL         "Convert to a new Component Assembly",IDC_COMMAND_COMPONENTASSEMBLY,
+                    "Button",BS_COMMANDLINK | WS_TABSTOP,7,39,263,25
 END
 
 IDD_CACONVERTER_DIALOG DIALOGEX 0, 0, 282, 108
@@ -171,9 +171,9 @@ BEGIN
     IDD_DSEREFACTOR_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 269
+        RIGHTMARGIN, 270
         TOPMARGIN, 7
-        BOTTOMMARGIN, 86
+        BOTTOMMARGIN, 70
     END
 
     IDD_CACONVERTER_DIALOG, DIALOG
@@ -193,6 +193,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DSEREFACTOR_DIALOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
