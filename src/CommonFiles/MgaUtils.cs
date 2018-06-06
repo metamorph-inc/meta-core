@@ -61,7 +61,7 @@ namespace GME.MGA
             }
             finally
             {
-                project.Close();
+                project.Close(true);
             }
         }
     }
