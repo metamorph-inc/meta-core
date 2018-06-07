@@ -1,18 +1,34 @@
-# HOWTO: make changes to the DesignDataPackage
+# DesignDataPackage
 
-Open in eclipse-modeling-kepler-SR2-win32-x86_64
-  File>Import>General>Existing Projects into Workspace>meta\DesignDataPackage\EMF_MetaModel
-Make mods
-  Window>Show View>Project Explorer
-Right-click canvas > File > Save as image file > meta\DesignDataPackage\doc\ClassDiagrams\same_filename.pdf
-avm.genmodel right-click > Reload, click click click click
-avm.genmodel right-click > Export Model, XML Schema, click click click click
-cd META\meta\DesignDataPackage
-cmd /c make.bat
-Diff tool, remove some stuff
- git diff -w --no-color . | git apply --cached --ignore-whitespace
- git checkout -- .
- git reset HEAD -- .
- git apply fix_codegen.patch
+`EMF_Metamodel\model\AVM.ecorediag` defines the file format for .acm and .adm files.
 
-TODO: gitattributes EOL on xsd in EMF_MetaModel
+## HOWTO: make changes to the DesignDataPackage
+
+1. Open in eclipse-modeling-kepler-SR2-win32-x86_64  
+    File>Import>General>Existing Projects into Workspace>`meta\DesignDataPackage\EMF_MetaModel`  
+1. Make mods  
+    Window>Show View>Project Explorer  
+1. Right-click canvas > File > Save as image file > `meta\DesignDataPackage\doc\ClassDiagrams\same_filename.pdf`  
+1. avm.genmodel right-click > Reload, click click click click  
+1. avm.genmodel right-click > Export Model, XML Schema, click click click click  
+1. `cd META\meta\DesignDataPackage`  
+1. `cmd /c make.bat`  
+1. Use diff tool, remove some stuff
+
+        git diff -w --no-color . | git apply --cached --ignore-whitespace
+        git checkout -- .
+        git reset HEAD -- .
+        git apply fix_codegen.patch
+
+TODO: apply gitattributes for EOL on xsd in EMF_MetaModel
+
+## HOWTO: generate Python and C# code
+
+Run `make.bat`
+
+## HOWTO: generate Java code
+
+    cmd /c make.bat
+    set xjc_opts=-Djavax.xml.accessExternalSchema=file
+    mkdir java
+    tools\jaxb-ri-2.2.6\bin\xjc.bat -d java schema
