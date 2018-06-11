@@ -427,6 +427,9 @@ namespace CyPhy2CAD_CSharp
             if (Name == "fullname")
                 return GetType().FullName;
 
+            if (Name == "name")
+                return ComponentConfig.componentName;
+
             object value;
             if (componentParameters != null && componentParameters.TryGetValue(Name, out value))
             {

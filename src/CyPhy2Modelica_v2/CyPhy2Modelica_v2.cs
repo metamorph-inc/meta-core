@@ -212,6 +212,9 @@ namespace CyPhy2Modelica_v2
             if (Name == "fullname")
                 return GetType().FullName;
 
+            if (Name == "name")
+                return ComponentConfig.componentName;
+
             object value;
             if (componentParameters != null && componentParameters.TryGetValue(Name, out value))
             {

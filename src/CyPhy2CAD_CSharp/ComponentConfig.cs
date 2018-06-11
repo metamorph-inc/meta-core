@@ -12,7 +12,7 @@ namespace GME.CSharp
 		public const string paradigmName = "CyPhyML";
 		
 		// Set the human readable name of the interpreter. You can use white space characters.
-        public const string componentName = "CyPhy2CAD_CSharp";
+        public const string componentName = "CyPhy2CAD";
         
 		// Specify an icon path
 		public const string iconName = "CyPhy2CAD.ico";
