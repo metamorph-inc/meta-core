@@ -89,9 +89,9 @@ goto :ERROR_SECTION
             
             #line default
             #line hidden
-            this.Write("\r\nset ERROR_CODE=%ERRORLEVEL%\r\nif %ERRORLEVEL% NEQ 0 (\r\nset ERROR_MSG=\"Error from" +
-                    " runCADJob.bat: CADJobDriver.py encountered error during execution, error level " +
-                    "is %ERROR_CODE%\"\r\ngoto :ERROR_SECTION\r\n)\r\n\r\n");
+            this.Write("\r\n@set ERROR_CODE=%ERRORLEVEL%\r\n@if %ERRORLEVEL% NEQ 0 (\r\n@set ERROR_MSG=\"Error f" +
+                    "rom runCADJob.bat: CADJobDriver.py encountered error during execution, error lev" +
+                    "el is %ERROR_CODE%\"\r\n@goto :ERROR_SECTION\r\n)\r\n\r\n");
             
             #line 33 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
  if (CallDomainTool!=null) { 
@@ -167,8 +167,8 @@ goto :ERROR_SECTION
             
             #line default
             #line hidden
-            this.Write("\r\nexit /b 0\r\n\r\n:ERROR_SECTION\r\necho %ERROR_MSG% >>_FAILED.txt\r\necho \"\"\r\necho \"See" +
-                    " Error Log: _FAILED.txt\"\r\nexit /b %ERROR_CODE%\r\n\r\n");
+            this.Write("\r\nexit /b 0\r\n\r\n:ERROR_SECTION\r\n@echo %ERROR_MSG% >>_FAILED.txt\r\n@echo \"\"\r\n@echo \"" +
+                    "See Error Log: _FAILED.txt\"\r\n@exit /b %ERROR_CODE%\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
