@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using GME;
 using System.Security;
+using GME.MGA;
 
 namespace GME.CSharp
 {
@@ -136,41 +137,7 @@ namespace GME.CSharp
         public static string ToHyperLink<T>(this T subject, CyPhyCOMInterfaces.IMgaTraceability elaboratedObjects = null, bool useName = false)
             where T : ISIS.GME.Common.Interfaces.Base
         {
-            StringBuilder sb = new StringBuilder();
-
-            if (elaboratedObjects != null)
-            {
-                string id = string.Empty;
-                if (elaboratedObjects.TryGetMappedObject(subject.ID, out id))
-                {
-                    GME.MGA.MgaFCO fco = subject.Impl.Project.GetFCOByID(id);
-                    if (fco != null)
-                    {
-                        // TODO: maybe get it until we reach the original source???
-                        sb.AppendFormat("<a href=\"mga:{0}\">{1}</a>", fco.ID, SecurityElement.Escape(fco.Name));
-                        return sb.ToString();
-                    }
-                }
-            }
-
-            if (useName)
-            {
-                sb.AppendFormat("<a href=\"mga:{0}\">{1}</a>", subject.ID, subject.Name);
-            }
-            else
-            {
-                sb.AppendFormat("<a href=\"mga:{0}\">{1}</a>", subject.ID, subject.Path);
-            }
-            return sb.ToString();
-        }
-
-
-        public static string ToMgaHyperLink<T>(this T subject, CyPhyCOMInterfaces.IMgaTraceability elaboratedObjects = null, bool useName = false)
-    where T : GME.MGA.IMgaFCO
-        {
-            ISIS.GME.Common.Classes.Base fco = new ISIS.GME.Common.Classes.Base();
-            fco.Impl = subject;
-            return ToHyperLink<ISIS.GME.Common.Interfaces.Base>(fco, elaboratedObjects, useName);
+            return CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(subject.Impl, elaboratedObjects, useName);
         }
     }
 

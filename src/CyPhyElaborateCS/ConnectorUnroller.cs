@@ -434,18 +434,18 @@ namespace CyPhyElaborateCS
 
                             Logger.WriteWarning("Non-name match: " +
                                                 "Port {0} in Connector {1} and Port {2} in Connector {3}",
-                                                GmeConsoleHelper.ToMgaHyperLink(port1.SourcePort, Traceability),
-                                                GmeConsoleHelper.ToMgaHyperLink(port1.SourceConnector, Traceability),
-                                                GmeConsoleHelper.ToMgaHyperLink(port2.SourcePort, Traceability),
-                                                GmeConsoleHelper.ToMgaHyperLink(port2.SourceConnector, Traceability));
+                                                TraceabilityExtensions.ToMgaHyperLink(port1.SourcePort, Traceability),
+                                                TraceabilityExtensions.ToMgaHyperLink(port1.SourceConnector, Traceability),
+                                                TraceabilityExtensions.ToMgaHyperLink(port2.SourcePort, Traceability),
+                                                TraceabilityExtensions.ToMgaHyperLink(port2.SourceConnector, Traceability));
                         }
                         else
                         {
                             // Kinds were not unique, so we can't guess.
                             Logger.WriteWarning("NO MATCH found for Port {0} of Connector {1} with any Port within Connector {2}",
-                                                GmeConsoleHelper.ToMgaHyperLink(port1.SourcePort, Traceability),
-                                                GmeConsoleHelper.ToMgaHyperLink(port1.SourceConnector, Traceability),
-                                                GmeConsoleHelper.ToMgaHyperLink(connector2, Traceability));
+                                                TraceabilityExtensions.ToMgaHyperLink(port1.SourcePort, Traceability),
+                                                TraceabilityExtensions.ToMgaHyperLink(port1.SourceConnector, Traceability),
+                                                TraceabilityExtensions.ToMgaHyperLink(connector2, Traceability));
                             continue;
                         }
                     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ISIS.GME.Common.Interfaces;
+using CyPhyCOMInterfaces;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using avm;
@@ -67,6 +68,21 @@ namespace CyPhy2DesignInterchange
         private ISet<string> designEntityIds = new HashSet<string>();
         private String GetOrSetID(CyPhy.DesignEntity de)
         {
+            if (de is CyPhy.ComponentAssembly)
+            {
+                string managedGUID = ((CyPhy.ComponentAssembly)de).Attributes.ManagedGUID;
+                if (managedGUID != "")
+                {
+                    if (designEntityIds.Add(managedGUID.ToString()) == false)
+                    {
+                        // throw new ApplicationException(string.Format("ComponentAssembly {0} has duplicate ManagedGUID {1}", de.Path, managedGUID));
+                    }
+                    else
+                    {
+                        return managedGUID;
+                    }
+                }
+            }
             int id = de.Attributes.ID;
             if (id == 0)
             {
@@ -243,9 +259,9 @@ namespace CyPhy2DesignInterchange
             _reachablePortsCache = new Dictionary<CyPhy.Port, Dictionary<ConnectionTypes, List<CyPhy.Port>>>();
         }
 
-        public static Design Convert(CyPhy.DesignEntity de)
+        public static Design Convert(CyPhy.DesignEntity de, IMgaTraceability traceability=null)
         {
-            return new CyPhy2DesignInterchange()._Convert(de);
+            return new CyPhy2DesignInterchange(traceability)._Convert(de);
         }
 
         // Only accept ComponentAssembly and DesignContainer
@@ -606,9 +622,24 @@ namespace CyPhy2DesignInterchange
                 {
                     DataTypeEnum xDataType;
                     if (!ConvertCyPhyDataTypeEnum(prop.Attributes.DataType, out xDataType)) continue;
+
+                    string id = prop.Attributes.ID;
+                    if (id == "")
+                    {
+                        string originalID;
+                        if (traceability != null && traceability.TryGetMappedObject(prop.ID, out originalID))
+                        {
+                            id = "id-" + Guid.Parse(prop.Impl.Project.GetObjectByID(originalID).GetGuidDisp()).ToString("D");
+                        }
+                    }
+                    if (id == "")
+                    {
+                        throw new ApplicationException(String.Format("Property '{0}' has no ID attribute. Run the component exporter to fix.",
+                            prop.Impl.ToMgaHyperLink(traceability, true)));
+                    }
                     var cppi = new ComponentPrimitivePropertyInstance
                                    {
-                                       IDinComponentModel = prop.Attributes.ID,
+                                       IDinComponentModel = id,
                                        Value = new Value
                                                    {
                                                        DataType = xDataType,
@@ -632,9 +663,23 @@ namespace CyPhy2DesignInterchange
                 {
                     DataTypeEnum xDataType;
                     if (!ConvertCyPhyDataTypeEnum(param.Attributes.DataType, out xDataType)) continue;
+                    string id = param.Attributes.ID;
+                    if (id == "")
+                    {
+                        string originalID;
+                        if (traceability != null && traceability.TryGetMappedObject(param.ID, out originalID))
+                        {
+                            id = "id-" + Guid.Parse(param.Impl.Project.GetObjectByID(originalID).GetGuidDisp()).ToString("D");
+                        }
+                    }
+                    if (id == "")
+                    {
+                        throw new ApplicationException(String.Format("Parameter '{0}' has no ID attribute. Run the component exporter to fix.",
+                            param.Impl.ToMgaHyperLink(traceability, true)));
+                    }
                     var cppi = new ComponentPrimitivePropertyInstance
                     {
-                        IDinComponentModel = param.Attributes.ID,
+                        IDinComponentModel = id,
                         Value = new Value
                         {
                             DataType = xDataType,
@@ -1351,6 +1396,13 @@ namespace CyPhy2DesignInterchange
         }
 
         private Dictionary<CyPhy.Port, Dictionary<ConnectionTypes, List<CyPhy.Port>>> _reachablePortsCache = new Dictionary<CyPhy.Port, Dictionary<ConnectionTypes, List<CyPhy.Port>>>();
+        private IMgaTraceability traceability;
+
+        public CyPhy2DesignInterchange(IMgaTraceability traceability)
+        {
+            this.traceability = traceability;
+        }
+
         private IEnumerable<CyPhy.Port> GetReachablePorts(CyPhy.Port port, ConnectionTypes conType, IList<PortTypes> portTypes, IEnumerable<Connection> connections = null)
         {
             if (!_reachablePortsCache.ContainsKey(port) || !_reachablePortsCache[port].ContainsKey(conType))

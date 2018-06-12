@@ -15,6 +15,9 @@ using System.Linq;
 using CyPhyGUIs;
 using System.Reflection;
 using System.Xml;
+using META;
+using Ionic.Zip;
+using CyPhyCOMInterfaces;
 
 namespace CyPhyDesignExporter
 {
@@ -238,13 +241,9 @@ namespace CyPhyDesignExporter
         private string ExportToFile(CyPhy.DesignEntity de, String s_outFolder)
         {
             // Elaborate first
-            bool elaboratorSucceeded = CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
-            if (elaboratorSucceeded == false)
-            {
-                throw new ApplicationException("Elaborator failed");
-            }
+            var traceability = CallElaborator(de.Impl.Project, de.Impl as MgaFCO, null, 128, true);
             
-            var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de);
+            var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de, traceability);
             String s_outFilePath = String.Format("{0}\\{1}.adm", s_outFolder, Safeify(de.Name));
             //dm.SaveToFile(s_outFilePath);
             XSD2CSharp.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(s_outFolder, Safeify(de.Name) + ".adm")), dm);
@@ -252,6 +251,66 @@ namespace CyPhyDesignExporter
             CheckForDuplicateIDs(dm);
 
             return s_outFilePath;   
+        }
+
+        public string ExportToPackage(CyPhy.ComponentAssembly ca, String s_outFolder)
+        {
+            // Create a temp folder
+            var pathTemp = Path.Combine(System.IO.Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(pathTemp);
+
+            // Export an ADM file to that temp folder
+            var pathADM = ExportToFile(ca, pathTemp);
+
+            // Generate zip file
+            String pathADP = Path.Combine(s_outFolder,
+                                          Path.GetFileNameWithoutExtension(pathADM) + ".adp");
+            File.Delete(pathADP);
+            using (ZipFile zip = new ZipFile(pathADP)
+                                 {
+                                    CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression
+                                 })
+            {
+                Queue<CyPhy.ComponentAssembly> cas = new Queue<CyPhy.ComponentAssembly>();
+                cas.Enqueue(ca);
+                while (cas.Count != 0)
+                {
+                    var componentAssembly = cas.Dequeue();
+                    var pathCA = componentAssembly.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+                    if (false == (pathCA.EndsWith("//") ||
+                                  pathCA.EndsWith("\\\\")))
+                    {
+                        pathCA += "//";
+                    }
+
+                    string dirName = componentAssembly.Attributes.ID.ToString();
+                    string managedGUID = componentAssembly.Attributes.ManagedGUID;
+                    if (string.IsNullOrEmpty(managedGUID) == false)
+                    {
+                        dirName = managedGUID;
+                    }
+                    foreach (var file in Directory.EnumerateFiles(pathCA, "*.*", SearchOption.AllDirectories))
+                    {
+                        var relpath = Path.GetDirectoryName(ComponentLibraryManager.MakeRelativePath(pathCA, file));
+                        zip.AddFile(file, dirName + "/" + relpath);
+                    }
+
+                    foreach (var subCA in componentAssembly.Children.ComponentAssemblyCollection)
+                    {
+                        cas.Enqueue(subCA);
+                    }
+                }
+
+                // Add the ADM file
+                zip.AddFile(pathADM, "");
+
+                zip.Save();
+            }
+
+            // Delete temporary directory
+            Directory.Delete(pathTemp, true);            
+
+            return pathADP;
         }
 
         public bool CheckForDuplicateIDs(avm.Design d)
@@ -289,7 +348,7 @@ namespace CyPhyDesignExporter
             return false;
         }
 
-        private bool CallElaborator(
+        private IMgaTraceability CallElaborator(
             MgaProject project,
             MgaFCO currentobj,
             MgaFCOs selectedobjs,
@@ -306,15 +365,17 @@ namespace CyPhyDesignExporter
                 //elaborator.UnrollConnectors = false;
                 result = elaborator.RunInTransaction(project, currentobj, selectedobjs, verbosity);
 
+                if (result == true)
+                {
+                    return elaborator.Traceability;
+                }
                 // GMEConsole.Info.WriteLine("Elaboration is done.");
             }
             catch (Exception ex)
             {
                 GMEConsole.Error.WriteLine("Exception occurred in Elaborator : {0}", ex.ToString());
-                result = false;
             }
-
-            return result;
+            throw new ApplicationException("Elaborator failed");
         }
 
         /// <summary>

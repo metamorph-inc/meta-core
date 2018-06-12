@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using GME.MGA;
+using System.IO;
 
 namespace META
 {
@@ -21,6 +22,29 @@ namespace META
         public static String GetDirectoryPath(this CyPhy.Component component, ComponentLibraryManager.PathConvention pathConvention = ComponentLibraryManager.PathConvention.REL_TO_PROJ_ROOT, string ProjectDirectory = null)
         {
             return ComponentLibraryManager.GetComponentFolderPath(component, pathConvention, ProjectDirectory: ProjectDirectory);
+        }
+        /// <summary>
+        /// Given a component, ensures that the component has a backend folder
+        /// for storing resources. Ensures that the Component has an AVMID unique
+        /// to the project. Creates a folder if necessary.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="pathConvention">The desired convention for the path.</param>
+        /// <param name="ProjectDirectory">Directory in which component files reside. Defaults to project directory of <paramref name="component"/></param>
+        /// <returns>The path of the Component folder, according to the convention provided</returns>
+        public static String GetDirectoryPath(this CyPhy.ComponentAssembly assembly, ComponentLibraryManager.PathConvention pathConvention = ComponentLibraryManager.PathConvention.REL_TO_PROJ_ROOT, string ProjectDirectory = null)
+        {
+            var relPath = ComponentLibraryManager.EnsureComponentAssemblyFolder(assembly, ProjectDirectory);
+            switch (pathConvention)
+            {
+                case ComponentLibraryManager.PathConvention.REL_TO_PROJ_ROOT:
+                    return relPath;
+                case ComponentLibraryManager.PathConvention.ABSOLUTE:
+                    return Path.Combine(GetRootDirectoryPath(assembly.Impl.Project), relPath);
+                default:
+                    throw new ArgumentOutOfRangeException(String.Format("Path convention of {0} is not supported", 
+                                                                        pathConvention.ToString()));
+            }
         }
 
         /// <summary>

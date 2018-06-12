@@ -128,6 +128,10 @@
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>
       <Name>CyPhy2DesignInterchange</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{f8627136-5aeb-4501-a0fe-e5642d86827b}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\CyPhyDesignExporterCL\CyPhyDesignExporterCL.csproj">
       <Project>{2A55AB33-C6E1-4ADD-BB05-54E8FAEA81AE}</Project>
       <Name>CyPhyDesignExporterCL</Name>

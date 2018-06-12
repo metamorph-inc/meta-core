@@ -7,6 +7,7 @@ using GME;
 using System.IO;
 using System.Reflection;
 using GME.CSharp;
+using CyPhyCOMInterfaces;
 
 namespace CyPhyGUIs
 {

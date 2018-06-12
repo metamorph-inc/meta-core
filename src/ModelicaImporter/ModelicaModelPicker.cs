@@ -15,6 +15,7 @@ using GME.CSharp;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using Microsoft.Win32;
+using CyPhyCOMInterfaces;
 
 namespace ModelicaImporter
 {

@@ -78,6 +78,10 @@
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>
       <Name>CyPhy2DesignInterchange</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{f8627136-5aeb-4501-a0fe-e5642d86827b}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{AB27EE78-6819-4B8C-B678-68BC4FBC99D2}</Project>
       <Name>CyPhyGUIs</Name>

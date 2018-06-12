@@ -42,6 +42,12 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GME.MGA, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="GME.MGA.Meta, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f240a760fe751c2e, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +59,7 @@
   <ItemGroup>
     <Compile Include="IMgaTraceability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraceabilityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CyPhyGUIs\CyPhyGUIs.snk" />

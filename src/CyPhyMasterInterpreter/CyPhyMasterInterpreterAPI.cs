@@ -673,8 +673,8 @@
                         foreach (var result in results)
                         {
                             string message = string.Format(" {0} {1} <a href=\"file:///{2}\" target=\"_blank\">results folder</a> {3}",
-                                GME.CSharp.GmeConsoleHelper.ToMgaHyperLink(result.Context, this.Logger.Traceability, true),
-                                GME.CSharp.GmeConsoleHelper.ToMgaHyperLink(result.Configuration, this.Logger.Traceability, true),
+                                CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(result.Context, this.Logger.Traceability, true),
+                                CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(result.Configuration, this.Logger.Traceability, true),
                                 result.OutputDirectory,
                                 SecurityElement.Escape(result.Message));
 

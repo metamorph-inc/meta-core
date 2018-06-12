@@ -357,12 +357,31 @@ namespace CyPhyDesignImporter
 
             foreach (var ad_propinstance in ad_componentinstance.PrimitivePropertyInstance)
             {
+                Func<IMgaObject, string> getID = o =>
+                {
+                    var id = ((IMgaFCO)o).StrAttrByName["ID"];
+                    if (id == "")
+                    {
+                        id = "id-" + Guid.Parse(((IMgaFCO)o).GetGuidDisp()).ToString("D");
+                    }
+                    return id;
+                };
+
                 var cyphy_component = this.avmidComponentMap[ad_componentinstance.ComponentID];
-                var cyphy_componentPort = cyphy_component.AllChildren.OfType<CyPhy.ValueFlowTarget>()
-                    .Where(x => ((MgaFCO)x.Impl).StrAttrByName["ID"] == ad_propinstance.IDinComponentModel).FirstOrDefault();
+                CyPhy.ValueFlowTarget cyphy_componentPort;
+                try
+                {
+                    cyphy_componentPort = cyphy_component.AllChildren.OfType<CyPhy.ValueFlowTarget>()
+                        .Where(x => getID(x.Impl) == ad_propinstance.IDinComponentModel).SingleOrDefault();
+                }
+                catch (System.InvalidOperationException e)
+                {
+                    throw new ApplicationException(String.Format("Error: more than one PrimitivePropertyInstance with ID '{0}' in '{1}'. Run the ComponentExporter to fix.",
+                        ad_propinstance.IDinComponentModel, ad_componentinstance.Name));
+                }
 
                 _avmCyPhyMLObjectMap.Add(ad_propinstance, new KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(cyphy_componentref, cyphy_componentPort));
-                registerValueNode(ad_propinstance.Value, ad_propinstance);
+                    registerValueNode(ad_propinstance.Value, ad_propinstance);
             }
 
             foreach (var ad_connectorInstance in ad_componentinstance.ConnectorInstance)
@@ -370,8 +389,18 @@ namespace CyPhyDesignImporter
                 _idConnectorMap.Add(ad_connectorInstance.ID, ad_connectorInstance); // FIXME could be dup
 
                 var cyphy_component = this.avmidComponentMap[ad_componentinstance.ComponentID];
-                var cyphy_componentConnector = cyphy_component.AllChildren.OfType<CyPhy.Connector>()
-                    .Where(x => ((MgaFCO)x.Impl).StrAttrByName["ID"] == ad_connectorInstance.IDinComponentModel).FirstOrDefault();
+                CyPhy.Connector cyphy_componentConnector;
+                try
+                {
+                    cyphy_componentConnector = cyphy_component.AllChildren.OfType<CyPhy.Connector>()
+                    .Where(x => ((MgaFCO)x.Impl).StrAttrByName["ID"] == ad_connectorInstance.IDinComponentModel).SingleOrDefault();
+                }
+                catch (System.InvalidOperationException e)
+                {
+                    throw new ApplicationException(String.Format("Error: more than one ConnectorInstance with ID '{0}' in '{1}'. Run the ComponentExporter to fix.",
+                        ad_connectorInstance.IDinComponentModel, ad_componentinstance.Name));
+                }
+
                 if (cyphy_componentConnector == null)
                 {
                     throw new ApplicationException("adm error: component instance " + ad_componentinstance.ID + " has connector with IDinComponentModel "

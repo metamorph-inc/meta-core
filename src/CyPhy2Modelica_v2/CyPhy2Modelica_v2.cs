@@ -1086,7 +1086,7 @@ namespace CyPhy2Modelica_v2
                 var mgaComponent = this.mainParameters.Project.GetFCOByID(cInfo.ID);
                 if (mgaComponent != null)
                 {
-                    return errorMsg.Replace(match, GmeConsoleHelper.ToMgaHyperLink(mgaComponent, this.result.Traceability));
+                    return errorMsg.Replace(match, CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(mgaComponent, this.result.Traceability));
                 }
                 else
                 {
@@ -1110,7 +1110,7 @@ namespace CyPhy2Modelica_v2
                     var mgaComponent = this.mainParameters.Project.GetFCOByID(cInfo.ID);
                     if (mgaComponent != null)
                     {
-                        return errorMsg.Replace(match, GmeConsoleHelper.ToMgaHyperLink(mgaComponent, this.result.Traceability));
+                        return errorMsg.Replace(match, CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(mgaComponent, this.result.Traceability));
                     }
                     else
                     {

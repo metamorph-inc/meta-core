@@ -84,6 +84,10 @@
       <Project>{E6267D3D-FDAA-4173-A5E7-87B23B46F883}</Project>
       <Name>CyPhy2ComponentModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CyPhyCOMInterfacesCS\CyPhyCOMInterfacesCS.csproj">
+      <Project>{F8627136-5AEB-4501-A0FE-E5642D86827B}</Project>
+      <Name>CyPhyCOMInterfacesCS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CyPhyMLCS\CyPhyMLCS.csproj">
       <Project>{A7EFEDC9-9557-4083-A990-EFCAC684E3C6}</Project>
       <Name>CyPhyMLCS</Name>

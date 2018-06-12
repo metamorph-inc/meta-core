@@ -9,6 +9,7 @@ using GME.MGA;
 using GME.MGA.Core;
 using System.Linq;
 using System.Diagnostics.Contracts;
+using CyPhyCOMInterfaces;
 
 namespace CLM_light
 {
