@@ -67,6 +67,8 @@ void RawComponent::createStringSetForMeta_id()
 	_bstr_t guidTypes[] = {
 		L"Resource",
 		L"Connector",
+		L"Property",
+		L"Parameter",
 	};
 	std::move(guidTypes, guidTypes + sizeof(guidTypes)/sizeof(guidTypes[0]), std::inserter(guidIdfcoKinds, guidIdfcoKinds.end()));
 	CyPhyML::Initialize(); // FIXME probably pretty inefficient
