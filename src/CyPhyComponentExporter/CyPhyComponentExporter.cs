@@ -99,7 +99,7 @@ namespace CyPhyComponentExporter
         }
 
         [ComVisible(true)]
-        public void ExportAvmComponent(IMgaFCO component, String s_outFilePath)
+        public void ExportComponent(IMgaFCO component, String s_outFilePath)
         {
             if (component.Meta.Name != typeof(Component).Name)
             {
@@ -112,7 +112,19 @@ namespace CyPhyComponentExporter
         }
 
         [ComVisible(true)]
-        public string ExportAvmComponentToString(IMgaFCO component)
+        public void ExportAllComponents(IMgaProject project, String outputDirectory)
+        {
+            var cyPhyComponentSet = CyPhy2ComponentModel.ComponentLister.getCyPhyMLComponentSet(project.RootFolder);
+            foreach (var component in cyPhyComponentSet)
+            {
+                var avmComponentModel = CyPhyML2AVM.AVMComponentBuilder.CyPhyML2AVM(component);
+                var safe_component_name = InvalidFileNameRegex.Replace(component.Name, "_");
+                SerializeAvmComponent(avmComponentModel, Path.Combine(outputDirectory, safe_component_name + ".acm"));
+            }
+        }
+
+        [ComVisible(true)]
+        public string ExportComponentToString(IMgaFCO component)
         {
             if (component.Meta.Name != typeof(Component).Name)
             {
