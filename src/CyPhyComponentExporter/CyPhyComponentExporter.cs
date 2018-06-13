@@ -98,6 +98,32 @@ namespace CyPhyComponentExporter
             }
         }
 
+        [ComVisible(true)]
+        public void ExportAvmComponent(IMgaFCO component, String s_outFilePath)
+        {
+            if (component.Meta.Name != typeof(Component).Name)
+            {
+                throw new ApplicationException("Component must be of kind 'Component'");
+            }
+            var dsmlComponent = new CyPhyClasses.Component();
+            dsmlComponent.Impl = component;
+            var avmComponentModel = CyPhyML2AVM.AVMComponentBuilder.CyPhyML2AVM(dsmlComponent);
+            SerializeAvmComponent(avmComponentModel, s_outFilePath);
+        }
+
+        [ComVisible(true)]
+        public string ExportAvmComponentToString(IMgaFCO component)
+        {
+            if (component.Meta.Name != typeof(Component).Name)
+            {
+                throw new ApplicationException("Component must be of kind 'Component'");
+            }
+            var dsmlComponent = new CyPhyClasses.Component();
+            dsmlComponent.Impl = component;
+            var avmComponentModel = CyPhyML2AVM.AVMComponentBuilder.CyPhyML2AVM(dsmlComponent);
+            return SerializeAvmComponentToString(avmComponentModel);
+        }
+
         public static void SerializeAvmComponent(avm.Component avmComponent, String s_outFilePath)
         {
             avmComponent.SchemaVersion = "2.5";
@@ -106,10 +132,14 @@ namespace CyPhyComponentExporter
             using (stream)
             {
                 XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent, stream);
-                stream.Close();
             }
         }
 
+        public static string SerializeAvmComponentToString(avm.Component avmComponent)
+        {
+            avmComponent.SchemaVersion = "2.5";
+            return XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent);
+        }
 
 
         // RB 8/16/13
