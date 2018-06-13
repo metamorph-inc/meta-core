@@ -150,8 +150,13 @@ namespace PythonTest
         [Fact]
         public void TestSmop()
         {
+            var smopMain = Path.Combine(VersionInfo.MetaPath, "bin\\Python27\\Lib\\site-packages\\smop\\main.py");
+            if (File.Exists(smopMain) == false)
+            {
+                smopMain += "c";
+            }
             var e = CheckPython(String.Format("\"{0}\" \"{1}\"",
-                Path.Combine(VersionInfo.MetaPath, "bin\\Python27\\Lib\\site-packages\\smop\\main.py"),
+                smopMain,
                 Path.Combine(VersionInfo.MetaPath, "bin/Python27/Lib/site-packages/matlab_wrapper/test/stat2.m")));
             if (e != null)
             {
