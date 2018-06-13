@@ -306,7 +306,7 @@ namespace CyPhyMasterInterpreter
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe, [In] ref SECURITY_ATTRIBUTES lpPipeAttributes, uint nSize);
 
         IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
