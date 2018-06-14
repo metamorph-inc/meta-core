@@ -21,11 +21,6 @@ namespace CyPhy2ComponentModel
                 cyPhyMLComponentSet.UnionWith(getCyPhyMLComponentSet(childComponentsFolder));
             }
 
-            foreach (CyPhyML.ComponentAssemblies childComponentAssembliesFolder in cyPhyMLRootFolder.Children.ComponentAssembliesCollection)
-            {
-                cyPhyMLComponentSet.UnionWith(getCyPhyMLComponentSet(childComponentAssembliesFolder));
-            }
-
             return cyPhyMLComponentSet;
         }
 
@@ -62,11 +57,6 @@ namespace CyPhy2ComponentModel
             foreach (CyPhyML.Components childComponentsFolder in cyPhyMLComponents.Children.ComponentsCollection)
             {
                 cyPhyMLComponentSet.UnionWith(getCyPhyMLComponentSet(childComponentsFolder));
-            }
-
-            foreach (CyPhyML.ComponentAssemblies childComponentAssembliesFolder in cyPhyMLComponents.Children.ComponentAssembliesCollection)
-            {
-                cyPhyMLComponentSet.UnionWith(getCyPhyMLComponentSet(childComponentAssembliesFolder));
             }
 
             foreach (CyPhyML.Component childComponent in cyPhyMLComponents.Children.ComponentCollection)
