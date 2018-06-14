@@ -453,13 +453,12 @@ namespace CyPhyML2AVM
         {
             avm.PrimitiveProperty avmPrimitiveProperty = convertParameter(cyPhyMLParameter, ensureIDAttribute(cyPhyMLParameter));
 
-            var incomingVF = cyPhyMLParameter.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false).FirstOrDefault();
-            var incomingCADMetric = cyPhyMLParameter.SrcConnections.CADMetricPortMapCollection.Where(c => c.IsRefportConnection() == false).FirstOrDefault();
-            var valueExpression = avmPrimitiveProperty.Value.ValueExpression as avm.ParametricValue;
+            var incomingVF = cyPhyMLParameter.SrcConnections.ValueFlowCollection.Where(c => c.IsRefportConnection() == false && c.ParentContainer.ID == cyPhyMLParameter.ParentContainer.ID).FirstOrDefault();
+            var incomingCADMetric = cyPhyMLParameter.SrcConnections.CADMetricPortMapCollection.Where(c => c.IsRefportConnection() == false && c.ParentContainer.ID == cyPhyMLParameter.ParentContainer.ID).FirstOrDefault();
             if (incomingVF != null || incomingCADMetric != null)
             {
-                throw new ApplicationException("Error: component '" + this._avmComponent.Name + "' has Parameter '" + cyPhyMLParameter.Name +
-                        "' with incoming ValueFlow connections. Value assignments for Component Parameters must come from outside the Component itself. " +
+                throw new ApplicationException("Error: component '" + this._avmComponent.Name + "' has Parameter <a href=\"mga:" + cyPhyMLParameter.ID + "\">'" + cyPhyMLParameter.Name +
+                        "'</a> with incoming ValueFlow connections. Value assignments for Component Parameters must come from outside the Component itself. " +
                         "Alternatively, a Property may have incoming ValueFlow connections");
             }
 

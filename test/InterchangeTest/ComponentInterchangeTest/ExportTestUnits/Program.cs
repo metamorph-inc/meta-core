@@ -17,10 +17,6 @@ namespace ComponentExporterUnitTests
         private static string _exportModelDirectory = Path.Combine(InterchangeTestDirectory, "ComponentInterchangeTest", "ExportTestModels");
         //private static string _importModelDirectory = Path.Combine(InterchangeTestDirectory, "ComponentInterchangeTest", "ImportTestModels");
 
-        private static string gmepyPath = Path.Combine(META.VersionInfo.MetaPath, "externals", "common-scripts", "gmepy.exe");
-
-
-
         private void unpackXmes(string testName)
         {
             unpackXme(Path.Combine(_exportModelDirectory, testName, "DesiredResult.xme"));
@@ -288,6 +284,9 @@ namespace ComponentExporterUnitTests
                     Exception e = Assert.Throws(typeof(ApplicationException),
                         () => CyPhyComponentExporter.CyPhyComponentExporterInterpreter.ExportComponentPackage(ISIS.GME.Dsml.CyPhyML.Classes.Component.Cast(fco)));
                     Assert.True(e.Message.Contains("Value assignments for Component Parameters must come from outside the Component itself."));
+
+                    fco = (MgaFCO)project.RootFolder.ObjectByPath["/@ComponentAssemblies/@ComponentAssembly/@Component"];
+                    CyPhyComponentExporter.CyPhyComponentExporterInterpreter.ExportComponentPackage(ISIS.GME.Dsml.CyPhyML.Classes.Component.Cast(fco));
                 }
                 finally
                 {
