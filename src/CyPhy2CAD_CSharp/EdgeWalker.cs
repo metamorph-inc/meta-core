@@ -52,7 +52,7 @@ namespace CyPhy2CAD_CSharp
             if (openComponents.Count() == 1 && !openEdges.Any())
             {
                 string ID = assemblyID + "|" + newAssemblyIDSeed.ToString();
-                DataRep.CADAssembly anassembly = new DataRep.CADAssembly(ID, assemblyName);               //DataRep.CADAssembly anassembly = new DataRep.CADAssembly(assemblyID, assemblyName);
+                DataRep.CADAssembly anassembly = new DataRep.CADAssembly(ID, assemblyName + "_" + (newAssemblyIDSeed++).ToString());               //DataRep.CADAssembly anassembly = new DataRep.CADAssembly(assemblyID, assemblyName);
                 anassembly.ChildComponents.Add(regularComponents.First().Key, regularComponents.First().Value);
                 anassembly.ChildComponents = regularComponents;
                 anassembly.ChildEdges = regularEdges;

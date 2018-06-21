@@ -9,15 +9,6 @@ namespace CyPhy2CAD_CSharp
 {
     public class UtilityHelpers
     {
-        public static string CleanString(string original, int size = 31, string additionalspecial = "")
-        {
-            string specialchars = (@",\.=\(\)!@#\$%&~`'\+ ^\*\[\]{}/\?:;<>\|") + additionalspecial;       // "-" is not in the list
-            string cleanstr = Regex.Replace(original, specialchars, "_");
-            if (cleanstr.Length > size)
-                cleanstr.Remove(31);
-
-            return cleanstr;
-        }
 
         public static string CleanString2(string original, int size = 31, string specialchars = "")
         {
