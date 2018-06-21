@@ -13,6 +13,7 @@ using GME.MGA;
 using GME.MGA.Core;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+using System.Security;
 
 namespace CyPhyComponentImporter
 {
@@ -582,6 +583,7 @@ namespace CyPhyComponentImporter
                                 (c.Impl as GME.MGA.IMgaFCO).set_RegistryValue("icon", iconRelativePath);
                             }
                         }
+                        GMEConsole.Info.WriteLine("Imported {0} to <a href=\"mga:{2}\">{1}</a>", inputFile, SecurityElement.Escape(c.Name), c.ID);
                     }
                     catch (Exception ex)
                     {
