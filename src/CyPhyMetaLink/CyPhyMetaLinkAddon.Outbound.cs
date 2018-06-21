@@ -365,9 +365,10 @@ namespace CyPhyMetaLink
 
                     // A property has been modified
                     string kind = subject.MetaBase.Name;
-                    if (kind == "Property" ||
+                    if (AssemblyID != null &&
+                        (kind == "Property" ||
                         kind == "Parameter" ||
-                        kind == "Metric")
+                        kind == "Metric"))
                     {
                         // Does this parameter belong to the Meta-Linked assembly?
 
