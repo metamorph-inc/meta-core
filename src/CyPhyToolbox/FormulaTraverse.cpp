@@ -116,7 +116,7 @@ void NewTraverser::Traverse(const Udm::Object &udmObject)
 			}
 			else
 			{
-				GMEConsole::Console::writeLine("FormulaEvaluator - 0 ValueFlow objects found to start evaluation from.", MSG_INFO);
+				// GMEConsole::Console::writeLine("FormulaEvaluator - 0 ValueFlow objects found to start evaluation from.", MSG_INFO);
 				PrintUnProcessedNamedElements();
 			}
 		}
