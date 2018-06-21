@@ -521,13 +521,12 @@ namespace CyPhyComponentExporter
                                                 ComponentLibraryManager.MakeRelativePath(compDirAbsPath + "/", filePath));
                     }
 
-
                     zip.AddFile(filePath, fileRelDir);
                     Match match = cadResourceRegex.Match(Path.Combine(fileRelDir, Path.GetFileName(filePath)));
                     if (match.Success)
                     {
                         Func<Resource, bool> sameFile = delegate (Resource x) {
-                            if (x.Path.Equals(match.Groups[1].Value + match.Groups[2].Value, StringComparison.InvariantCultureIgnoreCase))
+                            if (canonicalizeRelativePath(x.Path).Equals(canonicalizeRelativePath(match.Groups[1].Value + match.Groups[2].Value), StringComparison.InvariantCultureIgnoreCase))
                                 return true;
                             Match m = cadResourceRegex.Match(x.Path);
                             return m.Success && m.Groups[1].Value.Equals(match.Groups[1].Value, StringComparison.InvariantCultureIgnoreCase)
@@ -556,6 +555,17 @@ namespace CyPhyComponentExporter
 
             return zipFileAbsPath;
         }
+
+        public static string canonicalizeRelativePath(string p)
+        {
+            string dirSeparator = new String(Path.DirectorySeparatorChar, 1);
+            p = p.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            p = Regex.Replace(p, Regex.Escape(dirSeparator) + "+", dirSeparator);
+            p = Regex.Replace(p, "(^|" + Regex.Escape(dirSeparator) + ")\\." + Regex.Escape(dirSeparator), m => m.Groups[1].Value);
+            // doesn't handle ..\
+            return p;
+        }
+
 
         #region IMgaComponentEx Members
 
