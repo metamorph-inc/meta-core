@@ -30,8 +30,9 @@ namespace GME.CSharp
 			CheckGMEInterfaceVersion(registrar);
 			registrar.RegisterComponent(ComponentConfig.progID, ComponentConfig.componentType, ComponentConfig.componentName, ComponentConfig.registrationMode);
 			registrar.set_ComponentExtraInfo(ComponentConfig.registrationMode, ComponentConfig.progID, "Icon", ComponentConfig.iconPath);
+            registrar.set_ComponentExtraInfo(ComponentConfig.registrationMode, ComponentConfig.progID, "Tooltip", ComponentConfig.componentName);
 
-			if (!ComponentConfig.paradigmName.Equals("*"))
+            if (!ComponentConfig.paradigmName.Equals("*"))
 			{
 				registrar.Associate(
 					 ComponentConfig.progID,
