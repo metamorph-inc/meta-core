@@ -134,7 +134,7 @@ namespace META
 
             if (tool == null)
             {
-                return;
+                throw new ApplicationException(String.Format("Error: analysis tool \"{0}\" is not registered", toolName));
             }
 
             // copy tool.OutputDirectory to generated directory
