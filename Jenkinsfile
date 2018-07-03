@@ -2,6 +2,9 @@ def CAD_REV = 'UNKNOWN'
 
 pipeline {
     agent none
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '1000', artifactNumToKeepStr: '3'))
+    }
     stages {
         stage('Build') {
             agent {
