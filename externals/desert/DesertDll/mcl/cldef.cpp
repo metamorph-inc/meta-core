@@ -868,9 +868,11 @@ bool ParseMCLString(wchar_t const *buf) {
 char *GetMCLErrorMessage(void);
 #ifdef UNICODE
 wchar_t *GetMCLErrorMessageW(void) {
-	CString ret;
-	ret = GetMCLErrorMessage();
-	static wchar_t errmsg[100];
+	CStringA err = GetMCLErrorMessage();
+	// parser returns 0xff for eof
+	err.Replace("\xff", "<eof>");
+	CStringW ret = err;
+	static wchar_t errmsg[200];
 	wcsncpy(errmsg, static_cast<const wchar_t*>(ret), sizeof(errmsg) / sizeof(errmsg[0]));
 	return errmsg;
 }
