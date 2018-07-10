@@ -53,7 +53,6 @@ private:
 
 	map<std::string, DesertIface::Domain> domainMap;
 	map<DesertIface::NaturalDomain, map<double, DesertIface::NaturalMember> > natureMemberMap; 
-	static int memberId;
 	static int domainId;
 	set<std::string> naturalParameters;
 	
@@ -176,9 +175,9 @@ public:
 	Com2DesertElement(const CyPhyML::DesignElement &cyphy_de, const CyPhyML::ComponentRef &comref, 
 					 DesertIface::Element &delem, bool isroot, bool isAlt);
 	void flatternCA();
-	map<Udm::Object, DesertIface::VariableProperty> getTopVpMap();
-	map<DesertIface::VariableProperty, double> getVp2ValMap();
-	map<DesertIface::VariableProperty, set<double> > getVp2ValsMap();
+	map<Udm::Object, DesertIface::VariableProperty>& getTopVpMap();
+	map<DesertIface::VariableProperty, double>& getVp2ValMap();
+	map<DesertIface::VariableProperty, set<double> >& getVp2ValsMap();
 	void clearVp2ValMap();
 	void clearVp2ValsMap();
 

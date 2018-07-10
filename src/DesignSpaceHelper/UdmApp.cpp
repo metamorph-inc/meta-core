@@ -70,7 +70,7 @@ void CUdmApp::UdmMain(
 	{
 		CyPhyML::DesignContainer focusRootDC = CyPhyML::DesignContainer::Cast(focusObject);
 		if(focusRootDC.isInstance()) {
-			GMEConsole::Console::Out::writeLine("Warning: DESERT invoked on a DesignContainer that is an instance model.\r\n");
+			GMEConsole::Console::Out::writeLine("Error: DESERT invoked on a DesignContainer that is an instance model.\r\n");
 			return;
 		}
 		dhelper.setRootDC(focusRootDC);

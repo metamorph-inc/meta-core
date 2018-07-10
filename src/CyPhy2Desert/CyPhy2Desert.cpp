@@ -104,7 +104,6 @@ void morphMatrixFinalize2() {
 	allOptions.clear();
 }
 
-int CyPhy2Desert::memberId = 0;
 int CyPhy2Desert::domainId = 0;
 DesertIface::ConstraintSet CyPhy2Desert::constraintSet;
 DesertIface::FormulaSet CyPhy2Desert::formulaSet;
@@ -213,7 +212,6 @@ void CyPhy2Desert::init()
 	formulaSet.externalID() = 1005;
 
 	domainId = 1004;
-	memberId = 3000;
 
 	domainMap.clear();
 	parameterNameMap.clear();
@@ -756,6 +754,8 @@ void CyPhy2Desert::processAlternativeValueFlowEnds(const set<CyPhyML::ValueFlowT
 
 				CyPhyML::DesignEntity src_parent = CyPhyML::DesignEntity::Cast(src_end_parent);
 				DesertIface::VariableProperty src_dvp = getVariableProperty(src_end, src_parent);
+				// std::string src_parent_name = src_parent.name();
+				// std::string src_end_name = src_end.name();
 				if(src_dvp==Udm::null)
 				{
 					DesertIface::Element vpParent;
@@ -820,7 +820,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 			std::stringstream ss;
 			ss << "The design container doesn't contain any design element in it:" << std::endl;
 			ss << "Name: " << container.name() << std::endl;
-			ss << "ID: " << errConId << std::endl;
+			ss << "ID: " << UdmGme::UdmId2GmeId(errConId) << std::endl;
 			throw udm_exception(ss.str());
 		}
 
@@ -2171,14 +2171,8 @@ DesertIface::VariableProperty CyPhy2Desert::getVariableProperty(Udm::Object &cyp
 
 void CyPhy2Desert::updatevpMap(const DesertIface::VariableProperty &dvp, const Udm::Object &cyphy_obj, const CyPhyML::DesignEntity &obj_parent)
 {
-	map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap;
-	map<Udm::Object, map<CyPhyML::DesignEntity, DesertIface::VariableProperty> >::iterator vpMap_pos = vpMap.find(cyphy_obj);
-	if(vpMap_pos!=vpMap.end())
-	{
-		tmpMap = (*vpMap_pos).second;
-	}
-	tmpMap[obj_parent] = dvp;
-	vpMap[cyphy_obj] = tmpMap;
+	auto vpMap_pos = vpMap.insert(std::make_pair(cyphy_obj, map<CyPhyML::DesignEntity, DesertIface::VariableProperty>()));
+	vpMap_pos.first->second[obj_parent] = dvp;
 }
 
 void CyPhy2Desert::checkSourceValueFlows(set<CyPhyML::ValueFlow> &vfs, const CyPhyML::DesignContainer &dc)
@@ -2646,25 +2640,18 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 	comflattern.flatternCA();
 
 	//update the vpMap
-	map<Udm::Object, DesertIface::VariableProperty> topVpMap = comflattern.getTopVpMap();
+	map<Udm::Object, DesertIface::VariableProperty>& topVpMap = comflattern.getTopVpMap();
 	for(map<Udm::Object, DesertIface::VariableProperty>::iterator pos=topVpMap.begin(); pos!=topVpMap.end();++pos)
 	{
 		Udm::Object pobj = (*pos).first;
 		DesertIface::VariableProperty dvp = (*pos).second;
 
 		map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap;
-		VPMap::iterator vpMap_pos = vpMap.find(pobj);
-		if(vpMap_pos!=vpMap.end())
-		{
-			tmpMap = (*vpMap_pos).second;
-		}
-		tmpMap[celem] = dvp;
-		vpMap[pobj] = tmpMap;
+		vpMap.insert(make_pair(pobj, std::move(tmpMap))).first->second[celem] = dvp;
 	}
 
 	//update NatureDomain/CustomDomain
-	map<DesertIface::VariableProperty, double> vp2ValMap = comflattern.getVp2ValMap();
-	comflattern.clearVp2ValMap();
+	map<DesertIface::VariableProperty, double>& vp2ValMap = comflattern.getVp2ValMap();
 	for(map<DesertIface::VariableProperty, double>::iterator pos_d=vp2ValMap.begin();pos_d!=vp2ValMap.end();++pos_d)
 	{
 		DesertIface::VariableProperty dvp = (*pos_d).first;
@@ -2682,13 +2669,12 @@ void CyPhy2Desert::flatternComponent(const CyPhyML::DesignEntity &celem, DesertI
 		av.values_end() = member;
 	}
 
-	map<DesertIface::VariableProperty, set<double> > vp2ValsMap = comflattern.getVp2ValsMap();
-	comflattern.clearVp2ValsMap();
+	map<DesertIface::VariableProperty, set<double> >& vp2ValsMap = comflattern.getVp2ValsMap();
 	for(map<DesertIface::VariableProperty, set<double> >::iterator pos_ds=vp2ValsMap.begin();pos_ds!=vp2ValsMap.end();++pos_ds)
 	{
 		DesertIface::VariableProperty dvp = (*pos_ds).first;
 		std::string dvp_name = dvp.name();
-		set<double> vals = (*pos_ds).second;
+		set<double>& vals = (*pos_ds).second;
 		for(set<double>::iterator d_it=vals.begin();d_it!=vals.end();++d_it)
 		{
 			double val = *d_it;
@@ -2917,17 +2903,17 @@ void Com2DesertElement::flatternCA()
 	}
 }
 
-map<Udm::Object, DesertIface::VariableProperty> Com2DesertElement::getTopVpMap()
+map<Udm::Object, DesertIface::VariableProperty>& Com2DesertElement::getTopVpMap()
 {
 	return _topVpMap;
 }
 
-map<DesertIface::VariableProperty, double> Com2DesertElement::getVp2ValMap()
+map<DesertIface::VariableProperty, double>& Com2DesertElement::getVp2ValMap()
 {
 	return _vp2ValMap;
 }
 
-map<DesertIface::VariableProperty, set<double> > Com2DesertElement::getVp2ValsMap()
+map<DesertIface::VariableProperty, set<double> >& Com2DesertElement::getVp2ValsMap()
 {
 	return _vp2ValsMap;
 }
@@ -3280,9 +3266,9 @@ void Com2DesertElement::processDirectValueFlow(const CyPhyML::ValueFlow &vf)
 
 void Com2DesertElement::updateInnerVpMap(const CyPhyML::DesignEntity &cyphy_elem, map<Udm::Object, DesertIface::VariableProperty> &topVpMap)
 {
-	for(map<Udm::Object, DesertIface::VariableProperty>::iterator pos=topVpMap.begin(); pos!=topVpMap.end();++pos)
+	for(map<Udm::Object, DesertIface::VariableProperty>::iterator pos = topVpMap.begin(); pos != topVpMap.end(); ++pos)
 	{
-		Udm::Object pobj = (*pos).first;
+		const Udm::Object& pobj = (*pos).first;
 
 		if(Uml::IsDerivedFrom(pobj.type(), CyPhyML::ValueFormula::meta))
 			continue;
@@ -3290,13 +3276,7 @@ void Com2DesertElement::updateInnerVpMap(const CyPhyML::DesignEntity &cyphy_elem
 		DesertIface::VariableProperty dvp = (*pos).second;
 
 		map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap;
-		VPMap::iterator vpMap_pos = _innerVpMap.find(pobj);
-		if(vpMap_pos!=_innerVpMap.end())
-		{
-			tmpMap = (*vpMap_pos).second;
-		}
-		tmpMap[cyphy_elem] = dvp;
-		_innerVpMap[pobj] = tmpMap;
+		_innerVpMap.insert(make_pair(pobj, std::move(tmpMap))).first->second[cyphy_elem] = dvp;
 	}
 }
 
@@ -3306,7 +3286,7 @@ DesertIface::VariableProperty Com2DesertElement::getVariableProperty(CyPhyML::Va
 	VPMap::iterator vpMap_pos = _innerVpMap.find(cyphy_obj);
 	if(vpMap_pos!=_innerVpMap.end())
 	{
-		map<CyPhyML::DesignEntity, DesertIface::VariableProperty> tmpMap = (*vpMap_pos).second;
+		map<CyPhyML::DesignEntity, DesertIface::VariableProperty>& tmpMap = (*vpMap_pos).second;
 		map<CyPhyML::DesignEntity, DesertIface::VariableProperty>::iterator tmpMap_pos = tmpMap.find(obj_parent);
 		if(tmpMap_pos!=tmpMap.end())
 			dvp = (*tmpMap_pos).second;
