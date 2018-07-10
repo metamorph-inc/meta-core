@@ -724,42 +724,44 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 {
 	set<FormulaSet> f_sets = ds.FormulaSet_kind_children();
 	set<FormulaSet>::iterator fts_it;
-	if(!f_sets.empty())
+	if (!f_sets.empty())
 	{
 		FormulaSet fs;
-		for(fts_it=f_sets.begin();fts_it!=f_sets.end();++fts_it)
+		for (fts_it = f_sets.begin(); fts_it != f_sets.end(); ++fts_it)
 		{
 			fs = *fts_it;
 			set<SimpleFormula> sfs = fs.SimpleFormula_kind_children();
-			for(set<SimpleFormula>::iterator it=sfs.begin();it!=sfs.end();++it)
+			for (set<SimpleFormula>::iterator it = sfs.begin(); it != sfs.end(); ++it)
 			{
 				SimpleFormula sf = *it;
 				std::map<long, long> srcps, dstps;
 				set<VariableProperty>::iterator vp_it;
 				set<VariableProperty> out_vps = sf.property_end();
-				for(vp_it=out_vps.begin();vp_it!=out_vps.end();++vp_it)
+				for(vp_it = out_vps.begin(); vp_it != out_vps.end(); ++vp_it)
 				{
 					VariableProperty out_vp = *vp_it;
 					long out_vp_id = GetID(out_vp, des_map);
 					Udm::Object out_vp_parent = out_vp.parent();
-					if(out_vp_parent.type()!=Element::meta) continue;
+					if (out_vp_parent.type() != Element::meta)
+						continue;
 					Element out_elem = Element::Cast(out_vp_parent);
 					long out_elem_id = GetID(out_elem, des_map);
 					dstps[out_vp_id] = out_elem_id;
 				}
 			
 				set<VariableProperty> in_vps = sf.srcProperty();
-				if(in_vps.empty())
+				if (in_vps.empty())
 				{
-					std::string err = "There is no source VariableProperty for SimpleFormula: "+(std::string)sf.name();
+					std::string err = "There is no source VariableProperty for SimpleFormula " + sf.getPath("/", false, false);
 					throw new CDesertException(utf82cstring(err));
 				}
-				for(vp_it=in_vps.begin();vp_it!=in_vps.end();++vp_it)
+				for (vp_it = in_vps.begin(); vp_it != in_vps.end(); ++vp_it)
 				{
 					VariableProperty in_vp = *vp_it;
 					long in_vp_id = GetID(in_vp, des_map);
 					Udm::Object in_vp_parent = in_vp.parent();
-					if(in_vp_parent.type()!=Element::meta) continue;
+					if (in_vp_parent.type() != Element::meta)
+						continue;
 					Element in_elem = Element::Cast(in_vp_parent);
 					long in_elem_id = GetID(in_elem, des_map);
 					srcps[in_vp_id] = in_elem_id;					

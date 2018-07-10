@@ -918,8 +918,10 @@ void CConstraintSet::Analyse()
 bool CConstraint::Parse(void)
 {
   bool ret = ParseMCLString(text);
-  if (!ret) Error( _T("CConstraint::Parse"), _T("Constraint <%s> in <%s>: %s"), name,
-                   (const TCHAR *)*context, GetMCLErrorMessage());
+  if (!ret) {
+	  Error(_T("CConstraint::Parse"), _T("Constraint <%s> in <%s>: %s"), name,
+		  (const TCHAR *)*context, GetMCLErrorMessage());
+  }
   else
   {
     RemoveCRLF(text);
