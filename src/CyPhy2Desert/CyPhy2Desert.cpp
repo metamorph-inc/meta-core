@@ -2719,8 +2719,10 @@ bool CyPhy2Desert::checkDesignElementLoop(const CyPhyML::DesignEntity &entity, s
 	ids.insert(id);
 
 	set<CyPhyML::ComponentRef> comrefs;
+	set<std::string> componentRefNames;
 	set<CyPhyML::DesignContainer> dcs;
 	set<CyPhyML::ComponentAssembly> cas;
+	set<std::string> containerNames;
 	if(Uml::IsDerivedFrom(entity.type(), CyPhyML::DesignContainer::meta))
 	{
 		CyPhyML::DesignContainer dc = CyPhyML::DesignContainer::Cast(entity);
@@ -2742,7 +2744,7 @@ bool CyPhy2Desert::checkDesignElementLoop(const CyPhyML::DesignEntity &entity, s
 
 	for(auto ref_it=comrefs.begin();ref_it!=comrefs.end();++ref_it)
 	{
-		CyPhyML::ComponentRef this_ref = *ref_it;
+		const CyPhyML::ComponentRef& this_ref = *ref_it;
 		CyPhyML::DesignElement de = this_ref.ref();
 		if (!de)
 		{
@@ -2753,23 +2755,32 @@ bool CyPhy2Desert::checkDesignElementLoop(const CyPhyML::DesignEntity &entity, s
 			path = hyperlink + "-->" + path;
 			return false;
 		}
+		if (componentRefNames.insert(this_ref.name()).second == false) {
+			throw udm_exception(std::string("Illegal duplicate name ") + static_cast<const std::string>(this_ref.name()) + " in " + entity.getPath("/"));
+		}
 	}
 	for(auto dc_it=dcs.begin();dc_it!=dcs.end();++dc_it)
 	{
-		CyPhyML::DesignContainer this_dc = *dc_it;
+		const CyPhyML::DesignContainer& this_dc = *dc_it;
 		if(!checkDesignElementLoop(this_dc, ids,path))
 		{
 			path = hyperlink + "-->" + path;
 			return false;
 		}
+		if (containerNames.insert(this_dc.name()).second == false) {
+			throw udm_exception(std::string("Illegal duplicate name ") + static_cast<const std::string>(this_dc.name()) + " in " + entity.getPath("/"));
+		}
 	}
 	for(auto ca_it=cas.begin();ca_it!=cas.end();++ca_it)
 	{
-		CyPhyML::ComponentAssembly this_ca = *ca_it;
+		const CyPhyML::ComponentAssembly& this_ca = *ca_it;
 		if(!checkDesignElementLoop(this_ca, ids,path))
 		{
 			path = hyperlink + "-->" + path;
 			return false;
+		}
+		if (containerNames.insert(this_ca.name()).second == false) {
+			throw udm_exception(std::string("Illegal duplicate name ") + static_cast<const std::string>(this_ca.name()) + " in " + entity.getPath("/"));
 		}
 	}
 	return true;

@@ -799,6 +799,10 @@ int DesertHelper::runDesertFinit_2()
 	if(!s_dlg.m_cancel)
 	{
 		set<DesertIfaceBack::Configuration> cfgs = dbs.Configuration_kind_children();
+		if (cfgs.size() != m_realConfigCount) {
+			dbs_dn->SaveAs(desertIfaceBackFile);
+			throw udm_exception("Internal error: desert returned the wrong number of configurations");
+		}
 		for(set<DesertIfaceBack::Configuration>::iterator cfg_it=cfgs.begin();cfg_it!=cfgs.end();++cfg_it)
 		{
 			DesertIfaceBack::Configuration cfg = *cfg_it;
