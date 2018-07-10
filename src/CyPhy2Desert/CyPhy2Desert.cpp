@@ -143,7 +143,6 @@ void CyPhy2Desert::generateDesert(const CyPhyML::RootFolder &cyphy_rf)
 		traverseDesignSpace(ds, space);
 	}
 
-	processAlternativeValueFlowEnds();
 	postprocessParameters();
 }
 
@@ -156,7 +155,6 @@ void CyPhy2Desert::generateDesert(const CyPhyML::DesignSpace &cyphy_ds)
 	initConnectorDefWildCardMap();
 
 	traverseDesignSpace(cyphy_ds, space);
-	processAlternativeValueFlowEnds();
 	postprocessParameters();
 }
 
@@ -177,7 +175,6 @@ void CyPhy2Desert::generateDesert(const CyPhyML::DesignContainer &cyphy_dc)
 
 
 	traverseContainer(cyphy_dc, space, CyPhyML::DesignEntity::Cast(cyphy_dc));
-	processAlternativeValueFlowEnds();
 	postprocessParameters();
 }
 
@@ -528,7 +525,7 @@ void CyPhy2Desert::processConstants(const set<CyPhyML::Constant> &constants, con
 }
 
 void CyPhy2Desert::processProperties(const set<CyPhyML::Property> &properties, const CyPhyML::DesignContainer &celem,
-									DesertIface::Element &delem)
+									DesertIface::Element &delem, set<CyPhyML::ValueFlowTarget>& alt_vfends)
 {
 	for(set<CyPhyML::Property>::iterator i=properties.begin();i!=properties.end();++i)
 	{
@@ -541,7 +538,7 @@ void CyPhy2Desert::processProperties(const set<CyPhyML::Property> &properties, c
 
 		if(!src_vfs.empty())  //this property is parametric
 		{
-			processProperty(celem, delem, propty, src_vfs);
+			processProperty(celem, delem, propty, src_vfs, alt_vfends);
 		}  //for non-parametric property
 		else
 		{
@@ -554,7 +551,7 @@ void CyPhy2Desert::processProperties(const set<CyPhyML::Property> &properties, c
 	}
 }
 
-void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem, bool isAlt)
+void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem, bool isAlt, set<CyPhyML::ValueFlowTarget>& alt_vfends)
 {
 	for(set<CyPhyML::Parameter>::iterator pi=parameters.begin();pi!=parameters.end();++pi)
 	{
@@ -571,7 +568,7 @@ void CyPhy2Desert::processParameters(const set<CyPhyML::Parameter> &parameters, 
 
 		if(!src_vfs.empty())
 		{
-			processProperty(celem, delem, parameter, src_vfs);
+			processProperty(celem, delem, parameter, src_vfs, alt_vfends);
 		}
 		else
 		{
@@ -701,8 +698,7 @@ std::string CyPhy2Desert::getFirstNumber(std::string &str)
 	return ret;
 }
 
-void CyPhy2Desert::processAlternativeValueFlowEnds()
-{
+void CyPhy2Desert::processAlternativeValueFlowEnds(const set<CyPhyML::ValueFlowTarget>& alt_vfends) {
 	map<CyPhyML::DesignEntity, DesertIface::Element>::iterator pos;
 	for(set<CyPhyML::ValueFlowTarget>::iterator it=alt_vfends.begin();it!=alt_vfends.end();++it)
 	{
@@ -815,6 +811,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 	else  //DesignContainer
 	{
 		DesignContainer container = DesignContainer::Cast(cyphy_elem);
+		set<CyPhyML::ValueFlowTarget> alt_vfends;
 
 		// First make sure that the design container contains at least 1 design element in it (as per the designed/supported use-case)
 		set<DesignEntity> childrenDesignEntities = container.DesignEntity_kind_children();
@@ -834,10 +831,10 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 		bool procSF = true;
 
 		const set<CyPhyML::Property> properties = container.Property_kind_children();
-		processProperties(properties, container, element);
+		processProperties(properties, container, element, alt_vfends);
 
 		set<CyPhyML::Parameter> parameters = container.Parameter_kind_children();
-		processParameters(parameters, container, element, false);
+		processParameters(parameters, container, element, false, alt_vfends);
 
 		const set<CyPhyML::Constant> constants = container.Constant_kind_children();
 		processConstants(constants, container, element);
@@ -852,6 +849,8 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 
 		else
 		{
+			set<CyPhyML::ValueFlowTarget> alt_vfends;
+
 			element.decomposition() = false;
 			if(container.ContainerType() == "Optional")
 			{
@@ -922,8 +921,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 		for(set<CyPhyML::DesignEntity>::iterator i=entities.begin();i!=entities.end();++i)
 			 traverseContainer(*i, element, container,dcAlt);
 
-		processAlternativeValueFlowEnds();
-		alt_vfends.clear();
+		processAlternativeValueFlowEnds(alt_vfends);
 
 		for(auto it_f=formulas.begin();it_f!=formulas.end();++it_f)
 		{
@@ -1213,7 +1211,8 @@ bool CyPhy2Desert::isConstantProperty(set<CyPhyML::ValueFlow> &src_vfs)
 }
 
 //process Parametric Property(direct valueflow, dst of Customformula/SimpleFormula)
-void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem, Udm::Object &prop,set<CyPhyML::ValueFlow> &src_vfs)
+void CyPhy2Desert::processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem, Udm::Object &prop,set<CyPhyML::ValueFlow> &src_vfs,
+	set<CyPhyML::ValueFlowTarget>& alt_vfends)
 {
 	if(cyphy_com.type()==CyPhyML::DesignContainer::meta)
 	{

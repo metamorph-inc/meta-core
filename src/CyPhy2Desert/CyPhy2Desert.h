@@ -103,11 +103,12 @@ private:
 	void generateConstraint(const CyPhyML::Parameter &parameter, DesertIface::Element &delem);
 
 	std::string getPath(const Udm::Object &obj, const Udm::Object &container);
-	void processProperties(const set<CyPhyML::Property> &properties, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem);
-	void processParameters(const set<CyPhyML::Parameter> &parameters, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem, bool isAlt);	
+	void processProperties(const set<CyPhyML::Property> &properties, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem, set<CyPhyML::ValueFlowTarget>& alt_vfends);
+	void processParameters(const set<CyPhyML::Parameter> &parameters, const CyPhyML::DesignContainer &celem, DesertIface::Element &delem, bool isAlt, set<CyPhyML::ValueFlowTarget>& alt_vfends);
 	void processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem,
 		                 const std::string &pname, const std::string &value);
-	void processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem, Udm::Object &prop,set<CyPhyML::ValueFlow> &src_vfs);
+	void processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem, Udm::Object &prop,
+		set<CyPhyML::ValueFlow> &src_vfs, set<CyPhyML::ValueFlowTarget>& alt_vfends);
 	void processConstants(const set<CyPhyML::Constant> &constants, const CyPhyML::DesignEntity &celem, DesertIface::Element &delem);
 	
 	void pre_processValueFormulas(const set<CyPhyML::ValueFormula> &formulas, const CyPhyML::DesignEntity &celem, DesertIface::Element &delem);
@@ -116,7 +117,7 @@ private:
 
 	void flatternComponent(const CyPhyML::DesignEntity &celem, DesertIface::Element &delem, bool isAlt);
 
-	void processAlternativeValueFlowEnds();
+	void processAlternativeValueFlowEnds(const set<CyPhyML::ValueFlowTarget>& alt_vfends);
 	bool getDomainWithMember(const std::string &dname, DesertIface::CustomDomain &domain, 
 		                     const std::string &value, DesertIface::CustomMember &member);		
 	void processProperty(const CyPhyML::DesignEntity &cyphy_com, DesertIface::Element &desert_elem,
@@ -141,8 +142,6 @@ private:
 	DesertIface::Element getDesertElement(const CyPhyML::DesignEntity &obj);
 	bool isAlternativeContainer(Udm::Object &obj);
 	bool isConstantProperty(set<CyPhyML::ValueFlow> &src_vfs);
-
-	set<CyPhyML::ValueFlowTarget> alt_vfends;
 
 	DesertIface::VariableProperty getVariableProperty(Udm::Object &cyphy_obj, CyPhyML::DesignEntity &obj_parent);
 	void updatevpMap(const DesertIface::VariableProperty &dvp, const Udm::Object &cyphy_obj, const CyPhyML::DesignEntity &obj_parent);
