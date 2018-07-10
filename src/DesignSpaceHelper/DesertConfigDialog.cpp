@@ -78,7 +78,7 @@ BOOL CDesertConfigDialog::OnInitDialog()
 		cfgSizeInfo = ss.str();
 	}
 	
-	checkedSize = 0;
+	checkedSize = cfgCount;
 
 	FillCfgList();
 	FillCfgTree();
