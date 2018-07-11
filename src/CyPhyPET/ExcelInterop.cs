@@ -18,6 +18,8 @@ namespace CyPhyPET
         {
             Float,
             Str,
+            FloatArray,
+            StrArray
             // Bool,
             // Int
         };
@@ -99,13 +101,43 @@ namespace CyPhyPET
 
                             val = range.Value;
                             ExcelType type = ExcelType.Float;
-                            if (excelApp.WorksheetFunction.IsText(val))
+                            bool output = false;
+                            if (val is Array)
                             {
-                                type = ExcelType.Str;
+                                type = ExcelType.FloatArray;
+                                foreach (Object o in val)
+                                {
+                                    if (excelApp.WorksheetFunction.IsText(o))
+                                    {
+                                        type = ExcelType.StrArray;
+                                        break;
+                                    }
+                                }
+                                // TODO if (val == true || val == false)
+                                foreach (Object o in range.Formula)
+                                {
+                                    if (o is string && ((string)o).StartsWith("="))
+                                    {
+                                        output = true;
+                                        break;
+                                    }
+                                }
                             }
-                            // TODO if (val == true || val == false)
-                            formula = range.Formula;
-                            if (formula is string && ((string)formula).StartsWith("="))
+                            else
+                            {
+                                type = ExcelType.Float;
+                                if (excelApp.WorksheetFunction.IsText(val))
+                                {
+                                    type = ExcelType.Str;
+                                }
+                                // TODO if (val == true || val == false)
+                                formula = range.Formula;
+                                if (formula is string && ((string)formula).StartsWith("="))
+                                {
+                                    output = true;
+                                }
+                            }
+                            if (output)
                             {
                                 addOutput(nameName, rt, type);
                             }
