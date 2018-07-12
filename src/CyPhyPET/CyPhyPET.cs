@@ -1556,7 +1556,7 @@ namespace CyPhyPET
             var valueFlow = ((GME.MGA.Meta.IMgaMetaModel)excel.Impl.MetaBase).AspectByName["ValueFlowAspect"];
             int maxMetricYPosition = excel.Children.MetricCollection.Select(getYPosition).DefaultIfEmpty().Max();
             int maxParamYPosition = excel.Children.ParameterCollection.Select(getYPosition).DefaultIfEmpty().Max();
-            ExcelInterop.GetExcelInputsAndOutputs(filename, (string name, string refersTo, ExcelInterop.ExcelType type) =>
+            ExcelInterop.GetExcelInputsAndOutputs(filename, (string name, string refersTo, ExcelInterop.ExcelType type, List<int> dims) =>
             {
                 var metric = excel.Children.MetricCollection.Where(m => m.Name == name).FirstOrDefault();
                 if (metric == null)
@@ -1571,7 +1571,7 @@ namespace CyPhyPET
                     metricsAndParameters.Remove(metric);
                 }
                 metric.Attributes.Description = refersTo;
-            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type) =>
+            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type, List<int> dims) =>
             {
                 var param = excel.Children.ParameterCollection.Where(m => m.Name == name).FirstOrDefault();
                 if (param == null)

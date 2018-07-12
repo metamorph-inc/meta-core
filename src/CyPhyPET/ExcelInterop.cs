@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace CyPhyPET
 {
@@ -24,7 +25,7 @@ namespace CyPhyPET
             // Int
         };
 
-        internal static void GetExcelInputsAndOutputs(string xlFilename, Action<string, string, ExcelType> addOutput, Action<string, string, string, ExcelType> addInput, Action done)
+        internal static void GetExcelInputsAndOutputs(string xlFilename, Action<string, string, ExcelType, List<int>> addOutput, Action<string, string, string, ExcelType, List<int>> addInput, Action done)
         {
             int REGDB_E_CLASSNOTREG = unchecked((int)0x80040154);
             Excel.Application excelApp;
@@ -101,6 +102,7 @@ namespace CyPhyPET
 
                             val = range.Value;
                             ExcelType type = ExcelType.Float;
+                            List<int> dims = new List<int>();
                             bool output = false;
                             if (val is Array)
                             {
@@ -122,6 +124,8 @@ namespace CyPhyPET
                                         break;
                                     }
                                 }
+                                dims.Add(val.GetLength(1));
+                                dims.Add(val.GetLength(0));
                             }
                             else
                             {
@@ -139,11 +143,11 @@ namespace CyPhyPET
                             }
                             if (output)
                             {
-                                addOutput(nameName, rt, type);
+                                addOutput(nameName, rt, type, dims);
                             }
                             else
                             {
-                                addInput(nameName, rt, val.ToString(), type);
+                                addInput(nameName, rt, val.ToString(), type, dims);
                             }
                         }
                         finally

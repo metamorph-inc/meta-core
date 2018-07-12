@@ -196,6 +196,37 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void TestExcelArray()
+        {
+            var excelType = Type.GetTypeFromProgID("Excel.Application");
+            if (excelType == null)
+            {
+                Console.Out.WriteLine("Skipping " + GetCurrentMethod() + " because Excel is not installed");
+                return;
+            }
+
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@ParametricExploration/@" + GetCurrentMethod();
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var resultOutputDir = result.Item1.OutputDirectory;
+            //Run run_mdao
+            string stderr = "<did not start process>";
+            int retcode = Run("This doesn't do anything... I think", resultOutputDir, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            //Check output.csv results
+            var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
+            Assert.True(lines[0] == "GUID,Average,FourthValue,Array,StrArray,Sentence,Number", "output.csv header doesn't match expected");
+            Assert.True(lines[1].Substring(37) == "16.3571428571,32.7142857143,\"[[7.0, 0.7142857142857143, 25.0, 32.714285714285715]]\",\"[[u'This', u'that']]\",This is a lot of that.,5.0", "output.csv values don't match expected values.");
+            Assert.True(lines[2].Substring(37) == "56.4166666667,112.833333333,\"[[12.0, 0.8333333333333334, 100.0, 112.83333333333333]]\",\"[[u'This', u'words.']]\",This is a lot of words..,10.0", "output.csv values don't match expected values.");
+        }
+
+        [Fact]
         public void TestExcelImport()
         {
             var excelType = Type.GetTypeFromProgID("Excel.Application");

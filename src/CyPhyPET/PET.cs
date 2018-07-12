@@ -1054,17 +1054,20 @@ namespace CyPhyPET
             HashSet<string> xlInputs = new HashSet<string>();
             HashSet<string> xlOutputs = new HashSet<string>();
             Dictionary<string, ExcelInterop.ExcelType> types = new Dictionary<string, ExcelInterop.ExcelType>();
-            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo, ExcelInterop.ExcelType type) =>
+            Dictionary<string, List<int>> dimensions = new Dictionary<string, List<int>>();
+            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo, ExcelInterop.ExcelType type, List<int> dims) =>
             {
                 outputs.Remove(name);
                 types[name] = type;
-            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type) =>
+                dimensions[name] = dims;
+            }, (string name, string refersTo, string value, ExcelInterop.ExcelType type, List<int> dims) =>
             {
                 inputs.Remove(name);
                 types[name] = type;
+                dimensions[name] = dims;
             },
             () => { });
-            config.details["varFile"] = generateXLFileJson(excel, types);
+            config.details["varFile"] = generateXLFileJson(excel, types, dimensions);
 
             if (inputs.Count > 0)
             {
@@ -1452,12 +1455,13 @@ namespace CyPhyPET
             return config;
         }
 
-        private string generateXLFileJson(CyPhy.ExcelWrapper excel, Dictionary<string, ExcelInterop.ExcelType> types)
+        private string generateXLFileJson(CyPhy.ExcelWrapper excel, Dictionary<string, ExcelInterop.ExcelType> types, Dictionary<string, List<int>> dimensions)
         {
             List<Dictionary<string, object>> params_ = new List<Dictionary<string, object>>();
             foreach (var param in excel.Children.ParameterCollection)
             {
                 ExcelInterop.ExcelType type = types[param.Name];
+                List<int> dims = dimensions[param.Name];
                 var details = new Dictionary<string, object>()
                 {
                     {"name", param.Name },
@@ -1475,12 +1479,17 @@ namespace CyPhyPET
                 {
                     details["val"] = param.Attributes.Value;
                 }
+                if (type == ExcelInterop.ExcelType.FloatArray || type == ExcelInterop.ExcelType.StrArray)
+                {
+                    details["dims"] = dims;
+                }
                 params_.Add(details);
             }
             List<Dictionary<string, object>> metrics = new List<Dictionary<string, object>>();
             foreach (var metric in excel.Children.MetricCollection)
             {
                 ExcelInterop.ExcelType type = types[metric.Name];
+                List<int> dims = dimensions[metric.Name];
                 var details = new Dictionary<string, object>()
                 {
                     {"name", metric.Name },
@@ -1497,6 +1506,10 @@ namespace CyPhyPET
                 else if (type == ExcelInterop.ExcelType.Str)
                 {
                     details["val"] = metric.Attributes.Value;
+                }
+                if (type == ExcelInterop.ExcelType.FloatArray || type == ExcelInterop.ExcelType.StrArray)
+                {
+                    details["dims"] = dims;
                 }
                 metrics.Add(details);
             }
