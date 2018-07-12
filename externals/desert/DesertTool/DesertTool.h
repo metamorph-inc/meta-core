@@ -29,6 +29,9 @@ public:
 	//{{AFX_VIRTUAL(CDesertToolApp)
 	public:
 	virtual BOOL InitInstance();
+	virtual int ExitInstance();
+	int returnCode;
+
 	//}}AFX_VIRTUAL
 
 // Implementation

@@ -175,6 +175,12 @@ void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap *
 		CreateAssignments(*des_map, *inv_des_map, elements, custom_members, UpdateStatus);
 }
 
+int CDesertToolApp::ExitInstance()
+{
+	__super::ExitInstance();
+	return returnCode;
+}
+
 BOOL CDesertToolApp::InitInstance()
 {
 	// Standard initialization
@@ -233,6 +239,7 @@ BOOL CDesertToolApp::InitInstance()
 				usage.Append(_T("/m : when used calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n"));
 				std::cout << usage;
 				AfxMessageBox(usage,MB_ICONINFORMATION);
+				returnCode = 1;
 				return TRUE;
 			}
 			if (_tcsstr(m_lpCmdLine, _T(".xml")) || _tcsstr(m_lpCmdLine, _T(".mem")) || _tcsstr(m_lpCmdLine, _T(".mga"))  
@@ -297,6 +304,7 @@ BOOL CDesertToolApp::InitInstance()
 		else 
 		{
 			cancel_input = true;
+			returnCode = 0;
 			return TRUE;
 		}
 	}
@@ -665,9 +673,10 @@ BOOL CDesertToolApp::InitInstance()
 
 			e->ReportError();
 			//	throw e;
+			returnCode = 1;
 			return FALSE;
 		}
-		catch (udm_exception e)
+		catch (const udm_exception& e)
 		{
 			if (ftell(fdDcif))
 			{
@@ -681,6 +690,7 @@ BOOL CDesertToolApp::InitInstance()
 			else
 				AfxMessageBox(CString("Udm exception: ") + CString(e.what()));
 			//	throw e;
+			returnCode = 2;
 			return FALSE;
 		}
 	
@@ -688,6 +698,7 @@ BOOL CDesertToolApp::InitInstance()
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
+	returnCode = 0;
 	return TRUE;
 }
 
