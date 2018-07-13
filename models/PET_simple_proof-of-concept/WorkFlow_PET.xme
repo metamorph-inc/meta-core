@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{02982586-4CE4-43CB-90CB-A6AADD2C0BE7}" cdate="Fri Jul 13 15:45:13 2018" mdate="Fri Jul 13 15:45:13 2018" version="" metaguid="{1441E17B-C9DE-0EB6-10F3-A6672D29CB46}" metaversion="$Rev: 29960 $" metaname="CyPhyML">
+<project guid="{FDD7B923-EFED-40DF-BCA3-625B263BCA7F}" cdate="Fri Jul 13 15:45:13 2018" mdate="Fri Jul 13 15:45:13 2018" version="" metaguid="{1441E17B-C9DE-0EB6-10F3-A6672D29CB46}" metaversion="$Rev: 29960 $" metaname="CyPhyML">
 	<name>RootFolder</name>
 	<comment></comment>
 	<author></author>
@@ -10141,8 +10141,26 @@
 						<connpoint role="src" target="id-0067-000000c2"/>
 					</connection>
 				</model>
-				<model id="id-0065-000004f5" kind="ParametricExploration" guid="{df9d8f7a-0e4c-4132-8a16-973f63e64134}" relid="0x57" childrelidcntr="0x1b">
+				<model id="id-0065-000004f5" kind="ParametricExploration" guid="{df9d8f7a-0e4c-4132-8a16-973f63e64134}" relid="0x57" childrelidcntr="0x1d">
 					<name>TestExcelArray</name>
+					<regnode name="annotations" status="undefined">
+						<value></value>
+						<regnode name="Annotation0" isopaque="yes">
+							<value>This is to test using the same Excel file twice in a PET.</value>
+							<regnode name="aspects" isopaque="yes">
+								<value>777,269</value>
+								<regnode name="*" isopaque="yes">
+									<value>DefaultVisibility</value>
+								</regnode>
+								<regnode name="TestBenchCompositionAspect" isopaque="yes">
+									<value>158,447</value>
+								</regnode>
+							</regnode>
+							<regnode name="logfont" isopaque="yes">
+								<value>e8 ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00 90 01 00 00 00 00 00 00 03 02 01 22 41 00 72 00 69 00 61 00 6c 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 </value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<model id="id-0065-000004f6" kind="ParameterStudy" role="ParameterStudy" guid="{dd2a4509-b66a-49ea-951c-e541d3b56f88}" relid="0x2" childrelidcntr="0x8">
 						<name>ParameterStudy</name>
 						<regnode name="PartRegs" status="undefined">
@@ -10533,6 +10551,111 @@
 							</attribute>
 						</reference>
 					</model>
+					<model id="id-0065-000004fb" kind="ExcelWrapper" role="ExcelWrapper" guid="{e763894a-3180-49eb-99a8-449d8b204b00}" relid="0x1c" childrelidcntr="0x3">
+						<name>GenerateArray2</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="TestBenchCompositionAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>168,490</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="ExcelFilename">
+							<value>GenerateArray.xlsx</value>
+						</attribute>
+						<attribute kind="Macro" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000754" kind="Metric" role="Metric" guid="{58ce48b6-1b0d-4a33-bc90-7e2b76185be2}" relid="0x3">
+							<name>strArray</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ValueFlowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>800,120</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Description">
+								<value>=Sheet1!$A$5:$B$5</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000755" kind="Parameter" role="Parameter" guid="{ca9fa76a-f005-45ec-a8fe-49bfd7621d02}" relid="0x2">
+							<name>num</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ValueFlowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>100,60</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="ComputationType" status="meta">
+								<value>Addition</value>
+							</attribute>
+							<attribute kind="DataType" status="meta">
+								<value>String</value>
+							</attribute>
+							<attribute kind="DefaultValue" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Description">
+								<value>=Sheet1!$A$1</value>
+							</attribute>
+							<attribute kind="Dimension" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Disable" status="meta">
+								<value>false</value>
+							</attribute>
+							<attribute kind="ID">
+								<value>id-ca9fa76a-f005-45ec-a8fe-49bfd7621d02</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Range" status="meta">
+								<value>-inf..inf</value>
+							</attribute>
+							<attribute kind="Type" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value">
+								<value>6</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-00000756" kind="Metric" role="Metric" guid="{31cc2732-7781-433e-8d68-2d89f1b03e74}" relid="0x1">
+							<name>array</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ValueFlowAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>800,60</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Description">
+								<value>=Sheet1!$A$2:$D$2</value>
+							</attribute>
+							<attribute kind="ManagedGUID" status="meta">
+								<value></value>
+							</attribute>
+							<attribute kind="Value" status="meta">
+								<value></value>
+							</attribute>
+						</reference>
+					</model>
 					<connection id="id-0068-0000011b" kind="VariableSweep" role="VariableSweep" guid="{af5461a7-4764-47d7-85e3-94dcd583238b}" relid="0x12">
 						<name>VariableSweep</name>
 						<regnode name="color" isopaque="yes">
@@ -10608,6 +10731,17 @@
 						</regnode>
 						<connpoint role="dst" target="id-0067-00000749"/>
 						<connpoint role="src" target="id-0067-00000753"/>
+					</connection>
+					<connection id="id-0068-00000123" kind="VariableSweep" role="VariableSweep" guid="{5b646492-1f44-4744-87cd-7ebcf016fbac}" relid="0x1d">
+						<name>VariableSweep</name>
+						<regnode name="color" isopaque="yes">
+							<value>0xff80c0</value>
+						</regnode>
+						<regnode name="dstStyle" isopaque="yes">
+							<value>arrow</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-0000073f"/>
+						<connpoint role="dst" target="id-0067-00000755"/>
 					</connection>
 				</model>
 			</folder>
