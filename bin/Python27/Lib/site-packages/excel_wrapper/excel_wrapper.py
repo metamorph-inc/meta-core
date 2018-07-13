@@ -48,7 +48,7 @@ class ExcelWrapper(Component):
             open(excelFile)  # fail fast
 
         # Excel opens the file with sharing=none. Make a copy so we can run multi-process
-        excelCopy = u'{1}_tmp{0}{2}'.format(os.getpid(), *os.path.splitext(excelFile))
+        excelCopy = u'{2}_tmp_{0}_{1}{3}'.format(os.getpid(), id(self), *os.path.splitext(excelFile))
         shutil.copyfile(excelFile, excelCopy)
         self.excelFile = excelCopy
         self.excelFile = os.path.abspath(self.excelFile)
