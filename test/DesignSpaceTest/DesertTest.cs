@@ -12,16 +12,16 @@ using System.Runtime.InteropServices;
 
 namespace DesignSpaceTest
 {
-    public class ToyDSFixture : IDisposable
+    public class DSFixtureBase : IDisposable
     {
-        public ToyDSFixture()
+        public DSFixtureBase(string xmePath)
         {
             try
             {
                 string connection;
                 MgaUtils.ImportXMEForTest(
                     Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(this.GetType()).CodeBase.Substring("file:///".Length)),
-                    @"..\..\..\..\models\DesignSpace\ToyDS.xme"),
+                    xmePath),
                     out connection);
 
                 Type type = Type.GetTypeFromProgID("Mga.MgaProject");
@@ -56,9 +56,17 @@ namespace DesignSpaceTest
         }
     }
 
-    public class DesertTest : IUseFixture<ToyDSFixture>
+    public class ToyDSFixture : DSFixtureBase, IDisposable
     {
-        public void DesertTestBase(string dsPath, Action<IEnumerable<Configurations>> helperTest, Action<Configurations> exporterTest)
+        public ToyDSFixture() :
+            base(@"..\..\..\..\models\DesignSpace\ToyDS.xme")
+        {
+        }
+    }
+
+    public abstract class DesertTestBaseClass
+    {
+        public void DesertTestBase(MgaProject project, string dsPath, Action<IEnumerable<Configurations>> helperTest, Action<Configurations> exporterTest)
         {
             var gateway = new MgaGateway(project);
             Type desertType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
@@ -105,11 +113,14 @@ namespace DesignSpaceTest
                 });
             }
         }
+    }
 
+    public class DesertTest : DesertTestBaseClass, IUseFixture<ToyDSFixture>
+    {
         [Fact]
         void TestDesertAutomation()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
@@ -130,7 +141,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainer_SimpleProp()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_SimpleProp", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_SimpleProp", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
@@ -141,7 +152,7 @@ namespace DesignSpaceTest
         [Fact(Skip = "Fails due to desert bug")]
         void TestDesert_DesignContainer_Alt_SimpleProp()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Alt_SimpleProp", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Alt_SimpleProp", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
@@ -154,7 +165,7 @@ namespace DesignSpaceTest
         {
             // bug was fixed where desert would stack overflow. Now the model is rejected
             Assert.Throws(typeof(COMException), () =>
-                DesertTestBase("/@DesignSpaces/@DesignContainer_DupPropName", (configurations) =>
+                DesertTestBase(project, "/@DesignSpaces/@DesignContainer_DupPropName", (configurations) =>
                 {
                 }, null));
 
@@ -163,7 +174,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainer_Formula()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Formula", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Formula", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
@@ -173,7 +184,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainerParamConstraint()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainerParamConstraint", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainerParamConstraint", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
@@ -183,7 +194,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainer_Opt_Constraint()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Opt_Constraint", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(3, configurations.First().Children.CWCCollection.Count());
@@ -193,7 +204,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainer_Opt_Constraint2()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint2", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Opt_Constraint2", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
@@ -203,7 +214,7 @@ namespace DesignSpaceTest
         [Fact]
         void TestDesert_DesignContainer_Opt_Constraint3()
         {
-            DesertTestBase("/@DesignSpaces/@DesignContainer_Opt_Constraint3", (configurations) =>
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Opt_Constraint3", (configurations) =>
             {
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(3, configurations.First().Children.CWCCollection.Count());
