@@ -341,6 +341,13 @@ BOOL CDesertToolApp::InitInstance()
 		if (_tcsstr(input_file, _T(".mem")) || _tcsstr(input_file, _T(".MEM"))) _tcscat(output_file, _T("_back.mem"));
 		if (_tcsstr(input_file, _T(".mga")) || _tcsstr(input_file, _T(".MGA"))) _tcscat(output_file, _T("_back.mga"));
 	}
+	if (fdDcif == NULL) {
+		char buf[512];
+		strerror_s(buf, errno);
+		std::cerr << "Could not open '" << desert_config_info_file.c_str() << "': " << buf << std::endl;
+		returnCode = 5;
+		return FALSE;
+	}
 
 	if (!cancel_input)
 	{
