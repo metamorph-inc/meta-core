@@ -418,10 +418,15 @@ namespace isis
 			}
 			_putenv_s( "PRO_COMM_MSG_EXE",  EnvVariableCOMM_MSG_EXE );
 
+			std::string CreoParametricInstallPath = EnvVariable_INSTALL_PATH;
+			if (CreoParametricInstallPath.back() != '\\') {
+				CreoParametricInstallPath += "\\";
+			}
+
 			//out_CreoStartCommand = EnvVariable_INSTALL_PATH + creoStartCommandSuffix;
 			out_CreoStartCommand = 	BuildCreoStartCommand(	in_GraphicsModeOn,
 															in_CreoExceptInputFromThisProgramAndCreoUI, 
-															EnvVariable_INSTALL_PATH );
+															CreoParametricInstallPath);
 
 		}
 
