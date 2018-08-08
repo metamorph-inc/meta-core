@@ -818,8 +818,10 @@ void CManager::AnalyseConstraints()
 void CManager::SortConstraints()
 {
   int i;
-  CConstraintSet *sets[9];
-  for(i=0; i<9; i++) sets[i] = 0;
+  const int ConstraintType_max = typeBiSpaceBiDomain;
+  CConstraintSet *sets[ConstraintType_max + 1];
+  for (i = 0; i < ConstraintType_max + 1; i++)
+	  sets[i] = 0;
 
   POSITION pos = baseConstraintSets.GetHeadPosition();
   while(pos)
@@ -838,7 +840,7 @@ void CManager::SortConstraints()
   }
   ::Destroy(baseConstraintSets);
 
-  for(i=0; i<9; i++)
+  for (i = 0; i < ConstraintType_max + 1; i++)
     if (sets[i]) baseConstraintSets.AddTail(sets[i]);
 }
 
