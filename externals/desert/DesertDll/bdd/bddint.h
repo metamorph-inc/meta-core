@@ -682,25 +682,33 @@ extern void bdd_rehash_cache ARGS((bdd_manager, int));
 extern void bdd_init_cache ARGS((bdd_manager));
 extern void bdd_free_cache ARGS((bdd_manager));
 
-#define bdd_insert_in_cache2(bddm, op, f, g, result)\
-bdd_insert_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR)(result))
-#define bdd_lookup_in_cache2(bddm, op, f, g, result)\
-bdd_lookup_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR *)(result))
+inline void bdd_insert_in_cache2(bdd_manager bddm, int op, bdd f, bdd g, INT_PTR result) {
+	bdd_insert_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR)(result));
+}
+inline int bdd_lookup_in_cache2(bdd_manager bddm, int op, bdd f, bdd g, INT_PTR* result) {
+	return bdd_lookup_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR *)(result));
+}
 
-#define bdd_insert_in_cache1(bddm, op, f, result)\
-bdd_insert_in_cache2((bddm), (op), (f), BDD_ONE(bddm), (result))
-#define bdd_lookup_in_cache1(bddm, op, f, result)\
-bdd_lookup_in_cache2((bddm), (op), (f), BDD_ONE(bddm), (result))
+inline void bdd_insert_in_cache1(bdd_manager bddm, int op, bdd f, INT_PTR result) {
+	bdd_insert_in_cache2((bddm), (op), (f), BDD_ONE(bddm), (result));
+}
+inline int bdd_lookup_in_cache1(bdd_manager bddm, int op, bdd f, INT_PTR* result) {
+	return bdd_lookup_in_cache2((bddm), (op), (f), BDD_ONE(bddm), (result));
+}
 
-#define bdd_insert_in_cache2d(bddm, op, f, g, result)\
-bdd_insert_in_cache31((bddm), CACHE_TYPE_TWODATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR)(result))
-#define bdd_lookup_in_cache2d(bddm, op, f, g, result)\
-bdd_lookup_in_cache31((bddm), CACHE_TYPE_TWODATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR *)(result))
+inline void bdd_insert_in_cache2d(bdd_manager bddm, int op, bdd f, bdd g, INT_PTR result) {
+	bdd_insert_in_cache31((bddm), CACHE_TYPE_TWODATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR)(result));
+}
+inline int bdd_lookup_in_cache2d(bdd_manager bddm, int op, bdd f, bdd g, INT_PTR* result) {
+	return bdd_lookup_in_cache31((bddm), CACHE_TYPE_TWODATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR *)(result));
+}
 
-#define bdd_insert_in_cache1d(bddm, op, f, result1, result2)\
-bdd_insert_in_cache22((bddm), CACHE_TYPE_ONEDATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(result1), (INT_PTR)(result2))
-#define bdd_lookup_in_cache1d(bddm, op, f, result1, result2)\
-bdd_lookup_in_cache22((bddm), CACHE_TYPE_ONEDATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR *)(result1), (INT_PTR *)(result2))
+inline void bdd_insert_in_cache1d(bdd_manager bddm, int op, bdd f, INT_PTR result1, INT_PTR result2) {
+	bdd_insert_in_cache22((bddm), CACHE_TYPE_ONEDATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(result1), (INT_PTR)(result2));
+}
+inline int bdd_lookup_in_cache1d(bdd_manager bddm, int op, bdd f, INT_PTR* result1, INT_PTR* result2) {
+	return bdd_lookup_in_cache22((bddm), CACHE_TYPE_ONEDATA, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR *)(result1), (INT_PTR *)(result2));
+}
 
 #if defined(__STDC__)
 #define cache_return_fn_none ((void (*)(bdd_manager, cache_entry))0)

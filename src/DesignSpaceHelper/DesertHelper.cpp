@@ -741,6 +741,9 @@ void DesertHelper::runDesertFinit_1(const std::string &constraints, bool refresh
 	long configCount = -1;
 	CDesertStatusDlg s_dlg(ds, constraints, des_map, inv_des_map, NULL, false, configCount);
 	CString invalidConstraint;
+	if (IsDebuggerPresent()) {
+		ds_dn->SaveAs(desertIfaceFile);
+	}
 	if (showGui)
 	{
 		s_dlg.DoModal();

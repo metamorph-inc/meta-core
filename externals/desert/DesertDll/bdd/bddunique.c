@@ -5,6 +5,8 @@
 
 
 #define MIN_GC_LIMIT 100000 //increase from 10000
+// helpful for debugging:
+// #define MIN_GC_LIMIT 100
 
 
 void

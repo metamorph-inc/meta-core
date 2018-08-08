@@ -2226,13 +2226,17 @@ mtbdd_divby_step(bddm, f, l1, l2)
     return (f);
   }
 
-  if (bdd_lookup_in_cache2(bddm, OP_DIVBY, f,  l2, &result))
-    return (result);
+  // currently, the cache can't contain a bdd and float
+  // bdd_lookup_in_cache2 won't work because bdd_two_gc_fn will interpret l2 as result
+  // (and how could this work without putting l1 in the cache??)
+
+  // if (bdd_lookup_in_cached2(bddm, OP_DIVBY, f,  l2, &result))
+  //  return (result);
 
   temp1 = mtbdd_divby_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_divby_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_DIVBY, f,  l2, result);
+  // bdd_insert_in_cached2(bddm, OP_DIVBY, f,  l2, result);
 
   return (result);
 }
@@ -2346,7 +2350,7 @@ mtbdd_div_from_step(bddm, f, l1, l2)
   temp1 = mtbdd_div_from_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_div_from_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_DIV_FROM, f,  l2, result);
+  // bdd_insert_in_cache2(bddm, OP_DIV_FROM, f,  l2, result);
 
   return (result);
 }
@@ -2457,13 +2461,13 @@ bdd
     return (f);
   }
 
-  if (bdd_lookup_in_cache2(bddm, OP_ROOTBY, f,  l2,  &result))
-    return (result);
+  // if (bdd_lookup_in_cache2(bddm, OP_ROOTBY, f,  l2,  &result))
+  //  return (result);
 
   temp1 = mtbdd_rootby_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_rootby_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_ROOTBY, f,  l2, result);
+  // bdd_insert_in_cache2(bddm, OP_ROOTBY, f,  l2, result);
 
   return (result);
 }
@@ -2569,13 +2573,13 @@ mtbdd_sumby_step(bddm, f, l1, l2)
     return (f);
   }
 
-  if (bdd_lookup_in_cache2(bddm, OP_SUMBY, f,  l2, &result))
-    return (result);
+  // if (bdd_lookup_in_cached2(bddm, OP_SUMBY, f,  l2, &result))
+  //  return (result);
 
   temp1 = mtbdd_sumby_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_sumby_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_SUMBY, f,  l2, result);
+  // bdd_insert_in_cached2(bddm, OP_SUMBY, f,  l2, result);
 
   return (result);
 }
@@ -2680,13 +2684,13 @@ mtbdd_subby_step(bddm, f, l1, l2)
     return (f);
   }
 
-  if (bdd_lookup_in_cache2(bddm, OP_SUBBY, f,  l2, &result))
-    return (result);
+  // if (bdd_lookup_in_cache2(bddm, OP_SUBBY, f,  l2, &result))
+  //  return (result);
 
   temp1 = mtbdd_subby_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_subby_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_SUBBY, f,  l2, result);
+  // bdd_insert_in_cache2(bddm, OP_SUBBY, f,  l2, result);
 
   return (result);
 }
@@ -2798,13 +2802,13 @@ mtbdd_mulby_step(bddm, f, l1, l2)
     return (f);
   }
 
-  if (bdd_lookup_in_cache2(bddm, OP_MULBY, f,  l2, &result))
-    return (result);
+  //if (bdd_lookup_in_cached2(bddm, OP_MULBY, f,  l2, &result))
+  //  return (result);
 
   temp1 = mtbdd_mulby_step(bddm, BDD_THEN(f), l1, l2);
   temp2 = mtbdd_mulby_step(bddm, BDD_ELSE(f), l1, l2);
   result = bdd_find(bddm, BDD_INDEXINDEX(f), temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_MULBY, f,  l2, result);
+  //bdd_insert_in_cached2(bddm, OP_MULBY, f,  l2, result);
 
   return (result);
 }
