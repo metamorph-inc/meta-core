@@ -143,6 +143,9 @@ void ExtractACMInputArguments::ParseInputArguments(  int                        
         
 		// Since we're sure that we'll get a valid string for required fields,
 		//  we can insert these values directly into the ProgramInputArguments object
+		if (vm.count("c") == 0) {
+			throw boost::program_options::error("-c is required");
+		}
 		inputCADFileName = vm["c"].as<std::string>();
 
 		// Now we test if x, w, p, or g were passed in as arguments
@@ -164,9 +167,14 @@ void ExtractACMInputArguments::ParseInputArguments(  int                        
 			int endIdx = fullpath.rfind('\\');
 			if (endIdx == -1)
 				endIdx = fullpath.rfind('/');
-
-			workingDirectory = fullpath.substr(0, endIdx);
-			inputCADFileName = fullpath.substr(endIdx+1);
+			if (endIdx == -1) {
+				workingDirectory = ".";
+				inputCADFileName = fullpath;
+			}
+			else {
+				workingDirectory = fullpath.substr(0, endIdx);
+				inputCADFileName = fullpath.substr(endIdx + 1);
+			}
 		}
 
 		if(vm.count("l")) {

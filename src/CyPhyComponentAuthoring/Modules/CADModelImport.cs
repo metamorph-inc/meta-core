@@ -111,8 +111,9 @@ namespace CyPhyComponentAuthoring.Modules
                     argstring += "\"";
 
                     // add the XML output file name
-                    argstring += " -x ";
+                    argstring += " -x \"";
                     argstring += tempXMLfile;
+                    argstring += "\"";
 
                     // Debug only: pause before exit, graphics mode.
                     //argstring += " -p -g";

@@ -17,6 +17,9 @@ int main(int argc, char* argv[]) {
 	{
 		cmd = wcschr(cmd + 1, L'"') + 2;
 	}
+	if (cmd < commandLine) {
+		cmd = L"";
+	}
 
 	wchar_t exeFilename[MAX_PATH];
 	if (!GetModuleFileNameW(NULL, exeFilename, _countof(exeFilename))) {
@@ -30,7 +33,9 @@ int main(int argc, char* argv[]) {
 	*filePart = '\0';
 
 	wchar_t invocation[1024 * 32 + MAX_PATH];
-	swprintf_s(invocation, L"\"%sCADCreoParametricCreateAssembly.exe\" ExtractACM-XMLfromCreoModels %s", exeDirectory, cmd);
+	// quotes at start and end:
+	// "Otherwise, old behavior is to see if the first character is a quote character and if so, strip the leading character and remove the last quote character on the command line, preserving any text after the last quote character."
+	swprintf_s(invocation, L"\"\"%sCADCreoParametricCreateAssembly.exe\" ExtractACM-XMLfromCreoModels %s\"", exeDirectory, cmd);
 
 	return _wsystem(invocation);
 }
