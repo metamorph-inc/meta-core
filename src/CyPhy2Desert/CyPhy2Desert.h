@@ -112,7 +112,7 @@ private:
 	
 	void pre_processValueFormulas(const set<CyPhyML::ValueFormula> &formulas, const CyPhyML::DesignEntity &celem, DesertIface::Element &delem);
 	void processSimpleFormula(const CyPhyML::SimpleFormula &sformula, DesertIface::Element &delem);
-	void processCustomFormula(const CyPhyML::CustomFormula &cformula, DesertIface::Element &delem);
+	void processCustomFormula(const CyPhyML::CustomFormula &cformula, DesertIface::Element &delem, bool isAlt);
 
 	void flatternComponent(const CyPhyML::DesignEntity &celem, DesertIface::Element &delem, bool isAlt);
 

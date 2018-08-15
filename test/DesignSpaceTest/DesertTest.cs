@@ -221,6 +221,16 @@ namespace DesignSpaceTest
             }, null);
         }
 
+        [Fact]
+        void TestDesert_DesignContainer_Formula_Dups()
+        {
+            DesertTestBase(project, "/@DesignSpaces/@DesignContainer_Formula_Dups", (configurations) =>
+            {
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
+            }, null);
+        }
+
         private MgaProject project { get { return (MgaProject)fixture.proj; } }
 
         ToyDSFixture fixture;

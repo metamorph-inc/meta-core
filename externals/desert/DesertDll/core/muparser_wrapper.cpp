@@ -20,6 +20,7 @@ double muParserSetAndEval(std::string expression) {
 
 double muParserSetAndEval(std::wstring expression) {
 	try {
+		// FIXME memoize this
 		mu::Parser parser;
 		parser.ResetLocale();
 		parser.SetExpr(expression);

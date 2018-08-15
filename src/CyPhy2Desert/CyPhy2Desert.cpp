@@ -930,7 +930,7 @@ template <class T> void CyPhy2Desert::traverseContainer(const CyPhyML::DesignEnt
 			if(Uml::IsDerivedFrom(formula.type(), CyPhyML::SimpleFormula::meta))
 				processSimpleFormula(CyPhyML::SimpleFormula::Cast(formula), element);
 			else if(Uml::IsDerivedFrom(formula.type(), CyPhyML::CustomFormula::meta))
-				processCustomFormula(CyPhyML::CustomFormula::Cast(formula), element);
+				processCustomFormula(CyPhyML::CustomFormula::Cast(formula), element, isAlt);
 		}
 
 		processConnectors(container, element);
@@ -2553,7 +2553,7 @@ void CyPhy2Desert::processSimpleFormula(const CyPhyML::SimpleFormula &sformula, 
 	}
 }
 
-void CyPhy2Desert::processCustomFormula(const CyPhyML::CustomFormula &cformula, DesertIface::Element &delem)
+void CyPhy2Desert::processCustomFormula(const CyPhyML::CustomFormula &cformula, DesertIface::Element &delem, bool isAlt)
 {
 	string expression = cformula.Expression();
 	if(expression.empty()) return;
@@ -2577,7 +2577,12 @@ void CyPhy2Desert::processCustomFormula(const CyPhyML::CustomFormula &cformula, 
 		std::string FormulaVariableName = ci->FormulaVariableName();
 
 		DesertIface::VariableProperty dvp = getVariableProperty(src_vfend, CyPhyML::DesignEntity::Cast(src_parent));
-		VariablePathMap[(FormulaVariableName == "" ? src_vfend_name : FormulaVariableName)] = (std::string)dvp.name()+"()";;
+		std::string dvp_name = (std::string)dvp.name();
+		if (isAlt == false && src_parent != ci->parent()) {
+			std::string src_parent_name = MgaObject::Cast(src_parent).name();
+			dvp_name = "children(\"" + src_parent_name + "\")." + dvp_name;
+		}
+		VariablePathMap[(FormulaVariableName == "" ? src_vfend_name : FormulaVariableName)] = dvp_name + "()";;
 	}
 
 	std::string expr = DFUtil::ConvertExpression(expression, VariablePathMap);

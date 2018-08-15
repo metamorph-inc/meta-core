@@ -500,7 +500,7 @@ BOOL CDesertToolApp::InitInstance()
 					fprintf(fdDcif, "\t<ConstraintSet NumConfigs=\"%d\">\n", numCfgs);
 					std::vector<tstring> allStrCons = splitConstraints(strConsList);
 					for (std::vector<tstring>::iterator strCIt = allStrCons.begin(); strCIt != allStrCons.end(); ++strCIt)
-						fprintf(fdDcif, "\t\t<Constraint Name=\"" PRINTF_TSTRING" \"/>\n", strCIt->c_str());
+						fprintf(fdDcif, "\t\t<Constraint Name=\"" PRINTF_TSTRING "\"/>\n", strCIt->c_str());
 					fprintf(fdDcif, "\t</ConstraintSet>\n");
 				}
 				std::cout << "Configs: " << numCfgs << std::endl;
