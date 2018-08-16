@@ -127,7 +127,7 @@ void CyPhyCAExporter::createComponentAssembly()
 		else
 			createFlattenedConnections(rootDC);
 
-		postProcessComponentAssembly(ca_model);
+		postProcessComponentAssembly(ca_model, true);
 	}
 	catch(udm_exception &exc)
 	{
@@ -782,7 +782,7 @@ bool CyPhyCAExporter::isOptionalContainer(const Udm::Object &obj, bool &isNullSe
 	return true;
 }
 
-void CyPhyCAExporter::postProcessComponentAssembly(CyPhyML::ComponentAssembly &ca)
+void CyPhyCAExporter::postProcessComponentAssembly(CyPhyML::ComponentAssembly &ca, bool isRoot)
 {
 	//Delete standalone port
 	if(ca.isInstance() || ca.isSubtype()) 
@@ -824,21 +824,15 @@ void CyPhyCAExporter::postProcessComponentAssembly(CyPhyML::ComponentAssembly &c
 	//}
 
 	set<CyPhyML::ComponentAssembly> cas = ca.ComponentAssembly_kind_children();
-	set<CyPhyML::ComponentRef> comrefs = ca.ComponentRef_kind_children();
-	if(comrefs.empty() && cas.empty())
-	{
-		ca.DeleteObject();
-		return;
-	}
 
 	for(set<CyPhyML::ComponentAssembly>::iterator i=cas.begin();i!=cas.end();++i)
 	{
-		postProcessComponentAssembly(CyPhyML::ComponentAssembly(*i));		
-	}	
+		postProcessComponentAssembly(CyPhyML::ComponentAssembly(*i), false);
+	}
 	
 	cas = ca.ComponentAssembly_kind_children();
-	comrefs = ca.ComponentRef_kind_children();
-	if(comrefs.empty() && cas.empty())
+	set<CyPhyML::ComponentRef> comrefs = ca.ComponentRef_kind_children();
+	if(comrefs.empty() && cas.empty() && isRoot == false)
 		ca.DeleteObject();
 }
 

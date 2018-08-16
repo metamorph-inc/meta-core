@@ -28,7 +28,7 @@ private:
 
 	bool flatten;
 	void init(CyPhyML::DesignContainer &container, CyPhyML::ComponentAssembly &ca);
-	void postProcessComponentAssembly(CyPhyML::ComponentAssembly &ca);
+	void postProcessComponentAssembly(CyPhyML::ComponentAssembly &ca, bool isRoot);
 	void copyDesignElementInstance(CyPhyML::DesignElement &from_elem, Udm::Object &to_parent);
 
 	Udm::Object getMappedInstanceObject(const Udm::Object &arcObj, Udm::Object &instanceParent);
