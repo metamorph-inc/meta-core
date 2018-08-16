@@ -164,6 +164,8 @@ namespace DFUtil
 
 	bool ConvertCaret(std::string& expression)
 	{
+		// FIXME replace this with a proper parser
+		//  (e.g. what if ^ is contained within a string)
 		bool hasCarat = 0;
 		string Operators = "/+-*?<>=#!$%&|~' ";
 		string startExpr, endExpr;
@@ -210,6 +212,7 @@ namespace DFUtil
 			left = expression.substr(i, pos-i);
 
 			// find right side
+			bracketStack = stack<char>();
 			i = pos+1;
 			for (; i < size; ++i)
 			{
@@ -330,3 +333,25 @@ namespace DFUtil
 	}
 
 };
+
+#include <Windows.h>
+#include <OleAuto.h>
+extern "C" __declspec(dllexport) BSTR __stdcall Exponentiate(wchar_t* expression)
+{
+	std::string expr;
+	{
+		char buf[4096];
+		sprintf_s(buf, "%S", expression);
+		map<string, string> VariablePathMap;
+		expr = buf;
+		bool status = true;
+		while (status)
+			status = DFUtil::ConvertCaret(expr);
+	}
+
+	{
+		wchar_t buf[4096];
+		swprintf_s(buf, L"%S", expr.c_str());
+		return SysAllocString(buf);
+	}
+}

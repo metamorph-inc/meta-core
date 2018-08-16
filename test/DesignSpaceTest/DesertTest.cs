@@ -239,4 +239,40 @@ namespace DesignSpaceTest
             fixture = data;
         }
     }
+
+    public class DesertUnitTest
+    {
+        [DllImport("DesignSpaceHelper.dll", CallingConvention=CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.BStr)]
+        private static extern string Exponentiate([MarshalAs(UnmanagedType.LPWStr)] string input);
+
+        [Fact]
+        void TestDesert_Exponentiation()
+        {
+            Type DesignSpaceHelperType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
+            var dsh = (IMgaComponentEx)Activator.CreateInstance(DesignSpaceHelperType);
+            string input;
+            string output;
+            input = "(5)^6 / 7";
+            output = Exponentiate(input);
+            Assert.Equal("(exp(6*ln((5)))) / 7", output);
+
+            string input2 = "(a/0.75)^(2.7+0.7*(b/c))";
+            output = Exponentiate(input2);
+            string expected2 = "(exp((2.7+0.7*(b/c))*ln((a/0.75))))";
+            Assert.Equal(expected2, output);
+
+            string input3 = "(a/0.75)^(2.7+0.7*(b/d))";
+            output = Exponentiate(input3);
+            string expected3 = "(exp((2.7+0.7*(b/d))*ln((a/0.75))))";
+            Assert.Equal(expected3, output);
+
+            string input4 = input2 + " / " + input3;
+            output = Exponentiate(input4);
+            string expected4 = expected2 + " / " + expected3;
+            Assert.Equal(expected4, output);
+            GC.KeepAlive(dsh);
+        }
+
+    }
 }
