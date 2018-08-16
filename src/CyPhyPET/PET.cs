@@ -420,6 +420,11 @@ namespace CyPhyPET
                     x[0] == '"' ? (string)JsonConvert.DeserializeObject(x) :
                         (object)Double.Parse(x, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture)
                     ).ToList();
+                var last = matches.Cast<Match>().Last();
+                if (last.Index + last.Length != range.Length)
+                {
+                    throw new ApplicationException(parseErrorMessage);
+                }
                 // special-case: a single number produces a double range
                 if (matches.Count == 1 && matches[0].Groups[1].Value[0] != '"')
                 {
