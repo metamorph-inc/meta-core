@@ -14,6 +14,7 @@
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
     using System.Reflection;
     using System.Security;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Implements full master interpreter functionality.
@@ -281,7 +282,7 @@
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
                 if (this.IsInteractive)
                 {
-                    dialogResult = selectionForm.ShowDialog();
+                    dialogResult = selectionForm.ShowDialog(NativeWindow.FromHandle(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle));
                     this.Logger.GMEConsoleLoggingLevel = selectionForm.ConfigurationSelectionResult.VerboseLogging ?
                         CyPhyGUIs.GMELogger.MessageType_enum.Debug :
                         CyPhyGUIs.SmartLogger.MessageType_enum.Info;
