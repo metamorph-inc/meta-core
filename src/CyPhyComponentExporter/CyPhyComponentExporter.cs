@@ -114,11 +114,22 @@ namespace CyPhyComponentExporter
         [ComVisible(true)]
         public void ExportAllComponents(IMgaProject project, String outputDirectory)
         {
+
+            HashSet<string> avm_ids = new HashSet<string>();
+            HashSet<string> safe_names = new HashSet<string>();
             var cyPhyComponentSet = CyPhy2ComponentModel.ComponentLister.getCyPhyMLComponentSet(project.RootFolder);
             foreach (var component in cyPhyComponentSet)
             {
                 var avmComponentModel = CyPhyML2AVM.AVMComponentBuilder.CyPhyML2AVM(component);
                 var safe_component_name = InvalidFileNameRegex.Replace(component.Name, "_");
+                if (avm_ids.Add(avmComponentModel.ID) == false)
+                {
+                    throw new ApplicationException(String.Format("Duplicate ID '{0}'", avmComponentModel.ID));
+                }
+                if (safe_names.Add(safe_component_name) == false)
+                {
+                    safe_component_name += avmComponentModel.ID;
+                }
                 SerializeAvmComponent(avmComponentModel, Path.Combine(outputDirectory, safe_component_name + ".acm"));
             }
         }
