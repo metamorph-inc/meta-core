@@ -591,7 +591,10 @@
                         // TODO else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
 
                     }
-                    this.Manager.JobCollection.Designs = Designs;
+                    if (this.Manager != null && this.Manager.Started)
+                    {
+                        this.Manager.JobCollection.Designs = Designs;
+                    }
                 }
 
                 this.OnMultipleConfigurationProgress(new ProgressCallbackEventArgs()

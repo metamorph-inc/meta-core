@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using JobManager;
 using System.Runtime.Remoting.Channels.Ipc;
+using System.Security.Principal;
 
 namespace JobManagerFramework
 {
@@ -169,7 +170,7 @@ namespace JobManagerFramework
 
         private void InitializeChannels()
         {
-            string ChannelName = ChannelName_base + Environment.UserName;
+            string ChannelName = ChannelName_base + WindowsIdentity.GetCurrent().User;
 
             var provider = new BinaryServerFormatterSinkProvider();
             provider.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;

@@ -11,6 +11,7 @@ using System.Runtime.Remoting;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Threading;
+using System.Security.Principal;
 
 namespace CyPhyMasterInterpreter
 {
@@ -25,7 +26,7 @@ namespace CyPhyMasterInterpreter
         {
             get
             {
-                return new Uri("ipc://MetaJobManager" + Environment.UserName + "/JobServer");
+                return new Uri("ipc://MetaJobManager" + WindowsIdentity.GetCurrent().User + "/JobServer");
             }
         }
 
