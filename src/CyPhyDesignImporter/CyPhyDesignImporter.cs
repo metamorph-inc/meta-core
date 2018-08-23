@@ -138,7 +138,7 @@ namespace CyPhyDesignImporter
                         {
                             continue;
                         }
-                        makeConnection(obj.Value, cyphy_target, typeof(CyPhy.ConnectorComposition).Name);
+                        ConnectConnectorsAcrossHierarchy(obj.Value, cyphy_target);
                     }
                 }
             }
@@ -148,6 +148,103 @@ namespace CyPhyDesignImporter
             DoLayout();
 
             return (Model)cyphy_container;
+        }
+
+        private IEnumerable<Model> getParents(Model fco)
+        {
+            yield return fco;
+            Model parent = fco.ParentContainer as Model;
+            while (parent != null)
+            {
+                yield return parent;
+                parent = parent.ParentContainer as Model;
+            }
+        }
+
+        private void ConnectConnectorsAcrossHierarchy(object cyphy_source, object cyphy_target)
+        {
+            Model source_parent;
+            Model source_connector;
+            if (cyphy_source is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)
+            {
+                source_parent = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_source).Key.ParentContainer;
+                source_connector = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_source).Value;
+            }
+            else
+            {
+                source_connector = ((Model)cyphy_source);
+                source_parent = (Model)source_connector.ParentContainer;
+            }
+            Model target_parent;
+            Model target_connector;
+            if (cyphy_target is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)
+            {
+                target_parent = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_target).Key.ParentContainer;
+                target_connector = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_target).Value;
+            }
+            else
+            {
+                target_connector = ((Model)cyphy_target);
+                target_parent = (Model)target_connector.ParentContainer;
+            }
+
+            if (target_parent.ID == source_parent.ID
+                || (AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObjectReference(cyphy_target) == null && source_parent.ID == target_parent.ParentContainer.ID)
+                || (AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObjectReference(cyphy_source) == null && target_parent.ID == source_parent.ParentContainer.ID)
+                )
+            {
+                makeConnection(cyphy_source, cyphy_target, typeof(CyPhy.ConnectorComposition).Name);
+                return;
+            }
+            // AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObject(
+            List<Model> source_parents = getParents(source_parent).ToList();
+            List<Model> target_parents = getParents(target_parent).ToList();
+            if (source_parents.Last().ID != target_parents.Last().ID)
+            {
+                throw new ApplicationException(String.Format("'{0}' and '{1}' cannot be connected", source_parent.Path, target_parent.Path));
+            }
+            Model commonAncestor = source_parent;
+            // remove common ancestors from source_ and target_parents
+            while (true)
+            {
+                if (source_parents[source_parents.Count - 1].ID == target_parents[target_parents.Count - 1].ID)
+                {
+                    commonAncestor = source_parents[source_parents.Count - 1];
+                    source_parents.RemoveAt(source_parents.Count - 1);
+                    target_parents.RemoveAt(target_parents.Count - 1);
+                }
+                else
+                {
+                    break;
+                }
+                if (source_parents.Count == 0 || target_parents.Count == 0)
+                {
+                    break;
+                }
+            }
+            var source_intermediary = ConnectCompositionThroughHierarchy(cyphy_source, source_connector, source_parents);
+            var target_intermediary = ConnectCompositionThroughHierarchy(cyphy_target, target_connector, target_parents);
+
+            MgaMetaRole connectorRole = ((MgaMetaModel)commonAncestor.Impl.MetaBase).RoleByName["Connector"];
+            var lastConnector = CyPhyClasses.Connector.Cast(((MgaModel)commonAncestor.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true));
+
+            makeConnection(lastConnector, source_intermediary, typeof(CyPhy.ConnectorComposition).Name);
+            makeConnection(lastConnector, target_intermediary, typeof(CyPhy.ConnectorComposition).Name);
+        }
+
+        private Object ConnectCompositionThroughHierarchy(object cyphy_source, Model source_connector, List<Model> source_parents)
+        {
+            object srcIntermediary = cyphy_source;
+            for (int i = 0; i < source_parents.Count; i++)
+            {
+                Model parent = source_parents[i];
+                MgaMetaRole connectorRole = ((MgaMetaModel)parent.Impl.MetaBase).RoleByName["Connector"];
+                var newIntermediary = CyPhyClasses.Connector.Cast(((MgaModel)parent.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true));
+                makeConnection(srcIntermediary, newIntermediary, typeof(CyPhy.ConnectorComposition).Name);
+                srcIntermediary = newIntermediary;
+            }
+
+            return srcIntermediary;
         }
 
         private void TellCyPhyAddonDontAssignIds()

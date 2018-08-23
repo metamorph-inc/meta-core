@@ -774,7 +774,7 @@ namespace AVM2CyPhyML
             return dsmlCasts[kind](conn);
         }
 
-        private static IMgaFCO GetFCOObject(object cyPhyMLObjectSrc)
+        public static IMgaFCO GetFCOObject(object cyPhyMLObjectSrc)
         {
             IMgaFCO source;
             if (cyPhyMLObjectSrc is ISIS.GME.Common.Interfaces.FCO)
@@ -788,7 +788,7 @@ namespace AVM2CyPhyML
 
             return source;
         }
-        private static IMgaReference GetFCOObjectReference(object cyPhyMLObjectSrc)
+        public static IMgaReference GetFCOObjectReference(object cyPhyMLObjectSrc)
         {
             IMgaReference source_rp;
             if (cyPhyMLObjectSrc is ISIS.GME.Common.Interfaces.FCO)
