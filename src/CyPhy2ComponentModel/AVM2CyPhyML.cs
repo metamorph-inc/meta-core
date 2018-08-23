@@ -810,6 +810,11 @@ namespace AVM2CyPhyML
                 var avmSimpleFormula = avmSimpleFormulaWithOwner.Key as avm.SimpleFormula;
                 var cyPhyMLSimpleFormula = _avmCyPhyMLObjectMap[avmSimpleFormula];
 
+                if (avmSimpleFormula.Operand.Count == 1 && avmSimpleFormula.Operand[0] == "")
+                {
+                    continue;
+                }
+
                 foreach (var operandID in avmSimpleFormula.Operand)
                 {
                     // Look up other AVM Value & its AVM Owner by ID.
