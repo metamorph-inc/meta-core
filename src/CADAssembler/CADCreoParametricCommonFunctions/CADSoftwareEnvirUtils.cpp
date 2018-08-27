@@ -302,9 +302,9 @@ namespace isis
 		// Check if \PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.psf exists
 		if (::boost::filesystem::exists(creoStartCommand_psfFile_PathAndFileName) )
 			//  C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.exe -g:no_graphics -i:rpc_input C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.psf %*
-			return  in_CreoParametricInstallPath + 
-					creoStartCommandSuffix + " " + 
-					creoStartCommand_psfFile_PathAndFileName + 
+			return  "\"" + in_CreoParametricInstallPath +
+					creoStartCommandSuffix + "\" " +
+					"\"" + creoStartCommand_psfFile_PathAndFileName + "\" " +
 					creoStartCommandSuffix_psfFile;
 		else
 			//  C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.exe -g:no_graphics -i:rpc_input 

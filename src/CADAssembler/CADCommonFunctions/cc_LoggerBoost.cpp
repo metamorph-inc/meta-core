@@ -94,8 +94,8 @@ void init_logging_boost(	bool				in_include_severity_level_in_msg_file,
 			(
 				in_log_file_name,
 				keywords::filter = (channel == isis_FILE || channel == isis_CONSOLE_FILE) && (min_severity || severity >= isis_ERROR),
-				keywords::format = ( expr::stream << std::setw(7) <<  std::left << severity << expr::smessage)
-				//, keywords::auto_flush = true
+				keywords::format = ( expr::stream << std::setw(7) <<  std::left << severity << expr::smessage),
+				keywords::auto_flush = true
 			);
 		}
 		else
@@ -104,8 +104,8 @@ void init_logging_boost(	bool				in_include_severity_level_in_msg_file,
 			(
 				in_log_file_name,
 				keywords::filter = (channel == isis_FILE || channel == isis_CONSOLE_FILE) && (min_severity || severity >= isis_ERROR),
-				keywords::format = ( expr::stream << expr::smessage)
-				//, keywords::auto_flush = true
+				keywords::format = ( expr::stream << expr::smessage),
+				keywords::auto_flush = true
 			);
 		}
 	}
