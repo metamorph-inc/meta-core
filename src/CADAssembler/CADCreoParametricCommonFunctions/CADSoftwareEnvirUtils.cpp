@@ -290,7 +290,8 @@ namespace isis
 									   bool					in_CreoExceptInputFromThisProgramAndCreoUI, 
 									   const std::string	&in_CreoParametricInstallPath )
 	{
-		std::string creoStartCommandSuffix			 =  "bin\\parametric.exe";
+		std::string creoStartCommand				 =  "bin\\parametric.exe";
+		std::string creoStartCommandSuffix			 = "";
 		std::string creoStartCommand_psFile_FileName =  "bin\\parametric.psf";
 		std::string creoStartCommandSuffix_psfFile	 =  " %*";
 
@@ -303,8 +304,8 @@ namespace isis
 		if (::boost::filesystem::exists(creoStartCommand_psfFile_PathAndFileName) )
 			//  C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.exe -g:no_graphics -i:rpc_input C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.psf %*
 			return  "\"" + in_CreoParametricInstallPath +
-					creoStartCommandSuffix + "\" " +
-					"\"" + creoStartCommand_psfFile_PathAndFileName + "\" " +
+			creoStartCommand + "\" " + creoStartCommandSuffix +
+					" \"" + creoStartCommand_psfFile_PathAndFileName + "\" " +
 					creoStartCommandSuffix_psfFile;
 		else
 			//  C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.exe -g:no_graphics -i:rpc_input 
