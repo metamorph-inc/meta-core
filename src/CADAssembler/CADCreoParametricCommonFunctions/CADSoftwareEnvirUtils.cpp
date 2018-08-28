@@ -309,7 +309,7 @@ namespace isis
 					creoStartCommandSuffix_psfFile;
 		else
 			//  C:\PROGRA~1\PTC\CREO2~1.0\PARAME~1\bin\parametric.exe -g:no_graphics -i:rpc_input 
-			return in_CreoParametricInstallPath + creoStartCommandSuffix;
+			return in_CreoParametricInstallPath + creoStartCommand + " " + creoStartCommandSuffix;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void SetupCreoEnvironmentVariables(
