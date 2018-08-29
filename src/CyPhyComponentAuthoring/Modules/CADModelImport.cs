@@ -37,9 +37,11 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
-            NameVal = "Add CAD",
-            DescriptionVal = "Import an existing Creo CAD model and associate it with this CyPhy Component.  You must have Creo installed on this machine to convert the model file.",
-            RoleVal = CyPhyComponentAuthoringInterpreter.Role.Construct
+                NameVal = "Add CAD",
+                DescriptionVal = "Import an existing Creo CAD model and associate it with this CyPhy Component.  You must have Creo installed on this machine to convert the model file.",
+                RoleVal = CyPhyComponentAuthoringInterpreter.Role.Construct,
+                IconResourceKey = "add_cad",
+                SupportedDesignEntityTypes = CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component
             )
         ]
         public void callImportCADModel(object sender, EventArgs e)
@@ -49,15 +51,12 @@ namespace CyPhyComponentAuthoring.Modules
             // Close the calling dialog box if the module ran successfully
             if (Close_Dlg)
             {
-                // calling object is a button
-                Button callerBtn = (Button)sender;
-                // the button is in a layout panel
-                TableLayoutPanel innerTLP = (TableLayoutPanel)callerBtn.Parent;
-                // the layout panel is a table within a table
-                TableLayoutPanel outerTLP = (TableLayoutPanel)innerTLP.Parent;
-                // the TLP is in the dialog box
-                Form parentDB = (Form)outerTLP.Parent;
-                parentDB.Close();
+                if (sender is Form)
+                {
+                    // the TLP is in the dialog box
+                    Form parentDB = (Form)sender;
+                    parentDB.Close();
+                }
             }
         }
 
@@ -175,12 +174,12 @@ namespace CyPhyComponentAuthoring.Modules
                     var rf = CyPhyClasses.RootFolder.GetRootFolder(CurrentProj);
 
                     AVM2CyPhyML.CyPhyMLComponentBuilder newComponent = new AVM2CyPhyML.CyPhyMLComponentBuilder(rf);
-                    ProcessedCADModel = newComponent.process(cadmodel, GetCurrentComp());
+                    ProcessedCADModel = newComponent.process(cadmodel, (CyPhy.Component) GetCurrentDesignElement());
                     ProcessedCADModel.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(cadFilename));
                 }
 
                 // find the largest current Y value so our new elements are added below the existing design elements
-                foreach (var child in GetCurrentComp().AllChildren)
+                foreach (var child in GetCurrentDesignElement().AllChildren)
                 {
                     foreach (MgaPart item in (child.Impl as MgaFCO).Parts)
                     {
@@ -202,7 +201,7 @@ namespace CyPhyComponentAuthoring.Modules
             }
             else if (test_copy_and_path_only)
             {
-                ProcessedCADModel = CyPhyClasses.CADModel.Create(GetCurrentComp());
+                ProcessedCADModel = CyPhyClasses.CADModel.Create((CyPhy.Component) GetCurrentDesignElement());
                 ProcessedCADModel.Name = Path.GetFileName(AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(CADpath));
             }
 
@@ -223,8 +222,8 @@ namespace CyPhyComponentAuthoring.Modules
                 try
                 {
                     // create the destination path
-                    PathforComp = META.ComponentLibraryManager.EnsureComponentFolder(GetCurrentComp());
-                    PathforComp = GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+                    PathforComp = META.ComponentLibraryManager.EnsureComponentFolder((CyPhy.Component) GetCurrentDesignElement());
+                    PathforComp = ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
                     
                     string finalPathName = Path.Combine(PathforComp, "CAD");
 
@@ -307,7 +306,7 @@ namespace CyPhyComponentAuthoring.Modules
                 foreach (var cadFile in importedCADFiles)
                 {
 
-                    CyPhy.Resource ResourceObj = CyPhyClasses.Resource.Create(GetCurrentComp());
+                    CyPhy.Resource ResourceObj = CyPhyClasses.Resource.Create((CyPhy.Component) GetCurrentDesignElement());
                     ResourceObj.Attributes.ID = Guid.NewGuid().ToString("B");
                     ResourceObj.Attributes.Path = AVM2CyPhyML.CyPhyMLComponentBuilder.GetCreoFileWithoutVersion(cadFile);
                     ResourceObj.Attributes.Notes = "CAD Model Import tool added this resource object for the imported CAD file";
@@ -323,7 +322,7 @@ namespace CyPhyComponentAuthoring.Modules
                     if (importedCADFiles.IndexOf(cadFile) == 0)
                     {
                         //  - Create a UsesResource association between the CyPhy CADModel object and the Resource object that represents the top-level Creo Model file.
-                        CyPhyClasses.UsesResource.Connect(ResourceObj, ProcessedCADModel, null, null, GetCurrentComp());
+                        CyPhyClasses.UsesResource.Connect(ResourceObj, ProcessedCADModel, null, null, (CyPhy.Component) GetCurrentDesignElement());
                     }
                 }
             }
@@ -332,8 +331,8 @@ namespace CyPhyComponentAuthoring.Modules
             if (extractor_ran_success && !test_copy_and_path_only)
             {
                 var exporter = new CyPhyComponentExporter.CyPhyComponentExporterInterpreter();
-                String acmPath = Path.Combine(PathforComp,GetCurrentComp().Name + ".component.acm");
-                CyPhyComponentExporterInterpreter.ExportToFile(GetCurrentComp(), Path.GetDirectoryName(acmPath));
+                String acmPath = Path.Combine(PathforComp,GetCurrentDesignElement().Name + ".component.acm");
+                CyPhyComponentExporterInterpreter.ExportToFile((CyPhy.Component) GetCurrentDesignElement(), Path.GetDirectoryName(acmPath));
             }
 
             // Clean up
@@ -433,7 +432,7 @@ namespace CyPhyComponentAuthoring.Modules
             {
                 // - For each CADParameter object, create a corresponding Property object under the parent Component. 
                 //   - Give the Property the same name 
-                CyPhy.Property newprop = CyPhyClasses.Property.Create(GetCurrentComp());
+                CyPhy.Property newprop = CyPhyClasses.Property.Create((CyPhy.Component) GetCurrentDesignElement());
                 newprop.Name = parm.Name;
                 if ( ! String.IsNullOrWhiteSpace(parm.Attributes.Value) )
                     newprop.Attributes.Value = parm.Attributes.Value;

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using EventArgs = System.EventArgs;
 
 namespace CyPhyComponentAuthoring
 {
@@ -19,11 +20,35 @@ namespace CyPhyComponentAuthoring
         {
             InitializeComponent();
 
-            tableLayoutPanel0.DragDrop += new System.Windows.Forms.DragEventHandler(CyPhyComponentAuthoringToolGUI_DragDrop);
-            tableLayoutPanel0.DragEnter += new System.Windows.Forms.DragEventHandler(CyPhyComponentAuthoringToolGUI_DragEnter);
-            tableLayoutPanel0.AllowDrop = true;
+            this.splitContainer1.DragDrop += new System.Windows.Forms.DragEventHandler(CyPhyComponentAuthoringToolGUI_DragDrop);
+            this.splitContainer1.DragEnter += new System.Windows.Forms.DragEventHandler(CyPhyComponentAuthoringToolGUI_DragEnter);
+            this.splitContainer1.AllowDrop = true;
 
             this.dragNDropHandler = dragNDropHandler;
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            var originalTileSize = CatModuleListView.TileSize;
+
+            CatModuleListView.TileSize = new Size((int) (originalTileSize.Width * factor.Width), (int) (originalTileSize
+                                                                                                            .Height *
+                                                                                                        factor.Height));
+            
+            //Save our collection of images
+            var savedImages = new List<Image>(ComponentIconList.Images.Cast<Image>());
+            var originalImageSize = ComponentIconList.ImageSize;
+
+            ComponentIconList.ImageSize = new Size((int)(originalImageSize.Width * factor.Width), (int)(originalImageSize
+                                                                                                           .Height *
+                                                                                                       factor.Height));
+
+            foreach (var image in savedImages)
+            {
+                ComponentIconList.Images.Add(image);
+            }
         }
 
         private void CyPhyComponentAuthoringToolGUI_DragDrop(object sender, DragEventArgs e)
@@ -89,6 +114,113 @@ namespace CyPhyComponentAuthoring
             {
                 e.Effect = DragDropEffects.Copy;
             }
+        }
+
+        private void CatModuleListView_ItemActivate(object sender, EventArgs e)
+        {
+            RunSelectedItem();
+        }
+
+        private void RunSelectedItem()
+        {
+            if (CatModuleListView.SelectedItems.Count > 0)
+            {
+                var selectedItem = CatModuleListView.SelectedItems[0];
+
+                if (selectedItem is CatToolListViewItem)
+                {
+                    (selectedItem as CatToolListViewItem).RunAction(this);
+                }
+            }
+        }
+
+        private void CatModuleListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (CatModuleListView.SelectedItems.Count > 0)
+            {
+                var selectedItem = CatModuleListView.SelectedItems[0];
+
+                if (selectedItem is CatToolListViewItem)
+                {
+                    var selectedListViewItem = selectedItem as CatToolListViewItem;
+
+                    ModuleNameLabel.Text = selectedListViewItem.Attributes.NameVal;
+                    ModuleDetailsTextBox.Text = selectedListViewItem.Attributes.DescriptionVal;
+
+                    RunToolButton.Enabled = true;
+                }
+                else
+                {
+                    ModuleNameLabel.Text = "";
+                    ModuleDetailsTextBox.Text = "";
+
+                    RunToolButton.Enabled = false;
+                }
+            }
+            else
+            {
+                ModuleNameLabel.Text = "";
+                ModuleDetailsTextBox.Text = "";
+
+                RunToolButton.Enabled = false;
+            }
+        }
+
+        private void CyPhyComponentAuthoringToolGUI_Load(object sender, EventArgs e)
+        {
+            // Set the default dialog font on each child control
+            //FixControlFont(this);
+
+            //ModuleNameLabel.Font = new Font(SystemFonts.MessageBoxFont, FontStyle.Bold);
+        }
+
+        /**
+         * Currently unused, because changing the control font to the system font
+         * makes our icons blurry.  Yay Winforms.
+         */
+        private void FixControlFont(Control c)
+        {
+            foreach (var subcontrol in c.Controls)
+            {
+                if (subcontrol is Control)
+                {
+                    FixControlFont(subcontrol as Control);
+                }
+            }
+
+            c.Font = SystemFonts.MessageBoxFont;
+        }
+
+        private void RunToolButton_Click(object sender, EventArgs e)
+        {
+            RunSelectedItem();
+        }
+    }
+
+    public class CatToolListViewItem : ListViewItem
+    {
+        public CyPhyComponentAuthoringInterpreter.CATName Attributes { get; }
+
+        public EventHandler Action { get; set; }
+
+        public CatToolListViewItem(CyPhyComponentAuthoringInterpreter.CATName attributes, ImageList iconImageList) : base()
+        {
+            Attributes = attributes;
+
+            this.Text = attributes.NameVal;
+
+            var iconKey = attributes.IconResourceKey ?? "generic_module";
+
+            var icon = Resources.ResourceManager.GetObject(iconKey) as Icon ?? Resources.generic_module;
+            icon = new Icon(icon, 48, 48);
+
+            iconImageList.Images.Add(icon);
+            this.ImageIndex = iconImageList.Images.Count - 1;
+        }
+
+        public void RunAction(object sender)
+        {
+            Action?.Invoke(sender, EventArgs.Empty);
         }
     }
 }

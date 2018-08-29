@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using GME.CSharp;
 using Exp = CyPhyComponentExporter;
 
+using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
+using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+
 namespace CyPhyComponentAuthoring.Modules
 {
     [CyPhyComponentAuthoringInterpreter.IsCATModule(ContainsCATmethod = true)]
@@ -13,9 +16,11 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
-            NameVal = "Export Component Package",
-            DescriptionVal = "Export an AVM Component Package in ZIP format, which will include any of this model's dependent artifacts.",
-            RoleVal = CyPhyComponentAuthoringInterpreter.Role.Share
+                NameVal = "Export Component Package",
+                DescriptionVal = "Export an AVM Component Package in ZIP format, which will include any of this model's dependent artifacts.",
+                RoleVal = CyPhyComponentAuthoringInterpreter.Role.Share,
+                IconResourceKey = "export_component_folder",
+                SupportedDesignEntityTypes = CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component
             )
         ]
         public void ExportComponentPackage(object sender, EventArgs e)
@@ -25,21 +30,18 @@ namespace CyPhyComponentAuthoring.Modules
             // Close the calling dialog box if the module ran successfully
             if (Close_Dlg)
             {
-                // calling object is a button
-                Button callerBtn = (Button)sender;
-                // the button is in a layout panel
-                TableLayoutPanel innerTLP = (TableLayoutPanel)callerBtn.Parent;
-                // the layout panel is a table within a table
-                TableLayoutPanel outerTLP = (TableLayoutPanel)innerTLP.Parent;
-                // the TLP is in the dialog box
-                Form parentDB = (Form)outerTLP.Parent;
-                parentDB.Close();
+                if (sender is Form)
+                {
+                    // the TLP is in the dialog box
+                    Form parentDB = (Form)sender;
+                    parentDB.Close();
+                }
             }
         }
 
         void export_component_package()
         {
-            var component = this.GetCurrentComp();
+            var component = (CyPhy.Component) this.GetCurrentDesignElement();
 
             this.Logger = new CyPhyGUIs.GMELogger(CurrentProj, this.GetType().Name);
             this.Logger.WriteDebug("Starting Component Export module...");

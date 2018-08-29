@@ -39,9 +39,11 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
-            NameVal = "Add Manufacturing",
-            DescriptionVal = "Allows adding an existing Manufacturing Model file to this CyPhy Component model.",
-            RoleVal = CyPhyComponentAuthoringInterpreter.Role.Construct
+                NameVal = "Add Manufacturing",
+                DescriptionVal = "Allows adding an existing Manufacturing Model file to this CyPhy Component model.",
+                RoleVal = CyPhyComponentAuthoringInterpreter.Role.Construct,
+                IconResourceKey = "add_mfg",
+                SupportedDesignEntityTypes = CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component
             )
         ]
         public void ImportMfgModel(object sender, EventArgs e)
@@ -51,15 +53,12 @@ namespace CyPhyComponentAuthoring.Modules
             // Close the calling dialog box if the module ran successfully
             if (Close_Dlg)
             {
-                // calling object is a button
-                Button callerBtn = (Button)sender;
-                // the button is in a layout panel
-                TableLayoutPanel innerTLP = (TableLayoutPanel)callerBtn.Parent;
-                // the layout panel is a table within a table
-                TableLayoutPanel outerTLP = (TableLayoutPanel)innerTLP.Parent;
-                // the TLP is in the dialog box
-                Form parentDB = (Form)outerTLP.Parent;
-                parentDB.Close();
+                if (sender is Form)
+                {
+                    // the TLP is in the dialog box
+                    Form parentDB = (Form)sender;
+                    parentDB.Close();
+                }
             }
         }
 
@@ -70,7 +69,7 @@ namespace CyPhyComponentAuthoring.Modules
             this.Logger.WriteDebug("Starting Import Manufacturing Model module...");
 
             // Case 3211: determine if a manufacturing model already exists and give the user the option to abort if it does
-            CyPhy.ManufacturingModel ExistingMfgModel = GetCurrentComp().Children.ManufacturingModelCollection.FirstOrDefault();
+            CyPhy.ManufacturingModel ExistingMfgModel = ((CyPhy.Component) GetCurrentDesignElement()).Children.ManufacturingModelCollection.FirstOrDefault();
 
             if (ExistingMfgModel != null)
             {
@@ -124,8 +123,8 @@ namespace CyPhyComponentAuthoring.Modules
                 try
                 {
                     // create the destination path
-                    string PathforComp = META.ComponentLibraryManager.EnsureComponentFolder(GetCurrentComp());
-                    PathforComp = GetCurrentComp().GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
+                    string PathforComp = META.ComponentLibraryManager.EnsureComponentFolder((CyPhy.Component) GetCurrentDesignElement());
+                    PathforComp = ((CyPhy.Component) GetCurrentDesignElement()).GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE);
 
                     string finalPathName = Path.Combine(PathforComp, "Manufacturing");
 
@@ -167,11 +166,11 @@ namespace CyPhyComponentAuthoring.Modules
             {
                 this.Logger.WriteDebug("Creating Manufacturing model object...");
 
-                ProcessedMfgModel = CyPhyClasses.ManufacturingModel.Create(GetCurrentComp());
+                ProcessedMfgModel = CyPhyClasses.ManufacturingModel.Create((CyPhy.Component) GetCurrentDesignElement());
                 ProcessedMfgModel.Name = MFG_MODEL_NAME;
 
                 // find the largest current Y value so our new elements are added below the existing design elements
-                foreach (var child in GetCurrentComp().AllChildren)
+                foreach (var child in GetCurrentDesignElement().AllChildren)
                 {
                     foreach (MgaPart item in (child.Impl as MgaFCO).Parts)
                     {
@@ -195,7 +194,7 @@ namespace CyPhyComponentAuthoring.Modules
             if (mfg_file_chosen)
             {
                 this.Logger.WriteDebug("Creating Manufacturing model resource object...");
-                CyPhy.Resource ResourceObj = CyPhyClasses.Resource.Create(GetCurrentComp());
+                CyPhy.Resource ResourceObj = CyPhyClasses.Resource.Create((CyPhy.Component) GetCurrentDesignElement());
                 ResourceObj.Attributes.ID = Guid.NewGuid().ToString("B");
                 // META-3136, fix PATH attribute to be relative to component directory
                 // ResourceObj.Attributes.Path = mfgFileCopyPath;
@@ -211,7 +210,7 @@ namespace CyPhyComponentAuthoring.Modules
 
                 // Step 2c - Create a UsesResource association between the CyPhy ManufacturingModel object and the Resource object 
                 this.Logger.WriteDebug("Creating Manufacturing model UsesResource association...");
-                CyPhyClasses.UsesResource.Connect(ResourceObj, ProcessedMfgModel, null, null, GetCurrentComp());
+                CyPhyClasses.UsesResource.Connect(ResourceObj, ProcessedMfgModel, null, null, (CyPhy.Component) GetCurrentDesignElement());
             }
             #endregion
 

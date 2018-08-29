@@ -9,6 +9,7 @@ using GME.MGA;
 using GME.MGA.Core;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+using META;
 using System.Drawing;
 using System.IO;
 
@@ -70,13 +71,44 @@ namespace CyPhyComponentAuthoring
 
         private MgaProject StashProject { get; set; }
         private MgaFCO StashCurrentObj { get; set; }
-        private CyPhy.Component StashCurrentComponent { get; set; }
+        private CyPhy.DesignElement StashCurrentComponent { get; set; }
 
         [ComVisible(false)]
         public void Main(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, ComponentStartMode startMode)
         {
             this.Logger.WriteInfo("Running Component Authoring interpreter.");
 
+            /*if (currentobj != null &&
+                currentobj.Meta.Name == typeof(CyPhy.ComponentAssembly).Name)
+            {
+                CyPhy.ComponentAssembly ca = CyPhyClasses.ComponentAssembly.Cast(currentobj);
+                string fileName = null;
+                DialogResult dr;
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.CheckFileExists = true;
+                    ofd.Multiselect = false;
+                    ofd.Filter = "SVG files (*.svg)|*.svg*|All files (*.*)|*.*";
+                    ofd.AutoUpgradeEnabled = true;
+                    dr = ofd.ShowDialog();
+                    if (dr == DialogResult.OK)
+                    {
+                        fileName = ofd.FileName;
+                    }
+                }
+                if (fileName == null)
+                {
+                    this.Logger.WriteError("No file was selected.  Add Custom Icon will not complete.");
+                    return;
+                }
+
+                string IconFileDestPath = META.ComponentLibraryManager.EnsureComponentAssemblyFolder(ca);
+                IconFileDestPath = ca.GetDirectoryPath(META.ComponentLibraryManager.PathConvention.ABSOLUTE);
+
+                System.IO.File.Copy(fileName, System.IO.Path.Combine(IconFileDestPath, "icon.svg"), true);
+                this.Logger.WriteInfo("Successfully added icon.svg to " + currentobj.Name);
+                return;
+            }*/
             // verify we are running in a component and that it is not an instance or library
             string return_msg;
             if (!CheckPreConditions(currentobj, out return_msg))
@@ -89,10 +121,38 @@ namespace CyPhyComponentAuthoring
             // stash off the project, currentobj and CurrentComponent parameters for use in the event handlers
             StashProject = project;
             StashCurrentObj = currentobj;
-            StashCurrentComponent = CyPhyClasses.Component.Cast(currentobj);
+
+            if (currentobj.Meta.Name == typeof(CyPhy.Component).Name)
+            {
+                StashCurrentComponent = CyPhyClasses.Component.Cast(currentobj);
+            }
+            else if (currentobj.Meta.Name == typeof(CyPhy.ComponentAssembly).Name)
+            {
+                StashCurrentComponent = CyPhyClasses.ComponentAssembly.Cast(currentobj);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid design element passed to authoring tool");
+            }
+            
+
+            SupportedDesignEntityType designElementType;
+
+            if (StashCurrentComponent is CyPhy.Component)
+            {
+                designElementType = SupportedDesignEntityType.Component;
+            }
+            else if (StashCurrentComponent is CyPhy.ComponentAssembly)
+            {
+                designElementType = SupportedDesignEntityType.ComponentAssembly;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid design element passed to authoring tool");
+            }
 
             // use reflection to populate the dialog box objects
-            PopulateDialogBox();
+            PopulateDialogBox(designElementType);
 
             // To use the domain-specific API:
             //  Create another project with the same name as the paradigm name
@@ -108,10 +168,10 @@ namespace CyPhyComponentAuthoring
         {
             // check if the context is a Component
             if (currentobj == null ||
-                currentobj.Meta.Name != typeof(CyPhy.Component).Name)
+                !(currentobj.Meta.Name == typeof(CyPhy.Component).Name || currentobj.Meta.Name == typeof(CyPhy.ComponentAssembly).Name))
             {
                 // this is a really bad situation we must return
-                message = string.Format("Please open a Component and run this tool from that context.");
+                message = string.Format("Please open a Component or ComponentAssembly and run this tool from that context.");
                 return false;
             }
             else if (currentobj.IsInstance)
@@ -136,7 +196,7 @@ namespace CyPhyComponentAuthoring
             Tuple<Type, MethodInfo> method;
             if (dictofCATDnDMethods.TryGetValue(Path.GetExtension(filename), out method))
             {
-                CATModule newinst = CreateCATModule(method.Item1);
+                CATModule newinst = CreateCATModuleLogged(method.Item1);
 
                 method.Item2.Invoke(newinst, new object[] { filename });
 
@@ -147,7 +207,7 @@ namespace CyPhyComponentAuthoring
         }
 
 
-        public void PopulateDialogBox(bool testonly = false)
+        public void PopulateDialogBox(SupportedDesignEntityType designElementType, bool testonly = false)
         {
             List<Tuple<CATName, Type, MethodInfo>> listofCATmethods = new List<Tuple<CATName, Type, MethodInfo>>();
 
@@ -182,12 +242,20 @@ namespace CyPhyComponentAuthoring
                             // If it has the CATName attribute, we'll add it as a button.
                             foreach (CATName attr in meth.GetCustomAttributes(typeof(CATName), true))
                             {
-                                listofCATmethods.Add(new Tuple<CATName, Type, MethodInfo>(attr, classtype, meth));
+                                if ((attr.SupportedDesignEntityTypes & designElementType) ==
+                                    designElementType)
+                                {
+                                    listofCATmethods.Add(new Tuple<CATName, Type, MethodInfo>(attr, classtype, meth));
+                                }
                             }
 
-                            foreach (CATDnD attr in meth.GetCustomAttributes(typeof(CATDnD), true))
+                            if (designElementType == SupportedDesignEntityType.Component)
                             {
-                                dictofCATDnDMethods.Add(attr.Extension.ToLowerInvariant(), new Tuple<Type, MethodInfo>(classtype, meth));
+                                foreach (CATDnD attr in meth.GetCustomAttributes(typeof(CATDnD), true))
+                                {
+                                    // NOTE: Drag and drop support only on components for now
+                                    dictofCATDnDMethods.Add(attr.Extension.ToLowerInvariant(), new Tuple<Type, MethodInfo>(classtype, meth));
+                                }
                             }
                         }
                     }
@@ -200,13 +268,6 @@ namespace CyPhyComponentAuthoring
                     AddButtontoDialogBox(CATgut, item.Item1, item.Item2, item.Item3);
                 }
                 CATgut.ResumeLayout();
-                CATgut.tableLayoutPanel0.CellPaint += (sender, e) =>
-                {
-                    if (e.Row > 2)
-                    {
-                        ControlPaint.DrawBorder3D(e.Graphics, e.CellBounds, Border3DStyle.Etched, Border3DSide.Top);
-                    }
-                };
 
                 // META-2679 Set the start position of CAT dialog box to the center of the screen.
                 CATgut.StartPosition = FormStartPosition.CenterScreen;
@@ -241,81 +302,48 @@ namespace CyPhyComponentAuthoring
             }
         }
 
-        private const int CAT_BUTTON_WIDTH = 130;
-        private const int CAT_BUTTON_HEIGHT = 50;
-        private const int CAT_DESCRIPTION_WIDTH = 510;
-        private const int CAT_DESCRIPTION_HEIGHT = 50;
-
         public void AddButtontoDialogBox(CyPhyComponentAuthoringToolGUI CATgut, CATName attr, Type classtype, MethodInfo meth)
         {
             // add the Event Handler to the Button List
             CATName a = (CATName)attr;
 
-            // setup button properties
-            Button button = new Button();
-            button.Name = a.NameVal;
-            button.Text = a.NameVal;
-            button.Anchor = AnchorStyles.Top;
-
-            // set the button size
-            button.Width = CAT_BUTTON_WIDTH;
-            button.Height = CAT_BUTTON_HEIGHT;
-
-            // make clicking the button an event we can handle
-            Type buttonType = typeof(Button);
-            EventInfo ev = buttonType.GetEvent("Click");
-            Delegate handler = null;
+            EventHandler handler;
 
             // create a delegate event handler for the button
             if (classtype.Name == typeof(CyPhyComponentAuthoringInterpreter).Name)
             {
                 // local methods don't require a new instance of CATModule
-                handler = Delegate.CreateDelegate(ev.EventHandlerType, this, meth);
+                handler = (EventHandler) Delegate.CreateDelegate(typeof(EventHandler), this, meth);
             }
             else
             {
-                CATModule newinst = CreateCATModule(classtype);
+                CATModule newinst = CreateCATModuleLogged(classtype);
                 if (newinst == null)
                 {
                     return;
                 }
 
                 // create a delegate for the dialog button to call to invoke the method
-                handler = Delegate.CreateDelegate(ev.EventHandlerType, newinst, meth);
+                handler = (EventHandler) Delegate.CreateDelegate(typeof(EventHandler), newinst, meth);
             }
+
+            // Create our list view item
+            CatToolListViewItem listViewItem = new CatToolListViewItem(attr, CATgut.ComponentIconList);
+            listViewItem.Action += handler;
+
+            CATgut.CatModuleListView.Items.Add(listViewItem);
+
             // associate the event handler with the button click
-            ev.AddEventHandler(button, handler);
+            //ev.AddEventHandler(button, handler);
 
             // Add a second event handler to each button to close the CAT dialog box after executing the first event handler
-            ev.AddEventHandler(button, (EventHandler)((sender, e) => close_dialog_box(sender, e)));
-
-            // add another row to the table - each "row" is actually a smaller 2 column table
-            TableLayoutPanel new_mini_table = new TableLayoutPanel();
-            new_mini_table.AutoSize = true;
-            new_mini_table.ColumnCount = 2;
-            new_mini_table.RowCount = 1;
-
-            // create the button
-            new_mini_table.Controls.Add(button, 0, 0);
-
-            //setup description properties
-            Label description = new Label();
-            description.Text = a.DescriptionVal;
-            description.MinimumSize = new System.Drawing.Size(CAT_DESCRIPTION_WIDTH, CAT_DESCRIPTION_HEIGHT);
-            // description.Anchor = AnchorStyles.Top;
-            description.TextAlign = ContentAlignment.MiddleCenter;
-            
-            // set the description
-            new_mini_table.Controls.Add(description, 1, 0);
-
-            // add the new CAT module to the dialog box
-            CATgut.tableLayoutPanel0.Controls.Add(new_mini_table, 1, ++CATgut.tableLayoutPanel0.RowCount);
+            //ev.AddEventHandler(button, (EventHandler)((sender, e) => close_dialog_box(sender, e)));
         }
 
-        private CATModule CreateCATModule(Type classtype)
+        public CATModule CreateCATModuleLogged(Type classtype)
         {
             // create a new CATModule class instance 
-            CATModule newinst = Activator.CreateInstance(classtype) as CATModule;
+            CATModule newinst = Activator.CreateInstance(classtype) as CATModule; 
             if (newinst == null)
             {
                 // problem
@@ -324,8 +352,7 @@ namespace CyPhyComponentAuthoring
             }
 
             // set the current component for use by the new class instance
-            newinst.SetCurrentComp(StashCurrentComponent);
-            newinst.CurrentProj = StashProject;
+            newinst.SetCurrentDesignElement(StashCurrentComponent);
             newinst.CurrentObj = StashCurrentObj;
 
             return newinst;
@@ -348,12 +375,23 @@ namespace CyPhyComponentAuthoring
             Publish = 4
         };
 
+        [Flags]
+        [ComVisible(true)]
+        public enum SupportedDesignEntityType
+        {
+            None = 0,
+            Component = 1,
+            ComponentAssembly = 2
+        }
+
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
         public class CATName : System.Attribute
         {
             public string NameVal;
             public string DescriptionVal;
             public Role RoleVal;
+            public string IconResourceKey;
+            public SupportedDesignEntityType SupportedDesignEntityTypes;
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]

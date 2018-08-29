@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
@@ -14,7 +15,7 @@ using META;
 
 namespace ComponentAndArchitectureTeamTest
 {
-    public class ComponentAuthoringFixture
+    public class ComponentAuthoringFixture : IDisposable
     {
         public string mgaPath;
 
@@ -37,6 +38,7 @@ namespace ComponentAndArchitectureTeamTest
         {
             proj.Save();
             proj.Close();
+            proj = null;
         }
 
         public MgaProject proj { get; private set; }
@@ -65,10 +67,6 @@ namespace ComponentAndArchitectureTeamTest
             "components",
             "BottomPlate120x100",
             "generic_cots_mfg.xml");
-
-        public static string testMGApath = Path.Combine(
-            testcreatepath,
-            "CATtest.MGA");
 
         public static string RenamedFileName = "FileNameChanged.prt";
         public static string RenamedFileNameWithoutExtension = Path.GetFileNameWithoutExtension(RenamedFileName);
@@ -114,7 +112,7 @@ namespace ComponentAndArchitectureTeamTest
                 // these class variables need to be set to avoid NULL references
                 var CurrentObj = testcomp.Impl as MgaFCO;
 
-                // We are in a Component, check valid pre-conditions
+                // We are in a Component, check valid preconditions
                 Assert.True(testcai.CheckPreConditions(CurrentObj, out ret_msg),
                             String.Format("{0} should allow CAT to run in it, but it is not. Err=({1})", testcomp.Name, ret_msg)
                             );
@@ -122,7 +120,7 @@ namespace ComponentAndArchitectureTeamTest
                 // create a subcomponent and set it as current 
                 CyPhy.Component testsubcomp = fixture.proj.GetComponentsByName("ComponentSubtype").First();
                 CurrentObj = testsubcomp.Impl as MgaFCO;
-                // We are in a sub-Component, check valid pre-conditions
+                // We are in a sub-Component, check valid preconditions
                 Assert.True(testcai.CheckPreConditions(CurrentObj, out ret_msg),
                             String.Format("{0} should allow CAT to run in it, but it is not. Err=({1})", testsubcomp.Name, ret_msg)
                             );
@@ -130,7 +128,7 @@ namespace ComponentAndArchitectureTeamTest
                 // create a component instance and set it as current 
                 CyPhy.Component testcompinst = fixture.proj.GetComponentsByName("ComponentInstance").First();
                 CurrentObj = testcompinst.Impl as MgaFCO;
-                // We are in a Component instance, check valid pre-conditions
+                // We are in a Component instance, check valid preconditions
                 Assert.False(testcai.CheckPreConditions(CurrentObj, out ret_msg),
                             String.Format("{0} should NOT allow CAT to run in it, yet it is. Err=({1})", testcompinst.Name, ret_msg)
                             );
@@ -138,7 +136,7 @@ namespace ComponentAndArchitectureTeamTest
                 // create a library object and set it as current 
                 CyPhy.Component testlibcomp = fixture.proj.GetComponentsByName("LibComponent").First();
                 CurrentObj = testlibcomp.Impl as MgaFCO;
-                // We are in a library object, check valid pre-conditions
+                // We are in a library object, check valid preconditions
                 Assert.False(testcai.CheckPreConditions(CurrentObj, out ret_msg),
                             String.Format("{0} should NOT allow CAT to run in it, yet it is. Err=({1})", testlibcomp.Name, ret_msg)
                             );
@@ -148,14 +146,19 @@ namespace ComponentAndArchitectureTeamTest
         [Fact]
         public void TestCADImportResourceNaming()
         {
+            string TestName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string path_Test = Path.Combine(testcreatepath, TestName);
+            string path_Mga = Path.Combine(path_Test, TestName + ".mga");
+
             // delete any previous test results
-            if (Directory.Exists(testcreatepath))
+            if (Directory.Exists(path_Test))
             {
-                Directory.Delete(testcreatepath, true);
+                Directory.Delete(path_Test, true);
             }
+
             // create a new blank project
             MgaProject proj = new MgaProject();
-            proj.Create("MGA=" + testMGApath, "CyPhyML");
+            proj.Create("MGA=" + path_Mga, "CyPhyML");
 
             // these are the actual steps of the test
             proj.PerformInTransaction(delegate
@@ -168,8 +171,7 @@ namespace ComponentAndArchitectureTeamTest
                 // new instance of the class to test
                 CyPhyComponentAuthoring.Modules.CADModelImport testcam = new CyPhyComponentAuthoring.Modules.CADModelImport();
                 // these class variables need to be set to avoid NULL references
-                testcam.SetCurrentComp(testcomp);
-                testcam.CurrentProj = proj;
+                testcam.SetCurrentDesignElement(testcomp);
                 testcam.CurrentObj = testcomp.Impl as MgaFCO;
 
                 // call the module with a part file to skip the CREO steps
@@ -181,7 +183,7 @@ namespace ComponentAndArchitectureTeamTest
                 Assert.True(correct_name.Attributes.Path == "CAD\\damper.prt",
                             String.Format("{0} should have had value {1}; instead found {2}", correct_name.Name, "CAD\\damper.prt", correct_name.Attributes.Path)
                             );
-                // insure the part file was copied to the backend folder correctly
+                // insure the part file was copied to the back-end folder correctly
                 var getcadmdl = testcomp.Children.CADModelCollection.First();
                 string returnedpath;
                 getcadmdl.TryGetResourcePath(out returnedpath, ComponentLibraryManager.PathConvention.ABSOLUTE);
@@ -190,7 +192,6 @@ namespace ComponentAndArchitectureTeamTest
             });
             proj.Save();
             proj.Close();
-            Directory.Delete(testcreatepath, true);
         }
 
         [Fact]
@@ -207,7 +208,7 @@ namespace ComponentAndArchitectureTeamTest
                 CyPhyComponentAuthoring.CyPhyComponentAuthoringInterpreter testcai = new CyPhyComponentAuthoring.CyPhyComponentAuthoringInterpreter();
 
                 // Call the create dialog box method
-                testcai.PopulateDialogBox(true);
+                testcai.PopulateDialogBox(CyPhyComponentAuthoring.CyPhyComponentAuthoringInterpreter.SupportedDesignEntityType.Component, true);
                 // Get the dialog box location and verify it is in the center of the screen
                 Assert.True(testcai.ThisDialogBox.StartPosition == FormStartPosition.CenterScreen,
                             String.Format("CAT dialog box is not in the center of the screen")
@@ -218,14 +219,19 @@ namespace ComponentAndArchitectureTeamTest
         [Fact]
         public void TestAddCustomIconTool()
         {
+            string TestName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string path_Test = Path.Combine(testcreatepath, TestName);
+            string path_Mga = Path.Combine(path_Test, TestName + ".mga");
+
             // delete any previous test results
-            if (Directory.Exists(testcreatepath))
+            if (Directory.Exists(path_Test))
             {
-                Directory.Delete(testcreatepath, true);
+                Directory.Delete(path_Test, true);
             }
+
             // create a new blank project
             MgaProject proj = new MgaProject();
-            proj.Create("MGA=" + testMGApath, "CyPhyML");
+            proj.Create("MGA=" + path_Mga, "CyPhyML");
 
             // these are the actual steps of the test
             proj.PerformInTransaction(delegate
@@ -239,15 +245,14 @@ namespace ComponentAndArchitectureTeamTest
                 CyPhyComponentAuthoring.Modules.CustomIconAdd CATModule = new CyPhyComponentAuthoring.Modules.CustomIconAdd();
 
                 //// these class variables need to be set to avoid NULL references
-                CATModule.SetCurrentComp(testcomp);
-                CATModule.CurrentProj = proj;
+                CATModule.SetCurrentDesignElement(testcomp);
                 CATModule.CurrentObj = testcomp.Impl as MgaFCO;
 
                 // call the primary function directly
                 CATModule.AddCustomIcon(testiconpath);
 
                 // verify results
-                // 1. insure the icon file was copied to the backend folder correctly
+                // 1. insure the icon file was copied to the back-end folder correctly
                 string iconAbsolutePath = Path.Combine(testcomp.GetDirectoryPath(ComponentLibraryManager.PathConvention.ABSOLUTE), "Icon.png");
                 Assert.True(File.Exists(iconAbsolutePath),
                     String.Format("Could not find the source file for the created resource, got {0}", iconAbsolutePath));
@@ -273,14 +278,19 @@ namespace ComponentAndArchitectureTeamTest
         [Fact]
         public void TestAddMfgModelTool()
         {
+            string TestName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string path_Test = Path.Combine(testcreatepath, TestName);
+            string path_Mga = Path.Combine(path_Test, TestName + ".mga");
+
             // delete any previous test results
-            if (Directory.Exists(testcreatepath))
+            if (Directory.Exists(path_Test))
             {
-                Directory.Delete(testcreatepath, true);
+                Directory.Delete(path_Test, true);
             }
+
             // create a new blank project
             MgaProject proj = new MgaProject();
-            proj.Create("MGA=" + testMGApath, "CyPhyML");
+            proj.Create("MGA=" + path_Mga, "CyPhyML");
 
             // these are the actual steps of the test
             proj.PerformInTransaction(delegate
@@ -294,8 +304,7 @@ namespace ComponentAndArchitectureTeamTest
                 CyPhyComponentAuthoring.Modules.MfgModelImport CATModule = new CyPhyComponentAuthoring.Modules.MfgModelImport();
 
                 //// these class variables need to be set to avoid NULL references
-                CATModule.SetCurrentComp(testcomp);
-                CATModule.CurrentProj = proj;
+                CATModule.SetCurrentDesignElement(testcomp);
                 CATModule.CurrentObj = testcomp.Impl as MgaFCO;
 
                 // call the primary function directly
@@ -319,20 +328,24 @@ namespace ComponentAndArchitectureTeamTest
             });
             proj.Save();
             proj.Close();
-            Directory.Delete(testcreatepath, true);
         }
 
         [Fact]
         public void TestCADFileReNaming()
         {
+            string TestName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string path_Test = Path.Combine(testcreatepath, TestName);
+            string path_Mga = Path.Combine(path_Test, TestName + ".mga");
+
             // delete any previous test results
-            if (Directory.Exists(testcreatepath))
+            if (Directory.Exists(path_Test))
             {
-                Directory.Delete(testcreatepath, true);
+                Directory.Delete(path_Test, true);
             }
+
             // create a new blank project
             MgaProject proj = new MgaProject();
-            proj.Create("MGA=" + testMGApath, "CyPhyML");
+            proj.Create("MGA=" + path_Mga, "CyPhyML");
 
             // these are the actual steps of the test
             proj.PerformInTransaction(delegate
@@ -345,8 +358,7 @@ namespace ComponentAndArchitectureTeamTest
                 // Import a CAD file into the test project
                 CyPhyComponentAuthoring.Modules.CADModelImport importcam = new CyPhyComponentAuthoring.Modules.CADModelImport();
                 // these class variables need to be set to avoid NULL references
-                importcam.SetCurrentComp(testcomp);
-                importcam.CurrentProj = proj;
+                importcam.SetCurrentDesignElement(testcomp);
                 importcam.CurrentObj = testcomp.Impl as MgaFCO;
 
                 // import the CAD file
@@ -361,8 +373,7 @@ namespace ComponentAndArchitectureTeamTest
                 // Rename the CAD file
                 CyPhyComponentAuthoring.Modules.CADFileRename renamecam = new CyPhyComponentAuthoring.Modules.CADFileRename();
                 // these class variables need to be set to avoid NULL references
-                renamecam.SetCurrentComp(testcomp);
-                renamecam.CurrentProj = proj;
+                renamecam.SetCurrentDesignElement(testcomp);
                 renamecam.CurrentObj = testcomp.Impl as MgaFCO;
 
                 // call the module with a part file and the new file name
