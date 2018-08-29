@@ -218,7 +218,9 @@ namespace CyPhyPET
                 // FIXME: do this in another thread
                 Dictionary<string, object> assignment = getPythonAssignment(parameterStudy.Attributes.Code);
                 long num_samples;
+                long num_levels;
                 object num_samplesObj;
+                object num_levelsObj;
                 if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.CSV_File)
                 {
                     object filename;
@@ -245,6 +247,42 @@ namespace CyPhyPET
                         var basenameEscaped = escapePythonString(basename);
                         code += String.Format("\nfilename = u'{0}'\n", basenameEscaped);
                         config.details["Code"] = code;
+                    }
+                }
+                else if (parameterStudy.Attributes.DOEType == CyPhyClasses.ParameterStudy.AttributesClass.DOEType_enum.Full_Factorial)
+                {
+                    if (assignment.TryGetValue("num_levels", out num_levelsObj))
+                    {
+                        if (num_levelsObj is long)
+                        {
+                            num_levels = (long)num_levelsObj;
+                        }
+                        else
+                        {
+                            throw new ApplicationException("num_levels must be an integer");
+                        }
+                    }
+                    // Legacy support for num_samples assignment in code block.
+                    else if (assignment.TryGetValue("num_samples", out num_samplesObj))
+                    {
+                        if (num_samplesObj is long)
+                        {
+                            num_samples = (long)num_samplesObj;
+                        }
+                        else
+                        {
+                            throw new ApplicationException("num_samples must be an integer");
+                        }
+                        config.details["Code"] = "num_levels = " + num_samples.ToString();
+                    }
+                    else if (hasDesignVariables == false)
+                    {
+                        config.details["Code"] = "num_samples = 1";
+                        config.details["DOEType"] = "Uniform";
+                    }
+                    else
+                    {
+                        throw new ApplicationException("num_levels must be specified in the Code attribute of a Full Factorial Parameter Study Driver");
                     }
                 }
                 else

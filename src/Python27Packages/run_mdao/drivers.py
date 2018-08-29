@@ -136,9 +136,9 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
 
 
 class FullFactorialDriver(PredeterminedRunsDriver):
-    def __init__(self, num_samples=1, *args, **kwargs):
+    def __init__(self, num_levels=1, *args, **kwargs):
         super(FullFactorialDriver, self).__init__(*args, **kwargs)
-        self.num_samples = num_samples
+        self.num_levels = num_levels
 
     def _build_runlist(self):
         # Set up Uniform distribution arrays
@@ -150,11 +150,11 @@ class FullFactorialDriver(PredeterminedRunsDriver):
                 if low == high:
                     value_arrays[name] = [low]
                 else:
-                    value_arrays[name] = numpy.linspace(low, high, num=self.num_samples).tolist()
+                    value_arrays[name] = numpy.linspace(low, high, num=self.num_levels).tolist()
             elif value.get('type') == 'enum':
                 value_arrays[name] = list(value['items'])
             elif value.get('type') == 'int':
-                # TODO limit len to num_samples?
+                # TODO limit len to num_levels?
                 value_arrays[name] = list(range(int(value['lower']), int(value['upper']) + 1))
         # log["arrays"] = value_arrays
 
