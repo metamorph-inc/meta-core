@@ -34,11 +34,13 @@ namespace CyPhy2CAD_CSharp.Template
             this.Write(@"
 :: CAD TestBench processing script
 echo off
-FOR /F ""skip=2 tokens=2,*"" %%A IN ('C:\Windows\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO set META_PATH=%%B
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO set META_PATH=%%B
 set META_PYTHON_PATH=""%META_PATH%\bin\Python27\Scripts\Python.exe""
 %META_PYTHON_PATH% ");
             
-            #line 16 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\postprocess_cmd.tt"
+            #line 18 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\postprocess_cmd.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ScriptName));
             
             #line default
@@ -47,7 +49,7 @@ set META_PYTHON_PATH=""%META_PATH%\bin\Python27\Scripts\Python.exe""
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 18 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\postprocess_cmd.tt"
+        #line 20 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\postprocess_cmd.tt"
   
 public string ScriptName {get;set;}
 

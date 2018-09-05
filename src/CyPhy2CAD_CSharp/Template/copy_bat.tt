@@ -8,11 +8,14 @@ REM Example invocation from the directory containing this bat file:
 REM 	Copy_Parts.bat
 REM Example invocation from a directory other than the directory containing this bat file:
 
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+
 cd %1
 echo ON
 
 <# foreach (var folder in CadFolders){ #>
-FOR /f "delims=" %%a IN ('DIR "<#=folder#>\*.stl" /s /b') DO xcopy "%%a" STL\ /Y /I
+FOR /f "delims=" %%a IN ('DIR "<#=folder#>\*.stl" /s /b') DO "%SystemRoot%\System32\xcopy.exe" "%%a" STL\ /Y /I
 <#  } #>
 
 <#+  

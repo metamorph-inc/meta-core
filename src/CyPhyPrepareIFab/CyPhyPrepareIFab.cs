@@ -225,7 +225,9 @@ namespace CyPhyPrepareIFab
             // [2] Invoke BOM_Generator.py
             StreamWriter file = new StreamWriter(Path.Combine(this.OutputDirectory, this.RunScriptName));
             string batfilename = ReplaceSpecialChars(this.TestBenchName);
-            file.WriteLine("cmd /c runCADJob.bat");
+            file.WriteLine("SetLocal EnableExtensions");
+            file.WriteLine("if not defined SystemRoot set SystemRoot=C:\\WINDOWS");
+            file.WriteLine("\"%SystemRoot%\\System32\\cmd.exe\" /c runCADJob.bat");
             file.WriteLine("python DesignModel2BOM.py ");               //file.WriteLine("python DesignModel2BOM.py " + this.AssemblyName + ".metadesign.json " + this.AssemblyName + ".bom.json");
             file.WriteLine("python " + this.ArtifactScriptName);        //file.WriteLine("python " + this.ArtifactScriptName + " " + this.AssemblyName);
             file.Close();

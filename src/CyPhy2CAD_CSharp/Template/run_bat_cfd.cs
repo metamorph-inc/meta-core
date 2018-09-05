@@ -29,6 +29,9 @@ namespace CyPhy2CAD_CSharp.Template
 
 REM	See ""C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt"" for the complete setup instructions.
 
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+
 set WORKING_DIR="".""
 set ERROR_CODE=0
 
@@ -62,14 +65,14 @@ goto :ERROR_SECTION
 
 %EXE% -w %WORKING_DIR%  -i %ASSEMBLY_XML_FILE% -l %LOG_FILE% ");
             
-            #line 38 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 41 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (!Automation) { 
             
             #line default
             #line hidden
             this.Write("-p");
             
-            #line 38 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 41 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -94,9 +97,7 @@ goto :ERROR_SECTION
 )
 
 
-if exist TestBench_PreProcess.cmd (
-cmd /c TestBench_PreProcess.cmd
-)
+if exist TestBench_PreProcess.cmd ""%SystemRoot%\System32\cmd.exe"" /c TestBench_PreProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
@@ -106,7 +107,7 @@ goto :ERROR_SECTION
 
 ");
             
-            #line 69 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 70 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  if (Automation) { 
             
             #line default
@@ -142,9 +143,7 @@ set ERROR_MSG=""Error from runCADJob.bat: %PY_SCRIPT_NAME% encountered error dur
 goto :ERROR_SECTION
 )
 
-if exist TestBench_PostProcess.cmd (
-cmd /c TestBench_PostProcess.cmd
-)
+if exist TestBench_PostProcess.cmd ""%SystemRoot%\System32\cmd.exe"" /c TestBench_PostProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
@@ -153,7 +152,7 @@ goto :ERROR_SECTION
 )
 ");
             
-            #line 110 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+            #line 109 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
  } 
             
             #line default
@@ -163,7 +162,7 @@ goto :ERROR_SECTION
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 121 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
+        #line 120 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat_cfd.tt"
   
 public bool Automation {get;set;}
 

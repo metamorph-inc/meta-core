@@ -11,7 +11,9 @@
 
 :: CAD TestBench processing script
 echo off
-FOR /F "skip=2 tokens=2,*" %%A IN ('C:\Windows\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO set META_PATH=%%B
 set META_PYTHON_PATH="%META_PATH%\bin\Python27\Scripts\Python.exe"
 %META_PYTHON_PATH% <#=ScriptName#>
 

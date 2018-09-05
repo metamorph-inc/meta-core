@@ -17,7 +17,7 @@ namespace CyPhy2CAD_CSharp.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
+    #line 1 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class copy_bat : copy_batBase
     {
@@ -34,26 +34,29 @@ REM Example invocation from the directory containing this bat file:
 REM 	Copy_Parts.bat
 REM Example invocation from a directory other than the directory containing this bat file:
 
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+
 cd %1
 echo ON
 
 ");
             
-            #line 14 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
+            #line 17 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
  foreach (var folder in CadFolders){ 
             
             #line default
             #line hidden
             this.Write("FOR /f \"delims=\" %%a IN (\'DIR \"");
             
-            #line 15 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
+            #line 18 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(folder));
             
             #line default
             #line hidden
-            this.Write("\\*.stl\" /s /b\') DO xcopy \"%%a\" STL\\ /Y /I\r\n");
+            this.Write("\\*.stl\" /s /b\') DO \"%SystemRoot%\\System32\\xcopy.exe\" \"%%a\" STL\\ /Y /I\r\n");
             
-            #line 16 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
+            #line 19 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
   } 
             
             #line default
@@ -62,7 +65,7 @@ echo ON
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 18 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
+        #line 21 "C:\Users\kevin\Documents\meta-tonka\src\CyPhy2CAD_CSharp\Template\copy_bat.tt"
   
 public List<string> CadFolders {get;set;}
 

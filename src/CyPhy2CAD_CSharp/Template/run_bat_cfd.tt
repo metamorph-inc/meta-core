@@ -4,6 +4,9 @@
 
 REM	See "C:\Program Files (x86)\META\bin\CAD\Creo\0Readme - CreateAssembly.txt" for the complete setup instructions.
 
+SetLocal EnableExtensions
+if not defined SystemRoot set SystemRoot=C:\WINDOWS
+
 set WORKING_DIR="."
 set ERROR_CODE=0
 
@@ -56,9 +59,7 @@ goto :ERROR_SECTION
 )
 
 
-if exist TestBench_PreProcess.cmd (
-cmd /c TestBench_PreProcess.cmd
-)
+if exist TestBench_PreProcess.cmd "%SystemRoot%\System32\cmd.exe" /c TestBench_PreProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
@@ -98,9 +99,7 @@ set ERROR_MSG="Error from runCADJob.bat: %PY_SCRIPT_NAME% encountered error duri
 goto :ERROR_SECTION
 )
 
-if exist TestBench_PostProcess.cmd (
-cmd /c TestBench_PostProcess.cmd
-)
+if exist TestBench_PostProcess.cmd "%SystemRoot%\System32\cmd.exe" /c TestBench_PostProcess.cmd
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
