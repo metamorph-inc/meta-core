@@ -14,6 +14,7 @@ using CyPhyMLClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 
 namespace AVM2CyPhyML
 {
+    using ISIS.GME.Common.Interfaces;
     using System.Diagnostics;
     using System.Text.RegularExpressions;
     using TypePair = KeyValuePair<Type, Type>;
@@ -738,7 +739,7 @@ namespace AVM2CyPhyML
                 { avm.modelica.RedeclareTypeEnum.Record,    CyPhyMLClasses.ModelicaRedeclare.AttributesClass.ModelicaRedeclareType_enum.Record }
             };
 
-        protected object makeConnection(object cyPhyMLObjectSrc, object cyPhyMLObjectDst, string kind, bool createAsPortConnection = false)
+        protected static object makeConnection(object cyPhyMLObjectSrc, object cyPhyMLObjectDst, string kind, bool createAsPortConnection = false)
         {
             IMgaFCO src = GetFCOObject(cyPhyMLObjectSrc);
             IMgaReference srcReference = GetFCOObjectReference(cyPhyMLObjectSrc);
@@ -772,6 +773,111 @@ namespace AVM2CyPhyML
             var conn = parent.CreateSimpleConnDisp(role, (MgaFCO)src, (MgaFCO)dst, (MgaFCO)srcReference, (MgaFCO)dstReference);
 
             return dsmlCasts[kind](conn);
+        }
+
+        protected static IEnumerable<Model> getParents(Model fco)
+        {
+            yield return fco;
+            Model parent = fco.ParentContainer as Model;
+            while (parent != null)
+            {
+                yield return parent;
+                parent = parent.ParentContainer as Model;
+            }
+        }
+
+        protected static void connectAcrossHierarchy(object cyphy_source, object cyphy_target, String connectionKind)
+        {
+            Model source_parent;
+            FCO source_connector;
+            if (cyphy_source is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)
+            {
+                source_parent = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_source).Key.ParentContainer;
+                source_connector = (FCO)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_source).Value;
+            }
+            else
+            {
+                source_connector = ((FCO)cyphy_source);
+                source_parent = (Model)source_connector.ParentContainer;
+            }
+            Model target_parent;
+            FCO target_connector;
+            if (cyphy_target is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)
+            {
+                target_parent = (Model)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_target).Key.ParentContainer;
+                target_connector = (FCO)((KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>)cyphy_target).Value;
+            }
+            else
+            {
+                target_connector = ((FCO)cyphy_target);
+                target_parent = (Model)target_connector.ParentContainer;
+            }
+
+            if (target_parent.ID == source_parent.ID
+                || (AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObjectReference(cyphy_target) == null && source_parent.ID == target_parent.ParentContainer.ID)
+                || (AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObjectReference(cyphy_source) == null && target_parent.ID == source_parent.ParentContainer.ID)
+                )
+            {
+                makeConnection(cyphy_source, cyphy_target, connectionKind);
+                return;
+            }
+            // AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObject(
+            List<Model> source_parents = getParents(source_parent).ToList();
+            List<Model> target_parents = getParents(target_parent).ToList();
+            if (source_parents.Last().ID != target_parents.Last().ID)
+            {
+                throw new ApplicationException(String.Format("'{0}' and '{1}' cannot be connected", source_parent.Path, target_parent.Path));
+            }
+            Model commonAncestor = source_parent;
+            // remove common ancestors from source_ and target_parents
+            while (true)
+            {
+                if (source_parents[source_parents.Count - 1].ID == target_parents[target_parents.Count - 1].ID)
+                {
+                    commonAncestor = source_parents[source_parents.Count - 1];
+                    source_parents.RemoveAt(source_parents.Count - 1);
+                    target_parents.RemoveAt(target_parents.Count - 1);
+                }
+                else
+                {
+                    break;
+                }
+                if (source_parents.Count == 0 || target_parents.Count == 0)
+                {
+                    break;
+                }
+            }
+            var source_intermediary = connectUpHierarchy(cyphy_source, source_connector, source_parents, connectionKind, skip: GetFCOObjectReference(cyphy_source) == null);
+            var target_intermediary = connectUpHierarchy(cyphy_target, target_connector, target_parents, connectionKind, skip: GetFCOObjectReference(cyphy_target) == null, reverse: true);
+
+            MgaMetaRole connectorRole = ((MgaMetaModel)commonAncestor.Impl.MetaBase).RoleByName[source_connector.Impl.MetaBase.Name];
+            // var lastConnector = CyPhyMLClasses.Connector.Cast(((MgaModel)commonAncestor.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true));
+            // makeConnection(lastConnector, source_intermediary, connectionKind);
+
+            makeConnection(source_intermediary, target_intermediary, connectionKind);
+        }
+
+        protected static Object connectUpHierarchy(object cyphy_source, FCO source_connector, List<Model> source_parents, String connectionKind, bool reverse=false, bool skip=false)
+        {
+            object srcIntermediary = cyphy_source;
+            for (int i = skip ? 1 : 0; i < source_parents.Count; i++)
+            {
+                Model parent = source_parents[i];
+                MgaMetaRole connectorRole = ((MgaMetaModel)parent.Impl.MetaBase).RoleByName[source_connector.Impl.MetaBase.Name];
+                var newIntermediary = new ISIS.GME.Common.Classes.FCO();
+                newIntermediary.Impl = ((MgaModel)parent.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true);
+                if (reverse == false)
+                {
+                    makeConnection(srcIntermediary, newIntermediary, connectionKind);
+                }
+                else
+                {
+                    makeConnection(newIntermediary, srcIntermediary, connectionKind);
+                }
+                srcIntermediary = newIntermediary;
+            }
+
+            return srcIntermediary;
         }
 
         public static IMgaFCO GetFCOObject(object cyPhyMLObjectSrc)
@@ -996,7 +1102,7 @@ namespace AVM2CyPhyML
                                     object cyPhyMLObjectDst = null;
                                     var hasValueParent = _avmCyPhyMLObjectMap.TryGetValue(avmValueOwner, out cyPhyMLObjectDst);
 
-                                    makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
+                                    connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
                                 }
                             }
                             else if (Debugger.IsAttached)
@@ -1031,11 +1137,16 @@ namespace AVM2CyPhyML
                 else if (avmValueExpression is avm.DerivedValue)
                 {
                     string otherValueID = (avmValueExpression as avm.DerivedValue).ValueSource;
+                    if (otherValueID == null)
+                    {
+                        string error = String.Format("Error: '{0}' has no ValueSource", avmValue.ID);
+                        throw new ApplicationException(error);
+                    }
 
                     object cyPhyMLObjectDst = null;
                     var hasValueParent = _avmCyPhyMLObjectMap.TryGetValue(avmValueOwner, out cyPhyMLObjectDst);
 
-                    if (hasValueParent && !(cyPhyMLObjectDst is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>))
+                    if (hasValueParent  && !(cyPhyMLObjectDst is KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>))
                     {
                         var attributesPropertyInfo = getPropertyInfo(getInterfaceType(cyPhyMLObjectDst), "Attributes");
                         var idProperty = getPropertyInfo(attributesPropertyInfo.PropertyType, "ID");
@@ -1073,22 +1184,22 @@ namespace AVM2CyPhyML
                             if (cyPhyMLObjectDst is CyPhyML.CarParameter)
                             {
                                 // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CarParameterPortMap).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CarParameterPortMap).Name);
                             }
                             else if (cyPhyMLObjectDst is CyPhyML.ModelicaParameter)
                             {
                                 // CyPhyML.ModelicaParameter.SrcConnections.ModelicaParameterPortMapCollection
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ModelicaParameterPortMap).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ModelicaParameterPortMap).Name);
                             }
                             else if (cyPhyMLObjectSrc is CyPhyML.CADMetric)
                             {
                                 // CyPhyML.CADMetric.DstConnections.CADMetricPortMapCollection
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADMetricPortMap).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADMetricPortMap).Name);
                             }
                             else if (cyPhyMLObjectDst is CyPhyML.CADParameter)
                             {
                                 // CyPhyML.CADParameter.SrcConnections.CADParameterPortMapCollection
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADParameterPortMap).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.CADParameterPortMap).Name);
                             }
                             // else if (cyPhyMLObjectSrc is CyPhyML.ManufacturingModelMetric) TODO???
                             //{
@@ -1097,11 +1208,11 @@ namespace AVM2CyPhyML
                             else if (cyPhyMLObjectDst is CyPhyML.ManufacturingModelParameter)
                             {
                                 // CyPhyML.ManufacturingModelParameter x; x.SrcConnections.ManufacturingParameterPortMapCollection
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ManufacturingParameterPortMap).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ManufacturingParameterPortMap).Name);
                             }
                             else
                             {
-                                makeConnection(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
+                                connectAcrossHierarchy(cyPhyMLObjectSrc, cyPhyMLObjectDst, typeof(CyPhyML.ValueFlow).Name);
                             }
 
                             bool haveValue = false;
