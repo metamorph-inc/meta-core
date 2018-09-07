@@ -786,7 +786,8 @@ namespace AVM2CyPhyML
             }
         }
 
-        protected static void connectAcrossHierarchy(object cyphy_source, object cyphy_target, String connectionKind)
+        protected static void connectAcrossHierarchy(object cyphy_source, object cyphy_target, String connectionKind,
+            bool createAsPortConnection=false)
         {
             Model source_parent;
             FCO source_connector;
@@ -818,7 +819,7 @@ namespace AVM2CyPhyML
                 || (AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObjectReference(cyphy_source) == null && target_parent.ID == source_parent.ParentContainer.ID)
                 )
             {
-                makeConnection(cyphy_source, cyphy_target, connectionKind);
+                makeConnection(cyphy_source, cyphy_target, connectionKind, createAsPortConnection: createAsPortConnection);
                 return;
             }
             // AVM2CyPhyML.AVM2CyPhyMLBuilder.GetFCOObject(
@@ -865,7 +866,9 @@ namespace AVM2CyPhyML
                 Model parent = source_parents[i];
                 MgaMetaRole connectorRole = ((MgaMetaModel)parent.Impl.MetaBase).RoleByName[source_connector.Impl.MetaBase.Name];
                 var newIntermediary = new ISIS.GME.Common.Classes.FCO();
-                newIntermediary.Impl = ((MgaModel)parent.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true);
+                MgaFCO newIntermediaryFCO;
+                newIntermediary.Impl = newIntermediaryFCO =((MgaModel)parent.Impl).DeriveChildObject((MgaFCO)source_connector.Impl, connectorRole, true);
+                newIntermediaryFCO.SetStrAttrByNameDisp("ID", "id-" + Guid.NewGuid().ToString("D"));
                 if (reverse == false)
                 {
                     makeConnection(srcIntermediary, newIntermediary, connectionKind);
@@ -1601,7 +1604,20 @@ namespace AVM2CyPhyML
                         continue;
                     }
 
-                    makeConnection(cyPhyMLObjectDst, cyPhyMLObjectSrc, typeof(CyPhyML.PortComposition).Name);
+                    // special-case: do not attempt to create connections inside of a Connector
+                    IMgaFCO src = GetFCOObject(cyPhyMLObjectSrc);
+                    IMgaReference srcReference = GetFCOObjectReference(cyPhyMLObjectSrc);
+                    IMgaFCO dst = GetFCOObject(cyPhyMLObjectDst);
+                    IMgaReference dstReference = GetFCOObjectReference(cyPhyMLObjectDst);
+
+                    bool createAsPortConnection = false;
+                    if (srcReference == null && dstReference == null && src.ParentModel != null && dst.ParentModel != null &&
+                        src.ParentModel == dst.ParentModel && src.ParentModel.Meta.Name == "Connector")
+                    {
+                        createAsPortConnection = true;
+                    }
+
+                    connectAcrossHierarchy(cyPhyMLObjectDst, cyPhyMLObjectSrc, typeof(CyPhyML.PortComposition).Name, createAsPortConnection: createAsPortConnection);
                 }
 
                 if (iteratorAVMPort is avm.cad.Plane)
