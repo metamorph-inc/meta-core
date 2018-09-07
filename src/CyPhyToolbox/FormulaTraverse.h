@@ -3,10 +3,14 @@
 
 #include "Uml.h"
 #include "UmlExt.h"
+#include "UdmUtil.h"
 #include "CyPhyML.h"
 
 #include "UnitUtil.h"
 #include <unordered_map>
+#include "../CyPhyElaborate/CyPhyElaborateTraceability.h"
+#include "UdmConsole.h"
+
 
 /** \file
     \brief Definition of FormulaTraverse class used to traverse a model and calls functions in EvaluateFormula.h to evaluate formulas.
@@ -38,6 +42,27 @@ public:
 public: // member variables
 	string m_fileName;											///< This name is used to name the Graphviz file and gif that are produced when cycles are encountered
 	vector<string> numericLeafNodes;
+	IUnknownPtr traceability;
+	std::string getLink(const Udm::Object& o) {
+		CyPhyCOMInterfaces::IMgaTraceabilityPtr p;
+		p = traceability;
+		if (p) {
+			_bstr_t original(UdmGme::UdmId2GmeId(o.uniqueId()).c_str());
+			_bstr_t copy;
+			if (p->TryGetMappedObject(original, copy.GetAddress()) == VARIANT_FALSE) {
+				copy = original;
+			}
+			// FIXME escape o.name
+			// FIXME fix copy encoding
+			return "<a href=\"mga:" + std::string(static_cast<const char*>(copy)) + "\">" + UdmUtil::ExtractName(o) + "</a>";
+		}
+		return o.getPath2("/", false);
+	}
+	void throwOverspecified(const Udm::Object& o, const char* kind="ValueFlow") {
+		string message = "FormulaEvaluator - " + getLink(o) + " has >1 incoming " + kind + " connections";
+		GMEConsole::Console::writeLine(message, MSG_ERROR);
+		throw udm_exception(message);
+	}
 
 public: // member fcn
 	void Traverse(const Udm::Object &udmObject);

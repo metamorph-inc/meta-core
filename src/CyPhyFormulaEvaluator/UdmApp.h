@@ -26,6 +26,7 @@ class CUdmApp
 {
 
 public:
+	IUnknownPtr traceability;
 	string projectDir;
 	string projectDir_SOT;
 	bool &Automation;

@@ -49,6 +49,7 @@ public:
 		componentParameters["labels"]       = _variant_t(L""); // empty string means use default label
 		componentParameters["original_project_file"]	= _variant_t("");
 		componentParameters["results_zip_py"]	= _variant_t("");
+		componentParameters["traceability"] = _variant_t((IUnknown*)nullptr);
 
 		CComSafeArray<BSTR> safe;
 		// list of all supported kinds

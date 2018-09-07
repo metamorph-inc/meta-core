@@ -7,6 +7,7 @@
 #endif
 
 #include "UdmBase.h"
+#include "UdmGme.h"
 #include <algorithm>
 #include <iterator>
 

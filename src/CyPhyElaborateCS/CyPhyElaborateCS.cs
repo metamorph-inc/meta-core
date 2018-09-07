@@ -170,6 +170,8 @@ namespace CyPhyElaborateCS
                 // FIXME: Why should we generate them ???
                 formulaEval.ComponentParameter["do_not_generate_post_processing"] = "true";
 
+                formulaEval.ComponentParameter["traceability"] = Traceability;
+
                 // call the formula evaluator and update all parameters starting from the current object
                 try
                 {

@@ -42,9 +42,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp">
-      <Filter>CyPhyToolbox</Filter>
-    </ClCompile>
     <ClCompile Include="..\CyPhyToolbox\FormulaTraverse.cpp">
       <Filter>CyPhyToolbox</Filter>
     </ClCompile>
@@ -122,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\CyPhyML.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CyPhyToolbox\CyPhyElaborate.h">
-      <Filter>CyPhyToolbox</Filter>
     </ClInclude>
     <ClInclude Include="..\CyPhyToolbox\CyPhyToolbox.h">
       <Filter>CyPhyToolbox</Filter>

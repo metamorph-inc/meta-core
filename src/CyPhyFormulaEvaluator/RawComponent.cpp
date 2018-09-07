@@ -377,6 +377,19 @@ void RawComponent::UpdateParameters()
 			}
 			app.projectDir_SOT = value;
 		}
+		else if (_name == "traceability") {
+			IUnknownPtr traceability;
+			if (_newVal.vt == VT_DISPATCH) {
+				traceability = _newVal.pdispVal;
+			}
+			else if (_newVal.vt == VT_UNKNOWN) {
+				traceability = _newVal.punkVal;
+			}
+			else {
+				ThrowComError(E_INVALIDARG, L"Invalid traceability");
+			}
+			app.traceability = traceability;
+		}
 	}
 }
 

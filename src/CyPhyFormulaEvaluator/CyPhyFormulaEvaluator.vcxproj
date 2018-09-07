@@ -185,7 +185,6 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;$(GME_ROOT)/SDK/BON/Common;$(UDM_PATH)/include;$(GME_ROOT)/Interfaces;$(GME_ROOT)/Gme/Interfaces;$(GME_ROOT)\Gme\Gme;..\CyPhyToolbox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UDM_DYNAMIC_LINKING;_CRT_SECURE_NO_WARNINGS;CONSOLE_ON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -261,7 +260,6 @@
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\ComponentDll.cpp" />
     <ClCompile Include="$(GME_ROOT)\SDK\BON\Common\Exceptions.cpp" />
     <ClCompile Include="ComponentObj.cpp" />
-    <ClCompile Include="..\CyPhyToolbox\CyPhyElaborate.cpp" />
     <ClCompile Include="..\CyPhyToolbox\FormulaTraverse.cpp" />
     <ClCompile Include="..\CyPhyToolbox\UdmGmeUtil.cpp" />
     <ClCompile Include="..\CyPhyToolbox\UnitUtil.cpp" />
@@ -290,7 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(GME_ROOT)\SDK\BON\Common\ComHelp.h" />
-    <ClInclude Include="..\CyPhyToolbox\CyPhyElaborate.h" />
     <ClInclude Include="..\CyPhyToolbox\CyPhyToolbox.h" />
     <ClInclude Include="..\CyPhyToolbox\EvaluateFormula.h" />
     <ClInclude Include="..\CyPhyToolbox\FormulaTraverse.h" />

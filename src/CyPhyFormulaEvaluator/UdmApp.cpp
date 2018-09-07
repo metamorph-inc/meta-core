@@ -76,14 +76,15 @@ void CUdmApp::UdmMain(
 		}
 
 		NewTraverser traverser;
+		traverser.traceability = traceability;
 		traverser.Traverse(focusObject);
 		numericLeafNodes = traverser.numericLeafNodes;
 
 		string projectRoot;
-		if (CUdmApp::projectDir_SOT != "")
-			projectRoot = CUdmApp::projectDir_SOT;
+		if (projectDir_SOT != "")
+			projectRoot = projectDir_SOT;
 		else
-			projectRoot = CUdmApp::projectDir.substr(string("MGA=").length()).substr(0,CUdmApp::projectDir.find_last_of('\\') - string("MGA=").length() + 1);
+			projectRoot = projectDir.substr(string("MGA=").length()).substr(0, projectDir.find_last_of('\\') - string("MGA=").length() + 1);
 
 		if (OutputDir != "" && DoNotGeneratePostProcessing == false)
 		{
