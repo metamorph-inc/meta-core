@@ -414,6 +414,9 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 			if(!vp.parametric())
 			{		
 				Domain vp_d = vp.domain();
+				if (vp_d == Udm::null) {
+					throw new CDesertException(utf82cstring(std::string("VariableProperty ") + nnvp + " must have a domain"));
+				}
 				long domain_id = GetID(vp_d, des_map);
 				CString cpfn;
 				if ( strcmp(((string)vp.PCM_STR()).c_str() , "PCM_CUST") )

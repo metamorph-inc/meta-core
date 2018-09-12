@@ -630,8 +630,19 @@ BOOL CDesertToolApp::InitInstance()
 							cfg.cfgId() = sstream.str();
 						}
 					}//eo if DoModal() == IDOK
-				}//eo if (configs)	
-		
+				}//eo if (configs)
+				else if (isSilent) {
+					Udm::SmartDataNetwork bw(DesertIfaceBack::diagram);
+					DesertIfaceBack::DesertBackSystem dbs;
+					bw.CreateNew(
+						//(LPCTSTR)SaveAs.GetFileName(),
+						std::string(CStringA(output_file)),
+						"DesertIfaceBack",
+						DesertIfaceBack::DesertBackSystem::meta,
+						Udm::CHANGES_LOST_DEFAULT);
+					bw.SaveAs(std::string(CStringA(output_file)));
+				}
+
 				//all done
 				s_dlg.SetStatus(SD_FINIT);
 			

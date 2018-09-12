@@ -289,20 +289,20 @@ CreateVariableProperty(CString& n, CString& pcm_fn, long o, long d)
   bool ret = Find(baseDomains, domain, d);
   //ASSERT_EX( ret, _T("CManager::VariableProperty"), _T("domain not found") );
   if (!ret)
-	  throw new CDesertException(_T("CManager::ConstantProperty(): domain not found!"));
+	  throw new CDesertException(_T("CManager::VariableProperty(): domain not found!"));
 
 
   CElement *owner = FindElement(baseSpaces, o); // what about property of domain elements???
   //ASSERT_EX( owner, _T("CManager::VariableProperty"), _T("owner not found") );
    if (!owner)
-	  throw new CDesertException(_T("CManager::ConstantProperty(): owner not found!"));
+	  throw new CDesertException(_T("CManager::VariableProperty(): owner not found!"));
 
 
 
   CProperty *property = new CVariableProperty(n, pcm_fn, domain, owner);
   //ASSERT_EX( property, _T("CManager::VariableProperty"), _T("new CVariableProperty failed") );
 	if (!property)
-	  throw new CDesertException(_T("CManager::ConstantProperty(): Create Constant Property Failed!"));
+	  throw new CDesertException(_T("CManager::VariableProperty(): Create Constant Property Failed!"));
 
 
 
