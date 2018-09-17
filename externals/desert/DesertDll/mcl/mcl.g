@@ -7,8 +7,7 @@
 // (mulitgraph constraint language) parser. There are two
 // entry point methods:
 //
-//   1. bool ParseMCLFile(char* filename)
-//   2. bool ParseMCLString(char* constraint)
+//   1. bool ParseMCLString(char* constraint)
 //
 // The first takes the name of a file containing one or more
 // constraint statements and returns true if the file was
@@ -71,12 +70,13 @@ extern ClBase *g_top;
 <<
 typedef ANTLRCommonToken ANTLRToken;
 
-bool ParseMCLFile(char* fname) {
-  return MCLParser::load(fname);
-}
-
 bool ParseMCLString(const char *constraintString) {
-  return MCLParser::parseString(constraintString);
+  try {
+    return MCLParser::parseString(constraintString);
+  } catch (const MCLLexerError& err) {
+	MCLParser::setError(const_cast<char*>(err.error.c_str()));
+	return false;
+  }
 }
 
 char* GetMCLErrorMessage() {
@@ -248,29 +248,6 @@ public:
 	return res;
   }
 
-  static bool load(char *fname) {
-    bool res = false;
-	extern bool _at_end;
-    
-    parseErr = false;
-	setError("");
-	parsingFile = true;
-    int parseSignal;
-    
-    FILE* f = fopen(fname,"r");
-    if(!f) { return false; }
-
-    ParserBlackBox<MCLLexer,MCLParser,ANTLRToken> p(f);
-    currentLexer = p.getLexer();
-	_at_end = false;
-    while(!_at_end && !parseErr){
-		p.parser()->cdef(&parseSignal);	// parameter needed for exception handling
-	}
-    res = !parseErr;
-	fclose(f);
-	return res;
-  }
-
   static char* getError() {
 	return(errMsg);
   }
@@ -281,6 +258,7 @@ private:
   static MCLLexer *currentLexer;
   static char errMsg[100];
 
+public:
   static void setError(char* e) {
 	strcpy(errMsg, e);
   }

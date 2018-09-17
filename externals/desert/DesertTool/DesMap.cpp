@@ -781,6 +781,7 @@ bool CreateSimpleFormulas(DesertSystem &ds, UdmDesertMap& des_map, DesertUdmMap 
 /////
 bool CreateDesertFormulaSet(FormulaSet &fs, UdmDesertMap &des_map, DesertUdmMap &inv_des_map )
 {
+	bool ret = true;
 	CustomFormula ft;
 	Element owner;
 	long fts_id;
@@ -808,15 +809,19 @@ bool CreateDesertFormulaSet(FormulaSet &fs, UdmDesertMap &des_map, DesertUdmMap 
 			fts_id,
 			owner_id,
 			utf82cstring((string)ft.expression()));
+		if (ft_id == -1) {
+			ret = false;
+		}
 	
 		DoMap(ft, des_map, inv_des_map,  ft_id);
 
 	}//eo for (fit)
-	return true;
+	return ret;
 };//eo bool CreateDesertConstrainSet
 
 bool CreateCustomFormulas(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap &inv_des_map)
 {
+	bool ret = true;
 	set<FormulaSet> f_sets = ds.FormulaSet_kind_children();
 	set<FormulaSet>::iterator fts_it;
 
@@ -829,11 +834,11 @@ bool CreateCustomFormulas(DesertSystem &ds, UdmDesertMap &des_map, DesertUdmMap 
 			set<CustomFormula> cf_set = fs.CustomFormula_kind_children();
 
 			if (cf_set.empty()) continue;
-			CreateDesertFormulaSet(fs, des_map, inv_des_map);
+			ret &= CreateDesertFormulaSet(fs, des_map, inv_des_map);
 
 		}//eo for cts_iterator
 	}//eo if (!c_sets.empty())
-	return true;
+	return ret;
 }
 
 

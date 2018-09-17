@@ -8,6 +8,10 @@
 #include "CSetErrDialog.h"
 #include <set>
 
+#include "common/Error.h"
+#pragma comment(linker, "/EXPORT:?SetLoggerHandler@@YAXP6AXPB_W0H@Z@Z")
+#pragma comment(linker, "/EXPORT:?SetExitHandler@@YAXP6AXH@Z@Z")
+
 #ifdef _DEBUG
 //#define new DEBUG_NEW
 #undef THIS_FILE

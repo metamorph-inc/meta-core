@@ -100,8 +100,8 @@ deploy/Windows8-RT-KB2999226-x64.msu
 deploy/Windows8.1-KB2999226-x64.msu
 deploy/vc_redist.x64.exe
 deploy/vc_redist.x86.exe
-externals/desert/DesertDll/mcl/MCLLexer.cpp
-externals/desert/DesertDll/mcl/MCLLexer.h
+externals/desert/DesertDll/mcl/MCLLexerBase.cpp
+externals/desert/DesertDll/mcl/MCLLexerBase.h
 externals/desert/DesertDll/mcl/MCLParser.cpp
 externals/desert/DesertDll/mcl/MCLParser.h
 externals/desert/DesertDll/mcl/mcl.cpp
@@ -111,6 +111,12 @@ externals/desert/bin/DesertTool.exe
 externals/desert/bin/desert.dll
 externals/desert/bin/latency.dll
 externals/desert/bin/tput.dll
+externals/desert/DesertDll/mcl/x64/
+externals/desert/DesertDll/bdd/x64/
+externals/desert/DesertDll/common/x64/
+externals/desert/DesertDll/core/x64/
+externals/desert/DesertDll/mem/x64/
+externals/desert/DesertDll/x64/
 externals/desert/iface/DesertIface.cpp
 externals/desert/iface/DesertIface.h
 externals/desert/iface/DesertIface.xsd

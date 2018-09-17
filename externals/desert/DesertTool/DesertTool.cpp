@@ -13,6 +13,7 @@
 
 //DesertIface stuff
 #include "..\iface\DesertIface.h"
+#include "common\Error.h"
 using namespace DesertIface;
 #include "DesMap.h"
 
@@ -43,6 +44,11 @@ using namespace DesertIface;
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
+void silentModeLogger(const TCHAR *msg, const TCHAR *loc, int level) {
+	_ftprintf(stderr, _T("<%s>: %s\n"), loc, msg);
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CDesertToolApp
@@ -287,7 +293,10 @@ BOOL CDesertToolApp::InitInstance()
 			}
 		}//eo if (_tcslen(m_lpCmdLine))
 	}//eo if (m_lpCmdLine)
-	
+
+	if (isSilent) {
+		SetLoggerHandler(silentModeLogger);
+	}
 	if (!command_arg_ok && !hasInputFile)
 	{
 		CFileDialog Open(	TRUE,									//construct a file open dialog
@@ -405,10 +414,18 @@ BOOL CDesertToolApp::InitInstance()
 
 			//create constrains
 			s_dlg.SetStatus(SD_CTS);
-			CreateConstraints(ds, des_map, inv_des_map);
+			bool success = CreateConstraints(ds, des_map, inv_des_map);
+			if (!success && isSilent) {
+				returnCode = 5;
+				return FALSE;
+			}
 
 			//create foumulas
 			CreateCustomFormulas(ds, des_map, inv_des_map);
+			if (!success && isSilent) {
+				returnCode = 6;
+				return FALSE;
+			}
 
 			//create natural domains
 			s_dlg.SetStatus(SD_NDS);

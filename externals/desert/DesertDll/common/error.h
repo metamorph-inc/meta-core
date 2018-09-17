@@ -5,9 +5,11 @@
 #include <tchar.h>
 
 typedef enum { cTodo, cInfo,  cWarning, cError, cFatal } CErrorLevel;
-typedef void (* CExitHook)(int exitCode);
+typedef void(*CExitHook)(int exitCode);
+typedef void(*LogHook)(const TCHAR *msg, const TCHAR *loc, int level);
 
 void SetExitHandler(CExitHook hook);
+void SetLoggerHandler(LogHook hook);
 void SetIgnoreLevel(CErrorLevel level);
 void SetAbortLevel(CErrorLevel level);
 void StartLogging(const TCHAR *fileName=0, bool append=false);

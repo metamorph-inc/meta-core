@@ -159,8 +159,17 @@ void AbortHandler(int level)
   abort();
 }
 
-static void Display(const TCHAR *msg, const TCHAR *loc, int level)
+static LogHook logHook = 0;
+void SetLoggerHandler(LogHook hook) {
+	logHook = hook;
+}
+
+void Display(const TCHAR *msg, const TCHAR *loc, int level)
 {
+	if (logHook) {
+		logHook(msg, loc, level);
+		return;
+	}
   if (level < ignoreLevel) return;
 
   CWinApp *app = AfxGetApp();

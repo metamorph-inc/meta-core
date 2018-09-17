@@ -80,7 +80,7 @@ public:
 
 /* Predefined char stream: Input from string */
 class DLGStringInput : public DLGInputStream {
-private:
+public:
 	const DLGChar *input;                                           // MR9
 	const DLGChar *p;                                               // MR9
 public:

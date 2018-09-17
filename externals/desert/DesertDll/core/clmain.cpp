@@ -2124,7 +2124,8 @@ ClData ClLit::Eval(ClContext& c) const
 ClData ClCall::Eval(ClContext& c) const
 {
 	ClFunction *fn = ClFunction::Find(name);
-	if (fn) return fn->Eval(c, pars);
+	if (fn)
+		return fn->Eval(c, pars);
 	CString buf; buf.Format(_T("ClCall::Eval(): function <%s> not found"), name);
 	c.SetError(true, buf);
 	throw new CDesertException(false, buf);
