@@ -330,11 +330,11 @@
             this.treeComponents = new Dictionary<string, Component>();
 
             var projectRootFolder = CyPhyClasses.RootFolder.GetRootFolder(project);
-            this.BuildUpAllComponets(projectRootFolder);
+            this.BuildUpAllComponents(projectRootFolder);
 
             this.SolverSettings = new Modelica.SolverSettings(testBench.Children.SolverSettingsCollection.FirstOrDefault());
             this.testBench_mo.SolverSettings = this.SolverSettings;
-            
+
             this.Logger.WriteDebug("Solver settings being used:");
             this.Logger.WriteDebug("- [Dymola] Solver: {0}", this.SolverSettings.DymolaSolver);
             this.Logger.WriteDebug("- [OpenModelica] Solver: {0}", this.SolverSettings.OpenModelicaSolver);
@@ -601,7 +601,7 @@
         /// Builds an abstract tree with info about the packages and models in the component sub-package.
         /// </summary>
         /// <param name="rootFolder">rootFolder of the project.</param>
-        private void BuildUpAllComponets(CyPhy.RootFolder rootFolder)
+        private void BuildUpAllComponents(CyPhy.RootFolder rootFolder)
         {
             this.componentsPackage_mo = new Package()
             {
@@ -793,7 +793,7 @@
 
             var componentAssembly_mo = new ComponentAssembly(ca)
             {
-                FullName = componentAssemblyFullName,
+                FullName = ComponentAssembly.ToDefinitionName(componentAssemblyFullName),
                 HasInnerCAs = hasInnerCAs,
                 ConstrainedBys = this.modelicaSettings.GenerateConstrainedBys
             };
@@ -922,15 +922,15 @@
             this.testBench_mo.TestComponents.Add(testComponent_mo);
 
             // Make sure there are margins to the upper- and left-border
-            int canvasX = testComponent.GenericAspect.X > ScaleFactor * ComponentIconSize ? 
+            int canvasX = testComponent.GenericAspect.X > ScaleFactor * ComponentIconSize ?
                 testComponent.GenericAspect.X : ScaleFactor * ComponentIconSize;
-            int canvasY = testComponent.GenericAspect.Y > ScaleFactor * ComponentIconSize ? 
+            int canvasY = testComponent.GenericAspect.Y > ScaleFactor * ComponentIconSize ?
                 testComponent.GenericAspect.Y : ScaleFactor * ComponentIconSize;
 
             // Make sure there are margins to the bottom- and right-border
-            this.testBench_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasXMax ? 
+            this.testBench_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasXMax ?
                 canvasX + (ScaleFactor * ComponentIconSize) : this.testBench_mo.CanvasXMax;
-            this.testBench_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasYMax ? 
+            this.testBench_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasYMax ?
                 canvasY + (ScaleFactor * ComponentIconSize) : this.testBench_mo.CanvasYMax;
 
             var testComponentInstance_mo = new ComponentInstance(testComponent)
@@ -1080,15 +1080,15 @@
         private void AddEnvironment(CyPhy.Environment environment)
         {
             // Make sure there are margins to the upper- and left-border
-            int canvasX = environment.GenericAspect.X > ScaleFactor * ComponentIconSize ? 
+            int canvasX = environment.GenericAspect.X > ScaleFactor * ComponentIconSize ?
                 environment.GenericAspect.X : ScaleFactor * ComponentIconSize;
-            int canvasY = environment.GenericAspect.Y > ScaleFactor * ComponentIconSize ? 
+            int canvasY = environment.GenericAspect.Y > ScaleFactor * ComponentIconSize ?
                 environment.GenericAspect.Y : ScaleFactor * ComponentIconSize;
 
             // Make sure there are margins to the bottom- and right-border
-            this.testBench_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasXMax ? 
+            this.testBench_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasXMax ?
                 canvasX + (ScaleFactor * ComponentIconSize) : this.testBench_mo.CanvasXMax;
-            this.testBench_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasYMax ? 
+            this.testBench_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > this.testBench_mo.CanvasYMax ?
                 canvasY + (ScaleFactor * ComponentIconSize) : this.testBench_mo.CanvasYMax;
 
             var environment_mo = new Environment(environment)
@@ -1227,7 +1227,7 @@
                 if (this.ContainsDynamicComponents(innerComponentAssembly) == false)
                 {
                     this.Logger.WriteWarning(
-                        "Component Assembly '{0}' inside '{1}' does not contain any dynamic models, it will not be generated.", 
+                        "Component Assembly '{0}' inside '{1}' does not contain any dynamic models, it will not be generated.",
                         innerComponentAssembly.Name,
                         ca.Name);
                     continue;
@@ -1245,7 +1245,7 @@
 
                 var innerComponentAssembly_mo = new ComponentAssembly(innerComponentAssembly)
                 {
-                    FullName = innerCAFullName,
+                    FullName = ComponentAssembly.ToDefinitionName(innerCAFullName),
                     ParentComponentAssembly = componentAssembly_mo,
                     HasInnerCAs = innerCAHasChildren,
                     ConstrainedBys = this.modelicaSettings.GenerateConstrainedBys
@@ -1560,15 +1560,15 @@
             var modelicaModel = this.GetModelicaModelFromComponent(component);
 
             // Make sure there are margins to the top- and left-border
-            int canvasX = component.GenericAspect.X > ScaleFactor * ComponentIconSize ? 
+            int canvasX = component.GenericAspect.X > ScaleFactor * ComponentIconSize ?
                 component.GenericAspect.X : ScaleFactor * ComponentIconSize;
-            int canvasY = component.GenericAspect.Y > ScaleFactor * ComponentIconSize ? 
+            int canvasY = component.GenericAspect.Y > ScaleFactor * ComponentIconSize ?
                 component.GenericAspect.Y : ScaleFactor * ComponentIconSize;
 
             // Make sure there are margins to the bottom- and right-border
-            componentAssembly_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > componentAssembly_mo.CanvasXMax ? 
+            componentAssembly_mo.CanvasXMax = canvasX + (ScaleFactor * ComponentIconSize) > componentAssembly_mo.CanvasXMax ?
                 canvasX + (ScaleFactor * ComponentIconSize) : componentAssembly_mo.CanvasXMax;
-            componentAssembly_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > componentAssembly_mo.CanvasYMax ? 
+            componentAssembly_mo.CanvasYMax = canvasY + (ScaleFactor * ComponentIconSize) > componentAssembly_mo.CanvasYMax ?
                 canvasY + (ScaleFactor * ComponentIconSize) : componentAssembly_mo.CanvasYMax;
 
             var componentInstance_mo = new ComponentInstance(component)
@@ -1600,7 +1600,7 @@
                 {
                     double temp;
                     var value = modelicaParameter.Attributes.Value.Trim();
-                    if (double.TryParse(modelicaParameter.Attributes.Value, out temp) || value == "true" || value == "false" || 
+                    if (double.TryParse(modelicaParameter.Attributes.Value, out temp) || value == "true" || value == "false" ||
                         (value.StartsWith("\"") && value.EndsWith("\"")))
                     {
                         var parameter_mo = new UnitParameter();
@@ -2275,7 +2275,7 @@
 
             CyPhy.ModelicaConnector connector = null;
             var containedPort = port.Children.ModelicaConnectorCollection.FirstOrDefault();
-            if (containedPort == null) 
+            if (containedPort == null)
             {
                 // META-3185
                 this.Logger.WriteDebug("No ModelicaConnector found in connector {0} within {1}, connection skipped...", port.Name, containingComponent.Name);
@@ -2366,7 +2366,7 @@
                     bool badChars = false;
                     foreach (char c in property.Name)
                     {
-                        if(Rules.Global.invalidCharacters.Contains(c))
+                        if (Rules.Global.invalidCharacters.Contains(c))
                         {
                             badChars = true;
                             break;
@@ -2415,7 +2415,23 @@
             componentAssemblyString.AppendLine(string.Format("within {0}.ComponentAssemblies;", CodeGenerator.MainPackage));
             var topLevelSysCA_mo = this.testBench_mo.ComponentAssemblyInstances.FirstOrDefault().InstanceOf;
             this.GetComponentAssemblyPackageFile(topLevelSysCA_mo, componentAssemblyString, extendModelicaIconPackage, this.testBench_mo.Environments);
-            File.WriteAllText(Path.Combine(this.OutputDir, MainPackage, "ComponentAssemblies", topLevelSysCA_mo.Name + ".mo"), componentAssemblyString.ToString());
+
+            /* Because the filename must match the top-level entity within the file, 
+             * we need to determine what the name of that entity will be.
+             * 
+             * If the Component Assembly has inner Component Assemblies (hierarchy),
+             * then the file will include a package definition. That package will have
+             * the same name as the Component Assembly in OpenMETA.
+             * 
+             * If the Component Assembly does NOT have inner Component Assemblies,
+             * then the file will NOT include a package definition and the file will
+             * have the same name as the Component Assembly definition.
+             */
+            String filenameComponentAssembly_mo = (topLevelSysCA_mo.HasInnerCAs)
+                                                    ? topLevelSysCA_mo.Name
+                                                    : topLevelSysCA_mo.DefinitionName;
+
+            File.WriteAllText(Path.Combine(this.OutputDir, MainPackage, "ComponentAssemblies", filenameComponentAssembly_mo + ".mo"), componentAssemblyString.ToString());
 
             // Write out test components
             foreach (var testComponent_mo in this.testBench_mo.TestComponents)

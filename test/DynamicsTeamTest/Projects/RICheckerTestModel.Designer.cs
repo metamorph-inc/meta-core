@@ -229,7 +229,21 @@ namespace DynamicsTeamTest.Projects
 
             Assert.True(result, "CyPhy2Modelica_v2 failed.");
         }
+        
+        [Fact]
+        [Trait("Model", "RICheckerTestModel")]
+        [Trait("CyPhy2Modelica", "RICheckerTestModel")]
+        [Trait("CyPhy2Modelica", "OpenModelica_12_ModelChecker")]
+        public void Tests_RICircuit_CA_WithChecker()
+        {
+            string outputDir = "Tests_RICircuit_CA";
+            string testBenchPath = "/@Tests|kind=Testing|relpos=0/@RICircuit_CA|kind=TestBench|relpos=0";
 
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhy2ModelicaRunner.RunWithChecker(outputDir, mgaFile, testBenchPath);
+
+            Assert.True(result, "CyPhy2Modelica_v2 failed.");
+        }
 
     }
 }

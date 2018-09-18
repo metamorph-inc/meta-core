@@ -93,6 +93,21 @@ namespace DynamicsTeamTest.Projects
         [Fact]
         [Trait("Model", "RollingWheel")]
         [Trait("CyPhy2Modelica", "RollingWheel")]
+        [Trait("CyPhy2Modelica", "OpenModelica_12_ModelChecker")]
+        public void TestBenches_RollingWheel_WithChecker()
+        {
+            string outputDir = "TestBenches_RollingWheel";
+            string testBenchPath = "/@TestBenches|kind=Testing|relpos=0/@RollingWheel|kind=TestBench|relpos=0";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            bool result = CyPhy2ModelicaRunner.RunWithChecker(outputDir, mgaFile, testBenchPath);
+
+            Assert.True(result, "CyPhy2Modelica_v2 failed.");
+        }
+
+        [Fact]
+        [Trait("Model", "RollingWheel")]
+        [Trait("CyPhy2Modelica", "RollingWheel")]
         public void TestBenches_RollingWheelDummyPropertiesInTestBench()
         {
             string outputDir = "TestBenches_RollingWheelDummyPropertiesInTestBench";

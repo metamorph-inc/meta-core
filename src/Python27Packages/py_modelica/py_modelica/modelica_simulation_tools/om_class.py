@@ -148,7 +148,7 @@ class OpenModelica(ToolBase):
         """
         os.chdir(self.mo_dir)
 
-        command = '"{0}" +q +s "{1}"'.format(os.path.join(self.tool_path, 'omc'), self.mos_file_name)
+        command = '"{0}" +q +s --std=3.3 "{1}"'.format(os.path.join(self.tool_path, 'omc'), self.mos_file_name)
 
         # only recompile if there is a .mo file newer than the _init.xml file
         latest_mtime = -1
