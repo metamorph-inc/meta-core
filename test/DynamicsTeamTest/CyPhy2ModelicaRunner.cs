@@ -17,7 +17,7 @@ namespace DynamicsTeamTest
         /// <param name="projectPath">name of mga-file</param>
         /// <param name="absPath">Folder-path to test-bench</param>
         /// <returns>Boolean - True -> interpreter call was successful</returns>
-        public static bool Run(string outputdirname, string projectPath, string absPath)
+        public static bool Run(string outputdirname, string projectPath, string absPath, CyPhy2Modelica_v2.CyPhy2Modelica_v2Settings config = null)
         {
             bool result = false;
             Assert.True(File.Exists(projectPath), "Project file does not exist.");
@@ -54,6 +54,10 @@ namespace DynamicsTeamTest
                 mainParameters.ConsoleMessages = false;
                 mainParameters.ProjectDirectory = Path.GetDirectoryName(projectPath);
                 mainParameters.OutputDirectory = OutputDir;
+                if (config != null)
+                {
+                    mainParameters.config = config;
+                }
 
                 //dynamic results = interpreter.Main(mainParameters);
                 var results = interpreter.MainThrows(mainParameters);
@@ -73,6 +77,28 @@ namespace DynamicsTeamTest
             }
 
             return result;
+        }
+
+        public static bool RunWithChecker(string outputdirname, string projectPath, string absPath)
+        {
+            // If OpenModelica is installed, we want to use the model-checking capability.
+            // Otherwise, we won't.
+            var runOmCheck = CyPhy2ModelicaRunner.OpenModelica_1_12_IsInstalled();
+            if (runOmCheck)
+            {
+                Console.WriteLine("OpenModelica 1.12 appears to be installed, so we'll run its model checker.");
+            }
+            else
+            {
+                Console.WriteLine("OpenModelica 1.12 was not detected, so we're skipping its model checker.");
+            }
+
+            var config = new CyPhy2Modelica_v2.CyPhy2Modelica_v2Settings
+            {
+                CheckWithOpenModelica = runOmCheck,
+            };
+
+            return CyPhy2ModelicaRunner.Run(outputdirname, projectPath, absPath, config);
         }
 
         /// <summary>
@@ -139,6 +165,19 @@ namespace DynamicsTeamTest
 
             return result;
         }
+
+        public static Boolean OpenModelica_1_12_IsInstalled()
+        {
+            //"C:\OpenModelica1.12.0-64bit\bin\omc.exe"
+            String pathOmc =
+                Path.Combine("C" + Path.VolumeSeparatorChar.ToString() + Path.DirectorySeparatorChar,
+                             "OpenModelica1.12.0-64bit",
+                             "bin",
+                             "omc.exe");
+
+            return File.Exists(pathOmc);
+        }
+        
         /// <summary>
         /// Calls CyPhy2Modelica through CyPhyGUIs, always closes the project.
         /// 

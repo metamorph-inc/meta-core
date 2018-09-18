@@ -35,12 +35,23 @@ namespace CyPhy2Modelica_v2.Modelica
         public ComponentAssembly ParentComponentAssembly { get; set; }
         public bool HasInnerCAs { get; set; }
         public bool ConstrainedBys { get; set; }
+        public string DefinitionName
+        {
+            get
+            {
+                return ToDefinitionName(Name);
+            }
+        }
+        public static string ToDefinitionName(string Name)
+        {
+            return string.Format("{0}_def", Name);
+        }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(string.Format("model {0}", Name));
+            sb.AppendLine(string.Format("model {0}", DefinitionName));
             sb.AppendLine("  //Parameters");
             foreach (var parameter in Parameters)
             {
@@ -130,7 +141,7 @@ namespace CyPhy2Modelica_v2.Modelica
 
             this.Icon(sb);
 
-            sb.AppendLine(string.Format("end {0};", Name));
+            sb.AppendLine(string.Format("end {0};", DefinitionName));
 
             return sb.ToString();
         }

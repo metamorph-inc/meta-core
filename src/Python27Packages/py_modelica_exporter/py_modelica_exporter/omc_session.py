@@ -546,7 +546,7 @@ class OMCSession(object):
                 return ""
 
     def getComponentModifierNames(self, className, componentName):
-        return self.ask('getComponentModifierNames', '{0}, {1}'.format(className, componentName))
+        return self.ask('getComponentModifierNames', '{0}, "{1}"'.format(className, componentName))
 
     def getComponentModifierValue(self, className, componentName):
         try:
