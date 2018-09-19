@@ -7,6 +7,8 @@
 #include "muparser_wrapper.h"
 
 #include <string>
+#include <sstream>
+#include <iomanip>
 #ifdef _UNICODE
 typedef std::wstring tstring;
 typedef std::wstringstream tstringstream;
@@ -21,6 +23,7 @@ double mtbdd_call_muParser_math_function(double to, bdd_unary_math_function math
 {
    tstring expression;
    tstringstream expressionStr;
+   expressionStr.precision(17);
    switch(math_function)
    {
    case bdd_sin:

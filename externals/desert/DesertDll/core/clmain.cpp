@@ -18,15 +18,6 @@ SKN<06.26.2002>   ClObjName::Eval Uncommented the throw exception when function 
 #include "core/manager.h"
 #include "core/dynamic.h"
 
-#ifdef _UNICODE
-typedef std::wstring tstring;
-typedef std::wstringstream tstringstream;
-
-#else
-typedef std::string tstring;
-typedef std::stringstream tstringstream;
-#endif
-
 #include "muparser_wrapper.h"
 
 #include "bdd/bdd_math.h"
