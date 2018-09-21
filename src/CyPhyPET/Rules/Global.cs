@@ -55,9 +55,8 @@ namespace CyPhyPET.Rules
         /// </summary>
         /// <param name="testBench">Test-bench to look into.</param>
         /// <returns>ProgID for interpreter defined in task.</returns>
-        public static string GetInterpreterProgIDFromTestBench(CyPhy.TestBench testBench)
+        public static List<CyPhy.TaskBase> GetTasksFromTestBench(CyPhy.TestBench testBench)
         {
-            string result = string.Empty;
             if (testBench.Children.WorkflowRefCollection.Count() == 1)
             {
                 var workflowRef = testBench.Children.WorkflowRefCollection.FirstOrDefault();
@@ -65,19 +64,43 @@ namespace CyPhyPET.Rules
                     workflowRef.Referred.Workflow != null)
                 {
                     var workflow = workflowRef.Referred.Workflow;
-                    if (workflow.Children.TaskCollection.Count() == 1)
+                    var modelTasks = workflow.Children.TaskBaseCollection;
+                    List<CyPhy.TaskBase> orderedTasks = Enumerable.Repeat<CyPhy.TaskBase>(null, modelTasks.Count()).ToList();
+                    Dictionary<CyPhy.TaskBase, int> tasks = new Dictionary<CyPhy.TaskBase, int>();
+                    foreach (CyPhy.TaskBase task in modelTasks)
                     {
-                        var task = workflow.Children.TaskCollection.FirstOrDefault();
-
-                        if (task != null)
-                        {
-                            result = task.Attributes.COMName;
-                        }
+                        int index = GetTaskIndex(task, tasks);
+                        orderedTasks[index] = task;
                     }
+                    if (orderedTasks[orderedTasks.Count - 1] == null)
+                    {
+                        throw new ApplicationException("Branching is not supported in Workflow " + workflow.Name);
+                    }
+                    return orderedTasks;
                 }
             }
+            throw new ApplicationException(String.Format("TestBench {0} must have exactly one WorkflowRef", testBench.Name));
+        }
 
-            return result;
+        public static int GetTaskIndex(CyPhy.TaskBase task, Dictionary<CyPhy.TaskBase, int> tasks)
+        {
+            int index;
+            if (tasks.TryGetValue(task, out index))
+            {
+                if (index == -1)
+                {
+                    throw new ApplicationException("Workflow loop involving " + task.Name);
+                }
+                return index;
+            }
+            index = 0;
+            tasks.Add(task, -1);
+            foreach (CyPhy.Flow connection in task.SrcConnections.FlowCollection)
+            {
+                index = Math.Max(index, GetTaskIndex(connection.SrcEnds.TaskBase, tasks) + 1);
+            }
+            tasks[task] = index;
+            return index;
         }
 
         [CheckerRule("UniqueTestBenchRefNames", Description = "TestBenchReferences should have unique names")]
@@ -325,12 +348,12 @@ namespace CyPhyPET.Rules
                 else
                 {
                     var workflow = workflowRef.Referred.Workflow;
-                    if (workflow.Children.TaskCollection.Count() != 1)
+                    if (workflow.Children.TaskCollection.Count() < 1)
                     {
                         var feedback = new GenericRuleFeedback()
                         {
                             FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("Workflow must have exactly one task: {0}.",
+                            Message = string.Format("Workflow must have at least one task: {0}.",
                                 workflow.Name)
                         };
 

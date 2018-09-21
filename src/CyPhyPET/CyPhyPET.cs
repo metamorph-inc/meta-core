@@ -144,7 +144,8 @@ namespace CyPhyPET
                         if (tbRef.AllReferred is CyPhy.TestBench)
                         {
                             var testBench = CyPhyClasses.TestBenchRef.Cast(testBenchRef).Referred.TestBench;
-                            interpreterProgIDs.Add(Rules.Global.GetInterpreterProgIDFromTestBench(testBench));
+                            interpreterProgIDs = Rules.Global.GetTasksFromTestBench(testBench).OfType<CyPhy.Task>()
+                                .Select(task => task.Attributes.COMName).ToList();
                         }
                         else if (tbRef.AllReferred is CyPhy.TestBenchType)
                         {
@@ -727,37 +728,59 @@ namespace CyPhyPET
                 foreach (var testBenchRef in exploration.Children.TestBenchRefCollection.OrderBy(x => x.Guid))
                 {
                     var outputFolder = "TestBench_" + testBenchRef.Name;
-                    bool interpreterSuccess = false;
+                    bool interpreterSuccess = true;
                     if (testBenchRef != null &&
                         testBenchRef.AllReferred != null
                         && testBenchRef.AllReferred is CyPhy.TestBench)
                     {
                         var testBench = testBenchRef.AllReferred as CyPhy.TestBench;
 
-                        var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench);
-                        switch (interpreterProgID)
+                        var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputFolder));
+                        AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
+                        tbManifest.MakeManifest(testBench, diTestBenchOutputDir.FullName);
+                        tbManifest.Serialize(diTestBenchOutputDir.FullName);
+
+                        var workflowTasks = Rules.Global.GetTasksFromTestBench(testBench);
+
+                        foreach (CyPhy.TaskBase taskBase in workflowTasks)
                         {
-                            case "MGA.Interpreter.CyPhy2CAD_CSharp":
-                                interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench, outputFolder);
-                                break;
+                            if (taskBase is CyPhy.ExecutionTask)
+                            {
+                                tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(Path.Combine(OutputDirectory, outputFolder));
 
-                            case "MGA.Interpreter.CyPhyFormulaEvaluator":
-                                interpreterSuccess = true;
-                                break;
+                                var step = MetaTBManifest.CreateManifestStepForExecutionTask("..\\..\\..", (CyPhy.ExecutionTask)taskBase);
+                                tbManifest.Steps.Add(step);
 
-                            case "MGA.Interpreter.CyPhyPython":
-                                interpreterSuccess = this.CallCyPhyPython(testBench, outputFolder);
-                                break;
+                                tbManifest.Serialize(Path.Combine(OutputDirectory, outputFolder));
+                            }
+                            else
+                            {
+                                CyPhy.Task task = (CyPhy.Task)taskBase;
+                                switch (task.Attributes.COMName)
+                                {
+                                    case "MGA.Interpreter.CyPhy2CAD_CSharp":
+                                        interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBench, task, outputFolder) && interpreterSuccess;
+                                        break;
 
-                            default:
-                                interpreterSuccess = this.CallIntererpreterAndAddRunCommandToManifest(interpreterProgID, testBench, outputFolder);
-                                break;
+                                    case "MGA.Interpreter.CyPhyFormulaEvaluator":
+                                        interpreterSuccess = true;
+                                        break;
+
+                                    case "MGA.Interpreter.CyPhyPython":
+                                        interpreterSuccess = this.CallCyPhyPython(testBench, task, outputFolder) && interpreterSuccess;
+                                        break;
+
+                                    default:
+                                        interpreterSuccess = this.CallIntererpreterAndAddRunCommandToManifest(task, testBench, outputFolder) && interpreterSuccess;
+                                        break;
+                                }
+                            }
+                            this.UpdateSuccess("Interpreter successful : ", interpreterSuccess);
                         }
-                        this.UpdateSuccess("Interpreter successful : ", interpreterSuccess);
                     }
                     else if (testBenchRef != null && testBenchRef.AllReferred != null && testBenchRef.AllReferred is CyPhy.TestBenchType)
                     {
-                        interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, outputFolder);
+                        interpreterSuccess = this.CallCyPhy2CAD_CSharp(testBenchRef.AllReferred as CyPhy.TestBenchType, null, outputFolder);
                         this.UpdateSuccess("CyPhy2CAD : ", interpreterSuccess);
                     }
                     else
@@ -850,16 +873,19 @@ namespace CyPhyPET
             return doReturn;
         }
 
-        private bool CallIntererpreterAndAddRunCommandToManifest(string progid, CyPhy.TestBench testBench, string outputDirName)
+        private bool CallIntererpreterAndAddRunCommandToManifest(CyPhy.Task task, CyPhy.TestBench testBench, string outputDirName)
         {
-            string name = progid.Split('.').Last();
-            var interpreter = CallInterpreter(testBench, progid, name, outputDirName, initializeManifest: true);
+            string name = task.Attributes.COMName.Split('.').Last();
+            var interpreter = CallInterpreter(testBench, task.Attributes.COMName, task, name, outputDirName, initializeManifest: true);
             if (interpreter.result.Success && string.IsNullOrEmpty(interpreter.result.RunCommand) == false)
             {
                 // if RunCommand is specified, add it to the manifest
                 var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(interpreter.MainParameters.OutputDirectory);
 
-                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { interpreter }, "..\\..\\..");
+                var step = new MetaTBManifest.Step();
+                step.Invocation = interpreter.result.RunCommand;
+                tbManifest.Steps.Add(step);
+
                 tbManifest.Serialize(interpreter.MainParameters.OutputDirectory);
 
                 return true;
@@ -868,21 +894,23 @@ namespace CyPhyPET
             return interpreter.result.Success;
         }
 
-        private bool CallCyPhy2CAD_CSharp(CyPhy.TestBenchType testBench, string outputDirName)
+        private bool CallCyPhy2CAD_CSharp(CyPhy.TestBenchType testBench, CyPhy.Task task, string outputDirName)
         {
-            var cyPhy2CAD = CallInterpreter(testBench, "MGA.Interpreter.CyPhy2CAD_CSharp", "CyPhy2CAD_CSharp", outputDirName);
+            var cyPhy2CAD = CallInterpreter(testBench, "MGA.Interpreter.CyPhy2CAD_CSharp", task, "CyPhy2CAD_CSharp", outputDirName);
             if (cyPhy2CAD.result.Success)
             {
                 var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhy2CAD.MainParameters.OutputDirectory);
 
-                tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhy2CAD }, "..\\..\\..");
-
-                tbManifest.Steps.Insert(0, new AVM.DDP.MetaTBManifest.Step()
+                tbManifest.Steps.Add(new AVM.DDP.MetaTBManifest.Step()
                 {
                     Status = AVM.DDP.MetaTBManifest.StatusEnum.UNEXECUTED,
                     Invocation = String.Format("\"{0}\" -E -m run_mdao.cad.update_parameters", META.VersionInfo.PythonVEnvExe),
                     Description = "Update parameters in CADAssembly.xml"
                 });
+
+                var step = new MetaTBManifest.Step();
+                step.Invocation = cyPhy2CAD.result.RunCommand;
+                tbManifest.Steps.Add(step);
 
                 tbManifest.Serialize(cyPhy2CAD.MainParameters.OutputDirectory);
 
@@ -891,8 +919,7 @@ namespace CyPhyPET
             }
             return cyPhy2CAD.result.Success;
         }
-
-        private META.ComComponent CallInterpreter(CyPhy.TestBenchType testBench, string progid, string name, string outputDirName, bool initializeManifest = false)
+        private META.ComComponent CallInterpreter(CyPhy.TestBenchType testBench, String progid, CyPhy.Task task, string name, string outputDirName, bool initializeManifest = false)
         {
             var interpreter = new META.ComComponent(progid);
 
@@ -906,23 +933,18 @@ namespace CyPhyPET
 
             var diTestBenchOutputDir = Directory.CreateDirectory(Path.Combine(OutputDirectory, outputDirName));
 
-            CyPhy.Task task = null;
             string result = string.Empty;
+            CyPhy.Workflow workflow = null;
             if (testBench.Children.WorkflowRefCollection.Count() == 1)
             {
                 var workflowRef = testBench.Children.WorkflowRefCollection.FirstOrDefault();
                 if (workflowRef != null &&
                     workflowRef.Referred.Workflow != null)
                 {
-                    var workflow = workflowRef.Referred.Workflow;
-                    if (workflow.Children.TaskCollection.Count() == 1)
-                    {
-                        task = workflow.Children.TaskCollection.FirstOrDefault();
-                    }
-
-                    CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI.CopyFiles(workflow.Children.CopyFilesCollection, mainParameters.ProjectDirectory, diTestBenchOutputDir.FullName);
+                    workflow = workflowRef.Referred.Workflow;
                 }
             }
+            CyPhyMasterInterpreter.CyPhyMasterInterpreterAPI.CopyFiles(workflow.Children.CopyFilesCollection, mainParameters.ProjectDirectory, diTestBenchOutputDir.FullName);
 
             if (task != null)
             {
@@ -954,12 +976,6 @@ namespace CyPhyPET
             interpreter.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
             interpreter.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
 
-            if (initializeManifest)
-            {
-                AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
-                tbManifest.MakeManifest(testBench, diTestBenchOutputDir.FullName);
-                tbManifest.Serialize(diTestBenchOutputDir.FullName);
-            }
             try
             {
                 interpreter.Main();
@@ -983,7 +999,7 @@ namespace CyPhyPET
             }
         }
 
-        private bool CallCyPhyPython(CyPhy.TestBenchType testBench, string outputDirName)
+        private bool CallCyPhyPython(CyPhy.TestBenchType testBench, CyPhy.Task task, string outputDirName)
         {
             var cyPhyPython = new META.ComComponent("MGA.Interpreter.CyPhyPython");
 
@@ -998,11 +1014,6 @@ namespace CyPhyPET
             if (workflowRef == null || workflowRef.Referred.Workflow == null)
             {
                 throw new ApplicationException("CyPhyPython testbench must have a WorkflowRef");
-            }
-            var task = workflowRef.Referred.Workflow.Children.TaskCollection.Where(t => t.Attributes.COMName == "MGA.Interpreter.CyPhyPython").FirstOrDefault();
-            if (task == null)
-            {
-                throw new ApplicationException("CyPhyPython testbench must have Task");
             }
             try
             {
@@ -1029,11 +1040,6 @@ namespace CyPhyPET
             cyPhyPython.MainParameters.StartModeParam = this.mainParameters.StartModeParam;
             cyPhyPython.MainParameters.VerboseConsole = this.mainParameters.VerboseConsole;
 
-            AVM.DDP.MetaTBManifest tbManifest = new AVM.DDP.MetaTBManifest();
-            tbManifest.MakeManifest(testBench, cyPhyPython.MainParameters.OutputDirectory);
-
-            tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
-
             bool success;
             try
             {
@@ -1052,9 +1058,12 @@ namespace CyPhyPET
 
                 if (string.IsNullOrWhiteSpace(cyPhyPython.result.RunCommand) == false)
                 {
-                    tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhyPython.MainParameters.OutputDirectory);
+                    var tbManifest = AVM.DDP.MetaTBManifest.OpenForUpdate(cyPhyPython.MainParameters.OutputDirectory);
 
-                    tbManifest.AddAllTasks(testBench, new META.ComComponent[] { cyPhyPython }, "..\\..\\..");
+                    var step = new MetaTBManifest.Step();
+                    step.Invocation = cyPhyPython.result.RunCommand;
+                    tbManifest.Steps.Add(step);
+
                     tbManifest.Serialize(cyPhyPython.MainParameters.OutputDirectory);
                 }
 

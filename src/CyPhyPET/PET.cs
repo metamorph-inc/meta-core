@@ -613,8 +613,8 @@ namespace CyPhyPET
             }
             if (testBench is CyPhy.TestBench)
             {
-                var interpreterProgID = Rules.Global.GetInterpreterProgIDFromTestBench(testBench as CyPhy.TestBench);
-                if (interpreterProgID == "MGA.Interpreter.CyPhyFormulaEvaluator")
+                var interpreterProgID = Rules.Global.GetTasksFromTestBench(testBench as CyPhy.TestBench);
+                if (interpreterProgID.OfType<CyPhy.Task>().Select(task => task.Attributes.COMName).Contains("MGA.Interpreter.CyPhyFormulaEvaluator"))
                 {
                     // FIXME: does this still work
                     this.SimpleCalculation((CyPhy.TestBench)testBench);
