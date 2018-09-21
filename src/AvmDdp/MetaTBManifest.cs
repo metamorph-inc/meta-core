@@ -586,21 +586,7 @@ namespace AVM.DDP
                     {
                         CyPhy.ExecutionTask executionTask = ISIS.GME.Dsml.CyPhyML.Classes.ExecutionTask.Cast(nextTask.Impl);
 
-                        var step = new Step();
-
-                        step.Description = executionTask.Attributes.Description;
-                        // %project_dir% is relative path to MgaExtensions.MgaExtensions.GetProjectDirectoryPath(testBenchType.Impl.Project)
-                        step.Invocation = Regex.Replace(executionTask.Attributes.Invocation, "%project_dir%", relativePathToProjectDir, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-                        step.PreProcess = executionTask.Attributes.PreProcess;
-                        step.PostProcess = executionTask.Attributes.PostProcess;
-
-                        var splitStrings = new string[]{Environment.NewLine, "\n"};
-                        foreach (var parameterValue in executionTask.Attributes.Parameters.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries))
-                        {
-                            Parameter parameter = new Parameter();
-                            parameter.Name = parameterValue;
-                            step.Parameters.Add(parameter);
-                        }
+                        Step step = CreateManifestStepForExecutionTask(relativePathToProjectDir, executionTask);
 
                         this.Steps.Add(step);
                     }
@@ -616,6 +602,27 @@ namespace AVM.DDP
                     }
                 }
             }
+        }
+
+        public static Step CreateManifestStepForExecutionTask(string relativePathToProjectDir, CyPhy.ExecutionTask executionTask)
+        {
+            var step = new Step();
+
+            step.Description = executionTask.Attributes.Description;
+            // %project_dir% is relative path to MgaExtensions.MgaExtensions.GetProjectDirectoryPath(testBenchType.Impl.Project)
+            step.Invocation = Regex.Replace(executionTask.Attributes.Invocation, "%project_dir%", relativePathToProjectDir, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            step.PreProcess = executionTask.Attributes.PreProcess;
+            step.PostProcess = executionTask.Attributes.PostProcess;
+
+            var splitStrings = new string[] { Environment.NewLine, "\n" };
+            foreach (var parameterValue in executionTask.Attributes.Parameters.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Parameter parameter = new Parameter();
+                parameter.Name = parameterValue;
+                step.Parameters.Add(parameter);
+            }
+
+            return step;
         }
 
         public void AddDependency(Dependency dep)
