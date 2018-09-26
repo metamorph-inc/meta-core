@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using META;
+using CyPhyGUIs;
 
 namespace CyPhyComponentAuthoring.Modules
 {
@@ -128,11 +129,50 @@ namespace CyPhyComponentAuthoring.Modules
 
                     firstProc.StartInfo.FileName = path;
                     firstProc.StartInfo.Arguments = argstring;
+                    firstProc.StartInfo.CreateNoWindow = true;
+                    firstProc.StartInfo.UseShellExecute = false;
+                    firstProc.StartInfo.RedirectStandardOutput = true;
+                    firstProc.StartInfo.RedirectStandardError = true;
+                    firstProc.StartInfo.RedirectStandardInput = true;
+
+                    int streamsClosed = 0;
+
+                    DataReceivedEventHandler handler = (sender, e) =>
+                    {
+                        lock (Logger)
+                        {
+                            if (e.Data == null)
+                            {
+                                streamsClosed += 1;
+                                if (streamsClosed == 2)
+                                {
+                                }
+                                return;
+                            }
+                            Logger.WriteDebug(e.Data);
+                        }
+                    };
+                    firstProc.OutputDataReceived += handler;
+                    firstProc.ErrorDataReceived += handler;
+
+
                     this.Logger.WriteDebug("Calling CADCreoParametricCreateAssembly.exe with argument string: " + argstring);
 
+                    IntPtr job = JobObjectPinvoke.CreateKillOnCloseJob();
                     firstProc.Start();
+                    JobObjectPinvoke.AssignProcessToJobObject(firstProc, job);
+                    try
+                    {
+                        firstProc.StandardInput.Close();
+                        firstProc.BeginOutputReadLine();
+                        firstProc.BeginErrorReadLine();
 
-                    firstProc.WaitForExit();
+                        firstProc.WaitForExit();
+                    }
+                    finally
+                    {
+                        JobObjectPinvoke.CloseHandle(job);
+                    }
 
                     this.Logger.WriteDebug("CADCreoParametricCreateAssembly.exe ExtractACM-XMLfromCreoModels has completed.");
 
