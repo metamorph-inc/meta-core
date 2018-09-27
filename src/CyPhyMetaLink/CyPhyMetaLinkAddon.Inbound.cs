@@ -313,7 +313,7 @@ namespace CyPhyMetaLink
                         addon.Project.AbortTransaction();
                     }
                 }
-                else
+                else if (cdata.Type == SyncedComponentData.EditType.Component)
                 {
                     string designId = cdata.Id;
                     string xml;
@@ -334,6 +334,10 @@ namespace CyPhyMetaLink
                     {
                         GMEConsole.Warning.WriteLine("MetaLink: unknown assembly " + designId);
                     }
+                }
+                else
+                {
+                    // cdata.Type == SyncedComponentData.EditType.Empty
                 }
             }
             else
