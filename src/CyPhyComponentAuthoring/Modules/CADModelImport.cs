@@ -12,6 +12,8 @@ using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using META;
 using CyPhyGUIs;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CyPhyComponentAuthoring.Modules
 {
@@ -36,6 +38,7 @@ namespace CyPhyComponentAuthoring.Modules
 
         public CyPhyGUIs.GMELogger Logger { get; set; }
         private bool Close_Dlg;
+        private object sender;
 
         [CyPhyComponentAuthoringInterpreter.CATName(
                 NameVal = "Add CAD",
@@ -47,6 +50,7 @@ namespace CyPhyComponentAuthoring.Modules
         ]
         public void callImportCADModel(object sender, EventArgs e)
         {
+            this.sender = sender;
             ImportCADModel();
 
             // Close the calling dialog box if the module ran successfully
@@ -69,7 +73,6 @@ namespace CyPhyComponentAuthoring.Modules
             //The CAT module will perform these steps, in this order:
             //  - Check that the user has Creo (so that the extraction will be successful)
             //      - Implementation Suggestion: The extraction utility may have special flag to have it indicates if all the dependencies are met
-            bool creo_installed = this.CREO_present();
 
             //  - Display a dialog box to let the user choose their Creo model file
             bool cad_file_chosen = false;
@@ -99,7 +102,7 @@ namespace CyPhyComponentAuthoring.Modules
             string tempXMLfile = Path.GetTempFileName(); 
             this.Logger.WriteDebug("Temporary XML file created: " + tempXMLfile);
 
-            if (creo_installed && cad_file_chosen && !test_copy_and_path_only)
+            if (cad_file_chosen && !test_copy_and_path_only)
             {
                 try
                 {
@@ -136,6 +139,7 @@ namespace CyPhyComponentAuthoring.Modules
                     firstProc.StartInfo.RedirectStandardInput = true;
 
                     int streamsClosed = 0;
+                    StringBuilder exeConsoleOutput = new StringBuilder();
 
                     DataReceivedEventHandler handler = (sender, e) =>
                     {
@@ -150,28 +154,73 @@ namespace CyPhyComponentAuthoring.Modules
                                 return;
                             }
                             Logger.WriteDebug(e.Data);
+                            exeConsoleOutput.AppendLine(e.Data);
                         }
                     };
                     firstProc.OutputDataReceived += handler;
                     firstProc.ErrorDataReceived += handler;
-
+                    firstProc.EnableRaisingEvents = true;
+                    bool showProgressBar = sender != null && sender is IWin32Window;
+                    bool done = false;
+                    GUIs.CADProgress progress = null;
+                    EventHandler closeDialogWithSuccess = (e, o) =>
+                    {
+                        progress.Invoke((Action)(() =>
+                        {
+                            if (done == false)
+                            {
+                                done = true;
+                                progress.DialogResult = DialogResult.OK;
+                                progress.Close();
+                            }
+                        }));
+                    };
+                    if (showProgressBar)
+                    {
+                        progress = new GUIs.CADProgress();
+                        firstProc.Exited += closeDialogWithSuccess;
+                    }
+                    IntPtr job = JobObjectPinvoke.CreateKillOnCloseJob();
+                    firstProc.Exited += (s, o) =>
+                    {
+                        if (job != JobObjectPinvoke.INVALID_HANDLE_VALUE)
+                        {
+                            JobObjectPinvoke.CloseHandle(job);
+                        }
+                        if (progress != null && progress.DialogResult == DialogResult.Cancel)
+                        {
+                            File.Delete(tempXMLfile);
+                        }
+                    };
 
                     this.Logger.WriteDebug("Calling CADCreoParametricCreateAssembly.exe with argument string: " + argstring);
 
-                    IntPtr job = JobObjectPinvoke.CreateKillOnCloseJob();
                     firstProc.Start();
                     JobObjectPinvoke.AssignProcessToJobObject(firstProc, job);
-                    try
-                    {
-                        firstProc.StandardInput.Close();
-                        firstProc.BeginOutputReadLine();
-                        firstProc.BeginErrorReadLine();
+                    firstProc.StandardInput.Close();
+                    firstProc.BeginOutputReadLine();
+                    firstProc.BeginErrorReadLine();
 
-                        firstProc.WaitForExit();
-                    }
-                    finally
+                    if (showProgressBar)
                     {
-                        JobObjectPinvoke.CloseHandle(job);
+                        progress.FormClosing += (e, o) =>
+                        {
+                            if (done == false)
+                            {
+                                firstProc.Exited -= closeDialogWithSuccess;
+                                done = true;
+                            }
+                        };
+                        var result = progress.ShowDialog((IWin32Window)sender);
+                        if (result == DialogResult.Cancel)
+                        {
+                            cleanup(null, true);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        firstProc.WaitForExit();
                     }
 
                     this.Logger.WriteDebug("CADCreoParametricCreateAssembly.exe ExtractACM-XMLfromCreoModels has completed.");
@@ -183,7 +232,14 @@ namespace CyPhyComponentAuthoring.Modules
                     else
                     {
                         this.Logger.WriteDebug("CADCreoParametricCreateAssembly.exe ExtractACM-XMLfromCreoModels returned error code " + firstProc.ExitCode.ToString());
-                        throw new Exception("Extract executable returned error code " + firstProc.ExitCode.ToString());
+                        // Warn with last non-empty line, it should contain a useful error message
+                        Regex lastLine = new Regex("[\\n^]([^\\n]+)(\\n|\\s)*$", RegexOptions.Singleline);
+                        var match = lastLine.Match(exeConsoleOutput.ToString());
+                        if (match != null && match.Success)
+                        {
+                            this.Logger.WriteWarning(match.Groups[1].Value);
+                        }
+                        throw new Exception("Extract executable returned error code " + firstProc.ExitCode.ToString() + ". Detailed log at " + this.Logger.LogFilenames.FirstOrDefault());
                     }
                 }
                 catch (Exception ex)
@@ -384,41 +440,10 @@ namespace CyPhyComponentAuthoring.Modules
         {
             Close_Dlg = close_dlg;
             this.Logger.Dispose();
-            File.Delete(tempfile);
-        }
-
-        // Find out if Creo is installed on this machine.
-        //  The method we use is to look through the uninstall list in the registry, 
-        //    since it has been verified that Creo updates this registry when it is
-        //    installed
-        bool CREO_present()
-        {
-            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
+            if (tempfile != null)
             {
-                foreach (string subkey_name in key.GetSubKeyNames())
-                {
-                    using (RegistryKey subkey = key.OpenSubKey(subkey_name))
-                    {
-                        try
-                        {
-                            string str = subkey.GetValue("DisplayName", "").ToString();
-
-                            if (new string[] { "Creo Parametric", "PTC Creo Parametric" }.Any(name => str.StartsWith(name)))
-                            {
-                                return true;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            // exceptions are thrown on every app in the registry without a proper display name
-                            // we just want to skip these
-                        }
-                    }
-                }
+                File.Delete(tempfile);
             }
-            this.Logger.WriteError("CREO Parametric was NOT found on this Machine");
-            return false;
         }
 
         // Display a file dialog box to select the CAD model file to import

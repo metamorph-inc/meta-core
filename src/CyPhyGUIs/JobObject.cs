@@ -71,7 +71,7 @@ namespace CyPhyGUIs
            lpNumberOfBytes, out IntPtr lpCompletionKey, out IntPtr lpOverlapped,
            uint dwMilliseconds);
 
-        static IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+        public static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
         const UInt32 INFINITE = 0xFFFFFFFF;
 
 
