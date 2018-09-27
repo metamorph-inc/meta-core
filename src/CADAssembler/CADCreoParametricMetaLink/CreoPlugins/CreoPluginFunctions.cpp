@@ -511,9 +511,17 @@ int UpdateComponent(ProMdl mdl)
         ProAsmcomppathInit((ProAssembly)mainMdl, comp_id_table, 0, &p_cmp_path);
         ProSelectionAsmcomppathGet(selection[0], &p_cmp_path);
         const isis::CADComponentData *cdata = isis::GlobalModelData::Instance.GetComponentDataFromModel(p_cmp_path);
+        if (cdata == nullptr)
+        {
+            ProSelectionarrayFree(selection);
+            // FIXME is this error message correct? Try opening MetaLink in empty mode, open prt, MetaLink select component, MetaLink update CyPhy
+            ErrorDialog(L"Selected component is not synced.");
+            return 0;
+        }
         avmid = cdata->avmComponentId;
+        ProSelectionarrayFree(selection);
     }
-	meta::Action *action = edit->add_actions();
+    meta::Action *action = edit->add_actions();
     meta::Alien *alien = new meta::Alien();
     alien->set_encoded(str.str());
     alien->set_encodingmode(meta::Alien_EncodingMode_XML);
