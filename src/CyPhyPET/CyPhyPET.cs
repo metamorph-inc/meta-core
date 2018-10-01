@@ -1467,7 +1467,7 @@ namespace CyPhyPET
         {
             var projectDir = Path.GetDirectoryName(Path.GetFullPath(project.ProjectConnStr.Substring("MGA=".Length)));
 
-            System.Uri pyFileUri = new Uri(fileName);
+            System.Uri pyFileUri = new Uri(Path.GetFullPath(fileName));
             System.Uri projectDirUri = new Uri(projectDir + "\\");
             return Uri.UnescapeDataString(projectDirUri.MakeRelativeUri(pyFileUri).ToString());
         }
