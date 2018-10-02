@@ -19,6 +19,7 @@
 //folder[@name='WorkflowDefinitionFolder'] 19441
 //model[@name='Acceleration'] 59900
 //model[@name='AccelerationLoadParam'] 57255
+//model[@name='AnalysisBlock'] 60489
 //model[@name='And_operator'] 57263
 //model[@name='Array'] 57277
 //model[@name='BallisticComputation'] 57281
@@ -138,6 +139,7 @@
 //atom[@name='ChargeLocation'] 56789
 //atom[@name='CoefficientOfDrag'] 56793
 //atom[@name='Condition'] 56794
+//atom[@name='ConfigurationParameter'] 60490
 //atom[@name='Constant'] 56796
 //atom[@name='Constraint'] 56797
 //atom[@name='CoordinateSystem'] 56799
@@ -383,6 +385,12 @@
 //model[@name='AccelerationLoadParam']/role[@name='X'] 57256
 //model[@name='AccelerationLoadParam']/role[@name='Y'] 57257
 //model[@name='AccelerationLoadParam']/role[@name='Z'] 57258
+//model[@name='AnalysisBlock']/role[@name='ConfigurationParameter'] 60491
+//model[@name='AnalysisBlock']/role[@name='CopyFiles'] 60492
+//model[@name='AnalysisBlock']/role[@name='FileInput'] 60493
+//model[@name='AnalysisBlock']/role[@name='FileOutput'] 60494
+//model[@name='AnalysisBlock']/role[@name='Metric'] 60495
+//model[@name='AnalysisBlock']/role[@name='Parameter'] 60496
 //model[@name='And_operator']/role[@name='And_operator'] 57264
 //model[@name='And_operator']/role[@name='DesignEntityRef'] 57265
 //model[@name='And_operator']/role[@name='Not_operator'] 57266
@@ -1007,6 +1015,7 @@
 //model[@name='PCCDriver']/role[@name='PCCParameterUniform'] 59239
 //model[@name='ParameterStudy']/role[@name='DesignVariable'] 59248
 //model[@name='ParameterStudy']/role[@name='Objective'] 59249
+//model[@name='ParametricExploration']/role[@name='AnalysisBlock'] 60497
 //model[@name='ParametricExploration']/role[@name='Constants'] 60361
 //model[@name='ParametricExploration']/role[@name='ConstraintMapping'] 59253
 //model[@name='ParametricExploration']/role[@name='DesignVariableConstraintMapping'] 60228
@@ -1205,6 +1214,7 @@
 //model[@name='measure_with_unit']/role[@name='value_component'] 59894
 //model[@name='Acceleration']/aspect[@name='Aspect'] 59961
 //model[@name='AccelerationLoadParam']/aspect[@name='Aspect'] 57259
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect'] 60498
 //model[@name='And_operator']/aspect[@name='Aspect'] 57270
 //model[@name='Array']/aspect[@name='TypeAspect'] 31266
 //model[@name='BallisticComputation']/aspect[@name='ComutationAspect'] 31273
@@ -1512,6 +1522,7 @@
 //atom[@name='ChargeLocation']/attrdef[@name='Y'] 56791
 //atom[@name='ChargeLocation']/attrdef[@name='Z'] 56792
 //atom[@name='Condition']/attrdef[@name='PCTL'] 56795
+//atom[@name='ConfigurationParameter']/attrdef[@name='Value'] 60499
 //atom[@name='Constraint']/attrdef[@name='ID'] 56798
 //atom[@name='CoordinateSystem']/attrdef[@name='DatumName'] 56800
 //atom[@name='CoordinateSystem']/attrdef[@name='Definition'] 56801
@@ -1790,6 +1801,7 @@
 //reference[@name='Translation']/attrdef[@name='ZDirectionValue'] 57244
 //reference[@name='ValueFlowTypeSpecification']/attrdef[@name='Value'] 57248
 //reference[@name='value_component']/attrdef[@name='Offset'] 57254
+//model[@name='AnalysisBlock']/attrdef[@name='PyFilename'] 60500
 //model[@name='BallisticTestBench']/attrdef[@name='Tier'] 57295
 //model[@name='BlastModel']/attrdef[@name='BlastSuiteName'] 57411
 //model[@name='BlastTestBench']/attrdef[@name='BlastTier'] 57417
@@ -1950,6 +1962,12 @@
 //model[@name='AccelerationLoadParam']/aspect[@name='Aspect']/part[@role='X'] 57260
 //model[@name='AccelerationLoadParam']/aspect[@name='Aspect']/part[@role='Y'] 57261
 //model[@name='AccelerationLoadParam']/aspect[@name='Aspect']/part[@role='Z'] 57262
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='ConfigurationParameter'] 60501
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='CopyFiles'] 60502
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='FileInput'] 60503
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='FileOutput'] 60504
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='Metric'] 60505
+//model[@name='AnalysisBlock']/aspect[@name='ValueFlowAspect']/part[@role='Parameter'] 60506
 //model[@name='And_operator']/aspect[@name='Aspect']/part[@role='And_operator'] 57271
 //model[@name='And_operator']/aspect[@name='Aspect']/part[@role='DesignEntityRef'] 57272
 //model[@name='And_operator']/aspect[@name='Aspect']/part[@role='Not_operator'] 57273
@@ -3202,6 +3220,7 @@
 //model[@name='PCCDriver']/aspect[@name='TestBenchCompositionAspect']/part[@role='PCCParameterUniform'] 59244
 //model[@name='ParameterStudy']/aspect[@name='TestBenchCompositionAspect']/part[@role='DesignVariable'] 59250
 //model[@name='ParameterStudy']/aspect[@name='TestBenchCompositionAspect']/part[@role='Objective'] 59251
+//model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='AnalysisBlock'] 60507
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='Constants'] 60364
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='ConstraintMapping'] 59263
 //model[@name='ParametricExploration']/aspect[@name='TestBenchCompositionAspect']/part[@role='DesignVariableConstraintMapping'] 60231

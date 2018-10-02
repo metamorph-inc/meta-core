@@ -27,7 +27,7 @@ namespace AVM.DDP
         {
             public Dictionary<string, Parameter> parameters;
             public Dictionary<string, Parameter> unknowns;
-            public Dictionary<string, string> details;
+            public Dictionary<string, object> details;
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public string type;
         }

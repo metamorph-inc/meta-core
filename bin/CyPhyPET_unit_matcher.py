@@ -61,8 +61,9 @@ def start_pdb():
 # This is the entry point
 def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
     mga_project = project
+    init_kwargs = json.loads(componentParameters.get('initializer_keyword_arguments', '{}'))
 
-    c = run_mdao.python_component.PythonComponent(componentParameters['openmdao_py'])
+    c = run_mdao.python_component.PythonComponent(componentParameters['openmdao_py'], init_kwargs)
 
     all_units = []
 

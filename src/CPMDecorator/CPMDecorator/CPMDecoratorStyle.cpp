@@ -189,6 +189,15 @@ void CPMDecoratorStyle::AddInternalParts() {
 				}
 				break;
 			}
+		case Type::configurationparameter_type:
+		{
+			AddLabel("Config", 0, PROP_TEXT_COLOR);
+			AddSpacer(5);
+			AddInternalPart(NewCPMNamePart(CPM_FONT_BOLD_INDEX));
+			AddLabel(": ");
+			AddAttributePart(CPM_PROPERTY_VALUE_ATTR);
+			break;
+		}
 		case Type::metric_type:
 			{
 				AddLabel("Metric", 0, COLOR_GRAY);

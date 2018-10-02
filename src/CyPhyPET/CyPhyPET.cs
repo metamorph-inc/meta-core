@@ -21,6 +21,8 @@ using CyPhyMasterInterpreter.Rules;
 using AVM.DDP;
 using System.Security;
 using CyPhyCOMInterfaces;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace CyPhyPET
 {
@@ -36,6 +38,11 @@ namespace CyPhyPET
         [DllImport("user32.dll")]
         public static extern bool WaitMessage();
 
+        private static readonly int METRIC_X_POSITION = 800;
+        private static readonly int PARAM_X_POSITION = 20;
+        private static readonly int CONFIG_PARAM_X_POSITION = 300;
+
+        private static readonly int WRAPPER_PART_Y_INCREMENT = 65;
         /// <summary>
         /// Contains information about the GUI event that initiated the invocation.
         /// </summary>
@@ -811,6 +818,10 @@ namespace CyPhyPET
                 {
                     petGenerator.GenerateCode(python);
                 }
+                foreach (var analysis in exploration.Children.AnalysisBlockCollection.OrderBy(x => x.ID))
+                {
+                    petGenerator.GenerateCode(analysis);
+                }
                 foreach (var constants in exploration.Children.ConstantsCollection.OrderBy(x => x.ID))
                 {
                     petGenerator.GenerateCode(constants);
@@ -1098,6 +1109,12 @@ namespace CyPhyPET
                     // wrap.Attributes.PyFilename
                     filename = ((IMgaFCO)fco).GetStrAttrByNameDisp("PyFilename");
                 }
+                else if (((IMgaFCO)fco).Meta.Name == "AnalysisBlock")
+                {
+                    // ISIS.GME.Dsml.CyPhyML.Interfaces.AnalysisBlock wrap;
+                    // wrap.Attributes.PyFilename
+                    filename = ((IMgaFCO)fco).GetStrAttrByNameDisp("PyFilename");
+                }
                 else
                 {
                     return;
@@ -1284,6 +1301,143 @@ namespace CyPhyPET
                     wrapper.Attributes.PyFilename = filename;
                 }
             }
+            else if (((IMgaFCO)fco).Meta.Name == "AnalysisBlock")
+            {
+                var wrapper = CyPhyClasses.AnalysisBlock.Cast((IMgaFCO)fco);
+                Func<string, string> filePicker2 = oldFilename =>
+                {
+                    string newFilename = filePicker("Python file|*.py;*.pyd|All Files (*.*)|*.*", ".py")(oldFilename);
+                    if (newFilename == null)
+                    {
+                        return null;
+                    }
+                    PythonComponentParameters parameters = GetPythonComponentInitializerParameters(newFilename, (MgaFCO)wrapper.Impl);
+                    EditConfigurationParameters(parameters, wrapper);
+                    return newFilename;
+                };
+                Func<string, ISIS.GME.Common.Interfaces.Model, Dictionary<string, Dictionary<string, Dictionary<string, object>>>> GetParamsAndUnknowns =
+                    (filename_, obj) =>
+                    {
+                        return GetParamsAndUnknownsForPythonOpenMDAO(filename_, obj, GetConfigurationParameters(wrapper));
+                    };
+
+                string filename = CreateParametersAndMetricsForOpenMDAOComponent(filePicker2,
+                    wrapper.Attributes.PyFilename, wrapper, GetParamsAndUnknowns,
+                    () => CyPhyClasses.Metric.Create(wrapper), () => CyPhyClasses.Parameter.Create(wrapper),
+                    () => CyPhyClasses.FileInput.Create(wrapper), () => CyPhyClasses.FileOutput.Create(wrapper));
+                if (filename != null)
+                {
+                    wrapper.Attributes.PyFilename = filename;
+                }
+            }
+        }
+
+        public class ConfigurationParameter
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
+        }
+
+        public static Dictionary<string, object> GetConfigurationParameters(CyPhy.AnalysisBlock wrapper)
+        {
+            var ret = wrapper.Children.ConfigurationParameterCollection.ToDictionary(param => param.Name,
+                param =>
+                {
+                    var value = param.Attributes.Value;
+                    if (String.IsNullOrWhiteSpace(value))
+                    {
+                        return (object)"";
+                    }
+                    if (value.Length >= 2 && value[0] == '"')
+                    {
+                        // TODO: something smarter
+                        return (object)param.Attributes.Value.Substring(1, param.Attributes.Value.Length - 2);
+                    }
+                    else
+                    {
+                        double doubleValue;
+                        if (Double.TryParse(param.Attributes.Value, System.Globalization.NumberStyles.Float,
+                            CultureInfo.InvariantCulture, out doubleValue) == false)
+                        {
+                            throw new FormatException(String.Format("Could not parse double '{0}' for Configuration Parameter '{1}'",
+                                param.Attributes.Value, param.Name));
+                        }
+                        return doubleValue;
+                    }
+                });
+            return ret;
+        }
+
+        private void EditConfigurationParameters(PythonComponentParameters parameters, CyPhy.AnalysisBlock wrapper)
+        {
+            Dictionary<string, CyPhy.ConfigurationParameter> existingParameters =
+                wrapper.Children.ConfigurationParameterCollection.ToDictionary(p => p.Name, p => p);
+            var editor = new ConfigurationParameterEditor(parameters);
+            int i = 1;
+            // skip "self"
+            foreach (var parameter in parameters.args.Skip(1))
+            {
+                var value = "";
+                CyPhy.ConfigurationParameter existingParameter;
+                if (existingParameters.TryGetValue(parameter, out existingParameter))
+                {
+                    value = existingParameter.Attributes.Value;
+                }
+                else
+                {
+                    if (i >= parameters.args.Length - parameters.defaults.Length)
+                    {
+                        object defaultValue = parameters.defaults[i - parameters.args.Length + parameters.defaults.Length];
+                        if (defaultValue is Double)
+                        {
+                            value = defaultValue.ToString();
+                        }
+                        else if (defaultValue is String)
+                        {
+                            value = "\"" + defaultValue + "\"";
+                        }
+                    }
+                }
+
+                editor.configurationParameterBindingSource.Add(new ConfigurationParameter()
+                {
+                    Name = parameter,
+                    Value = value
+                });
+                i++;
+            }
+            editor.ShowDialog();
+            var valueFlow = ((GME.MGA.Meta.MgaMetaModel)wrapper.Impl.MetaBase).AspectByName["ValueFlowAspect"];
+            int maxYPos = 0;
+            foreach (ConfigurationParameter parameter in editor.configurationParameterBindingSource.List)
+            {
+                // TODO: should we skip optional parameters with no value?
+                CyPhy.ConfigurationParameter cyPhyParameter;
+                if (existingParameters.TryGetValue(parameter.Name, out cyPhyParameter) == false)
+                {
+                    cyPhyParameter = CyPhyClasses.ConfigurationParameter.Create(wrapper);
+                    cyPhyParameter.Name = parameter.Name;
+                }
+                else
+                {
+                    existingParameters.Remove(parameter.Name);
+                }
+                maxYPos += WRAPPER_PART_Y_INCREMENT;
+                ((MgaFCO)cyPhyParameter.Impl).Part[valueFlow].SetGmeAttrs(null, CONFIG_PARAM_X_POSITION, maxYPos);
+                cyPhyParameter.Attributes.Value = parameter.Value;
+            }
+
+            foreach (var cyPhyParamter in existingParameters.Values)
+            {
+                cyPhyParamter.Delete();
+            }
+
+            if (string.IsNullOrEmpty(parameters.iconPath) == false)
+            {
+                // var aspect = ((GME.MGA.Meta.MgaMetaModel)wrapper.ParentContainer.Impl.MetaBase).AspectByName["TestBenchCompositionAspect"];
+                // ((MgaFCO)wrapper.Impl).Part[aspect].SetGmeAttrs(parameters.iconPath, -1, -1);
+                ((MgaFCO)wrapper.Impl).RegistryValue["icon"] = parameters.iconPath;
+            }
         }
 
         private void DecoratorCallback(object fco, Action f)
@@ -1372,8 +1526,8 @@ namespace CyPhyPET
                     {
                         fileOutput = fileOutputCreate();
                         fileOutput.Name = name;
-                        maxMetricYPosition += 65;
-                        ((IMgaFCO)fileOutput.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, maxMetricYPosition);
+                        maxMetricYPosition += WRAPPER_PART_Y_INCREMENT;
+                        ((IMgaFCO)fileOutput.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, METRIC_X_POSITION, maxMetricYPosition);
                     }
                     else
                     {
@@ -1389,8 +1543,8 @@ namespace CyPhyPET
                         metric = metricCreate();
                         metric.Name = name;
                         // metric.Attributes.Description =
-                        maxMetricYPosition += 65;
-                        ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, maxMetricYPosition);
+                        maxMetricYPosition += WRAPPER_PART_Y_INCREMENT;
+                        ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, METRIC_X_POSITION, maxMetricYPosition);
                     }
                     else
                     {
@@ -1421,8 +1575,8 @@ namespace CyPhyPET
                     {
                         fileInput = fileInputCreate();
                         fileInput.Name = name;
-                        maxParamYPosition += 65;
-                        ((IMgaFCO)fileInput.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, maxParamYPosition);
+                        maxParamYPosition += WRAPPER_PART_Y_INCREMENT;
+                        ((IMgaFCO)fileInput.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, PARAM_X_POSITION, maxParamYPosition);
                         // TODO: this isn't read by CyPhy, but maybe the user wants to see it
                         // fileInput.Attributes.FileName =
                     }
@@ -1439,8 +1593,8 @@ namespace CyPhyPET
                     {
                         param = paramCreate();
                         param.Name = name;
-                        maxParamYPosition += 65;
-                        ((IMgaFCO)param.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 20, maxParamYPosition);
+                        maxParamYPosition += WRAPPER_PART_Y_INCREMENT;
+                        ((IMgaFCO)param.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, PARAM_X_POSITION, maxParamYPosition);
                         // param.Attributes.Description =
                     }
                     else
@@ -1474,10 +1628,19 @@ namespace CyPhyPET
 
         public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj)
         {
+            return GetParamsAndUnknownsForPythonOpenMDAO(filename, obj, null);
+        }
+
+        public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj, Dictionary<string, object> init_kwargs = null)
+        {
 
             var cyPhyPython = (IMgaComponentEx)Activator.CreateInstance(Type.GetTypeFromProgID("MGA.Interpreter.CyPhyPython"));
             // cyPhyPython.ComponentParameter["script_file"] = Path.Combine(META.VersionInfo.MetaPath, "bin", "CyPhyPET_unit_setter.py");
             cyPhyPython.ComponentParameter["script_file"] = "CyPhyPET_unit_matcher.py";
+            if (init_kwargs != null)
+            {
+                cyPhyPython.ComponentParameter["initializer_keyword_arguments"] = JsonConvert.SerializeObject(init_kwargs);
+            }
 
             var fcos = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
 
@@ -1488,6 +1651,62 @@ namespace CyPhyPET
 
             var value = (string)cyPhyPython.ComponentParameter["ret"];
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, object>>>>(value);
+        }
+
+        public static PythonComponentParameters GetPythonComponentInitializerParameters(string filename, MgaFCO fco)
+        {
+            var cyPhyPython = (IMgaComponentEx)Activator.CreateInstance(Type.GetTypeFromProgID("MGA.Interpreter.CyPhyPython"));
+            cyPhyPython.ComponentParameter["script_file"] = "CyPhyPET_init_argument_extractor.py";
+
+            var fcos = (MgaFCOs)Activator.CreateInstance(Type.GetTypeFromProgID("Mga.MgaFCOs"));
+
+            cyPhyPython.ComponentParameter["openmdao_py"] = filename;
+            cyPhyPython.ComponentParameter["_quiet_mode"] = true;
+
+            cyPhyPython.InvokeEx(fco.Project, fco, fcos, 128);
+
+            string icon_path = null;
+            try
+            {
+                icon_path = (string)cyPhyPython.ComponentParameter["icon_path"];
+            }
+            catch (Exception)
+            {
+            }
+            var value = (string)cyPhyPython.ComponentParameter["ret"];
+            var fromPython = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(value);
+            return new PythonComponentParameters()
+            {
+                args = ((JArray)fromPython[0]).ToObject<string[]>(),
+                varargs = fromPython[1]?.ToString(),
+                keywords = fromPython[2]?.ToString(),
+                defaults = ((JArray)fromPython[3]).ToObject<object[]>(),
+
+                iconPath = icon_path,
+            };
+        }
+        public class PythonComponentParameters
+        {
+            public string[] args;
+            public string varargs;
+            public string keywords;
+            public object[] defaults;
+            public string iconPath;
+
+            public IEnumerable<string> requiredArgs
+            {
+                get
+                {
+                    return args.Take(args.Length - defaults.Length);
+                }
+            }
+            public IEnumerable<string> optionalArgs
+            {
+                get
+                {
+                    return args.Skip(args.Length - defaults.Length);
+                }
+            }
         }
 
         private static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsFromPythonExe(string filename, string pythonModule, ISIS.GME.Common.Interfaces.Model obj)
@@ -1573,7 +1792,7 @@ namespace CyPhyPET
                     metric = CyPhyClasses.Metric.Create(excel);
                     metric.Name = name;
                     maxMetricYPosition += 60;
-                    ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, 800, maxMetricYPosition);
+                    ((IMgaFCO)metric.Impl).GetPartDisp(valueFlow).SetGmeAttrs(null, METRIC_X_POSITION, maxMetricYPosition);
                 }
                 else
                 {

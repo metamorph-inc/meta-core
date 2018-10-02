@@ -32,6 +32,7 @@ struct {
 	const wchar_t* kind;
 	const wchar_t* fileAttribute;
 } PETKinds[] = {
+	{ L"AnalysisBlock", L"PyFilename" },
 	{ L"ExcelWrapper", L"ExcelFilename" },
 	{ L"MATLABWrapper", L"MFilename" },
 	{ L"PythonWrapper", L"PyFilename" },

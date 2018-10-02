@@ -382,22 +382,24 @@ namespace Decor {
 			return Type::testcomponent_type;
 		} else if (type == CPM_CYBERCOMPONENT_OBJ) {
 			return Type::cybercomponent_type;
-		} else if (type == "TestInjectionPoint" || type == "CriticalComponent" || type == "BallisticTarget") {
+		} else if (type == L"TestInjectionPoint" || type == L"CriticalComponent" || type == L"BallisticTarget") {
 			return Type::testinjectionpoint_type;
-		} else if (type == "DesignEntityRef" || type == "BuiltDesignEntityRef") {
+		} else if (type == L"DesignEntityRef" || type == L"BuiltDesignEntityRef") {
 			return Type::designentityref_type;
-		} else if (type == "TestBenchRef") {
+		} else if (type == L"TestBenchRef") {
 			return Type::testbenchref_type;
-		} else if (type == "TopLevelSystemUnderTest") {
+		} else if (type == L"TopLevelSystemUnderTest") {
 			return Type::toplevelsystemundertest_type;
-		} else if (type == "ComponentRef") {
+		} else if (type == L"ComponentRef") {
 			return Type::componentref_type;
-		} else if (type == "ComponentAssemblyRef") {
+		} else if (type == L"ComponentAssemblyRef") {
 			return Type::componentassemblyref_type;
-		} else if (type == "ComponentAssembly") {
+		} else if (type == L"ComponentAssembly") {
 			return Type::componentassembly_type;
-		} else if (type == "AlternativeRepresentationContainer") {
+		} else if (type == L"AlternativeRepresentationContainer") {
 			return Type::alternativerepresentationcontainer_type;
+		} else if (type == L"ConfigurationParameter") {
+			return Type::configurationparameter_type;
 		} else if (type == CPM_PARAMETER_OBJ) {
 			return Type::parameter_type;
 		} else if (type == CPM_PROPERTY_OBJ){

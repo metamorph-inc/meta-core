@@ -91,6 +91,7 @@ namespace CyPhyPETTest
         private string mgaFile;
 
         [Fact]
+        [Trait("Feature", "PythonWrapper")]
         public void TestPython()
         {
             string outputDir = "results/TestPython";
@@ -100,11 +101,62 @@ namespace CyPhyPETTest
             var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
 
             Assert.True(result.Item2.Success, "CyPhyPET failed.");
-            return;
 
             string stderr = "<did not start process>";
             int retcode = Run(result.Item2.RunCommand, result.Item1.OutputDirectory, out stderr);
             Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+        }
+
+        [Fact]
+        [Trait("Feature", "InitArguments")]
+        public void TestInitArguments()
+        {
+            MgaProject project = new MgaProject();
+            project.OpenEx("MGA=" + mgaFile, "CyPhyML", null);
+            try
+            {
+                project.BeginTransactionInNewTerr();
+                try
+                {
+                    string petExperimentPath = "/@Testing/@ParametricExploration/@TestAnalysis";
+
+                    MgaModel model = (MgaModel)project.ObjectByPath[petExperimentPath];
+                    string assemblyDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+                    var params_ = CyPhyPET.CyPhyPETInterpreter.GetPythonComponentInitializerParameters(Path.Combine(assemblyDir,
+                        "..\\..\\..\\..\\models\\PET_simple_proof-of-concept\\sample_analysis.py"), (MgaFCO)model);
+                    Assert.Equal(new string[] { "self", "config1", "config2", "opt1", "opt2" }, params_.args);
+                    Assert.Equal(new string[] { "self", "config1", "config2" }, params_.requiredArgs);
+                    Assert.Equal(new object[] { null, 0.0 }, params_.defaults);
+                }
+                finally
+                {
+                    project.AbortTransaction();
+                }
+            }
+            finally
+            {
+                project.Close(true);
+            }
+        }
+
+        [Fact]
+        [Trait("Feature", "AnalysisBlock")]
+        public void TestAnalysisBlock()
+        {
+            string outputDir = "results/TestAnalysis";
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestAnalysis";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            string stderr = "<did not start process>";
+            int retcode = Run(result.Item2.RunCommand, result.Item1.OutputDirectory, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            string csv = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "output.csv"));
+            Assert.True(csv.Contains("600.0"), ".csv does not contain expected output:\n" + csv);
         }
 
         [Fact]
@@ -854,7 +906,7 @@ namespace CyPhyPETTest
                 System.Reflection.Assembly.GetAssembly(typeof(Workflow_PET_Test)).CodeBase.Substring("file:///".Length),
                 //"/noshadow",
                 // [Trait("THIS", "ONE")]
-                // "/trait", "Feature=CopyFiles",
+                // "/trait", "Feature=PythonWrapper",
                 //"/trait", "THIS=ONE",
                 //"/trait", "Type=Development", // Only run test(s) currently under development -- Those decorated with: [Trait("Type", "Development")]
             });

@@ -9,7 +9,7 @@ from six.moves import reload_module
 from openmdao.core.component import Component
 
 
-def PythonComponent(filename):
+def LoadPythonComponent(filename):
     # support loading adjacent .py files as dependencies
     sys.path.append(os.path.dirname(os.path.abspath(filename)))
     try:
@@ -29,5 +29,7 @@ def PythonComponent(filename):
         raise ValueError('No openmdao.core.component.Component found in %s' % modname)
     if len(components) > 1:
         raise ValueError('{} contains {} openmdao.core.component.Components; it must contain exactly 1'.format(modname, len(components)))
-    component = components[0]
-    return component()
+    return components[0]
+
+def PythonComponent(filename, kwargs={}):
+    return LoadPythonComponent(filename)(**kwargs)

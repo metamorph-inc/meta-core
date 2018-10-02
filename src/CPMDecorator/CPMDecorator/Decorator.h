@@ -85,6 +85,7 @@ typedef enum {
   parameter_type,
   property_type,
   carparameter_type,
+  configurationparameter_type,
   metric_type,
   thermal_type,
   hydrolic_type,

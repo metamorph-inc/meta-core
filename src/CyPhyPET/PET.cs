@@ -579,7 +579,7 @@ namespace CyPhyPET
             {
                 parameters = new Dictionary<string, PETConfig.Parameter>(),
                 unknowns = new Dictionary<string, PETConfig.Parameter>(),
-                details = new Dictionary<string, string>()
+                details = new Dictionary<string, object>()
             };
             config.details["directory"] = testBenchOutputDir;
 
@@ -1084,7 +1084,7 @@ namespace CyPhyPET
             var config = GenerateCode((CyPhy.ParametricTestBench)excel);
 
             var projectDir = Path.GetDirectoryName(Path.GetFullPath(excel.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
-            config.details = new Dictionary<string, string>()
+            config.details = new Dictionary<string, object>()
             {
                 // TODO: maybe generate a relative path instead of making absolute here
                 {"excelFile", Path.Combine(projectDir, excel.Attributes.ExcelFilename)},
@@ -1098,7 +1098,7 @@ namespace CyPhyPET
             HashSet<string> xlOutputs = new HashSet<string>();
             Dictionary<string, ExcelInterop.ExcelType> types = new Dictionary<string, ExcelInterop.ExcelType>();
             Dictionary<string, List<int>> dimensions = new Dictionary<string, List<int>>();
-            ExcelInterop.GetExcelInputsAndOutputs(config.details["excelFile"], (string name, string refersTo, ExcelInterop.ExcelType type, List<int> dims) =>
+            ExcelInterop.GetExcelInputsAndOutputs((string)config.details["excelFile"], (string name, string refersTo, ExcelInterop.ExcelType type, List<int> dims) =>
             {
                 outputs.Remove(name);
                 types[name] = type;
@@ -1133,9 +1133,28 @@ namespace CyPhyPET
             string pyFilename = Uri.UnescapeDataString(outputUri.MakeRelativeUri(pyFileUri).ToString());
             // n.b. keep forward slashes
 
-            config.details = new Dictionary<string, string>()
+            config.details = new Dictionary<string, object>()
             {
                 {"filename", pyFilename}
+            };
+            config.type = "run_mdao.python_component.PythonComponent";
+        }
+
+        public void GenerateCode(CyPhy.AnalysisBlock analysisBlock)
+        {
+            var config = GenerateCode((CyPhy.ParametricTestBench)analysisBlock);
+
+            var projectDir = Path.GetDirectoryName(Path.GetFullPath(analysisBlock.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
+
+            System.Uri pyFileUri = new Uri(Path.Combine(projectDir, analysisBlock.Attributes.PyFilename));
+            System.Uri outputUri = new Uri(this.outputDirectory + "\\");
+            string pyFilename = Uri.UnescapeDataString(outputUri.MakeRelativeUri(pyFileUri).ToString());
+            // n.b. keep forward slashes
+
+            config.details = new Dictionary<string, object>()
+            {
+                {"filename", pyFilename},
+                {"kwargs", CyPhyPETInterpreter.GetConfigurationParameters(analysisBlock)},
             };
             config.type = "run_mdao.python_component.PythonComponent";
         }
@@ -1145,7 +1164,7 @@ namespace CyPhyPET
             var config = GenerateCode((CyPhy.ParametricTestBench)matlab);
 
             var projectDir = Path.GetDirectoryName(Path.GetFullPath(matlab.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
-            config.details = new Dictionary<string, string>()
+            config.details = new Dictionary<string, object>()
             {
                 // TODO: maybe generate a relative path instead of making absolute here
                 {"mFile", Path.Combine(projectDir, matlab.Attributes.MFilename)},

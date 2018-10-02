@@ -86,6 +86,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationParameterEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigurationParameterEditor.Designer.cs">
+      <DependentUpon>ConfigurationParameterEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +160,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\DataSources\CyPhyPET.PCC.PCCProperty.datasource" />
+    <None Include="Properties\DataSources\CyPhyPETInterpreter.ConfigurationParameter.datasource" />
     <None Include="Properties\DataSources\PCCPropertyInputDistributionEditor.PCCProperty.datasource" />
     <None Include="Resources\beta.bmp" />
     <Content Include="Resources\driver_runner_simpleCalc.py" />
@@ -185,6 +192,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConfigurationParameterEditor.resx">
+      <DependentUpon>ConfigurationParameterEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditDialog.resx">
       <DependentUpon>EditDialog.cs</DependentUpon>
     </EmbeddedResource>
