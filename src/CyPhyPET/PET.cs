@@ -318,7 +318,7 @@ namespace CyPhyPET
             }
         }
 
-        private static string escapePythonString(string value)
+        public static string escapePythonString(string value)
         {
             return Regex.Replace(value, "('|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
         }

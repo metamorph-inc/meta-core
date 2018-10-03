@@ -230,32 +230,27 @@ static PyMethodDef CyPhyPython_methods[] = {
 };
 
 
+struct PythonCleanup {
+	std::unique_ptr<UnGil> gilState;
+	std::unique_ptr<RAIIFreeLibrary> pythonDll;
+	PythonCleanup(PyGILState_STATE gilState, HMODULE python_dll) :
+		gilState(new UnGil(gilState)), pythonDll(new RAIIFreeLibrary(python_dll)) {
+	}
+};
 
-void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
-					 std::set<CComPtr<IMgaFCO> > selectedObjects,
-					 long param, map<_bstr_t, _variant_t>& componentParameters, std::string workingDir)
-{
-	//AllocConsole();
-	//Py_DebugFlag = 1;
-	//Py_VerboseFlag = 2;
-	
+PythonCleanup LoadPython() {
 	// Py_NoSiteFlag = 1; // we import site after setting up sys.path
 	HMODULE python_dll = LoadLibraryA("Python" CYPHY_PYTHON_VERSION ".dll");
 	if (python_dll == nullptr)
 		throw python_error("Failed to load Python" CYPHY_PYTHON_VERSION ".dll");
-	struct FreePythonLib {
-		HMODULE python;
-		FreePythonLib(HMODULE python_dll) : python(python_dll) {}
-		~FreePythonLib() {
-			FreeLibrary(python);
-		}
-	} _FreePythonLib(python_dll);
 
 	const char* flags[] = { "Py_NoSiteFlag", "Py_IgnoreEnvironmentFlag", "Py_DontWriteBytecodeFlag", NULL };
 	for (const char** flag = flags; *flag; flag++) {
 		int* Py_FlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, *flag));
-		if (Py_FlagAddress == nullptr)
+		if (Py_FlagAddress == nullptr) {
+			FreeLibrary(python_dll);
 			throw python_error(std::string("Failed to find ") + *flag + " in Python" CYPHY_PYTHON_VERSION  ".dll");
+		}
 		*Py_FlagAddress = 1;
 	}
 
@@ -270,13 +265,42 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
 	// this is because PyEval_SaveThread() was called
 	PyGILState_STATE gstate = PyGILState_Ensure();
-	struct UnGil {
-		PyGILState_STATE &state;
-		UnGil(PyGILState_STATE &state) : state(state) {}
-		~UnGil() {
-			PyGILState_Release(state);
+	return PythonCleanup(gstate, python_dll);
+}
+
+extern "C" __declspec(dllexport) BSTR __stdcall GetExpressionParseError(BSTR expression) {
+	try {
+		auto meta_path = GetMetaPath();
+		auto cleanup = LoadPythonDll(meta_path);
+		auto cleanup2 = LoadPython();
+
+		// n.b. do not import site here without the setup done in Main()
+		PyObject_RAII namespace_ = PyDict_New();
+		PyDict_SetItemString(namespace_, "__builtins__", PyEval_GetBuiltins());
+
+		PyObject_RAII ret = PyRun_StringFlags(
+			static_cast<const char*>(bstr_t(expression)),
+			Py_eval_input, namespace_, namespace_, 0);
+		if (PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
 		}
-	} ungil(gstate);
+	}
+	catch (const python_error& e) {
+		return _bstr_t(e.what()).Detach();
+	}
+	return nullptr;
+}
+
+void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
+					 std::set<CComPtr<IMgaFCO> > selectedObjects,
+					 long param, map<_bstr_t, _variant_t>& componentParameters, std::string workingDir)
+{
+	//AllocConsole();
+	//Py_DebugFlag = 1;
+	//Py_VerboseFlag = 2;
+
+	auto cleanup = LoadPython();
 
 	char *path = Py_GetPath();
 	
@@ -424,7 +448,6 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			"reload(site)\n"
 			"import sitecustomize\n"
 			"reload(sitecustomize)\n"
-			"import site\n"
 			"import os.path\n"
 			"import udm\n"
 			, Py_file_input, main_namespace, main_namespace, NULL);

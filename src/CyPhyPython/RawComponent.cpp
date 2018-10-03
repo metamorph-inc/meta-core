@@ -14,6 +14,7 @@
 #include "ComponentConfig.h"
 #include "RawComponent.h"
 #include "UdmConsole.h"
+#include "UdmApp.h"
 
 __declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
 
@@ -44,15 +45,33 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 			void dummy(void) {; } // Dummy function for UDM meta initialization
 #endif
 
-struct RAIIFreeLibrary
-{
-	HMODULE module;
-
-	~RAIIFreeLibrary()
+std::string GetMetaPath() {
+	std::string metapath;
+	HKEY software_meta;
+	if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
 	{
-		::FreeLibrary(module);
+		BYTE data[MAX_PATH];
+		DWORD type, size = sizeof(data) / sizeof(data[0]);
+		if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
+		{
+			metapath = std::string(data, data + strnlen((const char*)data, size));
+		}
+		RegCloseKey(software_meta);
 	}
-};
+	if (!metapath.length())
+	{
+		throw python_error("Could not read META_PATH from HKLM\\Software\\META");
+	}
+	return metapath;
+}
+
+HMODULE LoadPythonDll(const std::string& metapath) {
+	std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
+	HMODULE python_dll = LoadLibraryA(python_dll_path.c_str());
+	if (python_dll == nullptr)
+		throw python_error("Could not load Python27.dll at " + python_dll_path);
+	return python_dll;
+}
 
 // This is the main component method for interpereters and plugins. 
 // May als be used in case of invokeable addons
@@ -86,28 +105,9 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			if (!(status & 8))
 				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
 
-			std::string metapath;
-			HKEY software_meta;
-			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
-			{
-				BYTE data[MAX_PATH];
-				DWORD type, size = sizeof(data) / sizeof(data[0]);
-				if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
-				{
-					metapath = std::string(data, data + strnlen((const char*)data, size));
-				}
-				RegCloseKey(software_meta);
-			}
-			if (!metapath.length())
-			{
-				throw python_error("Could not read META_PATH from HKLM\\Software\\META");
-			}
-			std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
-			HMODULE python_dll = LoadLibraryA(python_dll_path.c_str());
-			if (python_dll == nullptr)
-				throw python_error("Could not load Python27.dll at " + python_dll_path);
-			RAIIFreeLibrary python_dll_cleanup;
-			python_dll_cleanup.module = python_dll;
+			std::string metapath = GetMetaPath();
+			HMODULE python_dll = LoadPythonDll(metapath);
+			RAIIFreeLibrary python_dll_cleanup(python_dll);
 			
 			CComPtr<IMgaFCO> ccpFocus(currentobj);
 

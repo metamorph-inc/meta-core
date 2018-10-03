@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Xunit;
 using CyPhyGUIs;
+using static CyPhyPET.ConfigurationParameterEditor;
 
 namespace CyPhyPETTest
 {
@@ -119,14 +120,21 @@ namespace CyPhyPETTest
                 try
                 {
                     string petExperimentPath = "/@Testing/@ParametricExploration/@TestAnalysis";
+                    string assemblyDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+                    string pyFile = Path.Combine(assemblyDir,
+                        "..\\..\\..\\..\\models\\PET_simple_proof-of-concept\\sample_analysis.py");
 
                     MgaModel model = (MgaModel)project.ObjectByPath[petExperimentPath];
-                    string assemblyDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
-                    var params_ = CyPhyPET.CyPhyPETInterpreter.GetPythonComponentInitializerParameters(Path.Combine(assemblyDir,
-                        "..\\..\\..\\..\\models\\PET_simple_proof-of-concept\\sample_analysis.py"), (MgaFCO)model);
+                    var params_ = CyPhyPET.CyPhyPETInterpreter.GetPythonComponentInitializerParameters(pyFile, (MgaFCO)model);
                     Assert.Equal(new string[] { "self", "config1", "config2", "opt1", "opt2" }, params_.args);
                     Assert.Equal(new string[] { "self", "config1", "config2" }, params_.requiredArgs);
                     Assert.Equal(new object[] { null, 0.0 }, params_.defaults);
+
+                    var analysisBlock = ISIS.GME.Dsml.CyPhyML.Classes.AnalysisBlock.Cast(model.ObjectByPath["/@AnalysisBlock"]);
+                    CyPhyPET.CyPhyPETInterpreter.EditConfigurationParameters(params_, analysisBlock, showGui: false);
+
+                    var kwargs = CyPhyPET.CyPhyPETInterpreter.GetConfigurationParameters(analysisBlock);
+                    CyPhyPET.CyPhyPETInterpreter.GetParamsAndUnknownsForPythonOpenMDAO(pyFile, analysisBlock, kwargs);
                 }
                 finally
                 {
@@ -137,6 +145,22 @@ namespace CyPhyPETTest
             {
                 project.Close(true);
             }
+        }
+
+        [Fact]
+        [Trait("Feature", "PythonParsing")]
+        public void TestPythonParsing()
+        {
+            object cyPhyPython = Activator.CreateInstance(Type.GetTypeFromProgID("MGA.Interpreter.CyPhyPython"));
+            Assert.Equal(null, GetExpressionParseError("1"));
+            Assert.Equal(null, GetExpressionParseError("[1, \"2\"]"));
+            Assert.Equal(null, GetExpressionParseError("1.0"));
+            Assert.Equal(null, GetExpressionParseError("u'abcd\u0065'"));
+            Assert.Equal(null, GetExpressionParseError("list()"));
+
+            Assert.True(GetExpressionParseError("unknown_function()").Contains("is not defined"));
+            Assert.True(GetExpressionParseError("def x").Contains("SyntaxError"));
+            GC.KeepAlive(cyPhyPython);
         }
 
         [Fact]

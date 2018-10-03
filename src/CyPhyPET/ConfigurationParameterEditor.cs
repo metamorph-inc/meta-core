@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using static CyPhyPET.CyPhyPETInterpreter;
@@ -20,32 +21,28 @@ namespace CyPhyPET
             {
                 e.Cancel = parameters.requiredArgs.Contains(((ConfigurationParameter)e.Row.DataBoundItem).Name);
             };
+            dataGridView1.CellValidating += DataGridView1_CellValidating;
             dataGridView1.Columns[0].ReadOnly = true;
             dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             configurationParameterBindingSource.AllowNew = parameters.keywords != null;
-            dataGridView1.CellParsing += DataGridView1_CellParsing;
         }
 
-        private void DataGridView1_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
+        [DllImport("CyPhyPython.dll", CallingConvention = CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.BStr)]
+        public static extern string GetExpressionParseError([MarshalAs(UnmanagedType.BStr)] string expression);
+
+        private void DataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
 
             if (headerText.Equals("Value"))
             {
-                double value;
-                if (Double.TryParse((string)e.Value, out value) == false)
+                string userInput = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString();
+                string error = GetExpressionParseError(userInput);
+                dataGridView1.Rows[e.RowIndex].ErrorText = error;
+                if (error != null)
                 {
-                    string strValue = e.Value.ToString();
-                    if (strValue[0] != '"')
-                    {
-                        e.Value = strValue = "\"" + strValue;
-                        e.ParsingApplied = true;
-                    }
-                    if (strValue.Last() != '"')
-                    {
-                        e.Value = strValue = strValue + "\"";
-                        e.ParsingApplied = true;
-                    }
+                    e.Cancel = true;
                 }
             }
 
@@ -54,7 +51,15 @@ namespace CyPhyPET
         private void ConfigurationParameterEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             // remove focus from dataGridView1 to save in-progress changes
-            dataGridView1.CurrentCell = null;
+            try
+            {
+                dataGridView1.CurrentCell = null;
+            }
+            catch (InvalidOperationException)
+            {
+                // validation failed
+                e.Cancel = true;
+            }
         }
     }
 }

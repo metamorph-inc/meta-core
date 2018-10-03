@@ -4,6 +4,7 @@ import sys
 import os
 import os.path
 import imp
+import six
 from six.moves import reload_module
 
 from openmdao.core.component import Component
@@ -32,4 +33,5 @@ def LoadPythonComponent(filename):
     return components[0]
 
 def PythonComponent(filename, kwargs={}):
+    kwargs = {key: eval(value) for key, value in six.iteritems(kwargs)}
     return LoadPythonComponent(filename)(**kwargs)

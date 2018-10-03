@@ -1338,38 +1338,16 @@ namespace CyPhyPET
             public string Value { get; set; }
         }
 
-        public static Dictionary<string, object> GetConfigurationParameters(CyPhy.AnalysisBlock wrapper)
+        public static Dictionary<string, string> GetConfigurationParameters(CyPhy.AnalysisBlock wrapper)
         {
-            var ret = wrapper.Children.ConfigurationParameterCollection.ToDictionary(param => param.Name,
-                param =>
-                {
-                    var value = param.Attributes.Value;
-                    if (String.IsNullOrWhiteSpace(value))
-                    {
-                        return (object)"";
-                    }
-                    if (value.Length >= 2 && value[0] == '"')
-                    {
-                        // TODO: something smarter
-                        return (object)param.Attributes.Value.Substring(1, param.Attributes.Value.Length - 2);
-                    }
-                    else
-                    {
-                        double doubleValue;
-                        if (Double.TryParse(param.Attributes.Value, System.Globalization.NumberStyles.Float,
-                            CultureInfo.InvariantCulture, out doubleValue) == false)
-                        {
-                            throw new FormatException(String.Format("Could not parse double '{0}' for Configuration Parameter '{1}'",
-                                param.Attributes.Value, param.Name));
-                        }
-                        return doubleValue;
-                    }
-                });
-            return ret;
+            return wrapper.Children.ConfigurationParameterCollection.ToDictionary(param => param.Name,
+                param => param.Attributes.Value);
         }
 
-        private void EditConfigurationParameters(PythonComponentParameters parameters, CyPhy.AnalysisBlock wrapper)
+        public static void EditConfigurationParameters(PythonComponentParameters parameters, CyPhy.AnalysisBlock wrapper,
+            bool showGui=true)
         {
+            System.Windows.Forms.Application.EnableVisualStyles();
             Dictionary<string, CyPhy.ConfigurationParameter> existingParameters =
                 wrapper.Children.ConfigurationParameterCollection.ToDictionary(p => p.Name, p => p);
             var editor = new ConfigurationParameterEditor(parameters);
@@ -1394,7 +1372,7 @@ namespace CyPhyPET
                         }
                         else if (defaultValue is String)
                         {
-                            value = "\"" + defaultValue + "\"";
+                            value = "u'" + PET.escapePythonString((String)defaultValue) + "'";
                         }
                     }
                 }
@@ -1406,7 +1384,13 @@ namespace CyPhyPET
                 });
                 i++;
             }
-            editor.ShowDialog();
+            // need CyPhyPython dll loaded for input validation
+            object cyPhyPython = Activator.CreateInstance(Type.GetTypeFromProgID("MGA.Interpreter.CyPhyPython"));
+            if (showGui)
+            {
+                editor.ShowDialog();
+            }
+            GC.KeepAlive(cyPhyPython);
             var valueFlow = ((GME.MGA.Meta.MgaMetaModel)wrapper.Impl.MetaBase).AspectByName["ValueFlowAspect"];
             int maxYPos = 0;
             foreach (ConfigurationParameter parameter in editor.configurationParameterBindingSource.List)
@@ -1631,7 +1615,7 @@ namespace CyPhyPET
             return GetParamsAndUnknownsForPythonOpenMDAO(filename, obj, null);
         }
 
-        public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj, Dictionary<string, object> init_kwargs = null)
+        public static Dictionary<string, Dictionary<string, Dictionary<string, object>>> GetParamsAndUnknownsForPythonOpenMDAO(string filename, ISIS.GME.Common.Interfaces.Model obj, Dictionary<string, string> init_kwargs = null)
         {
 
             var cyPhyPython = (IMgaComponentEx)Activator.CreateInstance(Type.GetTypeFromProgID("MGA.Interpreter.CyPhyPython"));
