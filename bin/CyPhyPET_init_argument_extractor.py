@@ -55,4 +55,4 @@ def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
 
     # FIXME: defaults may have values that are not json-serializable
     componentParameters['ret'] = json.dumps(inspect.getargspec(component_class.__init__))
-    componentParameters['icon_path'] = getattr(component_class, 'icon_path')
+    componentParameters['icon_path'] = getattr(component_class, 'icon_path', None)
