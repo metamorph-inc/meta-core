@@ -238,20 +238,40 @@ int transform_max(IT begin, IT end, F func)
 
 CSize ModelComplexPart::GetPreferredSize(void) const
 {
+	const auto& button = this->button;
+	const auto& button2 = this->button2;
+	int RightPortsMaxLabelLength = 0;
+	auto setButtonPosition = [&RightPortsMaxLabelLength, &button, &button2](const CSize& size) {
+		if (button && button->m_bmp) {
+			// bottom right, left of port names
+			int y = size.cy - button->m_bmp->GetHeight();
+			int x = size.cx - RightPortsMaxLabelLength - button->m_bmp->GetWidth();
+			button->position = CRect(x, y, x + button->m_bmp->GetWidth(), y + button->m_bmp->GetHeight());
+			if (button2 && button2->m_bmp) {
+				// left of button
+				y -= button->m_bmp->GetHeight() - button2->m_bmp->GetHeight();
+				x -= button2->m_bmp->GetWidth();
+				button2->position = CRect(x, y, x + button2->m_bmp->GetWidth(), y + button2->m_bmp->GetHeight());
+			}
+		}
+	};
+
 	CSize size = ResizablePart::GetPreferredSize();
 	bool hasStoredCustomSize = (size.cx * size.cy != 0);
 
 	if (!hasStoredCustomSize && m_LeftPorts.empty() && m_RightPorts.empty()) {
 		if (!m_pBitmap) {
-			return CSize(WIDTH_MODEL, HEIGHT_MODEL);
+			CSize ret(WIDTH_MODEL, HEIGHT_MODEL);
+			setButtonPosition(ret);
+			return ret;
 		} else {
 			CSize bitmapSize = TypeableBitmapPart::GetPreferredSize();
+			setButtonPosition(bitmapSize);
 			return bitmapSize;
 		}
 	}
 
 	int LeftPortsMaxLabelLength = 0;
-	int RightPortsMaxLabelLength = 0;
 	LOGFONT logFont;
 	getFacilities().GetFont(FONT_PORT)->gdipFont->GetLogFontW(getFacilities().getGraphics(), &logFont);
 	{
@@ -284,23 +304,6 @@ CSize ModelComplexPart::GetPreferredSize(void) const
 	} else {
 		lWidth = (8 * 3 + GAP_LABEL + WIDTH_PORT + GAP_XMODELPORT) * 2 + GAP_PORTLABEL;
 	}
-
-	const auto& button = this->button;
-	const auto& button2 = this->button2;
-	auto setButtonPosition = [&RightPortsMaxLabelLength, &button, &button2](const CSize& size) {
-		if (button && button->m_bmp) {
-			// bottom right, left of port names
-			int y = size.cy - button->m_bmp->GetHeight();
-			int x = size.cx - RightPortsMaxLabelLength - button->m_bmp->GetWidth() + 3;
-			button->position = CRect(x, y, x + button->m_bmp->GetWidth(), y + button->m_bmp->GetHeight());
-			if (button2 && button2->m_bmp) {
-				// left of button
-				y -= button->m_bmp->GetHeight() - button2->m_bmp->GetHeight();
-				x -= button2->m_bmp->GetWidth();
-				button2->position = CRect(x, y, x + button2->m_bmp->GetWidth(), y + button2->m_bmp->GetHeight());
-			}
-		}
-	};
 
 	long lHeight = GAP_YMODELPORT * 2 +
 					max(m_LeftPorts.size(), m_RightPorts.size()) * (HEIGHT_PORT + GAP_PORT) - GAP_PORT;
@@ -1537,7 +1540,7 @@ void ModelComplexPart::DrawBackground(CDC* pDC, Gdiplus::Graphics* gdip)
 		cRect.BottomRight() -= CPoint(1, 1);
 
 		CRect location = cRect;
-		if (m_LeftPorts.size() != 0 || m_RightPorts.size() != 0)
+		if (m_LeftPorts.size() != 0 || m_RightPorts.size() != 0 || m_bmp.get() == nullptr)
 		{
 
 			Gdiplus::Rect rect(cRect.left, cRect.top, cRect.Width(), cRect.Height());
