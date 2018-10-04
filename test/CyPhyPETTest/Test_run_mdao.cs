@@ -109,6 +109,26 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        [Trait("Feature", "CyPhyInterpreter")]
+        public void TestTwoPythonInterpreter()
+        {
+            string outputDir = "results/TestTwoPythonInterpreter";
+            string petExperimentPath = "/@Testing/@ParametricExploration/@TestTwoPythonInterpreter";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            string stderr = "<did not start process>";
+            int retcode = Run(result.Item2.RunCommand, result.Item1.OutputDirectory, out stderr);
+            Assert.True(0 == retcode, "run_mdao failed: " + stderr);
+
+            string csv = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "output.csv"));
+            Assert.True(csv.Contains("512.0"), ".csv does not contain expected output:\n" + csv);
+        }
+
+        [Fact]
         [Trait("Feature", "InitArguments")]
         public void TestInitArguments()
         {
