@@ -26,22 +26,18 @@ namespace GME.CSharp
     [ComVisible(true)]
     public class WorkflowDecorator : IMgaDecoratorCommon, IMgaElementDecorator
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        extern static bool DestroyIcon(IntPtr handle);
+
         public WorkflowDecorator()
         {
-
-        }
-        public WorkflowDecorator(IMgaElementDecoratorEvents events)
-        {
-
         }
 
         ~WorkflowDecorator()
         {
             interpreters = null;
             workflow = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
         }
 
         // store the coordinates where it must be drawn
@@ -88,11 +84,12 @@ namespace GME.CSharp
             // Drawing style
             // n.b. GME decorators are based on pixels and shouldn't be scaled by DPI changes
             Font font = new Font("Arial", 12f, GraphicsUnit.Pixel);
-            Pen pen = new Pen(color);
-            Brush brush = new SolidBrush(color);
 #if DEBUG
+            Pen pen = new Pen(color);
             // Draw the place
-            g.DrawRectangle(pen, x, y, w, h);
+            using (pen) {
+                g.DrawRectangle(pen, x, y, w, h);
+            }
 #endif
             Color contentColor = Color.Black;
             string Content = "";
@@ -166,124 +163,7 @@ namespace GME.CSharp
             }
             else if (FCOKind == "WorkflowRef")
             {
-                int i = 0;
-                Icon icon = null;
-
-                foreach (TaskInfo taskInfo in workflow)
-                {
-                    Bitmap bitmap = null;
-                    if (taskInfo.IsComComponent)
-                    {
-                        var comComponent = new ComComponent(taskInfo.COMName);
-                        // FIXME cache this per-process for performance
-                        if (comComponent.isValid)
-                        {
-                            MgaRegistrar registrar = new MgaRegistrar();
-                            string DllFileName = registrar.LocalDllPath[comComponent.ProgId];
-                            try
-                            {
-                                // if the value is ,IDI_COMPICON get the icon from the dll
-                                string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
-                                string iconPath = null;
-                                try
-                                {
-                                    iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, taskInfo.COMName, "Icon"];
-                                }
-                                catch (COMException)
-                                {
-                                }
-
-                                if (File.Exists(iconFileNameGuess))
-                                {
-                                    icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
-                                }
-                                else if (iconPath != null && File.Exists(iconPath))
-                                {
-                                    icon = Icon.ExtractAssociatedIcon(iconPath);
-                                }
-                                else
-                                {
-                                    icon = Icon.ExtractAssociatedIcon(DllFileName);
-                                }
-                            }
-                            catch (ArgumentException)
-                            {
-                            }
-                        }
-                        else
-                        {
-                            // draw error image
-                            icon = new Icon(InvalidTask, InvalidTask.Size);
-                        }
-                    }
-                    else
-                    {
-                        string iconFileName = taskInfo.IconName;
-                        if (!string.IsNullOrWhiteSpace(iconFileName) &&
-                            File.Exists(iconFileName))
-                        {
-                            bitmap = (Bitmap)Image.FromFile(iconFileName);
-                            icon = Icon.FromHandle(bitmap.GetHicon());
-                        }
-                        else
-                        {
-                            icon = new Icon(InvalidTask, InvalidTask.Size);
-                        }
-                    }
-
-                    try
-                    {
-                        int IconStartX = x + (IconWidth + TaskPadding) * i;
-                        var placedIcon = new Icon(icon, IconWidth, IconHeight);
-                        using (placedIcon)
-                        {
-                            g.DrawIcon(placedIcon, new Rectangle(IconStartX, y, IconWidth, IconHeight));
-                        }
-
-                        if (taskInfo != workflow.Last())
-                        {
-                            Pen p = new Pen(Color.Black, LineWidth * g.DpiX / 96);
-                            using (p)
-                            {
-                                p.StartCap = LineStartCap;
-                                p.EndCap = LineEndCap;
-                                int LineStartX = IconStartX + IconWidth;
-                                g.DrawLine(p,
-                                    new Point(
-                                        LineStartX + LineStartPadding,
-                                        y + IconHeight / 2),
-                                    new Point(
-                                        LineStartX + TaskPadding - LineEndPadding,
-                                        y + IconHeight / 2));
-                            }
-                        }
-                        i++;
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
-                    finally
-                    {
-                        if (bitmap != null)
-                        {
-                            bitmap.Dispose();
-                            bitmap = null;
-                        }
-                        if (icon != null)
-                        {
-                            icon.Dispose();
-                            icon = null;
-                        }
-                    }
-
-                }
-                if (workflow.Count == 0)
-                {
-                    icon = UndefinedWorkFlow;
-                    g.DrawIcon(
-                        icon, // new Icon(icon, IconWidth, IconHeight),
-                        new Rectangle(x, y, IconWidth, IconHeight));
-                }
+                DrawWorkflowRef(g);
             }
             if (this.MetaKind == "MetricConstraint")
             {
@@ -307,17 +187,154 @@ namespace GME.CSharp
                     symbolFormat.Alignment = StringAlignment.Center;
                     symbolFormat.LineAlignment = StringAlignment.Center;
 
-                    g.DrawString(symbol, symbolFont, new SolidBrush(labelColor), new PointF(x + w / 2.0f, y + h / 2.0f), symbolFormat);
+                    using (var brush = new SolidBrush(labelColor))
+                    {
+                        g.DrawString(symbol, symbolFont, brush, new PointF(x + w / 2.0f, y + h / 2.0f), symbolFormat);
+                    }
                 }
             }
 
             // Draw the label
-            g.DrawString(name, font, new SolidBrush(labelColor),
-                new RectangleF(x + w / 2.0f - LabelSize.Width / 2.0f, y + h, LabelSize.Width, LabelSize.Height), sf);
+            using (var brush = new SolidBrush(labelColor))
+            {
+                g.DrawString(name, font, brush,
+                    new RectangleF(x + w / 2.0f - LabelSize.Width / 2.0f, y + h, LabelSize.Width, LabelSize.Height), sf);
+            }
 
             font.Dispose();
             sf.Dispose();
             g.Dispose();
+        }
+
+        private void DrawWorkflowRef(Graphics g)
+        {
+            int i = 0;
+            Icon icon = null;
+
+            foreach (TaskInfo taskInfo in workflow)
+            {
+                IntPtr hIcon = IntPtr.Zero;
+                Bitmap bitmap = null;
+                if (taskInfo.IsComComponent)
+                {
+                    var comComponent = new ComComponent(taskInfo.COMName);
+                    // FIXME cache this per-process for performance
+                    if (comComponent.isValid)
+                    {
+                        MgaRegistrar registrar = new MgaRegistrar();
+                        string DllFileName = registrar.LocalDllPath[comComponent.ProgId];
+                        try
+                        {
+                            // if the value is ,IDI_COMPICON get the icon from the dll
+                            string iconFileNameGuess = Path.ChangeExtension(DllFileName, ".ico");
+                            string iconPath = null;
+                            try
+                            {
+                                iconPath = registrar.ComponentExtraInfo[regaccessmode_enum.REGACCESS_BOTH, taskInfo.COMName, "Icon"];
+                            }
+                            catch (COMException)
+                            {
+                            }
+
+                            if (File.Exists(iconFileNameGuess))
+                            {
+                                icon = Icon.ExtractAssociatedIcon(iconFileNameGuess);
+                            }
+                            else if (iconPath != null && File.Exists(iconPath))
+                            {
+                                icon = Icon.ExtractAssociatedIcon(iconPath);
+                            }
+                            else
+                            {
+                                icon = Icon.ExtractAssociatedIcon(DllFileName);
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                        }
+                    }
+                    else
+                    {
+                        // draw error image
+                        icon = new Icon(InvalidTask, InvalidTask.Size);
+                    }
+                }
+                else
+                {
+                    string iconFileName = taskInfo.IconName;
+                    if (!string.IsNullOrWhiteSpace(iconFileName) &&
+                        File.Exists(iconFileName))
+                    {
+                        bitmap = (Bitmap)Image.FromFile(iconFileName);
+                        hIcon = bitmap.GetHicon();
+                        icon = Icon.FromHandle(hIcon);
+                    }
+                    else
+                    {
+                        icon = new Icon(InvalidTask, InvalidTask.Size);
+                    }
+                }
+
+                try
+                {
+                    int IconStartX = x + (IconWidth + TaskPadding) * i;
+                    var placedIcon = new Icon(icon, IconWidth, IconHeight);
+                    using (placedIcon)
+                    {
+                        g.DrawIcon(placedIcon, new Rectangle(IconStartX, y, IconWidth, IconHeight));
+                    }
+
+                    if (taskInfo != workflow.Last())
+                    {
+                        Pen p = new Pen(Color.Black, LineWidth * g.DpiX / 96);
+                        using (p)
+                        {
+                            p.StartCap = LineStartCap;
+                            p.EndCap = LineEndCap;
+                            int LineStartX = IconStartX + IconWidth;
+                            g.DrawLine(p,
+                                new Point(
+                                    LineStartX + LineStartPadding,
+                                    y + IconHeight / 2),
+                                new Point(
+                                    LineStartX + TaskPadding - LineEndPadding,
+                                    y + IconHeight / 2));
+                        }
+                    }
+                    i++;
+                }
+                catch (ArgumentException)
+                {
+                }
+                finally
+                {
+                    if (bitmap != null)
+                    {
+                        bitmap.Dispose();
+                        bitmap = null;
+                    }
+                    if (icon != null)
+                    {
+                        icon.Dispose();
+                        icon = null;
+                    }
+                    if (hIcon != IntPtr.Zero)
+                    {
+                        if (DestroyIcon(hIcon) == false)
+                        {
+                            throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                        }
+                    }
+                }
+
+            }
+            if (workflow.Count == 0)
+            {
+                icon = UndefinedWorkFlow;
+                g.DrawIcon(
+                    icon, // new Icon(icon, IconWidth, IconHeight),
+                    new Rectangle(x, y, IconWidth, IconHeight));
+            }
         }
 
         public void DrawEx(uint hdc, ulong gdip)
@@ -327,7 +344,10 @@ namespace GME.CSharp
 
         public void SetLocation(int sx, int sy, int ex, int ey)
         {
-            x = sx; y = sy; w = ex - sx; h = ey - sy;
+            x = sx;
+            y = sy;
+            w = ex - sx;
+            h = ey - sy;
         }
 
         public void Drop(ulong pCOleDataObject, uint dropEffect, int pointx, int pointy, ulong transformHDC)
