@@ -386,7 +386,7 @@ namespace GME.CSharp
             sx = x + w / 2 - (int)(LabelSize.Width / 2);
             sy = y + h;
             ex = sx + (int)LabelSize.Width;
-            ey = y + w + (int)LabelSize.Height;
+            ey = y + h + (int)LabelSize.Height;
         }
 
         public void GetLocation(
