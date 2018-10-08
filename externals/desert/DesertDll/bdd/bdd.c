@@ -66,11 +66,11 @@ bdd_find_block(b, index)
     {
       k=(i+j)/2;
       if (b->children[k]->first_index <= index && b->children[k]->last_index >= index)
-	return (k);
+        return (k);
       if (b->children[k]->first_index > index)
-	j=k-1;
+        j=k-1;
       else
-	i=k+1;
+        i=k+1;
     }
   return (i);
 }
@@ -121,7 +121,7 @@ shift_block(bddm, b, index)
     {
       b->children=(block *)mem_resize_block((pointer)b->children, (SIZE_T)(sizeof(block)*(b->num_children+1)));
       for (j=b->num_children-1; j >= i; --j)
-	b->children[j+1]=shift_block(bddm, b->children[j], index);
+        b->children[j+1]=shift_block(bddm, b->children[j], index);
       b->num_children++;
       p=(block)BDD_NEW_REC(bddm, sizeof(struct block_));
       p->reorderable=0;
@@ -134,8 +134,8 @@ shift_block(bddm, b, index)
   else
     while (i < b->num_children)
       {
-	shift_block(bddm, b->children[i], index);
-	++i;
+        shift_block(bddm, b->children[i], index);
+        ++i;
       }
   return (b);
 }
@@ -171,35 +171,35 @@ bdd_new_var(bddm, index)
       oldmax=bddm->maxvars;
       temp=bddm->maxvars*2;
       if (temp > BDD_MAX_INDEXINDEX-1)
-	temp=BDD_MAX_INDEXINDEX-1;
+        temp=BDD_MAX_INDEXINDEX-1;
       bddm->maxvars=temp;
       bddm->variables=(bdd *)mem_resize_block((pointer)bddm->variables,
-					      (SIZE_T)((bddm->maxvars+1)*sizeof(bdd)));
+                                              (SIZE_T)((bddm->maxvars+1)*sizeof(bdd)));
       bddm->indexes=(bdd_index_type *)mem_resize_block((pointer)bddm->indexes,
-						       (SIZE_T)((bddm->maxvars+1)*sizeof(bdd_index_type)));
+                                                       (SIZE_T)((bddm->maxvars+1)*sizeof(bdd_index_type)));
       bddm->indexindexes=
-	(bdd_indexindex_type *)mem_resize_block((pointer)bddm->indexindexes,
-						(SIZE_T)(bddm->maxvars*sizeof(bdd_indexindex_type)));
+        (bdd_indexindex_type *)mem_resize_block((pointer)bddm->indexindexes,
+                                                (SIZE_T)(bddm->maxvars*sizeof(bdd_indexindex_type)));
       bddm->unique_table.tables=
-	(var_table *)mem_resize_block((pointer)bddm->unique_table.tables,
-				      (SIZE_T)((bddm->maxvars+1)*sizeof(var_table)));
+        (var_table *)mem_resize_block((pointer)bddm->unique_table.tables,
+                                      (SIZE_T)((bddm->maxvars+1)*sizeof(var_table)));
       /* Variable associations are padded with nulls in case new variables */
       /* are created. */
       for (p=bddm->assocs; p; p=p->next)
-	{
-	  p->va.assoc=(bdd *)mem_resize_block((pointer)p->va.assoc, (SIZE_T)((bddm->maxvars+1)*sizeof(bdd)));
-	  for (i=oldmax; i < bddm->maxvars; ++i)
-	    p->va.assoc[i+1]=0;
-	}
+        {
+          p->va.assoc=(bdd *)mem_resize_block((pointer)p->va.assoc, (SIZE_T)((bddm->maxvars+1)*sizeof(bdd)));
+          for (i=oldmax; i < bddm->maxvars; ++i)
+            p->va.assoc[i+1]=0;
+        }
       bddm->temp_assoc.assoc=(bdd *)mem_resize_block((pointer)bddm->temp_assoc.assoc, (SIZE_T)((bddm->maxvars+1)*sizeof(bdd)));
       for (i=oldmax; i < bddm->maxvars; ++i)
-	bddm->temp_assoc.assoc[i+1]=0;
+        bddm->temp_assoc.assoc[i+1]=0;
     }
   /* Shift index of following variables. */
   if (index != bddm->vars)
     for (i=0; i < bddm->vars; ++i)
       if (bddm->indexes[i+1] >= index)
-	bddm->indexes[i+1]++;
+        bddm->indexes[i+1]++;
   for (p=bddm->assocs; p; p=p->next)
     if (p->va.last >= index)
       p->va.last++;
@@ -270,11 +270,11 @@ bdd_new_var_before(bddm, var)
     {
       BDD_SETUP(var);
       if (bdd_type_aux(bddm, var) != BDD_TYPE_POSVAR)
-	{
-	  bdd_warning(_T("bdd_new_var_before: argument is not a positive variable"));
-	  if (BDD_IS_CONST(var))
-	    return (bdd_new_var_last(bddm));
-	}
+        {
+          bdd_warning(_T("bdd_new_var_before: argument is not a positive variable"));
+          if (BDD_IS_CONST(var))
+            return (bdd_new_var_last(bddm));
+        }
       return (bdd_new_var(bddm, BDD_INDEX(bddm, var)));
     }
   return ((bdd)0);
@@ -297,11 +297,11 @@ bdd_new_var_after(bddm, var)
     {
       BDD_SETUP(var);
       if (bdd_type_aux(bddm, var) != BDD_TYPE_POSVAR)
-	{
-	  bdd_warning(_T("bdd_new_var_after: argument is not a positive variable"));
-	  if (BDD_IS_CONST(var))
-	    return (bdd_new_var_last(bddm));
-	}
+        {
+          bdd_warning(_T("bdd_new_var_after: argument is not a positive variable"));
+          if (BDD_IS_CONST(var))
+            return (bdd_new_var_last(bddm));
+        }
       return (bdd_new_var(bddm, BDD_INDEX(bddm, var)+1));
     }
   return ((bdd)0);
@@ -367,40 +367,40 @@ bdd_and_step(bddm, f, g)
   if (BDD_IS_CONST(f))
     {
       if (f == BDD_ZERO(bddm))
-		return (f);
-	  else if (f == BDD_ONE(bddm))
-	  {
+                return (f);
+          else if (f == BDD_ONE(bddm))
+          {
         BDD_TEMP_INCREFS(g);
         return (g);
-	  }
+          }
     }
   /* f is not constant. */
   if (BDD_IS_CONST(g))
     {
       if (g == BDD_ZERO(bddm))
-	    return (g);
-	  else if (g == BDD_ONE(bddm))
-	  {
+            return (g);
+          else if (g == BDD_ONE(bddm))
+          {
         BDD_TEMP_INCREFS(f);
         return (f);
-	  }
+          }
     }
   if (BDD_IS_CONST(f) && BDD_IS_CONST(g))
   {
-	/* both f and g are mtbdd constant - logical-and is undefined */
-	  /* error condition */
-	  // this may help with debugging:
-	  // return (BDD_ZERO(bddm));
-	  return ((bdd)0);
+        /* both f and g are mtbdd constant - logical-and is undefined */
+          /* error condition */
+          // this may help with debugging:
+          // return (BDD_ZERO(bddm));
+          return ((bdd)0);
   }
   /* f and g are not constant. */
   if (BDD_SAME_OR_NEGATIONS(f, g))
     {
       if (f == g)
-	{
-	  BDD_TEMP_INCREFS(f);
-	  return (f);
-	}
+        {
+          BDD_TEMP_INCREFS(f);
+          return (f);
+        }
       return (BDD_ZERO(bddm));
     }
   /* f and g are not constant and are not equal or negations. */
@@ -443,21 +443,21 @@ bdd_xnor_step(bddm, f, g)
     {
       BDD_TEMP_INCREFS(g);
       if (f == BDD_ONE(bddm))
-	return (g);
+        return (g);
       return (BDD_NOT(g));
     }
   if (BDD_IS_CONST(g))
     {
       BDD_TEMP_INCREFS(f);
       if (g == BDD_ONE(bddm))
-	return (f);
+        return (f);
       return (BDD_NOT(f));
     }
   /* f and g are not constant. */
   if (BDD_SAME_OR_NEGATIONS(f, g))
     {
       if (f == g)
-	return (BDD_ONE(bddm));
+        return (BDD_ONE(bddm));
       return (BDD_ZERO(bddm));
     }
   /* f and g are not constant, not same, not negations. */
@@ -509,10 +509,10 @@ bdd_ite_step(bddm, f, g, h)
   if (BDD_IS_CONST(f))
     {
       if (f == BDD_ONE(bddm))
-	{
-	  BDD_TEMP_INCREFS(g);
-	  return (g);
-	}
+        {
+          BDD_TEMP_INCREFS(g);
+          return (g);
+        }
       BDD_TEMP_INCREFS(h);
       return (h);
     }
@@ -520,41 +520,41 @@ bdd_ite_step(bddm, f, g, h)
   if (BDD_SAME_OR_NEGATIONS(f, g))
     {
       if (f == g)
-	g=BDD_ONE(bddm);
+        g=BDD_ONE(bddm);
       else
-	g=BDD_ZERO(bddm);
+        g=BDD_ZERO(bddm);
       BDD_RESET(g);
     }
   if (BDD_SAME_OR_NEGATIONS(f, h))
     {
       if (f == h)
-	h=BDD_ZERO(bddm);
+        h=BDD_ZERO(bddm);
       else
-	h=BDD_ONE(bddm);
+        h=BDD_ONE(bddm);
       BDD_RESET(h);
     }
   if (BDD_IS_CONST(g))
     {
       if (BDD_IS_CONST(h))
-	{
-	  if (g == h)
-	    return (g);
-	  BDD_TEMP_INCREFS(f);
-	  if (g == BDD_ONE(bddm))
-	    return (f);
-	  return (BDD_NOT(f));
-	}
+        {
+          if (g == h)
+            return (g);
+          BDD_TEMP_INCREFS(f);
+          if (g == BDD_ONE(bddm))
+            return (f);
+          return (BDD_NOT(f));
+        }
       if (g == BDD_ZERO(bddm))
-	return (bdd_and_step(bddm, BDD_NOT(f), h));
+        return (bdd_and_step(bddm, BDD_NOT(f), h));
       return (BDD_NOT(bdd_and_step(bddm, BDD_NOT(f), BDD_NOT(h))));
     }
   else if (BDD_SAME_OR_NEGATIONS(g, h))
     {
       if (g == h)
-	{
-	  BDD_TEMP_INCREFS(g);
-	  return (g);
-	}
+        {
+          BDD_TEMP_INCREFS(g);
+          return (g);
+        }
       return (bdd_xnor_step(bddm, f, g));
     }
   else if (BDD_IS_CONST(h))
@@ -779,10 +779,10 @@ bdd_if(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
-	{
-	  bdd_warning(_T("bdd_if: argument is a constant"));
-	  return (f);
-	}
+        {
+          bdd_warning(_T("bdd_if: argument is a constant"));
+          return (f);
+        }
       FIREWALL(bddm);
       RETURN_BDD(BDD_IF(bddm, f));
     }
@@ -806,7 +806,7 @@ bdd_if_index(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
-	return (-1l);
+        return (-1l);
       return ((long)BDD_INDEX(bddm, f));
     }
   return (-1l);
@@ -829,7 +829,7 @@ bdd_if_id(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
-	return (-1l);
+        return (-1l);
       return ((long)BDD_INDEXINDEX(f));
     }
   return (-1l);
@@ -851,10 +851,10 @@ bdd_then(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
-	{
-	  bdd_warning(_T("bdd_then: argument is a constant"));
-	  return (f);
-	}
+        {
+          bdd_warning(_T("bdd_then: argument is a constant"));
+          return (f);
+        }
       f=BDD_THEN(f);
       BDD_RESET(f);
       BDD_INCREFS(f);
@@ -878,10 +878,10 @@ bdd_else(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_IS_CONST(f))
-	{
-	  bdd_warning(_T("bdd_else: argument is a constant"));
-	  return (f);
-	}
+        {
+          bdd_warning(_T("bdd_else: argument is a constant"));
+          return (f);
+        }
       f=BDD_ELSE(f);
       BDD_RESET(f);
       BDD_INCREFS(f);
@@ -911,7 +911,7 @@ bdd_intersects_step(bddm, f, g)
   if (BDD_IS_CONST(f))
     {
       if (f == BDD_ZERO(bddm))
-	return (f);
+        return (f);
       BDD_TEMP_INCREFS(g);
       return (g);
     }
@@ -919,7 +919,7 @@ bdd_intersects_step(bddm, f, g)
   if (BDD_IS_CONST(g))
     {
       if (g == BDD_ZERO(bddm))
-	return (g);
+        return (g);
       BDD_TEMP_INCREFS(f);
       return (f);
     }
@@ -927,10 +927,10 @@ bdd_intersects_step(bddm, f, g)
   if (BDD_SAME_OR_NEGATIONS(f, g))
     {
       if (f == g)
-	{
-	  BDD_TEMP_INCREFS(f);
-	  return (f);
-	}
+        {
+          BDD_TEMP_INCREFS(f);
+          return (f);
+        }
       return (BDD_ZERO(bddm));
     }
   /* f and g are not constant and are not equal or negations. */
@@ -992,9 +992,9 @@ bdd_implies(bddm, f, g)
   if (bdd_check_arguments(2, f, g))
     {
       FIREWALL(bddm);
-	  // KMS: this was the original, but f=0 and g=1 should be valid
+          // KMS: this was the original, but f=0 and g=1 should be valid
        RETURN_BDD(bdd_intersects_step(bddm, f, BDD_NOT(g)));
-	  //RETURN_BDD(bdd_or(bddm, BDD_NOT(f), g));
+          //RETURN_BDD(bdd_or(bddm, BDD_NOT(f), g));
     }
   return ((bdd)0);
 }
@@ -1013,9 +1013,9 @@ bdd_type_aux(bddm, f)
   if (BDD_IS_CONST(f))
     {
       if (f == BDD_ZERO(bddm))
-	return (BDD_TYPE_ZERO);
+        return (BDD_TYPE_ZERO);
       if (f == BDD_ONE(bddm))
-	return (BDD_TYPE_ONE);
+        return (BDD_TYPE_ONE);
       return (BDD_TYPE_CONSTANT);
     }
   if (BDD_THEN(f) == BDD_ONE(bddm) && BDD_ELSE(f) == BDD_ZERO(bddm))
@@ -1081,9 +1081,9 @@ bdd_free(bddm, f)
     {
       BDD_SETUP(f);
       if (BDD_REFS(f) == 0)
-	bdd_fatal(_T("bdd_free: attempt to free node with zero references"));
+        bdd_fatal(_T("bdd_free: attempt to free node with zero references"));
       else
-	BDD_DECREFS(f);
+        BDD_DECREFS(f);
     }
 }
 
@@ -1414,7 +1414,7 @@ bdd_free_block(bddm, b)
   if (b->children)
     {
       for (i=0; i < b->num_children; ++i)
-	bdd_free_block(bddm, b->children[i]);
+        bdd_free_block(bddm, b->children[i]);
       mem_free_block((pointer)b->children);
     }
   BDD_FREE_REC(bddm, (pointer)b, sizeof(struct block_));
