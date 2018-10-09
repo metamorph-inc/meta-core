@@ -362,8 +362,6 @@ CRect ModelComplexPart::GetLabelLocation(void) const
 			}
 		}
 	}
-	if (labelLocation.IsRectEmpty())
-		throw hresult_exception(E_DECORATOR_NOT_IMPLEMENTED);
 	return labelLocation;
 }
 
