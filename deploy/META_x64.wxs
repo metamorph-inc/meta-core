@@ -101,7 +101,6 @@
       <Directory Id="CommonAppDataFolder">
         <Directory Id="WIX_DIR_COMMON_DOCUMENTS">
           <Directory Id='example_models' Name='META Documents'>
-            <Directory Id='WebGME' Name='WebGME'/>
             <Directory Id='ifv_model' Name='IFV Model'>
               <Directory Id='Manufacturing_CAD' Name='Manufacturing-CAD'>
                 <Directory Id='Components' Name='Components'/>
@@ -316,7 +315,6 @@
     <!-- FEATURES -->
     <!-- =========================================================== -->
     <Feature Id='Complete' Title='META Toolchain' Description='The complete package' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
-      <ComponentGroupRef Id='WebGME'/>
       <ComponentRef Id='CPMDecorator.dll'/>
       <ComponentRef Id='ApplicationShortcut'/>
       <ComponentRef Id='CyPhyML.mta'/>

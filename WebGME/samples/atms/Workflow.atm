@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<TestBench xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Workflow" xmlns="avm">
-  <TopLevelSystemUnderTest xmlns="" />
-  <Workflow Name="TestWorkflow" xmlns="">
-    <Task xmlns:q1="avm" xsi:type="q1:InterpreterTask" Name="Task" COMName="MGA.Interpreter.CyPhy2Modelica_v2" Parameters="{&#xA;  &quot;simulationTargetTool&quot;: &quot;Dymola&quot;,&#xA;  &quot;AnalysisTool&quot;: &quot;Default&quot;&#xA;}" />
-    <Task xmlns:q2="avm" xsi:type="q2:ExecutionTask" Name="ExecutionTask" Description="This is a description" Invocation="dir *.*" />
-  </Workflow>
-</TestBench>
