@@ -57,11 +57,13 @@ void CStatusDlg::SetStatus(StatusID s_id)
 	}
 };
 
-unsigned long CStatusDlg::StepInState(short p)
+void CStatusDlg::StepInState(short p)
 {
 	ASSERT( status != SD_FINIT);
 	ASSERT( p <= 100 && p >= 0);
-
+	if (_silent) {
+		return;
+	}
 
 	const StatusDefinition * s_def = LookUpStatus((StatusID)((int)status + 1));
 	unsigned long end_tick = 
@@ -71,8 +73,6 @@ unsigned long CStatusDlg::StepInState(short p)
 
 	m_prgBar.SetPos(new_tick);
 	m_prgBar.UpdateWindow();
-
-	return new_tick;
 };
 
 CStatusDlg * GetStatusDlg(CStatusDlg * set)

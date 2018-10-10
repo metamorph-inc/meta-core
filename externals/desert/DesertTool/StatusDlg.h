@@ -76,7 +76,7 @@ private:
 public:
 	CStatusDlg(CWnd* pParent = NULL, bool silent= false);   // standard constructor
 	void SetStatus(StatusID s_id);
-	unsigned long StepInState(short percentage);
+	void StepInState(short percentage);
 
 
 // Dialog Data

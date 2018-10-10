@@ -194,13 +194,6 @@ BOOL CDesertToolApp::InitInstance()
 	//  of your final executable, you should remove from the following
 	//  the specific initialization routines you do not need.
 
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
-
 	//this hack is offered gratiously by our very talented grad. student, Tihamer Levendovszky)
 
 	SetRegistryKey(_T("ISIS"));
@@ -361,7 +354,9 @@ BOOL CDesertToolApp::InitInstance()
 	if (!cancel_input)
 	{
 		CStatusDlg s_dlg( 0, isSilent);
-		s_dlg.Create(IDD_DIALOG1);
+		if (!isSilent) {
+			s_dlg.Create(IDD_DIALOG1);
+		}
 		GetStatusDlg(&s_dlg);
 
 		
@@ -731,10 +726,13 @@ BOOL CDesertToolApp::InitInstance()
 	
 	}//eo if (Open.DoModal())
 
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
 	returnCode = 0;
-	return TRUE;
+	if (isSilent) {
+		return FALSE;
+	}
+	else {
+		return TRUE;
+	}
 }
 
 ///////////////////////////////////////////////////////////////
