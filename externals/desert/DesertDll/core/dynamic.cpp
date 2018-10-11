@@ -872,7 +872,10 @@ inline CDynElement *CDynDomain::RemoveElement(long id)					{return 0;};
 inline CDynElement *CDynDomain::RemoveElement(const TCHAR *name)			{return 0;};
 inline CDynElement *CDynDomain::InsertElement(CDynElement *elem)		{return 0;};
 
-inline bool CDynDomain::IsAlive() const									{Todo(_T("CDynDomain::IsAlive"), _T("who me??"));  return true;};
+inline bool CDynDomain::IsAlive() const {
+	// Todo(_T("CDynDomain::IsAlive"), _T("who me??"));
+	return true;
+};
 inline int CDynDomain::IndexElement(CDynElement *elem)					{return -1;};
 
 

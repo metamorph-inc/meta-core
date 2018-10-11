@@ -30,9 +30,10 @@ public:
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
-	int returnCode;
 
 	//}}AFX_VIRTUAL
+	int returnCode;
+	//CStatusDlg * st_dlg;
 
 // Implementation
 

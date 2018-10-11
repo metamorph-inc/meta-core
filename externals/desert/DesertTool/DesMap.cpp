@@ -274,7 +274,6 @@ bool CreateCustomDomain(CustomDomain &cd, CustomMember &mb, UdmDesertMap &des_ma
 	//static and non-static variables
 	//for progress indication 
 	//(this is weird in case of a recursive function)
-	//CDesertStatusDlg * st_dlg = GetStatusDlg(NULL);
 	static short percent_done;
 	static short percent_to_do;
 	short percent_to_do_save;

@@ -123,7 +123,7 @@ std::vector<tstring> splitConstraints(tstring _allCons)
 	return splittedCons;
 }
 
-void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap * inv_des_map)
+void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap * inv_des_map, std::function<void(short)> UpdateStatus)
 {
 		des_map->clear();
 		inv_des_map->clear();
@@ -137,10 +137,7 @@ void ReInitializeManager(DesertSystem* ds, UdmDesertMap* des_map, DesertUdmMap *
 
 		UdmElementSet elements;
 		UdmMemberSet custom_members;
-				
-		CStatusDlg * st_dlg = GetStatusDlg(NULL);
-		std::function<void(short)> UpdateStatus = [&st_dlg](short status) { st_dlg->StepInState(status); };
-				
+
 		//Build spaces
 		if (!spaces.empty())
 		{
@@ -357,7 +354,7 @@ BOOL CDesertToolApp::InitInstance()
 		if (!isSilent) {
 			s_dlg.Create(IDD_DIALOG1);
 		}
-		GetStatusDlg(&s_dlg);
+		CStatusDlg* st_dlg = &s_dlg;
 
 		
 		DesertSystem ds;
@@ -386,7 +383,6 @@ BOOL CDesertToolApp::InitInstance()
 			UdmElementSet elements;
 			UdmMemberSet custom_members;
 						
-			CStatusDlg * st_dlg = GetStatusDlg(NULL);
 			std::function<void(short)> UpdateStatus = [&st_dlg](short status) { st_dlg->StepInState(status); };
 	
 			//Build spaces
@@ -465,13 +461,13 @@ BOOL CDesertToolApp::InitInstance()
 				int numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), _T("NONE"), _T(""));
 				std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
 				fprintf(fdDcif, "\t<None NumConfigs=\"%d\"/>\n", numCfgs);
-				ReInitializeManager(&ds, &des_map, &inv_des_map);
+				ReInitializeManager(&ds, &des_map, &inv_des_map, UpdateStatus);
 
 				// Next run with all constraints applied
 				numCfgs = DesertFinitWithMultirun_Exec(true, CString(((std::string) ds.SystemName()).c_str()), _T("ALL"), _T("applyAll"));
 				std::cout << "Group: NONE\tConfigs: " << numCfgs << std::endl;
 				fprintf(fdDcif, "\t<All NumConfigs=\"%d\"/>\n", numCfgs);
-				ReInitializeManager(&ds, &des_map, &inv_des_map);
+				ReInitializeManager(&ds, &des_map, &inv_des_map, UpdateStatus);
 
 				// Next run for all groups
 				fprintf(fdDcif, "\t<Groups>\n");
@@ -486,7 +482,7 @@ BOOL CDesertToolApp::InitInstance()
 					fprintf(fdDcif, "\t\t</Group>\n");
 
 					if (j < numConsGroups) {
-						ReInitializeManager(&ds, &des_map, &inv_des_map);
+						ReInitializeManager(&ds, &des_map, &inv_des_map, UpdateStatus);
 					}
 				}
 				fprintf(fdDcif, "\t</Groups>\n");

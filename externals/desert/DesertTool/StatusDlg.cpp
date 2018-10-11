@@ -75,18 +75,6 @@ void CStatusDlg::StepInState(short p)
 	m_prgBar.UpdateWindow();
 };
 
-CStatusDlg * GetStatusDlg(CStatusDlg * set)
-{
-	static CStatusDlg * csdlg;
-	
-	if (set) csdlg = set;
-	ASSERT(csdlg != NULL);
-	return csdlg;
-
-};
-
-
-
 
 const StatusDefinition * LookUpStatus(StatusID s_id)
 {
