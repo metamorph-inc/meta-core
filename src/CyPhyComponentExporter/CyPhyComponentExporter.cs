@@ -154,14 +154,14 @@ namespace CyPhyComponentExporter
             FileStream stream = new FileStream(s_outFilePath, FileMode.Create);
             using (stream)
             {
-                XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent, stream);
+                OpenMETA.Interchange.AvmXmlSerializer.Serialize(avmComponent, stream);
             }
         }
 
         public static string SerializeAvmComponentToString(avm.Component avmComponent)
         {
             avmComponent.SchemaVersion = "2.5";
-            return XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent);
+            return OpenMETA.Interchange.AvmXmlSerializer.Serialize(avmComponent);
         }
 
 

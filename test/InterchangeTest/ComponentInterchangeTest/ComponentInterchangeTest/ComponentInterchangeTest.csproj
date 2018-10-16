@@ -128,9 +128,9 @@
     <Compile Include="ValueFlowFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+    <ProjectReference Include="..\..\..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
-      <Name>XSD2CSharp</Name>
+      <Name>OpenMETA.Interchange</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\ComponentLibraryManager\ComponentLibraryManager.csproj">
       <Project>{0B1EAA2B-5B37-4D27-868E-60CF820B3273}</Project>

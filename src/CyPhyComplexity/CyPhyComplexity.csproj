@@ -97,9 +97,9 @@
       <Project>{E5D17299-C2E3-443D-B2CA-B24D4E1C3506}</Project>
       <Name>ComplexityDomainLib_vs10</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
-      <Name>XSD2CSharp</Name>
+      <Name>OpenMETA.Interchange</Name>
     </ProjectReference>
     <ProjectReference Include="..\CyPhy2DesignInterchange\CyPhy2DesignInterchange.csproj">
       <Project>{931606C8-6178-4F8C-8E02-9D28C6D79FEA}</Project>

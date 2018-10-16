@@ -114,7 +114,7 @@ namespace CyPhyDesignImporter
 
         public static avm.Design DeserializeAvmDesignXml(TextReader reader)
         {
-            return XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Design>(reader);
+            return OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.Design>(reader);
         }
 
         public IMgaFCO ImportDesign(IMgaProject project, string filename)

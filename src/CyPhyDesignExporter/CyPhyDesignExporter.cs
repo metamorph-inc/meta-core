@@ -246,7 +246,7 @@ namespace CyPhyDesignExporter
             var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de, traceability);
             String s_outFilePath = String.Format("{0}\\{1}.adm", s_outFolder, Safeify(de.Name));
             //dm.SaveToFile(s_outFilePath);
-            XSD2CSharp.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(s_outFolder, Safeify(de.Name) + ".adm")), dm);
+            OpenMETA.Interchange.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(s_outFolder, Safeify(de.Name) + ".adm")), dm);
 
             CheckForDuplicateIDs(dm);
 
@@ -316,7 +316,7 @@ namespace CyPhyDesignExporter
         public bool CheckForDuplicateIDs(avm.Design d)
         {
             //String str = d.Serialize();
-            String str = XSD2CSharp.AvmXmlSerializer.Serialize(d);
+            String str = OpenMETA.Interchange.AvmXmlSerializer.Serialize(d);
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(str);

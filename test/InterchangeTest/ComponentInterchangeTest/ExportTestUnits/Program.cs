@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 using System.Collections.Generic;
-using XSD2CSharp;
+using OpenMETA.Interchange;
 using GME.MGA;
 
 namespace ComponentExporterUnitTests

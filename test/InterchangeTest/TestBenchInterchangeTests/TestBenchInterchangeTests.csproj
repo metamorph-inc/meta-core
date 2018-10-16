@@ -75,9 +75,9 @@
     <Compile Include="RoundTrip.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+    <ProjectReference Include="..\..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
-      <Name>XSD2CSharp</Name>
+      <Name>OpenMETA.Interchange</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\CyPhy2TestBenchInterchange\CyPhy2TestBenchInterchange.csproj">
       <Project>{27086971-68be-427e-a6e0-5582bc06b18e}</Project>

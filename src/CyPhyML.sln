@@ -115,7 +115,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignConsistencyChecker", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhy2CAD_CSharp", "CyPhy2CAD_CSharp\CyPhy2CAD_CSharp.csproj", "{EA9CC9FA-046F-47C6-80D9-A2B1CFE8BBAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSD2CSharp", "..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj", "{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMETA.Interchange", "..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj", "{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyPhy2Modelica_v2", "CyPhy2Modelica_v2\CyPhy2Modelica_v2.csproj", "{D2DEA0A5-78D5-4346-9C24-4CD7AE10B8AF}"
 EndProject

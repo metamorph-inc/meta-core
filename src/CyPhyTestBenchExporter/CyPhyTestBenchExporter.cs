@@ -150,7 +150,7 @@ namespace CyPhyTestBenchExporter
 
             var avmTestBench = CyPhy2TestBenchInterchange.CyPhy2TestBenchInterchange.Convert(tb);
             var s_outFilePath = String.Format("{0}\\{1}.atm", s_outFolder, Safeify(tb.Name));
-            XSD2CSharp.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(s_outFolder, Safeify(tb.Name) + ".atm")), avmTestBench);
+            OpenMETA.Interchange.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(s_outFolder, Safeify(tb.Name) + ".atm")), avmTestBench);
 
             CheckForDuplicateIDs(avmTestBench);
 
@@ -195,7 +195,7 @@ namespace CyPhyTestBenchExporter
         public bool CheckForDuplicateIDs(avm.TestBench d)
         {
             //String str = d.Serialize();
-            String str = XSD2CSharp.AvmXmlSerializer.Serialize(d);
+            String str = OpenMETA.Interchange.AvmXmlSerializer.Serialize(d);
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(str);

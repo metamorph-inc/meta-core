@@ -299,7 +299,7 @@
     </DirectoryRef>
     
     <Component Directory="INSTALLDIR_BIN" Win64="no">
-      <File Source="..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\bin\Release\XSD2CSharp.dll"/>
+      <File Source="..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\bin\Release\OpenMETA.Interchange.dll"/>
     </Component>
     <Component Directory="INSTALLDIR_BIN" Win64="no">
       <File Source="..\src\CyPhyComponentImporter\bin\Release\CyPhy2ComponentModel.dll"/>
@@ -335,7 +335,7 @@
       <ComponentGroupRef Id='CyPhyCriticalityMeter'/>
       <ComponentGroupRef Id='CyphyDSEConverter'/>
       <ComponentGroupRef Id='CyPhyDSRefiner'/>
-      <ComponentRef Id='XSD2CSharp.dll' />
+      <ComponentRef Id='OpenMETA.Interchange.dll' />
       <ComponentRef Id='CyPhy2ComponentModel.dll' />
       <ComponentGroupRef Id='CyPhyComponentImporter' />
       <ComponentGroupRef Id='CyPhyComponentExporter' />

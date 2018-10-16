@@ -117,7 +117,7 @@ namespace META2AVM_Util
 
         public static Type[] getAVMClasses()
         {
-            return System.Reflection.Assembly.Load("XSD2CSharp").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
+            return System.Reflection.Assembly.Load("OpenMETA.Interchange").GetTypes().Where(t => t.IsClass).Where(t => t.Namespace.StartsWith("avm") && t.FullName != "avm.simulink.Port").ToArray();
         }
         /* Copy end */
 

@@ -257,7 +257,7 @@ namespace AVM.DDP
                 this.infoTextWriter.WriteLine("Exporting design {0}", designEntity.Name);
                 var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(designEntity);
                 //design.SaveToFile(Path.GetFullPath(Path.Combine(outputFolder, design.Name + ".adm")));
-                XSD2CSharp.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(outputFolder, design.Name + ".adm")), design);
+                OpenMETA.Interchange.AvmXmlSerializer.SaveToFile(Path.GetFullPath(Path.Combine(outputFolder, design.Name + ".adm")), design);
 
                 string designFileName = Path.Combine(".", Path.GetFileName(outputFolder), design.Name + ".adm").Replace('\\', '/');
                 if (designEntity is CyPhy.DesignContainer)

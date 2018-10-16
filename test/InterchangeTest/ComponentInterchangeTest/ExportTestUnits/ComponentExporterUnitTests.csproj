@@ -120,9 +120,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+    <ProjectReference Include="..\..\..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
-      <Name>XSD2CSharp</Name>
+      <Name>OpenMETA.Interchange</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\CyPhyComponentExporterCL\CyPhyComponentExporterCL.csproj">
       <Project>{F75AE9B3-C38F-410F-AA6F-6FDB981BB9AB}</Project>

@@ -126,7 +126,7 @@ namespace ComponentExporterUnitTests
                             {
                                 MemoryStream stream = new MemoryStream();
                                 generatedFile.FirstOrDefault().Extract(stream);
-                                component = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Component>(Encoding.UTF8.GetString(stream.ToArray()));
+                                component = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.Component>(Encoding.UTF8.GetString(stream.ToArray()));
                             }
                         }
                     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace XSD2CSharp
+namespace OpenMETA.Interchange
 {
     public static class AvmXmlSerializer
     {

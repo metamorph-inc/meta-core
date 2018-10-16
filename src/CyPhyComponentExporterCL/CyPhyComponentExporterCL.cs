@@ -135,7 +135,7 @@ namespace CyPhyComponentExporterCL {
                                 String s_outFilePath = String.Format("{0}/{1}.component.acm", componentPath, Safeify(cyPhyMLComponent.Name));
                                 using (FileStream stream = new FileStream(s_outFilePath, FileMode.Create))
                                 {
-                                    XSD2CSharp.AvmXmlSerializer.Serialize(avmComponent, stream);
+                                    OpenMETA.Interchange.AvmXmlSerializer.Serialize(avmComponent, stream);
                                     stream.Close();
                                 }
                                     

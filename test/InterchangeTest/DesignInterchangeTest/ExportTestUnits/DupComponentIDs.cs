@@ -101,7 +101,7 @@ namespace DesignExporterUnitTests
             var pathAdm = Path.Combine(DupComponentIDsFixture.PathTest,
                                        pathDE.Split('/').Last() + ".adm");
             var xml = File.ReadAllText(pathAdm);
-            var design = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Design>(xml);
+            var design = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.Design>(xml);
             Assert.NotNull(design);
 
             return design;

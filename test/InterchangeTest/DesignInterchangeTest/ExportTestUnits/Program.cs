@@ -185,9 +185,9 @@ namespace DesignExporterUnitTests
             Assert.True(RunCyPhyDesignExporter(mgaFile, designName) == 0, "Design Export failed");
 
             var exportedXml = Path.Combine(fullTestPath, designName + ".adm");
-            var design = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Design>(File.ReadAllText(exportedXml));
+            var design = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.Design>(File.ReadAllText(exportedXml));
             design.RootContainer.ComponentInstance.First().PrimitivePropertyInstance.First().Value.ID = "dontcare"; // this is regenerated with Guid.NewGuid in ensureIDAttribute every time
-            File.WriteAllText(exportedXml, XSD2CSharp.AvmXmlSerializer.Serialize(design));
+            File.WriteAllText(exportedXml, OpenMETA.Interchange.AvmXmlSerializer.Serialize(design));
             var desiredResultsXml = Path.Combine(fullTestPath, "expected.adm");
             Assert.True(RunXmlComparator(exportedXml, desiredResultsXml) == 0, "Output did not match expected");
         }
@@ -353,7 +353,7 @@ namespace DesignExporterUnitTests
 
             var exportedXml = Path.Combine(fullTestPath, designName + ".adm");
 
-            var design = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.Design>(File.ReadAllText(exportedXml));
+            var design = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.Design>(File.ReadAllText(exportedXml));
             var valueExpression = design.RootContainer.Property.Cast<avm.PrimitiveProperty>().First().Value.ValueExpression;
             Assert.True(valueExpression is avm.FixedValue, valueExpression.GetType().Name);
         }

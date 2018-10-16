@@ -89,7 +89,7 @@ namespace CyPhyComplexity
                     var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(sut);
                     //dm = MakeFakeModel();
                     //String json = dm.Serialize();
-                    String json = XSD2CSharp.AvmXmlSerializer.Serialize(dm);
+                    String json = OpenMETA.Interchange.AvmXmlSerializer.Serialize(dm);
                     int json_len = json.Length;
                     dm.SaveToFile(Path.Combine(OutputDirectory, dm.Name + ".adm"));
 

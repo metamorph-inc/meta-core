@@ -73,7 +73,7 @@ namespace CyPhyDesignExporterCL
 
                             var dm = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(de);
                             var outFilePath = String.Format("{0}\\{1}.adm", new FileInfo(options.MgaFile).DirectoryName, currentDesignName);
-                            XSD2CSharp.AvmXmlSerializer.SaveToFile(outFilePath, dm);
+                            OpenMETA.Interchange.AvmXmlSerializer.SaveToFile(outFilePath, dm);
                         }
 
                         #endregion

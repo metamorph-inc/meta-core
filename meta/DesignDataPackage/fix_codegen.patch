@@ -1,7 +1,7 @@
-diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
+diff --git b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/AssemblyDetails.designer.cs a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/AssemblyDetails.designer.cs
 index 10da714..bc991c8 100644
---- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
-+++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/AssemblyDetails.designer.cs
+--- b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/AssemblyDetails.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/AssemblyDetails.designer.cs
 @@ -4,14 +4,13 @@
  //    <NameSpace>AssemblyDetails</NameSpace><Collection>List</Collection><codeType>CSharp</codeType><EnableDataBinding>False</EnableDataBinding><EnableLazyLoading>False</EnableLazyLoading><TrackingChangesEnable>False</TrackingChangesEnable><GenTrackingClasses>False</GenTrackingClasses><HidePrivateFieldInIDE>False</HidePrivateFieldInIDE><EnableSummaryComment>False</EnableSummaryComment><VirtualProp>False</VirtualProp><IncludeSerializeMethod>True</IncludeSerializeMethod><UseBaseClass>False</UseBaseClass><GenBaseClass>False</GenBaseClass><GenerateCloneMethod>False</GenerateCloneMethod><GenerateDataContracts>False</GenerateDataContracts><CodeBaseTag>Net20</CodeBaseTag><SerializeMethodName>Serialize</SerializeMethodName><DeserializeMethodName>Deserialize</DeserializeMethodName><SaveToFileMethodName>SaveToFile</SaveToFileMethodName><LoadFromFileMethodName>LoadFromFile</LoadFromFileMethodName><GenerateXMLAttributes>True</GenerateXMLAttributes><EnableEncoding>False</EnableEncoding><AutomaticProperties>False</AutomaticProperties><GenerateShouldSerialize>False</GenerateShouldSerialize><DisableDebug>False</DisableDebug><PropNameSpecified>Default</PropNameSpecified><Encoder>UTF8</Encoder><CustomUsings>iFAB</CustomUsings><ExcludeIncludedTypes>True</ExcludeIncludedTypes><EnableInitializeFields>True</EnableInitializeFields>
  //  </auto-generated>
@@ -18,10 +18,10 @@ index 10da714..bc991c8 100644
      using System.IO;
      using System.Text;
      using System.Collections.Generic;
-diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
+diff --git b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.cyber.designer.cs a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.cyber.designer.cs
 index a89f339..4432f14 100644
---- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
-+++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.cyber.designer.cs
+--- b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.cyber.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.cyber.designer.cs
 @@ -23,9 +23,9 @@ namespace avm.cyber {
      [System.Xml.Serialization.XmlRootAttribute(Namespace="cyber", IsNullable=false)]
      public partial class CyberModel : DomainModel {
@@ -61,10 +61,10 @@ index a89f339..4432f14 100644
              get {
                  return this.parameterField;
              }
-diff --git b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
+diff --git b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.designer.cs a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.designer.cs
 index a425dee..de44aae 100755
---- b/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
-+++ a/META/meta/DesignDataPackage/lib/csharp/XSD2CSharp/generated/avm.designer.cs
+--- b/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.designer.cs
++++ a/META/meta/DesignDataPackage/lib/csharp/OpenMETA.Interchange/generated/avm.designer.cs
 @@ -2394,6 +2394,7 @@ namespace avm {
      
      [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]

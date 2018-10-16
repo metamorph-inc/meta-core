@@ -92,7 +92,7 @@ namespace CyPhyTestBenchImporter
                     {
                         using (var streamReader = new StreamReader(fileName))
                         {
-                            var avmTestBench = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.TestBench>(streamReader);
+                            var avmTestBench = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.TestBench>(streamReader);
                             CyPhy2TestBenchInterchange.TestBenchInterchange2CyPhy.Convert(avmTestBench, project);
                         }
                     }

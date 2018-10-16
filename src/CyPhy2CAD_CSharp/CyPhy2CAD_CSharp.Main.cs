@@ -73,7 +73,7 @@ namespace CyPhy2CAD_CSharp
                         string admDir = Path.Combine(cadSetting.OutputDirectory, "DesignADM");
                         if (!Directory.Exists(admDir))
                             Directory.CreateDirectory(admDir);
-                        XSD2CSharp.AvmXmlSerializer.SaveToFile(Path.Combine(admDir, TestBenchName + ".adm"), design);
+                        OpenMETA.Interchange.AvmXmlSerializer.SaveToFile(Path.Combine(admDir, TestBenchName + ".adm"), design);
                     }
                 }
                 // end META-1971

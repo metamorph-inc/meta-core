@@ -72,9 +72,9 @@
     <None Include="AssemblySignature.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\XSD2CSharp\XSD2CSharp.csproj">
+    <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{b4b9dc90-2857-4c8e-9bde-47ec4649122b}</Project>
-      <Name>XSD2CSharp</Name>
+      <Name>OpenMETA.Interchange</Name>
     </ProjectReference>
     <ProjectReference Include="..\CyPhy2TestBenchInterchange\CyPhy2TestBenchInterchange.csproj">
       <Project>{27086971-68be-427e-a6e0-5582bc06b18e}</Project>

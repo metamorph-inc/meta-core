@@ -639,7 +639,7 @@ namespace CyPhyComponentImporter
 
         public static avm.Component DeserializeAvmComponentXml(TextReader reader)
         {
-            return XSD2CSharp.AvmXmlSerializer.Deserialize<Component>(reader);
+            return OpenMETA.Interchange.AvmXmlSerializer.Deserialize<Component>(reader);
         }
 
         #region IMgaComponentEx Members

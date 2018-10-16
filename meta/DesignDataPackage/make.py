@@ -69,7 +69,7 @@ def make():
             call_xsd2code(abspath_Xsd2Code, 'avm.adamsCar.xsd')
 
             for cs in glob.glob('*.cs'):
-                shutil.copy2(cs, os.path.join('..', 'lib', 'csharp', 'XSD2CSharp', 'generated'))
+                shutil.copy2(cs, os.path.join('..', 'lib', 'csharp', 'OpenMETA.Interchange', 'generated'))
     else:
         print "ERROR: Xsd2Code cannot run on a non-Windows platform; skipping C# generation"
 

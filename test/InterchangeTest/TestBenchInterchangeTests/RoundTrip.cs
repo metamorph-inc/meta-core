@@ -33,7 +33,7 @@ namespace TestBenchInterchangeTests
                 CyPhyML.TestBenchType testBench;
                 using (StreamReader streamReader = new StreamReader(Path.Combine(AtmPath, tbName + ".atm")))
                 {
-                    avm.TestBench avmTestBench = XSD2CSharp.AvmXmlSerializer.Deserialize<avm.TestBench>(streamReader);
+                    avm.TestBench avmTestBench = OpenMETA.Interchange.AvmXmlSerializer.Deserialize<avm.TestBench>(streamReader);
                     testBench = CyPhy2TestBenchInterchange.TestBenchInterchange2CyPhy.Convert(avmTestBench, proj2);
                 }
             }
