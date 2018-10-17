@@ -313,7 +313,7 @@ namespace CyPhyMetaLink
                         addon.Project.AbortTransaction();
                     }
                 }
-                else if (cdata.Type == SyncedComponentData.EditType.Component)
+                else if (cdata.Type == SyncedComponentData.EditType.Design)
                 {
                     string designId = cdata.Id;
                     string xml;
