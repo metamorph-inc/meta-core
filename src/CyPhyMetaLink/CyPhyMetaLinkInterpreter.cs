@@ -288,6 +288,8 @@ namespace CyPhyMetaLink
                 new { key = "SOFTWARE\\JavaSoft\\Java Runtime Environment", view = RegistryView.Registry32 },
                 new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry64 },
                 new { key = "SOFTWARE\\JavaSoft\\Java Development Kit", view = RegistryView.Registry32 },
+                new { key = "SOFTWARE\\JavaSoft\\JDK", view = RegistryView.Registry64 },
+                new { key = "SOFTWARE\\JavaSoft\\JDK", view = RegistryView.Registry32 },
             })
             {
                 try
