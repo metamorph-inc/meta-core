@@ -127,7 +127,7 @@ namespace isis
 	//  in_StartingKeyPath - Creo 2.0 = "SOFTWARE\\Wow6432Node\\PTC\\Creo Parametric";
 	//	in_SupportedVersionPrefixes -			1.  2.  // This means 1.x, 2.x, but only enter 1., 2. 
 	//  in_SupportedVersionString_ForErrorMsg - 1.x, 2.x, or 3.x  // currently only support 1.x
-	//	out_CreoParametricInstallPath -			This should be short name.  e.g. C:\Progra~1\PTC\CREO1~1.0\PARAME~1\
+	//	out_CreoParametricInstallPath -			e.g. C:\Program Files\PTC\Creo 3.0\M060\Parametric\
 	//	out_CreoParametricCommMsgExe -			This should be long name.   e.g. C:\Program Files\PTC\Creo 1.0\Common Files\F000\x86e_win64\obj\pro_comm_msg 
 
 	void RetrieveFromRegistryCreoInstallLocations(
@@ -178,8 +178,8 @@ namespace isis
 
 		if ( versionNumber_vec.size() == 0 )
 		{
-			std::string TempError =   errorMsg_2 + 
-				std::string("Could not find registry keys subordinate to HKEY_LOCAL_MACHINE\\") + key_Creo_Parametric; 
+			std::string TempError =   errorMsg_2 +
+				std::string("Could not find registry keys subordinate to HKEY_LOCAL_MACHINE\\") + key_Creo_Parametric;
 			throw isis::application_exception(TempError.c_str());
 		}
 
@@ -201,33 +201,35 @@ namespace isis
 				std::string("Could not find key HKEY_LOCAL_MACHINE\\") + key_Temp; 
 			throw isis::application_exception(TempError.c_str());
 		}
-		subKeys_vec.empty();
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		// Get Subkeys of in_StartingKeyPath\1.0   could be 1.1, 2.0 ...
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		subKeys_vec.clear();
-		RetrieveRegistryListOfSubkeys( hKey, subKeys_vec );
-		RegCloseKey(hKey);
+		if (versionNumber_vec[versionNumber_vec.size() - 1 ].find("5.") == 0) {
+			RegCloseKey(hKey);
+		} else {
+			subKeys_vec.clear();
+			RetrieveRegistryListOfSubkeys( hKey, subKeys_vec );
+			RegCloseKey(hKey);
 
-		if ( subKeys_vec.size() == 0 )
-		{
-			std::string TempError =  errorMsg_2 + 
-				std::string("Could not find registry keys subordinate to HKEY_LOCAL_MACHINE\\") + key_Temp; 
-			throw isis::application_exception(TempError.c_str());
+			if ( subKeys_vec.size() == 0 )
+			{
+				std::string TempError =  errorMsg_2 +
+					std::string("Could not find registry keys subordinate to HKEY_LOCAL_MACHINE\\") + key_Temp;
+				throw isis::application_exception(TempError.c_str());
+			}
+
+
+			//for ( std::vector<std::string>::const_iterator i(subKeys_vec.begin()); i != subKeys_vec.end(); ++i )
+			//{
+			//	std::cout << std::endl << *i;
+			//}
+
+			// Sort the keys, so that the highest key (highest Creo Version) could be selected.
+			std::sort( subKeys_vec.begin(), subKeys_vec.end() );
+
+			key_Temp = key_Temp + "\\" + subKeys_vec[subKeys_vec.size() - 1 ];
 		}
-
-
-		//for ( std::vector<std::string>::const_iterator i(subKeys_vec.begin()); i != subKeys_vec.end(); ++i )
-		//{
-		//	std::cout << std::endl << *i;
-		//}
-
-		// Sort the keys, so that the highest key (highest Creo Version) could be selected.
-		std::sort( subKeys_vec.begin(), subKeys_vec.end() );
-
-		key_Temp = key_Temp + "\\" + subKeys_vec[subKeys_vec.size() - 1 ];
-
 		//std::cout << std::endl << key_Temp;
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -337,12 +339,14 @@ namespace isis
 			std::string creoParametricInstallPath;
 			std::string creoParametricCommMsgExe;
 			
-			try // Creo 3.0
-			{   
+			try
+			{
 				std::string in_StartingKeyPath = "SOFTWARE\\Wow6432Node\\PTC\\PTC Creo Parametric";
 				std::vector<std::string>	supportedVersionPrefixes;
-				std::string					supportedVersionString_ForErrorMsg = "3.x";  // e.g. 1.x, 2.x, or 3.x  
-				supportedVersionPrefixes.push_back("3.");  // 
+				std::string					supportedVersionString_ForErrorMsg = "3, 4 or 5";  // e.g. 1.x, 2.x, or 3.x
+				supportedVersionPrefixes.push_back("3.");
+				supportedVersionPrefixes.push_back("4.");
+				supportedVersionPrefixes.push_back("5.");
 				isis::RetrieveFromRegistryCreoInstallLocations( in_StartingKeyPath,
 																supportedVersionPrefixes,
 																supportedVersionString_ForErrorMsg,
@@ -354,7 +358,7 @@ namespace isis
 			{
 				std::stringstream errorString;
 				errorString <<
-						"Could not find an installation of Creo 3.0.  Creo 2.0 and earlier are no longer supported, "
+						"Could not find an installation of Creo 3, 4 or 5.  Creo 2.0 and earlier are no longer supported, "
 						<< std::endl << ex_Creo_3.what();
 						throw isis::application_exception(errorString.str());
 			}
