@@ -220,7 +220,7 @@ namespace CyPhyComponentAuthoring
                 // scan each class in the current assembly
                 foreach (Type classtype in thisAssembly.GetTypes())
                 {
-                    send_to_logger(String.Format("Found class {0}", classtype.ToString()), testonly);
+                    // send_to_logger(String.Format("Found class {0}", classtype.ToString()), testonly);
 
                     // Linq query to get all CATModules
                     var CATModulesQuery = classtype.GetCustomAttributes(true)
@@ -230,13 +230,13 @@ namespace CyPhyComponentAuthoring
 
                     foreach (var CATMod in CATModulesQuery)
                     {
-                        send_to_logger(String.Format("Found CATModule {0}", CATMod.ToString()), testonly);
+                        send_to_logger(String.Format("Found CATModule class {0}", classtype.ToString()), testonly);
 
                         // get a list of all the methods in the class
                         // scan each method in the class for custom attributes
                         foreach (MethodInfo meth in classtype.GetMethods())
                         {
-                            send_to_logger(String.Format("Found method {0}", meth.ToString()), testonly);
+                            // send_to_logger(String.Format("Found method {0}", meth.ToString()), testonly);
 
                             // Get the custom attributes for this method.
                             // If it has the CATName attribute, we'll add it as a button.

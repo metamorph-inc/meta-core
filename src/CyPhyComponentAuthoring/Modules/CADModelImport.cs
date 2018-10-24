@@ -350,9 +350,8 @@ namespace CyPhyComponentAuthoring.Modules
                             // iterate through each file listed in the resourcedependency section
                             while (reader.ReadToFollowing("ResourceDependency") == true)
                             {
-                                string res_name = reader.GetAttribute("Name");
                                 string res_path = reader.GetAttribute("Path");
-                                this.Logger.WriteDebug("Copying this file: " + res_path + "\\" + res_name);
+                                this.Logger.WriteDebug("Copying this file: " + res_path);
 
                                 // CAD files end in .1 .2 etc. Pick the latest ones
                                 var allFiles = Directory.EnumerateFiles(Path.GetDirectoryName(res_path), "*prt." /*n.b. literal dot*/ + "*")
@@ -370,7 +369,7 @@ namespace CyPhyComponentAuthoring.Modules
                                         string latestFilename = latest.basename + "." + latest.version;
                                         // Need to limit this down to just the filename in question
                                         // The XML file changes the name to all caps, so compare apples to apples
-                                        if (latestFilename.ToUpper().StartsWith(res_name.ToUpper()))
+                                        if (latestFilename.ToUpperInvariant().StartsWith(Path.GetFileName(res_path).ToUpperInvariant()))
                                         {
                                             string destpathandname = Path.Combine(finalPathName, latestFilename);
                                             if (!importedCADFiles.Contains(Path.Combine("CAD", Path.GetFileName(destpathandname))))
