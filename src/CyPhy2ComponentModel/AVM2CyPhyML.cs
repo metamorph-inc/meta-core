@@ -1253,7 +1253,11 @@ namespace AVM2CyPhyML
         {
             var incomingCyPhys = ad_mux.Source.Select(x =>
             {
-                var avmSourceValueNodeWithOwner = _avmValueNodeIDMap[x];
+                KeyValuePair<avm.ValueNode, object> avmSourceValueNodeWithOwner;
+                if (!_avmValueNodeIDMap.TryGetValue(x, out avmSourceValueNodeWithOwner))
+                {
+                    throw new ApplicationException(String.Format("Could not find value end {0}", x));
+                }
                 var avmValue = avmSourceValueNodeWithOwner.Key;
                 var avmSourceValueNodeOwner = avmSourceValueNodeWithOwner.Value;
 

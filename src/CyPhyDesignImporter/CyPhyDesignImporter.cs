@@ -86,6 +86,10 @@ namespace CyPhyDesignImporter
                 bool containsNonCompound = false;
                 Queue<avm.Container> containers = new Queue<avm.Container>();
                 containers.Enqueue(ad_import.RootContainer);
+                if (ad_import.RootContainer == null)
+                {
+                    throw new ApplicationException("No RootContainer, or unknown RootContainer type");
+                }
                 while (containers.Count > 0)
                 {
                     avm.Container container = containers.Dequeue();
@@ -378,6 +382,10 @@ namespace CyPhyDesignImporter
                 {
                     throw new ApplicationException(String.Format("Error: more than one PrimitivePropertyInstance with ID '{0}' in '{1}'. Run the ComponentExporter to fix.",
                         ad_propinstance.IDinComponentModel, ad_componentinstance.Name));
+                }
+                if (cyphy_componentPort == null)
+                {
+                    throw new ApplicationException(String.Format("Cannot find {0} in {1}", ad_propinstance.IDinComponentModel, cyphy_component.Name));
                 }
 
                 _avmCyPhyMLObjectMap.Add(ad_propinstance, new KeyValuePair<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>(cyphy_componentref, cyphy_componentPort));
