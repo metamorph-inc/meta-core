@@ -20,7 +20,7 @@ class SMOPEngine(object):
         pass
 
     def __getattr__(self, name):
-        def invoke(*args, **kwargs):
+        def invoke(args, **kwargs):
             code = self.cache.get(name)
             if not code:
 

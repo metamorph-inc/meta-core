@@ -6,6 +6,7 @@ import os.path
 import json
 import re
 import six
+import difflib
 
 import smop
 import smop.parse
@@ -68,7 +69,11 @@ class MatlabWrapper(Component):
                         self._input_names.append(name)
                         self.add_param(name, val=map_type(type_, name)(), pass_by_obj=pass_by_obj)
             if not (self._output_names or self._input_names):
-                raise ValueError("'{}' does not define a top-level function '{}' and does not specify 'variable:' in the first comments".format(mFile, mFile))
+                msg = "'{}' does not define a top-level function named '{}' and does not specify 'variable:' in the first comments".format(mFile, self.basename)
+                close_matches = difflib.get_close_matches(self.basename, [f.head.ident.name for f in func_list if type(f) == smop.node.function], 2)
+                if close_matches:
+                    msg += ". Closest function name: {}".format(" or ".join(close_matches))
+                raise ValueError(msg)
 
         if start_engine:
             from matlab_proxy import get_matlab_engine
