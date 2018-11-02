@@ -218,12 +218,14 @@ namespace CyPhyElaborateCS
                         }
                     }
 
+
                     this.Logger.WriteInfo("ConnectorUnroller finished");
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.WriteError("ConnectorUnroller failed. Check log for details.");
+                    this.Logger.WriteInfo(ex.Message);
                     this.Logger.WriteDebug(ex.ToString());
+                    this.Logger.WriteError("ConnectorUnroller failed. Check " + SmartLogger.GetGMEConsoleFileLink(this.Logger.LogFilenames[0], "detailed log") + " for details.");
                     success = false;
                 }
                 sw.Stop();
@@ -475,7 +477,7 @@ namespace CyPhyElaborateCS
         }
 
         [ComVisible(false)]
-        public CyPhyGUIs.GMELogger Logger { get; set; }
+        public CyPhyGUIs.SmartLogger Logger { get; set; }
 
         #region IMgaComponentEx Members
 
@@ -508,8 +510,9 @@ namespace CyPhyElaborateCS
 
                 if (this.Logger == null)
                 {
-                    this.Logger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
-                    this.Logger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
+                    GMELogger gmeLogger;
+                    this.Logger = gmeLogger = new CyPhyGUIs.GMELogger(project, this.ComponentName);
+                    gmeLogger.GMEConsoleLoggingLevel = this.Convert(param) == ComponentStartMode.GME_SILENT_MODE ?
                         CyPhyGUIs.SmartLogger.MessageType_enum.Warning :
                         CyPhyGUIs.SmartLogger.MessageType_enum.Info;
                     this.Logger.LoggingLevel = SmartLogger.MessageType_enum.Info;

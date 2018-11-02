@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Security;
+using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace CyPhyGUIs
 {
@@ -211,6 +214,27 @@ namespace CyPhyGUIs
             {
                 textWriter.Dispose();
             }
+        }
+
+        public static string EscapeJavascriptString(string input)
+        {
+            return Regex.Replace(input, "(\\\\|'|[^ -~])", m => String.Format("\\u{0:X4}", (int)m.Groups[0].Value[0]));
+        }
+
+        public static string GetGMEConsoleFileLink(string file, string linkText = null)
+        {
+            linkText = linkText ?? file;
+            string escapedLinkText = SecurityElement.Escape(linkText);
+            // make file absolute
+            file = Path.Combine(Environment.CurrentDirectory, file);
+
+            XmlDocument doc = new XmlDocument();
+            var a = doc.CreateElement("a");
+            a.SetAttribute("href", String.Format("javascript:(new ActiveXObject('shell.application')).ShellExecute('explorer.exe', '/select,{0}');",
+                EscapeJavascriptString(file)));
+            a.InnerText = linkText;
+            doc.AppendChild(a);
+            return doc.InnerXml;
         }
     }
 }

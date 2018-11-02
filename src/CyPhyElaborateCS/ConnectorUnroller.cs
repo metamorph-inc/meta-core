@@ -13,7 +13,7 @@ namespace CyPhyElaborateCS
 {
     public class Unroller : IDisposable
     {
-        public Unroller(MgaProject proj, IMgaTraceability Traceability = null, GMELogger Logger = null)
+        public Unroller(MgaProject proj, IMgaTraceability Traceability = null, SmartLogger Logger = null)
         {
             this.ConnectorsProcessed = new List<MgaModel>();
             this.ConnectorToStandalonePortMap = new Dictionary<MgaModel, List<PortWrapper>>();
@@ -69,7 +69,7 @@ namespace CyPhyElaborateCS
 
         public IMgaTraceability Traceability { get; private set; }
         private Boolean myLogger;
-        public GMELogger Logger { get; private set; }
+        public SmartLogger Logger { get; private set; }
 
         /// <summary>
         /// For a given Connector (the key), the list contains all the standalone ports created from it.
@@ -244,14 +244,14 @@ namespace CyPhyElaborateCS
             #endregion
             Logger.WriteDebug("VisitComponent: {0}", comp.AbsPath);
 
-            if (componentsProcessed.Contains(comp))
+            if (componentsProcessed.Add(comp) == false)
             {
                 Logger.WriteDebug("VisitComponent: Skipping (already processed) {0}", comp.AbsPath);
 
                 return;
             }
 
-            // Is this an instance?
+            // Is this an instance or subtype?
             // If so, process the archetype only.
             if (comp.ArcheType != null)
             {
@@ -259,8 +259,6 @@ namespace CyPhyElaborateCS
 
                 var archetype = comp.ArcheType as MgaModel;
                 VisitComponent(archetype);
-
-                return;
             }
 
             foreach (MgaModel connector in comp.GetChildrenOfKind("Connector"))
@@ -460,7 +458,7 @@ namespace CyPhyElaborateCS
         // What do we have to do here now?
         // Well, if this connector has instances, we need to add port maps for those things too.
         // Then those connectors need to be visited to connections can be adjusted.
-        private void VisitConnector(MgaModel connector)
+        private void VisitConnector(MgaModel connector, bool deleteLater=true)
         {
             #region Check arguments
             if (connector == null)
@@ -471,7 +469,11 @@ namespace CyPhyElaborateCS
             {
                 throw new ArgumentException("Input parameter was not a connector.", "connector");
             }
-            if (ConnectorsProcessed.Contains(connector))
+            if (deleteLater)
+            {
+                ConnectorsProcessed.Add(connector);
+            }
+            if (ConnectorToStandalonePortMap.ContainsKey(connector))
             {
                 return;
             }
@@ -480,10 +482,24 @@ namespace CyPhyElaborateCS
 
             ConnectorToStandalonePortMap.Add(connector, new List<PortWrapper>());
             var parent = connector.ParentModel;
+            if (parent == null)
+            {
+                var parentFolder = connector.ParentFolder;
+                if (parentFolder.IsLibObject)
+                {
+                    parentFolder = connector.Project.RootFolder.CreateFolder(connector.Meta.MetaProject.RootFolder.DefinedFolderByName["Connectors", true]);
+                    parentFolder.Name = "tmp_port_holders";
+                }
+                parent = (MgaModel)parentFolder.CreateRootObject(connector.Meta);
+                parent.Name = connector.Name + "_port_holder";
+            }
             
-            Boolean connectorIsArchetype = (connector.ArcheType == null);
-            Boolean parentIsArchetype = (parent.ArcheType == null);
-            if (parentIsArchetype)
+            bool connectorIsArchetype = (connector.ArcheType == null);
+            if (connectorIsArchetype == false)
+            {
+                VisitConnector((MgaModel)connector.ArcheType, deleteLater=false);
+            }
+            if (connectorIsArchetype || connector.IsPrimaryDerived)
             {
                 Logger.WriteDebug("VisitConnector: Processing with parent as Archetype");
 
@@ -496,7 +512,8 @@ namespace CyPhyElaborateCS
                     Logger.WriteDebug("VisitConnector: Processing connector as Derived");
                     Logger.WriteDebug("VisitConnector: Setting connector's local attributes and detaching");
 
-                    SetAttributesLocally(connector as MgaFCO);
+                    // FIXME: this should not be necessary since GME Fri Nov 10 22:01:54 2017 +0000
+                    // SetAttributesLocally(connector as MgaFCO);
                     connector.DetachFromArcheType();
                 }
 
@@ -605,13 +622,12 @@ namespace CyPhyElaborateCS
                 }
             }
 
-            foreach (MgaModel derivedConnector in connector.DerivedObjects)
+            // don't do more work than necessary
+            // foreach (MgaModel derivedConnector in connector.DerivedObjects)
             {
-                Logger.WriteDebug("VisitConnector: Visiting derived connector {0}", derivedConnector.AbsPath);
-                VisitConnector(derivedConnector);
+                // Logger.WriteDebug("VisitConnector: Visiting derived connector {0}", derivedConnector.AbsPath);
+                // VisitConnector(derivedConnector);
             }
-
-            ConnectorsProcessed.Add(connector);
         }
 
         private void VisitTestBench(MgaModel testbench)

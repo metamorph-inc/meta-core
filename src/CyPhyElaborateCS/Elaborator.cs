@@ -71,7 +71,7 @@
         /// <summary>
         /// Gets the Logger.
         /// </summary>
-        public CyPhyGUIs.GMELogger Logger { get; private set; }
+        public CyPhyGUIs.SmartLogger Logger { get; private set; }
 
         /// <summary>
         /// Gets or sets Component Assembly on which the elaboration will be performed.
@@ -104,7 +104,7 @@
         /// <returns>A new instance of a context aware elaborator.</returns>
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
-        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
+        public static Elaborator GetElaborator(MgaModel subject, CyPhyGUIs.SmartLogger logger, bool UnrollConnectors)
         {
             if (subject == null)
             {
@@ -165,7 +165,7 @@
         /// <exception cref="ArgumentNullException">If subject or logger null.</exception>
         /// <exception cref="NotSupportedException">If subject does not have an associated elaborator class.</exception>
         /// <exception cref="InvalidCastException">If the created elaborator cannot be casted to the requested type.</exception>
-        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.GMELogger logger, bool UnrollConnectors)
+        public static T GetElaborator<T>(MgaModel subject, CyPhyGUIs.SmartLogger logger, bool UnrollConnectors)
             where T : Elaborator
         {
             return (T)GetElaborator(subject, logger, UnrollConnectors);
