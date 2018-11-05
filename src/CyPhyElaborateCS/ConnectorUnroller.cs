@@ -15,7 +15,6 @@ namespace CyPhyElaborateCS
     {
         public Unroller(MgaProject proj, IMgaTraceability Traceability = null, SmartLogger Logger = null)
         {
-            this.ConnectorsProcessed = new List<MgaModel>();
             this.ConnectorToStandalonePortMap = new Dictionary<MgaModel, List<PortWrapper>>();
 
             SupportedPortTypesMeta = new HashSet<int>();
@@ -80,7 +79,7 @@ namespace CyPhyElaborateCS
         /// A running list of all Connectors processed since the Unroller was instantiated.
         /// Used during the cleanup phase to delete empty connectors and port "originals".
         /// </summary>
-        private List<MgaModel> ConnectorsProcessed;
+        private ISet<MgaModel> ConnectorsProcessed = new HashSet<MgaModel>();
 
         /// <summary>
         /// A handy empty array of MgaFCOs
@@ -145,7 +144,7 @@ namespace CyPhyElaborateCS
         {
             Logger.WriteDebug("DeleteConnectorsAndPorts");
 
-            foreach (var connector in ConnectorsProcessed.Where(c => c.IsInstance == false && c.ArcheType == null))
+            foreach (var connector in ConnectorsProcessed.Where(c => c.Status == 0 && c.IsInstance == false && c.ArcheType == null))
             {
                 foreach (MgaFCO port in connector.ChildObjects)
                 {
