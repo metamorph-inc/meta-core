@@ -330,7 +330,10 @@ namespace CyPhyComponentAuthoring.Modules
 
                     // copy the selected file
                     string cadFileCopyPath = System.IO.Path.Combine(finalPathName, cpsrcfile);
-                    System.IO.File.Copy(cadFilename, cadFileCopyPath, true);
+                    if (Path.GetFullPath(cadFilename) != Path.GetFullPath(cadFileCopyPath))
+                    {
+                        System.IO.File.Copy(cadFilename, cadFileCopyPath, true);
+                    }
 
                     // Set "primary" file as the first in the list.
                     importedCADFiles.Add(Path.Combine("CAD", Path.GetFileName(cadFileCopyPath)));
@@ -376,7 +379,11 @@ namespace CyPhyComponentAuthoring.Modules
                                             {
                                                 importedCADFiles.Add(Path.Combine("CAD", Path.GetFileName(destpathandname)));
                                             }
-                                            File.Copy(Path.Combine(Path.GetDirectoryName(res_path), latestFilename), destpathandname, true);
+                                            var sourcepathandname = Path.Combine(Path.GetDirectoryName(res_path), latestFilename);
+                                            if (Path.GetFullPath(sourcepathandname) != Path.GetFullPath(destpathandname))
+                                            {
+                                                File.Copy(sourcepathandname, destpathandname, true);
+                                            }
                                             break;
                                         }
                                     }
