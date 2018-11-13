@@ -77,7 +77,7 @@ namespace CADCreoTest
 
 
                 var resourceDependency = doc.SelectSingleNode("/avm:Component/ResourceDependency", names);
-                Assert.Equal(inputPrt.ToLowerInvariant(), Path.Combine(resourceDependency.Attributes["Path"].Value, resourceDependency.Attributes["Name"].Value + ".1").ToLowerInvariant());
+                Assert.Equal(inputPrt.ToLowerInvariant(), (resourceDependency.Attributes["Path"].Value + ".1").ToLowerInvariant());
             }
             finally
             {
