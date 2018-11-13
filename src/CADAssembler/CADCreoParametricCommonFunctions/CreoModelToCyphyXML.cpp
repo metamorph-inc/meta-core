@@ -20,6 +20,7 @@ namespace isis
 {
 	void Component::write(ostream &s, int tab) const 
 	{
+		s << "<?xml version=\"1.0\"?>\n";
 		s << string(tab,'\t') << "<ns1:Component xmlns:ns1=\"avm\" xmlns:ns2=\"modelica\" xmlns:ns3=\"cad\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ID=\"" << avmid << "\" Name=\"" << name << "\" Version=\"" << version << "\">" << endl;
 		cadmodel.write(s, tab+1);
 		for (vector<ResourceDep>::const_iterator it = resources.begin(); it != resources.end(); ++it)
@@ -73,7 +74,6 @@ namespace isis
 		return string(wstr.begin(),wstr.end());
 	}
 
-	
 	static string GetDatumTypeStr(ProFeattype type)
 	{
 		switch (type)
@@ -113,7 +113,7 @@ namespace isis
 		}
 	}
 
-	string getExtension(ProMdlType p_type)
+	static string getExtension(ProMdlType p_type)
 	{
 		switch (p_type)
 		{
@@ -129,6 +129,28 @@ namespace isis
 	bool IsDatumType(ProFeattype type)
 	{
 		return (type == PRO_FEAT_DATUM || type == PRO_FEAT_DATUM_AXIS || type == PRO_FEAT_DATUM_POINT || type == PRO_FEAT_CSYS);
+	}
+
+	static std::string getAbsolutePath(ProMdl& mdl) {
+		ProMdlType p_type;
+		ProMdlTypeGet(mdl, &p_type);
+		if (p_type == PRO_MDL_ASSEMBLY || p_type == PRO_MDL_PART)
+		{
+			ProName name;
+			ProMdlNameGet(mdl, name);
+			ProMdldata p_data;
+
+			ProMdlDataGet(mdl, &p_data);
+			if (wcslen(p_data.device)) {
+				return getStrFromWstr(p_data.device) + ":" + getStrFromWstr(p_data.path) + getStrFromWstr(name) + getExtension(p_type);
+			}
+			else {
+				wchar_t currentDir[MAX_PATH] = { 0 };
+				GetCurrentDirectoryW(_countof(currentDir), currentDir);
+				return getStrFromWstr(currentDir) + "\\" + getStrFromWstr(p_data.path) + getStrFromWstr(name) + getExtension(p_type);
+			}
+		}
+		return "";
 	}
 
 	static ProError FeatVisitCompOnly (ProFeature* p_feature, ProError status, ProAppData app_data)
@@ -148,13 +170,11 @@ namespace isis
 				{
 					ProName name;
 					ProMdlNameGet (mdl, name);
-					ProMdldata p_data;
-				
-					ProMdlDataGet(mdl, &p_data);
+
 					if (!comp->resourceExists(getStrFromWstr(name)+getExtension(p_type)))
 					{
 						boost::uuids::uuid guid = boost::uuids::random_generator()();
-						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.device)+":"+getStrFromWstr(p_data.path) + getStrFromWstr(name) + getExtension(p_type)));
+						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getAbsolutePath(mdl)));
 					}
 					ProSolidFeatVisit(ProMdlToSolid(mdl), FeatVisitCompOnly, NULL, comp);
 				}
@@ -229,13 +249,11 @@ namespace isis
 				{
 					ProName name;
 					ProMdlNameGet (mdl, name);
-					ProMdldata p_data;
-				
-					ProMdlDataGet(mdl, &p_data);
+
 					if (!comp->resourceExists(getStrFromWstr(name)+getExtension(p_type)))
 					{
 						boost::uuids::uuid guid = boost::uuids::random_generator()();
-						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.device) + ":" + getStrFromWstr(p_data.path) + getStrFromWstr(name) + getExtension(p_type)));
+						comp->addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getAbsolutePath(mdl)));
 					}
 					ProSolidFeatVisit(ProMdlToSolid(mdl), FeatVisitCompOnly, NULL, comp);
 				}
@@ -395,7 +413,7 @@ namespace isis
 			if (!comp.resourceExists(getStrFromWstr(name)+getExtension(p_type)))
 			{
 				boost::uuids::uuid guid = boost::uuids::random_generator()();
-				comp.addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getStrFromWstr(p_data.device) + ":" + getStrFromWstr(p_data.path) + getStrFromWstr(name) + getExtension(p_type)));
+				comp.addResource(ResourceDep("id-"+boost::uuids::to_string(guid), getStrFromWstr(name)+getExtension(p_type), "", getAbsolutePath(mdl)));
 			}
 		}
 
