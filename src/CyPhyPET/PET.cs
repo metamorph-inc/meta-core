@@ -228,10 +228,11 @@ namespace CyPhyPET
                     {
                         throw new ApplicationException("For CSV File input, you must specify filename=r'file.csv' in the ParameterStudy's Code attribute");
                     }
+                    var projectDir = Path.GetDirectoryName(Path.GetFullPath(parameterStudy.Impl.Project.ProjectConnStr.Substring("MGA=".Length)));
                     string basename = Path.GetFileName((string)filename);
                     try
                     {
-                        File.Copy((string)filename, Path.Combine(outputDirectory, basename));
+                        File.Copy(Path.Combine(projectDir, (string)filename), Path.Combine(outputDirectory, basename));
                     }
                     catch (IOException e)
                     {
