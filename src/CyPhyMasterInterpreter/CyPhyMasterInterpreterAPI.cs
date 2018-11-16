@@ -15,6 +15,7 @@
     using System.Reflection;
     using System.Security;
     using System.Windows.Forms;
+    using CyPhyGUIs;
 
     /// <summary>
     /// Implements full master interpreter functionality.
@@ -676,10 +677,10 @@
                         // user master interpreter's result set in case user canceled the execution
                         foreach (var result in results)
                         {
-                            string message = string.Format(" {0} {1} <a href=\"file:///{2}\" target=\"_blank\">results folder</a> {3}",
+                            string message = string.Format(" {0} {1} {2} {3}",
                                 CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(result.Context, this.Logger.Traceability, true),
                                 CyPhyCOMInterfaces.TraceabilityExtensions.ToMgaHyperLink(result.Configuration, this.Logger.Traceability, true),
-                                result.OutputDirectory,
+                                SmartLogger.GetGMEConsoleFileLink(result.OutputDirectory, "results folder") ,
                                 SecurityElement.Escape(result.Message));
 
                             if (result.Success)
