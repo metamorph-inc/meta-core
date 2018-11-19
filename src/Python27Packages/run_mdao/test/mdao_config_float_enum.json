@@ -1,0 +1,55 @@
+{
+    "components": {
+        "PythonWrapper": {
+            "parameters": {
+                "y": {
+                    "source": [
+                        "ParameterStudyDriver",
+                        "a"
+                    ]
+                }
+            },
+            "unknowns": {
+                "f_xy": {}
+            },
+            "details": {
+                "filename": "paraboloid.py"
+            },
+            "type": "run_mdao.python_component.PythonComponent"
+        }
+    },
+
+
+    "drivers": {
+        "ParameterStudyDriver": {
+            "type": "parameterStudy",
+            "designVariables": {
+                "a": {
+                    "type": "enum",
+                    "items": [
+                        1.0,
+                        2.0
+                    ]
+                }
+            },
+            "objectives": {
+                "f_xy": {
+                    "source": [
+                        "PythonWrapper",
+                        "f_xy"
+                    ]
+                }
+            },
+            "details": {
+                "Code": "num_samples = 1",
+                "DOEType": "Full Factorial"
+            }
+        }
+    },
+    "subProblems": {},
+    "recorders": [{
+        "type": "DriverCsvRecorder",
+        "filename": "output.csv",
+        "include_id": false
+    }]
+}

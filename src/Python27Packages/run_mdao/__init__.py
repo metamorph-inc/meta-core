@@ -236,7 +236,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
             if var.get('type', 'double') == 'double':
                 top.driver.add_desvar(get_desvar_path(var_name), lower=var.get('RangeMin'), upper=var.get('RangeMax'))
             elif var['type'] == 'enum':
-                driver_vars.append((var_name, u'', {"pass_by_obj": True}))
+                driver_vars.append((var_name, var['items'][0], {"pass_by_obj": True}))
                 formatted_name = get_desvar_path(var_name)
                 top.driver.add_desvar(formatted_name)
                 top.driver._desvars[formatted_name]['type'] = var['type']
@@ -295,6 +295,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
                         initialVal = 0.0
                     elif desvar['type'] == 'enum':
                         initialVal = ''
+                        # TODO or maybe initialVal = 0.0
                     elif desvar['type'] == 'int':
                         initialVal = 0
                     else:
@@ -499,16 +500,26 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
 
         for recorder in mdao_config.get('recorders', [{'type': 'DriverCsvRecorder', 'filename': 'output.csv'}]):
             if recorder['type'] == 'DriverCsvRecorder':
-                mode = 'wb'
+                mode = 'w'
                 exists = os.path.isfile(recorder['filename'])
                 if RestartRecorder.is_restartable(original_dir) or append_csv:
-                    mode = 'ab'
-                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode), include_id=recorder.get('include_id', False))
+                    mode = 'a'
+                if six.PY2:
+                    mode += 'b'
+                    open_kwargs = {}
+                else:
+                    open_kwargs = {'newline': ''}
+                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode, **open_kwargs), include_id=recorder.get('include_id', False))
                 if (append_csv and exists) or mode == 'ab':
                     recorder._wrote_header = True
             elif recorder['type'] == 'AllCsvRecorder':
-                mode = 'wb'
-                recorder = CsvRecorder(out=open(recorder['filename'], mode))
+                mode = 'w'
+                if six.PY2:
+                    mode += 'b'
+                    open_kwargs = {}
+                else:
+                    open_kwargs = {'newline': ''}
+                recorder = CsvRecorder(out=io.open(recorder['filename'], mode, **open_kwargs))
             elif recorder['type'] == 'CouchDBRecorder':
                 recorder = CouchDBRecorder(recorder.get('url', 'http://localhost:5984/'), recorder['run_id'])
                 recorder.options['record_params'] = True

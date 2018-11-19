@@ -153,7 +153,7 @@ class TestBenchComponent(Component):
 
         manifest_metrics = {param['Name']: param for param in self._read_testbench_manifest()['Metrics']}
 
-        for metric_name in self.mdao_config['components'][self.name].get('unknowns', {}):
+        for metric_name, metric_config in six.iteritems(self.mdao_config['components'][self.name].get('unknowns', {})):
             testbench_metric = manifest_metrics.get(metric_name)
             if testbench_metric is not None:
                 value = testbench_metric['Value']
@@ -161,6 +161,9 @@ class TestBenchComponent(Component):
                     unknowns[metric_name] = numpy.array(value)
                 else:
                     unknowns[metric_name] = value
+                    if not isinstance(value, float) and metric_config.get('units') is not None:
+                        raise ValueError("TestBench '{}' produced {} for metric '{}', but it must be a float"
+                            .format(self.name, ('the empty string' if value == '' else repr(value)), metric_name))
             else:
                 manifest_fileoutput = self.manifest_fileoutputs.get(metric_name)
                 if manifest_fileoutput is None:

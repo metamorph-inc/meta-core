@@ -317,9 +317,9 @@ namespace CyPhyPETTest
 
             //Check output.csv results
             var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
-            Assert.True(lines[0] == "GUID,Average,FourthValue,Array,StrArray,Sentence,Number", "output.csv header doesn't match expected");
-            Assert.True(lines[1].Substring(37) == "16.3571428571,32.7142857143,\"[[7.0, 0.7142857142857143, 25.0, 32.714285714285715]]\",\"[[u'This', u'that']]\",This is a lot of that.,5.0", "output.csv values don't match expected values.");
-            Assert.True(lines[2].Substring(37) == "56.4166666667,112.833333333,\"[[12.0, 0.8333333333333334, 100.0, 112.83333333333333]]\",\"[[u'This', u'words.']]\",This is a lot of words..,10.0", "output.csv values don't match expected values.");
+            Assert.Equal("GUID,AnalysisError,Average,FourthValue,Array,StrArray,Sentence,Number", lines[0]);
+            Assert.Equal("16.357142857142858,32.714285714285715,\"[[7.0, 0.7142857142857143, 25.0, 32.714285714285715]]\",\"[[u'This', u'that']]\",This is a lot of that.,5.0", lines[1].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
+            Assert.Equal("56.416666666666664,112.83333333333333,\"[[12.0, 0.8333333333333334, 100.0, 112.83333333333333]]\",\"[[u'This', u'words.']]\",This is a lot of words..,10.0", lines[2].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
         }
 
         [Fact]
@@ -523,7 +523,7 @@ namespace CyPhyPETTest
 
             //Check output.csv results
             var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
-            Assert.True(lines[0] == "GUID,x,y,f_xy", "output.csv header doesn't match expected");
+            Assert.Equal("GUID,AnalysisError,x,y,f_xy", lines[0]);
 
             double[] expectedFxy = new double[] { 7422.0, 2822.0, 3222.0, 2122.0, 22.0, 2922.0, 1822.0, 2222.0, 7622.0 };
             int index = 0;
@@ -531,7 +531,7 @@ namespace CyPhyPETTest
             foreach (var line in lines.Skip(1))
             {
                 var values = line.Split(',');
-                Assert.True((Math.Abs(Convert.ToDouble(values[3]) - expectedFxy[index])) < Epsilon, "output.csv 'f_xy' fields don't match expected");
+                Assert.True((Math.Abs(Convert.ToDouble(values[4]) - expectedFxy[index])) < Epsilon, "output.csv 'f_xy' fields don't match expected");
                 index++;
             }
 
@@ -820,12 +820,12 @@ namespace CyPhyPETTest
 
             //Compare values in 'output.csv' to 'file_x.txt'
             var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
-            Assert.True(lines[0] == "GUID,x", "Header doesn't match.");
+            Assert.Equal("GUID,AnalysisError,x", lines[0]);
             foreach (var line in lines.Skip(1))
             {
                 var values = line.Split(',');
                 var filepath = Path.Combine(outputDir, "artifacts", values[0], "file_x.txt");
-                Assert.True(File.ReadAllLines(filepath)[0] == values[1], "Values didn't match between 'output.csv' and 'file_x.txt'.");
+                Assert.Equal(File.ReadAllLines(filepath)[0], values[2]); // "Values didn't match between 'output.csv' and 'file_x.txt'."
             }
         }
 
@@ -861,15 +861,15 @@ namespace CyPhyPETTest
 
             //Check output.csv results
             var lines = File.ReadAllLines(Path.Combine(outputDir, "output.csv"));
-            Assert.Equal("GUID,z,f_xy,constraint,x,y", lines[0]);
+            Assert.Equal("GUID,AnalysisError,z,f_xy,constraint,x,y", lines[0]);
 
             //Check final optimized answer
             var final_values = lines[lines.Count() - 1].Split(',');
-            Assert.Equal(6.6667, Double.Parse(final_values[1]), 4);
-            Assert.Equal(-27.3333, Double.Parse(final_values[2]), 4);
+            Assert.Equal(6.6667, Double.Parse(final_values[2]), 4);
             Assert.Equal(-27.3333, Double.Parse(final_values[3]), 4);
-            Assert.Equal(4.6667, Double.Parse(final_values[4]), 4);
-            Assert.Equal(-7.3333, Double.Parse(final_values[5]), 4);
+            Assert.Equal(-27.3333, Double.Parse(final_values[4]), 4);
+            Assert.Equal(4.6667, Double.Parse(final_values[5]), 4);
+            Assert.Equal(-7.3333, Double.Parse(final_values[6]), 4);
         }
 
 

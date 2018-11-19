@@ -19,7 +19,7 @@ class file_player(Component):
 
     def solve_nonlinear(self, params, unknowns, resids):
         with open('file.txt', 'w') as fout:
-            fout.write("{}\n".format(params['Number']))
+            fout.write("{}\n".format(repr(params['Number'])))
 
 if __name__ == "__main__":
 

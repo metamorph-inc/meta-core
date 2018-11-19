@@ -15,4 +15,4 @@ class FileProducer(Component):
         outfile_ref = unknowns['outfile']
 
         with outfile_ref.open('wb') as f:
-            f.write('sample data')
+            f.write('sample data'.encode('utf8'))

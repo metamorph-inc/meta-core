@@ -12,6 +12,8 @@ import unittest
 import contextlib
 import csv
 import hashlib
+import io
+import six
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -55,12 +57,19 @@ class RegressionTest(unittest.TestCase):
 
     def test_run_csv(self):
         import csv
-        with open(os.path.join(_this_dir, 'run_csv.csv'), 'rU') as csv_input_file:
-            with open(os.path.join(_this_dir, 'run_csv_input.csv'), 'wb') as csv_desvar_file:
+        import io
+        with io.open(os.path.join(_this_dir, 'run_csv.csv'), 'r', encoding='utf8', newline='') as csv_input_file:
+            mode = 'w'
+            if six.PY2:
+                mode += 'b'
+                open_kwargs = {}
+            else:
+                open_kwargs = {'newline': ''}
+            with io.open(os.path.join(_this_dir, 'run_csv_input.csv'), mode, **open_kwargs) as csv_desvar_file:
                 writer = csv.writer(csv_desvar_file)
                 reader = csv.reader(csv_input_file)
                 for row in reader:
-                    writer.writerow(row[0:2])
+                    writer.writerow(map(type(''), row[1:3]))
         with run_regression(os.path.join(_this_dir, 'run_csv.csv')):
             driver = run_mdao.drivers.CsvDriver(_this_dir, 'run_csv_input.csv')
             run_mdao.run('mdao_config_basic_CyPhy.json', override_driver=driver)
@@ -83,7 +92,7 @@ class RegressionTest(unittest.TestCase):
             headers = next(csvreader)
             for row in csvreader:
                 checksum_file = row[headers.index('checksum')]
-                checksum_expected = str(int(hashlib.md5('sample data').hexdigest(), 16))
+                checksum_expected = str(int(hashlib.md5('sample data'.encode('utf8')).hexdigest(), 16))
                 self.assertEqual(checksum_file, checksum_expected)
 
 
