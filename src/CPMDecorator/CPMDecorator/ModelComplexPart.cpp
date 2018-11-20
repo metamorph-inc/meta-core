@@ -499,10 +499,13 @@ void ModelComplexPart::InitializeEx(CComPtr<IMgaProject>& pProject, CComPtr<IMga
 
 		LoadPorts();
 
-		if (PETWrapperLookup(kind)) {
+
+		const auto petFileAttribute = PETWrapperLookup(kind);
+		if (petFileAttribute) {
 			button = std::unique_ptr<ModelButton>(new ModelButton());
 			button->callback = PETRefreshButtonClicked;
-			if (wcscmp(kind, L"ExcelWrapper") != 0)
+			if (wcscmp(kind, L"ExcelWrapper") != 0 &&
+				wcslen(m_spFCO->GetStrAttrByName(_bstr_t(PETWrapperLookup(kind)))) > 0)
 			{
 				button2 = std::unique_ptr<ModelButton>(new ModelButton());
 				button2->callback = PETEditButtonClicked;
@@ -821,7 +824,7 @@ bool ModelComplexPart::MouseLeftButtonDoubleClick(UINT nFlags, const CPoint& poi
 		if (kind.length() && PETWrapperLookup(kind))
 		{
 			proj->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr);
-			if (m_spFCO->GetStrAttrByName(PETWrapperLookup(kind)).length() > 0) {
+			if (m_spFCO->GetStrAttrByName(_bstr_t(PETWrapperLookup(kind))).length() > 0) {
 				; // use default action (open model)
 			}
 			else {
