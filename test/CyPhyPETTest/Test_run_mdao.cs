@@ -572,6 +572,27 @@ namespace CyPhyPETTest
             Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
         }
 
+        [Fact]
+        public void ConstantStrings()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@PETHierarchy/@" + GetCurrentMethod();
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal("Constant", config.components["Constants"].unknowns["AString"].value);
+            Assert.Equal("u'Constant'", config.subProblems["SubPET"].problemInputs["ProblemInput"].value);
+
+            Assert.Equal((new double[] { 1, 2, 3 }).ToArray(), ((JArray)config.components["Constants"].unknowns["AnArray"].value).Select(x => (double)x).ToArray());
+            Assert.Equal("[1, 2, 3, ]", config.subProblems["SubPET"].problemInputs["ArrProblemInput"].value);
+        }
+
 
         [Fact]
         public void Test_CyPhyPET_unit_matcher()

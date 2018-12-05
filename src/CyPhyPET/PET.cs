@@ -1327,12 +1327,70 @@ namespace CyPhyPET
                         }
                         else if (realSource.Meta.Name == typeof(CyPhy.Metric).Name)
                         {
-                            problemInput.value = CyPhyClasses.Metric.Cast(realSource).Attributes.Value;
+                            string value = CyPhyClasses.Metric.Cast(realSource).Attributes.Value;
+
                             // FIXME: move this to the checker
-                            if (problemInput.value == "")
+                            if (value == "")
                             {
                                 throw new ApplicationException(String.Format("Error: {0} must specify a Value", input.Name));
                             }
+                            // problemInput.value gets eval()ed in Python
+                            // problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
+                            Newtonsoft.Json.Linq.JToken parsedValue = Newtonsoft.Json.Linq.JToken.Parse(CyPhyClasses.Metric.Cast(realSource).Attributes.Value);
+                            Func<Newtonsoft.Json.Linq.JToken, string> convertValueToPythonString = null;
+                            convertValueToPythonString = v =>
+                            {
+                                if (v is Newtonsoft.Json.Linq.JValue)
+                                {
+                                    var jvalue = (Newtonsoft.Json.Linq.JValue)v;
+                                    switch (jvalue.Type)
+                                    {
+                                        case Newtonsoft.Json.Linq.JTokenType.Boolean:
+                                            return ((bool)jvalue) ? "True" : "False";
+                                        case Newtonsoft.Json.Linq.JTokenType.Integer:
+                                            return jvalue.ToString();
+                                        case Newtonsoft.Json.Linq.JTokenType.None:
+                                        case Newtonsoft.Json.Linq.JTokenType.Null:
+                                            return "None";
+                                        case Newtonsoft.Json.Linq.JTokenType.Float:
+                                            return FormatDoubleForPython((double)jvalue);
+                                        case Newtonsoft.Json.Linq.JTokenType.String:
+                                            return String.Format("u'{0}'", escapePythonString((string)jvalue));
+
+                                    }
+                                    return jvalue.ToString();
+                                }
+                                if (v is Newtonsoft.Json.Linq.JArray)
+                                {
+                                    var jarray = (Newtonsoft.Json.Linq.JArray)v;
+                                    StringBuilder ret = new StringBuilder();
+                                    ret.Append("[");
+                                    foreach (Newtonsoft.Json.Linq.JToken token in jarray)
+                                    {
+                                        ret.Append(convertValueToPythonString(token));
+                                        ret.Append(", ");
+                                    }
+                                    ret.Append("]");
+                                    return ret.ToString();
+                                }
+                                if (v is Newtonsoft.Json.Linq.JObject)
+                                {
+                                    var jobject = (Newtonsoft.Json.Linq.JObject)v;
+                                    StringBuilder ret = new StringBuilder();
+                                    ret.Append("{");
+                                    foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> entry in jobject)
+                                    {
+                                        ret.Append(String.Format("u'{0}'", escapePythonString(entry.Key)));
+                                        ret.Append(": ");
+                                        ret.Append(convertValueToPythonString(entry.Value));
+                                        ret.Append(", ");
+                                    }
+                                    ret.Append("}");
+                                    return ret.ToString();
+                                }
+                                throw new ApplicationException(String.Format("Unknown type in {0}", value));
+                            };
+                            problemInput.value = convertValueToPythonString(parsedValue);
                         }
                     }
                     string kind = realSourceParent.Meta.Name;
