@@ -27,7 +27,9 @@ pipeline {
                 bat($/cmd /c register_interpreters.cmd || git clean -xdf/$)
                 bat($/"c:\Program Files\Git\Usr\bin\find.exe" -iname \*UnmanagedRegistration.cache -print -delete/$)
                 bat($/Setlocal EnableDelayedExpansion
-rem Push_All_NuGet
+c:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild make.msbuild /t:DownloadNuGetPackages && exit /b 0
+
+
 c:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild make_CAD.msbuild /t:All /fl /m /nodeReuse:false || exit /b !ERRORLEVEL!
 
 pushd src\CADAssembler
