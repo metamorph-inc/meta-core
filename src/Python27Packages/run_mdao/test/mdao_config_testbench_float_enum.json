@@ -30,7 +30,7 @@
           "TestEnum": {
             "type": "enum",
             "items": [
-              0.0,
+              1.0,
               5.0
             ]
           }
@@ -44,9 +44,9 @@
         }
       },
       "details": {
-        "Code": "num_samples=2",
+        "Code": "num_samples=5\nseed=5",
         "SurrogateType": "None",
-        "DOEType": "Full Factorial"
+        "DOEType": "Uniform"
       }
     }
   }

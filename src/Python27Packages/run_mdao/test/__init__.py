@@ -16,6 +16,7 @@ import io
 import six
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
+run_mdao.CACHE_THRESHOLD_SECONDS = 0  # this enables caching for all TestBenchComponent runs
 
 
 @contextlib.contextmanager

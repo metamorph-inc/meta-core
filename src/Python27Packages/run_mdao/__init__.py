@@ -77,7 +77,7 @@ def _memoize_solve(component, fn):
         unknowns['_runtime'] = time.time() - start
         if time.time() - start >= CACHE_THRESHOLD_SECONDS:
             # memo[hashable] = {key: (value['val'].val if value.get('pass_by_obj', False) else value['val']) for key, value in six.iteritems(unknowns)}
-            memo[hashable] = {key: (value['val']) for key, value in six.iteritems(unknowns)}
+            memo[hashable] = {key: unknowns[key] for key in unknowns}
 
     return solve_nonlinear
 
