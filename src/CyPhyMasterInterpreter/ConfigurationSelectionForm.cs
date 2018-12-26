@@ -372,7 +372,14 @@ namespace CyPhyMasterInterpreter
 
                 desert.ComponentParameter["clearConsole"] = false;
                 desert.Initialize(project);
-                desert.InvokeEx(project, (MgaFCO)m_Input.designContainer.Impl, null, param);
+                try
+                {
+                    desert.InvokeEx(project, (MgaFCO)m_Input.designContainer.Impl, null, param);
+                }
+                catch (COMException e)
+                {
+                    MessageBox.Show(e.Message, "Desert Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 this.m_Input = m_inputFunc();
             });
