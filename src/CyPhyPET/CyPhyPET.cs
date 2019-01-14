@@ -531,6 +531,7 @@ namespace CyPhyPET
             if (this.Logger == null)
             {
                 var Logger = new CyPhyGUIs.GMELogger(this.mainParameters.Project, this.ComponentName);
+                Logger.Traceability = parameters.GetTraceability();
                 this.Logger = Logger;
                 disposeLogger = true;
                 if (this.mainParameters.VerboseConsole)
@@ -579,6 +580,7 @@ namespace CyPhyPET
             {
                 this.result.Success = false;
                 this.Logger.WriteError(String.Format("PET Interpreter failed: {0}", e.Message));
+                this.Logger.WriteDebug(String.Format("PET Interpreter failed: {0}", e));
             }
             catch (Exception e)
             {
@@ -1702,7 +1704,7 @@ namespace CyPhyPET
                 UseShellExecute = false,
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
-                Arguments = String.Format("-m {0} \"{1}\"", pythonModule, filename),
+                Arguments = String.Format("-E -m {0} \"{1}\"", pythonModule, filename),
             };
 
             getParamsAndUnknowns.Start();

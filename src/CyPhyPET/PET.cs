@@ -11,6 +11,7 @@ namespace CyPhyPET
 
     using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
     using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
+    using CyPhyCOMInterfaces;
     using System.Text.RegularExpressions;
     using System.Diagnostics;
     using CyPhyGUIs;
@@ -215,8 +216,16 @@ namespace CyPhyPET
                 {
                     config.details["DOEType"] = "Uniform";
                 }
-                // FIXME: do this in another thread
-                Dictionary<string, object> assignment = getPythonAssignment(parameterStudy.Attributes.Code);
+                Dictionary<string, object> assignment;
+                try
+                {
+                    // FIXME: do this in another thread
+                    assignment = getPythonAssignment(parameterStudy.Attributes.Code);
+                }
+                catch (JsonException e)
+                {
+                    throw new ApplicationException("Error parsing " + parameterStudy.Impl.ToMgaHyperLink(Logger.Traceability) + " Code", e);
+                }
                 long num_samples;
                 long num_levels;
                 object num_samplesObj;
@@ -334,7 +343,7 @@ namespace CyPhyPET
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true,
-                Arguments = "-c \"import sys, json;" +
+                Arguments = "-E -c \"import sys, json;" +
                     "assignment = {};" +
                     "eval(compile(sys.stdin.read(), '<driver Code>', 'exec'), globals(), assignment);" +
                     "print(json.dumps(assignment))\""
