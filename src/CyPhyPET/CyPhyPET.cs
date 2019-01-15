@@ -568,7 +568,7 @@ namespace CyPhyPET
                 if (this.result.Success)
                 {
                     this.Logger.WriteInfo("CyPhyPET finished successfully.");
-                    this.Logger.WriteInfo("Generated files are here: <a href=\"file:///{0}\" target=\"_blank\">{0}</a>", this.mainParameters.OutputDirectory);
+                    this.Logger.WriteInfo("Generated files are here: {0}", SmartLogger.GetGMEConsoleFileLink(parameters.OutputDirectory));
                     this.Logger.WriteDebug("[SUCCESS: {0}, Labels: {1}]", this.result.Success, this.result.Labels);
                 }
                 else

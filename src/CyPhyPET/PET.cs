@@ -1341,11 +1341,21 @@ namespace CyPhyPET
                             // FIXME: move this to the checker
                             if (value == "")
                             {
-                                throw new ApplicationException(String.Format("Error: {0} must specify a Value", input.Name));
+                                throw new ApplicationException(String.Format("Error: <a href=\"mga:{0}\">{1}</a> must specify a JSON Value",
+                                    realSource.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(realSource.Name)));
                             }
                             // problemInput.value gets eval()ed in Python
                             // problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
-                            Newtonsoft.Json.Linq.JToken parsedValue = Newtonsoft.Json.Linq.JToken.Parse(CyPhyClasses.Metric.Cast(realSource).Attributes.Value);
+                            Newtonsoft.Json.Linq.JToken parsedValue;
+                            try
+                            {
+                                parsedValue = Newtonsoft.Json.Linq.JToken.Parse(CyPhyClasses.Metric.Cast(realSource).Attributes.Value);
+                            }
+                            catch (JsonException e)
+                            {
+                                throw new ApplicationException(String.Format("Error: <a href=\"mga:{0}\">{1}</a> must specify a valid JSON Value",
+                                    realSource.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(realSource.Name)), e);
+                            }
                             Func<Newtonsoft.Json.Linq.JToken, string> convertValueToPythonString = null;
                             convertValueToPythonString = v =>
                             {
