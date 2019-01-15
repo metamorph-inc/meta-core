@@ -260,7 +260,7 @@ namespace CyPhyMasterInterpreter
 
                 foreach (var filename in this.Logger.LogFilenames)
                 {
-                    this.Logger.WriteInfo("Log file was generated here: <a href=\"file:///{0}\" target=\"_blank\">{1}</a>", Path.GetDirectoryName(filename), filename);
+                    this.Logger.WriteInfo("Log file was generated here: " + CyPhyGUIs.SmartLogger.GetGMEConsoleFileLink(filename));
                 }
 
                 this.Logger.WriteInfo("Master Interpreter 2.0 finished");
