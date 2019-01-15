@@ -2,6 +2,7 @@ import matlab_proxy
 import unittest
 from matlab_wrapper import MatlabWrapper
 from openmdao.api import FileRef
+import openmdao.api
 import numpy
 import os.path
 
@@ -40,6 +41,23 @@ class TestMatlabWrapper(unittest.TestCase):
 
         self.assertEqual(unknowns['z'], 7)
 
+    @unittest.skipUnless(matlab_proxy.get_preferred_matlab(), "Fails with PythonEngine: need smop support for `MException` and `error`")
+    def test_error(self):
+        c = MatlabWrapper(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test_error.m'))
+
+        def default(obj):
+            if isinstance(obj, FileRef):
+                return repr(obj)
+            if isinstance(obj, numpy.ndarray):
+                return repr(obj)
+            raise TypeError(repr(obj) + " is not JSON serializable")
+
+        unknowns = {}
+        c.solve_nonlinear({'mode': 0}, unknowns, {})
+        with self.assertRaises(openmdao.api.AnalysisError):
+            c.solve_nonlinear({'mode': 1}, unknowns, {})
+        with self.assertRaises(openmdao.api.AnalysisError):
+            c.solve_nonlinear({'mode': 2}, unknowns, {})
 
 class TestBareMatlabWrapper(unittest.TestCase):
 
