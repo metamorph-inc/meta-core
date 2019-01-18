@@ -22,7 +22,7 @@ pipeline {
                     powershell -ExecutionPolicy ByPass "(new-object net.webclient).DownloadFile('https://raw.githubusercontent.com/ksmyth/GitHub-Source-Indexer/master/github-sourceindexer.ps1', 'github-sourceindexer.ps1')" || exit /b 1
                     for /f "usebackq" %%x in (`git rev-parse HEAD`) do set HEAD=%%x
                     powershell -ExecutionPolicy unrestricted .\github-sourceindexer.ps1 -userId "metamorph-inc" -repository "meta-core" -symbolsFolder "%CD%\externals\desert" -branch %HEAD% -sourcesRoot "%CD%" -verbose -dbgToolsPath "'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64'" -ignoreUnknown -verifyLocalRepo
-                $/)
+                /$)
 
                 archiveArtifacts artifacts: 'externals/desert/bin/desert.dll,externals/desert/DesertDll/Release/desert.pdb,externals/desert/bin/DesertTool.exe,externals/desert/bin/DesertTool.pdb', onlyIfSuccessful: true
             }
