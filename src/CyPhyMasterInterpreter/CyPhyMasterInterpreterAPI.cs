@@ -1163,10 +1163,6 @@
                     this.Manager.StartJobManager(MgaExtensions.MgaExtensions.GetProjectDirectoryPath(this.Project));
                     this.Manager.JobCollection.ConfigurationNames = this.ConfigurationNames;
                 };
-                if (postToJobManager && this.Manager == null)
-                {
-                    createJobManagerResult = createJobManager.BeginInvoke(null, null);
-                }
 
                 AVM.DDP.MetaTBManifest.DesignType ddpDesign = null;
                 string ddpDesignName = null;
@@ -1187,6 +1183,22 @@
                     this.Logger.WriteDebug("Getting analysis model processor instance for {0} type", context.MetaBase.Name);
                     analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
                     this.Logger.WriteDebug("Got {0} for {1} {2}", analysisModelProcessor.GetType().Name, context.MetaBase.Name, context.AbsPath);
+
+                    if (this.IsInteractive)
+                    {
+                        analysisModelProcessor.ShowInterpreterConfigs(this.interpreterConfigurations);
+                        this.Logger.WriteDebug("Execution is interactive, showing interpreter configuration forms.");
+                    }
+                    else
+                    {
+                        analysisModelProcessor.ShowInterpreterConfigs(this.interpreterConfigurations, interactive: false);
+                        this.Logger.WriteDebug("Execution is non interactive, not showing interpreter configuration forms. Using settings from files.");
+                    }
+
+                    if (postToJobManager && this.Manager == null)
+                    {
+                        createJobManagerResult = createJobManager.BeginInvoke(null, null);
+                    }
 
                     this.OnSingleConfigurationProgress(new ProgressCallbackEventArgs()
                     {
@@ -1312,17 +1324,6 @@
                     Configuration = configurationName,
                     Title = "Model is ready for interpreters"
                 });
-
-                if (this.IsInteractive)
-                {
-                    this.Logger.WriteDebug("Execution is interactive, showing interpreter configuration forms.");
-                    analysisModelProcessor.ShowInterpreterConfigs(this.interpreterConfigurations);
-                }
-                else
-                {
-                    analysisModelProcessor.ShowInterpreterConfigs(this.interpreterConfigurations, interactive: false);
-                    this.Logger.WriteDebug("Execution is non interactive, not showing interpreter configuration forms. Using settings from files.");
-                }
 
                 analysisModelProcessor.InterpreterProgress += (object sender, InterpreterProgressEventArgs e) =>
                 {
