@@ -691,25 +691,34 @@ BOOL CDesertToolApp::InitInstance()
 		}//eo try
 		catch (CDesertException *e)
 		{
-			if (ftell(fdDcif))
+			if (fdDcif)
 			{
-				fprintf(fdDcif, "</DesertConfigurations>\n");
+				if (ftell(fdDcif))
+				{
+					fprintf(fdDcif, "</DesertConfigurations>\n");
+				}
+				fclose(fdDcif);
 			}
-			fclose(fdDcif);
-
-			e->ReportError();
+			if (isSilent) {
+				_ftprintf(stderr, _T("%s\n"), static_cast<const TCHAR*>(e->GetErrorMessage()));
+			}
+			else {
+				e->ReportError();
+			}
 			//	throw e;
 			returnCode = 1;
 			return FALSE;
 		}
 		catch (const udm_exception& e)
 		{
-			if (ftell(fdDcif))
+			if (fdDcif)
 			{
-				fprintf(fdDcif, "</DesertConfigurations>\n");
+				if (ftell(fdDcif))
+				{
+					fprintf(fdDcif, "</DesertConfigurations>\n");
+				}
+				fclose(fdDcif);
 			}
-			fclose(fdDcif);
-
 			if (m_lpCmdLine && command_arg_ok)
 				// FIXME: we are /SUBSYSTEM:WINDOWS; this likely won't go anywhere
 				std::cerr << std::string("Udm exception: ") + e.what() << std::endl;
