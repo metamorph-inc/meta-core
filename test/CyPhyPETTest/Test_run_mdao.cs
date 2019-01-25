@@ -573,6 +573,26 @@ namespace CyPhyPETTest
         }
 
         [Fact]
+        public void PythonMetricSyntax()
+        {
+            string outputDir = "results/" + GetCurrentMethod();
+            string petExperimentPath = "/@Testing/@PETHierarchy/@PythonMetricSyntax";
+
+            Assert.True(File.Exists(mgaFile), "Failed to generate the mga.");
+            var result = DynamicsTeamTest.CyPhyPETRunner.RunReturnFull(outputDir, mgaFile, petExperimentPath);
+
+            Assert.True(result.Item2.Success, "CyPhyPET failed.");
+
+            var configContents = File.ReadAllText(Path.Combine(result.Item1.OutputDirectory, "mdao_config.json"));
+            var config = JsonConvert.DeserializeObject<AVM.DDP.PETConfig>(configContents);
+
+            Assert.Equal("u''", config.subProblems["Subproblem"].problemInputs["a"].value);
+            Assert.Equal(true, config.subProblems["Subproblem"].problemInputs["a"].pass_by_obj);
+
+            Assert.Equal(petExperimentPath.Replace("@", ""), config.PETName);
+        }
+
+        [Fact]
         public void ConstantStrings()
         {
             string outputDir = "results/" + GetCurrentMethod();

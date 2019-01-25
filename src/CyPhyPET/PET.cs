@@ -1345,71 +1345,81 @@ namespace CyPhyPET
                                     realSource.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(realSource.Name)));
                             }
                             // problemInput.value gets eval()ed in Python
-                            // problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
-                            Newtonsoft.Json.Linq.JToken parsedValue;
-                            try
+                            if (realSourceParent.Meta.Name == typeof(CyPhy.PythonWrapper).Name
+                                || realSourceParent.Meta.Name == typeof(CyPhy.AnalysisBlock).Name
+                                || realSourceParent.Meta.Name == typeof(CyPhy.ExcelWrapper).Name
+                                || realSourceParent.Meta.Name == typeof(CyPhy.MATLABWrapper).Name)
                             {
-                                parsedValue = Newtonsoft.Json.Linq.JToken.Parse(CyPhyClasses.Metric.Cast(realSource).Attributes.Value);
+                                problemInput.value = value;
                             }
-                            catch (JsonException e)
+                            else
                             {
-                                throw new ApplicationException(String.Format("Error: <a href=\"mga:{0}\">{1}</a> must specify a valid JSON Value",
-                                    realSource.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(realSource.Name)), e);
-                            }
-                            Func<Newtonsoft.Json.Linq.JToken, string> convertValueToPythonString = null;
-                            convertValueToPythonString = v =>
-                            {
-                                if (v is Newtonsoft.Json.Linq.JValue)
+                                // problemInput.value = String.Format("u'{0}'", escapePythonString((string)configDesignVariable.items[0]));
+                                Newtonsoft.Json.Linq.JToken parsedValue;
+                                try
                                 {
-                                    var jvalue = (Newtonsoft.Json.Linq.JValue)v;
-                                    switch (jvalue.Type)
+                                    parsedValue = Newtonsoft.Json.Linq.JToken.Parse(CyPhyClasses.Metric.Cast(realSource).Attributes.Value);
+                                }
+                                catch (JsonException e)
+                                {
+                                    throw new ApplicationException(String.Format("Error: <a href=\"mga:{0}\">{1}</a> must specify a valid JSON Value",
+                                        realSource.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(realSource.Name)), e);
+                                }
+                                Func<Newtonsoft.Json.Linq.JToken, string> convertValueToPythonString = null;
+                                convertValueToPythonString = v =>
+                                {
+                                    if (v is Newtonsoft.Json.Linq.JValue)
                                     {
-                                        case Newtonsoft.Json.Linq.JTokenType.Boolean:
-                                            return ((bool)jvalue) ? "True" : "False";
-                                        case Newtonsoft.Json.Linq.JTokenType.Integer:
-                                            return jvalue.ToString();
-                                        case Newtonsoft.Json.Linq.JTokenType.None:
-                                        case Newtonsoft.Json.Linq.JTokenType.Null:
-                                            return "None";
-                                        case Newtonsoft.Json.Linq.JTokenType.Float:
-                                            return FormatDoubleForPython((double)jvalue);
-                                        case Newtonsoft.Json.Linq.JTokenType.String:
-                                            return String.Format("u'{0}'", escapePythonString((string)jvalue));
+                                        var jvalue = (Newtonsoft.Json.Linq.JValue)v;
+                                        switch (jvalue.Type)
+                                        {
+                                            case Newtonsoft.Json.Linq.JTokenType.Boolean:
+                                                return ((bool)jvalue) ? "True" : "False";
+                                            case Newtonsoft.Json.Linq.JTokenType.Integer:
+                                                return jvalue.ToString();
+                                            case Newtonsoft.Json.Linq.JTokenType.None:
+                                            case Newtonsoft.Json.Linq.JTokenType.Null:
+                                                return "None";
+                                            case Newtonsoft.Json.Linq.JTokenType.Float:
+                                                return FormatDoubleForPython((double)jvalue);
+                                            case Newtonsoft.Json.Linq.JTokenType.String:
+                                                return String.Format("u'{0}'", escapePythonString((string)jvalue));
 
+                                        }
+                                        return jvalue.ToString();
                                     }
-                                    return jvalue.ToString();
-                                }
-                                if (v is Newtonsoft.Json.Linq.JArray)
-                                {
-                                    var jarray = (Newtonsoft.Json.Linq.JArray)v;
-                                    StringBuilder ret = new StringBuilder();
-                                    ret.Append("[");
-                                    foreach (Newtonsoft.Json.Linq.JToken token in jarray)
+                                    if (v is Newtonsoft.Json.Linq.JArray)
                                     {
-                                        ret.Append(convertValueToPythonString(token));
-                                        ret.Append(", ");
+                                        var jarray = (Newtonsoft.Json.Linq.JArray)v;
+                                        StringBuilder ret = new StringBuilder();
+                                        ret.Append("[");
+                                        foreach (Newtonsoft.Json.Linq.JToken token in jarray)
+                                        {
+                                            ret.Append(convertValueToPythonString(token));
+                                            ret.Append(", ");
+                                        }
+                                        ret.Append("]");
+                                        return ret.ToString();
                                     }
-                                    ret.Append("]");
-                                    return ret.ToString();
-                                }
-                                if (v is Newtonsoft.Json.Linq.JObject)
-                                {
-                                    var jobject = (Newtonsoft.Json.Linq.JObject)v;
-                                    StringBuilder ret = new StringBuilder();
-                                    ret.Append("{");
-                                    foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> entry in jobject)
+                                    if (v is Newtonsoft.Json.Linq.JObject)
                                     {
-                                        ret.Append(String.Format("u'{0}'", escapePythonString(entry.Key)));
-                                        ret.Append(": ");
-                                        ret.Append(convertValueToPythonString(entry.Value));
-                                        ret.Append(", ");
+                                        var jobject = (Newtonsoft.Json.Linq.JObject)v;
+                                        StringBuilder ret = new StringBuilder();
+                                        ret.Append("{");
+                                        foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> entry in jobject)
+                                        {
+                                            ret.Append(String.Format("u'{0}'", escapePythonString(entry.Key)));
+                                            ret.Append(": ");
+                                            ret.Append(convertValueToPythonString(entry.Value));
+                                            ret.Append(", ");
+                                        }
+                                        ret.Append("}");
+                                        return ret.ToString();
                                     }
-                                    ret.Append("}");
-                                    return ret.ToString();
-                                }
-                                throw new ApplicationException(String.Format("Unknown type in {0}", value));
-                            };
-                            problemInput.value = convertValueToPythonString(parsedValue);
+                                    throw new ApplicationException(String.Format("Unknown type in {0}", value));
+                                };
+                                problemInput.value = convertValueToPythonString(parsedValue);
+                            }
                         }
                     }
                     string kind = realSourceParent.Meta.Name;
