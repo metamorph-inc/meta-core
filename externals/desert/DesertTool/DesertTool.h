@@ -59,6 +59,8 @@ public:
 	CString consList;
 	bool outputFileNeedsToBeRead;
 	CString desert_output_file;
+	uint64_t maxConfigs;
+	bool maxConfigsNeedsToBeRead;
 	bool multiRun;
 	CStringList consGroupNames;
 	CStringList consGroups;

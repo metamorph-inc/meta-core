@@ -206,6 +206,7 @@ BOOL CDesertToolApp::InitInstance()
 	bool cancel_input = false;
 	bool cancel_output = false;
 	bool isSilent= false;
+	uint64_t maxConfigs = -1;
 	bool multiRun = false;
 	CString consList;
 	TCHAR** consGroupNames = NULL;
@@ -227,12 +228,13 @@ BOOL CDesertToolApp::InitInstance()
 		{
 			if (_tcsstr(m_lpCmdLine, _T("/?")) || _tcsstr(m_lpCmdLine, _T("/help")) || _tcsstr(m_lpCmdLine, _T("--help")) || _tcsstr(m_lpCmdLine, _T("/h")))
 			{
-				CString usage(_T("Usage: deserttool.exe [<DesertInput xml>] [/o <Output Filename>] [/c \"constraint1:constraint2\"] [/m \"__CG__GroupA:constraint1:constraint2:__CG__GroupB:constraint1:constraint3\"\r\n\r\nArgument details:\r\n"));
+				CString usage(_T("Usage: deserttool.exe [<DesertInput xml>] [/o <Output Filename>] [/M <maximum configs>] [/c \"constraint1:constraint2\"] [/m \"__CG__GroupA:constraint1:constraint2:__CG__GroupB:constraint1:constraint3\"\r\n\r\nArgument details:\r\n"));
 				usage.Append(_T("DesertInput xml: input desert xml file\r\n"));
 				usage.Append(_T("/c \"constraint1 : constraint2\": apply the constraint list directly without GUI shown up\r\n"));
 				usage.Append(_T("/c \"applyAll\": apply all constraints directly without GUI shown up\r\n"));
 				usage.Append(_T("/c \"none\": does not apply any constraint and computes total no. of configurations, without GUI shown up\r\n"));
 				usage.Append(_T("/m : when used calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n"));
+				usage.Append(_T("/M number : maximum number of configs to write\r\n"));
 				std::cout << usage;
 				AfxMessageBox(usage,MB_ICONINFORMATION);
 				returnCode = 1;
@@ -253,6 +255,7 @@ BOOL CDesertToolApp::InitInstance()
 				hasOutputFile = !(cmdInfo.desert_output_file).IsEmpty();
 				
 				isSilent = cmdInfo.silent;
+				maxConfigs = cmdInfo.maxConfigs;
 				if (cmdInfo.applyCons)
 					consList = cmdInfo.consList;
 
@@ -562,6 +565,11 @@ BOOL CDesertToolApp::InitInstance()
 						{
 		
 							DBConfiguration * config = confs->GetNext(pos);
+							// config->id starts at 1
+							if (config && config->id - 1 >= maxConfigs)
+							{
+								break;
+							}
 							if (config)
 							{
 								DesertIfaceBack::Configuration dummy;
@@ -591,6 +599,11 @@ BOOL CDesertToolApp::InitInstance()
 						while (pos)
 						{
 							DBConfiguration * config = confs->GetNext(pos);
+							// config->id starts at 1
+							if (config && config->id - 1 >= maxConfigs)
+							{
+								break;
+							}
 							if (config)
 							{
 								//create configuration
@@ -744,7 +757,8 @@ BOOL CDesertToolApp::InitInstance()
 // CWzdCommandLineInfo
 CWzdCommandLineInfo::CWzdCommandLineInfo():
     desert_file (""), outputFileNeedsToBeRead(false), desert_output_file(""),
-	silent(false), applyCons(false), consList(""), multiRun(false)
+	silent(false), applyCons(false), consList(""), multiRun(false),
+	maxConfigs(-1), maxConfigsNeedsToBeRead(false)
 {
 }
 
@@ -760,12 +774,23 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
     CString sArg(pszParam);
 
 	int n = _ttoi((LPCTSTR)sArg);
-	if(!outputFileNeedsToBeRead &&
+	if(!outputFileNeedsToBeRead && !maxConfigsNeedsToBeRead &&
 		(sArg.Right(4) == ".xml" || sArg.Right(4) == ".mem" || sArg.Right(4) == ".mga"
 			|| sArg.Right(4) == ".XML" || sArg.Right(4) == ".MEM" || sArg.Right(4) == ".MGA")
 	  )
 	{
 		desert_file = sArg;
+	}
+	else if (maxConfigsNeedsToBeRead)
+	{
+		TCHAR* endPtr;
+		maxConfigs = _tcstoull(static_cast<const TCHAR*>(sArg),
+			&endPtr, 10);
+		maxConfigsNeedsToBeRead = false;
+	}
+	else if (sArg == "M")
+	{
+		maxConfigsNeedsToBeRead = true;
 	}
 	else if(sArg=="o")
 	{
@@ -776,8 +801,10 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 		desert_output_file = sArg;
 		outputFileNeedsToBeRead = false;
 	}
-	else if(sArg=="s") 
-		silent=true;
+	else if (sArg == "s")
+	{
+		silent = true;
+	}
 	else if(sArg=="c")
 	{
 		silent = true;

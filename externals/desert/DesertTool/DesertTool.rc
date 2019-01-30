@@ -100,12 +100,12 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "DesertTool MFC Application\0"
+            VALUE "FileDescription", "DesertTool\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "DesertTool\0"
             VALUE "LegalCopyright", "Copyright (C) 2002\0"
             VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "DesertTool.EXE\0"
+            VALUE "OriginalFilename", "DesertTool.exe\0"
             VALUE "ProductName", "DesertTool Application\0"
             VALUE "ProductVersion", "1, 0, 0, 1\0"
         END
