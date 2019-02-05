@@ -335,33 +335,37 @@ namespace CyPhyPET
 
         public static Dictionary<string, object> getPythonAssignment(string code)
         {
-            Process getParamsAndUnknowns = new Process();
-            getParamsAndUnknowns.StartInfo = new ProcessStartInfo(META.VersionInfo.PythonVEnvExe)
+            using (Process getParamsAndUnknowns = new Process())
             {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-                RedirectStandardInput = true,
-                Arguments = "-E -c \"import sys, json;" +
-                    "assignment = {};" +
-                    "eval(compile(sys.stdin.read(), '<driver Code>', 'exec'), globals(), assignment);" +
-                    "print(json.dumps(assignment))\""
-            };
+                getParamsAndUnknowns.StartInfo = new ProcessStartInfo(META.VersionInfo.PythonVEnvExe)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
+                    Arguments = "-E -c \"import sys, json;" +
+                        "assignment = {};" +
+                        "eval(compile(sys.stdin.read(), '<driver Code>', 'exec'), globals(), assignment);" +
+                        "print(json.dumps(assignment))\""
+                };
 
-            getParamsAndUnknowns.Start();
-            getParamsAndUnknowns.StandardInput.Write(code);
-            getParamsAndUnknowns.StandardInput.Close();
-            // n.b. assume buffers will not fill up and deadlock us
-            string stdout = getParamsAndUnknowns.StandardOutput.ReadToEnd();
-            string stderr = getParamsAndUnknowns.StandardError.ReadToEnd();
-            getParamsAndUnknowns.WaitForExit();
-            if (getParamsAndUnknowns.ExitCode != 0)
-            {
-                throw new ApplicationException(stderr);
+                getParamsAndUnknowns.Start();
+                getParamsAndUnknowns.StandardInput.Write(code);
+                getParamsAndUnknowns.StandardInput.Close();
+                // n.b. assume buffers will not fill up and deadlock us
+                string stdout = getParamsAndUnknowns.StandardOutput.ReadToEnd();
+                string stderr = getParamsAndUnknowns.StandardError.ReadToEnd();
+                getParamsAndUnknowns.WaitForExit();
+                getParamsAndUnknowns.StandardOutput.Close();
+                getParamsAndUnknowns.StandardError.Close();
+                if (getParamsAndUnknowns.ExitCode != 0)
+                {
+                    throw new ApplicationException(stderr);
+                }
+
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(stdout.Replace("\r", "").Split('\n').Last(line => string.IsNullOrWhiteSpace(line) == false));
             }
-
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(stdout.Replace("\r", "").Split('\n').Last(line => string.IsNullOrWhiteSpace(line) == false));
         }
 
         private PETConfig.Driver AddConfigurationForMDAODriver(CyPhy.MDAODriver driver)
