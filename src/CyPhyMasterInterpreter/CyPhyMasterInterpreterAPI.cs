@@ -154,6 +154,17 @@
         private JobManagerDispatch Manager { get; set; }
 
         Dictionary<string, AVM.DDP.MetaTBManifest.DesignType> Designs = new Dictionary<string, AVM.DDP.MetaTBManifest.DesignType>();
+        private void Designs_Add(string name, AVM.DDP.MetaTBManifest.DesignType design)
+        {
+            try
+            {
+                Designs.Add(name, design);
+            }
+            catch (ArgumentException e)
+            {
+                throw new ApplicationException(String.Format("Error: duplicate design name '{0}'", name), e);
+            }
+        }
 
         /// <summary>
         /// True if this class should dispose the logger.
@@ -587,7 +598,7 @@
                             var designContainer = (CyPhy.DesignContainer)configs.ParentContainer;
                             var ddpDesign = GetSelectedDesign(CyPhyClasses.CWC.Cast(configuration), designContainer);
                             var ddpDesignName = configuration.Name;
-                            Designs.Add(ddpDesignName, ddpDesign);
+                            Designs_Add(ddpDesignName, ddpDesign);
                         }
                         // TODO else if (configuration.MetaBase.Name == typeof(CyPhy.ComponentAssembly).Name)
 
@@ -1379,7 +1390,7 @@
 
                         if (ddpDesign != null)
                         {
-                            Designs.Add(ddpDesignName, ddpDesign);
+                            Designs_Add(ddpDesignName, ddpDesign);
                         }
 
                         if (postedToJobManager)
