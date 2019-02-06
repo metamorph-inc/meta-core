@@ -18,6 +18,7 @@ namespace PythonTest
             int ret = Xunit.ConsoleClient.Program.Main(new string[] {
                 Assembly.GetAssembly(typeof(PythonTest)).CodeBase.Substring("file:///".Length),
                 //"/noshadow",
+                // "/trait", "Type=Development", // Only run test(s) currently under development -- Those decorated with: [Trait("Type", "Development")]
             });
             Console.In.ReadLine();
             return ret;
@@ -147,6 +148,36 @@ namespace PythonTest
             Assert.True(0 == retcode, stderr);
         }
 
+        /*
+        We may repeatedly reload(site) (e.g. in CyPhyPython.dll), which causes Python to load .pth files again.
+        Some stock .pth files (e.g. pywin32.pth) add to %PATH%
+        CreateProcess and other calls fail if an environment variable is too big (32K)
+        */
+        [Fact]
+        public void TestEnvironmentVariables()
+        {
+            var script = @"
+import os
+import unittest
+
+class TestEnvironment(unittest.TestCase):
+    def test_env(self):
+        self.maxDiff = None
+        import site
+        import sitecustomize
+        originalEnviron = dict(os.environ)
+        reload(site)
+        reload(sitecustomize)
+        self.assertDictEqual(originalEnviron, dict(os.environ))
+
+if __name__ == '__main__':
+    unittest.main()";
+            File.WriteAllText("test_tmp.py", script);
+            string stderr = "<process did not start>";
+            int retcode = Run(VersionInfo.PythonVEnvExe, Path.GetDirectoryName(Path.GetFullPath("test_tmp.py")), "test_tmp.py", out stderr);
+            Assert.True(0 == retcode, stderr);
+        }
+
         [Fact]
         public void TestSmop()
         {
@@ -189,7 +220,7 @@ namespace PythonTest
                 {
                     try
                     {
-                        err = err + e.Data;
+                        err = err + e.Data + Environment.NewLine;
                     }
                     catch (System.ObjectDisposedException)
                     {
@@ -199,6 +230,7 @@ namespace PythonTest
             proc.BeginErrorReadLine();
             var stdout = proc.StandardOutput.ReadToEnd();
             proc.WaitForExit();
+            proc.StandardOutput.Dispose();
             stdout = stdout.Replace("\r", "");
             stderr = err.Replace("\r", "");
 

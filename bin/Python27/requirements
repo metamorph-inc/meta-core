@@ -22,6 +22,8 @@
 # git clean -xdf bin\Python27\Lib\site-packages\omniORBpy-4.2.0
 # echo omniORBpy-4.2.0\lib\python > bin\Python27\Lib\site-packages\omniORBpy.pth
 # echo omniORBpy-4.2.0\lib\x86_win32 >> bin\Python27\Lib\site-packages\omniORBpy.pth
+# change last line of pywin32.pth to:
+#   import os;pywin32_system32=os.path.join(sitedir,"pywin32_system32");os.environ["PATH"]+=('' if pywin32_system32 in os.environ["PATH"] else (';'+pywin32_system32))
 
 
 # apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
