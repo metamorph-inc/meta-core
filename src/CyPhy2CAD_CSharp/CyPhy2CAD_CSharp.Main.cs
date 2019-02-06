@@ -67,7 +67,7 @@ namespace CyPhy2CAD_CSharp
                 {
                     // ADM: Export DDP 2.x version (XML)
                     {
-                        var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(catlsut);
+                        var design = CyPhy2DesignInterchange.CyPhy2DesignInterchange.Convert(catlsut, this.result.Traceability);
                         string TestBenchName = tb.Name;
 
                         string admDir = Path.Combine(cadSetting.OutputDirectory, "DesignADM");
