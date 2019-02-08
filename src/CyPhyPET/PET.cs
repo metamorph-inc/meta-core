@@ -346,13 +346,14 @@ namespace CyPhyPET
                     RedirectStandardInput = true,
                     Arguments = "-E -c \"import sys, json;" +
                         "assignment = {};" +
-                        "eval(compile(sys.stdin.read(), '<driver Code>', 'exec'), globals(), assignment);" +
+                        "eval(compile(sys.stdin.read().decode('utf8'), '<driver Code>', 'exec'), globals(), assignment);" +
                         "print(json.dumps(assignment))\""
                 };
 
                 getParamsAndUnknowns.Start();
-                getParamsAndUnknowns.StandardInput.Write(code);
-                getParamsAndUnknowns.StandardInput.Close();
+                StreamWriter utf8Writer = new StreamWriter(getParamsAndUnknowns.StandardInput.BaseStream, new UTF8Encoding(false));
+                utf8Writer.Write(code);
+                utf8Writer.Close();
                 // n.b. assume buffers will not fill up and deadlock us
                 string stdout = getParamsAndUnknowns.StandardOutput.ReadToEnd();
                 string stderr = getParamsAndUnknowns.StandardError.ReadToEnd();

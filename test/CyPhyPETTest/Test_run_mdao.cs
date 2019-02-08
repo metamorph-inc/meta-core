@@ -73,9 +73,11 @@ namespace CyPhyPETTest
         [Fact]
         public void TestCodeParameters()
         {
-            Dictionary<string, object> assignment = CyPhyPET.PET.getPythonAssignment("x = 1\ny = '2'");
+            Dictionary<string, object> assignment = CyPhyPET.PET.getPythonAssignment("x = 1\ny = '2'\nz = u'a\ud83d\ude4ca'");
             Assert.Equal(1L, assignment["x"]);
             Assert.Equal("2", assignment["y"]);
+            // compute UTF16: map(hex, struct.unpack('H'*3, u'\U0001F64C'.encode('utf16')))
+            Assert.Equal("a\ud83d\ude4ca", assignment["z"]);
         }
     }
 
