@@ -113,21 +113,16 @@ namespace JobManagerFramework
 
         public int LocalConcurrentThreads
         {
-            get { return pool.NumAllThread; }
-
             set
             {
-                if (pool.GetNumberOfUnfinishedJobs() != 0)
+                if (!(pool is LocalPool))
                 {
                     throw new InvalidPoolStateException(
-                        "Cannot change number of concurrent threads while jobs are running.");
+                        "Cannot change number of concurrent threads on a non-local pool");
                 }
                 else
                 {
-                    //Create a new local pool with the new thread count
-                    var oldPool = pool;
-                    pool = new LocalPool(value);
-                    oldPool.Dispose();
+                    ((LocalPool)pool).ConcurrentThreads = value;
                 }
             }
         }

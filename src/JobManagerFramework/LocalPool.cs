@@ -20,11 +20,6 @@ namespace JobManagerFramework
         /// </summary>
         public const string Failed = "_FAILED.txt";
 
-        public int NumAllThread { get; private set; }
-        public int NumCommandThread { get; private set; }
-        public int NumMatLabThread { get; private set; }
-        public int NumCADThread { get; private set; }
-
         /// <summary>
         /// Task factory.
         /// </summary>
@@ -64,17 +59,59 @@ namespace JobManagerFramework
                 null);
 
             // GetNumberOfPhysicalCores might take a long time, offload it onto the pool
-            Task t = tf.StartNew(() =>
+            startInitialThreads = tf.StartNew(() =>
             {
                 if (initialThreadCount == 0)
                 {
                     initialThreadCount = GetNumberOfPhysicalCores();
                 }
+                _concurrentThreads = initialThreadCount;
+                StartNewJobRunnerThreads(_concurrentThreads);
+            });
+        }
+        Task startInitialThreads;
+
+        private void StartNewJobRunnerThreads(int initialThreadCount)
+        {
+            lock (gracefullyExitEvents)
+            {
                 for (int i = 0; i < initialThreadCount; i++)
                 {
-                    tf.StartNew(JobRunner);
+                    ManualResetEvent gracefullyExitEvent = new ManualResetEvent(false);
+                    gracefullyExitEvents.Add(gracefullyExitEvent);
+                    tf.StartNew(() => JobRunner(gracefullyExitEvent));
                 }
-            });
+            }
+        }
+
+        List<ManualResetEvent> gracefullyExitEvents = new List<ManualResetEvent>();
+        private int _concurrentThreads;
+        public int ConcurrentThreads
+        {
+            set
+            {
+                startInitialThreads.Wait();
+                lock (gracefullyExitEvents)
+                {
+                    if (_concurrentThreads == value)
+                    {
+                    }
+                    else if (_concurrentThreads > value)
+                    {
+                        int numberOfThreadsToStop = _concurrentThreads - value;
+                        for (int i = 0; i < numberOfThreadsToStop; i++)
+                        {
+                            gracefullyExitEvents[gracefullyExitEvents.Count - 1].Set();
+                            gracefullyExitEvents.RemoveAt(gracefullyExitEvents.Count - 1);
+                        }
+                    }
+                    else
+                    {
+                        StartNewJobRunnerThreads(value - _concurrentThreads);
+                    }
+                    _concurrentThreads = value;
+                }
+            }
         }
 
         private bool disposed = false;
@@ -88,6 +125,7 @@ namespace JobManagerFramework
             {
                 if (!disposed)
                 {
+                    startInitialThreads.Wait();
                     disposed = true;
                     ShutdownPool.Set();
                     //ts.Cancel();
@@ -104,6 +142,7 @@ namespace JobManagerFramework
                         t.Join();
                     }
                     ShutdownPool.Dispose();
+                    startInitialThreads.Dispose();
                 }
             }
         }
@@ -154,20 +193,20 @@ namespace JobManagerFramework
         List<ManualResetEvent> RunningJobs = new List<ManualResetEvent>();
         Dictionary<Job, ManualResetEvent> AbortJobEvents = new Dictionary<Job, ManualResetEvent>();
 
-        private void JobRunner()
+        private void JobRunner(ManualResetEvent gracefullyExit)
         {
             ManualResetEvent jobIsRunning = new ManualResetEvent(true);
             lock (RunningJobs)
             {
                 RunningJobs.Add(jobIsRunning);
             }
-            while (ShutdownPool.WaitOne(0) == false)
+            while (ShutdownPool.WaitOne(0) == false && gracefullyExit.WaitOne(0) == false)
             {
                 Job job;
                 job = GetNextJob();
                 if (job == null)
                 {
-                    WaitHandle.WaitAny(new WaitHandle[] { JobAdded, ShutdownPool });
+                    WaitHandle.WaitAny(new WaitHandle[] { gracefullyExit, JobAdded, ShutdownPool });
                 }
                 else
                 {
@@ -176,6 +215,7 @@ namespace JobManagerFramework
                     jobIsRunning.Set();
                 }
             }
+            gracefullyExit.Dispose();
         }
 
         private void RunJob(Job job)
