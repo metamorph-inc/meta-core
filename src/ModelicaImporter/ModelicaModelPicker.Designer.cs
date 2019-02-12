@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModelicaModelPicker));
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.btnLoadLibraries = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoader)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelPicker)).BeginInit();
             this.gbComponentType.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.componentDetailBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tbSearch
@@ -258,14 +258,15 @@
             this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.tbSearch);
             this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModelicaModelPicker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Modelica Model Picker";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoader)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelPicker)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.componentDetailBindingSource)).EndInit();
             this.gbComponentType.ResumeLayout(false);
             this.gbComponentType.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.componentDetailBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
