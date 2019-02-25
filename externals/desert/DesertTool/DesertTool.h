@@ -62,6 +62,7 @@ public:
 	uint64_t maxConfigs;
 	bool maxConfigsNeedsToBeRead;
 	bool multiRun;
+	bool countMode;
 	CStringList consGroupNames;
 	CStringList consGroups;
 

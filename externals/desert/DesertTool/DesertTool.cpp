@@ -208,6 +208,7 @@ BOOL CDesertToolApp::InitInstance()
 	bool isSilent= false;
 	uint64_t maxConfigs = -1;
 	bool multiRun = false;
+	bool countMode = false;
 	CString consList;
 	TCHAR** consGroupNames = NULL;
 	TCHAR** consGroups = NULL;
@@ -233,7 +234,8 @@ BOOL CDesertToolApp::InitInstance()
 				usage.Append(_T("/c \"constraint1 : constraint2\": apply the constraint list directly without GUI shown up\r\n"));
 				usage.Append(_T("/c \"applyAll\": apply all constraints directly without GUI shown up\r\n"));
 				usage.Append(_T("/c \"none\": does not apply any constraint and computes total no. of configurations, without GUI shown up\r\n"));
-				usage.Append(_T("/m : when used calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n"));
+				usage.Append(_T("/m : when used, calls desert process for \"none\", \"applyAll\", and all given constraint groups (with names using '__CG__' prefix) one by one, without GUI shown up\r\n"));
+				usage.Append(_T("/C : Outputs the number of times an element is used in all valid configurations\r\n"));
 				usage.Append(_T("/M number : maximum number of configs to write\r\n"));
 				std::cout << usage;
 				AfxMessageBox(usage,MB_ICONINFORMATION);
@@ -259,7 +261,11 @@ BOOL CDesertToolApp::InitInstance()
 				if (cmdInfo.applyCons)
 					consList = cmdInfo.consList;
 
-				if(cmdInfo.multiRun) {
+				if (cmdInfo.countMode) {
+					countMode = true;
+					isSilent = true;
+				}
+				else if (cmdInfo.multiRun) {
 					int ncgs = cmdInfo.consGroupNames.GetCount();
 					numConsGroups = ncgs;
 					if(ncgs > 0) {
@@ -455,7 +461,44 @@ BOOL CDesertToolApp::InitInstance()
 			fprintf(fdDcif, "<?xml version=\"1.0\"?>\n");
 			fprintf(fdDcif, "<DesertConfigurations>\n");
 
-			if (multiRun) {
+			if (countMode) {
+				DBConfigurations * confs = (DBConfigurations *)DesertFinit(true, isSilent, consList == "" ? NULL : static_cast<LPCTSTR>(consList));
+				int numCfgs = (confs) ? confs->GetCount() : 0;
+				POSITION pos = confs == nullptr ? nullptr : confs->GetHeadPosition();
+				std::map<__int64, __int64> counts;
+				fprintf(fdDcif, "<NumberOfConfigurations count=\"%d\"/>\n", numCfgs);
+				while (pos)
+				{
+					DBConfiguration * config = confs->GetNext(pos);
+
+					POSITION pos2 = config->alt_assignments.GetStartPosition();
+					while (pos2)
+					{
+						long alt, alt_of;
+						config->alt_assignments.GetNextAssoc(pos2, alt_of, alt);
+
+						// auto alt_of_input = inv_des_map.find(alt_of);
+						auto alt_input = inv_des_map.find(alt);
+						// fprintf(fdDcif, "%s\n", static_cast<const std::string>(alt_of_input->second.name()).c_str());
+						// fprintf(fdDcif, "%s\n", static_cast<const std::string>(alt_input->second.name()).c_str());
+						// std::string type = alt_input->second.type().name();
+						// auto x = alt_input->second.name();
+						// auto x2 = (__int64)alt_input->second.externalID();
+
+						auto countIt = counts.find(alt_input->second.id());
+						if (countIt == counts.end()) {
+							counts[alt_input->second.id()] = 1;
+						}
+						else {
+							counts[alt_input->second.id()] = countIt->second + 1;
+						}
+					}
+				}
+				for (auto countsIt = counts.begin(); countsIt != counts.end(); ++countsIt) {
+					fprintf(fdDcif, "  <Count id=\"%I64u\" count=\"%I64u\"/>\n", countsIt->first, countsIt->second);
+				}
+			}
+			else if (multiRun) {
 				// Initialize
 				std::cout << "Starting Multirun" << std::endl;
 				DesertFinitWithMultirun_Pre(numConsGroups, consGroupNames, consGroups);
@@ -813,6 +856,11 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	else if(applyCons)
 	{
 		consList = sArg;
+	}
+	else if (sArg == "C")
+	{
+		silent = true;
+		countMode = true;
 	}
 	else if(sArg=="m")
 	{
