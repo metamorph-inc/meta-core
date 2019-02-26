@@ -246,7 +246,16 @@ BOOL CDesertToolApp::InitInstance()
 				|| _tcsstr(m_lpCmdLine, _T(".XML")) || _tcsstr(m_lpCmdLine, _T(".MEM")) || _tcsstr(m_lpCmdLine, _T(".MGA")))
 			{
 				CWzdCommandLineInfo cmdInfo;
-				ParseCommandLine(cmdInfo);
+				try
+				{
+					ParseCommandLine(cmdInfo);
+				}
+				catch (const std::exception& e)
+				{
+					fprintf(stderr, "%s\n", e.what());
+					returnCode = 2;
+					return FALSE;
+				}
 
 				//seems to be a valid file name
 				command_arg_ok = true;
@@ -258,8 +267,7 @@ BOOL CDesertToolApp::InitInstance()
 				
 				isSilent = cmdInfo.silent;
 				maxConfigs = cmdInfo.maxConfigs;
-				if (cmdInfo.applyCons)
-					consList = cmdInfo.consList;
+				consList = cmdInfo.consList;
 
 				if (cmdInfo.countMode) {
 					countMode = true;
@@ -466,7 +474,7 @@ BOOL CDesertToolApp::InitInstance()
 				int numCfgs = (confs) ? confs->GetCount() : 0;
 				POSITION pos = confs == nullptr ? nullptr : confs->GetHeadPosition();
 				std::map<__int64, __int64> counts;
-				fprintf(fdDcif, "<NumberOfConfigurations count=\"%d\"/>\n", numCfgs);
+				fprintf(fdDcif, "  <NumberOfConfigurations count=\"%d\"/>\n", numCfgs);
 				while (pos)
 				{
 					DBConfiguration * config = confs->GetNext(pos);
@@ -800,8 +808,8 @@ BOOL CDesertToolApp::InitInstance()
 // CWzdCommandLineInfo
 CWzdCommandLineInfo::CWzdCommandLineInfo():
     desert_file (""), outputFileNeedsToBeRead(false), desert_output_file(""),
-	silent(false), applyCons(false), consList(""), multiRun(false),
-	maxConfigs(-1), maxConfigsNeedsToBeRead(false)
+	silent(false), constraintListNeedsToBeRead(false), consList(""), multiRun(false),
+	maxConfigs(-1), maxConfigsNeedsToBeRead(false), countMode(false)
 {
 }
 
@@ -834,10 +842,16 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	else if (sArg == "M")
 	{
 		maxConfigsNeedsToBeRead = true;
+		if (bLast) {
+			throw runtime_error("/M requires an argument");
+		}
 	}
 	else if(sArg=="o")
 	{
 		outputFileNeedsToBeRead = true;
+		if (bLast) {
+			throw runtime_error("/o requires an argument");
+		}
 	}
 	else if(outputFileNeedsToBeRead)
 	{
@@ -851,11 +865,15 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	else if(sArg=="c")
 	{
 		silent = true;
-		applyCons = true;
+		constraintListNeedsToBeRead = true;
+		if (bLast) {
+			throw runtime_error("/c requires an argument");
+		}
 	}
-	else if(applyCons)
+	else if(constraintListNeedsToBeRead)
 	{
 		consList = sArg;
+		constraintListNeedsToBeRead = false;
 	}
 	else if (sArg == "C")
 	{
@@ -866,6 +884,9 @@ void CWzdCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag,
 	{
 		silent = true;
 		multiRun = true;
+		if (bLast) {
+			throw runtime_error("/m requires an argument");
+		}
 	}
 	else if(multiRun)
 	{
