@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DesertSystem SystemName="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DesertIface.xsd">
+  <ConstraintSet _id="desert_ui_cs" externalID="99999999" id="99999999" name="constraints">
+    <Constraint _id="id158" context="id67" expression="constraint UAV_CanHandlePayload_constraint() { &#xA;PayloadHeadroom() > 0.000000&#xA; }" externalID="0" id="0" name="UAV_CanHandlePayload_constraint"/>
+    <Constraint _id="id159" context="id67" expression="constraint UAV_FlyWeight50Max_constraint() { &#xA;FlyWeight() &lt;= 25.000000&#xA; }" externalID="0" id="0" name="UAV_FlyWeight50Max_constraint"/>
+    <Constraint _id="id15A" context="id67" expression="constraint UAV_DwellTimeAtLeast_constraint() { &#xA;DwellTime() >= 240.000000&#xA; }" externalID="0" id="0" name="UAV_DwellTimeAtLeast70Min_constraint"/>
+    <Constraint _id="id15B" context="id67" expression="constraint UAV_Fly10kmInUnderMins_constraint() { &#xA;TimeRequiredToFly10km() &lt;= 9.000000&#xA; }" externalID="0" id="0" name="UAV_Fly10kmInUnder15Mins_constraint"/>
+    <Constraint _id="id15C" context="id67" expression="constraint UAV_ProbDetectHumansDaytime_constraint() { &#xA;ProbDetectHumanDaytime() >= 0.950000&#xA; }" externalID="0" id="0" name="UAV_ProbDetectHumansDaytime_constraint"/>
+    <Constraint _id="id15D" context="id67" expression="constraint UAV_ProbDetectVehiclesDaytime_constraint() { &#xA;ProbDetectVehicleDaytime() >= 0.900000&#xA; }" externalID="0" id="0" name="UAV_ProbDetectVehiclesDaytime_constraint"/>
+    <Constraint _id="id15e" context="id67" expression="constraint UAV_ProbDetectHumansNighttime_constraint() { &#xA;ProbDetectHumanNighttime() >= 0.950000&#xA; }" externalID="0" id="0" name="UAV_ProbDetectHumansNighttime_constraint"/>
+    <Constraint _id="id15F" context="id67" expression="constraint UAV_ProbDetectVehiclesNighttime_constraint() { &#xA;ProbDetectVehicleNighttime() >= 0.900000&#xA; }" externalID="0" id="0" name="UAV_ProbDetectVehiclesNighttime_constraint"/>
+  </ConstraintSet>
+  <FormulaSet _id="id160" externalID="1005" id="1005" name="formulaSet">
+    <CustomFormula _id="id161" context="id8D" expression="constraint formula_4_VerticalResolution () {children(&quot;Resolution&quot;).VerticalResolution()}" externalID="0" id="0" name="VerticalResolution" property_end="id8e"/>
+    <CustomFormula _id="id162" context="id8D" expression="constraint formula_5_HorizontalResolution () {children(&quot;Resolution&quot;).HorizontalResolution()}" externalID="0" id="0" name="HorizontalResolution" property_end="id8F"/>
+    <CustomFormula _id="id163" context="id8D" expression="constraint formula_6_FOV () {children(&quot;FieldOfView&quot;).FOV()}" externalID="0" id="0" name="FOV" property_end="id90"/>
+    <CustomFormula _id="id167" context="idD5" expression="constraint formula_7_VerticalResolution () {children(&quot;Resolution&quot;).VerticalResolution()}" externalID="0" id="0" name="VerticalResolution" property_end="idD6"/>
+    <CustomFormula _id="id168" context="idD5" expression="constraint formula_8_HorizontalResolution () {children(&quot;Resolution&quot;).HorizontalResolution()}" externalID="0" id="0" name="HorizontalResolution" property_end="idD7"/>
+    <CustomFormula _id="id169" context="idD5" expression="constraint formula_9_FOV () {children(&quot;FieldOfView&quot;).FOV()}" externalID="0" id="0" name="FOV" property_end="idD8"/>
+    <CustomFormula _id="id17B" context="id67" expression="constraint formula_10_SensorWeight () {0.0164 * 1.5 * (exp(3*ln(SensorDiameter())))}" externalID="0" id="0" name="SensorWeight" property_end="id80"/>
+    <CustomFormula _id="id17C" context="id67" expression="constraint formula_11_PayloadHeadroom () {MaxPayload() - TotalPayloadWeight()}" externalID="0" id="0" name="PayloadHeadroom" property_end="id81"/>
+    <CustomFormula _id="id17D" context="id67" expression="constraint formula_12_TotalPayloadWeight () {SensorWeight() + 0.5}" externalID="0" id="0" name="TotalPayloadWeight" property_end="id82"/>
+    <CustomFormula _id="id17e" context="id67" expression="constraint formula_13_Endurance () {children(&quot;Engine&quot;).Endurance_m() * FlyWeight() + children(&quot;Engine&quot;).Endurance_b()}" externalID="0" id="0" name="Endurance" property_end="id72"/>
+    <CustomFormula _id="id17F" context="id67" expression="constraint formula_14_CruisingVelocity () {children(&quot;Engine&quot;).CruisingVelocity_m() * FlyWeight() + children(&quot;Engine&quot;).CruisingVelocity_b()}" externalID="0" id="0" name="CruisingVelocity" property_end="id73"/>
+    <CustomFormula _id="id180" context="id67" expression="constraint formula_15_TimeRequiredToFly10km () {(10 / (CruisingVelocity() * 1.852)) * 60}" externalID="0" id="0" name="TimeRequiredToFly10km" property_end="id74"/>
+    <CustomFormula _id="id181" context="id67" expression="constraint formula_16_DwellTime () {Endurance() * 60 - 2 * TimeRequiredToFly10km()}" externalID="0" id="0" name="DwellTime" property_end="id75"/>
+    <CustomFormula _id="id182" context="id67" expression="constraint formula_17_EO_GSD () {2 * tan((children(&quot;EO Sensor&quot;).FOV() * pi() / 180) / (2 * children(&quot;EO Sensor&quot;).HorizontalResolution())) * OperatingAltitude() * 0.304785126}" externalID="0" id="0" name="EO_GSD" property_end="id77"/>
+    <CustomFormula _id="id183" context="id67" expression="constraint formula_18_EO_N_Human () {Dc_Human() / (EO_GSD() + EO_GSD())}" externalID="0" id="0" name="EO_N_Human" property_end="id78"/>
+    <CustomFormula _id="id184" context="id67" expression="constraint formula_19_EO_N_Vehicle () {Dc_Vehicle() / (EO_GSD() + EO_GSD())}" externalID="0" id="0" name="EO_N_Vehicle" property_end="id79"/>
+    <CustomFormula _id="id185" context="id67" expression="constraint formula_20_ProbDetectHumanDaytime () {(exp((2.7+0.7*(EO_N_Human()/N50()))*ln((EO_N_Human()/0.75)))) / (1 + (exp((2.7+0.7*(EO_N_Human()/N50()))*ln((EO_N_Human()/0.75)))))}" externalID="0" id="0" name="ProbDetectHumanDaytime" property_end="id76"/>
+    <CustomFormula _id="id186" context="id67" expression="constraint formula_21_ProbDetectVehicleDaytime () {(exp((2.7+0.7*(EO_N_Vehicle()/N50()))*ln((EO_N_Vehicle()/0.75)))) / (1 + (exp((2.7+0.7*(EO_N_Vehicle()/N50()))*ln((EO_N_Vehicle()/0.75)))))}" externalID="0" id="0" name="ProbDetectVehicleDaytime" property_end="id7A"/>
+    <CustomFormula _id="id187" context="id67" expression="constraint formula_22_IR_N_Human () {Dc_Human() / (IR_GSD() + IR_GSD())}" externalID="0" id="0" name="IR_N_Human" property_end="id7e"/>
+    <CustomFormula _id="id188" context="id67" expression="constraint formula_23_IR_N_Vehicle () {Dc_Vehicle() / (IR_GSD() + IR_GSD())}" externalID="0" id="0" name="IR_N_Vehicle" property_end="id7D"/>
+    <CustomFormula _id="id189" context="id67" expression="constraint formula_24_ProbDetectVehicleNighttime () {(exp((2.7+0.7*(IR_N_Vehicle()/N50()))*ln((IR_N_Vehicle()/0.75)))) / (1 + (exp((2.7+0.7*(IR_N_Vehicle()/N50()))*ln((IR_N_Vehicle()/0.75)))))}" externalID="0" id="0" name="ProbDetectVehicleNighttime" property_end="id7C"/>
+    <CustomFormula _id="id18A" context="id67" expression="constraint formula_25_ProbDetectHumanNighttime () {(exp((2.7+0.7*(IR_N_Human()/N50()))*ln((IR_N_Human()/0.75)))) / (1 + (exp((2.7+0.7*(IR_N_Human()/N50()))*ln((IR_N_Human()/0.75)))))}" externalID="0" id="0" name="ProbDetectHumanNighttime" property_end="id7F"/>
+    <CustomFormula _id="id18B" context="id67" expression="constraint formula_26_IR_GSD () {2 * tan((children(&quot;IR Sensor&quot;).FOV() * pi() / 180) / (2 * children(&quot;IR Sensor&quot;).HorizontalResolution())) * OperatingAltitude() * 0.304785126}" externalID="0" id="0" name="IR_GSD" property_end="id7B"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id164" context="id91" externalID="300000079" id="300000079" name="SimpleFormula" property_end="id92" srcProperty="id98 id9D idA2 idA7 idAC idB1 idB6 idBB idC0"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id165" context="id91" externalID="300000080" id="300000080" name="SimpleFormula" property_end="id93" srcProperty="id97 id9C idA1 idA6 idAB idB0 idB5 idBA idBF"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id166" context="idC1" externalID="300000659" id="300000659" name="SimpleFormula" property_end="idC2" srcProperty="idC5 idC8 idCB idCe idD1 idD4"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16A" context="idD9" externalID="300000083" id="300000083" name="SimpleFormula" property_end="idDA" srcProperty="ide0 ide5 ideA ideF idF4 idF9 idFe id103 id108"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16B" context="idD9" externalID="300000084" id="300000084" name="SimpleFormula" property_end="idDB" srcProperty="idDF ide4 ide9 idee idF3 idF8 idFD id102 id107"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16C" context="id109" externalID="300000660" id="300000660" name="SimpleFormula" property_end="id10A" srcProperty="id10D id110 id113 id116 id119 id11C"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16D" context="id11D" externalID="300000087" id="300000087" name="SimpleFormula" property_end="id11e" srcProperty="id12e id13D"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16e" context="id11D" externalID="300000088" id="300000088" name="SimpleFormula" property_end="id11F" srcProperty="id12F id13e"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id16F" context="id11D" externalID="300000089" id="300000089" name="SimpleFormula" property_end="id120" srcProperty="id130 id13F"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id170" context="id11D" externalID="300000090" id="300000090" name="SimpleFormula" property_end="id121" srcProperty="id12D id13C"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id171" context="id11D" externalID="300000091" id="300000091" name="SimpleFormula" property_end="id122" srcProperty="id132 id141"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id172" context="id11D" externalID="300000092" id="300000092" name="SimpleFormula" property_end="id123" srcProperty="id133 id142"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id173" context="id11D" externalID="300000093" id="300000093" name="SimpleFormula" property_end="id124" srcProperty="id131 id140"/>
+    <SimpleFormula ComputationType="PCM_OR" _id="id174" context="id143" externalID="300000705" id="300000705" name="SimpleFormula" property_end="id144" srcProperty="id147 id14A id14D id150 id153 id156"/>
+    <SimpleFormula ComputationType="PCM_MUL" _id="id175" context="id67" externalID="200000016" id="200000016" name="SimpleFormula" property_end="id8A" srcProperty="id11F id144"/>
+    <SimpleFormula ComputationType="PCM_ADD" _id="id176" context="id67" externalID="200000017" id="200000017" name="SimpleFormula" property_end="id6F" srcProperty="id11e id8A"/>
+    <SimpleFormula ComputationType="PCM_MUL" _id="id177" context="id67" externalID="200000018" id="200000018" name="SimpleFormula" property_end="id70" srcProperty="id120 id6F"/>
+    <SimpleFormula ComputationType="PCM_ADD" _id="id178" context="id67" externalID="200000019" id="200000019" name="SimpleFormula" property_end="id8B" srcProperty="id8e id8F idD6 idD7"/>
+    <SimpleFormula ComputationType="PCM_MUL" _id="id179" context="id67" externalID="200000020" id="200000020" name="SimpleFormula" property_end="id8C" srcProperty="id84 id8B"/>
+    <SimpleFormula ComputationType="PCM_ADD" _id="id17A" context="id67" externalID="200000022" id="200000022" name="SimpleFormula" property_end="id71" srcProperty="id85 id8C"/>
+  </FormulaSet>
+  <NaturalDomain Property="id83" _id="id18C" externalID="1005" id="1005" maximum="1000000000" minimum="0" name="OperatingAltitude">
+    <NaturalMember _id="id18D" externalID="0" id="0" name="NaturalMember" properties="id68" value="565"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id84" _id="id18e" externalID="1006" id="1006" maximum="1000000000" minimum="0" name="0.0024">
+    <NaturalMember _id="id18F" externalID="1" id="1" name="NaturalMember" properties="id69" value="0.0024"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id85" _id="id190" externalID="1007" id="1007" maximum="1000000000" minimum="0" name="0.0741">
+    <NaturalMember _id="id191" externalID="2" id="2" name="NaturalMember" properties="id6A" value="0.0024"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id86" _id="id192" externalID="1008" id="1008" maximum="1000000000" minimum="0" name="pi">
+    <NaturalMember _id="id193" externalID="3" id="3" name="NaturalMember" properties="id6B" value="3.14159265359"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id87" _id="id194" externalID="1009" id="1009" maximum="1000000000" minimum="0" name="Dc_Human">
+    <NaturalMember _id="id195" externalID="4" id="4" name="NaturalMember" properties="id6C" value="0.935414347"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id88" _id="id196" externalID="1010" id="1010" maximum="1000000000" minimum="0" name="Dc_Vehicle">
+    <NaturalMember _id="id197" externalID="5" id="5" name="NaturalMember" properties="id6D" value="5.387374128"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id89" _id="id198" externalID="1011" id="1011" maximum="1000000000" minimum="0" name="N50">
+    <NaturalMember _id="id199" externalID="6" id="6" name="NaturalMember" properties="id6e" value="0.75"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id98 id9D idA2 idA7 idAC idB1 idB6 idBB idC0 ide0 ide5 ideA ideF idF4 idF9 idFe id103 id108" _id="id19A" externalID="1012" id="1012" maximum="1000000000" minimum="0" name="HorizontalResolution">
+    <NaturalMember _id="id19B" externalID="7" id="7" name="NaturalMember" properties="id95 idDD" value="1e+003"/>
+    <NaturalMember _id="id19C" externalID="10" id="10" name="NaturalMember" properties="id9B ide3" value="1.8e+003"/>
+    <NaturalMember _id="id19D" externalID="12" id="12" name="NaturalMember" properties="idA0 ide8" value="1.6e+003"/>
+    <NaturalMember _id="id19e" externalID="14" id="14" name="NaturalMember" properties="idA5 ideD" value="1.4e+003"/>
+    <NaturalMember _id="id19F" externalID="16" id="16" name="NaturalMember" properties="idAA idF2" value="8e+002"/>
+    <NaturalMember _id="id1A0" externalID="18" id="18" name="NaturalMember" properties="idAF idF6" value="6e+002"/>
+    <NaturalMember _id="id1A1" externalID="20" id="20" name="NaturalMember" properties="idB4 idFC" value="4e+002"/>
+    <NaturalMember _id="id1A2" externalID="22" id="22" name="NaturalMember" properties="idB9 id100" value="1.2e+003"/>
+    <NaturalMember _id="id1A3" externalID="24" id="24" name="NaturalMember" properties="idBe id106" value="2e+002"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id97 id9C idA1 idA6 idAB idB0 idB5 idBA idBF idDF ide4 ide9 idee idF3 idF8 idFD id102 id107" _id="id1A4" externalID="1013" id="1013" maximum="1000000000" minimum="0" name="VerticalResolution">
+    <NaturalMember _id="id1A5" externalID="8" id="8" name="NaturalMember" properties="id96 idDe" value="1e+003"/>
+    <NaturalMember _id="id1A6" externalID="9" id="9" name="NaturalMember" properties="id9A ide2" value="1.8e+003"/>
+    <NaturalMember _id="id1A7" externalID="11" id="11" name="NaturalMember" properties="id9F ide7" value="1.6e+003"/>
+    <NaturalMember _id="id1A8" externalID="13" id="13" name="NaturalMember" properties="idA4 ideC" value="1.4e+003"/>
+    <NaturalMember _id="id1A9" externalID="15" id="15" name="NaturalMember" properties="idA9 idF1" value="8e+002"/>
+    <NaturalMember _id="id1AA" externalID="17" id="17" name="NaturalMember" properties="idAe idF7" value="6e+002"/>
+    <NaturalMember _id="id1AB" externalID="19" id="19" name="NaturalMember" properties="idB3 idFB" value="4e+002"/>
+    <NaturalMember _id="id1AC" externalID="21" id="21" name="NaturalMember" properties="idB8 id101" value="1.2e+003"/>
+    <NaturalMember _id="id1AD" externalID="23" id="23" name="NaturalMember" properties="idBD id105" value="2e+002"/>
+  </NaturalDomain>
+  <NaturalDomain Property="idC5 idC8 idCB idCe idD1 idD4 id10D id110 id113 id116 id119 id11C" _id="id1Ae" externalID="1014" id="1014" maximum="1000000000" minimum="0" name="FOV">
+    <NaturalMember _id="id1AF" externalID="25" id="25" name="NaturalMember" properties="idC4 id10C" value="15"/>
+    <NaturalMember _id="id1B0" externalID="26" id="26" name="NaturalMember" properties="idC7 id10F" value="75"/>
+    <NaturalMember _id="id1B1" externalID="27" id="27" name="NaturalMember" properties="idCA id112" value="60"/>
+    <NaturalMember _id="id1B2" externalID="28" id="28" name="NaturalMember" properties="idCD id115" value="45"/>
+    <NaturalMember _id="id1B3" externalID="29" id="29" name="NaturalMember" properties="idD0 id118" value="90"/>
+    <NaturalMember _id="id1B4" externalID="30" id="30" name="NaturalMember" properties="idD3 id11B" value="30"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id12F id13e" _id="id1B5" externalID="1015" id="1015" maximum="1000000000" minimum="0" name="Flyweight_m">
+    <NaturalMember _id="id1B6" externalID="31" id="31" name="NaturalMember" properties="id126" value="1.3"/>
+    <NaturalMember _id="id1B7" externalID="39" id="39" name="NaturalMember" properties="id136" value="2.68"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id12D id13C" _id="id1B8" externalID="1016" id="1016" maximum="1000000000" minimum="0" name="Endurance_b">
+    <NaturalMember _id="id1B9" externalID="32" id="32" name="NaturalMember" properties="id127" value="1.2816"/>
+    <NaturalMember _id="id1BA" externalID="41" id="41" name="NaturalMember" properties="id138" value="5.4747"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id130 id13F" _id="id1BB" externalID="1017" id="1017" maximum="1000000000" minimum="0" name="Payload_m">
+    <NaturalMember _id="id1BC" externalID="33" id="33" name="NaturalMember" properties="id128" value="0.18"/>
+    <NaturalMember _id="id1BD" externalID="42" id="42" name="NaturalMember" properties="id139" value="0.31"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id12e id13D" _id="id1Be" externalID="1018" id="1018" maximum="1000000000" minimum="0" name="Flyweight_b">
+    <NaturalMember _id="id1BF" externalID="34" id="34" name="NaturalMember" properties="id129" value="0.91"/>
+    <NaturalMember _id="id1C0" externalID="40" id="40" name="NaturalMember" properties="id137" value="4.92"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id131 id140" _id="id1C1" externalID="1019" id="1019" maximum="1000000000" minimum="0" name="CruisingVelocity_m">
+    <NaturalMember _id="id1C2" externalID="35" id="35" name="NaturalMember" properties="id12A" value="1.0877"/>
+    <NaturalMember _id="id1C3" externalID="38" id="38" name="NaturalMember" properties="id135" value="1.0252"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id132 id141" _id="id1C4" externalID="1020" id="1020" maximum="1000000000" minimum="0" name="Endurance_m">
+    <NaturalMember _id="id1C5" externalID="36" id="36" name="NaturalMember" properties="id12B" value="0.0346"/>
+    <NaturalMember _id="id1C6" externalID="43" id="43" name="NaturalMember" properties="id13A" value="0.2231"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id133 id142" _id="id1C7" externalID="1021" id="1021" maximum="1000000000" minimum="0" name="CruisingVelocity_b">
+    <NaturalMember _id="id1C8" externalID="37" id="37" name="NaturalMember" properties="id12C" value="23.6"/>
+    <NaturalMember _id="id1C9" externalID="44" id="44" name="NaturalMember" properties="id13B" value="20.44"/>
+  </NaturalDomain>
+  <NaturalDomain Property="id147 id14A id14D id150 id153 id156" _id="id1CA" externalID="1022" id="1022" maximum="1000000000" minimum="0" name="Wingspan">
+    <NaturalMember _id="id1CB" externalID="45" id="45" name="NaturalMember" properties="id146" value="2"/>
+    <NaturalMember _id="id1CC" externalID="46" id="46" name="NaturalMember" properties="id149" value="12"/>
+    <NaturalMember _id="id1CD" externalID="47" id="47" name="NaturalMember" properties="id14C" value="4"/>
+    <NaturalMember _id="id1Ce" externalID="48" id="48" name="NaturalMember" properties="id14F" value="6"/>
+    <NaturalMember _id="id1CF" externalID="49" id="49" name="NaturalMember" properties="id152" value="8"/>
+    <NaturalMember _id="id1D0" externalID="50" id="50" name="NaturalMember" properties="id155" value="10"/>
+  </NaturalDomain>
+  <Space _id="id66" decomposition="true" externalID="1000" id="1000" name="DesignSpace">
+    <Element Formula="id175 id176 id177 id178 id179 id17A id17B id17C id17D id17e id17F id180 id181 id182 id183 id184 id185 id186 id187 id188 id189 id18A id18B" _id="id67" decomposition="true" externalID="100000014" id="100000014" name="UAV" Constraint="id158 id159 id15A id15B id15C id15D id15e id15F">
+      <AssignedValues _id="id68" externalID="2000" id="2000" name="AssignedValues" properties_end_="id83" values_end_="id18D"/>
+      <AssignedValues _id="id69" externalID="2000" id="2000" name="AssignedValues" properties_end_="id84" values_end_="id18F"/>
+      <AssignedValues _id="id6A" externalID="2000" id="2000" name="AssignedValues" properties_end_="id85" values_end_="id191"/>
+      <AssignedValues _id="id6B" externalID="2000" id="2000" name="AssignedValues" properties_end_="id86" values_end_="id193"/>
+      <AssignedValues _id="id6C" externalID="2000" id="2000" name="AssignedValues" properties_end_="id87" values_end_="id195"/>
+      <AssignedValues _id="id6D" externalID="2000" id="2000" name="AssignedValues" properties_end_="id88" values_end_="id197"/>
+      <AssignedValues _id="id6e" externalID="2000" id="2000" name="AssignedValues" properties_end_="id89" values_end_="id199"/>
+      <Element Formula="id161 id162 id163" _id="id8D" decomposition="true" externalID="100000015" id="100000015" name="IR Sensor">
+        <Element Formula="id164 id165" _id="id91" decomposition="false" externalID="100000016" id="100000016" name="Resolution">
+          <Element _id="id94" decomposition="false" externalID="300000632" id="300000632" name="1000x1000">
+            <AssignedValues _id="id95" externalID="2000" id="2000" name="AssignedValues" properties_end_="id98" values_end_="id19B"/>
+            <AssignedValues _id="id96" externalID="2000" id="2000" name="AssignedValues" properties_end_="id97" values_end_="id1A5"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101000" PCM_STR="PCM_NONE" _id="id97" domain="id1A4" externalID="300005605" id="300005605" name="VerticalResolution" parametric="false" simple_formula="id165" values="id96"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101000" PCM_STR="PCM_NONE" _id="id98" domain="id19A" externalID="300005606" id="300005606" name="HorizontalResolution" parametric="false" simple_formula="id164" values="id95"/>
+          </Element>
+          <Element _id="id99" decomposition="false" externalID="300000635" id="300000635" name="1800x1800">
+            <AssignedValues _id="id9A" externalID="2000" id="2000" name="AssignedValues" properties_end_="id9C" values_end_="id1A6"/>
+            <AssignedValues _id="id9B" externalID="2000" id="2000" name="AssignedValues" properties_end_="id9D" values_end_="id19C"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101800" PCM_STR="PCM_NONE" _id="id9C" domain="id1A4" externalID="300005611" id="300005611" name="VerticalResolution" parametric="false" simple_formula="id165" values="id9A"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101800" PCM_STR="PCM_NONE" _id="id9D" domain="id19A" externalID="300005612" id="300005612" name="HorizontalResolution" parametric="false" simple_formula="id164" values="id9B"/>
+          </Element>
+          <Element _id="id9e" decomposition="false" externalID="300000638" id="300000638" name="1600x1600">
+            <AssignedValues _id="id9F" externalID="2000" id="2000" name="AssignedValues" properties_end_="idA1" values_end_="id1A7"/>
+            <AssignedValues _id="idA0" externalID="2000" id="2000" name="AssignedValues" properties_end_="idA2" values_end_="id19D"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101600" PCM_STR="PCM_NONE" _id="idA1" domain="id1A4" externalID="300005609" id="300005609" name="VerticalResolution" parametric="false" simple_formula="id165" values="id9F"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101600" PCM_STR="PCM_NONE" _id="idA2" domain="id19A" externalID="300005610" id="300005610" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idA0"/>
+          </Element>
+          <Element _id="idA3" decomposition="false" externalID="300000641" id="300000641" name="1400x1400">
+            <AssignedValues _id="idA4" externalID="2000" id="2000" name="AssignedValues" properties_end_="idA6" values_end_="id1A8"/>
+            <AssignedValues _id="idA5" externalID="2000" id="2000" name="AssignedValues" properties_end_="idA7" values_end_="id19e"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101400" PCM_STR="PCM_NONE" _id="idA6" domain="id1A4" externalID="300005607" id="300005607" name="VerticalResolution" parametric="false" simple_formula="id165" values="idA4"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101400" PCM_STR="PCM_NONE" _id="idA7" domain="id19A" externalID="300005608" id="300005608" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idA5"/>
+          </Element>
+          <Element _id="idA8" decomposition="false" externalID="300000644" id="300000644" name="800x800">
+            <AssignedValues _id="idA9" externalID="2000" id="2000" name="AssignedValues" properties_end_="idAB" values_end_="id1A9"/>
+            <AssignedValues _id="idAA" externalID="2000" id="2000" name="AssignedValues" properties_end_="idAC" values_end_="id19F"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100800" PCM_STR="PCM_NONE" _id="idAB" domain="id1A4" externalID="300005603" id="300005603" name="VerticalResolution" parametric="false" simple_formula="id165" values="idA9"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100800" PCM_STR="PCM_NONE" _id="idAC" domain="id19A" externalID="300005604" id="300005604" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idAA"/>
+          </Element>
+          <Element _id="idAD" decomposition="false" externalID="300000647" id="300000647" name="600x600">
+            <AssignedValues _id="idAe" externalID="2000" id="2000" name="AssignedValues" properties_end_="idB0" values_end_="id1AA"/>
+            <AssignedValues _id="idAF" externalID="2000" id="2000" name="AssignedValues" properties_end_="idB1" values_end_="id1A0"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100600" PCM_STR="PCM_NONE" _id="idB0" domain="id1A4" externalID="300005601" id="300005601" name="VerticalResolution" parametric="false" simple_formula="id165" values="idAe"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100600" PCM_STR="PCM_NONE" _id="idB1" domain="id19A" externalID="300005602" id="300005602" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idAF"/>
+          </Element>
+          <Element _id="idB2" decomposition="false" externalID="300000650" id="300000650" name="400x400">
+            <AssignedValues _id="idB3" externalID="2000" id="2000" name="AssignedValues" properties_end_="idB5" values_end_="id1AB"/>
+            <AssignedValues _id="idB4" externalID="2000" id="2000" name="AssignedValues" properties_end_="idB6" values_end_="id1A1"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100400" PCM_STR="PCM_NONE" _id="idB5" domain="id1A4" externalID="300005599" id="300005599" name="VerticalResolution" parametric="false" simple_formula="id165" values="idB3"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100400" PCM_STR="PCM_NONE" _id="idB6" domain="id19A" externalID="300005600" id="300005600" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idB4"/>
+          </Element>
+          <Element _id="idB7" decomposition="false" externalID="300000653" id="300000653" name="1200x1200">
+            <AssignedValues _id="idB8" externalID="2000" id="2000" name="AssignedValues" properties_end_="idBA" values_end_="id1AC"/>
+            <AssignedValues _id="idB9" externalID="2000" id="2000" name="AssignedValues" properties_end_="idBB" values_end_="id1A2"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101200" PCM_STR="PCM_NONE" _id="idBA" domain="id1A4" externalID="300005597" id="300005597" name="VerticalResolution" parametric="false" simple_formula="id165" values="idB8"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101200" PCM_STR="PCM_NONE" _id="idBB" domain="id19A" externalID="300005598" id="300005598" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idB9"/>
+          </Element>
+          <Element _id="idBC" decomposition="false" externalID="300000656" id="300000656" name="200x200">
+            <AssignedValues _id="idBD" externalID="2000" id="2000" name="AssignedValues" properties_end_="idBF" values_end_="id1AD"/>
+            <AssignedValues _id="idBe" externalID="2000" id="2000" name="AssignedValues" properties_end_="idC0" values_end_="id1A3"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100200" PCM_STR="PCM_NONE" _id="idBF" domain="id1A4" externalID="300005613" id="300005613" name="VerticalResolution" parametric="false" simple_formula="id165" values="idBD"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100200" PCM_STR="PCM_NONE" _id="idC0" domain="id19A" externalID="300005614" id="300005614" name="HorizontalResolution" parametric="false" simple_formula="id164" values="idBe"/>
+          </Element>
+          <VariableProperty CUSTName="HorizontalResolution" Max="0" PCM_STR="" _id="id92" externalID="100005016" formula_end="id164" id="100005016" name="HorizontalResolution" parametric="true"/>
+          <VariableProperty CUSTName="VerticalResolution" Max="0" PCM_STR="" _id="id93" externalID="100005016" formula_end="id165" id="100005016" name="VerticalResolution" parametric="true"/>
+        </Element>
+        <Element Formula="id166" _id="idC1" decomposition="false" externalID="100000017" id="100000017" name="FieldOfView">
+          <Element _id="idC3" decomposition="false" externalID="300000662" id="300000662" name="15 Degrees">
+            <AssignedValues _id="idC4" externalID="2000" id="2000" name="AssignedValues" properties_end_="idC5" values_end_="id1AF"/>
+            <VariableProperty CUSTName="FOV" Max="100015" PCM_STR="PCM_NONE" _id="idC5" domain="id1Ae" externalID="300005581" id="300005581" name="FOV" parametric="false" simple_formula="id166" values="idC4"/>
+          </Element>
+          <Element _id="idC6" decomposition="false" externalID="300000665" id="300000665" name="75 Degrees">
+            <AssignedValues _id="idC7" externalID="2000" id="2000" name="AssignedValues" properties_end_="idC8" values_end_="id1B0"/>
+            <VariableProperty CUSTName="FOV" Max="100075" PCM_STR="PCM_NONE" _id="idC8" domain="id1Ae" externalID="300005586" id="300005586" name="FOV" parametric="false" simple_formula="id166" values="idC7"/>
+          </Element>
+          <Element _id="idC9" decomposition="false" externalID="300000668" id="300000668" name="60 Degrees">
+            <AssignedValues _id="idCA" externalID="2000" id="2000" name="AssignedValues" properties_end_="idCB" values_end_="id1B1"/>
+            <VariableProperty CUSTName="FOV" Max="100060" PCM_STR="PCM_NONE" _id="idCB" domain="id1Ae" externalID="300005585" id="300005585" name="FOV" parametric="false" simple_formula="id166" values="idCA"/>
+          </Element>
+          <Element _id="idCC" decomposition="false" externalID="300000671" id="300000671" name="45 Degrees">
+            <AssignedValues _id="idCD" externalID="2000" id="2000" name="AssignedValues" properties_end_="idCe" values_end_="id1B2"/>
+            <VariableProperty CUSTName="FOV" Max="100045" PCM_STR="PCM_NONE" _id="idCe" domain="id1Ae" externalID="300005584" id="300005584" name="FOV" parametric="false" simple_formula="id166" values="idCD"/>
+          </Element>
+          <Element _id="idCF" decomposition="false" externalID="300000674" id="300000674" name="90 Degrees">
+            <AssignedValues _id="idD0" externalID="2000" id="2000" name="AssignedValues" properties_end_="idD1" values_end_="id1B3"/>
+            <VariableProperty CUSTName="FOV" Max="100090" PCM_STR="PCM_NONE" _id="idD1" domain="id1Ae" externalID="300005583" id="300005583" name="FOV" parametric="false" simple_formula="id166" values="idD0"/>
+          </Element>
+          <Element _id="idD2" decomposition="false" externalID="300000677" id="300000677" name="30 Degrees">
+            <AssignedValues _id="idD3" externalID="2000" id="2000" name="AssignedValues" properties_end_="idD4" values_end_="id1B4"/>
+            <VariableProperty CUSTName="FOV" Max="100030" PCM_STR="PCM_NONE" _id="idD4" domain="id1Ae" externalID="300005582" id="300005582" name="FOV" parametric="false" simple_formula="id166" values="idD3"/>
+          </Element>
+          <VariableProperty CUSTName="FOV" Max="0" PCM_STR="" _id="idC2" externalID="100005017" formula_end="id166" id="100005017" name="FOV" parametric="true"/>
+        </Element>
+        <VariableProperty CUSTName="VerticalResolution" Max="0" PCM_STR="" _id="id8e" externalID="100005015" formula_end="id161" id="100005015" name="VerticalResolution" parametric="true" simple_formula="id178"/>
+        <VariableProperty CUSTName="HorizontalResolution" Max="0" PCM_STR="" _id="id8F" externalID="100005015" formula_end="id162" id="100005015" name="HorizontalResolution" parametric="true" simple_formula="id178"/>
+        <VariableProperty CUSTName="FOV" Max="0" PCM_STR="" _id="id90" externalID="100005015" formula_end="id163" id="100005015" name="FOV" parametric="true"/>
+      </Element>
+      <Element Formula="id167 id168 id169" _id="idD5" decomposition="true" externalID="100000018" id="100000018" name="EO Sensor">
+        <Element Formula="id16A id16B" _id="idD9" decomposition="false" externalID="100000019" id="100000019" name="Resolution">
+          <Element _id="idDC" decomposition="false" externalID="300000633" id="300000633" name="1000x1000">
+            <AssignedValues _id="idDD" externalID="2000" id="2000" name="AssignedValues" properties_end_="ide0" values_end_="id19B"/>
+            <AssignedValues _id="idDe" externalID="2000" id="2000" name="AssignedValues" properties_end_="idDF" values_end_="id1A5"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101000" PCM_STR="PCM_NONE" _id="idDF" domain="id1A4" externalID="300005605" id="300005605" name="VerticalResolution" parametric="false" simple_formula="id16B" values="idDe"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101000" PCM_STR="PCM_NONE" _id="ide0" domain="id19A" externalID="300005606" id="300005606" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="idDD"/>
+          </Element>
+          <Element _id="ide1" decomposition="false" externalID="300000636" id="300000636" name="1800x1800">
+            <AssignedValues _id="ide2" externalID="2000" id="2000" name="AssignedValues" properties_end_="ide4" values_end_="id1A6"/>
+            <AssignedValues _id="ide3" externalID="2000" id="2000" name="AssignedValues" properties_end_="ide5" values_end_="id19C"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101800" PCM_STR="PCM_NONE" _id="ide4" domain="id1A4" externalID="300005611" id="300005611" name="VerticalResolution" parametric="false" simple_formula="id16B" values="ide2"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101800" PCM_STR="PCM_NONE" _id="ide5" domain="id19A" externalID="300005612" id="300005612" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="ide3"/>
+          </Element>
+          <Element _id="ide6" decomposition="false" externalID="300000639" id="300000639" name="1600x1600">
+            <AssignedValues _id="ide7" externalID="2000" id="2000" name="AssignedValues" properties_end_="ide9" values_end_="id1A7"/>
+            <AssignedValues _id="ide8" externalID="2000" id="2000" name="AssignedValues" properties_end_="ideA" values_end_="id19D"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101600" PCM_STR="PCM_NONE" _id="ide9" domain="id1A4" externalID="300005609" id="300005609" name="VerticalResolution" parametric="false" simple_formula="id16B" values="ide7"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101600" PCM_STR="PCM_NONE" _id="ideA" domain="id19A" externalID="300005610" id="300005610" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="ide8"/>
+          </Element>
+          <Element _id="ideB" decomposition="false" externalID="300000642" id="300000642" name="1400x1400">
+            <AssignedValues _id="ideC" externalID="2000" id="2000" name="AssignedValues" properties_end_="idee" values_end_="id1A8"/>
+            <AssignedValues _id="ideD" externalID="2000" id="2000" name="AssignedValues" properties_end_="ideF" values_end_="id19e"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101400" PCM_STR="PCM_NONE" _id="idee" domain="id1A4" externalID="300005607" id="300005607" name="VerticalResolution" parametric="false" simple_formula="id16B" values="ideC"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101400" PCM_STR="PCM_NONE" _id="ideF" domain="id19A" externalID="300005608" id="300005608" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="ideD"/>
+          </Element>
+          <Element _id="idF0" decomposition="false" externalID="300000645" id="300000645" name="800x800">
+            <AssignedValues _id="idF1" externalID="2000" id="2000" name="AssignedValues" properties_end_="idF3" values_end_="id1A9"/>
+            <AssignedValues _id="idF2" externalID="2000" id="2000" name="AssignedValues" properties_end_="idF4" values_end_="id19F"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100800" PCM_STR="PCM_NONE" _id="idF3" domain="id1A4" externalID="300005603" id="300005603" name="VerticalResolution" parametric="false" simple_formula="id16B" values="idF1"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100800" PCM_STR="PCM_NONE" _id="idF4" domain="id19A" externalID="300005604" id="300005604" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="idF2"/>
+          </Element>
+          <Element _id="idF5" decomposition="false" externalID="300000648" id="300000648" name="600x600">
+            <AssignedValues _id="idF6" externalID="2000" id="2000" name="AssignedValues" properties_end_="idF9" values_end_="id1A0"/>
+            <AssignedValues _id="idF7" externalID="2000" id="2000" name="AssignedValues" properties_end_="idF8" values_end_="id1AA"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100600" PCM_STR="PCM_NONE" _id="idF8" domain="id1A4" externalID="300005601" id="300005601" name="VerticalResolution" parametric="false" simple_formula="id16B" values="idF7"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100600" PCM_STR="PCM_NONE" _id="idF9" domain="id19A" externalID="300005602" id="300005602" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="idF6"/>
+          </Element>
+          <Element _id="idFA" decomposition="false" externalID="300000651" id="300000651" name="400x400">
+            <AssignedValues _id="idFB" externalID="2000" id="2000" name="AssignedValues" properties_end_="idFD" values_end_="id1AB"/>
+            <AssignedValues _id="idFC" externalID="2000" id="2000" name="AssignedValues" properties_end_="idFe" values_end_="id1A1"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100400" PCM_STR="PCM_NONE" _id="idFD" domain="id1A4" externalID="300005599" id="300005599" name="VerticalResolution" parametric="false" simple_formula="id16B" values="idFB"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100400" PCM_STR="PCM_NONE" _id="idFe" domain="id19A" externalID="300005600" id="300005600" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="idFC"/>
+          </Element>
+          <Element _id="idFF" decomposition="false" externalID="300000654" id="300000654" name="1200x1200">
+            <AssignedValues _id="id100" externalID="2000" id="2000" name="AssignedValues" properties_end_="id103" values_end_="id1A2"/>
+            <AssignedValues _id="id101" externalID="2000" id="2000" name="AssignedValues" properties_end_="id102" values_end_="id1AC"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="101200" PCM_STR="PCM_NONE" _id="id102" domain="id1A4" externalID="300005597" id="300005597" name="VerticalResolution" parametric="false" simple_formula="id16B" values="id101"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="101200" PCM_STR="PCM_NONE" _id="id103" domain="id19A" externalID="300005598" id="300005598" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="id100"/>
+          </Element>
+          <Element _id="id104" decomposition="false" externalID="300000657" id="300000657" name="200x200">
+            <AssignedValues _id="id105" externalID="2000" id="2000" name="AssignedValues" properties_end_="id107" values_end_="id1AD"/>
+            <AssignedValues _id="id106" externalID="2000" id="2000" name="AssignedValues" properties_end_="id108" values_end_="id1A3"/>
+            <VariableProperty CUSTName="VerticalResolution" Max="100200" PCM_STR="PCM_NONE" _id="id107" domain="id1A4" externalID="300005613" id="300005613" name="VerticalResolution" parametric="false" simple_formula="id16B" values="id105"/>
+            <VariableProperty CUSTName="HorizontalResolution" Max="100200" PCM_STR="PCM_NONE" _id="id108" domain="id19A" externalID="300005614" id="300005614" name="HorizontalResolution" parametric="false" simple_formula="id16A" values="id106"/>
+          </Element>
+          <VariableProperty CUSTName="HorizontalResolution" Max="0" PCM_STR="" _id="idDA" externalID="100005019" formula_end="id16A" id="100005019" name="HorizontalResolution" parametric="true"/>
+          <VariableProperty CUSTName="VerticalResolution" Max="0" PCM_STR="" _id="idDB" externalID="100005019" formula_end="id16B" id="100005019" name="VerticalResolution" parametric="true"/>
+        </Element>
+        <Element Formula="id16C" _id="id109" decomposition="false" externalID="100000020" id="100000020" name="FieldOfView">
+          <Element _id="id10B" decomposition="false" externalID="300000663" id="300000663" name="15 Degrees">
+            <AssignedValues _id="id10C" externalID="2000" id="2000" name="AssignedValues" properties_end_="id10D" values_end_="id1AF"/>
+            <VariableProperty CUSTName="FOV" Max="100015" PCM_STR="PCM_NONE" _id="id10D" domain="id1Ae" externalID="300005581" id="300005581" name="FOV" parametric="false" simple_formula="id16C" values="id10C"/>
+          </Element>
+          <Element _id="id10e" decomposition="false" externalID="300000666" id="300000666" name="75 Degrees">
+            <AssignedValues _id="id10F" externalID="2000" id="2000" name="AssignedValues" properties_end_="id110" values_end_="id1B0"/>
+            <VariableProperty CUSTName="FOV" Max="100075" PCM_STR="PCM_NONE" _id="id110" domain="id1Ae" externalID="300005586" id="300005586" name="FOV" parametric="false" simple_formula="id16C" values="id10F"/>
+          </Element>
+          <Element _id="id111" decomposition="false" externalID="300000669" id="300000669" name="60 Degrees">
+            <AssignedValues _id="id112" externalID="2000" id="2000" name="AssignedValues" properties_end_="id113" values_end_="id1B1"/>
+            <VariableProperty CUSTName="FOV" Max="100060" PCM_STR="PCM_NONE" _id="id113" domain="id1Ae" externalID="300005585" id="300005585" name="FOV" parametric="false" simple_formula="id16C" values="id112"/>
+          </Element>
+          <Element _id="id114" decomposition="false" externalID="300000672" id="300000672" name="45 Degrees">
+            <AssignedValues _id="id115" externalID="2000" id="2000" name="AssignedValues" properties_end_="id116" values_end_="id1B2"/>
+            <VariableProperty CUSTName="FOV" Max="100045" PCM_STR="PCM_NONE" _id="id116" domain="id1Ae" externalID="300005584" id="300005584" name="FOV" parametric="false" simple_formula="id16C" values="id115"/>
+          </Element>
+          <Element _id="id117" decomposition="false" externalID="300000675" id="300000675" name="90 Degrees">
+            <AssignedValues _id="id118" externalID="2000" id="2000" name="AssignedValues" properties_end_="id119" values_end_="id1B3"/>
+            <VariableProperty CUSTName="FOV" Max="100090" PCM_STR="PCM_NONE" _id="id119" domain="id1Ae" externalID="300005583" id="300005583" name="FOV" parametric="false" simple_formula="id16C" values="id118"/>
+          </Element>
+          <Element _id="id11A" decomposition="false" externalID="300000678" id="300000678" name="30 Degrees">
+            <AssignedValues _id="id11B" externalID="2000" id="2000" name="AssignedValues" properties_end_="id11C" values_end_="id1B4"/>
+            <VariableProperty CUSTName="FOV" Max="100030" PCM_STR="PCM_NONE" _id="id11C" domain="id1Ae" externalID="300005582" id="300005582" name="FOV" parametric="false" simple_formula="id16C" values="id11B"/>
+          </Element>
+          <VariableProperty CUSTName="FOV" Max="0" PCM_STR="" _id="id10A" externalID="100005020" formula_end="id16C" id="100005020" name="FOV" parametric="true"/>
+        </Element>
+        <VariableProperty CUSTName="VerticalResolution" Max="0" PCM_STR="" _id="idD6" externalID="100005018" formula_end="id167" id="100005018" name="VerticalResolution" parametric="true" simple_formula="id178"/>
+        <VariableProperty CUSTName="HorizontalResolution" Max="0" PCM_STR="" _id="idD7" externalID="100005018" formula_end="id168" id="100005018" name="HorizontalResolution" parametric="true" simple_formula="id178"/>
+        <VariableProperty CUSTName="FOV" Max="0" PCM_STR="" _id="idD8" externalID="100005018" formula_end="id169" id="100005018" name="FOV" parametric="true"/>
+      </Element>
+      <Element Formula="id16D id16e id16F id170 id171 id172 id173" _id="id11D" decomposition="false" externalID="100000021" id="100000021" name="Engine">
+        <Element _id="id125" decomposition="false" externalID="300000700" id="300000700" name="ElectricEngine">
+          <AssignedValues _id="id126" externalID="2000" id="2000" name="AssignedValues" properties_end_="id12F" values_end_="id1B6"/>
+          <AssignedValues _id="id127" externalID="2000" id="2000" name="AssignedValues" properties_end_="id12D" values_end_="id1B9"/>
+          <AssignedValues _id="id128" externalID="2000" id="2000" name="AssignedValues" properties_end_="id130" values_end_="id1BC"/>
+          <AssignedValues _id="id129" externalID="2000" id="2000" name="AssignedValues" properties_end_="id12e" values_end_="id1BF"/>
+          <AssignedValues _id="id12A" externalID="2000" id="2000" name="AssignedValues" properties_end_="id131" values_end_="id1C2"/>
+          <AssignedValues _id="id12B" externalID="2000" id="2000" name="AssignedValues" properties_end_="id132" values_end_="id1C5"/>
+          <AssignedValues _id="id12C" externalID="2000" id="2000" name="AssignedValues" properties_end_="id133" values_end_="id1C8"/>
+          <VariableProperty CUSTName="Endurance_b" Max="100001" PCM_STR="PCM_NONE" _id="id12D" domain="id1B8" externalID="300005555" id="300005555" name="Endurance_b" parametric="false" simple_formula="id170" values="id127"/>
+          <VariableProperty CUSTName="Flyweight_b" Max="100000" PCM_STR="PCM_NONE" _id="id12e" domain="id1Be" externalID="300005556" id="300005556" name="Flyweight_b" parametric="false" simple_formula="id16D" values="id129"/>
+          <VariableProperty CUSTName="Flyweight_m" Max="100001" PCM_STR="PCM_NONE" _id="id12F" domain="id1B5" externalID="300005557" id="300005557" name="Flyweight_m" parametric="false" simple_formula="id16e" values="id126"/>
+          <VariableProperty CUSTName="Payload_m" Max="100000" PCM_STR="PCM_NONE" _id="id130" domain="id1BB" externalID="300005558" id="300005558" name="Payload_m" parametric="false" simple_formula="id16F" values="id128"/>
+          <VariableProperty CUSTName="CruisingVelocity_m" Max="100001" PCM_STR="PCM_NONE" _id="id131" domain="id1C1" externalID="300005559" id="300005559" name="CruisingVelocity_m" parametric="false" simple_formula="id173" values="id12A"/>
+          <VariableProperty CUSTName="Endurance_m" Max="100000" PCM_STR="PCM_NONE" _id="id132" domain="id1C4" externalID="300005560" id="300005560" name="Endurance_m" parametric="false" simple_formula="id171" values="id12B"/>
+          <VariableProperty CUSTName="CruisingVelocity_b" Max="100023" PCM_STR="PCM_NONE" _id="id133" domain="id1C7" externalID="300005561" id="300005561" name="CruisingVelocity_b" parametric="false" simple_formula="id172" values="id12C"/>
+        </Element>
+        <Element _id="id134" decomposition="false" externalID="300000701" id="300000701" name="PistonEngine">
+          <AssignedValues _id="id135" externalID="2000" id="2000" name="AssignedValues" properties_end_="id140" values_end_="id1C3"/>
+          <AssignedValues _id="id136" externalID="2000" id="2000" name="AssignedValues" properties_end_="id13e" values_end_="id1B7"/>
+          <AssignedValues _id="id137" externalID="2000" id="2000" name="AssignedValues" properties_end_="id13D" values_end_="id1C0"/>
+          <AssignedValues _id="id138" externalID="2000" id="2000" name="AssignedValues" properties_end_="id13C" values_end_="id1BA"/>
+          <AssignedValues _id="id139" externalID="2000" id="2000" name="AssignedValues" properties_end_="id13F" values_end_="id1BD"/>
+          <AssignedValues _id="id13A" externalID="2000" id="2000" name="AssignedValues" properties_end_="id141" values_end_="id1C6"/>
+          <AssignedValues _id="id13B" externalID="2000" id="2000" name="AssignedValues" properties_end_="id142" values_end_="id1C9"/>
+          <VariableProperty CUSTName="Endurance_b" Max="100005" PCM_STR="PCM_NONE" _id="id13C" domain="id1B8" externalID="300005562" id="300005562" name="Endurance_b" parametric="false" simple_formula="id170" values="id138"/>
+          <VariableProperty CUSTName="Flyweight_b" Max="100004" PCM_STR="PCM_NONE" _id="id13D" domain="id1Be" externalID="300005563" id="300005563" name="Flyweight_b" parametric="false" simple_formula="id16D" values="id137"/>
+          <VariableProperty CUSTName="Flyweight_m" Max="100002" PCM_STR="PCM_NONE" _id="id13e" domain="id1B5" externalID="300005564" id="300005564" name="Flyweight_m" parametric="false" simple_formula="id16e" values="id136"/>
+          <VariableProperty CUSTName="Payload_m" Max="100000" PCM_STR="PCM_NONE" _id="id13F" domain="id1BB" externalID="300005565" id="300005565" name="Payload_m" parametric="false" simple_formula="id16F" values="id139"/>
+          <VariableProperty CUSTName="CruisingVelocity_m" Max="100001" PCM_STR="PCM_NONE" _id="id140" domain="id1C1" externalID="300005566" id="300005566" name="CruisingVelocity_m" parametric="false" simple_formula="id173" values="id135"/>
+          <VariableProperty CUSTName="Endurance_m" Max="100000" PCM_STR="PCM_NONE" _id="id141" domain="id1C4" externalID="300005567" id="300005567" name="Endurance_m" parametric="false" simple_formula="id171" values="id13A"/>
+          <VariableProperty CUSTName="CruisingVelocity_b" Max="100020" PCM_STR="PCM_NONE" _id="id142" domain="id1C7" externalID="300005568" id="300005568" name="CruisingVelocity_b" parametric="false" simple_formula="id172" values="id13B"/>
+        </Element>
+        <VariableProperty CUSTName="Flyweight_b" Max="0" PCM_STR="" _id="id11e" externalID="100005021" formula_end="id16D" id="100005021" name="Flyweight_b" parametric="true" simple_formula="id176"/>
+        <VariableProperty CUSTName="Flyweight_m" Max="0" PCM_STR="" _id="id11F" externalID="100005021" formula_end="id16e" id="100005021" name="Flyweight_m" parametric="true" simple_formula="id175"/>
+        <VariableProperty CUSTName="Payload_m" Max="0" PCM_STR="" _id="id120" externalID="100005021" formula_end="id16F" id="100005021" name="Payload_m" parametric="true" simple_formula="id177"/>
+        <VariableProperty CUSTName="Endurance_b" Max="0" PCM_STR="" _id="id121" externalID="100005021" formula_end="id170" id="100005021" name="Endurance_b" parametric="true"/>
+        <VariableProperty CUSTName="Endurance_m" Max="0" PCM_STR="" _id="id122" externalID="100005021" formula_end="id171" id="100005021" name="Endurance_m" parametric="true"/>
+        <VariableProperty CUSTName="CruisingVelocity_b" Max="0" PCM_STR="" _id="id123" externalID="100005021" formula_end="id172" id="100005021" name="CruisingVelocity_b" parametric="true"/>
+        <VariableProperty CUSTName="CruisingVelocity_m" Max="0" PCM_STR="" _id="id124" externalID="100005021" formula_end="id173" id="100005021" name="CruisingVelocity_m" parametric="true"/>
+      </Element>
+      <Element Formula="id174" _id="id143" decomposition="false" externalID="100000022" id="100000022" name="Wings">
+        <Element _id="id145" decomposition="false" externalID="300000706" id="300000706" name="2ft">
+          <AssignedValues _id="id146" externalID="2000" id="2000" name="AssignedValues" properties_end_="id147" values_end_="id1CB"/>
+          <VariableProperty CUSTName="Wingspan" Max="100002" PCM_STR="PCM_NONE" _id="id147" domain="id1CA" externalID="300005575" id="300005575" name="Wingspan" parametric="false" simple_formula="id174" values="id146"/>
+        </Element>
+        <Element _id="id148" decomposition="false" externalID="300000707" id="300000707" name="12ft">
+          <AssignedValues _id="id149" externalID="2000" id="2000" name="AssignedValues" properties_end_="id14A" values_end_="id1CC"/>
+          <VariableProperty CUSTName="Wingspan" Max="100012" PCM_STR="PCM_NONE" _id="id14A" domain="id1CA" externalID="300005570" id="300005570" name="Wingspan" parametric="false" simple_formula="id174" values="id149"/>
+        </Element>
+        <Element _id="id14B" decomposition="false" externalID="300000708" id="300000708" name="4ft">
+          <AssignedValues _id="id14C" externalID="2000" id="2000" name="AssignedValues" properties_end_="id14D" values_end_="id1CD"/>
+          <VariableProperty CUSTName="Wingspan" Max="100004" PCM_STR="PCM_NONE" _id="id14D" domain="id1CA" externalID="300005571" id="300005571" name="Wingspan" parametric="false" simple_formula="id174" values="id14C"/>
+        </Element>
+        <Element _id="id14e" decomposition="false" externalID="300000709" id="300000709" name="6ft">
+          <AssignedValues _id="id14F" externalID="2000" id="2000" name="AssignedValues" properties_end_="id150" values_end_="id1Ce"/>
+          <VariableProperty CUSTName="Wingspan" Max="100006" PCM_STR="PCM_NONE" _id="id150" domain="id1CA" externalID="300005572" id="300005572" name="Wingspan" parametric="false" simple_formula="id174" values="id14F"/>
+        </Element>
+        <Element _id="id151" decomposition="false" externalID="300000710" id="300000710" name="8ft">
+          <AssignedValues _id="id152" externalID="2000" id="2000" name="AssignedValues" properties_end_="id153" values_end_="id1CF"/>
+          <VariableProperty CUSTName="Wingspan" Max="100008" PCM_STR="PCM_NONE" _id="id153" domain="id1CA" externalID="300005573" id="300005573" name="Wingspan" parametric="false" simple_formula="id174" values="id152"/>
+        </Element>
+        <Element _id="id154" decomposition="false" externalID="300000711" id="300000711" name="10ft">
+          <AssignedValues _id="id155" externalID="2000" id="2000" name="AssignedValues" properties_end_="id156" values_end_="id1D0"/>
+          <VariableProperty CUSTName="Wingspan" Max="100010" PCM_STR="PCM_NONE" _id="id156" domain="id1CA" externalID="300005574" id="300005574" name="Wingspan" parametric="false" simple_formula="id174" values="id155"/>
+        </Element>
+        <VariableProperty CUSTName="Wingspan" Max="0" PCM_STR="" _id="id144" externalID="100005022" formula_end="id174" id="100005022" name="Wingspan" parametric="true" simple_formula="id175"/>
+      </Element>
+      <VariableProperty CUSTName="FlyWeight" Max="0" PCM_STR="" _id="id6F" externalID="100005014" formula_end="id176" id="100005014" name="FlyWeight" parametric="true" simple_formula="id177"/>
+      <VariableProperty CUSTName="MaxPayload" Max="0" PCM_STR="" _id="id70" externalID="100005014" formula_end="id177" id="100005014" name="MaxPayload" parametric="true"/>
+      <VariableProperty CUSTName="SensorDiameter" Max="0" PCM_STR="" _id="id71" externalID="100005014" formula_end="id17A" id="100005014" name="SensorDiameter" parametric="true"/>
+      <VariableProperty CUSTName="Endurance" Max="0" PCM_STR="" _id="id72" externalID="100005014" formula_end="id17e" id="100005014" name="Endurance" parametric="true"/>
+      <VariableProperty CUSTName="CruisingVelocity" Max="0" PCM_STR="" _id="id73" externalID="100005014" formula_end="id17F" id="100005014" name="CruisingVelocity" parametric="true"/>
+      <VariableProperty CUSTName="TimeRequiredToFly10km" Max="0" PCM_STR="" _id="id74" externalID="100005014" formula_end="id180" id="100005014" name="TimeRequiredToFly10km" parametric="true"/>
+      <VariableProperty CUSTName="DwellTime" Max="0" PCM_STR="" _id="id75" externalID="100005014" formula_end="id181" id="100005014" name="DwellTime" parametric="true"/>
+      <VariableProperty CUSTName="ProbDetectHumanDaytime" Max="0" PCM_STR="" _id="id76" externalID="100005014" formula_end="id185" id="100005014" name="ProbDetectHumanDaytime" parametric="true"/>
+      <VariableProperty CUSTName="EO_GSD" Max="0" PCM_STR="" _id="id77" externalID="100005014" formula_end="id182" id="100005014" name="EO_GSD" parametric="true"/>
+      <VariableProperty CUSTName="EO_N_Human" Max="0" PCM_STR="" _id="id78" externalID="100005014" formula_end="id183" id="100005014" name="EO_N_Human" parametric="true"/>
+      <VariableProperty CUSTName="EO_N_Vehicle" Max="0" PCM_STR="" _id="id79" externalID="100005014" formula_end="id184" id="100005014" name="EO_N_Vehicle" parametric="true"/>
+      <VariableProperty CUSTName="ProbDetectVehicleDaytime" Max="0" PCM_STR="" _id="id7A" externalID="100005014" formula_end="id186" id="100005014" name="ProbDetectVehicleDaytime" parametric="true"/>
+      <VariableProperty CUSTName="IR_GSD" Max="0" PCM_STR="" _id="id7B" externalID="100005014" formula_end="id18B" id="100005014" name="IR_GSD" parametric="true"/>
+      <VariableProperty CUSTName="ProbDetectVehicleNighttime" Max="0" PCM_STR="" _id="id7C" externalID="100005014" formula_end="id189" id="100005014" name="ProbDetectVehicleNighttime" parametric="true"/>
+      <VariableProperty CUSTName="IR_N_Vehicle" Max="0" PCM_STR="" _id="id7D" externalID="100005014" formula_end="id188" id="100005014" name="IR_N_Vehicle" parametric="true"/>
+      <VariableProperty CUSTName="IR_N_Human" Max="0" PCM_STR="" _id="id7e" externalID="100005014" formula_end="id187" id="100005014" name="IR_N_Human" parametric="true"/>
+      <VariableProperty CUSTName="ProbDetectHumanNighttime" Max="0" PCM_STR="" _id="id7F" externalID="100005014" formula_end="id18A" id="100005014" name="ProbDetectHumanNighttime" parametric="true"/>
+      <VariableProperty CUSTName="SensorWeight" Max="0" PCM_STR="" _id="id80" externalID="100005014" formula_end="id17B" id="100005014" name="SensorWeight" parametric="true"/>
+      <VariableProperty CUSTName="PayloadHeadroom" Max="0" PCM_STR="" _id="id81" externalID="100005014" formula_end="id17C" id="100005014" name="PayloadHeadroom" parametric="true"/>
+      <VariableProperty CUSTName="TotalPayloadWeight" Max="0" PCM_STR="" _id="id82" externalID="100005014" formula_end="id17D" id="100005014" name="TotalPayloadWeight" parametric="true"/>
+      <VariableProperty CUSTName="OperatingAltitude" Max="100000" PCM_STR="PCM_NONE" _id="id83" domain="id18C" externalID="100005014" id="100005014" name="OperatingAltitude" parametric="false" values="id68"/>
+      <VariableProperty CUSTName="0.0024" Max="100000" PCM_STR="PCM_NONE" _id="id84" domain="id18e" externalID="100005014" id="100005014" name="0.0024" parametric="false" simple_formula="id179" values="id69"/>
+      <VariableProperty CUSTName="0.0741" Max="100000" PCM_STR="PCM_NONE" _id="id85" domain="id190" externalID="100005014" id="100005014" name="0.0741" parametric="false" simple_formula="id17A" values="id6A"/>
+      <VariableProperty CUSTName="pi" Max="100000" PCM_STR="PCM_NONE" _id="id86" domain="id192" externalID="100005014" id="100005014" name="pi" parametric="false" values="id6B"/>
+      <VariableProperty CUSTName="Dc_Human" Max="100000" PCM_STR="PCM_NONE" _id="id87" domain="id194" externalID="100005014" id="100005014" name="Dc_Human" parametric="false" values="id6C"/>
+      <VariableProperty CUSTName="Dc_Vehicle" Max="100000" PCM_STR="PCM_NONE" _id="id88" domain="id196" externalID="100005014" id="100005014" name="Dc_Vehicle" parametric="false" values="id6D"/>
+      <VariableProperty CUSTName="N50" Max="100000" PCM_STR="PCM_NONE" _id="id89" domain="id198" externalID="100005014" id="100005014" name="N50" parametric="false" values="id6e"/>
+      <VariableProperty CUSTName="m * Wingspan_1" Max="0" PCM_STR="" _id="id8A" externalID="200005016" formula_end="id175" id="200005016" name="m * Wingspan_1" parametric="true" simple_formula="id176"/>
+      <VariableProperty CUSTName="Sum_2" Max="0" PCM_STR="" _id="id8B" externalID="200005019" formula_end="id178" id="200005019" name="Sum_2" parametric="true" simple_formula="id179"/>
+      <VariableProperty CUSTName="* 0.0024_3" Max="0" PCM_STR="" _id="id8C" externalID="200005020" formula_end="id179" id="200005020" name="* 0.0024_3" parametric="true" simple_formula="id17A"/>
+    </Element>
+  </Space>
+</DesertSystem>

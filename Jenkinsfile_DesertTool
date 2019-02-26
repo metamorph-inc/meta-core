@@ -24,6 +24,14 @@ pipeline {
                     powershell -ExecutionPolicy unrestricted .\github-sourceindexer.ps1 -userId "metamorph-inc" -repository "meta-core" -symbolsFolder "%CD%\externals\desert" -branch %HEAD% -sourcesRoot "%CD%" -verbose -dbgToolsPath "'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64'" -ignoreUnknown -verifyLocalRepo
                 /$)
 
+                bat($/
+                    cd externals\desert\test
+                    set PYTHONUSERBASE=%CD%
+                    ..\..\..\bin\Python27\Scripts\python -m pip install --user nose || exit /b 1
+                    ..\..\..\bin\Python27\Scripts\python -m nose
+                /$)
+
+
                 archiveArtifacts artifacts: 'externals/desert/bin/desert.dll,externals/desert/DesertDll/Release/desert.pdb,externals/desert/bin/DesertTool.exe,externals/desert/bin/DesertTool.pdb', onlyIfSuccessful: true
             }
 
