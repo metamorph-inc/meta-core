@@ -153,7 +153,7 @@
       <AssignedValues _id="id6e" externalID="2000" id="2000" name="AssignedValues" properties_end_="id89" values_end_="id199"/>
       <Element Formula="id161 id162 id163" _id="id8D" decomposition="true" externalID="100000015" id="100000015" name="IR Sensor">
         <Element Formula="id164 id165" _id="id91" decomposition="false" externalID="100000016" id="100000016" name="Resolution">
-          <Element _id="id94" decomposition="false" externalID="300000632" id="300000632" name="1000x1000">
+          <Element _id="id94" decomposition="false" externalID="-300000632" id="-300000632" name="1000x1000">
             <AssignedValues _id="id95" externalID="2000" id="2000" name="AssignedValues" properties_end_="id98" values_end_="id19B"/>
             <AssignedValues _id="id96" externalID="2000" id="2000" name="AssignedValues" properties_end_="id97" values_end_="id1A5"/>
             <VariableProperty CUSTName="VerticalResolution" Max="101000" PCM_STR="PCM_NONE" _id="id97" domain="id1A4" externalID="300005605" id="300005605" name="VerticalResolution" parametric="false" simple_formula="id165" values="id96"/>

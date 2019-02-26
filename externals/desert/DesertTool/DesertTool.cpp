@@ -503,7 +503,7 @@ BOOL CDesertToolApp::InitInstance()
 					}
 				}
 				for (auto countsIt = counts.begin(); countsIt != counts.end(); ++countsIt) {
-					fprintf(fdDcif, "  <Count id=\"%I64u\" count=\"%I64u\"/>\n", countsIt->first, countsIt->second);
+					fprintf(fdDcif, "  <Count id=\"%I64d\" count=\"%I64d\"/>\n", countsIt->first, countsIt->second);
 				}
 			}
 			else if (multiRun) {

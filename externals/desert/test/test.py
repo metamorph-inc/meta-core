@@ -67,6 +67,7 @@ class TestDesert(unittest.TestCase):
         self.assertEqual(25, len(configs.findall('Count')))
         self.assertEqual('134', configs.find('NumberOfConfigurations').attrib['count'])
         self.assertEqual(4, len(configs.findall('Count[@count="15"]')))
+        self.assertEqual(1, len(configs.findall('Count[@id="-300000632"]')))
 
     def test_constraints(self):
         output, configs = self.run_desert_and_parse(["test_input.xml", "/c", "applyAll", "/o", "test_output.xml"])
