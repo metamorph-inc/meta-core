@@ -592,5 +592,22 @@ namespace ComponentAndArchitectureTeamTest
             });
         }
 
+        [Fact]
+        public void UnitsAndFormulas()
+        {
+            // test for constant propagation into a Custom Fomula and back to a constant
+            fixture.proj.PerformInTransaction(delegate
+            {
+                var comp = fixture.proj.ObjectByPath["/@ComponentAssemblies/@UnitsAndFormulas"];
+
+                var output = (IMgaFCO)comp.ObjectByPath["@Output"];
+
+                RunFormulaEvaluator(comp as MgaFCO);
+
+                Assert.Equal((2 * 3 *4 * 100 * 100).ToString(), output.StrAttrByName["Value"]);
+            });
+        }
+
+
     }
 }

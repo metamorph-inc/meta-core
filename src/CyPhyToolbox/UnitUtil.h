@@ -84,7 +84,7 @@ struct UnitUtil
 				if (_isnan(a) && _isnan(b)) {
 					return;
 				}
-				a = _isnan(a) ? 0 : a + _isnan(b) ? 0 : b;
+				a = (_isnan(a) ? 0 : a) + (_isnan(b) ? 0 : b);
 			};
 			add(current, rhs.current);
 			add(luminous, rhs.luminous);
