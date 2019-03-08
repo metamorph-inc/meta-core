@@ -753,6 +753,29 @@ BOOL CDesertToolApp::InitInstance()
 			fclose(fdDcif);
 
 		}//eo try
+		// catch (CMemoryException *e)
+		catch (CSimpleException *e)
+		{
+			if (fdDcif)
+			{
+				if (ftell(fdDcif))
+				{
+					fprintf(fdDcif, "</DesertConfigurations>\n");
+				}
+				fclose(fdDcif);
+			}
+			if (isSilent) {
+				TCHAR errorMessage[1024];
+				e->GetErrorMessage(errorMessage, _countof(errorMessage), 0);
+				_ftprintf(stderr, _T("%s\n"), errorMessage);
+			}
+			else {
+				e->ReportError();
+			}
+			//	throw e;
+			returnCode = 1;
+			return FALSE;
+		}
 		catch (CDesertException *e)
 		{
 			if (fdDcif)
