@@ -6,7 +6,8 @@
 #include "core/utils.h"
 #include "core/bddmain.h"
 
-
+#include <boost/dynamic_bitset.hpp>
+#include <deque>
 
 
 
@@ -65,6 +66,19 @@ CBdd CBdd::Encode(int encVal, int startVar, int encLen)
 	return CBdd(ret);
 }
 
+CBdd CBdd::Encode(const boost::dynamic_bitset<>& enc, int begin_var, int num_vars)
+{
+	MANAGER_CHECK("CBdd::Encode()");
+	bdd ret = bdd_one(manager);
+	int i, n;
+	for (i = begin_var, n = 0; n < num_vars; i++, n++)
+	{
+		if (enc[n] == true) ret = bdd_and(manager, ret, vars[i]);
+		if (enc[n] == false) ret = bdd_and(manager, ret, bdd_not(manager, vars[i]));
+	}
+	return CBdd(ret);
+}
+
 CBdd CBdd::Encode(int *enc, int begin_var, int num_vars)
 {
 	MANAGER_CHECK("CBdd::Encode()");
@@ -95,7 +109,7 @@ CBdd CBdd::Encode(CVIndex enc[], int len)
   return CBdd(ret);
 }
 
-int CBdd::Satisfy(CBdd& b, CPtrList& encVectors)
+int CBdd::Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int (*callback)(void*, const boost::dynamic_bitset<>&), void* arg)
 {
 	/*
 	The function Satisfy fills up and returns a list of bitvectors. 
@@ -111,7 +125,7 @@ int CBdd::Satisfy(CBdd& b, CPtrList& encVectors)
   {
     int *encVec = new int[length];
     memset(encVec, 0xff, sizeof(int)*length);
-    ExpandDontCare(encVec, 0, encVectors);
+    ExpandDontCare(encVec, 0, encVectors, callback, arg);
     delete[] encVec;
   }
   else
@@ -119,11 +133,11 @@ int CBdd::Satisfy(CBdd& b, CPtrList& encVectors)
     int rows=0;
     int **mat = new int*[BDD_MAX_PATHS];
     bdd_sat_f_mat(manager, f, 0, length-1, mat, &rows);
-    if (rows > 0)
+      if (rows > 0)
     {
       for (int i=0; i<rows; i++)
       {
-        ExpandDontCare(mat[i], 0, encVectors);
+        ExpandDontCare(mat[i], 0, encVectors, callback, arg);
         // mat[i] is allocated in bdd_sat_f_mat
         free(mat[i]);
       }
@@ -132,27 +146,35 @@ int CBdd::Satisfy(CBdd& b, CPtrList& encVectors)
     delete[] mat;
   }
 
-  return encVectors.GetCount();
+  return encVectors.size();
 }
 
-void CBdd::ExpandDontCare(int *enc, int cur, CPtrList& encVectors)
+void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*callback)(void*, const boost::dynamic_bitset<>&), void* arg)
 {
 	/*
 	enumerate the  dont care's
 	*/
   if (cur == length)
   {
-    int *encVec = new int[length];
-    memcpy(encVec, enc, sizeof(int)*length);
-    encVectors.AddTail(encVec);
+	  boost::dynamic_bitset<> bs(length);
+	  while (cur--) {
+#ifdef _DEBUG
+		  if (enc[cur] != 0 && enc[cur] != 1)
+			  throw std::runtime_error("Internal error 162");
+#endif
+		  bs.set(length - cur, (bool)enc[length - cur]);
+	  }
+	  if (callback == NULL || (*callback)(arg, bs)) {
+		encVectors.emplace_back(std::move(bs));
+	  }
   } else if (enc[cur] == -1) {
     enc[cur] = 0;
-    ExpandDontCare(enc, cur + 1, encVectors);
+    ExpandDontCare(enc, cur + 1, encVectors, callback, arg);
     enc[cur] = 1;
-    ExpandDontCare(enc, cur + 1, encVectors);
+    ExpandDontCare(enc, cur + 1, encVectors, callback, arg);
     enc[cur] = -1;
   } else {
-    ExpandDontCare(enc, cur + 1, encVectors);
+    ExpandDontCare(enc, cur + 1, encVectors, callback, arg);
   }
 }
 

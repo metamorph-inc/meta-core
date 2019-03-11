@@ -343,9 +343,11 @@ void bdd_sat_f_step_mat(bdd_manager bddm, bdd f, int *a, int len,
         }
         printf("\n");
 #endif
-		// if (*rows >= BDD_MAX_PATHS) {
-		// 	bdd_fatal(_T("Design space is too big"));
-		// }
+#ifdef DEBUG
+		if (*rows >= 100000 /*BDD_MAX_PATH*/) {
+            bdd_fatal(_T("Design space is too big"));
+		}
+#endif
         m[*rows] = b;        
         *rows = *rows + 1;
         free(a);

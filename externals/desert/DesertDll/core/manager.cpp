@@ -769,6 +769,7 @@ long CManager::AddtoSimpleFormulaVariableProperty(long p, const TCHAR *n, long o
 		throw new CDesertException(_T("CManager::AddToVariableProperty(): property not found"));
 
 	vp->AddToPropertyList(src_vp);
+	return 0;
 };
 
 double CManager::ComputeSize() const
@@ -1470,7 +1471,9 @@ bool CManager::Prune(CDynConstraintSet *set, CDynSpaceList& spaces, bool)
   return false;
 }
 
-void * CManager::StoreConfigurations(const TCHAR *fname, tstring &errmsg)
+
+void * CManager::StoreConfigurations(const TCHAR *fname, tstring &errmsg,
+	fBuildConfigurations BuildConfigurations)
 {
 //  if (currentGeneration < 0) GenerateNextHierarchy();
 	if (generations.IsEmpty()) GenerateNextHierarchy();
@@ -1572,7 +1575,7 @@ void * CManager::StoreConfigurations(const TCHAR *fname, tstring &errmsg)
 			  configurations = new BackIfaceFunctions::DBConfigurations;
 
 
-			  BuildConfigurations(configurations, root, prun, encodingLength);
+			  (this->*BuildConfigurations)(configurations, root, prun, encodingLength);
 
 
 			}//eo while(pos)
@@ -1680,22 +1683,18 @@ long CManager::CalcRealNoOfConfigurations()
 			while(pos)
 			{
 				CDynElement *root = roots.GetNext(pos);
-				CPtrList encVectors;
-				CBdd::Satisfy(prun, encVectors);
+				std::deque<boost::dynamic_bitset<>> encVectors;
+				CBdd::Satisfy(prun, encVectors, NULL, NULL);
 
 				// Get rid of double-counting
-				POSITION pos = encVectors.GetHeadPosition();
-				while(pos)
+				for (auto it = encVectors.begin(); it != encVectors.end(); ++it)
 				{
-					int *encVec = (int *)encVectors.GetNext(pos);
+					auto& encVec = *it;
 
 					// convert the value to bdd, to write configuration
-					CBdd enc = CBdd::Encode(encVec, 0, encodingLength);
 					if ( root->NotRedundant(encVec) ) {
 						numCfgsInEachRoot++;
 					}
-
-					delete[] encVec;
 				}
 
 			} //eo while(pos)
@@ -1724,41 +1723,87 @@ long CManager::CalcRealNoOfConfigurations()
 //inline long CManager::GetConfNumber(){static long unique = 1; return unique++;};
 inline long CManager::GetConfNumber(){return unique++;};
 
-void CManager:: BuildConfigurations(BackIfaceFunctions::DBConfigurations *configs , CDynElement *root, CBdd& config, int encLen)
+void CManager::BuildConfigurationsCallback(BackIfaceFunctions::DBConfigurations *configs, CDynElement *root, CBdd& config, int encLen)
 {
-  CPtrList encVectors;
-  int count = CBdd::Satisfy(config, encVectors);
-  POSITION pos = encVectors.GetHeadPosition();
+	std::deque<boost::dynamic_bitset<>> encVectors;
+	typedef struct {
+		int encLen;
+		CDynElement* root;
+		decltype(BuildConfigurationsCallbackFunction) BuildConfigurationsCallbackFunction;
+		void* BuildConfigurationsCallbackFunctionArg;
+	} args;
+	args arg;
+	arg.encLen = encLen;
+	arg.root = root;
+	arg.BuildConfigurationsCallbackFunction = BuildConfigurationsCallbackFunction;
+	arg.BuildConfigurationsCallbackFunctionArg = BuildConfigurationsCallbackFunctionArg;
 
-  while(pos)
-  {
-    int *encVec = (int *)encVectors.GetNext(pos);
+	auto callback = [](void *arg, const boost::dynamic_bitset<>& encVec) -> int {
+		args* a = (args*)arg;
+		CBdd enc = CBdd::Encode(encVec, 0, a->encLen);
+		if (a->root->NotRedundant(encVec))
+		{
+			BackIfaceFunctions::DBConfiguration conf;
+			conf.id = theInstance->GetConfNumber();
+			a->root->BuildConfiguration(&conf, enc);
+			return (*a->BuildConfigurationsCallbackFunction)(a->BuildConfigurationsCallbackFunctionArg, conf);
+		}
+		return 0;
+	};
+	typedef int(*callback_t)(void *, const boost::dynamic_bitset<>&);
+	int count = CBdd::Satisfy(config, encVectors, (callback_t)callback, (void*)&arg);
+}
 
-//	int j = 0;
-//	FILE * debug = fopen(_T("C:\\tmp\\bdd_debug.txt"), _T("a"));
-//	_ftprintf(debug, _T("\nencVec: %d; "), j++);
+void CManager::BuildConfigurations(BackIfaceFunctions::DBConfigurations *configs, CDynElement *root, CBdd& config, int encLen)
+{
+	std::deque<boost::dynamic_bitset<>> encVectors;
+	typedef struct {
+		int encLen;
+		CDynElement* root;
+	} args;
+	args arg;
+	arg.encLen = encLen;
+	arg.root = root;
 
-//	int i =0;
-//	while (i<encLen)
-//		if (debug) _ftprintf(debug, _T(" %d,"), encVec[i++]);
-//	fclose(debug);
+	auto callback = [](void *arg, const boost::dynamic_bitset<>& encVec) -> int {
+		args* a = (args*)arg;
+		CBdd enc = CBdd::Encode(encVec, 0, a->encLen);
+		if (a->root->NotRedundant(encVec))
+		{
+			return 1;
+		}
+		return 0;
+	};
+	typedef int(*callback_t)(void *, const boost::dynamic_bitset<>&);
+	int count = CBdd::Satisfy(config, encVectors, (callback_t)callback, (void*)&arg);
+
+	for (auto it = encVectors.begin(); it != encVectors.end(); ++it)
+	{
+		auto& encVec = *it;
+
+		//	int j = 0;
+		//	FILE * debug = fopen(_T("C:\\tmp\\bdd_debug.txt"), _T("a"));
+		//	_ftprintf(debug, _T("\nencVec: %d; "), j++);
+
+		//	int i =0;
+		//	while (i<encLen)
+		//		if (debug) _ftprintf(debug, _T(" %d,"), encVec[i++]);
+		//	fclose(debug);
 
 
-    // convert the value to bdd, to write configuration
-    CBdd enc = CBdd::Encode(encVec, 0, encLen);
-    if ( root->NotRedundant(encVec) )
-    {
+		// convert the value to bdd, to write configuration
+		CBdd enc = CBdd::Encode(encVec, 0, encLen);
+		if (root->NotRedundant(encVec))
+		{
 
-		BackIfaceFunctions::DBConfiguration *conf = new BackIfaceFunctions::DBConfiguration;
-		conf->id = theInstance->GetConfNumber();
-		configs->AddTail(conf);
-		root->BuildConfiguration(conf,  enc);
-    }
-
-    delete[] encVec;
-  }
-  encVectors.RemoveAll();
- }
+			BackIfaceFunctions::DBConfiguration *conf = new BackIfaceFunctions::DBConfiguration;
+			conf->id = theInstance->GetConfNumber();
+			configs->AddTail(conf);
+			root->BuildConfiguration(conf, enc);
+		}
+	}
+	encVectors.clear();
+}
 
 bool CManager::HasConstraints()
 {

@@ -214,6 +214,7 @@ DesertFinitWithMultirun_Exec(bool noError, const TCHAR* prjName, TCHAR * consGro
 	  int numCfgs = GroupRunWithinMultirun(consGroupName, consGroups);
 	  return numCfgs;
   }
+  return -1;
 }
 
 DLL_DECL void
@@ -229,128 +230,142 @@ DesertFinitWithMultirun_Post()
   StopLogging();
 }
 
+static void*
+DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints, CManager::fBuildConfigurations BuildConfigurations)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	ASSERT_EX(CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
+
+	Info(_T("DesertFinit"), _T("Constraint List: %s"), applyConstraints);
+	CCSetErrDialog cse_dialog;
+
+	CManager::theInstance->VerifyConstraints(&cse_dialog);
+
+	if (!isSilent && cse_dialog.IsAlive())
+		if (cse_dialog.DoModal() != IDOK)
+		{
+			delete CManager::theInstance;
+			CManager::theInstance = NULL;
+			return NULL;
+		}
+
+	CManager::theInstance->AnalyseConstraints();
+	CManager::theInstance->GenerateNextHierarchy();
+
+	void * retval = NULL;
+	if (noError)
+	{
+		if (CManager::theInstance->HasConstraints())
+		{
+			if (isSilent && !applyConstraints) {
+				applyConstraints = _T("");
+			}
+			if (applyConstraints)
+			{
+				CStringList cNames;
+				bool applyAll = _tcsncmp(applyConstraints, _T("applyAll"), 8) == 0;
+				if (!applyAll)
+				{
+					TCHAR *cons = _tcsdup(applyConstraints);
+					TCHAR *cName = _tcstok(cons, _T(":"));
+					while (cName)
+					{
+						cNames.AddTail(cName);
+						cName = _tcstok(NULL, _T(":"));
+					}
+				}
+				CDynConstraintSet *set = new CDynConstraintSet(0);
+				set->RemoveAll();
+				CDynConstraintSetList & setlist = CManager::theInstance->GetConstraintSets();
+
+				POSITION sl_pos = setlist.GetHeadPosition();
+				while (sl_pos)
+				{
+					CDynConstraintSet * setlist_i = setlist.GetNext(sl_pos);
+					CDynConstraintList& list = setlist_i->GetConstraints();
+					POSITION pos1 = list.GetHeadPosition();
+					while (pos1)
+					{
+						CDynConstraint *cur = list.GetNext(pos1);
+						const CString& nm = cur->GetName();
+
+						if (applyAll || cNames.Find(nm))
+						{
+							Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
+							cur->SetApplied();
+							set->InsertConstraint(cur);
+						}
+					}
+				}
+				// prune & generate next hierarchy
+				double dspSize;
+				long repSize;
+				long clockTime;
+				try {
+					CManager::theInstance->GetSizeInfo(dspSize, repSize, clockTime, set);
+					CManager::theInstance->GenerateNextHierarchy();
+				}
+				catch (CDesertException *e)
+				{
+					set->RemoveAll();
+					delete set;
+					delete CManager::theInstance;
+					CManager::theInstance = NULL;
+					StopLogging();
+					throw e;
+				}
+				Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
+				set->RemoveAll();
+				delete set;
+			}
+			else
+			{
+				if (!isSilent) {
+					CDesertUi ui(_T("Design Space Exploration Tool"));
+					ui.DoModal(); // launch the ui
+				}
+			}
+		}
+		//#ifdef DO_STORE_CONFIGURATIONS
+		// dump the configurations
+		CString fname = projectName + _T(".cfg");
+		tstring errmsg;
+		try {
+			retval = CManager::theInstance->StoreConfigurations(fname, errmsg, BuildConfigurations);
+		}
+		catch (CDesertException *e)
+		{
+			delete CManager::theInstance;
+			CManager::theInstance = NULL;
+			StopLogging();
+			throw e;
+		}
+		//#endif
+	}
+
+	// delete the manager instance
+	delete CManager::theInstance;
+	CManager::theInstance = NULL;
+
+	Info(_T("DesertFinit"), _T("Generated Configurations"));
+
+	// stop logging
+	StopLogging();
+	return retval;
+}
+
+DLL_DECL void *
+DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints, int(*BuildConfigurationsCallbackFunction)(void* callbackArg, const BackIfaceFunctions::DBConfiguration&), void* callbackArg)
+{
+	CManager::theInstance->BuildConfigurationsCallbackFunctionArg = callbackArg;
+	CManager::theInstance->BuildConfigurationsCallbackFunction = BuildConfigurationsCallbackFunction;
+	return DesertFinit(noError, isSilent, applyConstraints, &CManager::BuildConfigurationsCallback);
+}
+
 DLL_DECL void *
 DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints)
 {
-  AFX_MANAGE_STATE(AfxGetStaticModuleState());
-  ASSERT_EX( CManager::theInstance, _T("CoreInit"), _T("CManager::theInstance IS null"));
- 
-  Info(_T("DesertFinit"), _T("Constraint List: %s"), applyConstraints);
-  CCSetErrDialog cse_dialog;
-
-  CManager::theInstance->VerifyConstraints(&cse_dialog);
-
-  if(!isSilent && cse_dialog.IsAlive())
-	  if (cse_dialog.DoModal() != IDOK) 
-	  {
-		  delete CManager::theInstance;
-		  CManager::theInstance = NULL;
-		  return NULL;
-	  }
-
-  CManager::theInstance->AnalyseConstraints();
-  CManager::theInstance->GenerateNextHierarchy();
-  
-  void * retval = NULL;
-  if (noError)
-  {
-		if (CManager::theInstance->HasConstraints() )
-		{
-			if(isSilent && !applyConstraints) {
-				applyConstraints = _T("");
-			}
-		if (applyConstraints)
-		{
-			CStringList cNames;
-			bool applyAll = _tcsncmp(applyConstraints, _T("applyAll"), 8) == 0;
-			if (!applyAll)
-			{
-				TCHAR *cons = _tcsdup(applyConstraints);
-				TCHAR *cName = _tcstok( cons, _T(":") );
-				while(cName)
-				{
-					cNames.AddTail( cName );
-					cName = _tcstok( NULL, _T(":") );
-				}
-			}
-			CDynConstraintSet *set = new CDynConstraintSet(0);
-			set->RemoveAll();
-			CDynConstraintSetList & setlist = CManager::theInstance->GetConstraintSets();
-
-			POSITION sl_pos = setlist.GetHeadPosition();
-			while (sl_pos)
-			{
-				CDynConstraintSet * setlist_i = setlist.GetNext(sl_pos);
-				CDynConstraintList& list = setlist_i->GetConstraints();
-				POSITION pos1 = list.GetHeadPosition();
-				while(pos1)
-				{
-					CDynConstraint *cur = list.GetNext(pos1);
-					const CString& nm  = cur->GetName();
-
-					if (applyAll || cNames.Find(nm))
-					{
-						Info(_T("DesertFinit"), _T("Applying Constraint: %s"), nm);
-						cur->SetApplied();
-						set->InsertConstraint(cur);
-					}
-				}
-			}
-			// prune & generate next hierarchy
-			double dspSize;
-			long repSize;
-			long clockTime;
-			try{
-				CManager::theInstance->GetSizeInfo(dspSize, repSize, clockTime, set);
-				CManager::theInstance->GenerateNextHierarchy();
-			}
-			catch(CDesertException *e)
-			{
-				set->RemoveAll();
-				delete set;
-				delete CManager::theInstance;
-				CManager::theInstance = NULL;
-				StopLogging();
-				throw e;
-			}
-			Info(_T("DesertFinit"), _T("Design Space Size Info: %f %d %d"), dspSize, repSize, clockTime);
-			set->RemoveAll();
-			delete set;
-		}
-		else
-		{
-			if(!isSilent) {
-				CDesertUi ui(_T("Design Space Exploration Tool"));  
-				ui.DoModal(); // launch the ui
-			}
-		}
-	}
-			//#ifdef DO_STORE_CONFIGURATIONS
-    // dump the configurations
-	CString fname = projectName + _T(".cfg");
-	 tstring errmsg;
-	 try{
-		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
-	 }
-	catch(CDesertException *e)
-	{
-		delete CManager::theInstance;
-		CManager::theInstance = NULL;
-		StopLogging();
-		throw e;
-	}
-//#endif
-  }
-
-  // delete the manager instance
-  delete CManager::theInstance;
-  CManager::theInstance = NULL;
-
-  Info(_T("DesertFinit"), _T("Generated Configurations"));
-
-  // stop logging
-  StopLogging();
-  return retval;
+	return DesertFinit(noError, isSilent, applyConstraints, &CManager::BuildConfigurations);
 }
 
 DLL_DECL long
@@ -709,7 +724,7 @@ DesertFinitNoGui(bool noError,bool noGui,const TCHAR *applyConstraints)
     CString fname = projectName + _T(".cfg");
 	tstring errmsg;
 	try{
-		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
+		retval = CManager::theInstance->StoreConfigurations(fname, errmsg, &CManager::BuildConfigurations);
 	 }
 	catch(CDesertException *e)
 	{
@@ -832,7 +847,7 @@ DesertFinit_postApply()
 	CString fname(_T(""));
 	tstring errmsg;
 	try{
-		retval = CManager::theInstance->StoreConfigurations(fname, errmsg);
+		retval = CManager::theInstance->StoreConfigurations(fname, errmsg, &CManager::BuildConfigurations);
 	 }
 	catch(CDesertException *e)
 	{

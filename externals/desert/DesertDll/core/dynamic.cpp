@@ -1920,10 +1920,6 @@ ClData CDynElement::Eval(const CCosmic *other) const
  CBdd otherret = CBdd::One();
   if (other)
   {
-    CDynVariableProperty *prop;
-	CDynProperty * temp;
-
-
 	CDynPropertyList& prop_list = this_noconst->GetProperties();
 
 
@@ -1983,9 +1979,6 @@ ClData CDynElement::Eval(ClRelExpr::RelOp op, const CCosmic *other) const
 
 	if (other)
 	{
-		CDynVariableProperty *prop;
-		CDynProperty * temp;
-
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
 
 		switch(other->GetType())
@@ -2066,9 +2059,6 @@ ClData CDynElement::Eval(ClAddExpr::AddOp op, const CCosmic *other) const
 
 	if (other)
 	{
-		CDynVariableProperty *prop;
-		CDynProperty * temp;
-
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
 
 		switch(other->GetType())
@@ -2141,9 +2131,6 @@ ClData CDynElement::Eval(ClMulExpr::MulOp op, const CCosmic *other) const
 
 	if (other)
 	{
-		CDynVariableProperty *prop;
-		CDynProperty * temp;
-
 		CDynPropertyList& prop_list = this_noconst->GetProperties();
 
 		switch(other->GetType())
@@ -3304,7 +3291,7 @@ PCMMul_0(int limit, const TCHAR *propName)
 
 bool
 CDynElement::
-NotRedundant(int *enc)
+NotRedundant(const boost::dynamic_bitset<>& enc)
 {
   // suspicious code -- check this for potential problems
 
@@ -3316,7 +3303,7 @@ NotRedundant(int *enc)
     // if the encoding does not match mine then noyb, return true
     i = startVar + encodingLen - 1;
     for (n=0; n<encodingLen; n++, i--, val = val >> 1)
-      if ( enc[i] != (val & 0x1) ) return true;
+      if ( (enc)[i] != (bool)(val & 0x1) ) return true;
 
     // the bits in the childEncodingLen after my encoding & my childencoding & my propertyencoding should be zero
     // otherwise this is a redundant encoding
@@ -3333,7 +3320,7 @@ NotRedundant(int *enc)
     i = startVar + encodingLen + inuse;
     int len = parent->childEncodingLen - inuse;
     for (n=0; n<len; n++, i++)
-      if ( enc[i] != 0 ) return false;
+      if ( (enc)[i] != false ) return false;
   }
 
   if(decompOr == (CDecomposition)*this)
@@ -3346,7 +3333,7 @@ NotRedundant(int *enc)
     for (int n=0; n<lc; n++, i++)
     {
       val = val << 1;
-      val |= enc[i];
+      val |= (int)(enc)[i];
     }
     if (children.GetCount() <= val) return false;
   }
@@ -3380,7 +3367,7 @@ NotRedundant(int *enc)
 				for (int n=0; n < prop->FindEncodingLen(); n++, i++)
 				{
 					val = val << 1;
-					val |= enc[i];
+					val |= (int)(enc)[i];
 				}
 				if (prop->ComputeSize() <= val) return false;
 			}

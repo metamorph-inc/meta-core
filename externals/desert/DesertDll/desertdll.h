@@ -5,6 +5,8 @@
 
 #define DLL_DECL __declspec (dllimport)
 
+#include "BackIface.h"
+
 //error handling with exceptions
 
 class CDesertException : public CException
@@ -36,6 +38,8 @@ public:
 };
 
 DLL_DECL void DesertInit(const TCHAR *prjName, bool append=false);
+
+DLL_DECL void *DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints, int(*BuildConfigurationsCallbackFunction)(void* callbackArg, const BackIfaceFunctions::DBConfiguration&), void* callbackArg);
 DLL_DECL void * DesertFinit(bool noError, bool isSilent, const TCHAR *applyConstraints);
 DLL_DECL void * DesertFinitNoGui(bool noError,bool noGui,const TCHAR *applyConstraints);
 

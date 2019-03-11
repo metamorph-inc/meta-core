@@ -20,6 +20,8 @@ using namespace DesertIface;
 #include <boost/crc.hpp>  // for boost::crc_32_type
 #include <sstream>
 
+#include <boost/dynamic_bitset.hpp>
+
 //we need MFC CList....
 #include <afxtempl.h>
 //DesertIfaceBack stuff
@@ -470,20 +472,15 @@ BOOL CDesertToolApp::InitInstance()
 			fprintf(fdDcif, "<DesertConfigurations>\n");
 
 			if (countMode) {
-				DBConfigurations * confs = (DBConfigurations *)DesertFinit(true, isSilent, consList == "" ? NULL : static_cast<LPCTSTR>(consList));
-				int numCfgs = (confs) ? confs->GetCount() : 0;
-				POSITION pos = confs == nullptr ? nullptr : confs->GetHeadPosition();
 				std::map<__int64, __int64> counts;
-				fprintf(fdDcif, "  <NumberOfConfigurations count=\"%d\"/>\n", numCfgs);
-				while (pos)
-				{
-					DBConfiguration * config = confs->GetNext(pos);
-
-					POSITION pos2 = config->alt_assignments.GetStartPosition();
+				int numCfgs = 0;
+				auto cb = [&](const BackIfaceFunctions::DBConfiguration& config) {
+					numCfgs++;
+					POSITION pos2 = config.alt_assignments.GetStartPosition();
 					while (pos2)
 					{
 						long alt, alt_of;
-						config->alt_assignments.GetNextAssoc(pos2, alt_of, alt);
+						config.alt_assignments.GetNextAssoc(pos2, alt_of, alt);
 
 						// auto alt_of_input = inv_des_map.find(alt_of);
 						auto alt_input = inv_des_map.find(alt);
@@ -501,7 +498,16 @@ BOOL CDesertToolApp::InitInstance()
 							counts[alt_input->second.id()] = countIt->second + 1;
 						}
 					}
-				}
+					return 0;
+				};
+				typedef decltype(cb) cb_t;
+				auto cbVoid = [](void* cb_, const BackIfaceFunctions::DBConfiguration& config) {
+					return (*((cb_t*)cb_))(config);
+				};
+				typedef int(*BuildConfigurationsCallbackFunction_t)(void*, const BackIfaceFunctions::DBConfiguration&);
+				DBConfigurations * confs = (DBConfigurations *)DesertFinit(true, isSilent, consList == "" ? NULL : static_cast<LPCTSTR>(consList),
+					(BuildConfigurationsCallbackFunction_t)cbVoid, &cb);
+				fprintf(fdDcif, "  <NumberOfConfigurations count=\"%d\"/>\n", numCfgs);
 				for (auto countsIt = counts.begin(); countsIt != counts.end(); ++countsIt) {
 					fprintf(fdDcif, "  <Count id=\"%I64d\" count=\"%I64d\"/>\n", countsIt->first, countsIt->second);
 				}

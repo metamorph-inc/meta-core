@@ -1573,6 +1573,7 @@ DESERT_API mtbdd_max_step(bddm, f, g)
     mtbdd_terminal_value_aux(bddm, g, &v3, &v4);
 
 	/* arithmetic 1 is represented as (0,-1) */
+	// FIXME these are unsigned
 	if (v2 == -1) v2 = -v2;
 	if (v4 == -1) v4 = -v4;
 	  
@@ -1718,6 +1719,7 @@ mtbdd_min_step(bddm, f, g)
     mtbdd_terminal_value_aux(bddm, g, &v3, &v4);
 	
 	/* arithmetic 1 is represented as (0,-1) */
+	// FIXME these are unsigned
 	if (v2 == -1) v2 = -v2;
 	if (v4 == -1) v4 = -v4;
 	  

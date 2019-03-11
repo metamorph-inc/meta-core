@@ -10,6 +10,8 @@
 #include <sstream> 
 #include <string> 
 #include <bitset>
+#include <boost/dynamic_bitset.hpp>
+#include <deque>
 
 extern "C"
 {
@@ -36,6 +38,7 @@ public:
   static CBdd Encode(int encVal, int startVar, int encLen);
   static CBdd QuantifyExistentially(CBdd func, int startVar, int encLen);
   static CBdd Encode(int *e, int b, int n);
+  static CBdd CBdd::Encode(const boost::dynamic_bitset<>& enc, int begin_var, int num_vars);
   static CBdd Encode(CVIndex e[], int l);
   //static CBdd EncodeProperty(const TCHAR *name, int idx, int val);
 #ifndef DOUBLE_MTBDD
@@ -55,8 +58,8 @@ public:
 
  
   static CBdd QuantifyPropertyExistentially(const TCHAR *name, CBdd func, int idx);
-  static int  Satisfy(CBdd& b, CPtrList& encVectors);
-  static void ExpandDontCare(int *enc, int cur, CPtrList& encVectors);
+  static int  Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, const boost::dynamic_bitset<>&), void* arg);
+  static void ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, const boost::dynamic_bitset<>&), void* arg);
 
 public:
   // generate bdd for z_vec = y_vec + x_vec

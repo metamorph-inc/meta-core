@@ -187,10 +187,15 @@ public:
 	void GenerateNextHierarchy();
 	bool Prune(CDynConstraintSet* set);
 	
-	void * StoreConfigurations(const TCHAR *fnamem, tstring &errmsg);
+	typedef void (CManager::*fBuildConfigurations)(BackIfaceFunctions::DBConfigurations *configs, CDynElement *root, CBdd& config, int encLen);
+	void * StoreConfigurations(const TCHAR *fname, tstring &errmsg, fBuildConfigurations BuildConfigurations);
+
 	bool HasGenerations();
 	long CalcRealNoOfConfigurations();
 
+	void* BuildConfigurationsCallbackFunctionArg;
+	int(*BuildConfigurationsCallbackFunction)(void*, const BackIfaceFunctions::DBConfiguration&);
+	void BuildConfigurationsCallback(BackIfaceFunctions::DBConfigurations *, CDynElement *root, CBdd& config, int encLen);
 	void BuildConfigurations(BackIfaceFunctions::DBConfigurations *, CDynElement *root, CBdd& config, int encLen);
 	bool HasConstraints();
 	bool HasImplicitConstraints();

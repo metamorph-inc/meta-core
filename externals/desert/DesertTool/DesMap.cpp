@@ -397,7 +397,6 @@ bool CreateVariableProperties(UdmDesertMap& des_map, DesertUdmMap &inv_des_map, 
 	int pos = 0;
 	std::set<DesertIface::Element, DepthSort> sortedElements;
 	std::copy(elements.begin(), elements.end(), std::inserter(sortedElements, sortedElements.begin()));
-	DepthSort sort;
 	
 	for (auto i = sortedElements.begin(); i != sortedElements.end(); i++)
 	{

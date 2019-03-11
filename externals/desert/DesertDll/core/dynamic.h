@@ -13,6 +13,8 @@
 #include "core/utils.h"
 #include "common/config.h"
 
+#include <boost/dynamic_bitset.hpp>
+
 class CDynamicObj;
 class CDynSpace;
 class CDynElement;
@@ -205,7 +207,7 @@ public:
 	DESERT_API CBdd MaptoBdd(CBdd& parentEncoding, int prop, ...);
 	DESERT_API CBdd MaptoBdd_0(CBdd& parentEncoding, int prop, va_list ap);
 	bool Restrict(CBdd& res);
-	bool NotRedundant(int *enc);
+	bool NotRedundant(const boost::dynamic_bitset<>& enc);
 	DESERT_API CCosmic* Domain();
 	DESERT_API CCosmicList* Children();
 	ClData Eval(const CCosmic *other) const;
