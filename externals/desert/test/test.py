@@ -16,7 +16,7 @@ class TestDesert(unittest.TestCase):
         try:
             subprocess.check_output([os.path.join(_this_dir, r"..\DesertTool\..\bin\DesertTool.exe")] + args, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as e:
-            raise DesertError(e.output)
+            raise DesertError('..\\bin\\DesertTool.exe ' + ' '.join('"' + arg + '"' for arg in args) + '\n' + e.output)
 
     def test_parse_c(self):
         with self.assertRaisesRegexp(DesertError, "/c requires an argument"):

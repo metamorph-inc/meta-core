@@ -7,6 +7,7 @@
 #include <setjmp.h>
 #include <assert.h>
 #include <wtypes.h>
+#include <tchar.h>
 
 
 #ifdef DESERT_EXPORTS
@@ -581,7 +582,7 @@ do\
       {\
 	bdd_cleanup(bddm, retcode);\
 	if (retcode == BDD_ABORTED || retcode == BDD_OVERFLOWED)\
-      { assert(0); return ((bdd)0); }\
+      { bdd_fatal(_T("Out of memory")); return ((bdd)0); }\
 	(bddm)->nodes_at_start=(bddm)->unique_table.entries;\
       }\
   }\

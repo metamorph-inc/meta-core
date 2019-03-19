@@ -1191,7 +1191,7 @@ CBdd CDynConstraint::MaptoBdd()
 	  this->SetInvalid();
 	  CString err(_T("Constraint: <"));
 	  err.Append(this->GetName());
-	  err.Append(_T("> fails to be evaluated.\r"));
+	  err.Append(_T("> fails to be evaluated.\r\n"));
 	  err.Append(e->GetErrorMessage());
 	  e->Delete();
 
@@ -4025,7 +4025,7 @@ CBdd CDynFormula::MaptoBdd()
 	  // Himanshu: Always return Bdd::One() when a constraint fails
 	  CString err(_T("Formula: <"));
 	  err.Append(this->GetName());
-	  err.Append(_T("> fails to be evaluated.\r"));
+	  err.Append(_T("> fails to be evaluated.\r\n"));
 	  err.Append(e->GetErrorMessage());
 	  e->Delete();
 	  throw new CDesertException(err);
