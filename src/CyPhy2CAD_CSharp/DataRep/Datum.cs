@@ -51,6 +51,10 @@ namespace CyPhy2CAD_CSharp.DataRep
                      string compid, bool guide)
         {
             DatumName = datum.Attributes.DatumName;
+            if (DatumName == "")
+            {
+                DatumName = datum.Name;
+            }
             if (datum.Kind == "CoordinateSystem")
                 Type = DatumType.CSYS;
             else if (datum.Kind == "Point")
