@@ -130,3 +130,86 @@ void CUdmApp::UdmMain(
 		throw;
 	}
 }
+
+void CUdmApp::ExportDesertXml(
+	Udm::DataNetwork* p_backend,		// Backend pointer(already open!)
+	Udm::Object focusObject,			// Focus object
+	std::wstring exportPath)						// Parameters
+{
+	DesertHelper dhelper(tstring2utf8(mgaPath), *p_backend, focusObject);
+	if (focusObject != Udm::null && (Uml::IsDerivedFrom(focusObject.type(), CyPhyML::DesignContainer::meta)))
+	{
+		CyPhyML::DesignContainer focusRootDC = CyPhyML::DesignContainer::Cast(focusObject);
+		if (focusRootDC.isInstance()) {
+			GMEConsole::Console::Out::writeLine("Error: DESERT invoked on a DesignContainer that is an instance model.\r\n");
+			return;
+		}
+		dhelper.setRootDC(focusRootDC);
+	}
+	else
+	{
+		// Focus is not on a design container; normally DesignSpaceHelper would pop up a dialog to select a
+		// design container here, but this path is only intended for use under automation
+		return;
+	}
+	try {
+
+		dhelper.showGui = false;
+		dhelper.exportXml(exportPath);
+
+		dhelper.writeLog();
+		dhelper.close();
+	}
+	catch (udm_exception &exc)
+	{
+		dhelper.writeLog();
+		dhelper.close();
+		throw exc;
+	}
+	catch (...)
+	{
+		dhelper.writeLog();
+		dhelper.close();
+		throw;
+	}
+}
+
+void CUdmApp::ImportConfigsFromXML(Udm::DataNetwork *project, Udm::Object designContainer, std::wstring desertXmlPath, std::wstring desertBackXmlPath, std::wstring &exportedConfigurationsName)
+{
+	DesertHelper dhelper(tstring2utf8(mgaPath), *project, designContainer);
+	if (designContainer != Udm::null && (Uml::IsDerivedFrom(designContainer.type(), CyPhyML::DesignContainer::meta)))
+	{
+		CyPhyML::DesignContainer focusRootDC = CyPhyML::DesignContainer::Cast(designContainer);
+		if (focusRootDC.isInstance()) {
+			GMEConsole::Console::Out::writeLine("Error: DESERT invoked on a DesignContainer that is an instance model.\r\n");
+			return;
+		}
+		dhelper.setRootDC(focusRootDC);
+	}
+	else
+	{
+		// Focus is not on a design container; normally DesignSpaceHelper would pop up a dialog to select a
+		// design container here, but this path is only intended for use under automation
+		return;
+	}
+	try {
+
+		dhelper.showGui = false;
+		exportedConfigurationsName = dhelper.importConfigsFromXml(desertXmlPath, desertBackXmlPath);
+
+		dhelper.writeLog();
+		dhelper.close();
+	}
+	catch (udm_exception &exc)
+	{
+		dhelper.writeLog();
+		dhelper.close();
+		throw exc;
+	}
+	catch (...)
+	{
+		dhelper.writeLog();
+		dhelper.close();
+		throw;
+	}
+}

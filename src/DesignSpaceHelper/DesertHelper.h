@@ -38,6 +38,7 @@ public:
 //	int applyAllConstraints();
 	void applyConstraints(set<int> constraints_list, bool dsRefresh);
 	void applyAllConstraints(bool dsRefresh);
+	void buildDesertSystem(DesertIface::DesertSystem& ds, bool refresh);
 	void runDesertFinit_1(const std::string &constraints, bool refresh);
 	int runDesertFinit_2();
 	//void getDesignSpaceSize(double& dspSize, long& repSize);
@@ -66,6 +67,10 @@ public:
 	void writeLog();
 
 	void executeAll(bool applyConstraints);  //automatically excute all tools with all constraints applied
+	void exportXml(std::wstring exportPath);
+	std::wstring importConfigsFromXml(std::wstring desertXmlPath, std::wstring desertBackXmlPath);
+	static void remapAlternativeElementIds(const DesertIface::DesertSystem& ds, CyPhyML::DesignContainer& rootDC);
+	static void remapAlternativeElementIdsInner(DesertIface::Element& desertElement, CyPhyML::DesignEntity& cyPhyElement);
 	void removeCfgsIfEmpty();
 
 	bool isLastDesertFinit_2_fail();

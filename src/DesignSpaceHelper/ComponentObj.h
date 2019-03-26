@@ -157,6 +157,8 @@ protected:
 		};
 
 		STDMETHODIMP ApplyConstraintsAndGenerateCWCs(IMgaProject *project, IMgaFCO *currentobj, VARIANT_BOOL applyConstraints);
+		STDMETHODIMP ExportDesertXML(IMgaProject *project, IMgaFCO *currentObj, BSTR exportPath);
+		STDMETHODIMP ImportConfigsFromXML(IMgaProject *project, IMgaFCO *designContainer, BSTR desertXmlPath, BSTR desertBackXmlPath, BSTR *exportedConfigurationsName);
 	END_INTERFACE_PART(Component)
 
 	BEGIN_INTERFACE_PART(VersionInfo, IGMEVersionInfo)

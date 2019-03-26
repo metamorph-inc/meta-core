@@ -60,6 +60,4 @@ bool CreateCustomFormulas(DesertIface::DesertSystem &ds, UdmDesertMap &des_map, 
 
 
 
-
-
 #endif //DESMAP_H

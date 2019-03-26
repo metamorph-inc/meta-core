@@ -16,6 +16,8 @@ import "mga.idl";
 interface IDesignSpaceHelper : IMgaComponentEx
 {
 	HRESULT ApplyConstraintsAndGenerateCWCs([in] IMgaProject *project, [in] IMgaFCO *currentobj, [in] VARIANT_BOOL applyConstraints);
+	HRESULT ExportDesertXML([in] IMgaProject *project, [in] IMgaFCO *currentobj, [in] BSTR exportPath);
+	HRESULT ImportConfigsFromXML([in] IMgaProject *project, [in] IMgaFCO *designContainer, [in] BSTR desertXmlPath, [in] BSTR desertBackXmlPath, [out, retval] BSTR *exportedConfigurationsName);
 }
 
 [
