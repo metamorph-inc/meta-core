@@ -303,11 +303,15 @@ namespace DesignSpaceTest
 
             desert.Initialize(project);
 
+            var modelDirectory = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetAssembly(this.GetType()).CodeBase.Substring("file:///".Length)),
+                @"..\..\..\..\models\DesignSpace");
+
             string exportedConfigsObjectName = desert.ImportConfigsFromXml(
                 project,
                 currentobj,
-                @"..\..\..\..\models\DesignSpace\ToyDS_export.xml",
-                @"..\..\..\..\models\DesignSpace\ToyDS_export_back.xml");
+                Path.Combine(modelDirectory, "ToyDS_export.xml"),
+                Path.Combine(modelDirectory, "ToyDS_export_back.xml"));
 
             gateway.PerformInTransaction(() =>
             {
