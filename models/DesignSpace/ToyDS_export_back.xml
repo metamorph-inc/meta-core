@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<DesertBackSystem SystemName="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DesertIfaceBack.xsd">
+
+  <Configuration _id="id61" cfgId="8ffe9e6f" id="1" name="Conf. no: 1">
+    <AlternativeAssignment _id="id70" alternative_end_="id53" alternative_of_end_="id5e" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="id62" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id4D"/>
+    <PropertyAssignment _id="id63" externalID="2000" id="2000" name="" value_end_="id50" value_of_end_="id4F"/>
+    <PropertyAssignment _id="id64" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id51"/>
+    <PropertyAssignment _id="id65" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id52"/>
+    <PropertyAssignment _id="id66" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id54"/>
+    <PropertyAssignment _id="id67" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id55"/>
+    <PropertyAssignment _id="id68" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id56"/>
+    <PropertyAssignment _id="id69" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id57"/>
+    <PropertyAssignment _id="id6A" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id58"/>
+    <PropertyAssignment _id="id6B" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id59"/>
+    <PropertyAssignment _id="id6C" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id5A"/>
+    <PropertyAssignment _id="id6D" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id5B"/>
+    <PropertyAssignment _id="id6e" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id5C"/>
+    <PropertyAssignment _id="id6F" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id5D"/>
+  </Configuration>
+
+  <Configuration _id="id71" cfgId="521fd72b" id="2" name="Conf. no: 2">
+    <AlternativeAssignment _id="id77" alternative_end_="id5F" alternative_of_end_="id5e" externalID="-1" id="-1" name="alternative assignment"/>
+    <PropertyAssignment _id="id72" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id4D"/>
+    <PropertyAssignment _id="id73" externalID="2000" id="2000" name="" value_end_="id50" value_of_end_="id4F"/>
+    <PropertyAssignment _id="id74" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id51"/>
+    <PropertyAssignment _id="id75" externalID="2000" id="2000" name="" value_end_="id4e" value_of_end_="id52"/>
+    <PropertyAssignment _id="id76" externalID="2000" id="2000" name="" value_end_="id50" value_of_end_="id60"/>
+  </Configuration>
+
+  <Element _id="id4C" externalID="300000404" id="300000404" name="CompA">
+    <VariableProperty _id="id4D" name="Prop2" value="id62 id72"/>
+    <VariableProperty _id="id4F" name="Prop1" value="id63 id73"/>
+    <VariableProperty _id="id51" name="Param2" value="id64 id74"/>
+    <VariableProperty _id="id52" name="Param1" value="id65 id75"/>
+  </Element>
+
+  <Element _id="id53" alternative_of="id70" externalID="300000405" id="300000405" name="Component">
+    <VariableProperty _id="id54" name="in_prop_cf" value="id66"/>
+    <VariableProperty _id="id55" name="in_prop_param" value="id67"/>
+    <VariableProperty _id="id56" name="in_prop_prop" value="id68"/>
+    <VariableProperty _id="id57" name="in_prop_sf" value="id69"/>
+    <VariableProperty _id="id58" name="out_prop" value="id6A"/>
+    <VariableProperty _id="id59" name="in_param_cf" value="id6B"/>
+    <VariableProperty _id="id5A" name="in_param_param" value="id6C"/>
+    <VariableProperty _id="id5B" name="in_param_prop" value="id6D"/>
+    <VariableProperty _id="id5C" name="in_param_sf" value="id6e"/>
+    <VariableProperty _id="id5D" name="out_param" value="id6F"/>
+  </Element>
+
+  <Element _id="id5e" alternative="id70 id77" externalID="100000015" id="100000015" name="DCAlt"/>
+
+  <Element _id="id5F" alternative_of="id77" externalID="300000406" id="300000406" name="ComponentWithConnector">
+    <VariableProperty _id="id60" name="Connector" value="id76"/>
+  </Element>
+
+  <NaturalMember _id="id4e" value="0" value_of="id62 id64 id65 id66 id67 id68 id69 id6A id6B id6C id6D id6e id6F id72 id74 id75"/>
+
+  <NaturalMember _id="id50" value="1" value_of="id63 id73 id76"/>
+
+</DesertBackSystem>
