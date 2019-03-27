@@ -274,7 +274,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 	if((std::string)container.ContainerType()!="Compound")
 	{
 		map<int, int>::iterator pos = alternativeMap.find(container.ID());
-		if(pos==alternativeMap.end())
+		if (pos == alternativeMap.end())
 			return;
 
 		//get object by id

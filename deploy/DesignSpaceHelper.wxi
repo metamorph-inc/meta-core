@@ -7,7 +7,7 @@
 <ComponentGroup Id="DesignSpaceHelper">
   <Component Id="DesignSpaceHelper.dll" Directory="INSTALLDIR_BIN">
     <File Id="DesignSpaceHelper.dll" Name="DesignSpaceHelper.dll" KeyPath="yes" Source="$(var.InterpreterBin)\DesignSpaceHelper.dll">
-      <TypeLib Id="4bd19a4b-4520-4dd2-9ff5-e527f9e64405" Description="MGA Interpreter TypeLibrary (DesignSpaceHelper)" Language="0" MajorVersion="1" MinorVersion="1">
+      <TypeLib Id="4bd19a4b-4520-4dd2-9ff5-e527f9e64405" Description="MGA Interpreter TypeLibrary (DesignSpaceHelper)" Language="0" MajorVersion="1" MinorVersion="2">
         <Class Id="{0232bc79-a930-49e2-86ea-20371e4e7787}" Context="InprocServer32" Description="MGA.Interpreter.DesignSpaceHelper">
           <ProgId Id="MGA.Interpreter.DesignSpaceHelper" Description="MGA.Interpreter.DesignSpaceHelper" />
         </Class>

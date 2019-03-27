@@ -929,6 +929,25 @@ STDMETHODIMP COMCLASS::ApplyConstraintsAndGenerateCWCs(IMgaProject *project, IMg
 	} COMCATCH(;);
 }
 
+STDMETHODIMP COMCLASS::ExportDesertXML(IMgaProject *project, IMgaFCO *currentObj, BSTR exportPath) {
+	COMPROLOGUE;
+	CPushRoutingFrame temp(NULL);		// hack!!
+
+	COMTRY{
+		return pThis->rawcomp.ExportDesertXML(project, currentObj, exportPath);
+	} COMCATCH(;);
+}
+
+STDMETHODIMP COMCLASS::ImportConfigsFromXML(IMgaProject *project, IMgaFCO *designContainer, BSTR desertXmlPath, BSTR desertBackXmlPath, BSTR *exportedConfigurationsName)
+{
+	COMPROLOGUE;
+	CPushRoutingFrame temp(NULL);		// hack!!
+
+	COMTRY{
+		return pThis->rawcomp.ImportConfigsFromXML(project, designContainer, desertXmlPath, desertBackXmlPath, exportedConfigurationsName);
+	} COMCATCH(;);
+}
+
 STDMETHODIMP COMCLASS::ObjectsInvokeEx( IMgaProject *gme,  IMgaObject *currentobj,  IMgaObjects *selectedobjs,  long param) {
 	COMPROLOGUE;
 	CPushRoutingFrame temp(NULL);		// hack!!

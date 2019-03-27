@@ -9,18 +9,20 @@ import "mga.idl";
 
 [
 	object,
-	uuid(65AD716E-98D2-4A5E-BC4C-0D66D48EF92F),
+	uuid(7C39978A-9988-47C5-9443-D145F32A82A0),
 	oleautomation,
 	pointer_default(unique)
 ]
 interface IDesignSpaceHelper : IMgaComponentEx
 {
 	HRESULT ApplyConstraintsAndGenerateCWCs([in] IMgaProject *project, [in] IMgaFCO *currentobj, [in] VARIANT_BOOL applyConstraints);
+	HRESULT ExportDesertXML([in] IMgaProject *project, [in] IMgaFCO *currentobj, [in] BSTR exportPath);
+	HRESULT ImportConfigsFromXML([in] IMgaProject *project, [in] IMgaFCO *designContainer, [in] BSTR desertXmlPath, [in] BSTR desertBackXmlPath, [out, retval] BSTR *exportedConfigurationsName);
 }
 
 [
 	uuid(TYPELIB_UUID),
-	version(1.1),
+	version(1.2),
 	helpstring(TYPELIB_NAME)
 ]
 library MgaComponentLib

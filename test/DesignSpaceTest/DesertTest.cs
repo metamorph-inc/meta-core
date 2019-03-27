@@ -9,6 +9,8 @@ using System.Reflection;
 using GME.CSharp;
 using ISIS.GME.Dsml.CyPhyML.Interfaces;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
+using File = ISIS.GME.Dsml.CyPhyML.Interfaces.File;
 
 namespace DesignSpaceTest
 {
@@ -229,6 +231,95 @@ namespace DesignSpaceTest
                 Assert.Equal(1, configurations.Count());
                 Assert.Equal(1, configurations.First().Children.CWCCollection.Count());
             }, null);
+        }
+
+        [Fact]
+        void TestDesignSpaceHelper_ExportXML()
+        {
+            var targetFile = "test__export.xml";
+            // Make sure target export file doesn't exist when we begin
+            if (System.IO.File.Exists(targetFile))
+            {
+                System.IO.File.Delete(targetFile);
+            }
+
+            var dsPath = "/@DesignSpaces/@DesignContainer";
+
+            var gateway = new MgaGateway(project);
+            Type desertType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
+            dynamic desert = Activator.CreateInstance(desertType);
+
+            MgaFCO currentobj = null;
+            gateway.PerformInTransaction(() =>
+            {
+                currentobj = (MgaFCO)project.RootFolder.ObjectByPath[dsPath];
+                var configurations = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(currentobj).Children.ConfigurationsCollection;
+                foreach (var configuration in configurations)
+                {
+                    configuration.Delete();
+                }
+            }, abort: false);
+            Xunit.Assert.True(currentobj != null, string.Format("'{0}' does not exist in model", dsPath));
+
+            desert.Initialize(project);
+            desert.ExportDesertXML(project, currentobj, targetFile);
+            Xunit.Assert.True(System.IO.File.Exists(targetFile));
+            
+            var desertRoot = XElement.Load(Path.Combine(Directory.GetCurrentDirectory(), targetFile));
+
+            var spaces = desertRoot.Elements("Space");
+            Xunit.Assert.Equal(1, spaces.Count());
+
+            // Validate that we have the root space
+            Xunit.Assert.Equal("DesignSpace", spaces.First().Attribute("name").Value);
+
+            // Now look for a leaf-node component: CompA
+            Xunit.Assert.True(
+                spaces.First().Descendants("Element").Any(element => element.Attribute("name").Value == "CompA"),
+                "Generated DESERT XML is missing components"
+            );
+        }
+
+        [Fact]
+        void TestDesignSpaceHelper_ExportAndImportXML()
+        {
+            var dsPath = "/@DesignSpaces/@DesignContainer";
+
+            var gateway = new MgaGateway(project);
+            Type desertType = Type.GetTypeFromProgID("MGA.Interpreter.DesignSpaceHelper");
+            dynamic desert = Activator.CreateInstance(desertType);
+
+            MgaFCO currentobj = null;
+            gateway.PerformInTransaction(() =>
+            {
+                currentobj = (MgaFCO)project.RootFolder.ObjectByPath[dsPath];
+                var configurations = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(currentobj).Children.ConfigurationsCollection;
+                foreach (var configuration in configurations)
+                {
+                    configuration.Delete();
+                }
+            }, abort: false);
+            Xunit.Assert.True(currentobj != null, string.Format("'{0}' does not exist in model", dsPath));
+
+            desert.Initialize(project);
+
+            var modelDirectory = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetAssembly(this.GetType()).CodeBase.Substring("file:///".Length)),
+                @"..\..\..\..\models\DesignSpace");
+
+            string exportedConfigsObjectName = desert.ImportConfigsFromXml(
+                project,
+                currentobj,
+                Path.Combine(modelDirectory, "ToyDS_export.xml"),
+                Path.Combine(modelDirectory, "ToyDS_export_back.xml"));
+
+            gateway.PerformInTransaction(() =>
+            {
+                var configurations = ISIS.GME.Dsml.CyPhyML.Classes.DesignContainer.Cast(currentobj).Children.ConfigurationsCollection;
+
+                Assert.Equal(1, configurations.Count());
+                Assert.Equal(2, configurations.First().Children.CWCCollection.Count());
+            });
         }
 
         private MgaProject project { get { return (MgaProject)fixture.proj; } }

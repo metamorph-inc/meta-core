@@ -97,7 +97,7 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	ListView_SetExtendedListViewStyle(m_listctrl.m_hWnd,LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 	m_listctrl.SetColumnNum(5);
 	m_listctrl.initHeadListCtr(false);
-	
+
 	//Set up the tooltip
 	m_pToolTip = new CToolTipCtrl;
 	if(!m_pToolTip->Create(this))
@@ -150,7 +150,7 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	{
 	   TRACE("Unable to add Go forward configurations button to the tooltip\n");
 	}
-	
+
 	if (!m_pToolTip->AddTool(&m_btGenCfgs,_T("Show the configurations")))
 	{
 	   TRACE("Unable to add Show the configurations button to the tooltip\n");
@@ -159,12 +159,12 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	m_pToolTip->Activate(TRUE);
 	conIdlist.clear();
 	dhelper_ptr->applyConstraints(conIdlist, refresh_needed);
-	
+
 	applyAll = false;
 	refresh_needed = false;
 	applyCounter = 0;
 	applyIdx = 0;
-	
+
 	FillList();
 	FillSizeBox();
 	FillFilter();
@@ -227,7 +227,7 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	bOk = m_resizer.SetAnchor(IDC_DSSIZEEDIT, ANCHOR_HORIZONTALLY | ANCHOR_BOTTOM );
 	ASSERT( bOk);
 	bOk = m_resizer.SetAnchor(IDC_FILTERLIST, ANCHOR_HORIZONTALLY | ANCHOR_BOTTOM);
-	ASSERT( bOk);	
+	ASSERT( bOk);
 	bOk = m_resizer.SetAnchor(IDC_FILTERGROUP, ANCHOR_HORIZONTALLY | ANCHOR_BOTTOM);
 	ASSERT( bOk);
 	bOk = m_resizer.SetAnchor(IDC_CONSGROUP, ANCHOR_HORIZONTALLY | ANCHOR_TOP | ANCHOR_BOTTOM);
@@ -251,11 +251,11 @@ void CConstraintMainDialog::FillList()
 	set<std::string> conset;
 	if(!refresh_needed)
 		dhelper_ptr->getAppliedConstraintSet(conset);
-	
+
 	m_listctrl.DeleteAllItems();
 	constraintExprMap.clear();
 	appliedConSet.clear();
-	
+
 	int conSize = dhelper_ptr->getConstraintSize();
 	for(int i=0; i<conSize; ++i)
 	{
@@ -264,12 +264,12 @@ void CConstraintMainDialog::FillList()
 		{
 			constraintExprMap[i] = expression;
 			//bool constraint_applied = conset.find(name)!=conset.end();
-			if(conset.find(name)!=conset.end()) 
+			if(conset.find(name)!=conset.end())
 				appliedConSet.insert(i);
 			if(invalidConstraintName_set.find(CString(name.c_str()))!=invalidConstraintName_set.end())
 				invalidConSet.insert(i);
 
-			FillList(i, name, context,ctype,domain);			
+			FillList(i, name, context,ctype,domain);
 		}
 		else
 		{
@@ -284,7 +284,7 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 {
 	int ret, req, is;
 	LV_ITEM item;
-	item.state = item.stateMask = 0;	
+	item.state = item.stateMask = 0;
 //	if(constraint_applied)
 	{
 		item.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
@@ -294,13 +294,13 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	//	item.mask = LVIF_TEXT | LVIF_PARAM;
 	item.lParam = 0;
 	item.iItem = index;
-	
+
 	//item.iSubItem = 0;
 	//// first column is the name of the constraint
 	//item.pszText = (LPSTR)cons_name.c_str();
 	//ret = m_listctrl.InsertItem(&item);
 	(void)m_listctrl.AddItem(index, _T(""), utf82cstring(cons_name), utf82cstring(cons_context), utf82cstring(cons_type), utf82cstring(cons_domain));
-	
+
 	m_listctrl.SetColumnWidth(0,35);
 
 	// fix column width
@@ -313,7 +313,7 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	//item.iImage = 0;
 	//item.lParam = 0;
 
-	// second column 
+	// second column
 	//item.iSubItem = 1;
 	//item.pszText = (LPSTR)cons_context.c_str();
 	//ret = m_listctrl.SetItem(&item);
@@ -343,7 +343,7 @@ void CConstraintMainDialog::OnInfoTip(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	NMLVGETINFOTIP*pInfoTip = reinterpret_cast<NMLVGETINFOTIP*>(pNMHDR);
 	ASSERT(pInfoTip);
-	
+
 	int i = m_listctrl.GetItemID(pInfoTip->iItem);
 	map<int, std::string>::iterator pos = constraintExprMap.find(i);
 	if(pos!=constraintExprMap.end())
@@ -356,7 +356,7 @@ void CConstraintMainDialog::OnBnClickedEditbtn()
 	int n = m_listctrl.GetItemCount();
 	int sel = -1;
 	UINT uSelectedCount = m_listctrl.GetSelectedCount();
-	if (uSelectedCount > 0) 
+	if (uSelectedCount > 0)
 		sel = m_listctrl.GetNextItem(sel, LVNI_SELECTED);
 	else
 		for(int i=0; i<n&&sel==-1; ++i)
@@ -446,7 +446,7 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 		dspSize = dhelper_ptr->getDesignSpaceSize();
 		refresh_needed = false;
 	}	//for the purpose to get the correct dspSize
-	
+
 	int cnt = m_listctrl.GetItemCount();
 	for(int i=0; i<cnt; ++i)
 	{
@@ -481,10 +481,10 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 	}
 //	appliedCons.push_back(conIdlist);
 //	currConListPosition++;
-	
+
 	dspSize = dhelper_ptr->getDesignSpaceSize();
-	applyAll = true;	
-	
+	applyAll = true;
+
 	applyCounter++;
 	applyCounter %= MAX_FILTERS; // FIXME this won't crash, but is it correct?
 	applyIdx++;
@@ -523,7 +523,7 @@ void CConstraintMainDialog::OnBnClickedBackbtn()
 	applyIdx--;
 	//FillSizeBox();
 	update();
-	
+
 }
 
 void CConstraintMainDialog::OnBnClickedForwardbtn()
@@ -584,17 +584,17 @@ void CConstraintMainDialog::OnBnClickedOk()
 	{
 		  filters[i].clear();
 	}
-	
+
 	CDialog::OnOK();
 }
 
 void CConstraintMainDialog::generateConfig()
 {
-	if(dspSize == -2) 
+	if(dspSize == -2)
 	{
 		if(IDNO==AfxMessageBox(_T("The configurations cannot be shown due to the too large design space.\nPlease apply constraints or use View/Select for further pruning/down-selecting.\n\nDo you want to proceed?"),  MB_ICONQUESTION |MB_YESNO |MB_DEFBUTTON2))
 			return;
-	} 
+	}
 
 	if(dhelper_ptr->isLastDesertFinit_2_fail())
 	{
@@ -617,7 +617,7 @@ void CConstraintMainDialog::generateConfig()
 	else
 	{
 		CDesertConfigDialog cfgdlg(dhelper_ptr);
-		
+
 		if(cfgdlg.DoModal()==100)
 		{
 			dhelper_ptr->removeCfgsIfEmpty();
@@ -693,7 +693,7 @@ void CConstraintMainDialog::OnBnClickedRestartbtn()
 	// TODO: Add your control notification handler code here
 	//conIdlist.clear();
 	initConstraints();
-	
+
 	int nFilter = m_filterlist.GetItemCount();
 	for(int i=0;i<nFilter; i++)
 		m_filterlist.SetCheck(i,0);
@@ -709,7 +709,7 @@ void CConstraintMainDialog::initConstraints()
 	{
 	  filters[i].clear();
 	}
-	
+
 	//FillSizeBox();
 	update();
 	applyAll = false;
@@ -728,7 +728,7 @@ void CConstraintMainDialog::FillFilter()
 {
 	m_filterlist.DeleteAllItems();
 	m_filterlist.SetExtendedStyle(LVS_EX_CHECKBOXES |LVS_ALIGNTOP);
-	
+
 	POINT pt, pt0;
 	m_filterlist.InsertItem(0,_T("All"));
 	m_filterlist.GetItemPosition(0, &pt0);
@@ -881,7 +881,7 @@ void CConstraintMainDialog::OnNMClickFilterlist(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	LVHITTESTINFO hitinfo;
-	
+
      //Copy click point
      hitinfo.pt = pNMLV->ptAction;
 

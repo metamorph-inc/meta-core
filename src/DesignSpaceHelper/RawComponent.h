@@ -20,6 +20,8 @@ public:
 	}
 
 	HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool applyConstraintsInNoninteractive);
+	STDMETHODIMP ExportDesertXML(IMgaProject *project, IMgaFCO *currentObj, BSTR exportPath);
+	STDMETHODIMP ImportConfigsFromXML(IMgaProject *project, IMgaFCO *designContainer, BSTR desertXmlPath, BSTR desertBackXmlPath, BSTR *exportedConfigurationsName);
 
 private:
 	

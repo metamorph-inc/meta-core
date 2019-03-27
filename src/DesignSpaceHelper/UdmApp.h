@@ -21,12 +21,16 @@
 #include "UdmGme.h"
 #include "UdmStatic.h"
 #include "GMECOM.h"
+#include <Mga.h>
 
 
 class CUdmApp  
 {
 public:
 	void UdmMain(Udm::DataNetwork* p_backend,Udm::Object currentObject, long param, bool applyConstraintsInNoninteractiveMode);
+	void ExportDesertXml(Udm::DataNetwork* p_backend, Udm::Object currentObject, std::wstring exportPath);
+	void ImportConfigsFromXML(Udm::DataNetwork* project, Udm::Object designContainer, std::wstring desertXmlPath,
+	                          std::wstring desertBackXmlPath, std::wstring& exportedConfigurationsName);
 	CString mgaPath;
 #ifdef _DEBUG
 	static string ExtractName(Udm::Object ob);
