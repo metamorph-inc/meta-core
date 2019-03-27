@@ -328,7 +328,7 @@ HRESULT RawComponent::ImportConfigsFromXML(IMgaProject *project, IMgaFCO *design
 				// Calling the main entry point
 				app.ImportConfigsFromXML(&dngBackend, currentObject, std::wstring(desertXmlPath), std::wstring(desertBackXmlPath), exportedConfigurationsNameStlString);
 
-				BSTR configsName = CComBSTR(exportedConfigurationsNameStlString.c_str());
+				BSTR configsName = CComBSTR(exportedConfigurationsNameStlString.c_str()).Detach();
 
 				*exportedConfigurationsName = configsName;
 

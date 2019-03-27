@@ -1539,9 +1539,6 @@ void DesertHelper::executeAll(bool applyConstraints)
 
 void DesertHelper::exportXml(std::wstring exportPath)
 {
-	// TODO: This converts to UTF-8--  is that the right thing to do here?
-	// (UDM accepts paths as 'string'; it's probably not handling unicode
-	// paths at all)
 	desertIfaceFile = wstringToString(exportPath);
 	runCyPhy2Desert();
 }
@@ -1554,7 +1551,7 @@ std::wstring DesertHelper::importConfigsFromXml(std::wstring desertXmlPath, std:
 	dbs_dn = std::unique_ptr<Udm::SmartDataNetwork>(new Udm::SmartDataNetwork(DesertIfaceBack::diagram));
 	dbs_dn->OpenExisting(wstringToString(desertBackXmlPath), "DesertIfaceBack.xsd", Udm::CHANGES_LOST_DEFAULT);
 
-	
+
 
 	DesertSystem ds;
 	buildDesertSystem(ds, true);
@@ -1576,7 +1573,7 @@ std::wstring DesertHelper::importConfigsFromXml(std::wstring desertXmlPath, std:
 		CyPhyML::DesignEntity cd = (*mit).first;
 		cyPhyDesignElemMap[cd.ID()] = cd;
 	}
-	
+
 
 	cfgCount = 0;
 	configMap.clear();
