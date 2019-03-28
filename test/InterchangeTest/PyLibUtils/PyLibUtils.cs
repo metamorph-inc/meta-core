@@ -47,7 +47,7 @@ namespace ComponentImporterUnitTests
                 {
                     break;
                 }
-                procErrorOutput += buffer.ToString();
+                procErrorOutput += new string(buffer, 0, read);
             }
             process.WaitForExit();
 

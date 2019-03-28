@@ -72,7 +72,10 @@ namespace ComponentImporterUnitTests
                 int rtnCode = PyLibUtils.TryImportUsingPyLib(absPathACM, out output);
 
                 if (rtnCode != 0)
+                {
+                    Console.Out.WriteLine(output);
                     cb_Failures.Add(pathACM);
+                }
             });
 
             if (cb_Failures.Any())
