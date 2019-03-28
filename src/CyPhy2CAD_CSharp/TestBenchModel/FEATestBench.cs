@@ -739,7 +739,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                     feaaccelRep.Y = acceleration.Attributes.YDirectionValue;
                     feaaccelRep.Z = acceleration.Attributes.ZDirectionValue;
                     if (acceleration.Referred.unit != null)
-                        feaaccelRep.Units = acceleration.Referred.unit.Name;
+                        feaaccelRep.Units = acceleration.Referred.unit.Attributes.Symbol;
                     else
                         feaaccelRep.Units = "mm/s^2";
 
