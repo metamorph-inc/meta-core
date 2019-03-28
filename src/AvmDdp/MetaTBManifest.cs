@@ -602,6 +602,13 @@ namespace AVM.DDP
                     }
                 }
             }
+            else if (testBenchType.Impl.MetaBase.Name == typeof(CyPhy.CADTestBench).Name)
+            {
+                // CADTestBench aka Structural FEA Test Bench is assumed to run with only CyPhy2CAD
+                var step = new Step();
+                step.Invocation = interpreters.Single().result.RunCommand;
+                this.Steps.Add(step);
+            }
         }
 
         public static Step CreateManifestStepForExecutionTask(string relativePathToProjectDir, CyPhy.ExecutionTask executionTask)
