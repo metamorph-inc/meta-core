@@ -34,7 +34,7 @@ class CComponentObj;
 		// GetModuleFileNameW(HINST_THISCOMPONENT, thisModuleFileName, sizeof(thisModuleFileName) / sizeof(thisModuleFileName[0]));
 		_bstr_t typelibPath;
 		//HRESULT hr = QueryPathOfRegTypeLib(__uuidof(___MGALib), 1, 0, 0, typelibPath.GetAddress());
-		HRESULT hr = QueryPathOfRegTypeLib(LIBID_MgaComponentLib, 1, 1, 0, typelibPath.GetAddress());
+		HRESULT hr = QueryPathOfRegTypeLib(LIBID_MgaComponentLib, 1, 2, 0, typelibPath.GetAddress());
 		if (FAILED(hr))
 			return hr;
 

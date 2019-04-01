@@ -22,6 +22,7 @@ interface IDesignSpaceHelper : IMgaComponentEx
 
 [
 	uuid(TYPELIB_UUID),
+	// n.b. synchronize this value with QueryPathOfRegTypeLib call and deploy/DesignSpaceHelper.wxi
 	version(1.2),
 	helpstring(TYPELIB_NAME)
 ]
