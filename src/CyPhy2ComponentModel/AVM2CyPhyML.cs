@@ -32,7 +32,7 @@ namespace AVM2CyPhyML
 
         protected CyPhyML.RootFolder _cyPhyMLRootFolder;
         protected List<CyPhyML.Units> _cyPhyMLUnitsFolders;
-        protected CyPhyML.Ports _cyPhyMLPorts;
+        protected List<CyPhyML.Ports> _cyPhyMLPorts;
 
         /// <summary>
         /// Tracks whether any incoming members have layout data.
@@ -488,12 +488,11 @@ namespace AVM2CyPhyML
             {
                 foreach (CyPhyML.Ports ports in cyPhyMLConnectors.Children.PortsCollection)
                 {
-                    _cyPhyMLPorts = ports;
-                    break;
-                }
-                if (_cyPhyMLPorts != null)
-                {
-                    break;
+                    if (_cyPhyMLPorts == null)
+                    {
+                        _cyPhyMLPorts = new List<ISIS.GME.Dsml.CyPhyML.Interfaces.Ports>();
+                    }
+                    _cyPhyMLPorts.Add(ports);
                 }
             }
         }
@@ -508,17 +507,10 @@ namespace AVM2CyPhyML
                 foreach (CyPhyML.RootFolder libraryRootFolder in _cyPhyMLRootFolder.LibraryCollection)
                 {
                     getCyPhyMLPorts(libraryRootFolder);
-                    if (_cyPhyMLPorts != null)
-                    {
-                        break;
-                    }
                 }
             }
 
-            if (_cyPhyMLPorts == null)
-            {
-                getCyPhyMLPorts(_cyPhyMLRootFolder);
-            }
+            getCyPhyMLPorts(_cyPhyMLRootFolder);
         }
 
         private void getCyPhyMLModelPorts(CyPhyML.Ports cyPhyMLPorts)
@@ -537,7 +529,8 @@ namespace AVM2CyPhyML
                         object bar = classPropertyInfo.GetValue(attributesPropertyInfo.GetValue(cyPhyMLPort, null), null);
                         key = classPropertyInfo.GetValue(attributesPropertyInfo.GetValue(cyPhyMLPort, null), null) as string;
                     }
-                    _portNameTypeMap.Add(key, cyPhyMLPort);
+                    // Maybe there are dup names; choose arbitrarily
+                    _portNameTypeMap[key] = cyPhyMLPort;
                 }
             }
 
@@ -565,7 +558,10 @@ namespace AVM2CyPhyML
                 return;
             }
 
-            getCyPhyMLModelPorts(_cyPhyMLPorts);
+            foreach (var cyPhyMLPort in _cyPhyMLPorts)
+            {
+                getCyPhyMLModelPorts(cyPhyMLPort);
+            }
         }
 
         protected void process<T>(T parent, avm.Property avmProperty, string compoundPropertyPath = "")
@@ -1425,12 +1421,13 @@ namespace AVM2CyPhyML
 
         protected MgaFCO getPortCopyFromLibrary(IMgaModel parent, string className)
         {
-            if (!_portNameTypeMap.ContainsKey(className))
+            CyPhyML.Port port;
+            if (_portNameTypeMap.TryGetValue(className, out port) == false)
             {
                 return null;
             }
 
-            MgaFCO archetype = _portNameTypeMap[className].Impl as MgaFCO;
+            MgaFCO archetype = port.Impl as MgaFCO;
             MgaMetaRole role = (parent.Meta as MgaMetaModel).RoleByName[archetype.Meta.Name];
             if (role == null)
             {
@@ -1834,23 +1831,6 @@ namespace AVM2CyPhyML
 
                 cyPhyMLDistributionRestriction.Name = "DoDDistribution_" + cyphyMLDistStatement.Attributes.DoDDistributionStatementEnum.ToString();
             }
-        }
-
-        private MgaFCO getPortInstance(IMgaModel parent, string className)
-        {
-            if (!_portNameTypeMap.ContainsKey(className))
-            {
-                return null;
-            }
-
-            MgaFCO archetype = _portNameTypeMap[className].Impl as MgaFCO;
-            MgaMetaRole role = (parent.Meta as MgaMetaModel).RoleByName[archetype.Meta.Name];
-            if (role == null)
-            {
-                return null;
-            }
-
-            return parent.DeriveChildObject(archetype, role, instance: true);
         }
 
         private Dictionary<avm.cyber.ModelType, CyPhyMLClasses.CyberModel.AttributesClass.ModelType_enum> d_CyberModelTypeMap = new Dictionary<avm.cyber.ModelType, CyPhyMLClasses.CyberModel.AttributesClass.ModelType_enum>()
