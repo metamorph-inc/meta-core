@@ -53,7 +53,7 @@ namespace CyPhyComponentAuthoring.Modules
             }
             catch(Exception)
             {
-                this.Logger.WriteError("Error, No Current Componet");
+                this.Logger.WriteError("Error, No Current Component");
                 cleanup(true);
                 return;
             }
