@@ -1322,17 +1322,20 @@ namespace CyPhyPET
                 }
                 else
                 {
-                    MgaModel realSourceParent;
-                    MgaFCO realSource = null;
                     if (realSources.Count > 1)
                     {
                         // should be unreachable because checker should detect this error
                         throw new ApplicationException(String.Format("Error: {0} has more than one source", input.Name));
                     }
-                    realSource = realSources.First();
-                    realSourceParent = realSource.ParentModel;
+                    MgaFCO realSource = realSources.FirstOrDefault();
+                    MgaModel realSourceParent = realSource?.ParentModel;
                     if (problemInput.value == "")
                     {
+                        if (realSource == null)
+                        {
+                            throw new ApplicationException(String.Format("Error: <a href=\"mga:{0}\">{1}</a> must specify a JSON Value",
+                                input.Impl.getTracedObjectOrSelf(Logger.Traceability).ID, SecurityElement.Escape(input.Name)));
+                        }
                         if (testbenchtypes.Contains(realSourceParent.Meta.Name))
                         {
                             // FIXME is this right?
@@ -1427,8 +1430,12 @@ namespace CyPhyPET
                             }
                         }
                     }
-                    string kind = realSourceParent.Meta.Name;
-                    if (testbenchtypes.Contains(kind))
+                    string kind = realSourceParent?.Meta?.Name;
+                    if (kind == null)
+                    {
+                        problemInput.pass_by_obj = false;
+                    }
+                    else if (testbenchtypes.Contains(kind))
                     {
                         problemInput.pass_by_obj = true;
                     }
