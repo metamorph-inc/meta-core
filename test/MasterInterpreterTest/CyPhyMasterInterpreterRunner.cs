@@ -161,9 +161,10 @@ namespace MasterInterpreterTest
             string absPath,
             string configPath,
             bool postToJobManager = false,
-            bool keepTempModels = false)
+            bool keepTempModels = false,
+            [System.Runtime.CompilerServices.CallerMemberName] string functionName = "")
         {
-            return RunMasterInterpreterAndReturnResults(projectPath, absPath, configPath, postToJobManager, keepTempModels).Success;
+            return RunMasterInterpreterAndReturnResults(projectPath, absPath, configPath, postToJobManager, keepTempModels, functionName).Success;
         }
 
         public static CyPhyMasterInterpreter.MasterInterpreterResult RunMasterInterpreterAndReturnResults(
@@ -171,7 +172,8 @@ namespace MasterInterpreterTest
             string absPath,
             string configPath,
             bool postToJobManager = false,
-            bool keepTempModels = false)
+            bool keepTempModels = false,
+            [System.Runtime.CompilerServices.CallerMemberName] string functionName = "")
         {
             Assert.True(File.Exists(projectPath), "Project file does not exist.");
             string ProjectConnStr = "MGA=" + Path.GetFullPath(projectPath);
@@ -198,6 +200,10 @@ namespace MasterInterpreterTest
                 {
                     masterInterpreter.Logger.GMEConsoleLoggingLevel = CyPhyGUIs.SmartLogger.MessageType_enum.Debug;
 
+                    if (String.IsNullOrWhiteSpace(functionName) == false)
+                    {
+                        masterInterpreter.ResultsSubdirectoryName = functionName;
+                    }
                     var miResults = masterInterpreter.RunInTransactionOnOneConfig(testObj as MgaModel, configObj, postToJobManager, keepTempModels);
                     Assert.True(miResults.Length == 1, "MasterInterpreter.RunInTransactionOnOneConfig should always return one result.");
                     return miResults[0];

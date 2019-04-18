@@ -55,6 +55,7 @@
         public event EventHandler<InterpreterProgressEventArgs> InterpreterProgress;
 
         protected string OriginalCurrentFCOName;
+        internal string ResultsSubdirectoryName;
 
         /// <summary>
         /// Gets the interpreters which will be called on the expanded context.
@@ -956,7 +957,14 @@
 
             // output dir %root%/%currentobjInvoked%/%this object%/%interpreter name%/
             // We need shorter path due windows' path limitations
-            outputSubDir = GetRandomSubDirectory(outputDir);
+            if (ResultsSubdirectoryName == null)
+            {
+                outputSubDir = GetRandomSubDirectory(outputDir);
+            }
+            else
+            {
+                outputSubDir = Path.Combine(outputDir, ResultsSubdirectoryName);
+            }
 
             // set up base directory
             Directory.CreateDirectory(outputSubDir);

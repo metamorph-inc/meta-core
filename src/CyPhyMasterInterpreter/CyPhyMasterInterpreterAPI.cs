@@ -172,6 +172,9 @@
         private bool LoggerDisposeRequired { get; set; }
         [ComVisible(false)]
         public List<string> ConfigurationNames { get; private set; }
+
+        public string ResultsSubdirectoryName { get; set; }
+
         [ComVisible(false)]
         public IEnumerable<GMELightObject> UnselectedConfigurationGroups;
 
@@ -1193,6 +1196,7 @@
                     // expand context for configuration
                     this.Logger.WriteDebug("Getting analysis model processor instance for {0} type", context.MetaBase.Name);
                     analysisModelProcessor = AnalysisModelProcessor.GetAnalysisModelProcessor(context);
+                    analysisModelProcessor.ResultsSubdirectoryName = ResultsSubdirectoryName;
                     this.Logger.WriteDebug("Got {0} for {1} {2}", analysisModelProcessor.GetType().Name, context.MetaBase.Name, context.AbsPath);
 
                     if (this.IsInteractive)
