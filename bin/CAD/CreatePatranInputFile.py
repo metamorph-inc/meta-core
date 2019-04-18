@@ -8,8 +8,9 @@ from lxml import etree as letree
 import argparse
 import logging
 import datetime
-from cad_library import material_properties
 import operator
+import traceback
+from cad_library import material_properties
 
 
 class CADExcep(Exception):
@@ -1658,7 +1659,7 @@ def main():
                       'Timestamp: {:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()))
 
     except Exception as e:
-        g_logger.error(e.message)
+        g_logger.error(traceback.format_exc(e))
         #print("Error" + e.message)
         failed_File = open('_FAILED.txt', 'a')
         failed_File.write("Error" + e.message)
