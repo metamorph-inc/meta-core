@@ -616,7 +616,7 @@ void CConstraintMainDialog::generateConfig()
 	}
 	else
 	{
-		CDesertConfigDialog cfgdlg(dhelper_ptr);
+		CDesertConfigDialog cfgdlg(dhelper_ptr, this);
 
 		if(cfgdlg.DoModal()==100)
 		{
