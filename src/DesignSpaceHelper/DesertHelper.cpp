@@ -23,6 +23,13 @@
 
 using namespace DesertIface;
 
+template <typename T>
+struct UdmNameSort {
+	bool operator()(const T& o1, const T& o2) const {
+		return static_cast<std::string>(o1.name()) < static_cast<std::string>(o2.name());
+	}
+};
+
 //typedef map<DesertIfaceBack::Configuration, set<CyPhyML::DesignEntity>*> MorphMatrix;
 //MorphMatrix morphMatrix;
 //set<CyPhyML::DesignEntity> allEntities;
@@ -420,7 +427,7 @@ bool DesertHelper::runCyPhy2Desert()
 	set<DesertIface::ConstraintSet> csets = desert_top.ConstraintSet_kind_children();
 	for(set<DesertIface::ConstraintSet>::iterator i=csets.begin();i!=csets.end();++i)
 	{
-		set<DesertIface::Constraint> cons = (*i).Constraint_kind_children();
+		set<DesertIface::Constraint, UdmNameSort<DesertIface::Constraint> > cons = (*i).Constraint_kind_children_sorted(UdmNameSort<DesertIface::Constraint>());
 		for(set<DesertIface::Constraint>::iterator j=cons.begin();j!=cons.end();++j)
 		{
 			if(groupConstraints.find((std::string)(*j).name())==groupConstraints.end())
