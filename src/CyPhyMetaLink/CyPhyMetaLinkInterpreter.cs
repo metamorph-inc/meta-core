@@ -130,18 +130,24 @@ namespace CyPhyMetaLink
                 ConnectToMetaLinkBridge(project, param);
 
                 string currentobjKind = null;
+                string currentobjName = null;
                 MgaFCO selectedCADModel = null;
                 string componentVersion = null;
-                MgaGateway.PerformInTransaction(delegate
+                Guid currentobjGuid = Guid.Empty;
+                if (currentobj != null)
                 {
-                    if (currentobj != null)
+                    MgaGateway.PerformInTransaction(delegate
                     {
                         currentobjKind = currentobj.Meta.Name;
+                        currentobjName = currentobj.Name;
+                        currentobjGuid = CyPhyMLClasses.DesignElement.Cast(currentobj).Guid;
                         if (currentobjKind == "CADModel")
                         {
                             selectedCADModel = currentobj;
                             currentobj = (MgaFCO)currentobj.ParentModel;
                             currentobjKind = currentobj.Meta.Name;
+                            currentobjName = currentobj.Name;
+                            currentobjGuid = CyPhyMLClasses.DesignElement.Cast(currentobj).Guid;
                         }
                         else
                         {
@@ -159,8 +165,8 @@ namespace CyPhyMetaLink
                         {
                             componentVersion = CyPhyMLClasses.Component.Cast(currentobj).Attributes.Version;
                         }
-                    }
-                }, transactiontype_enum.TRANSACTION_GENERAL, abort: false);
+                    }, transactiontype_enum.TRANSACTION_NON_NESTED, abort: false);
+                }
                 if (currentobjKind != null && currentobjKind != "Component" && currentobjKind != "CADModel" && currentobjKind != "ComponentAssembly")
                 {
                     System.Windows.Forms.MessageBox.Show("Please open a Component or a Component Assembly");
@@ -200,7 +206,29 @@ namespace CyPhyMetaLink
 
                 if (metalinkAddon.AssemblyID != null)
                 {
-                    GMEConsole.Warning.WriteLine("A ComponentAssembly is already synced");
+                    if (currentobjGuid == Guid.Parse(metalinkAddon.AssemblyID))
+                    {
+                        metalinkAddon.assemblySyncPaused = !metalinkAddon.assemblySyncPaused;
+                        if (metalinkAddon.assemblySyncPaused)
+                        {
+                            GMEConsole.Info.WriteLine(String.Format("Pausing MetaLink for {0}", SecurityElement.Escape(currentobjName)));
+                        }
+                        else
+                        {
+                            GMEConsole.Info.WriteLine(String.Format("Resuming MetaLink for {0}", SecurityElement.Escape(currentobjName)));
+                            if (metalinkAddon.assembliesToRestart.Count > 0)
+                            {
+                                MgaGateway.PerformInTransaction(delegate
+                                {
+                                    // n.b. end of current transaction will trigger MetaLinkAddon RestartAssemblySync
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        GMEConsole.Warning.WriteLine("A different ComponentAssembly is already synced");
+                    }
                 }
                 else
                 {
@@ -333,6 +361,7 @@ namespace CyPhyMetaLink
             {
                 metalinkAddon = GetMetaLinkAddon(project);
             }
+            bool firstTimeConnect = metalinkAddon.bridgeClient.ConnectionWasRequested == false;
             if (await metalinkAddon.EstablishConnection())
             {
                 connected = true;
@@ -458,7 +487,7 @@ namespace CyPhyMetaLink
                     }
                 }
             }
-            if (connected)
+            if (connected && firstTimeConnect)
             {
                 if (GMEConsole != null)
                 {
@@ -472,6 +501,7 @@ namespace CyPhyMetaLink
         {
             // FIXME: possible race between sending MetaLink Bridge INTEREST and it registering it, and Creo sending its INTEREST
             // n.b. the tests call StartAssemblySync directly
+            metalinkAddon.assemblySyncPaused = false;
             ProjectDirectory = Path.GetDirectoryName(project.ProjectConnStr.Substring("MGA=".Length));
             if (ConnectToMetaLinkBridgeTask == null)
             {

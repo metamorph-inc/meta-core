@@ -21,7 +21,14 @@ namespace CyPhyMetaLinkBridgeClient
         {
         }
 
-        Task<bool> _establishSocket;
+        public bool ConnectionWasRequested
+        {
+            get
+            {
+                return _establishSocket != null;
+            }
+        }
+        private Task<bool> _establishSocket;
         public async Task<bool> EstablishConnection(Action<MetaLinkProtobuf.Edit> EditMessageReceived, Action<Exception> connectionClosed, Action<MetaLinkProtobuf.Edit> EditMessageSent = null)
         {
             if (_establishSocket != null)

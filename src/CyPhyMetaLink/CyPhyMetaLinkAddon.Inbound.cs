@@ -1155,7 +1155,10 @@ namespace CyPhyMetaLink
                 {
                     GMEConsole = GMEConsole.CreateFromProject(addon.Project);
                 }
-                RestartAssemblySync();
+                if (assemblySyncPaused == false)
+                {
+                    RestartAssemblySync();
+                }
                 // n.b. MgaProject is in tx now, post a message so we can start our own
                 SyncControl.BeginInvoke((System.Action)delegate
                 {
@@ -1181,8 +1184,8 @@ namespace CyPhyMetaLink
         }
 
 
-
-        private HashSet<CyPhyML.ComponentAssembly> assembliesToRestart = new HashSet<CyPhyML.ComponentAssembly>();
+        public bool assemblySyncPaused = false;
+        internal HashSet<CyPhyML.ComponentAssembly> assembliesToRestart = new HashSet<CyPhyML.ComponentAssembly>();
         private void RestartAssemblySyncAtEndOfTransaction(CyPhyML.ComponentAssembly design)
         {
             if (design != null)
