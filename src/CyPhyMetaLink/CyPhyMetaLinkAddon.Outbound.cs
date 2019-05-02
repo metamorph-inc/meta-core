@@ -272,7 +272,21 @@ namespace CyPhyMetaLink
                             }
                         }
                     }
+                }
+            }
 
+            Func<objectevent_enum, bool> hasFlag = f => (((uint)f) & eventMask) != 0;
+
+            if (AssemblyID != null && subject.Status == (int)objectstatus_enum.OBJECT_EXISTS &&
+                    (((hasFlag(objectevent_enum.OBJEVENT_CONNECTED) || hasFlag(objectevent_enum.OBJEVENT_DISCONNECTED)) && !hasFlag(objectevent_enum.OBJEVENT_DESTROYED))
+                        || (hasFlag(objectevent_enum.OBJEVENT_PRE_DESTROYED) && !hasFlag(objectevent_enum.OBJEVENT_CREATED))
+                        || (hasFlag(objectevent_enum.OBJEVENT_CREATED) && !hasFlag(objectevent_enum.OBJEVENT_DESTROYED))
+                        // unit change:
+                        || (hasFlag(objectevent_enum.OBJEVENT_RELATION) && !hasFlag(objectevent_enum.OBJEVENT_DESTROYED))
+                    ))
+            {
+                if (subject is MgaFCO)
+                {
                     string kind = subject.MetaBase.Name;
                     if ( // (eventMask & uOBJEVENT_RELATION)
                         (kind == "Property" ||
@@ -290,7 +304,6 @@ namespace CyPhyMetaLink
                                 RestartAssemblySyncAtEndOfTransaction(syncedAssembly);
                             }
                         }
-
                     }
                 }
             }

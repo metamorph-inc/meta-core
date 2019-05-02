@@ -16,7 +16,7 @@ namespace GME.CSharp
         // Select the object events you want the addon to listen to.
         //public const int eventMask = (int)(objectevent_enum.OBJEVENT_PRE_STATUS | objectevent_enum.OBJEVENT_CREATED | objectevent_enum.OBJEVENT_ATTR | objectevent_enum.OBJEVENT_PROPERTIES | objectevent_enum.OBJEVENT_CONNECTED | objectevent_enum.OBJEVENT_OPENMODEL | objectevent_enum.OBJEVENT_CLOSEMODEL);
         public const int eventMask = (int)(objectevent_enum.OBJEVENT_CREATED | objectevent_enum.OBJEVENT_ATTR | objectevent_enum.OBJEVENT_PROPERTIES
-            | objectevent_enum.OBJEVENT_CONNECTED | objectevent_enum.OBJEVENT_OPENMODEL | objectevent_enum.OBJEVENT_CLOSEMODEL
+            | objectevent_enum.OBJEVENT_CONNECTED | objectevent_enum.OBJEVENT_DISCONNECTED | objectevent_enum.OBJEVENT_OPENMODEL | objectevent_enum.OBJEVENT_CLOSEMODEL
             | objectevent_enum.OBJEVENT_NEWCHILD | objectevent_enum.OBJEVENT_PRE_STATUS | objectevent_enum.OBJEVENT_RELATION | objectevent_enum.OBJEVENT_PRE_DESTROYED);
 
         // Uncomment the flag if your component is paradigm independent.
