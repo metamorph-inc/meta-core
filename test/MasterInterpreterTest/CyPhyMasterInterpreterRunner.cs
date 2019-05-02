@@ -203,6 +203,11 @@ namespace MasterInterpreterTest
                     if (String.IsNullOrWhiteSpace(functionName) == false)
                     {
                         masterInterpreter.ResultsSubdirectoryName = functionName;
+                        var resultsDirPath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(projectPath)), "results", masterInterpreter.ResultsSubdirectoryName);
+                        if (Directory.Exists(resultsDirPath))
+                        {
+                            Directory.Delete(resultsDirPath, true);
+                        }
                     }
                     var miResults = masterInterpreter.RunInTransactionOnOneConfig(testObj as MgaModel, configObj, postToJobManager, keepTempModels);
                     Assert.True(miResults.Length == 1, "MasterInterpreter.RunInTransactionOnOneConfig should always return one result.");
