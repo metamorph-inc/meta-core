@@ -46,7 +46,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not os.path.exists(args.nas_filename):
-        print("Error: %s file not found" % nas_filename)
+        print("Error: %s file not found" % args.nas_filename)
 
     NasPath = get_latest_nastran_directory()
     print("\nStarting Nastran \n")

@@ -185,7 +185,7 @@ class PatranPostProcess:
 
         patran_call = "patran -b -graphics -sfp  PatranPostProcessing.ses -stdout .\log\PatranPostProcessing_Session.log"
 
-        # check if Nastra_mod.bdf exists (Patran_Nastran)
+        # check if Nastran_mod.bdf exists (Patran_Nastran)
         analysis_dir_name = os.path.split(self.analysis_dir)[-1]
         bdf_name = 'Nastran_mod.bdf'
 
