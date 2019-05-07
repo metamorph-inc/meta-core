@@ -1223,12 +1223,16 @@ namespace CyPhyPET
                 if (ex != null)
                 {
                     String msg = "Failed to parse the Value for the Metric " +
-                        "<a href=\"mga:{1}\">{0}</a> in <a href=\"mga:{3}\">{2}</a>. " +
+                        "<a href=\"mga:{1}\">{0}</a> in <a href=\"mga:{3}\">{2}</a> as JSON. " +
                         "If this was intended to be a String, surround it in quotes.";
+                    if (metric.Attributes.Value.Equals("true", StringComparison.InvariantCultureIgnoreCase) ||
+                        metric.Attributes.Value.Equals("false", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        msg += " Use 'false' or 'true' for boolean values.";
+                    }
                     this.Logger.WriteError(String.Format(msg,
                                                          metric.Name, metric.ID,
                                                          constants.Name, constants.ID));
-                    this.Logger.WriteDebug(msg);
                     throw ex;
                 }
 
