@@ -85,8 +85,8 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ISIS.GME.Common, Version=1.0.7.0, Culture=neutral, PublicKeyToken=1321e6b92842fe54, processorArchitecture=MSIL">
-        <SpecificVersion>False</SpecificVersion>
-        <HintPath>..\..\src\CyPhyMLCS\ISIS.GME.Common.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\src\CyPhyMLCS\ISIS.GME.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -128,6 +128,10 @@
     <ProjectReference Include="..\..\src\CyPhyComponentAuthoring\CyPhyComponentAuthoring.csproj">
       <Project>{61EEAC67-BA67-4EC8-8779-031E9092EE42}</Project>
       <Name>CyPhyComponentAuthoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CyPhyElaborateCS\CyPhyElaborateCS.csproj">
+      <Project>{abda448d-4c24-4e96-93d8-b6e64dbb2f51}</Project>
+      <Name>CyPhyElaborateCS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\CyPhyGUIs\CyPhyGUIs.csproj">
       <Project>{ab27ee78-6819-4b8c-b678-68bc4fbc99d2}</Project>

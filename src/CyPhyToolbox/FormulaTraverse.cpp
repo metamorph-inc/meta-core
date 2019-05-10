@@ -1410,7 +1410,12 @@ void NewTraverser::EvaluateCarParameters()
 				}
 
 				string tmp;
-				to_string(tmp, incomingVURep.actualValue);
+				if (incomingVURep.type == UnitUtil::ValueUnitRep::STRING) {
+					tmp = incomingVURep.strValue;
+				}
+				else {
+					to_string(tmp, incomingVURep.actualValue);
+				}
 
 				ci->Value() = NonRealValueFixture(vft,tmp);
 			}
@@ -1529,10 +1534,17 @@ void NewTraverser::EvaluateCADParameters()
 				}
 			}
 			
-			if (cyphy_unit != Udm::null)
-				to_string(tmp, unitUtil.ConvertFromSIEquivalent(cyphy_unit, incomingVURep.siValue));
-			else
-				to_string (tmp, incomingVURep.actualValue);
+			if (incomingVURep.type == UnitUtil::ValueUnitRep::STRING) {
+				tmp = incomingVURep.strValue;
+			}
+			else {
+				if (cyphy_unit != Udm::null) {
+					to_string(tmp, unitUtil.ConvertFromSIEquivalent(cyphy_unit, incomingVURep.siValue));
+				}
+				else {
+					to_string(tmp, incomingVURep.actualValue);
+				}
+			}
 			ci->Value() = NonRealValueFixture(vft,tmp);
 		}
 	}
@@ -1579,7 +1591,12 @@ void NewTraverser::EvaluateManufactureParameters()
 			if (nullUnitRef)
 			{
 				string tmp;
-				to_string(tmp, incomingVURep.siValue);
+				if (incomingVURep.type == UnitUtil::ValueUnitRep::STRING) {
+					tmp = incomingVURep.strValue;
+				}
+				else {
+					to_string(tmp, incomingVURep.actualValue);
+				}
 				ci->Value() = tmp;			
 				if (incomingVURep.cyphyRef != Udm::null)
 				{
@@ -1672,7 +1689,12 @@ void NewTraverser::EvaluateModelicaParameters()
 				}
 
 				string tmp;
-				to_string(tmp, incomingVURep.actualValue);
+				if (incomingVURep.type == UnitUtil::ValueUnitRep::STRING) {
+					tmp = incomingVURep.strValue;
+				}
+				else {
+					to_string(tmp, incomingVURep.actualValue);
+				}
 
 				ci->Value() = NonRealValueFixture(vft,tmp);
 			}
