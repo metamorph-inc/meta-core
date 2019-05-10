@@ -88,11 +88,12 @@ template <
 void to_string (std::basic_string <CharType, Traits, Allocator>& dst, SourceType src)
 {
 	std::basic_stringstream <CharType, Traits, Allocator> sstream;
-	sstream << src;
+	sstream << std::setprecision(17)
+		<< src;
 	if(!sstream)
 		throw std::bad_cast();
 
-	dst=sstream.str();
+	dst = sstream.str();
 }
 
 

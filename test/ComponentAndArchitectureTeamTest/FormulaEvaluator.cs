@@ -587,7 +587,7 @@ namespace ComponentAndArchitectureTeamTest
 
                 foreach (var param in asm.Children.PropertyCollection)
                 {
-                    Assert.Equal("20", param.Attributes.Value);
+                    Assert.Equal("0.10000000000000002", param.Attributes.Value);
                 }
             });
         }
