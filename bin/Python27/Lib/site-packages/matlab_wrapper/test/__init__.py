@@ -30,6 +30,7 @@ class TestMatlabWrapper(unittest.TestCase):
         c.solve_nonlinear({'a': 2.5, 'b': 3.5, 'c': 4.0}, unknowns, {})
         # print(repr(unknowns))
         self.assertEqual(unknowns['m'], 35)
+        self.assertEqual(unknowns['s'], [[2.5, 3.5, 4.0]])
         self.assertEqual(unknowns['w']['m'], unknowns['m'])
         self.assertEqual(unknowns['strarra'], ['Mercury', 'Venus', 'Earth'])
 

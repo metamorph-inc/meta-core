@@ -11,6 +11,7 @@ import subprocess
 
 from base64 import b64encode, b64decode
 
+
 class AnalysisError(Exception):
     """The client will convert this to openmdao.api.AnalysisError.
     The proxy server does not have openmdao"""
@@ -40,6 +41,14 @@ class MatlabInProcessProxyReplacement(object):
                     return float(val)
                 return val
             args = [transcode(val) for val in args]
+            def convert_to_list(array, size=None):
+                if not isinstance(array, matlab.mlarray.double):
+                    return array
+                if size is None:
+                    size = array.size
+                if len(size) == 1:
+                    return list(array)
+                return list((convert_to_list(l, size[1:]) for l in array))
 
             try:
                 if bare:
@@ -57,18 +66,17 @@ class MatlabInProcessProxyReplacement(object):
                     getattr(self.engine, name)(nargout=nargout, stdout=stdout, stderr=stderr)
                     outputs = []
 
-                    def convert_to_list(array, size):
-                        if len(size) == 1:
-                            return list(array)
-                        return list((convert_to_list(l, size[1:]) for l in array))
                     for output_name in output_names:
                         output = self.engine.workspace[str(output_name)]
-                        if isinstance(output, matlab.mlarray.double):
-                            output = convert_to_list(output, output.size)
+                        output = convert_to_list(output)
                         outputs.append(output)
                     # open('debug.txt', 'a').write(repr(outputs) + '\n')
                 else:
                     outputs = getattr(self.engine, name)(*args, nargout=nargout, stdout=stdout, stderr=stderr)
+                    if type(outputs) == tuple:
+                        outputs = tuple(map(convert_to_list, outputs))
+                    else:
+                        outputs = convert_to_list(outputs)
             except Exception as e:
                 if type(e).__module__ in ('matlab', 'matlab.engine'):
                     e = openmdao.api.AnalysisError(getattr(e, 'message', getattr(e, 'args', ['unknown MATLAB exception'])[0]))
@@ -99,6 +107,14 @@ class EngineProxyServer(object):
         out = six.StringIO()
         err = six.StringIO()
         args = pickle.loads(b64decode(args))
+        def convert_to_list(array, size=None):
+            if not isinstance(array, matlab.mlarray.double):
+                return array
+            if size is None:
+                size = array.size
+            if len(size) == 1:
+                return list(array)
+            return list((convert_to_list(l, size[1:]) for l in array))
         if bare:
             nargout = 0
             for i, input_name in enumerate(input_names):
@@ -124,18 +140,17 @@ class EngineProxyServer(object):
             getattr(self.engine, name)(nargout=nargout, stdout=out, stderr=err)
             outputs = []
 
-            def convert_to_list(array, size):
-                if len(size) == 1:
-                    return list(array)
-                return list((convert_to_list(l, size[1:]) for l in array))
             for output_name in output_names:
                 output = self.engine.workspace[str(output_name)]
-                if isinstance(output, matlab.mlarray.double):
-                    output = convert_to_list(output, output.size)
+                output = convert_to_list(output)
                 outputs.append(output)
             # open('debug.txt', 'a').write(repr(outputs) + '\n')
         else:
             outputs = getattr(self.engine, name)(*args, nargout=nargout, stdout=out, stderr=err)
+            if type(outputs) == tuple:
+                outputs = tuple(map(convert_to_list, outputs))
+            else:
+                outputs = convert_to_list(outputs)
 
         return {"output": pickle.dumps(outputs), "stdout": out.getvalue(), "stderr": err.getvalue()}
 
