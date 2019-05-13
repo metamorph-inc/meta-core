@@ -1227,7 +1227,6 @@ void CManager::Dump(FILE *f, const TCHAR * comment)
 
 	{
 		//debug
-		//sorry for the var names -- I was kind-of angry
 		POSITION pos;
 
 		if (f) _ftprintf(f, _T("---->>begin of curr gen at %s<<----------------------------------------------------\n"), comment);
@@ -1235,25 +1234,25 @@ void CManager::Dump(FILE *f, const TCHAR * comment)
 		pos = domains.GetHeadPosition();
 		while(pos)
 		{
-			CDynDomain *fuck_domain = domains.GetNext(pos);
-			if(f)_ftprintf(f, _T(" Domain element: %s at address: %p \n"), static_cast<const TCHAR*>(fuck_domain->GetName()), fuck_domain);
-			fuck_domain->Dump(f);
+			CDynDomain *domain = domains.GetNext(pos);
+			if(f)_ftprintf(f, _T(" Domain element: %s at address: %p \n"), static_cast<const TCHAR*>(domain->GetName()), domain);
+			domain->Dump(f);
 		}
 
 		pos = spaces.GetHeadPosition();
 		while(pos)
 		{
-			CDynSpace *fuck_space = spaces.GetNext(pos);
-			if(f)_ftprintf(f, _T(" Space element: %s at address: %p \n"), static_cast<const TCHAR*>(fuck_space->GetName()), fuck_space);
-			fuck_space->Dump(f);
+			CDynSpace *space = spaces.GetNext(pos);
+			if(f)_ftprintf(f, _T(" Space element: %s at address: %p \n"), static_cast<const TCHAR*>(space->GetName()), space);
+			space->Dump(f);
 		}
 
 		pos = containers.GetHeadPosition();
 		while(pos)
 		{
-			CDynElementContainer *fuck_ec = containers.GetNext(pos);
-			_ftprintf(f, _T(" Container element: at address: %p \n"), fuck_ec);
-			fuck_ec->Dump(f);
+			CDynElementContainer *element_container = containers.GetNext(pos);
+			_ftprintf(f, _T(" Container element: at address: %p \n"), element_container);
+			element_container->Dump(f);
 		}
 
 		_ftprintf(f, _T("===========<<end of curr========================================================\n"));

@@ -735,8 +735,8 @@ BOOL CDesertToolApp::InitInstance()
 				
 					ct.id() = 1234567890;
 					ct.externalID() = -1234567890;
-					ct.name() = "fuck name";
-					ct.expression() = "fuck expression";
+					ct.name() = "debug name";
+					ct.expression() = "debug expression";
 				
 
 					set<Space> sp_set = ds.Space_kind_children();
