@@ -165,13 +165,13 @@ class RedeclareParameter(Parameter):
 class Extend(object):
     """
     A Python wrapper for the Modelica 'Extend' type
-    
+
     """
 
     def __init__(self):
         """
         Create an instance
-        
+
         """
         self.full_name = None
         self.parameters = list()  # Parameter
@@ -181,7 +181,7 @@ class Extend(object):
     def json(self):
         """
         return an dictionary representation
-        
+
         """
         json_result = dict()
         json_result['fullName'] = self.full_name
@@ -194,7 +194,7 @@ class Extend(object):
     def xml(self):
         """
         return an xml representation
-        
+
         """
         xml_result = etree.Element("Extend")
         xml_result.set("FullName", self.full_name)
@@ -209,9 +209,9 @@ class Extend(object):
 class Connector(object):
     """
     A Python wrapper for the Modelica 'Connector' type
-    
+
     """
-    
+
     def __init__(self):
         """
         Create an instance
