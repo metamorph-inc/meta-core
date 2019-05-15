@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 __author__ = 'Zsolt'
 
 import logging
@@ -6,9 +8,8 @@ import os
 import sys
 import collections
 
-from omc_session import OMCSession
-from generate_icons import IconExporter
-from modelica_classes import Connector, Extend, Parameter, RedeclareParameter, Package, Import, Connection, ComponentAssembly, Component, ComponentShell
+from .omc_session import OMCSession
+from .modelica_classes import Connector, Extend, Parameter, RedeclareParameter, Package, Import, Connection, ComponentAssembly, Component, ComponentShell
 
 try:
     from lxml import etree
@@ -69,6 +70,7 @@ class ComponentExporter(object):
         self.logger.setLevel(logging.NOTSET)
 
         self.logger.info('Initializing ComponentExporter({0})'.format(external_packages))
+        self.connectors = {}
 
         # start om session
         self.omc = OMCSession()
@@ -82,6 +84,7 @@ class ComponentExporter(object):
             icon_dir_name = 'Icons'
             if not os.path.isdir(icon_dir_name):
                 os.mkdir(icon_dir_name)
+            from .generate_icons import IconExporter
             self.icon_exporter = IconExporter(self.omc, icon_dir_name)
 
     def load_packages(self, external_package_paths):
@@ -147,6 +150,34 @@ class ComponentExporter(object):
         [xml_result.append(xml_node.xml()) for xml_node in components]
 
         return xml_result
+
+    def create_connector(self, modelica_uri, c):
+        connector = Connector()
+        connector.full_name = c.mo_type
+        connector.name = c.mo_name
+        connector.description = c.mo_annotation
+
+        modifier_names = self.omc.getComponentModifierNames(modelica_uri, c.mo_name)
+        modifiers = dict()
+        modifiers['modifications'] = c.mo_modification
+        for modifier_name in modifier_names:
+            modifier_value = self.omc.getComponentModifierValue(modelica_uri,
+                                                                '{0}.{1}'.format(c.mo_name, modifier_name))
+            modifiers[modifier_name] = modifier_value
+            connector.modifiers = modifiers
+
+        for connector_component in self.omc.getComponents(c.mo_type):
+            connector_component = ModelicaComponent(*connector_component)
+            print c.mo_type
+            # if connector_component.mo_type == 'TbLib.NestedConnector':
+            #     import pdb; pdb.set_trace()
+            if self.omc.isConnector(connector_component.mo_type):
+                connector.connectors.append(self.create_connector(c.mo_type, connector_component))
+            elif c.component_type == 'parameter':
+                connector.parameters.append(self.create_parameter(c.mo_type, connector_component))
+            else:
+                connector.variables.append({'type': connector_component.mo_type, 'name': connector_component.mo_name})
+        return connector
 
     def create_parameter(self, modelica_uri, c):
         parameter = Parameter()
@@ -229,19 +260,9 @@ class ComponentExporter(object):
             c = ModelicaComponent(*c)
 
             if self.omc.isConnector(c.mo_type):
-                connector = Connector()
-                connector.full_name = c.mo_type
-                connector.name = c.mo_name
-                connector.description = c.mo_annotation
-
-                modifier_names = self.omc.getComponentModifierNames(modelica_uri, c.mo_name)
-                modifiers = dict()
-                modifiers['modifications'] = c.mo_modification
-                for modifier_name in modifier_names:
-                    modifier_value = self.omc.getComponentModifierValue(modelica_uri,
-                                                                        '{0}.{1}'.format(c.mo_name, modifier_name))
-                    modifiers[modifier_name] = modifier_value
-                    connector.modifiers = modifiers
+                #     pass
+                # elif False:
+                connector = self.create_connector(modelica_uri, c)
 
                 if (len(component.packages) != 0) and ('Modelica.Fluid.Interfaces.FluidPort_' in c.mo_type):
                     port_redeclare = self.omc.getPortRedeclares(modelica_uri, c.mo_type, c.mo_name)
@@ -251,7 +272,7 @@ class ComponentExporter(object):
                                 redeclare_parameter = RedeclareParameter()
                                 redeclare_parameter.name = port_redeclare[0]
                                 redeclare_parameter.value = port_redeclare[1]
-                                #redeclare_parameter.value = package.value
+                                # redeclare_parameter.value = package.value
 
                                 connector.redeclare_parameters.append(redeclare_parameter)
                                 break

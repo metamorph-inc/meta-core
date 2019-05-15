@@ -1,4 +1,6 @@
 # coding: utf-8
+from __future__ import absolute_import
+
 __author__ = 'Zsolt'
 
 __license__ = """
@@ -103,7 +105,7 @@ class OMCSession(object):
             sys.path.insert(0, os.path.join(self.omhome, 'share/omc/scripts/PythonInterface'))
             # add OPENMODELICAHOME\bin to path so python can find the omniORB binaries
             pathVar = os.getenv('PATH')
-            pathVar += ';'
+            pathVar += os.pathsep
             pathVar += os.path.join(self.omhome, 'bin')
             os.putenv('PATH', pathVar)
             self._set_omc_corba_command(os.path.join(self.omhome, 'bin', 'omc'))

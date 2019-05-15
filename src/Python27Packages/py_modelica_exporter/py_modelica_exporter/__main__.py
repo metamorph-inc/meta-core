@@ -1,9 +1,11 @@
-import py_modelica_exporter as this_package
+from __future__ import absolute_import
+
+import py_modelica_exporter
 from optparse import OptionParser
 import sys
 import os
 
-from exporters import ComponentExporter, TreeExporter, PackageExporter, ParsingException, ComponentAssemblyExporter
+from py_modelica_exporter.exporters import ComponentExporter, TreeExporter, PackageExporter, ParsingException, ComponentAssemblyExporter
 
 import logging
 import timeit
@@ -60,7 +62,7 @@ def main():
     (opts, args) = parser.parse_args()
 
     if opts.version:
-        print this_package.__version__
+        print(py_modelica_exporter.__version__)
     elif opts.components:
         if opts.packages:
             external_packages = [p for p in opts.packages.split(';') if p]
@@ -145,10 +147,9 @@ def main():
             with open('component_assemblies.json', 'w') as f_out:
                 json.dump(extracted_assemblies, f_out)
     else:
-        print help(this_package)
+        print(help(py_modelica_exporter))
 
     return 0
 
 
 sys.exit(main())
-

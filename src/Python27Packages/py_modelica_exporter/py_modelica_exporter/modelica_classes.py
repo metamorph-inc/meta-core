@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 __author__ = 'Zsolt'
 
 try:
@@ -224,6 +226,8 @@ class Connector(object):
         self.parameters = list()  # Parameter
         self.redeclare_parameters = list()  # RedeclareParameter
         self.modifiers = {}
+        self.variables = []
+        self.connectors = []
 
     def json(self):
         """
@@ -236,6 +240,8 @@ class Connector(object):
         json_result['parameters'] = [json_value.json() for json_value in self.parameters]
         json_result['redeclare_parameters'] = [json_value.json() for json_value in self.redeclare_parameters]
         json_result['modifiers'] = self.modifiers
+        json_result['variables'] = self.variables
+        json_result['connectors'] = map(Connector.json, self.connectors)
 
         return json_result
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
 
 __author__ = 'Zsolt Lattmann'
 __copyright__ = 'Copyright (C) 2013 Vanderbilt University'
