@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+from __future__ import print_function
+import six
+from six.moves import range
 
 __author__ = 'Zsolt'
 
@@ -168,9 +171,6 @@ class ComponentExporter(object):
 
         for connector_component in self.omc.getComponents(c.mo_type):
             connector_component = ModelicaComponent(*connector_component)
-            print c.mo_type
-            # if connector_component.mo_type == 'TbLib.NestedConnector':
-            #     import pdb; pdb.set_trace()
             if self.omc.isConnector(connector_component.mo_type):
                 connector.connectors.append(self.create_connector(c.mo_type, connector_component))
             elif c.component_type == 'parameter':
@@ -237,7 +237,7 @@ class ComponentExporter(object):
                 package.value = replaceable_package['value']
                 component.packages.append(package)
 
-            for extends_class, extends_package in mo_extends_packages.iteritems():
+            for extends_class, extends_package in six.iteritems(mo_extends_packages):
                 package = Package()
                 package.name = extends_package['name']
                 package.value = extends_package['value']
@@ -739,7 +739,7 @@ def make_paths_safe_for_omc(path_list):
         path.strip()
 
         if python_version_major >= 3:
-            omc_safe_path = path.encode('unicode-escape').replace('\\\\', '/').replace('\\', '/')
+            omc_safe_path = path.replace('\\\\', '/').replace('\\', '/')
             safe_paths.append(omc_safe_path)
         else:
             omc_safe_path = path.encode('string-escape').replace('\\\\', '/').replace('\\', '/')

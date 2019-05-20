@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import absolute_import
+from six.moves import range
 
 __author__ = 'Zsolt Lattmann'
 __copyright__ = 'Copyright (C) 2013 Vanderbilt University'

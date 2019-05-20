@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+from __future__ import print_function
+import six
+from six.moves import map
 
 __author__ = 'Zsolt'
 
@@ -241,7 +244,7 @@ class Connector(object):
         json_result['redeclare_parameters'] = [json_value.json() for json_value in self.redeclare_parameters]
         json_result['modifiers'] = self.modifiers
         json_result['variables'] = self.variables
-        json_result['connectors'] = map(Connector.json, self.connectors)
+        json_result['connectors'] = list(map(Connector.json, self.connectors))
 
         return json_result
 
@@ -373,7 +376,7 @@ class ComponentAssembly(object):
         json_result['comment'] = self.comment
         json_result['connectors'] = [json_value.json() for json_value in self.connectors]
         json_result['connections'] = [json_value.json() for json_value in self.connections]
-        json_result['component_shells'] = [{k: v.json()} for k, v in self.component_shells.iteritems()]
+        json_result['component_shells'] = [{k: v.json()} for k, v in six.iteritems(self.component_shells)]
 
         return json_result
 

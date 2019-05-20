@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import absolute_import
 
+from __future__ import print_function
 __author__ = 'Zsolt'
 
 __license__ = """
@@ -59,7 +60,7 @@ def is_64bit_exe(exe):
     if not os.path.isfile(exe):
         return False
 
-    with open(exe) as pe:
+    with open(exe, 'rb') as pe:
         # IMAGE_DOS_HEADER.e_lfanew
         pe.seek(60)
         pe_offset = pe.read(4)
