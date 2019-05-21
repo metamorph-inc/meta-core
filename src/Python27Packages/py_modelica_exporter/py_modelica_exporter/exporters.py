@@ -223,6 +223,7 @@ class ComponentExporter(object):
         component = Component()
         component.full_name = modelica_uri
         component.comment = self.omc.getClassComment(modelica_uri)
+        component.type = self.omc.getClassInformation(modelica_uri)[0]
 
         components.append(component)
 

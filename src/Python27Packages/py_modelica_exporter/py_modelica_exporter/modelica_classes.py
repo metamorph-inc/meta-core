@@ -303,6 +303,7 @@ class Component(object):
         """
         self.full_name = None
         self.comment = None
+        self.type = None
         self.parameters = list()  # Parameter
         self.redeclare_parameters = list()  # RedeclareParameter
         self.connectors = list()  # Connector
@@ -320,6 +321,7 @@ class Component(object):
         json_result = dict()
         json_result['fullName'] = self.full_name
         json_result['comment'] = self.comment
+        json_result['type'] = self.type
         json_result['parameters'] = [json_value.json() for json_value in self.parameters]
         json_result['redeclare_parameters'] = [json_value.json() for json_value in self.redeclare_parameters]
         json_result['connectors'] = [json_value.json() for json_value in self.connectors]
