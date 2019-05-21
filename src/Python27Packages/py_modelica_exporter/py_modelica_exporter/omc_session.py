@@ -45,6 +45,7 @@ import tempfile
 import pyparsing
 import re
 import struct
+import platform
 
 if sys.platform == 'darwin':
     # on Mac let's assume omc is installed
@@ -91,8 +92,7 @@ class OMCSession(object):
         try:
             self.omhome = os.environ['OPENMODELICAHOME']
             # add OPENMODELICAHOME\lib to PYTHONPATH so python can load omniORB libraries
-
-            if is_64bit_exe(os.path.join(self.omhome, "lib", "python", "_omnipy.pyd")):
+            if (platform.architecture()[0] == '64bit') != is_64bit_exe(os.path.join(self.omhome, "lib", "python", "_omnipy.pyd")):
                 # we can't load OpenModelica's 64-bit _omnipy.pyd. So use the bin\Python27 one
                 # this needs an OpenModelica >1.9.7, but there's no x64 release <=1.9.7, so we are ok
                 index = len(sys.path)
