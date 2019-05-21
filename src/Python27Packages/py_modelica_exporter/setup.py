@@ -16,5 +16,6 @@ setup(name=name,
       url=url,
       packages=find_packages(),
       package_dir={name: name},
+      install_requires=["six", "omniorb", "OMPython", "pyparsing"]
       #zip_safe=False,
       )
