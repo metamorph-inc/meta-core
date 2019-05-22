@@ -89,6 +89,10 @@ class OMCSession(object):
 
     def _start_omc(self):
         self._omc_command = None
+        if platform.system() == 'Linux':
+            self._set_omc_corba_command('omc')
+            self._start_server()
+            return
         try:
             self.omhome = os.environ['OPENMODELICAHOME']
             # add OPENMODELICAHOME\lib to PYTHONPATH so python can load omniORB libraries

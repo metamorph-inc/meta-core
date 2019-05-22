@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 from setuptools import setup, find_packages
 
-import py_modelica_exporter as this_package
+import py_modelica_exporter
 
-name = this_package.__name__
-version = this_package.__version__
-author = this_package.__author__
-email = this_package.__email__
-url = this_package.__url__
+name = py_modelica_exporter.__name__
+version = py_modelica_exporter.__version__
+author = py_modelica_exporter.__author__
+email = py_modelica_exporter.__email__
+url = py_modelica_exporter.__url__
 
 setup(name=name,
       version=version,
