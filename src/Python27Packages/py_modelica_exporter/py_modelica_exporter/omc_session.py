@@ -100,6 +100,9 @@ class OMCSession(object):
                 # we can't load OpenModelica's 64-bit _omnipy.pyd. So use the bin\Python27 one
                 # this needs an OpenModelica >1.9.7, but there's no x64 release <=1.9.7, so we are ok
                 index = len(sys.path)
+            elif sys.version_info[0] >= 3:
+                # OpenModelica's omniORB is older and does not work with Python 3
+                index = len(sys.path)
             else:
                 index = 0
             sys.path.insert(index, os.path.join(self.omhome, 'lib'))

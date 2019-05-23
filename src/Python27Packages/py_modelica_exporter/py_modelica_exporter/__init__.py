@@ -11,7 +11,7 @@ __author__ = __authors__[0]
 
 __credits__ = __authors__
 
-__version__ = "14.14"  # Versioning: http://www.python.org/dev/peps/pep-0386/
+__version__ = "14.15"  # Versioning: http://www.python.org/dev/peps/pep-0386/
 
 __maintainer__ = __author__
 __contact__ = __author__
