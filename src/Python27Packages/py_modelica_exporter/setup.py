@@ -10,6 +10,7 @@ email = py_modelica_exporter.__email__
 url = py_modelica_exporter.__url__
 
 setup(name=name,
+      license='GPLv3',
       version=version,
       author=author,
       author_email=email,
