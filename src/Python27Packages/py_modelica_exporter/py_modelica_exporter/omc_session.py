@@ -57,6 +57,7 @@ if sys.platform == 'darwin':
 # TODO: replace this with the new parser
 from OMPython import OMTypedParser, OMParser
 
+
 def is_64bit_exe(exe):
     if not os.path.isfile(exe):
         return False
@@ -93,6 +94,15 @@ class OMCSession(object):
             self._set_omc_corba_command('omc')
             self._start_server()
             return
+        if sys.platform == 'darwin':
+            # FIXME: what is this case? are we looking at platform specifics? or different versions of OpenModelica?
+            try:
+                self._set_omc_corba_command('/opt/local/bin/omc')
+                self._start_server()
+            except:
+                self.logger.exception("The OpenModelica compiler did not start")
+                raise
+            return
         try:
             self.omhome = os.environ['OPENMODELICAHOME']
             # add OPENMODELICAHOME\lib to PYTHONPATH so python can load omniORB libraries
@@ -119,22 +129,14 @@ class OMCSession(object):
             self._set_omc_corba_command(os.path.join(self.omhome, 'bin', 'omc'))
             self._start_server()
         except:
+            self.logger.exception("Exception")
             # FIXME: what is this case? are we looking at platform specifics? or different versions of OpenModelica?
-            try:
-                import OMConfig
+            import OMConfig
 
-                PREFIX = OMConfig.DEFAULT_OPENMODELICAHOME
-                self.omhome = os.path.join(PREFIX)
-                self._set_omc_corba_command(os.path.join(self.omhome, 'bin', 'omc'))
-                self._start_server()
-            except:
-                # FIXME: what is this case? are we looking at platform specifics? or different versions of OpenModelica?
-                try:
-                    self._set_omc_corba_command('/opt/local/bin/omc')
-                    self._start_server()
-                except Exception as ex:
-                    self.logger.error("The OpenModelica compiler is missing in the System path, please install it")
-                    raise
+            PREFIX = OMConfig.DEFAULT_OPENMODELICAHOME
+            self.omhome = os.path.join(PREFIX)
+            self._set_omc_corba_command(os.path.join(self.omhome, 'bin', 'omc'))
+            self._start_server()
 
     def _connect_to_omc(self):
         # import the skeletons for the global module

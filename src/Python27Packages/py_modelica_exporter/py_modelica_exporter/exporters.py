@@ -128,7 +128,7 @@ class ComponentExporter(object):
         except Exception as exception:
             component = Component()
             component.full_name = 'Exception'
-            component.comment = exception.message
+            component.comment = getattr(exception, 'message', 'unknown error')
             json_result['components'].append(component.json())
             self.logger.info('Could not get information for {0}'.format(modelica_uri))
 
@@ -256,7 +256,10 @@ class ComponentExporter(object):
         except ValueError as value_error_exception:
             if value_error_exception.args[0] == 'Could not parse OMC response.':
                 self.logger.warning('Could not parse OMC response for getComponents({0})'.format(modelica_uri))
-                raise ParsingException
+                raise ParsingException()
+        if mo_components == 'Error':
+            self.logger.warning('OMC error for getComponents({0})'.format(modelica_uri))
+            raise ParsingException()
         for c in mo_components:
             c = ModelicaComponent(*c)
 
