@@ -157,12 +157,13 @@ void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>
   if (cur == length)
   {
 	  boost::dynamic_bitset<> bs(length);
-	  while (cur-- > 1) {
+	  for (int i = 0; i < length; i++)
+	  {
 #ifdef _DEBUG
-		  if (enc[cur] != 0 && enc[cur] != 1)
+		  if (enc[i] != 0 && enc[i] != 1)
 			  throw std::runtime_error("Internal error 162");
 #endif
-		  bs.set(length - cur, (bool)enc[length - cur]);
+		  bs.set(i, (bool)enc[i]);
 	  }
 	  if (callback == NULL || (*callback)(arg, bs)) {
 		encVectors.emplace_back(std::move(bs));

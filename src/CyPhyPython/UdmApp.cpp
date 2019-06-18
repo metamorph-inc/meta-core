@@ -103,8 +103,10 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 			PyObject_RAII _none = PyRun_StringFlags(
 				"import traceback\n"
 				"tb = ''.join(traceback.format_tb(tb))\n", Py_file_input, dict, dict, NULL);
-			PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
-			error += PyString_AsString(formatted_traceback);
+            if (PyErr_Occurred()) {
+                PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
+                error += PyString_AsString(formatted_traceback);
+            }
 		}
 		else
 			error += "Unknown traceback";
@@ -255,12 +257,21 @@ PythonCleanup LoadPython() {
 	}
 
 	// Py_SetProgramName("GME.exe");
-	Py_Initialize();
 
+#if PY_MAJOR_VERSION >= 3
+    bool initialized = Py_IsInitialized();
+	Py_InitializeEx(0); // this calls PyEval_InitThreads iff initialized == false
+	if (initialized == false) {
+        PyEval_SaveThread();
+    }
+
+#else
+	Py_InitializeEx(0);
 	if (!PyEval_ThreadsInitialized()) {
 		PyEval_InitThreads();
 		PyEval_SaveThread();
 	}
+#endif
 
 	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
 	// this is because PyEval_SaveThread() was called
