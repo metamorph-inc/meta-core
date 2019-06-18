@@ -157,7 +157,7 @@ void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>
   if (cur == length)
   {
 	  boost::dynamic_bitset<> bs(length);
-	  while (cur--) {
+	  while (cur-- > 1) {
 #ifdef _DEBUG
 		  if (enc[cur] != 0 && enc[cur] != 1)
 			  throw std::runtime_error("Internal error 162");
