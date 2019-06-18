@@ -10,6 +10,14 @@
   <Target Name="CheckEnv" DependsOnTargets="CheckEnvGme;CheckEnvUdm">
     <Error Text="DESERT_PATH='$(DESERT_PATH)' doesn't exist" Condition="!Exists('$(DESERT_PATH)')"/>
     <Error Text="META_PATH='$(META_PATH)' doesn't exist" Condition="!Exists('$(META_PATH)')"/>
+
+    <Exec Command="where cl.exe" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="Meta_ClInPath" />
+    </Exec>
+    <Exec Command="cl.exe 2>&amp;1 | findstr /R /C:&quot;Optimizing Compiler .* for x86&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="Meta_ClIsX86" />
+    </Exec>
+    <Error Text="Use &quot;x86 Native Tools Command Prompt&quot; not &quot;VS2015 x64 Native Tools Command Prompt&quot; nor &quot;VS2015 x86 x64 Cross Tools Command Prompt&quot;" Condition="$(Meta_ClInPath) == '0' AND $(Meta_ClIsX86) != '0'"/>
   </Target>
 
   <Target Name="Desert" DependsOnTargets="CheckEnv">

@@ -64,7 +64,7 @@ Again, install Windows updates until everything is current. Restart your compute
 Clone this repository to your disk.
 
 # Build
-1. Open Visual Studio Command Prompt (2015 or 2017) with ”Run as administrator”. (Do not use a Visual Studio x64 command prompt)
+1. Open Visual Studio Command Prompt (2015 or 2017) with ”Run as administrator”. (Do not use "x64 Native Tools Command Prompt" or "x86 x64 Cross Tools Command Prompt")
 2. From the root repository directory, run `make_all_without_installer.cmd`. This may take 30 minutes to build. _(Warnings may be ignored, but there should be no errors.)_
 
 If you encounter errors, try to build once more. There may be some remaining race conditions in the build scripts.
