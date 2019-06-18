@@ -34,7 +34,7 @@ You must also install Microsoft Visual Studio 2015 Update 3
 
 ## .NETFramework Version 4.5
 
-## Java JDK 7 or above
+## Java JDK version 7 to 11
 [Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 
 _NOTE: Either x86 or x64 is okay_
