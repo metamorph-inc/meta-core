@@ -379,29 +379,47 @@ namespace CyPhyMetaLink
             }
         }
 
+
         /// <summary>
         /// Gets assembly and ComponentAssemblys that contain assembly directly, or through references to ComponentAssemblys
         /// </summary>
         public static IEnumerable<CyPhyML.ComponentAssembly> GetContainingAssemblies(CyPhyML.ComponentAssembly assembly)
         {
-            Queue<CyPhyML.ComponentAssembly> containingAssemblies = new Queue<CyPhyML.ComponentAssembly>();
-            containingAssemblies.Enqueue(assembly);
-            while (containingAssemblies.Count > 0)
+            Dictionary<CyPhyML.DesignElement, int> visited = new Dictionary<ISIS.GME.Dsml.CyPhyML.Interfaces.DesignElement, int>();
+            List<CyPhyML.ComponentAssembly> sorted = new List<CyPhyML.ComponentAssembly>();
+
+            GetContainingAssemblies(assembly, visited, sorted);
+            return sorted;
+        }
+
+        private static int GetContainingAssemblies(CyPhyML.ComponentAssembly assembly, Dictionary<CyPhyML.DesignElement, int> visited,
+            List<CyPhyML.ComponentAssembly> sorted)
+        {
+            int ordinal;
+            if (visited.TryGetValue(assembly, out ordinal))
             {
-                CyPhyML.ComponentAssembly asm = containingAssemblies.Dequeue();
-                yield return asm;
-                foreach (CyPhyML.ComponentRef compref in asm.ReferencedBy.ComponentRef)
+                if (ordinal == -1)
                 {
-                    if (compref.ParentContainer is CyPhyML.ComponentAssembly)
-                    {
-                        containingAssemblies.Enqueue(compref.ParentContainer as CyPhyML.ComponentAssembly);
-                    }
+                    throw new Exception(String.Format("Cycle involving {0}", assembly.Name));
                 }
-                if (asm.ParentContainer is CyPhyML.ComponentAssembly)
+                return ordinal;
+            }
+            visited.Add(assembly, -1);
+            ordinal = 0;
+            foreach (CyPhyML.ComponentRef compref in assembly.ReferencedBy.ComponentRef)
+            {
+                if (compref.ParentContainer is CyPhyML.ComponentAssembly)
                 {
-                    containingAssemblies.Enqueue(asm.ParentContainer as CyPhyML.ComponentAssembly);
+                    ordinal = Math.Max(ordinal, 1 + GetContainingAssemblies(compref.ParentContainer as CyPhyML.ComponentAssembly, visited, sorted));
                 }
             }
+            if (assembly.ParentContainer is CyPhyML.ComponentAssembly)
+            {
+                ordinal = Math.Max(ordinal, 1 + GetContainingAssemblies(assembly.ParentContainer as CyPhyML.ComponentAssembly, visited, sorted));
+            }
+            visited[assembly] = ordinal;
+            sorted.Add(assembly);
+            return ordinal;
         }
 
         public static CyPhyML.ComponentAssembly GetComponentAssemblyByGuid(MgaProject project, string componentAssemblyGuid)
@@ -481,7 +499,7 @@ namespace CyPhyMetaLink
             return null;
         }
 
-        private static void CollectComponents(HashSet<CyPhyML.Component> complist, CyPhyML.ComponentAssembly assembly)
+        private static void CollectComponents(HashSet<CyPhyML.Component> complist, CyPhyML.ComponentAssembly assembly, HashSet<CyPhyML.ComponentAssembly> visitedComponentAssemblies)
         {
             // Get all the components from here
             foreach (var compref in assembly.Children.ComponentRefCollection)
@@ -492,7 +510,11 @@ namespace CyPhyMetaLink
                 }
                 else if (compref.AllReferred is CyPhyML.ComponentAssembly)
                 {
-                    CollectComponents(complist, compref.AllReferred as CyPhyML.ComponentAssembly);
+                    if (visitedComponentAssemblies.Add(compref.AllReferred as CyPhyML.ComponentAssembly) == false)
+                    {
+                        throw new ApplicationException(String.Format("Cycle involving {0}", compref.AllReferred.Name));
+                    }
+                    CollectComponents(complist, compref.AllReferred as CyPhyML.ComponentAssembly, visitedComponentAssemblies);
                 }
             }
             foreach (var comp in assembly.Children.ComponentCollection)
@@ -501,7 +523,7 @@ namespace CyPhyMetaLink
             }
             foreach (var ca in assembly.Children.ComponentAssemblyCollection)
             {
-                CollectComponents(complist, ca);
+                CollectComponents(complist, ca, visitedComponentAssemblies);
             }
         }
 
@@ -509,7 +531,8 @@ namespace CyPhyMetaLink
         public static HashSet<CyPhyML.Component> CollectComponentsRecursive(CyPhyML.ComponentAssembly assembly)
         {
             HashSet<CyPhyML.Component> complist = new HashSet<CyPhyML.Component>();
-            CollectComponents(complist, assembly);
+            HashSet<CyPhyML.ComponentAssembly> visitedComponentAssemblies = new HashSet<CyPhyML.ComponentAssembly>();
+            CollectComponents(complist, assembly, visitedComponentAssemblies);
             return complist;
         }
 
