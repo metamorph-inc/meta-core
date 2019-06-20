@@ -108,10 +108,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\meta\DesignDataPackage\iFAB\ManufacturingLib\ManufacturingLib.csproj">
-      <Project>{898E74D1-DCAA-4F05-B208-020742EE609E}</Project>
-      <Name>ManufacturingLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\meta\DesignDataPackage\lib\csharp\OpenMETA.Interchange\OpenMETA.Interchange.csproj">
       <Project>{B4B9DC90-2857-4C8E-9BDE-47EC4649122B}</Project>
       <Name>OpenMETA.Interchange</Name>
