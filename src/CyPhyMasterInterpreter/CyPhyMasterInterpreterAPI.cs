@@ -297,7 +297,7 @@
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
                 if (this.IsInteractive)
                 {
-                    dialogResult = selectionForm.ShowDialog(NativeWindow.FromHandle(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle));
+                    dialogResult = selectionForm.ShowDialog(new NativeWindowWrapper(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle));
                     this.Logger.GMEConsoleLoggingLevel = selectionForm.ConfigurationSelectionResult.VerboseLogging ?
                         CyPhyGUIs.GMELogger.MessageType_enum.Debug :
                         CyPhyGUIs.SmartLogger.MessageType_enum.Info;

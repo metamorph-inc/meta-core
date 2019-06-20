@@ -12,7 +12,7 @@ using GME.MGA.Core;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using System.ComponentModel;
-
+using CyPhyGUIs;
 
 namespace CyPhyComponentParameterEditor
 {
@@ -328,7 +328,7 @@ namespace CyPhyComponentParameterEditor
                 if (mdiClient != IntPtr.Zero)
                 {
                     // TODO: would be nice to attach the form to the MDIClient window.
-                    var parentWindow = new WindowWrapper(mdiClient);
+                    var parentWindow = new NativeWindowWrapper(mdiClient);
                     var dialogResult = cpForm.ShowDialog(parentWindow);
                 }
                 else
@@ -337,23 +337,6 @@ namespace CyPhyComponentParameterEditor
                 }
             }
         }
-
-        public class WindowWrapper : System.Windows.Forms.IWin32Window
-        {
-            public WindowWrapper(IntPtr handle)
-            {
-                _hwnd = handle;
-            }
-
-            public IntPtr Handle
-            {
-                get { return _hwnd; }
-            }
-
-            private IntPtr _hwnd;
-        }
-
-
 
         #region Window handles
 

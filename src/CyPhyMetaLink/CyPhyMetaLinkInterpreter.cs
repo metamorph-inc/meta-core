@@ -286,7 +286,7 @@ namespace CyPhyMetaLink
                     createOrEdit.DialogResult = DialogResult.OK;
                     createOrEdit.Close();
                 };
-                DialogResult result = createOrEdit.ShowDialog();
+                DialogResult result = createOrEdit.ShowDialog(new NativeWindowWrapper(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle));
                 if (result != DialogResult.Cancel)
                 {
                     if (creoMode == CyPhyMetaLink.CyPhyMetaLinkAddon.CreoOpenMode.OPEN_COMPONENT)

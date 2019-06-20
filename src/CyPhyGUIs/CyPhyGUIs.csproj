@@ -116,6 +116,7 @@
     <Compile Include="InterpreterException.cs" />
     <Compile Include="JobObject.cs" />
     <Compile Include="MgaGateway.cs" />
+    <Compile Include="NativeWindowWrapper.cs" />
     <Compile Include="PCCInputDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartLogger.cs" />
