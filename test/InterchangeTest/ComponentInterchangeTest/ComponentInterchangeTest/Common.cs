@@ -119,14 +119,14 @@ namespace ComponentInterchangeTest
 
         public static int runCyPhyComponentImporterCLRecursively(string mgaPath,string compFolderRoot)
         {
-            var arguments = ("-r " + compFolderRoot + " " + mgaPath).Split(' ');
+            var arguments = new string[] { "-r", compFolderRoot, mgaPath };
 
             return CyPhyComponentImporterCL.CyPhyComponentImporterCL.Main(arguments);
         }
 
         public static int runCyPhyComponentImporterCL(string mgaPath, string acmPath)
         {
-            var arguments = (acmPath + " " + mgaPath).Split(' ');
+            var arguments = new string[] { acmPath, mgaPath };
             return CyPhyComponentImporterCL.CyPhyComponentImporterCL.Main(arguments);
         }
 
@@ -141,8 +141,7 @@ namespace ComponentInterchangeTest
                 }
             };
 
-            process.StartInfo.Arguments += desired;
-            process.StartInfo.Arguments += " " + imported;
+            process.StartInfo.Arguments += String.Format("\"{0}\" \"{1}\"", desired, imported);
 
             return processCommon(process,true);
         }
@@ -160,8 +159,7 @@ namespace ComponentInterchangeTest
                 }
             };
 
-            process.StartInfo.Arguments += " " + mgaPath;
-            process.StartInfo.Arguments += " " + testPath;
+            process.StartInfo.Arguments += String.Format(" \"{0}\" \"{1}\"", mgaPath, testPath);
 
             return CommonFunctions.processCommon(process, true);
         }
@@ -186,7 +184,7 @@ namespace ComponentInterchangeTest
                 }
             };
 
-            process.StartInfo.Arguments += String.Format(" -e {0} -d {1} -m Component", exported, desired);
+            process.StartInfo.Arguments += String.Format(" -e \"{0}\" -d \"{1}\" -m Component", exported, desired);
             return CommonFunctions.processCommon(process, true);
         }
 

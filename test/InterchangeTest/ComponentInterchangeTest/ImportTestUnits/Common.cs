@@ -82,8 +82,7 @@ namespace ComponentImporterUnitTests
                 }
             };
 
-            process.StartInfo.Arguments += " " + acmPath;
-            process.StartInfo.Arguments += " " + mgaPath;
+            process.StartInfo.Arguments += String.Format(" \"{0}\" \"{1}\"", acmPath, mgaPath);
 
             return Common.processCommon(process);
         }
@@ -99,8 +98,7 @@ namespace ComponentImporterUnitTests
                 }
             };
 
-            process.StartInfo.Arguments += desired;
-            process.StartInfo.Arguments += " " + imported;
+            process.StartInfo.Arguments += String.Format("\"{0}\" \"{1}\"", desired, imported);
 
             return processCommon(process,true);
         }

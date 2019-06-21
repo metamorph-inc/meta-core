@@ -51,7 +51,7 @@ namespace DesignExporterUnitTests
                           };
 
 
-            process.StartInfo.Arguments += String.Format(" -m {0}", mgaFile) + (string.IsNullOrEmpty(designName) ? string.Empty : String.Format(" -d {0}", designName));
+            process.StartInfo.Arguments += String.Format(" -m \"{0}\"", mgaFile) + (string.IsNullOrEmpty(designName) ? string.Empty : String.Format(" -d \"{0}\"", designName));
             string output;
             Assert.True(0 == ComponentExporterUnitTests.Common.runProcessAndGetOutput(process, out output, err_only: true), process.StartInfo.FileName + " failed:" + output);
             return 0;
@@ -77,7 +77,7 @@ namespace DesignExporterUnitTests
             };
 
 
-            process.StartInfo.Arguments += String.Format(" -e {0} -d {1} -m Design", exported, desired);
+            process.StartInfo.Arguments += String.Format(" -e \"{0}\" -d \"{1}\" -m Design", exported, desired);
             return ComponentExporterUnitTests.Common.runProcessAndGetOutput(process, out output, err_only: true);
         }
 

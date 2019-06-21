@@ -85,12 +85,11 @@ namespace ComponentExporterUnitTests
             try
             {
                 Directory.SetCurrentDirectory(testPath);
-                var arguments = (Path.Combine("components",
+                var arguments = new string[] { Path.Combine("components",
                                              "Imported_Components",
                                              "Cross_Drive_without_TC",
-                                             "Cross_Drive_without_TC.component.acm")
-                                + " " +
-                                "InputModel.mga").Split(' ');
+                                             "Cross_Drive_without_TC.component.acm"),
+                                "InputModel.mga" };
 
                 int result = -1;
                 result = CyPhyComponentImporterCL.CyPhyComponentImporterCL.Main(arguments);
@@ -172,8 +171,7 @@ namespace ComponentExporterUnitTests
                 }
             };
 
-            process.StartInfo.Arguments += " " + desiredMga;
-            process.StartInfo.Arguments += " " + inputMga;
+            process.StartInfo.Arguments += String.Format(" \"{0}\" \"{1}\"", desiredMga, inputMga);
 
             string output;
             int retCode = Common.runProcessAndGetOutput(process, out output, err_only: true);
@@ -245,7 +243,7 @@ namespace ComponentExporterUnitTests
             };
 
 
-            process.StartInfo.Arguments += String.Format(" -e {0} -d {1} -m Component", exported, desired);
+            process.StartInfo.Arguments += String.Format(" -e \"{0}\" -d \"{1}\" -m Component", exported, desired);
             return Common.processCommon(process, true);
         }
 

@@ -129,8 +129,7 @@ namespace ComponentExporterUnitTests
                 }
             };
 
-            process.StartInfo.Arguments += " " + mgaPath;
-            process.StartInfo.Arguments += " " + testPath;
+            process.StartInfo.Arguments += String.Format(" \"{0}\" \"{1}\"", mgaPath, testPath);
 
             return Common.processCommon(process,true);
         }
@@ -155,7 +154,7 @@ namespace ComponentExporterUnitTests
                 }
             };
 
-            process.StartInfo.Arguments += String.Format(" -e {0} -d {1} -m Component", exported, desired);
+            process.StartInfo.Arguments += String.Format(" -e \"{0}\" -d \"{1}\" -m Component", exported, desired);
             string output;
             int retval = Common.runProcessAndGetOutput(process, out output);
             Xunit.Assert.True(0 == retval, "XmlComparator returned non-zero: " + output);
