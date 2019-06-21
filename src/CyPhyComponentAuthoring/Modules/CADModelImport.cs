@@ -14,6 +14,7 @@ using META;
 using CyPhyGUIs;
 using System.Text;
 using System.Text.RegularExpressions;
+using AVM2CyPhyML;
 
 namespace CyPhyComponentAuthoring.Modules
 {
@@ -495,6 +496,8 @@ namespace CyPhyComponentAuthoring.Modules
             }
         }
 
+        CyPhyUnitMap map;
+
         // META-2043 Extend CAD CAT module to create component-level Parameters for CAD Model's Parameters
         void CADModuleImportExtension(CyPhy.CADModel ProcessedCADModel)
         {
@@ -504,10 +507,27 @@ namespace CyPhyComponentAuthoring.Modules
             {
                 // - For each CADParameter object, create a corresponding Property object under the parent Component. 
                 //   - Give the Property the same name 
-                CyPhy.Property newprop = CyPhyClasses.Property.Create((CyPhy.Component) GetCurrentDesignElement());
+                CyPhy.Property newprop = CyPhyClasses.Property.Create((CyPhy.Component)GetCurrentDesignElement());
                 newprop.Name = parm.Name;
-                if ( ! String.IsNullOrWhiteSpace(parm.Attributes.Value) )
+                if (!String.IsNullOrWhiteSpace(parm.Attributes.Value))
+                {
                     newprop.Attributes.Value = parm.Attributes.Value;
+                }
+
+                if (String.IsNullOrWhiteSpace(parm.Attributes.Unit) == false)
+                {
+                    if (map == null)
+                    {
+                        map = new CyPhyUnitMap();
+                        map._cyPhyMLRootFolder = CyPhyClasses.RootFolder.GetRootFolder(ProcessedCADModel.Impl.Project);
+                        map.init(true);
+                    }
+                    CyPhy.unit unit;
+                    if (map._unitSymbolCyPhyMLUnitMap.TryGetValue(parm.Attributes.Unit, out unit))
+                    {
+                        newprop.Referred.unit = unit;
+                    }
+                }
 
                 // - Create a CADParameterPortMap connection from the Property to the CADParameter 
                 CyPhy.CADParameterPortMap ppmap = CyPhyClasses.CADParameterPortMap.Connect(newprop, parm);
