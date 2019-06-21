@@ -84,7 +84,7 @@
   </Target>
   <Target Name="BeforeBuild" DependsOnTargets="xsd_assemblyDetails;xsd_manufacturingDetails" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\AssemblyKey.snk</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)\AssemblyKey.snk"</PostBuildEvent>
   </PropertyGroup>
   <!-- <Target Name="AfterBuild">
   </Target>

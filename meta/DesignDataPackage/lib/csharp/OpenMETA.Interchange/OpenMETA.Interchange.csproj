@@ -85,7 +85,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)\Assembly.snk</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)\Assembly.snk"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild" Inputs="@(Preprocess)" Outputs="@(Preprocess->'$(ProjectDir)generated\%(Filename).designer.cs')">
     <!--<Exec Command="echo %(FullPath)  @(Preprocess)" />-->

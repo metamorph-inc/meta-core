@@ -69,7 +69,7 @@
     <PostBuildEvent>Setlocal EnableDelayedExpansion
 set PATH=$(SDK40ToolsPath);%25PATH%25
 TlbExp.exe "$(TargetPath)" || exit /b !ERRORLEVEL!
-$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)..\CyphyGUIs\CyPhyGUIs.snk
+"$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)..\CyphyGUIs\CyPhyGUIs.snk"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -91,7 +91,7 @@
 set PATH=$(SDK40ToolsPath);%25PATH%25
 "gacutil.exe" /nologo /u JobManagerLib
 "gacutil.exe" /nologo /i JobManagerLib.dll || exit /b !ERRORLEVEL!
-$(SolutionDir)..\instrumentdll $(TargetDir) $(TargetFileName) $(ProjectDir)..\..\CyPhyMasterInterpreter\AssemblySignature.snk
+"$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)..\..\CyPhyMasterInterpreter\AssemblySignature.snk"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
