@@ -43,17 +43,20 @@ namespace CyPhyMLMerge {
 
         static void usage() {
             Console.Error.WriteLine("Usage: CyPhyMLMerge FILE-TO-MERGE-INTO.mga < FILE-TO-MERGE.mga/PATH/TO/ITEM/TO/MERGE ... >");
-            Environment.Exit( 1 );
         }
 
         static int Main(string[] args) {
 
-            if (args.Length < 2) usage();
+            if (args.Length < 2)
+            {
+                usage();
+                return 1;
+            }
 
             MgaProject mainMgaProject = GetProject( args[0] );
 
             if( mainMgaProject == null ) {
-                Environment.Exit( 2 );
+                return 2;
             }
 
             int retval = 0;

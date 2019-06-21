@@ -58,7 +58,7 @@ namespace CyPhyComponentExporterCL {
 
             if( args.Length < 1 ) {
                 Console.Out.WriteLine( "Usage: <program> CyPhyMLFile.mga [-f] [outputDirectory]" );
-                Environment.Exit( 1 );
+                return 1;
             }
 
             MgaProject mgaProject = null;
@@ -78,7 +78,7 @@ namespace CyPhyComponentExporterCL {
 
             if ( mgaProject == null ) {
                 Console.Out.WriteLine( "Usage: <program> CyPhyMLFile.mga [-f] [outputDirectory]" );
-                Environment.Exit( 1 );
+                return 1;
             }
 
             MgaGateway mgaGateway = new MgaGateway( mgaProject );

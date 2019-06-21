@@ -85,14 +85,16 @@ namespace CyPhyComponentImporterCL {
         private static void usage() {
             Console.Out.WriteLine( "Usage: <program> AVMFile [ -p <path-to-component-to-replace> ] CyPhyMLFile.mga" );
             Console.Out.WriteLine( "Usage: <program> -r <path> CyPhyMLFile.mga" );
-            Environment.Exit( 1 );
         }
 
         [STAThread]
         public static int Main( String[] args ) {
 
-            if( args.Length < 2 || args.Length > 4 ) usage();
-
+            if (args.Length < 2 || args.Length > 4)
+            {
+                usage();
+                return 1;
+            }
             MgaProject mgaProject;
             List<String> lp_FilesToImport = new List<string>();
             string avmFilePath = "";
@@ -106,13 +108,25 @@ namespace CyPhyComponentImporterCL {
 
                 if( args[ ix ].ToLower() == "-r" ) {
 
-                    if( pOptionUsed ) usage();
+                    if (pOptionUsed)
+                    {
+                        usage();
+                        return 1;
+                    }
                     rOptionUsed = true;
 
-                    if ( ++ix >= args.Length ) usage();
+                    if (++ix >= args.Length)
+                    {
+                        usage();
+                        return 1;
+                    }
 
                     if( avmFilePath != null && avmFilePath != "" ) {
-                        if( mgaProjectPath != null && mgaProjectPath != "" ) usage();
+                        if (mgaProjectPath != null && mgaProjectPath != "")
+                        {
+                            usage();
+                            return 1;
+                        }
                         mgaProjectPath = avmFilePath;
                         avmFilePath = "";
                         lp_FilesToImport.Clear();
@@ -129,10 +143,18 @@ namespace CyPhyComponentImporterCL {
 
                 } else if( args[ ix ].ToLower() == "-p" ) {
 
-                    if( rOptionUsed ) usage();
+                    if (rOptionUsed)
+                    {
+                        usage();
+                        return 1;
+                    }
                     pOptionUsed = true;
 
-                    if ( ++ix >= args.Length ) usage();
+                    if (++ix >= args.Length)
+                    {
+                        usage();
+                        return 1;
+                    }
                     componentReplacementPath = args[ ix ];
 
                 } else if ( lp_FilesToImport.Count == 0 && avmFilePath == "" ) {
@@ -151,7 +173,11 @@ namespace CyPhyComponentImporterCL {
 
                 } else {
 
-                    if( mgaProjectPath != null && mgaProjectPath != "" ) usage();
+                    if (mgaProjectPath != null && mgaProjectPath != "")
+                    {
+                        usage();
+                        return 1;
+                    }
                     mgaProjectPath = args[ ix ];
                 }
 

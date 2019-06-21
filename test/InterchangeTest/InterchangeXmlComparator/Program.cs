@@ -11,20 +11,22 @@ namespace InterchangeXmlComparator
         static int Main(string[] args)
         {
             var options = new Options();
-            if (!CommandLine.Parser.Default.ParseArguments(args, options)) Environment.Exit(1);
-
+            if (!CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                return 1;
+            }
             var exportedXmlFi = new FileInfo(options.ExportedFile);
             var desiredResultXmlFi = new FileInfo(options.DesiredResultFile);
 
             if (!exportedXmlFi.Exists)
             {
                 Console.Error.WriteLine("File doesn't exist: {0}", exportedXmlFi.FullName);
-                Environment.Exit(-1);
+                return -1;
             }
             if (!desiredResultXmlFi.Exists)
             {
                 Console.Error.WriteLine("File doesn't exist: {0}", desiredResultXmlFi.FullName);
-                Environment.Exit(-1);
+                return -1;
             }
 
             var exportedXdoc = XDocument.Load(exportedXmlFi.FullName);
@@ -47,7 +49,7 @@ namespace InterchangeXmlComparator
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("The two files are identical: {0} == {1}", Path.GetFileName(options.ExportedFile), Path.GetFileName(options.DesiredResultFile));
-                Environment.Exit(0);
+                return 0;
             }
             else
             {
@@ -72,22 +74,10 @@ namespace InterchangeXmlComparator
                                       feedback.ExportedNodePath, feedback.DesiredNodeName, feedback.DesiredNodePath);
                     Console.Error.WriteLine();
                 }
-                Environment.Exit(-1);
+                return -1;
             }
 
             #endregion
-            Console.ForegroundColor = ConsoleColor.White;
-            return 0;
         }
-
-        
-
-       
-
-        
-
-        
-
-        
     }
 }

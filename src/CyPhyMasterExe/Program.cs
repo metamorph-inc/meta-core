@@ -13,7 +13,7 @@ namespace CyPhyMasterExe
     public class Program
     {
         [STAThread]
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace CyPhyMasterExe
                     var dispatch = new JobManagerDispatch(jobCollectionId);
                     dispatch.StartJobManager(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
                     dispatch.Done();
-                    return;
+                    return 0;
                 }
                 string projectConnStr = args[0];
                 string originalSubjectID = args[1];
@@ -80,7 +80,7 @@ namespace CyPhyMasterExe
 
                         // summarize results
                         master.WriteSummary(results);
-                        System.Environment.Exit(results.Where(r => r.Success == false).Count());
+                        return results.Where(r => r.Success == false).Count();
                     }
                 }
                 finally
@@ -91,8 +91,9 @@ namespace CyPhyMasterExe
             catch (Exception e)
             {
                 System.Console.Error.WriteLine(e.ToString());
-                System.Environment.Exit(5);
+                return 5;
             }
+            return 0;
         }
     }
 }

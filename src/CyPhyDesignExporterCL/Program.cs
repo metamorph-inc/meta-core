@@ -29,7 +29,7 @@ namespace CyPhyDesignExporterCL
 
             if (project == null)
             {
-                Environment.Exit(1);
+                return 1;
             }
 
             try
