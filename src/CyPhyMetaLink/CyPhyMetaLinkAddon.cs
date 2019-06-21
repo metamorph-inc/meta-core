@@ -20,6 +20,7 @@ namespace CyPhyMetaLink
         public bool TestMode;
         public bool TestMode_NoAutomaticCreoStart;
         public IntPtr TestMode_CreoJobObject;
+        public string TestMode_LastException;
 
         // The latest (current) configuration
         MetaLinkConfiguration Configuration;

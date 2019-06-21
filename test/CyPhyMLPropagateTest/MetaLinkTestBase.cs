@@ -185,6 +185,14 @@ namespace CyPhyPropagateTest
                             task.Wait();
                             propagate.bridgeClient.SocketQueue.EditMessageReceived += msg => addonMessagesQueue.Add(msg);
                             testAction(project, propagate, interpreter);
+                            try
+                            {
+                                Xunit.Assert.True(propagate.TestMode_LastException == null, propagate.TestMode_LastException);
+                            }
+                            finally
+                            {
+                                propagate.TestMode_LastException = null;
+                            }
                         }
                         finally
                         {
@@ -199,7 +207,7 @@ namespace CyPhyPropagateTest
                     }
                     catch (Exception e)
                     {
-                        exception = e;
+                        exception = new Exception(e.StackTrace, e);
                         KillMetaLink();
                     }
                     finally
@@ -405,15 +413,15 @@ namespace CyPhyPropagateTest
             Edit msg = new Edit();
             msg.origin.Add(origin);
             msg.mode.Add(Edit.EditMode.INTEREST);
-            Guid msgTopic = Guid.NewGuid();
-            msg.topic.Add(msgTopic.ToString());
+            string msgTopic = "WaitForAllMetaLinkMessages" + Guid.NewGuid().ToString();
+            msg.topic.Add(msgTopic);
             testingClient.SendToMetaLinkBridge(msg);
             while (true)
             {
                 Edit received;
                 if (this.receivedMessagesQueue.TryTake(out received, 5 * 1000) == false)
                     throw new TimeoutException();
-                if (received.topic.SequenceEqual(new string[] { msgTopic.ToString() }))
+                if (received.topic.SequenceEqual(new string[] { msgTopic }))
                 {
                     lock (receivedMessages)
                     {

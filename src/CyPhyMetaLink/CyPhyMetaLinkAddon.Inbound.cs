@@ -270,9 +270,13 @@ namespace CyPhyMetaLink
             }
             else
                 // Send assembly/component info to the client
-                if (message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.INTEREST }))
+                if (message.mode.SequenceEqual(new Edit.EditMode[] { Edit.EditMode.INTEREST }) && message.topic != null && message.topic.Count == 1)
             {
                 SyncedComponentData cdata = GetSyncedCompDataByInstanceId(message.topic[0]);
+                if (cdata == null)
+                {
+                    return;
+                }
                 if (cdata.Type == SyncedComponentData.EditType.Component)
                 {
                     addon.Project.BeginTransactionInNewTerr();
@@ -1076,6 +1080,11 @@ namespace CyPhyMetaLink
                 if (createdavmid != null)
                 {
                     SyncedComponentData cdata = GetSyncedCompDataByInstanceId(instanceId);
+                    if (cdata == null)
+                    {
+                        // We don't know anything about instanceId. Maybe it is in a different GME
+                        return;
+                    }
                     if (cdata.Type == SyncedComponentData.EditType.Empty)
                     {
                         cdata.Type = SyncedComponentData.EditType.Component;
