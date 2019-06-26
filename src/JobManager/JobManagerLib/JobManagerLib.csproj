@@ -88,7 +88,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Setlocal EnableDelayedExpansion
-set PATH=$(SDK40ToolsPath);%25PATH%25
+set PATH=$(TargetFrameworkSDKToolsDirectory);$(SDK40ToolsPath);%25PATH%25
 "gacutil.exe" /nologo /u JobManagerLib
 "gacutil.exe" /nologo /i JobManagerLib.dll || exit /b !ERRORLEVEL!
 "$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)..\..\CyPhyMasterInterpreter\AssemblySignature.snk"

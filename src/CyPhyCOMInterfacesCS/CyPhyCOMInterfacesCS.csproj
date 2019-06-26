@@ -67,7 +67,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Setlocal EnableDelayedExpansion
-set PATH=$(SDK40ToolsPath);%25PATH%25
+set PATH=$(TargetFrameworkSDKToolsDirectory);$(SDK40ToolsPath);%25PATH%25
 TlbExp.exe "$(TargetPath)" || exit /b !ERRORLEVEL!
 "$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)..\CyphyGUIs\CyPhyGUIs.snk"
 </PostBuildEvent>
