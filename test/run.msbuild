@@ -1,4 +1,4 @@
-<Project DefaultTargets="Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
 
   <UsingTask AssemblyFile="..\3rdParty\xunit-1.9.1\xunit.runner.msbuild.dll"
     TaskName="Xunit.Runner.MSBuild.xunit" />
