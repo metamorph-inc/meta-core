@@ -6,12 +6,8 @@ import uuid
 from lxml import etree
 import win32com.client.dynamic
 
-# this config can be read from a json file
 config = {
     'metaName': 'CyPhyML',
-    'extension': 'png',
-    'collapsedSuffix': 'Folder',
-    'expandedSuffix': 'Folder_b'
 }
 
 
@@ -96,40 +92,5 @@ else:
 
 project = win32com.client.dynamic.Dispatch('Mga.MgaMetaProject')
 project.Open('MGA=' + file)
-project.BeginTransaction()
-
-icon_list_collapsed = list()
-icon_list_expanded = list()
-
-# get all defined folders
-for folder in project.RootFolder.DefinedFolders:
-    # add folder kind and icon files to the lists
-    # replace :: namespace delimiter to __ in filenames
-    icon_list_collapsed.append(
-        (folder.Name, folder.Name.replace(':', '_') + config['collapsedSuffix'] + '.' + config['extension']))
-
-    icon_list_expanded.append(
-        (folder.Name, folder.Name.replace(':', '_') + config['expandedSuffix'] + '.' + config['extension']))
-
-# iterate through kind, icon pairs and add those as registry nodes
-# print 'Collapsed icons:'
-for kind, icon in icon_list_collapsed:
-    # print ' - ' + kind + ' : ' + icon
-    cas = project.RootFolder.GetDefinedFolderByNameDisp(kind, True)
-    cas.GetRegistryNodeDisp('treeIcon').Value = icon
-    # for regnode in cas.RegistryNodes:
-    #    print kind + ': ' + regnode.Name + '=' + regnode.Value
-
-# print 'Expanded icons:'
-for kind, icon in icon_list_expanded:
-    # print ' - ' + kind + ' : ' + icon
-    cas = project.RootFolder.GetDefinedFolderByNameDisp(kind, True)
-    cas.GetRegistryNodeDisp('expandedTreeIcon').Value = icon
-    # for regnode in cas.RegistryNodes:
-    #    print kind + ': ' + regnode.Name + '=' + regnode.Value
-
-# TODO: MetaGME has had General Preferences for Folders for a long time. Put treeIcon and expandedTreeIcon into the xme
-
-project.CommitTransaction()
 print 'metamodel GUID is {}'.format(uuid.UUID(bytes_le=project.GUID))
 project.Close()
