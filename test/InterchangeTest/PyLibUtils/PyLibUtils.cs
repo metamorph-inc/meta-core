@@ -23,7 +23,7 @@ namespace ComponentImporterUnitTests
                 StartInfo =
                 {
                     FileName = path_PyExe,
-                    Arguments = path_PythonTestScript + " " + filePath,
+                    Arguments = String.Format("\"{0}\" \"{1}\"", path_PythonTestScript, filePath),
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,

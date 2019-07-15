@@ -22,7 +22,7 @@ namespace ComponentImporterUnitTests
             GME.MGA.MgaUtils.ImportXME(PyLibTest.xmePath, PyLibTest.mgaPath);
             Assert.True(File.Exists(PyLibTest.mgaPath));
 
-            var args = (PyLibTest.mgaPath + " -f " + PyLibTest.acmFilesPath).Split();
+            var args = new string[] {PyLibTest.mgaPath, "-f", PyLibTest.acmFilesPath};
             var rtnCode = CyPhyComponentExporterCL.CyPhyComponentExporterCL.Main(args);
             Assert.True(rtnCode == 0, "Component Exporter had non-zero return code.");
         }
