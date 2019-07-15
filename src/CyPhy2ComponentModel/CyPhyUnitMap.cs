@@ -74,8 +74,9 @@ namespace AVM2CyPhyML
             {
                 return;
             }
-
-            foreach (CyPhyML.unit cyPhyMLUnit in _cyPhyMLUnitsFolders.SelectMany(uf => uf.Children.unitCollection))
+            foreach (CyPhyML.unit cyPhyMLUnit in _cyPhyMLUnitsFolders
+                //  .OrderBy(unit => unit.Path.Contains("QUDT") ? "AAAAAA" + unit.Path : unit.Path)
+                .SelectMany(uf => uf.Children.unitCollection))
             {
                 // Angle-type measures are an exception to this rule.
                 /*
@@ -85,32 +86,20 @@ namespace AVM2CyPhyML
 				{
 					continue;
 				}*/
-
-                if (!_unitSymbolCyPhyMLUnitMap.ContainsKey(cyPhyMLUnit.Attributes.Abbreviation))
+                foreach (var symbol in new[] { new {attr= (Func<CyPhyML.unit, string>) (x=> x.Attributes.Abbreviation) },
+                    new {attr= (Func<CyPhyML.unit, string>) (x=> x.Attributes.Symbol) },
+                    new {attr= (Func<CyPhyML.unit, string>) (x=> x.Attributes.FullName) }})
                 {
-                    _unitSymbolCyPhyMLUnitMap.Add(cyPhyMLUnit.Attributes.Abbreviation, cyPhyMLUnit);
-                }
-                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
-                {
-                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.Abbreviation] = cyPhyMLUnit;
-                }
-
-                if (!_unitSymbolCyPhyMLUnitMap.ContainsKey(cyPhyMLUnit.Attributes.Symbol))
-                {
-                    _unitSymbolCyPhyMLUnitMap.Add(cyPhyMLUnit.Attributes.Symbol, cyPhyMLUnit);
-                }
-                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
-                {
-                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.Symbol] = cyPhyMLUnit;
-                }
-
-                if (!_unitSymbolCyPhyMLUnitMap.ContainsKey(cyPhyMLUnit.Attributes.FullName))
-                {
-                    _unitSymbolCyPhyMLUnitMap.Add(cyPhyMLUnit.Attributes.FullName, cyPhyMLUnit);
-                }
-                else if (cyPhyMLUnit is CyPhyML.conversion_based_unit) // Always prefer SI unit
-                {
-                    _unitSymbolCyPhyMLUnitMap[cyPhyMLUnit.Attributes.FullName] = cyPhyMLUnit;
+                    var dict = _unitSymbolCyPhyMLUnitMap;
+                    if (!dict.ContainsKey(symbol.attr(cyPhyMLUnit)) || (dict[symbol.attr(cyPhyMLUnit)].Kind != "si_unit" && cyPhyMLUnit.Kind == "si_unit")) // prefer si_unit in case of name collision
+                    {
+                        if (dict.ContainsKey(symbol.attr(cyPhyMLUnit)) && dict[symbol.attr(cyPhyMLUnit)].Kind != "si_unit" && cyPhyMLUnit.Kind == "si_unit")
+                        {
+                            Console.Write("asdf");
+                            // Debugger.Break();
+                        }
+                        dict[symbol.attr(cyPhyMLUnit)] = cyPhyMLUnit;
+                    }
                 }
             }
         }
