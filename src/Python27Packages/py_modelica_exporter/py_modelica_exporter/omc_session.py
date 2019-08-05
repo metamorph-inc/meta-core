@@ -85,7 +85,7 @@ class OMCSession(object):
         return self._server
 
     def _set_omc_corba_command(self, omc_path='omc'):
-        self._omc_command = "{0} +d=interactiveCorba +c={1}".format(omc_path, self._random_string)
+        self._omc_command = "{0} +d=interactiveCorba +c={1} --showErrorMessages".format(omc_path, self._random_string)
         return self._omc_command
 
     def _start_omc(self):
@@ -211,7 +211,7 @@ class OMCSession(object):
         # r'  Modelica.Fluid.Interfaces.FluidPort_b port_b\([.\r\n\s\S]*?redeclare package Medium = ([\w|\d|\.]*)[\)|,]'
         # r'  Modelica.Fluid.Interfaces.FluidPort_[a|b] (\w+)\([\w\W]*?redeclare package[^\w]+(\w+)[^\w]*=[^\w]*(\w+)[\)|,]'
         #self._REGEX_PATTERN_getPortRedeclares = r'  {0} {1}\([.\r\n\s\S]*?redeclare {2} (\w+) = ([\w|\d|\.]*)[\)|,]'
-        self._REGEX_PATTERN_getPortRedeclares = r'  {0} {1}\([\w\W]*?redeclare {2}[^\w]*(\w+)[^\w]*=[^\w]*(\w+)[\)|,]' # {0} is class, {1} is portName, {2} is redeclareType
+        self._REGEX_PATTERN_getPortRedeclares = r'  {0} {1}(?:\[[\w\s]*\])?\([\w\W]*?redeclare\s+(?:each\s+)?(?:final\s+)?{2}[^\w]*(\w+)[^\w]*=[^\w]*(\w+)[\)|,]'  # {0} is class, {1} is portName, {2} is redeclareType
 
         self._REGEX_PATTERN_checkParameterArrayValue = r'(\[[.,; e\-\d\r\n]+\])'
         self._REGEX_checkParameterArrayValue = re.compile(self._REGEX_PATTERN_checkParameterArrayValue)
@@ -408,6 +408,7 @@ class OMCSession(object):
     def getPortRedeclares(self, className, portType, portName, redeclareType='package'):
 
         raw_text = self.ask('list', className, parsed=False)
+        # FIXME portType may not be fully-qualified in raw_text
         custom_pattern = self._REGEX_PATTERN_getPortRedeclares.format(portType, portName, redeclareType)
 
         redeclare = None
@@ -416,7 +417,7 @@ class OMCSession(object):
         if regex_findall:
             redeclare = regex_findall[0]
         else:
-            print('what?')
+            print('Could not get port redeclare for {}'.format(className))
 
         return redeclare
 
