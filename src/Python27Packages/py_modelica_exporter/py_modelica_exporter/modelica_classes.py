@@ -309,6 +309,7 @@ class Component(object):
         self.connectors = list()  # Connector
         self.extends = list()  # Extends
         self.imports = list()
+        self.components = []
 
         # JK - need some feedback from Z/P
         self.packages = list()
@@ -327,6 +328,7 @@ class Component(object):
         json_result['connectors'] = [json_value.json() for json_value in self.connectors]
         json_result['extends'] = [json_value.json() for json_value in self.extends]
         json_result['imports'] = [json_value.json() for json_value in self.imports]
+        json_result['components'] = [json_value.json() for json_value in self.components]
         # JK - need some feedback from Z/P
         json_result['packages'] = [json_value.json() for json_value in self.packages]
 

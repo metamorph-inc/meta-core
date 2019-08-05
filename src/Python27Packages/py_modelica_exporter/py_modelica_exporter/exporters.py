@@ -228,7 +228,7 @@ class ComponentExporter(object):
         components.append(component)
 
         try:
-            #mo_packages = self.omc.getPackages(modelica_uri)
+            # mo_packages = self.omc.getPackages(modelica_uri)
             mo_replaceables = self.omc.getReplaceables(modelica_uri)
             mo_extends_packages = self.omc.getPackagesFromExtends(modelica_uri)
 
@@ -286,7 +286,10 @@ class ComponentExporter(object):
             elif c.component_type == 'parameter':
                 parameter = self.create_parameter(modelica_uri, c)
                 component.parameters.append(parameter)
-
+            elif self.omc.isModel(c.mo_type):
+                parameter = self.create_parameter(modelica_uri, c)
+                component.components.append(parameter)
+                self.extract_component_content(c.mo_type, components)
             else:
                 pass  # the object is not a connector or a parameter
 
