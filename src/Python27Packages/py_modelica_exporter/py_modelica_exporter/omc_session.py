@@ -85,6 +85,7 @@ class OMCSession(object):
         return self._server
 
     def _set_omc_corba_command(self, omc_path='omc'):
+        #  +d=failtrace +d=interactivedump
         self._omc_command = "{0} +d=interactiveCorba +c={1} --showErrorMessages".format(omc_path, self._random_string)
         return self._omc_command
 

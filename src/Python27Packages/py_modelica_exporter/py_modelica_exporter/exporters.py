@@ -105,9 +105,13 @@ class ComponentExporter(object):
                 if self.omc.loadFile(package_path):         # try to load the package file
                     self.logger.info('Library loaded from : {0}'.format(package_path))
                 else:
-                    self.logger.warning('Failed to load: {0}'.format(package_path))
+                    message = 'Failed to load: \'{0}\''.format(package_path)
+                    self.logger.warning(message)
+                    raise ValueError(message)
             else:
-                self.logger.warning('File does not exist! Failed to load: {0}'.format(package_path))
+                message = 'File does not exist! Failed to load: \'{0}\''.format(package_path)
+                self.logger.warning(message)
+                raise ValueError(message)
 
     def get_component_json(self, modelica_uri):
         """
@@ -480,9 +484,7 @@ class PackageExporter(object):
                     if self.omc.loadFile(package_path):     # try to load the package file
                         self.package_names.append(package_name)  # log successful load
                         self.logger.info('Library loaded from : {0}'.format(package_path))
-                    else:
-                        self.failed_load_package_names.append("FAILED_" + package_name)    # log failure
-                        self.logger.warning('Failed to load: {0}'.format(package_path))
+                        continue
                 else:
                     file_path, file_extension = os.path.splitext(package_path)
                     if file_extension == '.mo':                             # make sure it is a '.mo' file
@@ -490,18 +492,10 @@ class PackageExporter(object):
                         if self.omc.loadFile(package_path):         # try to load the package file
                             self.package_names.append(package_name)  # log successful load
                             self.logger.info('Library loaded from : {0}'.format(package_path))
-                        else:
-                            self.failed_load_package_names.append("FAILED_" + package_name)    # log failure
-                            self.logger.warning('Failed to load: {0}'.format(package_path))
+                            continue
             else:
-                file_path, file_extension = os.path.splitext(package_path)
-                if file_extension == '.mo':                            # make sure it is a '.mo' file
-                    package_name = os.path.basename(file_path)          # get the name of the file
-                    if package_name == 'package':
-                        package_name = os.path.basename(os.path.dirname(file_path))
-
-                    self.failed_load_package_names.append(package_name)
-                    self.logger.warning('Failed to load: {0}'.format(package_path))
+                raise ValueError('Failed to load \'{0}\': file does not exist'.format(package_path))
+            raise ValueError('Failed to load \'{0}\''.format(package_path))
 
     def get_class_details(self, package_names):
         """
@@ -603,8 +597,6 @@ class ComponentAssemblyExporter(object):
         # add the handlers to the logger
         self.logger.addHandler(self.logger_console_handler)
 
-        # start om session
-        self.omc = OMCSession()
         # start om session
         self.omc = OMCSession()
 
