@@ -134,7 +134,7 @@ class ComponentExporter(object):
             component.full_name = 'Exception'
             component.comment = getattr(exception, 'message', 'unknown error')
             json_result['components'].append(component.json())
-            self.logger.info('Could not get information for {0}'.format(modelica_uri))
+            self.logger.error('Could not get information for {0}'.format(modelica_uri))
 
         return json_result
 
@@ -290,11 +290,12 @@ class ComponentExporter(object):
             elif c.component_type == 'parameter':
                 parameter = self.create_parameter(modelica_uri, c)
                 component.parameters.append(parameter)
-            elif self.omc.isModel(c.mo_type):
+            elif self.omc.isModel(c.mo_type) or self.omc.isBlock(c.mo_type):
                 parameter = self.create_parameter(modelica_uri, c)
                 component.components.append(parameter)
                 self.extract_component_content(c.mo_type, components)
             else:
+                # TODO: e.g. self.omc.isType(c.mo_type) or isRecord
                 pass  # the object is not a connector or a parameter
 
         mo_inheritance_count = self.omc.getInheritanceCount(modelica_uri)
@@ -584,7 +585,7 @@ class ComponentAssemblyExporter(object):
         """
         Create an instance of the ComponentAssemblyExporter
         """
-        self.logger = logging.getLogger('py_modelica_exporter::ComponentExporter')
+        self.logger = logging.getLogger('py_modelica_exporter.ComponentAssemblyExporter')
         self.logger.setLevel(logging.DEBUG)
         # create console handler with a higher log level
         self.logger_console_handler = logging.StreamHandler()

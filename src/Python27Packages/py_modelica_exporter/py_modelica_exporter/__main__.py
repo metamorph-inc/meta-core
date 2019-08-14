@@ -11,7 +11,6 @@ from py_modelica_exporter.exporters import ComponentExporter, TreeExporter, Pack
 import logging
 import timeit
 
-# create logger with 'spam_application'
 logger = logging.getLogger('py_modelica_exporter')
 logger.setLevel(logging.DEBUG)
 
