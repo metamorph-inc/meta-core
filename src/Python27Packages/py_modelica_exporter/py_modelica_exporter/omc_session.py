@@ -47,6 +47,13 @@ import re
 import struct
 import platform
 
+
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
+
+
 if sys.platform == 'darwin':
     # on Mac let's assume omc is installed
     # OMPython packages are coming from here
@@ -188,7 +195,6 @@ class OMCSession(object):
 
     def __init__(self, readonly=False):
         self.readonly = readonly
-        self.omc_cache = {}
         self._omc = None
         self._omc_log_file = None
         self._server = None
@@ -232,6 +238,16 @@ class OMCSession(object):
 
         # connect to the running omc instance using CORBA
         self._connect_to_omc()
+        if readonly:
+            self.sendExpression_cached = lru_cache(maxsize=2048)(self.sendExpression_cached)
+
+    def sendExpression(self, command):
+        if command == 'getErrorString':
+            return self._omc.sendExpression(command)
+        return self.sendExpression_cached(command)
+
+    def sendExpression_cached(self, command):
+        return self._omc.sendExpression(command)
 
     def __del__(self):
         if self._omc:
@@ -244,7 +260,7 @@ class OMCSession(object):
 
     # TODO: this method will be replaced by the new parser
     def execute(self, command):
-        result = self._omc.sendExpression(command)
+        result = self.sendExpression(command)
         return OMTypedParser.parseString(result)
 
         # try:
@@ -263,13 +279,6 @@ class OMCSession(object):
         #     raise e
 
     def ask(self, question, opt=None, parsed=True):
-        p = (question, opt, parsed)
-
-        if self.readonly and question != 'getErrorString':
-            # can use cache if readonly
-            if p in self.omc_cache:
-                return self.omc_cache[p]
-
         if opt:
             expression = '{0}({1})'.format(question, opt)
         else:
@@ -279,14 +288,10 @@ class OMCSession(object):
             if parsed:
                 res = self.execute(expression)
             else:
-                res = self._omc.sendExpression(expression)
+                res = self.sendExpression(expression)
         except Exception as e:
             # self.logger.debug("Failed: {0}({1}, parsed={2})".format(question, opt, parsed))
             raise
-
-        # save response
-        self.omc_cache[p] = res
-
         return res
 
     # TODO: Open Modelica Compiler API functions. Would be nice to generate these.
@@ -547,10 +552,9 @@ class OMCSession(object):
 
     def getParameterValue(self, className, parameterName):
         try:
-            return self.ask('getParameterValue', '{0}, {1}'.format(className, parameterName))
-        except pyparsing.ParseException as ex:
-
             raw_text = self.ask('getParameterValue', '{0}, {1}'.format(className, parameterName), parsed=False)
+            return OMTypedParser.parseString(raw_text)
+        except pyparsing.ParseException as ex:
 
             regex_findall = self._REGEX_checkParameterArrayValue.findall(raw_text)
 

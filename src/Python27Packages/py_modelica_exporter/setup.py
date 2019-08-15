@@ -18,5 +18,10 @@ setup(name=name,
       packages=find_packages(),
       package_dir={name: name},
       install_requires=["six", "omniorb", "OMPython", "pyparsing"]
+      extras_require={
+          ':python_version == "2.7"': [
+                  'backports.functools_lru_cache',
+          ],
+      },
       #zip_safe=False,
       )

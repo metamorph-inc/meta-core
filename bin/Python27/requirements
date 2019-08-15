@@ -63,6 +63,8 @@ requests==2.11.0  # installer
 smop==0.23+g59c3fa4
 #For testbenchexecutor
 Jinja2==2.10
+# for py_modelica_exporter
+backports.functools_lru_cache
 
 networkx==1.11
 requests

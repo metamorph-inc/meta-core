@@ -76,7 +76,7 @@ class ComponentExporter(object):
         self.connectors = {}
 
         # start om session
-        self.omc = OMCSession()
+        self.omc = OMCSession(readonly=True)
 
         # load all packages
         self.load_packages(self.external_package_paths)
@@ -126,6 +126,7 @@ class ComponentExporter(object):
             json_result['icon_path'] = self.icon_exporter.export_icon(modelica_uri)
 
         try:
+            self.extracted_components = set()
             self.extract_component_content(modelica_uri, components)
             [json_result['components'].append(component.json()) for component in components]
 
@@ -149,6 +150,7 @@ class ComponentExporter(object):
         """
         Extracts component and returns a xml tree
         """
+        self.extracted_components = set()
         components = []
         self.extract_component_content(modelica_uri, components)
 
@@ -224,12 +226,15 @@ class ComponentExporter(object):
         Recursively populates components with extracted_components,
         starting from modelica_uri and goes through the extends.
         """
+        if modelica_uri in self.extracted_components:
+            return
         component = Component()
         component.full_name = modelica_uri
         component.comment = self.omc.getClassComment(modelica_uri)
         component.type = self.omc.getClassInformation(modelica_uri)[0]
 
         components.append(component)
+        self.extracted_components.add(modelica_uri)
 
         try:
             # mo_packages = self.omc.getPackages(modelica_uri)
