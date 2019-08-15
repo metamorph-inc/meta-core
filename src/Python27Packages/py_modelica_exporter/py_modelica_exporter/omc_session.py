@@ -314,7 +314,7 @@ class OMCSession(object):
         return self.ask('isPackage', className)
 
     def isPrimitive(self, className):
-        return self.ask('isPrimitive', className)
+        return self.ask('isPrimitive', className, parsed=False) == 'true\n'
 
     def isConnector(self, className):
         try:

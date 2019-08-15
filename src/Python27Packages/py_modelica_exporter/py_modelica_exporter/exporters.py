@@ -136,6 +136,7 @@ class ComponentExporter(object):
             component.comment = getattr(exception, 'message', 'unknown error')
             json_result['components'].append(component.json())
             self.logger.error('Could not get information for {0}'.format(modelica_uri))
+            # raise
 
         return json_result
 
@@ -235,6 +236,9 @@ class ComponentExporter(object):
 
         components.append(component)
         self.extracted_components.add(modelica_uri)
+
+        if self.omc.isPrimitive(modelica_uri):
+            return
 
         try:
             # mo_packages = self.omc.getPackages(modelica_uri)
