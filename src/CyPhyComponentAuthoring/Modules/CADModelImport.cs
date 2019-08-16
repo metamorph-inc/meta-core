@@ -164,18 +164,22 @@ namespace CyPhyComponentAuthoring.Modules
                         firstProc.EnableRaisingEvents = true;
                         bool showProgressBar = sender != null && sender is IWin32Window;
                         bool done = false;
+                        Object doneSyncObject = new object();
                         GUIs.CADProgress progress = null;
                         EventHandler closeDialogWithSuccess = (e, o) =>
                         {
-                            progress.Invoke((Action)(() =>
+                            lock (doneSyncObject)
                             {
                                 if (done == false)
                                 {
-                                    done = true;
-                                    progress.DialogResult = DialogResult.OK;
-                                    progress.Close();
+                                    progress.BeginInvoke((Action)(() =>
+                                    {
+                                        done = true;
+                                        progress.DialogResult = DialogResult.OK;
+                                        progress.Close();
+                                    }));
                                 }
-                            }));
+                            }
                         };
                         if (showProgressBar)
                         {
@@ -207,7 +211,7 @@ namespace CyPhyComponentAuthoring.Modules
                         {
                             progress.FormClosing += (e, o) =>
                             {
-                                if (done == false)
+                                lock (doneSyncObject)
                                 {
                                     firstProc.Exited -= closeDialogWithSuccess;
                                     done = true;
