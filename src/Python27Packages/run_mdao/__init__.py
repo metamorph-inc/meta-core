@@ -19,6 +19,7 @@ from run_mdao.drivers import FullFactorialDriver, UniformDriver, LatinHypercubeD
 from run_mdao.restart_recorder import RestartRecorder
 
 from openmdao.api import IndepVarComp, Problem, Group, ScipyOptimizer, FileRef, SubProblem, Component
+from openmdao.api import profile as openmdao_profile
 
 from openmdao.core.mpi_wrap import MPI
 
@@ -136,7 +137,7 @@ def instantiate_component(component, component_name, mdao_config, root, subprobl
         return component_instance
 
 
-def run(filename, override_driver=None, additional_recorders=(), append_csv=False):
+def run(filename, override_driver=None, additional_recorders=(), append_csv=False, profile=False):
     """Run OpenMDAO on an mdao_config."""
     original_dir = os.path.dirname(os.path.abspath(filename))
     if MPI:
@@ -144,7 +145,7 @@ def run(filename, override_driver=None, additional_recorders=(), append_csv=Fals
     else:
         with open(filename, 'r') as mdao_config_json:
             mdao_config = json.loads(mdao_config_json.read())
-    with with_problem(mdao_config, original_dir, override_driver, additional_recorders=additional_recorders, append_csv=append_csv) as top:
+    with with_problem(mdao_config, original_dir, override_driver, additional_recorders=additional_recorders, append_csv=append_csv, profile=profile) as top:
         top.run()
         return top
 
@@ -154,7 +155,7 @@ def get_desvar_path(designVariable):
 
 
 @contextlib.contextmanager
-def with_problem(mdao_config, original_dir, override_driver=None, additional_recorders=(), is_subproblem=False, append_csv=False):
+def with_problem(mdao_config, original_dir, override_driver=None, additional_recorders=(), is_subproblem=False, append_csv=False, profile=False):
     # TODO: can we support more than one driver
     if len(mdao_config['drivers']) == 0:
         driver = None
@@ -556,6 +557,10 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
         for recorder in additional_recorders:
             recorders.append(recorder)
             top.driver.add_recorder(recorder)
+
+        if profile:
+            openmdao_profile.setup(top)
+            openmdao_profile.start()
 
         try:
             top.setup()
