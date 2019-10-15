@@ -515,6 +515,7 @@ namespace CyPhyMetaLink
                         throw new ApplicationException(String.Format("Cycle involving {0}", compref.AllReferred.Name));
                     }
                     CollectComponents(complist, compref.AllReferred as CyPhyML.ComponentAssembly, visitedComponentAssemblies);
+                    visitedComponentAssemblies.Remove(compref.AllReferred as CyPhyML.ComponentAssembly);
                 }
             }
             foreach (var comp in assembly.Children.ComponentCollection)
