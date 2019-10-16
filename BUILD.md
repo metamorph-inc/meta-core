@@ -45,7 +45,7 @@ Set environment variable JAVA_HOME to the installed directory, such as `C:\Progr
 The actual name of the subdirectory depends on what version you have installed.
 
 ## GME 16.3+
-[Download it here](https://forge.isis.vanderbilt.edu/gme)
+[Download it here](http://repo.isis.vanderbilt.edu/GME/)
 
 GME_x64 is the best-tested (but 32-bit should work too)
 
