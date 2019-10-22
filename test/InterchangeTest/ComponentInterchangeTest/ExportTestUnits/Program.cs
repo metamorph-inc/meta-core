@@ -104,6 +104,16 @@ namespace ComponentExporterUnitTests
             }
         }
 
+        private string getDrawbarAcmPath(string testName)
+        {
+            return Path.Combine(_exportModelDirectory, testName, "components/Imported_Components/drawbar/drawbar.component.acm");
+        }
+
+        private string getHullAcmPath(string testName)
+        {
+            return Path.Combine(_exportModelDirectory, testName, "components/Imported_Components/hull/hull.component.acm");
+        }
+
         private int runCyPhyComponentImporterCLDrawbar(string testName)
         {
             var process = new Process
@@ -115,7 +125,7 @@ namespace ComponentExporterUnitTests
                               }
                           };
 
-            process.StartInfo.Arguments += "\"components/Imported_Components/drawbar/drawbar.component.acm\"";
+            process.StartInfo.Arguments += "\"" + getDrawbarAcmPath(testName) + "\"";
             process.StartInfo.Arguments += " InputModel.mga";
 
             return Common.processCommon(process);
@@ -143,12 +153,13 @@ namespace ComponentExporterUnitTests
                               StartInfo =
                               {
                                   FileName = Path.Combine(META.VersionInfo.MetaPath, "src", "CyPhyComponentImporterCL", "bin", "Release", "CyPhyComponentImporterCL.exe"),
-                                  WorkingDirectory = _exportModelDirectory
+                                  WorkingDirectory = Path.Combine(_exportModelDirectory, testName)
                               }
                           };
 
-            process.StartInfo.Arguments += testName + "\"" + "/components/Imported_Components/hull/hull.component.acm" + "\"";
-            process.StartInfo.Arguments += " " + testName + "/InputModel.mga";
+            string acmFile = getHullAcmPath(testName);
+            process.StartInfo.Arguments += "\"" + acmFile + "\"";
+            process.StartInfo.Arguments += " InputModel.mga";
 
             return Common.processCommon(process);
         }
@@ -247,12 +258,28 @@ namespace ComponentExporterUnitTests
             return Common.processCommon(process, true);
         }
 
+
+        private void File_TryDelete(string path)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (DirectoryNotFoundException)
+            {
+            }
+        }
+
         [Fact]
         public void RoundTripExportAndImportTest()
         {
             const string testName = "RoundTripTest";
             unpackXmes(testName);
+            File_TryDelete(getDrawbarAcmPath(testName));
+            File_TryDelete(getHullAcmPath(testName));
             Assert.Equal(0, runCyPhyComponentExporterCL(testName));
+            Assert.True(File.Exists(getHullAcmPath(testName)));
+            Assert.True(File.Exists(getDrawbarAcmPath(testName)));
             Assert.Equal(0, runCyPhyComponentImporterCLDrawbar(testName));
             Assert.Equal(0, runCyPhyComponentImporterCLHull(testName));
             runCyPhyMLComparator(testName);
