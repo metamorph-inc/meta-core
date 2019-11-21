@@ -99,13 +99,15 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 			PyObject_RAII main = PyImport_ImportModule("__main__");
 			PyObject* main_namespace = PyModule_GetDict(main);
 			PyObject_RAII dict = PyDict_Copy(main_namespace);
+			PyDict_SetItemString(dict, "etype", type);
+			PyDict_SetItemString(dict, "value", value);
 			PyDict_SetItemString(dict, "tb", traceback);
 			PyObject_RAII _none = PyRun_StringFlags(
 				"import traceback\n"
-				"tb = ''.join(traceback.format_tb(tb))\n", Py_file_input, dict, dict, NULL);
-            if (PyErr_Occurred()) {
+				"tb = ''.join(traceback.format_exception(etype, value, tb))\n", Py_file_input, dict, dict, NULL);
+            if (!PyErr_Occurred()) {
                 PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
-                error += PyString_AsString(formatted_traceback);
+                error = PyString_AsString(formatted_traceback);
             }
 		}
 		else
