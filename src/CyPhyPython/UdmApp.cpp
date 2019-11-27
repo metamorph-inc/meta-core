@@ -109,6 +109,7 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
                 PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
                 error = PyString_AsString(formatted_traceback);
             }
+			PyErr_Clear();
 		}
 		else
 			error += "Unknown traceback";
