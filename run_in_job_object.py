@@ -18,7 +18,7 @@ if __name__=='__main__':
     # FIXME: this arg quoting won't work with trailing slashes. See MSDN: CommandLineToArgvW
     (hProcess, hThread, processId, threadId) = win32process.CreateProcess(None, ' '.join(['"' + arg + '"' for arg in sys.argv[1:]]), None, None, True, win32process.CREATE_SUSPENDED | win32process.CREATE_BREAKAWAY_FROM_JOB, None, None, startup)
 
-    assert not win32job.IsProcessInJob(hProcess, None)
+    # assert not win32job.IsProcessInJob(hProcess, None)
 
     hJob = win32job.CreateJobObject(None, "")
     extended_info = win32job.QueryInformationJobObject(hJob, win32job.JobObjectExtendedLimitInformation)
