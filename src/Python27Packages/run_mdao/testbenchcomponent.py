@@ -45,7 +45,7 @@ class TestBenchComponent(Component):
             manifest_fileinput = self.manifest_fileinputs.get(param_name)
             if manifest_fileinput is not None:
                 val = FileRef(os.path.join(self.__directory, manifest_fileinput.get('FileName', param_name)))
-                self.add_param(_get_param_name(param_name), val=val, binary=True)
+                self.add_param(_get_param_name(param_name), val=val, binary=True, pass_by_obj=True)
                 continue
             elif source_is_not_driver and 'source' in param:
                 if len(param['source']) == 1:
@@ -105,7 +105,7 @@ class TestBenchComponent(Component):
                 manifest_fileoutput = self.manifest_fileoutputs.get(metric_name)
                 if manifest_fileoutput is None:
                     raise ValueError(metric_name)
-                self.add_output(metric_name, val=FileRef(os.path.join(self.__directory, manifest_fileoutput.get('FileName', metric_name))), binary=True)
+                self.add_output(metric_name, val=FileRef(os.path.join(self.__directory, manifest_fileoutput.get('FileName', metric_name))), binary=True, pass_by_obj=True)
 
         self.add_output('_ret_code', val=0, pass_by_obj=True)
 
