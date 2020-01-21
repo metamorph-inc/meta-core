@@ -37,14 +37,14 @@ class ExcelWrapperTestCase(unittest.TestCase):
         prob.setup()
         prob.run()
 
-        self.assertEqual((2.1 * float(prob['x'])), prob['y'], "Excel Wrapper failed for Float values")
-        self.assertEqual((2.1 * float(inputs['x'])), prob['y'], "Excel Wrapper failed for Float values")
+        self.assertEqual((2.1 * float(prob['x'])), prob['y'])
+        self.assertEqual((2.1 * float(inputs['x'])), prob['y'])
         self.assertEqual(inputs['b'], prob['b'])
         self.assertEqual(prob['macroVar_in'], prob['macroVar_out'])
         self.assertEqual(3 * int(prob['macroVB_in']) - 1, int(prob['macroVB_out']))
         self.assertEqual(bool(prob['b']), not prob['bout'])
         self.assertEqual(inputs['s'], prob['s'])
-        self.assertEqual(prob['s'].lower(), prob['sout'], "Excel Wrapper failed for String values")
+        self.assertEqual(prob['s'].lower(), prob['sout'])
         self.assertEqual(float(prob['sheet1_in']) + 100, prob['sheet2_out'], "Excel wrapper fails in multiple sheets")
 
     def test_ExcelWrapperJson(self):
