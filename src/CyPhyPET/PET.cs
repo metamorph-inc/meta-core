@@ -521,8 +521,17 @@ namespace CyPhyPET
                     upperExcluded = false;
                     upper = upper.Substring(0, upper.Length - 1);
                 }
-                configVariable.RangeMin = Double.Parse(lower, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-                configVariable.RangeMax = Double.Parse(upper, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+                double rangeMin, rangeMax;
+                if (!Double.TryParse(lower, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out rangeMin))
+                {
+                    throw new ApplicationException(String.Format("Could not parse min range value '{0}'", lower));
+                }
+                if (!Double.TryParse(upper, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out rangeMax))
+                {
+                    throw new ApplicationException(String.Format("Could not parse min range value '{0}'", upper));
+                }
+                configVariable.RangeMin = rangeMin;
+                configVariable.RangeMax = rangeMax;
                 if (lowerExcluded)
                 {
                     configVariable.RangeMin = nextafter((double)configVariable.RangeMin, Double.PositiveInfinity);

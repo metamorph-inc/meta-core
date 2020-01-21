@@ -779,13 +779,8 @@ namespace CyPhyPET.Rules
 
             var tbParamsWithConnections = new HashSet<Tuple<ISIS.GME.Common.Interfaces.Reference, ISIS.GME.Common.Interfaces.FCO>>();
             // Check for connections and names of parameters in the test-bench.
-            var rangeLengths = new List<int>();
             foreach (var designVar in designVariables)
             {
-                checkResults.AddRange(checkMdaoDesignVariableAttributes(designVar, allowDiscreteRanges: allowDiscreteRanges));
-                // META-2995
-                rangeLengths.Add(discreteRange);
-
                 var varSweepCollection = designVar.DstConnections.VariableSweepCollection;
                 if (varSweepCollection.Count() == 1)
                 {
@@ -823,17 +818,7 @@ namespace CyPhyPET.Rules
 
                             var value = tbParam.Attributes.Value;
                             double dummy;
-                            if ((tbParamParent is CyPhy.ExcelWrapper) == false && (tbParamParent is CyPhy.PythonWrapper) == false && value != "" && double.TryParse(value, out dummy) == false)
-                            {
-                                var feedback = new GenericRuleFeedback()
-                                {
-                                    FeedbackType = FeedbackTypes.Error,
-                                    Message = string.Format("Connected Parameter {0} has a value, '{1}', that is not real.", tbParam.Name, value)
-                                };
-
-                                feedback.InvolvedObjectsByRole.Add(tbParam.Impl as IMgaFCO);
-                                checkResults.Add(feedback);
-                            }
+                            // TODO can we do type checking here? e.g. double connected to double
                         }
 
                         if (tbParamsWithConnections.Add(
@@ -868,18 +853,6 @@ namespace CyPhyPET.Rules
                 }
             }
 
-            // META-2995
-            if (allowDiscreteRanges && (rangeLengths.Distinct().Count() > 1))
-            {
-                var feedback = new GenericRuleFeedback()
-                {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("Discrete ranges in ({0}) are not of the same length.", mdaoDriver.Name)
-                };
-
-                feedback.InvolvedObjectsByRole.Add(mdaoDriver.Impl as IMgaFCO);
-                checkResults.Add(feedback);
-            }
             // Check for connections and names of metrics in the test-bench.
             foreach (var obj in objectives)
             {
@@ -964,115 +937,6 @@ namespace CyPhyPET.Rules
             }
 
             return checkResults;
-        }
-
-        private static int discreteRange = -1;
-        private static IEnumerable<RuleFeedbackBase> checkMdaoDesignVariableAttributes(
-            CyPhy.DesignVariable designVar,
-            bool allowDiscreteRanges = false)
-        {
-            var attributeCheckResults = new List<RuleFeedbackBase>();
-
-            string range = designVar.Attributes.Range;
-            string[] splitRange = range.Split(',');
-
-            if (allowDiscreteRanges && range.StartsWith("[") && range.EndsWith("]"))
-            {
-                // META-2995
-                var rangePieces = range.TrimStart('[').TrimEnd(']').Split(',');
-                discreteRange = rangePieces.Count();
-                foreach (var rp in rangePieces)
-                {
-                    double val = 0;
-                    if (double.TryParse(rp, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out val) == false)
-                    {
-                        var feedback = new GenericRuleFeedback()
-                        {
-                            FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("{0} seems to defined as a discrete range of values. It must be of the form [x1, .., xn], where xi is a double, but found a '{1}'.",
-                                designVar.Name, rp)
-                        };
-
-                        feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                        attributeCheckResults.Add(feedback);
-                    }
-                }
-            }
-            else if (splitRange.Count() == 2)
-            {
-                double min = 0;
-                double max = 0;
-                string minStr = splitRange[0];
-                string maxStr = splitRange[1];
-                if (minStr[0] == '[' || minStr[0] == '(')
-                {
-                    minStr = minStr.Substring(1);
-                }
-                if (maxStr.Last() == ']' || maxStr.Last() == ')')
-                {
-                    maxStr = maxStr.Substring(0, maxStr.Length - 1);
-                }
-                bool canGetMaxAndMin =
-                    double.TryParse(minStr, NumberStyles.Float | NumberStyles.AllowThousands,
-                            CultureInfo.InvariantCulture, out min) &&
-                    double.TryParse(maxStr, NumberStyles.Float | NumberStyles.AllowThousands,
-                            CultureInfo.InvariantCulture, out max);
-                if (canGetMaxAndMin)
-                {
-                    if (min > max)
-                    {
-                        var feedback = new GenericRuleFeedback()
-                        {
-                            FeedbackType = FeedbackTypes.Error,
-                            Message = string.Format("MDAODriver DesignVariable ({0}) Range: Min greater than Max", designVar.Name)
-                        };
-
-                        feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                        attributeCheckResults.Add(feedback);
-                    }
-                }
-                else
-                {
-                    var feedback = new GenericRuleFeedback()
-                    {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("MDAODriver DesignVariable ({0}) Range: Could not parse values... Are they decimals?", designVar.Name)
-                    };
-
-                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                    attributeCheckResults.Add(feedback);
-                }
-            }
-            else if (splitRange.Count() == 1)
-            {
-                double singlePoint = 0;
-                if (double.TryParse(splitRange[0].Trim(), NumberStyles.Float | NumberStyles.AllowThousands,
-                            CultureInfo.InvariantCulture, out singlePoint) == false)
-                {
-                    var feedback = new GenericRuleFeedback()
-                    {
-                        FeedbackType = FeedbackTypes.Error,
-                        Message = string.Format("MDAODriver DesignVariable ({0}) Range: Could not parse value... is it a decimal?", designVar.Name)
-                    };
-
-                    feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                    // FIXME: need to rewrite this test for ;-delimited enums
-                    // attributeCheckResults.Add(feedback);
-                }
-            }
-            else// if (range != "-inf..inf") We need to make a judgement call on whether or not to accept "-inf..inf"
-            {
-                var feedback = new GenericRuleFeedback()
-                {
-                    FeedbackType = FeedbackTypes.Error,
-                    Message = string.Format("MDAODriver DesignVariable ({0}) Range Attribute should have format 'Min, Max' where Min and Max are Reals, or 'Val' where Val is Real", designVar.Name)
-                };
-
-                feedback.InvolvedObjectsByRole.Add(designVar.Impl as IMgaFCO);
-                attributeCheckResults.Add(feedback);
-            }
-
-            return attributeCheckResults;
         }
 
         #endregion
