@@ -378,6 +378,10 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
         return tbs_sorted
 
     tbs_sorted = get_sorted_components()
+    # TestBenchComponents look at params they're connected to, so create them last
+    def is_testbenchcomponent(component_name):
+        return mdao_config['components'][component_name].get('type', 'TestBenchComponent') == 'TestBenchComponent'
+    tbs_sorted = sorted(tbs_sorted, key=is_testbenchcomponent)
     for component_name in tbs_sorted:
         component = mdao_config['components'][component_name]
         mdao_component = instantiate_component(component, component_name, mdao_config, root, subProblemOutputMeta)

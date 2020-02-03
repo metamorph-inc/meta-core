@@ -10,6 +10,7 @@ import six
 import numpy
 from run_mdao.drivers import AnalysisError
 from openmdao.api import Component, FileRef
+from openmdao.util.type_util import is_differentiable
 
 
 def _get_param_name(param_name, component_type=None):
@@ -100,7 +101,31 @@ class TestBenchComponent(Component):
                     for objective in driver['objectives'].values():
                         if objective['source'][0] == name and objective['source'][1] == metric_name:
                             pass_by_obj = False
-                self.add_output(metric_name, val=0.0, pass_by_obj=pass_by_obj, **get_meta(metric))
+
+                metric_meta = get_meta(metric)
+
+                metric_meta['val'] = 0.0
+                for mdao_component in root.components():
+                    # TODO: metric is possibly connected to a subproblem problemOutput. We should handle this case (root.components() does not contain the desired component, nor is it created yet)
+                    destination_component = mdao_config['components'].get(mdao_component.name)
+                    if destination_component is None:
+                        # TODO: possibly connected to an input to a component in a subproblem. We should handle this case
+                        # destination_component should possibly be an IndepVarComp from a ProblemInput. We don't need to handle this case
+                        # destination_component should possibly be an IndepVarComp designVariable. We don't need to handle this case
+                        continue
+                    for parameter_name, parameter in six.iteritems(destination_component['parameters']):
+                        if parameter['source'] == [self.name, metric_name]:
+                            mdao_parameter = mdao_component._init_params_dict[_get_param_name(parameter_name, destination_component.get('type'))]
+                            for key in ('val', 'shape'):
+                                next_val = mdao_parameter.get(key, None)
+                                if next_val is not None:
+                                    metric_meta.pop('val', None)
+                                    metric_meta[key] = next_val
+                                    if key == 'val':
+                                        pass_by_obj = pass_by_obj or not is_differentiable(next_val)
+                                    break
+
+                self.add_output(metric_name, pass_by_obj=pass_by_obj, **metric_meta)
             else:
                 manifest_fileoutput = self.manifest_fileoutputs.get(metric_name)
                 if manifest_fileoutput is None:
