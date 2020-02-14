@@ -30,7 +30,7 @@ PyAPI_DATA(int) Py_HashRandomizationFlag;
 
 /* this is a wrapper around getenv() that pays attention to
    Py_IgnoreEnvironmentFlag.  It should be used for getting variables like
-   PYTHONPATH and PYTHONHOME from the environment */
+   OMPYTHONPATH and OMPYTHONHOME from the environment */
 #define Py_GETENV(s) (Py_IgnoreEnvironmentFlag ? NULL : getenv(s))
 
 PyAPI_FUNC(void) Py_FatalError(const char *message);
