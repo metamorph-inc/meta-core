@@ -195,7 +195,93 @@ if __name__ == '__main__':
             }
         }
 
+        [Fact]
+        public void TestCustomPythonPathEnvironmentVariable()
+        {
+            const string testDirectoryName = "testPath";
+
+            if (Directory.Exists(testDirectoryName))
+            {
+                Directory.Delete(testDirectoryName, true);
+            }
+
+            var testDirectory = Directory.CreateDirectory(testDirectoryName);
+
+            var sampleModule = @"
+def sample_function():
+    return 42
+";
+
+            var testImportFailedScript = @"
+import unittest
+
+class TestImport(unittest.TestCase):
+    def test_import(self):
+        with self.assertRaises(ImportError):
+            import sample_module
+
+if __name__ == '__main__':
+    unittest.main()
+";
+
+            var testImportSucceededScript = @"
+import unittest
+
+class TestImport(unittest.TestCase):
+    def test_import(self):
+        import sample_module
+        self.assertEqual(sample_module.sample_function(), 42)
+
+if __name__ == '__main__':
+    unittest.main()
+";
+
+            File.WriteAllText(Path.Combine(testDirectory.FullName, "sample_module.py"), sampleModule);
+            File.WriteAllText("test_import_failed.py", testImportFailedScript);
+            File.WriteAllText("test_import_succeeded.py", testImportSucceededScript);
+
+            // Running with no environment variables set should fail the import test
+            {
+                string stderr = "<process did not start>";
+                int retcode = Run(VersionInfo.PythonVEnvExe,
+                    Path.GetDirectoryName(Path.GetFullPath("test_import_failed.py")), "test_import_failed.py",
+                    out stderr);
+                Assert.True(0 == retcode, stderr);
+            }
+
+            // Running with PYTHONPATH set should fail the import test
+            {
+                string stderr = "<process did not start>";
+                int retcode = RunWithEnvironment(VersionInfo.PythonVEnvExe,
+                    Path.GetDirectoryName(Path.GetFullPath("test_import_failed.py")), "test_import_failed.py",
+                    new Dictionary<string, string>
+                    {
+                        ["PYTHONPATH"] = testDirectory.FullName
+                    }, 
+                    out stderr);
+                Assert.True(0 == retcode, stderr);
+            }
+
+            // Running with OMPYTHONPATH set should pass the import test
+            {
+                string stderr = "<process did not start>";
+                int retcode = RunWithEnvironment(VersionInfo.PythonVEnvExe,
+                    Path.GetDirectoryName(Path.GetFullPath("test_import_succeeded.py")), "test_import_succeeded.py",
+                    new Dictionary<string, string>
+                    {
+                        ["OMPYTHONPATH"] = testDirectory.FullName
+                    },
+                    out stderr);
+                Assert.True(0 == retcode, stderr);
+            }
+        }
+
         public int Run(string runCommand, string cwd, string args, out string stderr)
+        {
+            return RunWithEnvironment(runCommand, cwd, args, new Dictionary<string, string>(), out stderr);
+        }
+
+        public int RunWithEnvironment(string runCommand, string cwd, string args, Dictionary<string, string> additionalEnvironmentVariables, out string stderr)
         {
             ProcessStartInfo info = new ProcessStartInfo()
             {
@@ -207,6 +293,11 @@ if __name__ == '__main__':
                 RedirectStandardError = true,
                 RedirectStandardOutput = true
             };
+
+            foreach (var entry in additionalEnvironmentVariables)
+            {
+                info.EnvironmentVariables.Add(entry.Key, entry.Value);
+            }
 
             Process proc = new Process();
             proc.StartInfo = info;
