@@ -8,7 +8,7 @@ import shutil
 import zipfile
 import py_compile
 
-PYC_EXCLUDES = ('matlab_proxy', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests' r'grpc\experimental\aio')
+PYC_EXCLUDES = ('matlab_proxy', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests', r'grpc\experimental\aio')
 
 
 def pyc_exclude(filename):
