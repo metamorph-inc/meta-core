@@ -26,6 +26,8 @@ from openmdao.core.mpi_wrap import MPI
 from run_mdao.testbenchcomponent import TestBenchComponent, _get_param_name
 from run_mdao.parallel_execution import par_clone_and_config
 
+import run_mdao.progress_service
+
 
 __all__ = ('run', 'run_one', 'with_problem')
 
@@ -156,6 +158,7 @@ def get_desvar_path(designVariable):
 
 @contextlib.contextmanager
 def with_problem(mdao_config, original_dir, override_driver=None, additional_recorders=(), is_subproblem=False, append_csv=False, profile=False):
+    run_mdao.progress_service.update_progress("Configuring PET...", -1, -1)
     # TODO: can we support more than one driver
     if len(mdao_config['drivers']) == 0:
         driver = None

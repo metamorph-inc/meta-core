@@ -71,3 +71,7 @@ requests
 # https://github.com/metamorph-inc/matlab_wrapper/releases
 matlab_wrapper
 matlab_proxy
+
+# For run_mdao status updates
+grpcio==1.27.2
+protobuf==3.11.3

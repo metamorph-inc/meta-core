@@ -10,6 +10,8 @@ import errno
 import run_mdao
 from run_mdao.restart_recorder import RestartRecorder
 
+import run_mdao.progress_service
+
 from openmdao.util.array_util import evenly_distrib_idxs
 from openmdao.util.record_util import create_local_meta, update_local_meta
 
@@ -75,14 +77,27 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         else:
             runlist = self._deserialize_or_create_runlist()
 
+        run_mdao.progress_service.update_progress("Iteration 0/{} completed".format(len(runlist)), 0, len(runlist))
+
         # For each runlist entry, run the system and record the results
         for run in runlist:
-            self.run_one(problem, run)
+            run_success = self.run_one(problem, run)
+            run_mdao.progress_service.update_progress(
+                "Iteration {}/{} {}".format(
+                    self.iter_count, 
+                    len(runlist),
+                    "completed" if run_success else "failed"
+                ), 
+                self.iter_count, 
+                len(runlist)
+            )
 
         if self.use_restart:
             self.restart.close()
 
     def run_one(self, problem, run):
+        run_success = True
+
         for dv_name, dv_val in run:
             self.set_desvar(dv_name, dv_val)
 
@@ -95,10 +110,13 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         except AnalysisError:
             metadata['msg'] = traceback.format_exc()
             metadata['success'] = 0
+            run_success = False
         self.recorders.record_iteration(problem.root, metadata)
         self.iter_count += 1
         if self.use_restart:
             self.restart.record_iteration()
+
+        return run_success
 
     def _distrib_build_runlist(self):
         """
