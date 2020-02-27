@@ -10,7 +10,7 @@ import errno
 import run_mdao
 from run_mdao.restart_recorder import RestartRecorder
 
-import run_mdao.progress_service
+import testbenchexecutor.progress_service
 
 from openmdao.util.array_util import evenly_distrib_idxs
 from openmdao.util.record_util import create_local_meta, update_local_meta
@@ -77,12 +77,12 @@ class PredeterminedRunsDriver(openmdao.api.PredeterminedRunsDriver):
         else:
             runlist = self._deserialize_or_create_runlist()
 
-        run_mdao.progress_service.update_progress("Iteration 0/{} completed".format(len(runlist)), 0, len(runlist))
+        testbenchexecutor.progress_service.update_progress("Iteration 0/{} completed".format(len(runlist)), 0, len(runlist))
 
         # For each runlist entry, run the system and record the results
         for run in runlist:
             run_success = self.run_one(problem, run)
-            run_mdao.progress_service.update_progress(
+            testbenchexecutor.progress_service.update_progress(
                 "Iteration {}/{} {}".format(
                     self.iter_count, 
                     len(runlist),

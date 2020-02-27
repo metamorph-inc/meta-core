@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, division
 
 import sys
 import os
@@ -10,16 +10,14 @@ import contextlib
 import re
 
 import testbenchexecutor.tb_report_generator
+import testbenchexecutor.progress_service
 
 __author__ = 'adam'
 
 
 class NoStepsException(Exception):
     def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        repr(self.value)
+        super(NoStepsException, self).__init__(value)
 
 _unquoted_regex = r'^([^" ]+)'
 _space_regex = r'^( |$)+'
@@ -60,7 +58,7 @@ def parse(command):
                 if not match:
                     match = re.search(_quote_regex, command[start:])
                 if match:
-                    arg = arg + re.sub(r'((?:\\\\)*)\\"', lambda s: '\\' * (len(s.group(1)) / 2) + '"', match.groups()[0]) + '\\' * (len(match.groups()[1]) / 2)
+                    arg = arg + re.sub(r'((?:\\\\)*)\\"', lambda s: '\\' * (len(s.group(1)) // 2) + '"', match.groups()[0]) + '\\' * (len(match.groups()[1]) // 2)
                 if not match:
                     raise ValueError('Bug: could not match {!r}'.format(command[start:]))
 
@@ -249,6 +247,11 @@ class TestBenchExecutor(object):
         ### Execute step
         try:
             import subprocess
+
+            step_name = step["Description"]
+            if not step_name: # Fall back to invocation if description is None or empty
+                step_name = step["Invocation"]
+            testbenchexecutor.progress_service.update_progress("Running \"{}\"...".format(step_name), -1, -1)
 
             if not step.get("LogFile"):
                 step = self._update_step(step, {
