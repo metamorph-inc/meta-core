@@ -1544,7 +1544,8 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 
 		//create the constraint in desert
 		DesertIface::Constraint dsConstraint = DesertIface::Constraint::Create(constraintSet);
-		dsConstraint.name() = vcon.name();
+		std::string name = vcon.name();
+		dsConstraint.name() = name;
 		dsConstraint.id() = dsConstraint.externalID() = vcon.ID();
 		dsConstraint.expression() = "constraint "+ (std::string)vcon.name()+"() {\n" + expr+"\n}";
 		dsConstraint.context() = desert_elem;
@@ -1613,7 +1614,7 @@ void CyPhy2Desert::processConstraints(const CyPhyML::DesignContainer &cyphy_cont
 
 		char limit[64];
 		double dv = pcon.TargetValue();
-		sprintf_s(limit,"%f",dv);
+		sprintf_s(limit,"%.17g",dv);
 
 		expr += (std::string)limit;
 
@@ -1743,7 +1744,7 @@ std::string CyPhy2Desert::generateConstraint(const CyPhyML::PropertyConstraint &
 
 	char limit[64];
 	double dv = pcon.TargetValue();
-	sprintf_s(limit,"%f",dv);
+	sprintf_s(limit,"%.17g",dv);
 
 	expr += (std::string)limit;
 
@@ -2010,7 +2011,7 @@ void CyPhy2Desert::generateConstraint(map<std::string, list<CyPhyML::DesignEntit
 		expr += ")";
 
 		groupCount++;
-		char buffer[10];
+		char buffer[12];
 		_itoa_s(groupCount, buffer, 10);
 		std::string constraintName = "group_constraint"+std::string(buffer);
 		defaultConstraints.insert(constraintName);
@@ -2052,7 +2053,7 @@ bool CyPhy2Desert::generateConstraint(map<CyPhyML::DesignElement, list<CyPhyML::
 		expr += ")";
 
 		groupCount++;
-		char buffer[10];
+		char buffer[12];
 		_itoa_s(groupCount, buffer, 10);
 		std::string constraintName = "group_constraint"+std::string(buffer);
 		defaultConstraints.insert(constraintName);

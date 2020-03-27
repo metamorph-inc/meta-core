@@ -66,6 +66,8 @@ void CUdmApp::UdmMain(
 					bool applyConstraintsInNoninteractiveMode)						// Parameters
 {	
 	DesertHelper dhelper(tstring2utf8(mgaPath), *p_backend, focusObject);
+	HWND gme = ::GetActiveWindow();
+	dhelper.parentWnd = gme;
 	if(focusObject!=Udm::null && (Uml::IsDerivedFrom(focusObject.type(), CyPhyML::DesignContainer::meta)))
 	{
 		CyPhyML::DesignContainer focusRootDC = CyPhyML::DesignContainer::Cast(focusObject);
@@ -104,7 +106,8 @@ void CUdmApp::UdmMain(
 		{
 			if(dhelper.runCyPhy2Desert())
 			{
-				CConstraintMainDialog dlg(&dhelper);
+				CConstraintMainDialog dlg(&dhelper, CWnd::FromHandle(gme));
+				dlg.m_gmeWindow = gme;
 				dlg.DoModal();
 			}
 		}

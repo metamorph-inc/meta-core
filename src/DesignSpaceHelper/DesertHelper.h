@@ -13,7 +13,8 @@ class DesertHelper
 public:
 	DesertHelper(const std::string &scaFile, Udm::DataNetwork& cyphyDN, Udm::Object focusObject);
 	~DesertHelper();
-	
+
+	HWND parentWnd;
 	void setRootDS(const CyPhyML::DesignSpace &ds) {rootDS = ds;};
 	void setRootDC(const CyPhyML::DesignContainer &dc) {rootDC = dc;};
 	void setAllRootDCs(const set<CyPhyML::DesignContainer> &dcs) {allRootDCs = dcs;};

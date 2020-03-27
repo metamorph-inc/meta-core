@@ -112,7 +112,7 @@ void DesertThread::RunDesert()
 				count = 0;
 				pos = confs->GetHeadPosition();
 				int confSize = confs->GetCount();
-				char size_buff[10];
+				char size_buff[12];
 				itoa(confSize, size_buff, 10);
 				std::string desc("Writing out Configuration: ");
 				while(pos)
@@ -124,7 +124,7 @@ void DesertThread::RunDesert()
 					DBConfiguration * config = confs->GetNext(pos);
 					if (config)
 					{
-						char id_buff[10];
+						char id_buff[12];
 						itoa(config->id,id_buff, 10);
 						std::string currdesc = desc+id_buff+"/"+size_buff;
 
@@ -133,7 +133,7 @@ void DesertThread::RunDesert()
 				
 						//create configuration
 						DesertIfaceBack::Configuration dib_conf = DesertIfaceBack::Configuration::Create(m_dbs);				
-						char buff[10];
+						char buff[12];
 						itoa(config->id, buff, 10);
 						std::string temp = "Conf. no: "+(std::string)buff;
 						dib_conf.name() = temp.c_str(); 

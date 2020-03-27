@@ -7,6 +7,8 @@
 
 #include "BackIface.h"
 
+#define DESIGN_SPACE_TOO_LARGE -2
+
 //error handling with exceptions
 
 class CDesertException : public CException

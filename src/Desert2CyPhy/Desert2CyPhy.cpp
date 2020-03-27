@@ -301,7 +301,7 @@ void traverseContainer(CyPhyML::DesignContainer &container, MorphMatrix& morphMa
 		}
 		if(selectedCom == Udm::null)
 		{
-			char buffer[10];
+			char buffer[12];
 			_itoa(altId, buffer, 10);
 			std::string err = "Cannot find the Component with ID: "+(std::string)buffer+" in DesignContainer: "+(std::string)container.name();
 			throw udm_exception(err.c_str());
@@ -470,7 +470,7 @@ void traverseContainerForMorphMatrix(CyPhyML::DesignContainer &container, MorphM
 		}
 		if(selectedCom == Udm::null)
 		{
-			char buffer[10];
+			char buffer[12];
 			_itoa(altId, buffer, 10);
 			std::string err = "Cannot find the Component with ID: "+(std::string)buffer+" in DesignContainer: "+(std::string)container.name();
 			throw udm_exception(err.c_str());

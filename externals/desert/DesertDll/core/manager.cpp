@@ -53,7 +53,6 @@ static TCHAR *setNames[] =
 };
 
 #define MAX_LONG (long)(1 << 30)
-#define DESIGN_SPACE_TOO_LARGE -2
 
 CManager::
 CManager() : CCosmic()
@@ -1604,13 +1603,6 @@ long CManager::CalcRealNoOfConfigurations()
 {
 	if (generations.IsEmpty()) GenerateNextHierarchy();
 
-	double sizeOfDesignSpace = ComputeSize();
-	if (sizeOfDesignSpace > MAX_CONFIGURATIONS) {
-		// TODO: If design space is too large, check the prun.sat_frac()
-		// at the end of this function
-		return DESIGN_SPACE_TOO_LARGE;
-	}
-
 	GET_CURRENTGENERATION
 
 	// get design space and constraints corresponding to the current generation
@@ -1645,7 +1637,7 @@ long CManager::CalcRealNoOfConfigurations()
 		config = space->MaptoBdd(one, 0) && config;
 	}
 
-	CDynConstraintSet *toSet = new CDynConstraintSet(0);
+	std::unique_ptr<CDynConstraintSet> toSet(new CDynConstraintSet(0));
 	toSet->RemoveAll();
 
 	pos = consets.GetHeadPosition();
@@ -1683,19 +1675,25 @@ long CManager::CalcRealNoOfConfigurations()
 			{
 				CDynElement *root = roots.GetNext(pos);
 				std::deque<boost::dynamic_bitset<>> encVectors;
-				CBdd::Satisfy(prun, encVectors, NULL, NULL);
-
-				// Get rid of double-counting
-				for (auto it = encVectors.begin(); it != encVectors.end(); ++it)
-				{
-					auto& encVec = *it;
-
-					// convert the value to bdd, to write configuration
-					if ( root->NotRedundant(encVec) ) {
-						numCfgsInEachRoot++;
+				struct args {
+					CDynElement *root;
+					long& numCfgsInEachRoot;
+				} arg = { root, numCfgsInEachRoot };
+				auto callback = [](void *arg, const boost::dynamic_bitset<>& encVec) -> int {
+					args* a = (args*)arg;
+					if (a->root->NotRedundant(encVec))
+					{
+						a->numCfgsInEachRoot++;
 					}
+					return 0;
+				};
+				typedef int(*callback_t)(void *, const boost::dynamic_bitset<>&);
+				int count = CBdd::Satisfy(prun, encVectors, (callback_t)callback, &arg);
+				if (count == DESIGN_SPACE_TOO_LARGE) {
+					CBdd::Finit();
+					toSet->RemoveAll();
+					return DESIGN_SPACE_TOO_LARGE;
 				}
-
 			} //eo while(pos)
 
 			totalNoOfConfigs += numCfgsInEachRoot;
@@ -1706,7 +1704,6 @@ long CManager::CalcRealNoOfConfigurations()
 	  {
 		CBdd::Finit();
 		toSet->RemoveAll();
-		delete toSet;
 		  throw e;
 	  }
 
@@ -1714,7 +1711,6 @@ long CManager::CalcRealNoOfConfigurations()
 	CBdd::Finit();
 
 	toSet->RemoveAll();
-	delete toSet;
 
 	return totalNoOfConfigs;
 }

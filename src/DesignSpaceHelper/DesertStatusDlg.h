@@ -141,5 +141,3 @@ public:
 	bool m_fatal;
 	CString m_invalidConstraint;
 };
-
-CDesertStatusDlg * GetStatusDlg(CDesertStatusDlg * set);

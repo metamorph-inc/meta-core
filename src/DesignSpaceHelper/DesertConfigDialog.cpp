@@ -69,7 +69,7 @@ BOOL CDesertConfigDialog::OnInitDialog()
 	// TODO:  Add extra initialization here
 	stringstream ss;
 	long cfgCount = dhelper_ptr->getRealConfigCount();
-	if(cfgCount == -2) {
+	if(cfgCount == DESIGN_SPACE_TOO_LARGE) {
 		cfgSizeInfo = "Design Space Too Large";
 	} else if(cfgCount == -1) {
 		cfgSizeInfo = "Not calculated yet";
@@ -241,7 +241,7 @@ void CDesertConfigDialog::FillCfgTree(DesertIface::Element &elem, HTREEITEM pare
 				if(iname=="null")
 				{
 					int cnt = dhelper_ptr->getElementInConfigsCount(currElem.externalID());
-					char buffer[10];
+					char buffer[12];
 					_itoa(cnt, buffer, 10);
 					iname = iname + " [" +(std::string)buffer+"/"+cfgSizeInfo+"]";
 				}

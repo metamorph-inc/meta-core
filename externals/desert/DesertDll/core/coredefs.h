@@ -4,6 +4,8 @@
 #ifndef DEFS_H
 #define DEFS_H
 
+#define DESIGN_SPACE_TOO_LARGE -2
+
 #include <afxtempl.h>
 
 // classes
@@ -195,7 +197,6 @@ typedef enum
 //#define new DEBUG_NEW
 //#endif
 
-#define BDD_MAX_PATHS 100000
 #define MAX_CONFIGURATIONS 1000000         // how many configurations can we deal with
 
 #ifdef DESERT_EXPORTS

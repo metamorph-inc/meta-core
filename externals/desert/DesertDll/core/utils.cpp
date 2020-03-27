@@ -70,9 +70,19 @@ RemoveCRLF(CString& text)
 
 IMPLEMENT_DYNAMIC(CDesertException, CException)
 
-inline CDesertException::CDesertException()						{fatal = true;		what = NULL;};			
-inline CDesertException::CDesertException(bool _fatal)			{fatal = _fatal;	what = NULL;};
-inline CDesertException::CDesertException(const TCHAR * _what)	{fatal = true;		if (_what) what = new TCHAR[_tcslen(_what)+1];_tcscpy(what, _what);};
+inline CDesertException::CDesertException() { fatal = true;		what = NULL; constraint_name = NULL; }
+inline CDesertException::CDesertException(bool _fatal) { fatal = _fatal;	what = NULL; constraint_name = NULL; }
+inline CDesertException::CDesertException(const TCHAR * _what) {
+	fatal = true;
+	constraint_name = nullptr;
+	if (_what) {
+		what = new TCHAR[_tcslen(_what) + 1];
+		_tcscpy(what, _what);
+	}
+	else {
+		what = nullptr;
+	}
+}
 inline CDesertException::CDesertException(const TCHAR * _what, const TCHAR * _name)	
 {	
 	fatal = true;		
@@ -88,7 +98,18 @@ inline CDesertException::CDesertException(const TCHAR * _what, const TCHAR * _na
 	}
 };
 
-inline CDesertException::CDesertException(const CString _what)	{fatal = true;		if (_what.GetLength()) what = new TCHAR[_what.GetLength()+1];_tcscpy(what, (LPCTSTR)_what);};
+inline CDesertException::CDesertException(const CString _what) {
+	fatal = true;
+	constraint_name = nullptr;
+	if (_what.GetLength()) {
+		what = new TCHAR[_what.GetLength() + 1];
+		_tcscpy(what, (LPCTSTR)_what);
+	}
+	else {
+		what = nullptr;
+	}
+
+}
 inline CDesertException::CDesertException(const CString _what, const CString _name)	
 {	
 	fatal = true;		
@@ -97,14 +118,40 @@ inline CDesertException::CDesertException(const CString _what, const CString _na
 		what = new TCHAR[_what.GetLength()+1];
 		_tcscpy(what, (LPCTSTR)_what);
 	}
+	else {
+		what = nullptr;
+	}
 	if(_name) 
 	{
 		constraint_name=new TCHAR[_name.GetLength()+1];
 		_tcscpy(constraint_name, (LPCTSTR)_name);
 	}
+	else {
+		constraint_name = nullptr;
+	}
 };
-inline CDesertException::CDesertException(bool _fatal, const TCHAR * _what)	{fatal = _fatal;	if (_what) what = new TCHAR[_tcslen(_what)+1];_tcscpy(what, _what);};
-inline CDesertException::CDesertException(bool _fatal, const CString _what)	{fatal = _fatal;	if (_what.GetLength()) what = new TCHAR[_what.GetLength()+1];_tcscpy(what, (LPCTSTR)_what);};
+inline CDesertException::CDesertException(bool _fatal, const TCHAR * _what) {
+	fatal = _fatal;
+	constraint_name = nullptr;
+	if (_what) {
+		what = new TCHAR[_tcslen(_what) + 1];
+		_tcscpy(what, _what);
+	}
+	else {
+		what = nullptr;
+	}
+}
+inline CDesertException::CDesertException(bool _fatal, const CString _what) {
+	fatal = _fatal;
+	constraint_name = nullptr;
+	if (_what.GetLength()) {
+		what = new TCHAR[_what.GetLength() + 1];
+		_tcscpy(what, (LPCTSTR)_what);
+	}
+	else {
+		what = nullptr;
+	}
+}
 
 inline BOOL CDesertException::GetErrorMessage( LPTSTR lpszError, UINT nMaxError, PUINT pnHelpContext)	
 {

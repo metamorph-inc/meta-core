@@ -172,7 +172,6 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	GetDlgItem(IDC_BACKBTN)->EnableWindow(FALSE);
 	GetDlgItem(IDC_FORWARDBTN)->EnableWindow(FALSE);
 
-	m_gmeWindow = ::GetActiveWindow();
 	if (m_gmeWindow != NULL) // gmeWindow could be NULL if this component is invoked outside of GME
 	{
 		::EnableWindow(m_gmeWindow, FALSE); // call this after you ShowWindow your window
@@ -550,7 +549,7 @@ void CConstraintMainDialog::FillSizeBox()
 	tstring str = _T("Current no. of configurations: ");
 	if(dspSize == -1) {
 		str += _T("Not calculated yet");
-	} else if(dspSize == -2) {
+	} else if(dspSize == DESIGN_SPACE_TOO_LARGE) {
 		str += _T("Design Space Too Large");
 	} else {
 		str += (tstring) buffer;
@@ -590,7 +589,7 @@ void CConstraintMainDialog::OnBnClickedOk()
 
 void CConstraintMainDialog::generateConfig()
 {
-	if(dspSize == -2)
+	if(dspSize == DESIGN_SPACE_TOO_LARGE)
 	{
 		if(IDNO==AfxMessageBox(_T("The configurations cannot be shown due to the too large design space.\nPlease apply constraints or use View/Select for further pruning/down-selecting.\n\nDo you want to proceed?"),  MB_ICONQUESTION |MB_YESNO |MB_DEFBUTTON2))
 			return;

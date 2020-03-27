@@ -224,18 +224,6 @@ unsigned long CDesertStatusDlg::StepInState(short p, const TCHAR *desc)
 	return new_tick;
 };
 
-CDesertStatusDlg * GetStatusDlg(CDesertStatusDlg * set)
-{
-	static CDesertStatusDlg * csdlg = NULL;
-	
-	if (set != 0) {
-		csdlg = set;
-	}
-	ASSERT(csdlg != NULL);
-	return csdlg;
-
-};
-
 const StatusDefinition * LookUpStatus(StatusID s_id)
 {
 	const StatusDefinition * std = Stats;
@@ -295,7 +283,7 @@ LRESULT CDesertStatusDlg::OnFinished1(WPARAM wp, LPARAM lp)
 			m_prgBar.SetRange( 0, m_maxPrg);
 			while(processPos < m_maxPrg)
 			{
-				Sleep(50);
+				// Sleep(50);
 				m_prgBar.StepIt();
 				processPos += 5;
 			}
@@ -360,18 +348,32 @@ LRESULT CDesertStatusDlg::OnProgress(WPARAM wp, LPARAM lp)
 
 void CDesertStatusDlg::OnCancel()
 {
-	// TODO: Add your control notification handler code here
+	if (m_cancel) {
+		// prevent reentrance
+		return;
+	}
+	m_cancel = true;
+	::EnableWindow(::GetDlgItem(GetSafeHwnd(), IDCANCEL), FALSE);
+	::SetWindowText(::GetDlgItem(GetSafeHwnd(), IDCANCEL), L"Closing...");
+	// disable close button in caption bar
+	::EnableMenuItem(::GetSystemMenu(GetSafeHwnd(), FALSE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 	if (m_thrd != INVALID_HANDLE_VALUE)
 	{
 		m_notify->m_quit = true;
-		m_notify->m_cancel = true;	
+		m_notify->m_cancel = true;
+		// FIXME can this race
 		m_fatal = m_notify->m_fail;
 		m_invalidConstraint = m_notify->m_invalidConstraint;
-		WaitForSingleObject(m_thrd, INFINITE);
+		while (MsgWaitForMultipleObjects(1, &m_thrd, FALSE, INFINITE, QS_ALLEVENTS) == WAIT_OBJECT_0 + 1) {
+			MSG msg;
+			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
 		CloseHandle(m_thrd);
 	}
 	//m_notify->finished();
-	m_cancel = true;
 	CDialog::OnCancel();
 }
 

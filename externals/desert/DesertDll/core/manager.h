@@ -5,6 +5,11 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
+#ifndef BDD_MAX_PATHS
+#define BDD_MAX_PATHS 100000
+#endif
+
+
 #include <string>
 #ifdef _UNICODE
 typedef std::wstring tstring;

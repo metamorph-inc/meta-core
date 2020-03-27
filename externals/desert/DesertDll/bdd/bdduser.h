@@ -9,6 +9,7 @@
 #include <wtypes.h>
 #include "mem/memuser.h"
 
+#define BDD_MAX_PATHS 100000
 
 #if defined(__STDC__)
 #define ARGS(args) args

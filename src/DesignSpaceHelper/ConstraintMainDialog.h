@@ -90,6 +90,7 @@ public:
 	CButton m_btGenCfgs;
 	CButton m_btSelect;
 	CListCtrl m_filterlist;
+	HWND m_gmeWindow;
 
 private:
 	bool refresh_needed;
@@ -98,7 +99,6 @@ private:
 	set<int> appliedConSet;
 	set<int> invalidConSet;
 
-	HWND m_gmeWindow;
 public:
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedOk();
