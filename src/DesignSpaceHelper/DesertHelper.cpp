@@ -15,7 +15,6 @@
 #include "StatusDialog.h"
 #include "DesertStatusDlg.h"
 
-#include <direct.h>
 #include "UdmConsole.h"
 #include "CyPhyUtil.h"
 #include "time.h"
@@ -26,7 +25,12 @@ using namespace DesertIface;
 template <typename T>
 struct UdmNameSort {
 	bool operator()(const T& o1, const T& o2) const {
-		return static_cast<std::string>(o1.name()) < static_cast<std::string>(o2.name());
+		auto str1 = static_cast<std::string>(o1.name());
+		auto str2 = static_cast<std::string>(o2.name());
+		if (str1 == str2) {
+			return o1 < o2;
+		}
+		return str1 < str2;
 	}
 };
 
