@@ -25,6 +25,7 @@ CConstraintMainDialog::CConstraintMainDialog(CWnd* pParent /*=NULL*/)
 	m_pToolTip = NULL;
 	refresh_needed = true;
 	applyAll = false;
+	initSize = { 0,0,0,0 };
 }
 
 CConstraintMainDialog::CConstraintMainDialog(DesertHelper *deserthelper_ptr, CWnd* pParent /*=NULL*/)
@@ -33,6 +34,7 @@ CConstraintMainDialog::CConstraintMainDialog(DesertHelper *deserthelper_ptr, CWn
 	m_pToolTip = NULL;
 	refresh_needed = true;
 	applyAll = false;
+	initSize = { 0,0,0,0 };
 }
 
 CConstraintMainDialog::~CConstraintMainDialog()
@@ -79,6 +81,7 @@ BEGIN_MESSAGE_MAP(CConstraintMainDialog, CDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_CONSTRAINTLIST, &CConstraintMainDialog::OnLvnItemchangedConstraintlist)
 	ON_NOTIFY(NM_CLICK, IDC_FILTERLIST, &CConstraintMainDialog::OnNMClickFilterlist)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_FILTERLIST, &CConstraintMainDialog::OnNMCustomdrawFilterlist)
+	ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -231,6 +234,8 @@ BOOL CConstraintMainDialog::OnInitDialog()
 	ASSERT( bOk);
 	bOk = m_resizer.SetAnchor(IDC_CONSGROUP, ANCHOR_HORIZONTALLY | ANCHOR_TOP | ANCHOR_BOTTOM);
 	ASSERT( bOk);
+
+	GetWindowRect(&initSize);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -933,5 +938,14 @@ void CConstraintMainDialog::OnNMCustomdrawFilterlist(NMHDR *pNMHDR, LRESULT *pRe
 		// Store the colors back in the NMLVCUSTOMDRAW struct.
 		pLVCD->clrText = crText;
 		*pResult = CDRF_DODEFAULT;
+	}
+}
+
+void CConstraintMainDialog::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+	__super::OnGetMinMaxInfo(lpMMI);
+	if (initSize.right != 0) {
+		lpMMI->ptMinTrackSize.x = initSize.right - initSize.left;
+		lpMMI->ptMinTrackSize.y = initSize.bottom - initSize.top;
 	}
 }

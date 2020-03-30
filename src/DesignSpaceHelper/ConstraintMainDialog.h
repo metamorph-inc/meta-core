@@ -50,6 +50,7 @@ public:
 	CSortListCtrl m_listctrl;
 	virtual BOOL OnInitDialog();
 private:
+	RECT initSize;
 	void FillList();
 	void FillList(int index, const std::string &cons_name, const std::string &cons_context, const std::string &cons_type, const std::string &cons_domain);
 	void FillSizeBox();
@@ -132,4 +133,5 @@ public:
 			throw;
 		}
 	}
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 };
