@@ -8,5 +8,6 @@
 <?define InstallerVersion="500" ?>
 <?define Compressed="no" ?>
 <?define VcRedistVersion="v14.24.28127" ?>
+<!-- TODO when bumping GMEVersion, find "FIXME this is unreliable with GME 20.2.12" and remove next line -->
 <?define GMEVersion="20.2.12" ?>
 </Include>

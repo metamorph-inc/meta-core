@@ -25,10 +25,12 @@ namespace CyPhyMasterInterpreter
 
         public ConfigurationSelectionOutput ConfigurationSelectionResult { get; set; }
         private ConfigurationSelectionInput m_Input { get; set; }
+        private bool projectSaved;
 
-        public ConfigurationSelectionForm(Func<ConfigurationSelectionInput> input, bool enableDebugging)
+        public ConfigurationSelectionForm(Func<ConfigurationSelectionInput> input, bool enableDebugging, bool projectSaved)
         {
             this.EnableDebugging = enableDebugging;
+            this.projectSaved = projectSaved;
             this.InitializeComponent();
 
             this.m_Input = input();
@@ -49,6 +51,32 @@ namespace CyPhyMasterInterpreter
             this.chbVerbose.Checked = Properties.Settings.Default.bVerboseLogging;
 
             this.InitForm();
+            this.MouseMove += ConfigurationSelectionForm_MouseMove;
+        }
+
+        private Control lastMouseMoveControl;
+        // force tooltip to be shown over disabled control
+        private void ConfigurationSelectionForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            Control control = GetChildAtPoint(e.Location);
+            if (control == lastMouseMoveControl)
+            {
+                return;
+            }
+            lastMouseMoveControl = control;
+            if (control == commandLinkRunParallel)
+            {
+                string toolTipString = toolTipCA.GetToolTip(control);
+                if (String.IsNullOrEmpty(toolTipString))
+                {
+                    return;
+                }
+                this.toolTipCA.ShowAlways = true;
+                toolTipCA.Show(toolTipString, control, e.X - control.Left, e.Y - control.Top + 20);
+            } else
+            {
+                toolTipCA.ShowAlways = false;
+            }
         }
 
         private void CommandLinkRunParallel_Click(object sender, EventArgs e)
@@ -72,6 +100,12 @@ namespace CyPhyMasterInterpreter
                 // design space case
                 this.chbShowDirty.Enabled = true;
                 this.lbConfigModels.Enabled = true;
+                this.commandLinkRunParallel.Enabled = this.projectSaved;
+                this.toolTipCA.SetToolTip(this.chbShowDirty, "Show configurations exported before design space changes");
+                if (this.projectSaved == false)
+                {
+                    this.toolTipCA.SetToolTip(this.commandLinkRunParallel, "Project must be saved to run in parallel");
+                }
 
                 foreach (var group in this.m_Input.Groups)
                 {
