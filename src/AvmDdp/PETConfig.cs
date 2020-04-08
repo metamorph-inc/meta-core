@@ -76,6 +76,8 @@ namespace AVM.DDP
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string PETName;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string PETId;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string MgaFilename;
     }
 

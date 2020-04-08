@@ -702,6 +702,17 @@ namespace CyPhyPET
                 .Distinct(new FCOComparer())
                 .Select(obj => obj.Name).Reverse()) + "/" + mainParameters.OriginalCurrentFCOName;
 
+            string originalID;
+            MgaFCO originalFco = mainParameters.CurrentFCO;
+            if (mainParameters.GetTraceability() != null)
+            {
+                if (mainParameters.GetTraceability().TryGetMappedObject(mainParameters.CurrentFCO.ID, out originalID))
+                {
+                    originalFco = (MgaFCO)mainParameters.CurrentFCO.Project.GetObjectByID(originalID);
+                }
+            }
+            config.PETId = originalFco.GetGuidDisp();
+
             // 2) Get the type of test-bench and call any dependent interpreters
             //var graph = CyPhySoT.CyPhySoTInterpreter.UpdateDependency((MgaModel)this.mainParameters.CurrentFCO, this.Logger);
 
