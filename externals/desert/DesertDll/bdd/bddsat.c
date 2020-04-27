@@ -272,7 +272,7 @@ void bdd_sat_f_step_mat(bdd_manager bddm, bdd f, int *a, int len,
 #endif
   cur_index = BDD_INDEX(bddm, f);
 
-  if (*rows > BDD_MAX_PATHS) {
+  if (*rows >= BDD_MAX_PATHS) {
     // give up here, runtime will be too long (and OOM handling is not great)
     return;
   }

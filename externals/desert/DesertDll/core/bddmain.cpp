@@ -133,7 +133,7 @@ int CBdd::Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int 
     int rows=0;
     int **mat = new int*[BDD_MAX_PATHS];
     bdd_sat_f_mat(manager, f, 0, length-1, mat, &rows);
-	if (rows > BDD_MAX_PATHS) {
+	if (rows >= BDD_MAX_PATHS) {
 		for (int i = 0; i < BDD_MAX_PATHS; i++)
 		{
 			free(mat[i]);
