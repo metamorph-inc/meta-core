@@ -733,7 +733,7 @@ namespace CyPhyPETTest
             var json_expected = Newtonsoft.Json.Linq.JObject.Parse(@"{
                     'parameters': {},
                     'unknowns': {
-                        'Array': {
+                        'const_Array': {
                             'units': '1e-09*m**2*kg/s**2/A**2',
                             'value': [
                             1.0,
@@ -741,15 +741,15 @@ namespace CyPhyPETTest
                             3.3
                                 ]
                         },
-                        'Float': {
+                        'const_Float': {
                             'units': 'A*J**-1',
                             'value': 3.2
                         },
-                        'Integer': {
+                        'const_Integer': {
                             'units': '4046.8564224*m**2',
                             'value': 4
                         },
-                        'String': {
+                        'const_String': {
                             'value': 'AString'
                         }
                     },
