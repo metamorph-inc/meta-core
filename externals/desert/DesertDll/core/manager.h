@@ -6,7 +6,7 @@
 #define MANAGER_H
 
 #ifndef BDD_MAX_PATHS
-#define BDD_MAX_PATHS 100000
+#define BDD_MAX_PATHS 10000
 #endif
 
 
