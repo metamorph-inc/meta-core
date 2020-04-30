@@ -56,6 +56,8 @@ private:
 	void FillSizeBox();
 	void FillFilter();
 	afx_msg void OnInfoTip( NMHDR * pNMHDR, LRESULT * pResult );
+	afx_msg void OnConstraintListChanging(NMHDR* pNMHDR, LRESULT* pResult);
+
 public:
 	afx_msg void OnBnClickedEditbtn();
 	afx_msg void OnBnClickedCommitbtn();

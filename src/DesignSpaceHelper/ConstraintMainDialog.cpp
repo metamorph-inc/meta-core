@@ -64,7 +64,8 @@ void CConstraintMainDialog::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CConstraintMainDialog, CDialog)
 //	ON_BN_CLICKED(IDC_ADDBTN, &CConstraintMainDialog::OnBnClickedAddbtn)
 	ON_WM_DESTROY()
-	ON_NOTIFY( LVN_GETINFOTIP, IDC_CONSTRAINTLIST, OnInfoTip )
+	ON_NOTIFY(LVN_GETINFOTIP, IDC_CONSTRAINTLIST, OnInfoTip)
+	ON_NOTIFY(LVN_ITEMCHANGING, IDC_CONSTRAINTLIST, OnConstraintListChanging )
 	ON_BN_CLICKED(IDC_EDITBTN, &CConstraintMainDialog::OnBnClickedEditbtn)
 	ON_BN_CLICKED(IDC_COMMITBTN, &CConstraintMainDialog::OnBnClickedCommitbtn)
 	ON_BN_CLICKED(IDC_APPLYBTN, &CConstraintMainDialog::OnBnClickedApplybtn)
@@ -287,23 +288,11 @@ void CConstraintMainDialog::FillList()
 void CConstraintMainDialog::FillList(int index,const std::string &cons_name, const std::string &cons_context, const std::string &cons_type, const std::string &cons_domain)
 {
 	int ret, req, is;
-	LV_ITEM item;
-	item.state = item.stateMask = 0;
-//	if(constraint_applied)
+	int added_index = m_listctrl.AddItem(index, _T(""), utf82cstring(cons_name), utf82cstring(cons_context), utf82cstring(cons_type), utf82cstring(cons_domain));
+	if (appliedConSet.find(index) != appliedConSet.end())
 	{
-		item.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-		item.iImage = LVS_EX_CHECKBOXES;
+		ListView_SetCheckState(m_listctrl.GetSafeHwnd(), added_index, 1);
 	}
-	//else
-	//	item.mask = LVIF_TEXT | LVIF_PARAM;
-	item.lParam = 0;
-	item.iItem = index;
-
-	//item.iSubItem = 0;
-	//// first column is the name of the constraint
-	//item.pszText = (LPSTR)cons_name.c_str();
-	//ret = m_listctrl.InsertItem(&item);
-	(void)m_listctrl.AddItem(index, _T(""), utf82cstring(cons_name), utf82cstring(cons_context), utf82cstring(cons_type), utf82cstring(cons_domain));
 
 	m_listctrl.SetColumnWidth(0,35);
 
@@ -342,6 +331,22 @@ void CConstraintMainDialog::FillList(int index,const std::string &cons_name, con
 	is = m_listctrl.GetColumnWidth(4);
 	if ( is < req ) m_listctrl.SetColumnWidth(4, req);
 }
+
+void CConstraintMainDialog::OnConstraintListChanging(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMLISTVIEW pL = (LPNMLISTVIEW)pNMHDR;
+	if (appliedConSet.find(pL->iItem) != appliedConSet.end())
+	{
+		LPNMLISTVIEW pL = (LPNMLISTVIEW)pNMHDR;
+		if ((pL->uOldState & 0x2000) != 0 && (pL->uNewState & 0x1000) != 0)
+		{
+			*pResult = true;
+			return;
+		}
+	}
+	*pResult = false;
+}
+
 
 void CConstraintMainDialog::OnInfoTip(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -447,7 +452,7 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 	{
 		dhelper_ptr->closeDesertIfaceBackDN();
 		dhelper_ptr->applyConstraints(conIdlist, true);
-		dspSize = dhelper_ptr->getDesignSpaceSize();
+		// dspSize = dhelper_ptr->getDesignSpaceSize();
 		refresh_needed = false;
 	}	//for the purpose to get the correct dspSize
 
@@ -486,7 +491,8 @@ void CConstraintMainDialog::OnBnClickedApplyallbtn()
 //	appliedCons.push_back(conIdlist);
 //	currConListPosition++;
 
-	dspSize = dhelper_ptr->getDesignSpaceSize();
+	// dspSize = dhelper_ptr->getDesignSpaceSize();
+	dspSize = dhelper_ptr->getRealConfigCount();
 	applyAll = true;
 
 	applyCounter++;
@@ -522,17 +528,14 @@ BOOL CConstraintMainDialog::PreTranslateMessage(MSG* pMsg)
 
 void CConstraintMainDialog::OnBnClickedBackbtn()
 {
-	// TODO: Add your control notification handler code here
 	dhelper_ptr->goBack();
 	applyIdx--;
 	//FillSizeBox();
 	update();
-
 }
 
 void CConstraintMainDialog::OnBnClickedForwardbtn()
 {
-	// TODO: Add your control notification handler code here
 	dhelper_ptr->goForward();
 	applyIdx++;
 	update();

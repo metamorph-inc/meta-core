@@ -917,6 +917,11 @@ void DesertHelper::getAppliedConstraintSet(set<std::string> &consSet)
 		newSet.insert(tstring(utf82cstring(s)));
 	}
 	getDesertAppliedConstraintSet(newSet);
+	consSet.clear();
+	for each (auto s in newSet)
+	{
+		consSet.insert(tstring2utf8(s.c_str()));
+	}
 }
 
 int DesertHelper::runDesert(const std::string &constraints)
