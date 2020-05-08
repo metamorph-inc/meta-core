@@ -297,6 +297,7 @@ LRESULT CDesertStatusDlg::OnFinished1(WPARAM wp, LPARAM lp)
 		m_invalidConstraint = m_notify->m_invalidConstraint;
 		WaitForSingleObject(m_thrd, INFINITE);
 		CloseHandle(m_thrd);
+		m_thrd = INVALID_HANDLE_VALUE;
 	}	
 
 	CDialog::OnCancel();	
@@ -361,8 +362,6 @@ void CDesertStatusDlg::OnCancel()
 	{
 		m_notify->m_quit = true;
 		m_notify->m_cancel = true;
-		// FIXME can this race
-		m_fatal = m_notify->m_fail;
 		m_invalidConstraint = m_notify->m_invalidConstraint;
 		while (MsgWaitForMultipleObjects(1, &m_thrd, FALSE, INFINITE, QS_ALLEVENTS) == WAIT_OBJECT_0 + 1) {
 			MSG msg;
@@ -371,7 +370,9 @@ void CDesertStatusDlg::OnCancel()
 				DispatchMessage(&msg);
 			}
 		}
+		m_fatal = m_notify->m_fail;
 		CloseHandle(m_thrd);
+		m_thrd = INVALID_HANDLE_VALUE;
 	}
 	//m_notify->finished();
 	CDialog::OnCancel();

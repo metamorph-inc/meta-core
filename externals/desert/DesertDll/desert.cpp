@@ -873,10 +873,10 @@ closeDesertManageInstace()
 }
 
 DLL_DECL long
-Desert_getRealNoOfConfigurations()
+Desert_getRealNoOfConfigurations(volatile bool& cancel)
 {
 	try{
-		return CManager::theInstance->CalcRealNoOfConfigurations();
+		return CManager::theInstance->CalcRealNoOfConfigurations(cancel);
 	}
 	catch(CDesertException *e)
 	{

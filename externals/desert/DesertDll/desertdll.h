@@ -89,7 +89,7 @@ DLL_DECL bool DesertFinit_preApply();
 DLL_DECL void DesertFinit_Apply(const TCHAR *applyConstraints);
 DLL_DECL void * DesertFinit_postApply();
 DLL_DECL void closeDesertManageInstace();
-DLL_DECL long Desert_getRealNoOfConfigurations();
+DLL_DECL long Desert_getRealNoOfConfigurations(volatile bool& cancel);
 DLL_DECL void Desert_goBack();
 DLL_DECL void Desert_goForward();
 DLL_DECL bool isDesertBackNavigable();

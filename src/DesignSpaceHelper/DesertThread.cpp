@@ -81,7 +81,8 @@ void DesertThread::RunDesert()
 			{
 				m_notify->reportStatus(SD_APPLY);
 				DesertFinit_Apply(utf82cstring(m_constraints));
-				m_configCount = Desert_getRealNoOfConfigurations();
+				m_notify->reportStatus(SD_COUNT);
+				m_configCount = Desert_getRealNoOfConfigurations(m_notify->m_cancel);
 			}
 			else
 			{

@@ -207,7 +207,7 @@ public:
 	DESERT_API CBdd MaptoBdd(CBdd& parentEncoding, int prop, ...);
 	DESERT_API CBdd MaptoBdd_0(CBdd& parentEncoding, int prop, va_list ap);
 	bool Restrict(CBdd& res);
-	bool NotRedundant(const boost::dynamic_bitset<>& enc);
+	bool NotRedundant(int* enc);
 	DESERT_API CCosmic* Domain();
 	DESERT_API CCosmicList* Children();
 	ClData Eval(const CCosmic *other) const;

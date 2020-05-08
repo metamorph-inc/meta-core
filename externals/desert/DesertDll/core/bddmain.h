@@ -58,8 +58,9 @@ public:
 
  
   static CBdd QuantifyPropertyExistentially(const TCHAR *name, CBdd func, int idx);
-  static int  Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, const boost::dynamic_bitset<>&), void* arg);
-  static void ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, const boost::dynamic_bitset<>&), void* arg);
+  static int  Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, int*), void* arg, volatile bool& cancel);
+  static void ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, int*), void* arg);
+  static void ExpandDontCare2(int *enc, std::deque<boost::dynamic_bitset<>>& encVectors, int(*filter)(void*, int*), void* arg, volatile bool& cancel);
 
 public:
   // generate bdd for z_vec = y_vec + x_vec

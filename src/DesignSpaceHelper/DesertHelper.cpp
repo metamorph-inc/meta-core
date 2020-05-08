@@ -1855,7 +1855,8 @@ long DesertHelper::getRealConfigCount()
 void DesertHelper::updateRealNoOfConfigurationsCount()
 {
 	try{
-		this->m_realConfigCount = Desert_getRealNoOfConfigurations();
+		bool cancel = false;
+		this->m_realConfigCount = Desert_getRealNoOfConfigurations(cancel);
 	}
 	catch(CDesertException *e)
 	{

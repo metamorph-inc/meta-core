@@ -3291,7 +3291,7 @@ PCMMul_0(int limit, const TCHAR *propName)
 
 bool
 CDynElement::
-NotRedundant(const boost::dynamic_bitset<>& enc)
+NotRedundant(int* enc)
 {
   // suspicious code -- check this for potential problems
 

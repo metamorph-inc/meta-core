@@ -197,6 +197,7 @@ public:
 
 	bool HasGenerations();
 	long CalcRealNoOfConfigurations();
+	long CalcRealNoOfConfigurations(volatile bool& cancel);
 
 	void* BuildConfigurationsCallbackFunctionArg;
 	int(*BuildConfigurationsCallbackFunction)(void*, const BackIfaceFunctions::DBConfiguration&);

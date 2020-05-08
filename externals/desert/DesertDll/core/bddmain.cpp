@@ -109,7 +109,7 @@ CBdd CBdd::Encode(CVIndex enc[], int len)
   return CBdd(ret);
 }
 
-int CBdd::Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int (*callback)(void*, const boost::dynamic_bitset<>&), void* arg)
+int CBdd::Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int (*callback)(void*, int*), void* arg, volatile bool& cancel)
 {
 	/*
 	The function Satisfy fills up and returns a list of bitvectors. 
@@ -145,36 +145,51 @@ int CBdd::Satisfy(CBdd& b, std::deque<boost::dynamic_bitset<>>& encVectors, int 
     {
       for (int i=0; i<rows; i++)
       {
-        ExpandDontCare(mat[i], 0, encVectors, callback, arg);
-        // mat[i] is allocated in bdd_sat_f_mat
+// #define DontCareDebug
+#ifdef DontCareDebug
+		  std::deque<boost::dynamic_bitset<>> encVectors2 = encVectors;
+		  ExpandDontCare(mat[i], 0, encVectors2, callback, arg);
+#endif
+		  if (!cancel) {
+			  ExpandDontCare2(mat[i], encVectors, callback, arg, cancel);
+		  }
+#ifdef DontCareDebug
+		  if (encVectors != encVectors2) {
+			  DebugBreak();
+		  }
+#endif
+		  // mat[i] is allocated in bdd_sat_f_mat
         free(mat[i]);
       }
     }
 
     delete[] mat;
   }
+  if (cancel) {
+	  return DESIGN_SPACE_TOO_LARGE;
+  }
 
   return encVectors.size();
 }
 
-void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*callback)(void*, const boost::dynamic_bitset<>&), void* arg)
+void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>& encVectors, int(*callback)(void*, int*), void* arg)
 {
 	/*
 	enumerate the  dont care's
 	*/
   if (cur == length)
   {
-	  boost::dynamic_bitset<> bs(length);
-	  for (int i = 0; i < length; i++)
-	  {
+	  if (callback == NULL || (*callback)(arg, enc)) {
+		  boost::dynamic_bitset<> bs(length);
+		  for (int i = 0; i < length; i++)
+		  {
 #ifdef _DEBUG
-		  if (enc[i] != 0 && enc[i] != 1)
-			  throw std::runtime_error("Internal error 162");
+			  if (enc[i] != 0 && enc[i] != 1)
+				  throw std::runtime_error("Internal error 162");
 #endif
-		  bs.set(i, (bool)enc[i]);
-	  }
-	  if (callback == NULL || (*callback)(arg, bs)) {
-		encVectors.emplace_back(std::move(bs));
+			  bs.set(i, (bool)enc[i]);
+		  }
+		  encVectors.emplace_back(std::move(bs));
 	  }
   } else if (enc[cur] == -1) {
     enc[cur] = 0;
@@ -185,5 +200,75 @@ void CBdd::ExpandDontCare(int *enc, int cur, std::deque<boost::dynamic_bitset<>>
   } else {
     ExpandDontCare(enc, cur + 1, encVectors, callback, arg);
   }
+}
+
+void CBdd::ExpandDontCare2(int *enc, std::deque<boost::dynamic_bitset<>>& encVectors, int(*callback)(void*, int*), void* arg, volatile bool& cancel)
+{
+	// iterative version of ExpandDontCare: should produce same results faster
+	int cur = 0;
+	std::vector<int> orig_enc;
+	orig_enc.resize(length);
+	std::copy(enc, enc + length, orig_enc.begin());
+	while (true) {
+		if (orig_enc[cur] == -1) {
+			if (enc[cur] == -1) {
+				enc[cur] = 0;
+				cur++;
+			}
+			else if (enc[cur] == 0) {
+				enc[cur] = 1;
+				cur++;
+			}
+			else if (enc[cur] == 1) {
+				enc[cur] = -1;
+				cur--;
+				while (true) {
+					if (cur == -1) {
+						return;
+					}
+					if (orig_enc[cur] != -1) {
+						cur--;
+					}
+					else {
+						break;
+					}
+				}
+			}
+		}
+		else {
+			cur++;
+		}
+		if (cur == length)
+		{
+			if (cancel) {
+				return;
+			}
+			if (callback == NULL || (*callback)(arg, enc)) {
+				boost::dynamic_bitset<> bs(length);
+				for (int i = 0; i < length; i++)
+				{
+#ifdef _DEBUG
+					if (enc[i] != 0 && enc[i] != 1)
+						throw std::runtime_error("Internal error 162");
+#endif
+					bs.set(i, (bool)enc[i]);
+				}
+				encVectors.emplace_back(std::move(bs));
+			}
+
+			cur--;
+			while (true) {
+				if (cur == -1) {
+					return;
+				}
+				if (orig_enc[cur] != -1) {
+					cur--;
+				}
+				else {
+					break;
+				}
+			}
+		}
+	}
 }
 
