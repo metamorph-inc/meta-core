@@ -64,6 +64,9 @@ CManager() : CCosmic()
   ui_refresh_needed = true;
   currentGenerationPosition = NULL;
   designSpaceSize = 0;
+  for (int i = 0; i < _countof(realNoOfConfigs); i++) {
+	  realNoOfConfigs[i] = DESIGN_SPACE_SIZE_NOT_COMPUTED;
+  }
 
   ClFunction::CreateAll();
 }
@@ -1609,8 +1612,11 @@ long CManager::CalcRealNoOfConfigurations(volatile bool& cancel)
 {
 	if (generations.IsEmpty()) GenerateNextHierarchy();
 
-	GET_CURRENTGENERATION
+	GET_CURRENTGENERATION;
 
+	if (realNoOfConfigs[currentGeneration] != DESIGN_SPACE_SIZE_NOT_COMPUTED) {
+		return realNoOfConfigs[currentGeneration];
+	}
 	// get design space and constraints corresponding to the current generation
 	CDynSpaceList& spaces = dynSpaces[currentGeneration];
 	CDynConstraintSetList& consets = dynConstraintSets[currentGeneration];
@@ -1698,6 +1704,7 @@ long CManager::CalcRealNoOfConfigurations(volatile bool& cancel)
 				if (count == DESIGN_SPACE_TOO_LARGE) {
 					CBdd::Finit();
 					toSet->RemoveAll();
+					realNoOfConfigs[currentGeneration] = DESIGN_SPACE_TOO_LARGE;
 					return DESIGN_SPACE_TOO_LARGE;
 				}
 			} //eo while(pos)
@@ -1718,6 +1725,7 @@ long CManager::CalcRealNoOfConfigurations(volatile bool& cancel)
 
 	toSet->RemoveAll();
 
+	realNoOfConfigs[currentGeneration] = totalNoOfConfigs;
 	return totalNoOfConfigs;
 }
 

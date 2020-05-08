@@ -48,6 +48,8 @@ private:
 	CDynElementContainerList dynContainers[MAX_GENERATIONS];
 	CDynConstraintSetList dynConstraintSets[MAX_GENERATIONS];
 
+	_int64 realNoOfConfigs[MAX_GENERATIONS];
+
 	//current generation
 	POSITION currentGenerationPosition;
 

@@ -5,6 +5,7 @@
 #define DEFS_H
 
 #define DESIGN_SPACE_TOO_LARGE -2
+#define DESIGN_SPACE_SIZE_NOT_COMPUTED -3
 
 #include <afxtempl.h>
 
