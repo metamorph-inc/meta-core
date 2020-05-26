@@ -162,11 +162,23 @@ namespace CyPhyPET.Rules
             {
                 var feedback = new GenericRuleFeedback()
                 {
-                    FeedbackType = FeedbackTypes.Error,
+                    FeedbackType = FeedbackTypes.Warning,
                     InvolvedObjectsByRole = null,
-                    Message = string.Format("PET requires unique names. Duplicate Names: {0}: {1}", group.Key, String.Join(",", group.Select(pair => pair.Item2).ToArray()))
+                    Message = string.Format(
+                        "PET requires unique names. Duplicate Names: {0}: {1}",
+                        group.Key, String.Join(",", group.Select(pair => pair.Item2).ToArray()))
                 };
                 result.Add(feedback);
+            }
+            if (result.Count() > 0)
+            {
+                var feedback = new GenericRuleFeedback()
+                {
+                    FeedbackType = FeedbackTypes.Warning,
+                    InvolvedObjectsByRole = null,
+                    Message = "Values in Merged PET file for variables with conflicting names may not get associated corretly"
+                };
+                result.Insert(0, feedback);
             }
 
             return result;
