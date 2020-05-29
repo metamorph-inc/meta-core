@@ -220,6 +220,9 @@ namespace CyPhyComponentAuthoring.Modules
                             var result = progress.ShowDialog((IWin32Window)sender);
                             if (result == DialogResult.Cancel)
                             {
+                                firstProc.Kill();
+                                firstProc.WaitForExit();
+                                this.Logger.WriteInfo("CAD model import cancelled by user.");
                                 cleanup(null, true);
                                 return;
                             }
