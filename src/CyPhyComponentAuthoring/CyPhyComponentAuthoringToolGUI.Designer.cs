@@ -33,9 +33,9 @@
             this.CatModuleListView = new System.Windows.Forms.ListView();
             this.ComponentIconList = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ModuleNameLabel = new System.Windows.Forms.TextBox();
             this.RunToolButton = new System.Windows.Forms.Button();
             this.ModuleDetailsTextBox = new System.Windows.Forms.TextBox();
-            this.ModuleNameLabel = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -84,6 +84,20 @@
             this.splitContainer1.SplitterDistance = 527;
             this.splitContainer1.TabIndex = 2;
             // 
+            // ModuleNameLabel
+            // 
+            this.ModuleNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModuleNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ModuleNameLabel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.ModuleNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModuleNameLabel.Location = new System.Drawing.Point(6, 3);
+            this.ModuleNameLabel.Multiline = true;
+            this.ModuleNameLabel.Name = "ModuleNameLabel";
+            this.ModuleNameLabel.ReadOnly = true;
+            this.ModuleNameLabel.Size = new System.Drawing.Size(227, 20);
+            this.ModuleNameLabel.TabIndex = 3;
+            // 
             // RunToolButton
             // 
             this.RunToolButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -110,20 +124,6 @@
             this.ModuleDetailsTextBox.ReadOnly = true;
             this.ModuleDetailsTextBox.Size = new System.Drawing.Size(227, 331);
             this.ModuleDetailsTextBox.TabIndex = 1;
-            // 
-            // ModuleNameLabel
-            // 
-            this.ModuleNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ModuleNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ModuleNameLabel.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ModuleNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ModuleNameLabel.Location = new System.Drawing.Point(6, 3);
-            this.ModuleNameLabel.Multiline = true;
-            this.ModuleNameLabel.Name = "ModuleNameLabel";
-            this.ModuleNameLabel.ReadOnly = true;
-            this.ModuleNameLabel.Size = new System.Drawing.Size(227, 20);
-            this.ModuleNameLabel.TabIndex = 3;
             // 
             // CyPhyComponentAuthoringToolGUI
             // 
