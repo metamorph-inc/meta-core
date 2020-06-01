@@ -41,6 +41,8 @@ namespace CyPhyComponentAuthoring.Modules
         private bool Close_Dlg;
         private object sender;
 
+        private bool cadImportProgressDialogCancelled;
+
         [CyPhyComponentAuthoringInterpreter.CATName(
                 NameVal = "Add CAD",
                 DescriptionVal = "Import an existing Creo CAD model and associate it with this CyPhy Component.  You must have Creo installed on this machine to convert the model file.",
@@ -143,20 +145,29 @@ namespace CyPhyComponentAuthoring.Modules
                         int streamsClosed = 0;
                         StringBuilder exeConsoleOutput = new StringBuilder();
 
+                        object cancelledLock = new Object();
+                        cadImportProgressDialogCancelled = false;
+
                         DataReceivedEventHandler handler = (sender, e) =>
                         {
-                            lock (Logger)
+                            lock (cancelledLock)
                             {
-                                if (e.Data == null)
+                                if (!cadImportProgressDialogCancelled)
                                 {
-                                    streamsClosed += 1;
-                                    if (streamsClosed == 2)
+                                    lock (Logger)
                                     {
+                                        if (e.Data == null)
+                                        {
+                                            streamsClosed += 1;
+                                            if (streamsClosed == 2)
+                                            {
+                                            }
+                                            return;
+                                        }
+                                        Logger.WriteDebug(e.Data);
+                                        exeConsoleOutput.AppendLine(e.Data);
                                     }
-                                    return;
                                 }
-                                Logger.WriteDebug(e.Data);
-                                exeConsoleOutput.AppendLine(e.Data);
                             }
                         };
                         firstProc.OutputDataReceived += handler;
@@ -220,8 +231,10 @@ namespace CyPhyComponentAuthoring.Modules
                             var result = progress.ShowDialog((IWin32Window)sender);
                             if (result == DialogResult.Cancel)
                             {
-                                firstProc.Kill();
-                                firstProc.WaitForExit();
+                                lock (cancelledLock)
+                                {
+                                    cadImportProgressDialogCancelled = true;
+                                }
                                 this.Logger.WriteInfo("CAD model import cancelled by user.");
                                 cleanup(null, true);
                                 return;
