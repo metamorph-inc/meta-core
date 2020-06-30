@@ -113,7 +113,7 @@ class TestBenchComponent(Component):
                         # destination_component should possibly be an IndepVarComp from a ProblemInput. We don't need to handle this case
                         # destination_component should possibly be an IndepVarComp designVariable. We don't need to handle this case
                         continue
-                    for parameter_name, parameter in six.iteritems(destination_component['parameters']):
+                    for parameter_name, parameter in six.iteritems(destination_component.get('parameters', {})):
                         if parameter['source'] == [self.name, metric_name]:
                             mdao_parameter = mdao_component._init_params_dict[_get_param_name(parameter_name, destination_component.get('type'))]
                             for key in ('val', 'shape'):

@@ -4,10 +4,12 @@ import json
 import os.path
 import csv
 import shutil
+import io
 
 from openmdao.util.array_util import evenly_distrib_idxs
 
 from openmdao.core.mpi_wrap import MPI
+import six
 from six.moves import range
 
 
@@ -45,7 +47,12 @@ class RestartRecorder(object):
 
     @classmethod
     def serialize_runlist(cls, original_dir, runlist, comm_size):
-        with open(os.path.join(original_dir, RestartRecorder.RESTART_RUNLIST_FILENAME), 'w') as restart_runlist:
+        output_filename = os.path.join(original_dir, RestartRecorder.RESTART_RUNLIST_FILENAME)
+        if six.PY2:
+            output_file = open(output_filename, 'wb')
+        else:
+            output_file = io.open(output_filename, 'w', newline='')
+        with output_file as restart_runlist:
             restart_runlist.write(str(len(runlist)) + '\n')
             writer = csv.writer(restart_runlist)
             header = list(p[0] for p in runlist[0])
