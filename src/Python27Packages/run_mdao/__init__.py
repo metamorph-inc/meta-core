@@ -473,24 +473,27 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
 
     def add_recorders():
         recorders = []
-        design_var_map = {get_desvar_path(designVariable): designVariable for designVariable in driver['designVariables']}
-        objective_map = {'{}.{}'.format(objective['source'][0], objective['source'][1]): objective_name for objective_name, objective in six.iteritems(driver['objectives'])}
-        intermediate_var_map = {'{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]): intermediate_var_name for intermediate_var_name, intermediate_var in six.iteritems(driver.get('intermediateVariables', {}))}
-        constants_map = {}
-        for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
-            constants_map.update({'{}.{}'.format(name, unknown): unknown for unknown in constant['unknowns']})
-
-        constraints_map = {'{}.{}'.format(constraint['source'][0], constraint['source'][1]): constraint_name for constraint_name, constraint in six.iteritems(driver.get('constraints', {})) if constraint['source'][0] not in mdao_config['drivers']}  # All constraints that don't point back to design variables
 
         unknowns_map = defaultdict(list)
-        def add_to_unknowns(map):
-            for key, val in six.iteritems(map):
-                unknowns_map[key].append(val)
-        add_to_unknowns(design_var_map)
-        add_to_unknowns(objective_map)
-        add_to_unknowns(intermediate_var_map)
-        add_to_unknowns(constants_map)
-        add_to_unknowns(constraints_map)
+        def update_unknowns(key, val):
+            unknowns_map[key].append(val)
+
+        for designVariable in driver['designVariables']:
+            update_unknowns(get_desvar_path(designVariable), designVariable)
+
+        for objective_name, objective in six.iteritems(driver['objectives']):
+            update_unknowns('{}.{}'.format(objective['source'][0], objective['source'][1]), objective_name)
+
+        for intermediate_var_name, intermediate_var in six.iteritems(driver.get('intermediateVariables', {})):
+            update_unknowns('{}.{}'.format(intermediate_var['source'][0], intermediate_var['source'][1]), intermediate_var_name)
+
+        for name, constant in (c for c in six.iteritems(mdao_config['components']) if c[1].get('type', 'TestBenchComponent') == 'IndepVarComp'):
+            for unknown in constant['unknowns']:
+                update_unknowns('{}.{}'.format(name, unknown), unknown)
+
+        for constraint_name, constraint in six.iteritems(driver.get('constraints', {})):
+            if constraint['source'][0] not in mdao_config['drivers']: # All constraints that don't point back to design variables
+                update_unknowns('{}.{}'.format(constraint['source'][0], constraint['source'][1]), constraint_name)
 
         new_unknowns_map = defaultdict(list)
         # Locate/fix any unknowns that point to subproblem outputs
@@ -517,7 +520,13 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
                     open_kwargs = {}
                 else:
                     open_kwargs = {'newline': ''}
-                recorder = MappingCsvRecorder({}, unknowns_map, io.open(recorder['filename'], mode, **open_kwargs), include_id=recorder.get('include_id', False))
+                if "class" in recorder:
+                    mod_name = '.'.join(recorder['class'].split('.')[:-1])
+                    class_name = recorder['class'].split('.')[-1]
+                    recorder_class = getattr(importlib.import_module(mod_name), class_name)
+                else:
+                    recorder_class = MappingCsvRecorder
+                recorder = recorder_class({}, unknowns_map, io.open(recorder['filename'], mode, **open_kwargs), include_id=recorder.get('include_id', False))
                 if (append_csv and exists) or mode == 'ab':
                     recorder._wrote_header = True
             elif recorder['type'] == 'AllCsvRecorder':
@@ -540,6 +549,7 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
                 recorder = getattr(importlib.import_module(mod_name), class_name)()
 
             top.driver.add_recorder(recorder)
+            recorders.append(recorder)
         return recorders
 
     if is_subproblem:
