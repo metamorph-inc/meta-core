@@ -41,6 +41,14 @@ namespace CyPhyMdaoAddOn
                 Marshal.FinalReleaseComObject(addon);
                 addon = null;
             }
+            else if (@event == globalevent_enum.APPEVENT_XML_IMPORT_BEGIN)
+            {
+                isXMLImportInProgress = true;
+            }
+            else if (@event == globalevent_enum.APPEVENT_XML_IMPORT_END)
+            {
+                isXMLImportInProgress = false;
+            }
             if (!componentEnabled)
             {
                 return;
@@ -73,19 +81,15 @@ namespace CyPhyMdaoAddOn
                 GMEConsole = GMEConsole.CreateFromProject(subject.Project);
             }
 
-            // TODO: Handle object events (OR eventMask with the members of objectevent_enum)
             // Warning: Only those events are received that you have subscribed for by setting ComponentConfig.eventMask
-            uint uOBJEVENT_ATTR = 0;
             uint uOBJEVENT_CREATED = 0;
-            uint uOBJEVENT_NEWCHILD = 0;
-            uint uOBJEVENT_LOSTCHILD = 0;
-            uint uOBJEVENT_OPENMODEL = 0;
-
-            unchecked { uOBJEVENT_ATTR = (uint)objectevent_enum.OBJEVENT_ATTR; }
             unchecked { uOBJEVENT_CREATED = (uint)objectevent_enum.OBJEVENT_CREATED; }
-            unchecked { uOBJEVENT_NEWCHILD = (uint)objectevent_enum.OBJEVENT_NEWCHILD; }
-            unchecked { uOBJEVENT_LOSTCHILD = (uint)objectevent_enum.OBJEVENT_LOSTCHILD; }
-            unchecked { uOBJEVENT_OPENMODEL = (uint)objectevent_enum.OBJEVENT_OPENMODEL; }
+
+            uint uOBJEVENT_ATTR = (uint)objectevent_enum.OBJEVENT_ATTR;
+            uint uOBJEVENT_NEWCHILD = (uint)objectevent_enum.OBJEVENT_NEWCHILD;
+            uint uOBJEVENT_LOSTCHILD = (uint)objectevent_enum.OBJEVENT_LOSTCHILD;
+            uint uOBJEVENT_OPENMODEL = (uint)objectevent_enum.OBJEVENT_OPENMODEL;
+            uint uOBJEVENT_DESTROYED = (uint)objectevent_enum.OBJEVENT_DESTROYED;
 
             if ((eventMask & uOBJEVENT_CREATED) != 0)
             {
@@ -116,6 +120,10 @@ namespace CyPhyMdaoAddOn
             else if ((eventMask & uOBJEVENT_ATTR) != 0)
             {
                 this.DisplayPCCIterations(subject, true);
+                if ((eventMask & uOBJEVENT_DESTROYED) == 0)
+                {
+                    this.SwapParameterStudyCode(subject, param);
+                }
 
                 if (subject.MetaBase.Name == "ValueFlow")
                 {
@@ -156,6 +164,74 @@ namespace CyPhyMdaoAddOn
             }
             //MessageBox.Show(eventMask.ToString());
 
+        }
+
+        private void SwapParameterStudyCode(MgaObject subject, object param)
+        {
+            if (isXMLImportInProgress)
+            {
+                return;
+            }
+            string reg_name = "/code_by_type";
+            if (subject.MetaBase.Name != "ParameterStudy")
+            {
+                return;
+            }
+            MgaFCO fco = (MgaFCO)subject;
+            if (param is object[])
+            {
+                object[] attrs = (object[])param;
+                string prev_DOEType = null;
+                string prev_Code = null;
+                for (int i = 0; i + 1< attrs.Length; i += 2)
+                {
+                    if (attrs[i] is string && attrs[i + 1] is string)
+                    {
+                        string name = (string)attrs[i];
+                        string prev_value = (string)attrs[i + 1];
+                        string prefix = "ATTR:";
+                        if (name.StartsWith(prefix))
+                        {
+                            name = name.Substring(prefix.Length);
+                            if (name == "DOEType")
+                            {
+                                prev_DOEType = prev_value;
+                            }
+                            if (name == "Code")
+                            {
+                                prev_Code = prev_value;
+                            }
+                        }
+                    }
+                }
+                Dictionary<string, string> codeByType = new Dictionary<string, string>();
+                try
+                {
+                    codeByType = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(fco.GetRegistryValueDisp(reg_name) ?? "{}");
+                }
+                catch (Newtonsoft.Json.JsonException ex)
+                {
+                }
+                if (prev_Code != null && prev_DOEType == null)
+                {
+                    codeByType[fco.GetStrAttrByNameDisp("DOEType")] = fco.GetStrAttrByNameDisp("Code");
+                }
+                if (prev_DOEType != null)
+                {
+                    codeByType[prev_DOEType] = prev_Code ?? fco.GetStrAttrByNameDisp("Code");
+                    string Code;
+                    if (codeByType.TryGetValue(fco.GetStrAttrByNameDisp("DOEType"), out Code)
+                        && Code != fco.GetStrAttrByNameDisp("Code"))
+                    {
+                        fco.SetStrAttrByNameDisp("Code", Code);
+                    }
+                }
+                string serialized = Newtonsoft.Json.JsonConvert.SerializeObject(codeByType);
+                if (serialized != fco.GetRegistryValueDisp(reg_name))
+                {
+                    fco.SetRegistryValueDisp(reg_name, serialized);
+                }
+            }
         }
 
         private void DisplayPCCIterations(MgaObject subject, bool attributeChanged)
@@ -378,6 +454,7 @@ namespace CyPhyMdaoAddOn
 
         #region Custom Parameters
         SortedDictionary<string, object> componentParameters = null;
+        private bool isXMLImportInProgress = false;
 
         public object get_ComponentParameter(string Name)
         {
