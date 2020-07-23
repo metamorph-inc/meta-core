@@ -78,6 +78,13 @@ namespace PythonTest
                     "omniORB.CORBA", // needed by py_modelica_exporter for openmodelica
                     "run_mdao",
                     "run_mdao.cad.update_parameters",
+                    // importing these tests code in sitecustomize.py
+                    // (these may fail only if there's another version of pywintypes27.dll or pythoncom27.dll in c:\Windows\SysWOW64)
+                    "win32api",
+                    "win32file",
+                    "pythoncom",
+                    "_win32sysloader",
+
                     "testbenchexecutor",
                     "excel_wrapper",
                     "matlab_wrapper",
