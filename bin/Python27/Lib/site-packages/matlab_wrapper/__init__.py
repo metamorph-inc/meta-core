@@ -7,6 +7,7 @@ import json
 import re
 import six
 import difflib
+import sys
 
 import smop
 import smop.parse
@@ -78,6 +79,7 @@ class MatlabWrapper(Component):
         if start_engine:
             from matlab_proxy import get_matlab_engine
             self.eng = get_matlab_engine()
+
             if self.eng is None:
                 self.eng = SMOPEngine()
             self.eng.addpath(os.path.dirname(os.path.abspath(mFile)), nargout=0)
@@ -101,11 +103,8 @@ class MatlabWrapper(Component):
                 except ValueError as e:
                     six.reraise(ValueError, ValueError('Could not set output {}.{}: {}'.format(self.name, name, e.message)))
 
-        out = six.StringIO()
-        err = six.StringIO()
-
         try:
-            outputs = getattr(self.eng, self.basename)(args, nargout=len(self._output_names), bare=self.bare, stdout=out, stderr=err,
+            outputs = getattr(self.eng, self.basename)(args, nargout=len(self._output_names), bare=self.bare, stdout=sys.stdout, stderr=sys.stderr,
                 input_names=self._input_names, output_names=self._output_names)
         except AnalysisError as e:
             print('Error in {}: {}'.format(self.name, e.message))

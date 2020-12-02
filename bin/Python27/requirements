@@ -69,8 +69,8 @@ backports.functools_lru_cache
 networkx==1.11
 requests
 # https://github.com/metamorph-inc/matlab_wrapper/releases
-matlab_wrapper==0.9
-matlab_proxy==0.9
+matlab_wrapper==0.10
+matlab_proxy==0.10
 
 # For run_mdao status updates
 grpcio==1.27.2

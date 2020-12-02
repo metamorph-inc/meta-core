@@ -138,7 +138,13 @@ class EngineProxyServer(object):
                                     'MATLAB fields must contain 63 characters or fewer.')
                     raise
 
-            getattr(self.engine, name)(nargout=nargout, stdout=out, stderr=err)
+            try:
+                getattr(self.engine, name)(nargout=nargout, stdout=out, stderr=err)
+            except Exception as e:
+                e.matlab_proxy_stdout = out.getvalue()
+                e.matlab_proxy_stderr = err.getvalue()
+                raise
+
             outputs = []
 
             for output_name in output_names:
@@ -147,7 +153,13 @@ class EngineProxyServer(object):
                 outputs.append(output)
             # open('debug.txt', 'a').write(repr(outputs) + '\n')
         else:
-            outputs = getattr(self.engine, name)(*args, nargout=nargout, stdout=out, stderr=err)
+            try:
+                outputs = getattr(self.engine, name)(*args, nargout=nargout, stdout=out, stderr=err)
+            except Exception as e:
+                e.matlab_proxy_stdout = out.getvalue()
+                e.matlab_proxy_stderr = err.getvalue()
+                raise
+
             if type(outputs) == tuple:
                 outputs = tuple(map(convert_to_list, outputs))
             else:
@@ -196,12 +208,24 @@ class EngineProxyClient(object):
             kwargs = {k: transcode(v) for k, v in kwargs.iteritems()}
 
             # need to pickle here in case args contains type information lost during json transform (eg. int vs float)
-            ret = self.proxy.invoke(name, b64encode(pickle.dumps(args)), kwargs.get('nargout'), bare=kwargs['bare'],
-                input_names=kwargs['input_names'], output_names=kwargs['output_names'])
-            for output in ('stdout', 'stderr'):
-                stdout = kwargs.get(output)
+            try:
+                ret = self.proxy.invoke(name, b64encode(pickle.dumps(args)), kwargs.get('nargout'), bare=kwargs['bare'],
+                    input_names=kwargs['input_names'], output_names=kwargs['output_names'])
+                for output in ('stdout', 'stderr'):
+                    stdout = kwargs.get(output)
+                    if stdout:
+                        stdout.write(ret[output])
+            except Exception as e:
+                stdout = kwargs.get("stdout")
                 if stdout:
-                    stdout.write(ret[output])
+                    stdout.write(getattr(e, "matlab_proxy_stdout", ""))
+
+                stdout = kwargs.get("stderr")
+                if stdout:
+                    stdout.write(getattr(e, "matlab_proxy_stderr", ""))
+
+                raise
+
 
             return pickle.loads(ret["output"])
 
@@ -271,7 +295,10 @@ def get_engine_proxy(MATLABROOT, python_exe, target_architecture):
         ret = pickle.loads(b64decode(json.loads(ret_str)))
         if e:
             if isinstance(e, AnalysisError):
+                original_exception = e
                 e = openmdao.api.AnalysisError(getattr(e, 'message', getattr(e, 'args', ['unknown MATLAB exception'])[0]))
+                e.matlab_proxy_stdout = getattr(original_exception, "matlab_proxy_stdout", "")
+                e.matlab_proxy_stderr = getattr(original_exception, "matlab_proxy_stderr", "")
             raise e
         return ret
 
@@ -409,7 +436,10 @@ if __name__ == '__main__':
             # traceback.print_exc(100, open('exception{}.txt'.format(method), 'w'))
             # n.b. consumer doesn't have these modules, so create an exception of a different type
             if type(e).__module__ in ('matlab', 'matlab.engine'):
+                original_exception = e
                 e = AnalysisError(getattr(e, 'message', getattr(e, 'args', ['unknown MATLAB exception'])[0]))
+                e.matlab_proxy_stdout = getattr(original_exception, "matlab_proxy_stdout", "")
+                e.matlab_proxy_stderr = getattr(original_exception, "matlab_proxy_stderr", "")
 
         sys.stdout.write(json.dumps(b64encode(pickle.dumps(e))) + '\n')
         # open('exception{}.txt'.format(method), 'w').write(pickle.dumps(ret))
