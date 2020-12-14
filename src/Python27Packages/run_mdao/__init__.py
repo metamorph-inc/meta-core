@@ -389,6 +389,13 @@ def with_problem(mdao_config, original_dir, override_driver=None, additional_rec
         component = mdao_config['components'][component_name]
         mdao_component = instantiate_component(component, component_name, mdao_config, root, subProblemOutputMeta)
         root.add(component_name, mdao_component)
+        # Create directories for output FileRefs
+        if is_testbenchcomponent(component_name):
+            # Only create subdirectories if an Output FileRef needs it
+            for k, v in mdao_component.manifest_fileoutputs.items():
+                if os.path.dirname(v['FileName']) != "":  # Note: https://stackoverflow.com/a/8384788 but OpenMETA runs only on Windows anyway
+                    mdao_component.create_dirs = True
+                    break
 
     for component_name, component in six.iteritems(mdao_config['components']):
         for parameter_name, parameter in six.iteritems(component.get('parameters', {})):

@@ -73,6 +73,8 @@ class MappingCsvRecorder(BaseRecorder):
         self.params_map = OrderedDict(((k, v) for k, v in sorted(six.iteritems(params_map))))
         self.unknowns_map = OrderedDict(((k, v) for k, v in sorted(six.iteritems(unknowns_map))))
 
+        pprint.pprint(unknowns_map)
+
         if out != sys.stdout:
             self.out = out
         self.writer = csv.writer(out)
