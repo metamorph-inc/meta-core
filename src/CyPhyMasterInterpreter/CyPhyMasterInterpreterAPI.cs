@@ -293,8 +293,6 @@
             };
 
             bool projectSaved = (context.Project.ProjectStatus & 4) == 0;
-            // FIXME this is unreliable with GME 20.2.12
-            projectSaved = true;
             using (ConfigurationSelectionForm selectionForm = new ConfigurationSelectionForm(getInput, enableDebugging, projectSaved))
             {
                 System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.DialogResult.None;
