@@ -18,12 +18,12 @@
 # unzip %userprofile%\Downloads\omniORBpy-4.2.0-win32-py27.zip -d bin\Python27\Lib\site-packages
 # copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omniORB420_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
 # copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omnithread40_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# comment out last line of pywin32.pth
+#   # import pywin32_bootstrap
 # git add -f --all bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\python bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
 # git clean -xdf bin\Python27\Lib\site-packages\omniORBpy-4.2.0
 # echo omniORBpy-4.2.0\lib\python > bin\Python27\Lib\site-packages\omniORBpy.pth
 # echo omniORBpy-4.2.0\lib\x86_win32 >> bin\Python27\Lib\site-packages\omniORBpy.pth
-# change last line of pywin32.pth to:
-#   import os;pywin32_system32=os.path.join(sitedir,"pywin32_system32");os.environ["PATH"]+=('' if pywin32_system32 in os.environ["PATH"] else (';'+pywin32_system32))
 
 
 # apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
@@ -44,7 +44,7 @@ decorator==4.0.4 # simviz
 lxml==3.6.1
 elementtree==1.2.7-20070827-preview
 mpmath==0.17 # PCC
-pywin32==223
+pywin32==228
 numpy==1.11.1+mkl
 scipy==0.18.0
 Cheetah==2.4.4
