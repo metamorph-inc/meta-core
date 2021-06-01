@@ -136,7 +136,10 @@ namespace CyPhyDesignImporter
                     avm.ConnectorCompositionTarget ad_compositionTarget1 = (avm.ConnectorCompositionTarget)obj.Key;
                     foreach (var ad_compositionTarget2ID in ad_compositionTarget1.ConnectorComposition.Where(id => string.IsNullOrEmpty(id) == false))
                     {
-                        var ad_compositionTarget2 = _idConnectorMap[ad_compositionTarget2ID];
+                        avm.ConnectorCompositionTarget ad_compositionTarget2;
+                        if (!_idConnectorMap.TryGetValue(ad_compositionTarget2ID, out ad_compositionTarget2)) {
+                            throw new ApplicationException(String.Format("Error: '{0}' connects to non-existant target '{1}'", ad_compositionTarget1.ID, ad_compositionTarget2ID));
+                        }
                         var cyphy_target = _avmCyPhyMLObjectMap[ad_compositionTarget2]; // TODO: handle lookup failure
                         if (string.Compare(ad_compositionTarget1.ID, ad_compositionTarget2.ID) < 0)
                         {
