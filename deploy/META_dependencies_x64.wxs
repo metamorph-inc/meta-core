@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='windows-1252'?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' RequiredVersion='3.0.4813.0'
+ xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+  <?define UpgradeCode='594e4853-071e-46ed-9be6-ead2a0df4487' ?>
+  <?define OpenMETADependenciesVersion='0.22.0' ?>
+
+  <Product Name='OpenMETA dependencies' Id='*' UpgradeCode='$(var.UpgradeCode)'
+      Language='1033' Codepage='1252' Version='$(var.OpenMETADependenciesVersion)' Manufacturer='MetaMorph, Inc; Vanderbilt University, ISIS'>
+
+    <Package Id='*' Description='OpenMETA dependencies'
+        Manufacturer='MetaMorph, Inc; Vanderbilt University, ISIS'
+        InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
+        InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
+    Comments='Created from $(var.VCSDESCRIPTION)'/>
+    <Property Id='ARPCOMMENTS'>OpenMETA dependencies $(var.VCSDESCRIPTION)</Property>
+
+    <!-- afterInstallValidate is the default -->
+    <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallValidate" />
+    <Upgrade Id='b2431dee-d4ce-455a-96ca-a7aed311c7eb'>
+      <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="$(var.OpenMETADependenciesVersion)" IncludeMaximum="no" Property="OLDPREVIOUSFOUND"/>
+    </Upgrade>
+    <CustomActionRef Id="WixExitEarlyWithSuccess"/>
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='SystemFolder' Name='SystemFolder'/>
+      <Directory Id='System64Folder' Name='System64Folder'/>
+    </Directory>
+
+    <Media Id='1' Cabinet='META_dependencies.cab' EmbedCab='yes' />
+
+    <ComponentGroup Id='META_dependencies'>
+    <Component Directory='System64Folder'>
+        <File Id='zlibwapi' Source='zlibwapi.dll' />
+    </Component>
+
+    <Component Id='xerces_c_x86' Directory='SystemFolder' Win64='no' Guid='11C1E35D-8685-550A-935E-48AB1AE2EF86'>
+        <File Id='xerces_c_x86' Source='xerces-c_2_8.dll' />
+    </Component>
+
+    <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
+        <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
+    </Component>
+</ComponentGroup>
+
+
+
+
+    <!-- =========================================================== -->
+    <!-- MERGE MODULES -->
+    <!-- =========================================================== -->
+    <DirectoryRef Id='TARGETDIR'>
+      <!-- Python -> CRT90 -->
+      <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId='1' />
+      <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId='1' />
+      <Merge Id="CRT100" Language="0" SourceFile="Microsoft_VC100_CRT_x86.msm" DiskId='1' />
+      <Merge Id="CRT100x64" Language="0" SourceFile="Microsoft_VC100_CRT_x64.msm" DiskId='1' />
+      <Merge Id="CRT110x64" Language="0" SourceFile="Microsoft_VC110_CRT_x64.msm" DiskId='1' />
+    </DirectoryRef>
+
+
+    <Feature Id='Complete' Title='META Dependencies' Description='META Dependencies' Display='expand' Level='1'>
+      <!-- udm.pyd depends on UdmDll_VC10 -->
+      <ComponentGroupRef Id='UdmDll_VS10x86' />
+      <ComponentGroupRef Id='UdmDll_VC11x64' />
+
+      <ComponentGroupRef Id='UdmDll_VC14x86' />
+      <ComponentGroupRef Id='META_dependencies' />
+
+      <MergeRef Id='CRT100x64' />
+      <MergeRef Id='CRT110x64' />
+      <MergeRef Id='CRT90' />
+      <MergeRef Id='CRT90_policy' />
+      <MergeRef Id='CRT100' />
+
+
+    </Feature>
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+      <InstallUISequence>
+        <Show Dialog="UserExit" OnExit="cancel">0</Show>
+      </InstallUISequence>
+    </UI>
+
+
+    </Product>
+</Wix>

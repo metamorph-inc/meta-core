@@ -12,16 +12,27 @@
         Manufacturer='Vanderbilt University, ISIS'
         InstallerVersion='405' Languages='1033' Compressed='yes' SummaryCodepage='1252'
         InstallPrivileges='elevated' InstallScope='perMachine' Platform='x64'
-		Comments='Created from $(var.VCSDESCRIPTION)'/>
+    Comments='Created from $(var.VCSDESCRIPTION)'/>
+    <Property Id='ARPCOMMENTS'>OpenMETA $(var.VCSDESCRIPTION)</Property>
 
-    <MajorUpgrade AllowDowngrades="yes" />
+
+    <!-- n.b Some .dlls aren't versioned properly (e.g. pywin32 v228 vs v223), so force reinstall. 
+    Windows Installer plans to not install the .dll ("Disallowing installation of component: {A69B0BBA-1267-55F5-8E6D-651058AC4A93} since the same component with higher versioned keyfile exists"), then RemoveExistingProducts removes the .dll
+    This .msi must not contain any shared .dlls, as they could be downgraded.
+    -->
+    <!-- schedule after FindRelatedProducts: WIX_UPGRADE_DETECTED is set there -->
+    <SetProperty Id="REINSTALLMODE" Value="amus" Before="AppSearch">
+      (ACTION="INSTALL") AND NOT (REMOVE="ALL") AND WIX_UPGRADE_DETECTED
+    </SetProperty>
+
+    <!-- afterInstallValidate is the default -->
+    <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallValidate" />
     <Upgrade Id="E7E2109B-6CEA-4D8C-B020-1F0588DA719A">
       <UpgradeVersion OnlyDetect="no" Minimum="0.0.1" IncludeMinimum="yes" Maximum="100.100.100" IncludeMaximum="no" Property="OLDPREVIOUSFOUND"/>
     </Upgrade>
     <CustomActionRef Id="WixExitEarlyWithSuccess"/>
-
+    
     <Media Id='1' Cabinet='META.cab' EmbedCab='yes' />
-    <Media Id='2' Cabinet='META_MMs.cab' EmbedCab='yes' />
     <Media Id='3' Cabinet='META_bin.cab' EmbedCab='yes' />
     <Media Id='4' Cabinet='META_CAD.cab' EmbedCab='yes' />
     <Media Id='5' Cabinet='META_analysis_tools.cab' EmbedCab='yes' />
@@ -40,7 +51,7 @@
       <![CDATA[Installed OR (WIX_DIR_COMMON_DOCUMENTS <> "")]]>
     </Condition>
 
-    <Property Id='META_FULLVERSION' Value='$(var.VCSDESCRIPTION))'/>
+    <Property Id='META_FULLVERSION' Value='$(var.VCSDESCRIPTION)'/>
 
     <Property Id='ARPPRODUCTICON' Value='META.ico' />
     <PropertyRef Id='WIX_DIR_COMMON_DOCUMENTS' />
@@ -119,32 +130,8 @@
     </Directory>
 
     <!-- =========================================================== -->
-    <!-- MERGE MODULES -->
-    <!-- =========================================================== -->
-    <DirectoryRef Id='TARGETDIR'>
-      <!-- Python -> CRT90 -->
-      <Merge Id="CRT90" Language="0" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT90_policy" Language="0" SourceFile="policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT100" Language="0" SourceFile="Microsoft_VC100_CRT_x86.msm" DiskId="2" />
-      <Merge Id="CRT100x64" Language="0" SourceFile="Microsoft_VC100_CRT_x64.msm" DiskId="2" />
-      <Merge Id="CRT110x64" Language="0" SourceFile="Microsoft_VC110_CRT_x64.msm" DiskId="2" />
-    </DirectoryRef>
-
-    <!-- =========================================================== -->
     <!-- COMPONENTS -->
     <!-- =========================================================== -->
-
-    <Component Directory='System64Folder'>
-        <File Id='zlibwapi' Source='zlibwapi.dll' />
-    </Component>
-
-    <Component Id='xerces_c_x86' Directory='SystemFolder' Win64='no' Guid='11C1E35D-8685-550A-935E-48AB1AE2EF86'>
-        <File Id='xerces_c_x86' Source='xerces-c_2_8.dll' />
-    </Component>
-
-    <Component Id='xerces_c_x64' Directory='System64Folder' Win64='yes' Guid='8FC5F01D-94BD-5EBE-B364-EC4024B7F976'>
-        <File Id='xerces_c_x64' Source='xerces-c_2_8_x64.dll' />
-    </Component>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{C5414B00-7AB4-47F4-85A9-A66ACFF764B2}">
@@ -164,9 +151,9 @@
             <RegistryValue Name='ConnStr' Type='string' Value='MGA=[INSTALLDIR_META]CyPhyML.mta'/>
           </RegistryKey>
         </RegistryKey>
-		<RegistryKey Root='HKCU' Key='Software\GME'>
-		  <RegistryValue Name='TimeStamping' Type='string' Value='1'/>
-		</RegistryKey>
+    <RegistryKey Root='HKCU' Key='Software\GME'>
+      <RegistryValue Name='TimeStamping' Type='string' Value='1'/>
+    </RegistryKey>
         <RemoveRegistryKey Id='RemoveUserCyPhyML' Action='removeOnInstall' Root='HKCU' Key='Software\GME\Paradigms\CyPhyML' />
       </Component>
       <Component Win64='no'>
@@ -367,9 +354,9 @@
       <ComponentGroupRef Id="python_packages"/>
 	  
       <ComponentGroupRef Id='CyPhyMasterInterpreter'/>
-	  <ComponentGroupRef Id='CyPhyPrepareIFab'/>
-	  <ComponentGroupRef Id='CyPhyCADAnalysis'/>
-	  <ComponentGroupRef Id='CyPhySoT'/>
+    <ComponentGroupRef Id='CyPhyPrepareIFab'/>
+    <ComponentGroupRef Id='CyPhyCADAnalysis'/>
+    <ComponentGroupRef Id='CyPhySoT'/>
       <ComponentGroupRef Id='JobManager'/>
       <ComponentRef Id='JobManagerLib.dll'/>
       <ComponentGroupRef Id='CyPhyGUIs'/>
@@ -429,18 +416,6 @@
         </Feature>
       </Feature>
 
-      <ComponentGroupRef Id='UdmDll_VS10x86' />
-      <ComponentGroupRef Id='UdmDll_VC11x64' />
-      <ComponentRef Id='zlibwapi' />
-
-      <ComponentGroupRef Id='UdmDll_VC14x86' />
-      <ComponentRef Id='xerces_c_x86' />
-      <ComponentRef Id='xerces_c_x64' />
-      <MergeRef Id='CRT100x64' />
-      <MergeRef Id='CRT110x64' />
-      <MergeRef Id='CRT90' />
-      <MergeRef Id='CRT90_policy' />
-      <MergeRef Id='CRT100' />
     </Feature>
 
     <!-- =========================================================== -->
