@@ -1521,17 +1521,13 @@ namespace CyPhyPET
             }
         }
 
-        private static string FormatDoubleForPython(double v)
+        public static string FormatDoubleForPython(double v)
         {
             if (Double.IsNaN(v))
             {
                 return "float(\"nan\")";
             }
-            // (0.0).ToString returns 0, which Python parses as int
-            if (v == Math.Floor(v))
-            {
-                return v.ToString() + ".0";
-            }
+
             if (Double.IsPositiveInfinity(v))
             {
                 return "float(\"inf\")";
@@ -1540,9 +1536,15 @@ namespace CyPhyPET
             {
                 return "float(\"-inf\")";
             }
+            string toString = v.ToString(CultureInfo.InvariantCulture.NumberFormat);
+            // (0.0).ToString returns 0, which Python parses as int
+            if (v == Math.Floor(v) && toString.IndexOf('E') == -1)
+            {
+                return toString + ".0";
+            }
 
-            // G17 ensures enough precision to parse the same value
-            return v.ToString("G17", CultureInfo.InvariantCulture);
+            // E17 ensures enough precision to parse the same value
+            return v.ToString("E17", CultureInfo.InvariantCulture.NumberFormat);
         }
 
         private static ISet<string> GetDerivedTypeNames(Type type)

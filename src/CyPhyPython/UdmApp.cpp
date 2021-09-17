@@ -282,13 +282,25 @@ PythonCleanup LoadPython() {
 	return PythonCleanup(gstate, python_dll);
 }
 
-extern "C" __declspec(dllexport) BSTR __stdcall GetExpressionParseError(BSTR expression) {
+template<typename F>
+auto __stdcall EvalPython(BSTR expression, BSTR* error, F return_value_processor) {
 	try {
 		auto meta_path = GetMetaPath();
 		auto cleanup = LoadPythonDll(meta_path);
 		auto cleanup2 = LoadPython();
 
 		// n.b. do not import site here without the setup done in Main()
+// #define NO_SITE_IMPORTED
+#ifdef NO_SITE_IMPORTED
+		PyObject* site;
+		{
+			PyObject_RAII sys = PyImport_ImportModule("sys");
+			PyObject* sys_namespace = PyModule_GetDict(sys);
+			PyObject* modules_dict = PyDict_GetItemString(sys_namespace, "modules");
+			site = PyDict_GetItemString(modules_dict, "site");
+		}
+#endif
+
 		PyObject_RAII namespace_ = PyDict_New();
 		PyDict_SetItemString(namespace_, "__builtins__", PyEval_GetBuiltins());
 
@@ -299,11 +311,46 @@ extern "C" __declspec(dllexport) BSTR __stdcall GetExpressionParseError(BSTR exp
 		{
 			throw python_error(GetPythonError());
 		}
+		return_value_processor(static_cast<PyObject*>(ret));
+
+#ifdef NO_SITE_IMPORTED
+		PyObject* new_site;
+		{
+			PyObject_RAII sys = PyImport_ImportModule("sys");
+			PyObject* sys_namespace = PyModule_GetDict(sys);
+			PyObject* modules_dict = PyDict_GetItemString(sys_namespace, "modules");
+			new_site = PyDict_GetItemString(modules_dict, "site");
+		}
+		if (new_site != site) {
+			DebugBreak();
+		}
+#endif
 	}
 	catch (const python_error& e) {
-		return _bstr_t(e.what()).Detach();
+		*error = _bstr_t(e.what()).Detach();
 	}
 	return nullptr;
+}
+
+extern "C" __declspec(dllexport) BSTR __stdcall GetExpressionParseError(BSTR expression) {
+	BSTR error = NULL;
+	EvalPython(expression, &error, [](PyObject* o) { return 1; });
+	return error;
+}
+
+extern "C" __declspec(dllexport) double __stdcall GetDoubleValue(BSTR expression, BSTR* error) {
+	*error = NULL;
+	double ret = std::nan("1");
+	EvalPython(expression, error, [&](PyObject* o) {
+		// PyFloat_Check is PyObject_TypeCheck(o, &PyFloat_Type); but we can't /DELAYLOAD and reference data
+		PyObject_RAII pyzero;
+		pyzero.p = PyFloat_FromDouble(0.0);
+		PyTypeObject* pyFloat_Type = (PyTypeObject*)pyzero.p->ob_type;
+		if (PyObject_TypeCheck(o, pyFloat_Type)) {
+			ret = PyFloat_AsDouble(o);
+		}
+	});
+	return ret;
 }
 
 void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
