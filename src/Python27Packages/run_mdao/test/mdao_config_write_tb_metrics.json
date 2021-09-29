@@ -1,0 +1,164 @@
+{
+  "components": {
+    "TestBench": {
+      "parameters": {
+        "F": {
+          "source": [
+            "ParameterStudyDriver",
+            "StringMetricInput"
+          ]
+        }
+      },
+      "unknowns": {
+        "StringMetric": {},
+        "StringMetric_Empty": {},
+        "UnicodeMetric_Empty": {},
+        "FloatMetric_Empty": {},
+        "UnicodeMetric": {},
+        "FloatMetric": {}
+      },
+      "details": {
+        "directory": "TestBench_write_tb_metrics"
+      }
+    }
+  },
+  "drivers": {
+    "ParameterStudyDriver": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "StringMetricInput": {
+          "type": "enum",
+          "items": [
+            "foo"
+          ]
+        }
+      },
+      "objectives": {
+        "StringMetric": {
+          "source": [
+            "TestBench",
+            "UnicodeMetric_Empty"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=1",
+        "SurrogateType": "None",
+        "DOEType": "Uniform"
+      }
+    }
+  },
+  "subProblems": {
+    "ParametricExplorationSub": {
+      "problemInputs": {
+        "FloatMetricInput": {
+          "outerSource": [
+            "TestBench",
+            "FloatMetric"
+          ],
+          "value": "0.0",
+          "pass_by_obj": true
+        },
+        "StringMetricInput": {
+          "outerSource": [
+            "TestBench",
+            "StringMetric"
+          ],
+          "value": "\"asd\"",
+          "pass_by_obj": true
+        },
+        "StringMetric_EmptyInput": {
+          "outerSource": [
+            "TestBench",
+            "StringMetric_Empty"
+          ],
+          "value": "''",
+          "pass_by_obj": true
+        },
+        "UnicodeMetric_EmptyInput": {
+          "outerSource": [
+            "TestBench",
+            "UnicodeMetric_Empty"
+          ],
+          "value": "u''",
+          "pass_by_obj": true
+        },
+        "UnicodeMetricInput": {
+          "outerSource": [
+            "TestBench",
+            "UnicodeMetric"
+          ],
+          "value": "u''",
+          "pass_by_obj": true
+        },
+        "FloatMetric_EmptyInput": {
+          "outerSource": [
+            "TestBench",
+            "FloatMetric_Empty"
+          ],
+          "value": "0.0",
+          "pass_by_obj": true
+        }
+      },
+      "problemOutputs": {},
+      "components": {
+        "PythonWrapper2": {
+          "parameters": {
+            "b": {
+              "source": [
+                "StringMetricInput"
+              ]
+            },
+            "a": {
+              "source": [
+                "FloatMetricInput"
+              ]
+            },
+            "c": {
+              "source": [
+                "UnicodeMetricInput"
+              ]
+            },
+            "f": {
+              "source": [
+                "UnicodeMetric_EmptyInput"
+              ]
+            },
+            "d": {
+              "source": [
+                "FloatMetric_EmptyInput"
+              ]
+            },
+            "e": {
+              "source": [
+                "StringMetric_EmptyInput"
+              ]
+            }
+          },
+          "unknowns": {},
+          "details": {
+            "filename": "read_tb_metrics.py"
+          },
+          "type": "run_mdao.python_component.PythonComponent"
+        }
+      },
+      "drivers": {},
+      "subProblems": {}
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": false
+    }
+  ],
+  "SelectedConfigurations": [
+    "ComponentAssembly"
+  ],
+  "PETName": "/Testing/ParametricExploration/TestBenchMetric2ProblemInput2PythonWrapper",
+  "PETId": "{3be50ffd-714e-4699-89ff-3642741d9a24}",
+  "MgaFilename": "C:\\Users\\kevin\\Documents\\tonka\\pet_testbench_metric_types\\pet_testbench_metric_types.mga"
+}

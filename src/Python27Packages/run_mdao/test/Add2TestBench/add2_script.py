@@ -6,7 +6,7 @@ import os
 import os.path
 import json
 import numpy
-import win32com.client
+#import win32com.client
 import six
 
 

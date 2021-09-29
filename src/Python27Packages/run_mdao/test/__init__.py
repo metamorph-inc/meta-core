@@ -6,6 +6,7 @@ import run_mdao.drivers
 import glob
 import os
 import os.path
+import errno
 import shutil
 import subprocess
 import unittest
@@ -22,6 +23,11 @@ run_mdao.CACHE_THRESHOLD_SECONDS = 0  # this enables caching for all TestBenchCo
 @contextlib.contextmanager
 def run_regression(output_filename):
     os.chdir(_this_dir)
+    try:
+        os.unlink('output.csv')
+    except OSError as e:
+        if e.errno != errno.ENOENT:
+            raise
     yield
     shutil.copyfile('output.csv', output_filename)
     changed = subprocess.check_output('git diff --name-only'.split() + [output_filename])

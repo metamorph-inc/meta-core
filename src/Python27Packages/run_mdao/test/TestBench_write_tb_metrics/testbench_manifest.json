@@ -1,0 +1,163 @@
+{
+  "Status": "OK", 
+  "FileInputs": [], 
+  "CfgID": null, 
+  "Parameters": [
+    {
+      "Name": "A", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000197", 
+      "Value": "0.0", 
+      "Range": "-inf..inf", 
+      "ID": "9dc7538d-6453-4444-ad23-dfbd45586c13", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "Name": "D", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000191", 
+      "Value": "", 
+      "Range": "-inf..inf", 
+      "ID": "22132a4f-78ae-4bc5-9089-d5b632d00e04", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "Name": "C", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-0000019a", 
+      "Value": "u'gfe'", 
+      "Range": "-inf..inf", 
+      "ID": "ed11e9b5-17aa-4636-855d-76a34f370f7d", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "Name": "F", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000198", 
+      "Value": "", 
+      "Range": "-inf..inf", 
+      "ID": "c40d8a21-56cd-4780-807f-b887c49adecc", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "Name": "B", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-00000190", 
+      "Value": "\"gfe\"", 
+      "Range": "-inf..inf", 
+      "ID": "1d5b4246-8621-4137-a535-83ef1a824df3", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "Name": "E", 
+      "DisplayedName": null, 
+      "GMEID": "id-0067-0000018f", 
+      "Value": "", 
+      "Range": "-inf..inf", 
+      "ID": "188d486e-1837-498f-a3f9-1273c9cdca6f", 
+      "Unit": "", 
+      "Description": ""
+    }
+  ], 
+  "Created": "2021-09-29T13:37:41.8047860Z", 
+  "Artifacts": [], 
+  "VisualizationArtifacts": [], 
+  "DesignName": "TestBench", 
+  "Metrics": [
+    {
+      "GMEID": "id-0067-00000196", 
+      "Name": "StringMetric", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": "hello world", 
+      "ID": "68328b14-233b-4710-ad09-f772075010e5", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "GMEID": "id-0067-00000194", 
+      "Name": "StringMetric_Empty", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": "hello world", 
+      "ID": "4d84f3fb-300d-4690-adac-e8b76acbf291", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "GMEID": "id-0067-00000193", 
+      "Name": "UnicodeMetric_Empty", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": "abc", 
+      "ID": "425c5504-a12d-4422-8a0c-2b41de07cacf", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "GMEID": "id-0067-00000199", 
+      "Name": "FloatMetric_Empty", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": 42, 
+      "ID": "d772a280-e85b-4138-a9a3-336bd02284be", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "GMEID": "id-0067-00000192", 
+      "Name": "UnicodeMetric", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": "abc", 
+      "ID": "41a4845b-d402-48bf-ae03-96db14f05fd0", 
+      "Unit": "", 
+      "Description": ""
+    }, 
+    {
+      "GMEID": "id-0067-0000018e", 
+      "Name": "FloatMetric", 
+      "DisplayedName": null, 
+      "VisualizationArtifacts": [], 
+      "Value": 42, 
+      "ID": "00ce0a55-cccf-40ad-a849-b7e9b201057e", 
+      "Unit": "", 
+      "Description": ""
+    }
+  ], 
+  "DesignID": "{0ed19750-1ca7-46b2-b082-103c033b6a03}", 
+  "Dependencies": [], 
+  "Steps": [
+    {
+      "ExecutionCompletionTimestamp": "2021-09-29T08:37:44.483000", 
+      "Status": "OK", 
+      "Description": null, 
+      "Parameters": [], 
+      "ExecutionStartTimestamp": "2021-09-29T08:37:44.435000", 
+      "Invocation": "cmd.exe /c dir", 
+      "PostProcess": null, 
+      "PreProcess": null, 
+      "LogFile": "log/log2021-09-29T083744.435000.log", 
+      "Type": null
+    }, 
+    {
+      "ExecutionCompletionTimestamp": "2021-09-29T08:37:44.614000", 
+      "Status": "OK", 
+      "Description": "", 
+      "Parameters": [], 
+      "ExecutionStartTimestamp": "2021-09-29T08:37:44.494000", 
+      "Invocation": "python.exe ..\\write_tb_metrics.py", 
+      "PostProcess": "", 
+      "PreProcess": "", 
+      "LogFile": "log/log2021-09-29T083744.494000.log", 
+      "Type": null
+    }
+  ], 
+  "TestBench": "TestBench", 
+  "FileOutputs": []
+}

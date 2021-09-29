@@ -109,7 +109,15 @@ class TestBenchComponent(Component):
                     # TODO: metric is possibly connected to a subproblem problemOutput. We should handle this case (root.components() does not contain the desired component, nor is it created yet)
                     destination_component = mdao_config['components'].get(mdao_component.name)
                     if destination_component is None:
-                        # TODO: possibly connected to an input to a component in a subproblem. We should handle this case
+                        # possibly connected to an input to a component in a subproblem
+                        subproblem = mdao_config.get('subProblems', {}).get(mdao_component.name)
+                    if subproblem:
+                        for input_name, input in six.iteritems(subproblem['problemInputs']):
+                            if input['outerSource'] == [self.name, metric_name]:
+                                pass_by_obj = pass_by_obj or not is_differentiable(next_val)
+                                metric_meta['val'] = eval(input['value'])
+                        continue
+                    if destination_component is None:
                         # destination_component should possibly be an IndepVarComp from a ProblemInput. We don't need to handle this case
                         # destination_component should possibly be an IndepVarComp designVariable. We don't need to handle this case
                         continue
