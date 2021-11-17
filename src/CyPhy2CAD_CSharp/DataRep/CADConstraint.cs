@@ -346,8 +346,6 @@ namespace CyPhy2CAD_CSharp.DataRep
             if (datum.Kind == "Surface")
             {
                 alignment = (datum as CyPhy.Surface).Attributes.Alignment.ToString();
-                if (alignment=="MATE")
-                    Logger.Instance.AddLogMessage("MATE alignment is used on surface: " + datum.ToHyperLink() + ". This construct is obsolete, please set up the connection as ALIGN.", Severity.Warning);
             }
 
             CadDatumTraversal traversal = new CadDatumTraversal(datum,
