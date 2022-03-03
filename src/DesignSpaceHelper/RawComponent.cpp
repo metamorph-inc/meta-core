@@ -122,8 +122,6 @@ STDMETHODIMP RawComponent::ExportDesertXML(IMgaProject *project, IMgaFCO *curren
 
 			CComBSTR projname;
 			CComBSTR focusname = "<nothing>";
-			CComPtr<IMgaTerritory> terr;
-			COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
 			CComPtr<IMgaProject> mgaProject = project;
 			CComBSTR    connString;
@@ -281,8 +279,6 @@ HRESULT RawComponent::ImportConfigsFromXML(IMgaProject *project, IMgaFCO *design
 
 			CComBSTR projname;
 			CComBSTR focusname = "<nothing>";
-			CComPtr<IMgaTerritory> terr;
-			COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
 			CComPtr<IMgaProject> mgaProject = project;
 			CComBSTR    connString;
@@ -447,8 +443,6 @@ HRESULT RawComponent::Main(IMgaProject *project,  IMgaFCO *currentobj, bool appl
 
 		CComBSTR projname;
 		CComBSTR focusname = "<nothing>";
-		CComPtr<IMgaTerritory> terr;
-		COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
 		CComPtr<IMgaProject> mgaProject = project;
 		CComBSTR    connString;

@@ -163,8 +163,6 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
 		CComBSTR projname;
 		CComBSTR focusname = "<nothing>";
-		CComPtr<IMgaTerritory> terr;
-		COMTHROW(ccpProject->CreateTerritory(NULL, &terr));
 
 		CComPtr<IMgaProject> mgaProject = project;
 		CComBSTR    connString;
