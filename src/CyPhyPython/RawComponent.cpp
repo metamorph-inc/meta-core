@@ -103,7 +103,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 		{
 			// Opening backend
 			if (!(status & 8))
-				COMTHROW(ccpProject->BeginTransactionInNewTerr(TRANSACTION_NON_NESTED, &terr));
+				COMTHROW(ccpProject->BeginTransaction(terr, TRANSACTION_NON_NESTED));
 
 			std::string metapath = GetMetaPath();
 			HMODULE python_dll = LoadPythonDll(metapath);
