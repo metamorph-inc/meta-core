@@ -1,22 +1,29 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os
-import cgi
+import html
 import os.path
 import pythoncom
 from pywintypes import com_error
 
+#import site
+#print(site.__file__)
+
+import sys
+print(sys.path)
 
 def log_formatted(s):
-    print s
+    print(s)
 
 
 def log(s):
-    print s
+    print(s)
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
 
     def log(s):
-        CyPhyPython.log(cgi.escape(s))
+        CyPhyPython.log(html.escape(s))
 
     def log_formatted(s):
         CyPhyPython.log(s)
@@ -37,7 +44,10 @@ def start_pdb():
 
 # This is the entry point
 def invoke(focusObject, rootObject, componentParameters, **kwargs):
-    log(focusObject.name + "\n")
+    log(focusObject.name + " from test_CyPhyPython\n")
+    import __main__
+    #setattr(__main__, 'asdf', focusObject.convert_udm2gme())
+    #setattr(__main__, 'asdf2', focusObject)
 
 
 def main():
@@ -56,9 +66,22 @@ def main():
         project.CommitTransaction()
         invoke_id = gmeInterpreter._oleobj_.GetIDsOfNames(u'ComponentParameter')
         gmeInterpreter._oleobj_.Invoke(invoke_id, 0, 4, 0, 'script_file', os.path.basename(__file__))
+        import ctypes
+        # ctypes.windll.kernel32.DebugBreak()
+
         gmeInterpreter.InvokeEx(project, component, Dispatch("Mga.MgaFCOs"), 128)
+        '''
+        import gc
+        gc.get_referents(gmeInterpreter)
+        '''
+        x = [gmeInterpreter]
+        #del gmeInterpreter
+        #import udm
+        #path = udm.findPathToNearestRoot(x)
+        #import pdb; pdb.set_trace()
     finally:
         project.Close()
+        del project
 
 if __name__ == '__main__':
     main()
@@ -69,3 +92,29 @@ if __name__ == '__main__':
     t = threading.Thread(target=main)
     t.start()
     t.join()
+    print('ok')
+    # del t
+
+    # del sys.modules['test_CyPhyPython']
+    # import gc
+    # import CyPhyPython
+    # import pprint
+    # pprint.pprint(repr(gc.get_referrers(CyPhyPython)))
+    # for i, ref_ in enumerate(gc.get_referrers(CyPhyPython)):
+    #    if isinstance(ref_, dict):
+    #        print(f' {i}  {ref_.get("__name__")}')
+    # asdf2.convert_udm2gme()
+r'''
+import sys
+sys.path.append(r'C:\Users\kevin\Documents\meta-core\test\PythonTest')
+import test_CyPhyPython
+
+test_CyPhyPython.main()
+
+del test_CyPhyPython
+del sys.modules['test_CyPhyPython']
+del sys.modules['CyPhyPython']
+import gc
+gc.collect()
+
+'''

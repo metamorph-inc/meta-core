@@ -4,11 +4,14 @@
 
 using namespace std;
 
-#include "..\bin\Python27\Include\Python.h"
+#include "..\bin\Python310\Include\Python.h"
 #include <algorithm>
 #include <memory>
 
-#define CYPHY_PYTHON_VERSION _STRINGIZE(PY_MAJOR_VERSION) _STRINGIZE(PY_MINOR_VERSION)
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+
+#define CYPHY_PYTHON_VERSION _T(_STRINGIZE(PY_MAJOR_VERSION)) _T(_STRINGIZE(PY_MINOR_VERSION))
 
 // n.b. can't /DELAYLOAD and import data
 static PyObject* get_Py_None()
@@ -64,17 +67,17 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 	{
 		isErrorMessageException = ErrorMessageException != nullptr && PyObject_IsSubclass(type, ErrorMessageException) == 1;
 		PyObject_RAII type_name = PyObject_GetAttrString(type, "__name__");
-		if (isErrorMessageException == false && type_name && PyString_Check(type_name))
+		if (isErrorMessageException == false && type_name && PyUnicode_Check(type_name))
 		{
-			error += PyString_AsString(type_name);
+			error += PyUnicode_AsUTF8(type_name);
 			error += ": ";
 		}
 	}
 	PyObject_RAII message = PyObject_GetAttrString(value, "message");
-	if (message && PyString_Check(message))
+	if (message && PyUnicode_Check(message))
 	{
 		PyObject_RAII str_value = PyObject_Str(message);
-		error += PyString_AsString(str_value);
+		error += PyUnicode_AsUTF8(str_value);
 	}
 	else
 	{
@@ -83,8 +86,8 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 		if (type && value && value.p->ob_type->tp_str)
 		{
 			PyObject_RAII str = value.p->ob_type->tp_str(value);
-			if (PyString_Check(str))
-				error += PyString_AsString(str);
+			if (PyUnicode_Check(str))
+				error += PyUnicode_AsUTF8(str);
 		}
 		else
 		{
@@ -107,7 +110,7 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 				"tb = ''.join(traceback.format_exception(etype, value, tb))\n", Py_file_input, dict, dict, NULL);
             if (!PyErr_Occurred()) {
                 PyObject* formatted_traceback = PyDict_GetItemString(dict, "tb");
-                error = PyString_AsString(formatted_traceback);
+                error = PyUnicode_AsUTF8(formatted_traceback);
             }
 			PyErr_Clear();
 		}
@@ -121,21 +124,21 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 // PythonCOM.h: PYCOM_EXPORT PyObject *PyCom_PyObjectFromIUnknown(IUnknown *punk, REFIID riid, BOOL bAddRef = FALSE);
 typedef PyObject *(*PyCom_PyObjectFromIUnknown_t)(IUnknown *punk, REFIID riid, BOOL bAddRef);
 PyObject* convert(IDispatch* disp) {
-	PyObject_RAII main = PyImport_ImportModule("__main__");
-	PyObject* main_namespace = PyModule_GetDict(main);
+	PyObject_RAII namespace_ = PyDict_New();
 	// also loads pythoncomxx.dll
-	PyObject_RAII ret = PyRun_StringFlags("import win32com.client\n", Py_file_input, main_namespace, main_namespace, NULL);
+	PyObject_RAII ret = PyRun_StringFlags("import win32com.client\n", Py_file_input, namespace_, namespace_, NULL);
 	if (ret == NULL && PyErr_Occurred())
 	{
 		throw python_error(GetPythonError());
 	}
-	const char* pythoncomname = "pythoncom" CYPHY_PYTHON_VERSION ".dll";
-	HMODULE pythoncom = GetModuleHandleA(pythoncomname);
-	if (pythoncom == NULL)
-		throw python_error(std::string("Could not load ") + pythoncomname);
+	const wchar_t* pythoncomname = "pythoncom" CYPHY_PYTHON_VERSION ".dll";
+	HMODULE pythoncom = GetModuleHandleW(pythoncomname);
+	if (pythoncom == NULL) {
+		throw python_error(std::wstring(L"Could not load ") + pythoncomname);
+	}
 	PyCom_PyObjectFromIUnknown_t PyCom_PyObjectFromIUnknown = (PyCom_PyObjectFromIUnknown_t)GetProcAddress(pythoncom, "PyCom_PyObjectFromIUnknown");
 	if (PyCom_PyObjectFromIUnknown == NULL)
-		throw python_error(std::string("Could not load PyCom_PyObjectFromIUnknown from ") + pythoncomname);
+		throw python_error(std::wstring(L"Could not load PyCom_PyObjectFromIUnknown from ") + pythoncomname);
 	PyObject* obj = (*PyCom_PyObjectFromIUnknown)(disp, IID_IDispatch, TRUE);
 	return obj;
 }
@@ -176,7 +179,7 @@ static PyObject *CyPhyPython_log(PyObject *self, PyObject *args)
 		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))
 		{
 			PyObject_RAII logfile = PyObject_GetAttrString(CyPhyPython, "_logfile");
-			if (logfile.p && (PyUnicode_Check(arg1) || PyString_Check(arg1)))
+			if (logfile.p && PyUnicode_Check(arg1)))
 			{
 				PyObject_RAII write = PyObject_GetAttrString(logfile, "write");
 				{
@@ -194,13 +197,13 @@ static PyObject *CyPhyPython_log(PyObject *self, PyObject *args)
 			}
 		}
 	}
+	else
+	{
+		PyErr_Clear();
+	}
 	if (PyUnicode_Check(arg1))
 	{
 		GMEConsole::Console::Out::writeLine(html_encode<wchar_t>(PyUnicode_AsUnicode(arg1)));
-	}
-	else if (PyString_Check(arg1))
-	{
-		GMEConsole::Console::Out::writeLine(html_encode<char>(PyString_AsString(arg1)));
 	}
 	else
 	{
@@ -216,16 +219,17 @@ static PyObject *CyPhyPython_console_message(PyObject *self, PyObject *arg1)
 	{
 		GMEConsole::Console::Out::writeLine(PyUnicode_AsUnicode(arg1));
 	}
-	else if (PyString_Check(arg1))
-	{
-		GMEConsole::Console::Out::writeLine(PyString_AsString(arg1));
-	}
 	else
 	{
-		PyErr_Format(get_builtin("ValueError"), "Argument must be str or unicode");
+		PyErr_Format(get_builtin("ValueError"), "Argument must be str");
 		return NULL;
 	}
 	return return_Py_None();
+}
+
+void CyPhyPython_free(void*) {
+	// we called LoadLibraryW in init routine
+	FreeLibrary((HMODULE)HINST_THISCOMPONENT);
 }
 
 static PyMethodDef CyPhyPython_methods[] = {
@@ -233,6 +237,14 @@ static PyMethodDef CyPhyPython_methods[] = {
 	{ "console_message",  (PyCFunction)CyPhyPython_console_message, METH_O, "Log in the GME console" },
 	{NULL, NULL, 0, NULL}        /* Sentinel */
 };
+
+static PyModuleDef CyPhyPython_module = {
+	PyModuleDef_HEAD_INIT, "CyPhyPython", "CyPhyPython methods", -1, CyPhyPython_methods,
+	NULL, NULL, NULL,
+	// .m_free = 
+	&CyPhyPython_free
+};
+
 
 
 struct PythonCleanup {
@@ -245,16 +257,17 @@ struct PythonCleanup {
 
 PythonCleanup LoadPython() {
 	// Py_NoSiteFlag = 1; // we import site after setting up sys.path
-	HMODULE python_dll = LoadLibraryA("Python" CYPHY_PYTHON_VERSION ".dll");
-	if (python_dll == nullptr)
-		throw python_error("Failed to load Python" CYPHY_PYTHON_VERSION ".dll");
+	HMODULE python_dll = LoadLibraryW(L"Python" CYPHY_PYTHON_VERSION L".dll");
+	if (python_dll == nullptr) {
+		throw python_error(L"Failed to load Python" CYPHY_PYTHON_VERSION L".dll");
+	}
 
 	const char* flags[] = { "Py_NoSiteFlag", "Py_IgnoreEnvironmentFlag", "Py_DontWriteBytecodeFlag", NULL };
 	for (const char** flag = flags; *flag; flag++) {
 		int* Py_FlagAddress = reinterpret_cast<int*>(GetProcAddress(python_dll, *flag));
 		if (Py_FlagAddress == nullptr) {
 			FreeLibrary(python_dll);
-			throw python_error(std::string("Failed to find ") + *flag + " in Python" CYPHY_PYTHON_VERSION  ".dll");
+			throw python_error(std::wstring(L"Failed to find ") + static_cast<const wchar_t*>(_bstr_t(*flag)) + L" in Python" CYPHY_PYTHON_VERSION L".dll");
 		}
 		*Py_FlagAddress = 1;
 	}
@@ -264,22 +277,22 @@ PythonCleanup LoadPython() {
 #if PY_MAJOR_VERSION >= 3
     bool initialized = Py_IsInitialized();
 	Py_InitializeEx(0); // this calls PyEval_InitThreads iff initialized == false
-	if (initialized == false) {
-        PyEval_SaveThread();
-    }
+if (initialized == false) {
+	PyEval_SaveThread();
+}
 
 #else
-	Py_InitializeEx(0);
-	if (!PyEval_ThreadsInitialized()) {
-		PyEval_InitThreads();
-		PyEval_SaveThread();
-	}
+Py_InitializeEx(0);
+if (!PyEval_ThreadsInitialized()) {
+	PyEval_InitThreads();
+	PyEval_SaveThread();
+}
 #endif
 
-	// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
-	// this is because PyEval_SaveThread() was called
-	PyGILState_STATE gstate = PyGILState_Ensure();
-	return PythonCleanup(gstate, python_dll);
+// n.b. we need this to be reentrant (i.e. in case this interpreter is being called by python (e.g. via win32com.client))
+// this is because PyEval_SaveThread() was called
+PyGILState_STATE gstate = PyGILState_Ensure();
+return PythonCleanup(gstate, python_dll);
 }
 
 template<typename F>
@@ -338,7 +351,7 @@ extern "C" __declspec(dllexport) BSTR __stdcall GetExpressionParseError(BSTR exp
 	return error;
 }
 
-extern "C" __declspec(dllexport) double __stdcall GetDoubleValue(BSTR expression, BSTR* error) {
+extern "C" __declspec(dllexport) double __stdcall GetDoubleValue(BSTR expression, BSTR * error) {
 	*error = NULL;
 	double ret = std::nan("1");
 	EvalPython(expression, error, [&](PyObject* o) {
@@ -349,13 +362,55 @@ extern "C" __declspec(dllexport) double __stdcall GetDoubleValue(BSTR expression
 		if (PyObject_TypeCheck(o, pyFloat_Type)) {
 			ret = PyFloat_AsDouble(o);
 		}
-	});
+		});
 	return ret;
 }
 
-void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
-					 std::set<CComPtr<IMgaFCO> > selectedObjects,
-					 long param, map<_bstr_t, _variant_t>& componentParameters, std::string workingDir)
+PyObject* _GetOrCreateCyPhyPythonModule() {
+	PyObject* CyPhyPython = PyImport_ImportModule("CyPhyPython");
+	if (CyPhyPython)
+	{
+		return CyPhyPython;
+	}
+	else
+	{
+		PyErr_Clear();
+		wchar_t moduleFileName[MAX_PATH];
+		int size = GetModuleFileNameW((HMODULE)HINST_THISCOMPONENT, moduleFileName, _countof(moduleFileName));
+		if (size == _countof(moduleFileName) || size == 0) {
+			throw python_error(std::string("Could not get name"));
+		}
+		// increment .dll refcount; we dont' want COM to unload us then Python call one of our methods
+		LoadLibraryW(moduleFileName);
+
+		PyObject_RAII CyPhyPython = PyModule_Create(&CyPhyPython_module);
+		PyObject* CyPhyPython_namespace = PyModule_GetDict(CyPhyPython);
+		PyModule_AddObjectRef(CyPhyPython, "spam", PyLong_FromLong(4242)); // xxx dont commit
+
+		PyObject_RAII sys = PyImport_ImportModule("sys");
+		PyObject_RAII sys_modules = PyObject_GetAttrString(sys, "modules");
+		// n.b. can't use PyImport_AppendInittab because we may be called from COM under Python.exe
+		PyDict_SetItemString(sys_modules, "CyPhyPython", CyPhyPython);
+
+		// PyDict_SetItemString(CyPhyPython_namespace, "__builtins__", PyEval_GetBuiltins());
+		PyObject_RAII pyrun_ret = PyRun_StringFlags(
+			"class ErrorMessageException(Exception):\n"
+			"    'An Exception for which CyPhyPython does not print the stack trace'\n"
+			"    pass\n",
+			Py_file_input, CyPhyPython_namespace, CyPhyPython_namespace, NULL);
+		if (pyrun_ret == NULL && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
+		PyObject* ret = CyPhyPython.p;
+		CyPhyPython.p = NULL;
+		return ret;
+	}
+}
+
+void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
+	std::set<CComPtr<IMgaFCO> > selectedObjects,
+	long param, map<_bstr_t, _variant_t>& componentParameters, std::wstring workingDir)
 {
 	//AllocConsole();
 	//Py_DebugFlag = 1;
@@ -363,62 +418,24 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 	auto cleanup = LoadPython();
 
-	char *path = Py_GetPath();
-	
 #ifdef _WIN32
-	std::string separator = ";";
+	std::wstring separator = L";";
 #else
-	std::string separator = ":";
+	std::wstring separator = L":";
 #endif
 
-	std::string newpath;
-	if (meta_path.length())
-	{
-		// n.b. don't use Py_GetPath(), since it may read garbage from HKCU\Software\Python\PythonCore\2.7\PythonPath
-		newpath = meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION "\\Scripts\\python" CYPHY_PYTHON_VERSION ".zip";
-		newpath = newpath + separator + meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION "\\Scripts";
-		newpath = newpath + separator + meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION "\\Lib";
-		newpath = newpath + separator + meta_path + "\\bin";
-	}
-	else {
-		newpath = path;
-	}
-
-	PySys_SetPath(const_cast<char*>(newpath.c_str()));
-
-	PyObject_RAII main = PyImport_ImportModule("__main__");
-	PyObject* main_namespace = PyModule_GetDict(main);
-	{
-		PyObject_RAII ret = PyRun_StringFlags(
-			"import sys\n"
-			, Py_file_input, main_namespace, main_namespace, NULL);
-		if (ret == NULL && PyErr_Occurred())
-		{
-			throw python_error(GetPythonError());
-		}
-	}
-
 	if (meta_path.length()) {
-		PyObject_RAII prefix = PyString_FromString((meta_path + "\\bin\\Python" CYPHY_PYTHON_VERSION).c_str());
-		PyObject* sys = PyDict_GetItemString(main_namespace, "sys");
+		auto cprefix = meta_path + L"bin\\Python" CYPHY_PYTHON_VERSION;
+		PyObject_RAII prefix = PyUnicode_FromWideChar(cprefix.c_str(), -1));
+		PyObject_RAII sys = PyImport_ImportModule("sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
 		PyObject_SetAttrString(sys, "exec_prefix", prefix);
 	}
-	
-	PyObject* CyPhyPython = Py_InitModule("CyPhyPython", CyPhyPython_methods);
-	PyObject* CyPhyPython_namespace = PyModule_GetDict(CyPhyPython);
-	PyDict_SetItemString(CyPhyPython_namespace, "__builtins__", PyEval_GetBuiltins());
-	PyObject_RAII ret = PyRun_StringFlags(
-		"class ErrorMessageException(Exception):\n"
-		"    'An Exception for which CyPhyPython does not print the stack trace'\n"
-		"    pass\n",
-		Py_file_input, CyPhyPython_namespace, CyPhyPython_namespace, NULL);
-	if (ret == NULL && PyErr_Occurred())
-	{
-		throw python_error(GetPythonError());
-	}
+
+	PyObject_RAII CyPhyPython = _GetOrCreateCyPhyPythonModule();
+
 	PyObject_RAII logfile;
-	PyObject* ErrorMessageException = PyDict_GetItemString(CyPhyPython_namespace, "ErrorMessageException");
+	PyObject* ErrorMessageException = PyObject_GetAttrString(CyPhyPython, "ErrorMessageException");
 	auto console_messages = componentParameters.find(L"console_messages");
 	if (console_messages != componentParameters.end()
 		&& console_messages->second.vt == VT_BSTR
@@ -432,7 +449,18 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			&& *output_dir->second.bstrVal)
 		{
 			CreateDirectoryW(CStringW(output_dir->second.bstrVal) + L"\\log", NULL);
-			logfile.p = PyFile_FromString(const_cast<char *>(static_cast<const char*>(CStringA(output_dir->second.bstrVal) + "\\log\\CyPhyPython.log")), "w");
+
+			PyObject_RAII io_module = PyImport_ImportModule("io");
+			std::wstring cfilename = std::wstring(static_cast<const wchar_t*>(output_dir->second.bstrVal)) + L"\\log\\CyPhyPython.log";
+
+			PyObject* filename = PyUnicode_FromWideChar(cfilename.c_str(), cfilename.length());
+			PyObject* mode = PyUnicode_FromWideChar(L"wt", -1);
+			PyObject_RAII args = Py_BuildValue("OO", filename, mode);
+
+			PyObject_RAII open = PyObject_GetAttrString(io_module, "open");
+
+			logfile.p = PyObject_Call(open, args, NULL);
+
 			if (PyErr_Occurred())
 			{
 				// FIXME where to log this
@@ -453,11 +481,14 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		}
 	}
 
-	std::string module_name;
+	std::wstring module_name;
+	std::wstring script_path1;
+	std::wstring script_path2;
 	auto script_file_it = componentParameters.find(_bstr_t(L"script_file"));
 	if (script_file_it == componentParameters.end())
 	{
 		std::wstring scriptFilename;
+		// FIXME need to set parent hwnd
 		scriptFilename = openfilename(L"Python Scripts (*.py)\0*.py\0");
 		if (scriptFilename.length() == 0)
 		{
@@ -465,14 +496,13 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		}
 		TCHAR fullpath[MAX_PATH];
 		TCHAR* filepart;
-		if (!GetFullPathNameW(scriptFilename.c_str(), sizeof(fullpath)/sizeof(fullpath[0]), fullpath, &filepart)) {
-		} else {
-			*(filepart-1) = '\0';
+		if (!GetFullPathNameW(scriptFilename.c_str(), sizeof(fullpath) / sizeof(fullpath[0]), fullpath, &filepart)) {
+		}
+		else {
+			*(filepart - 1) = '\0';
 
-			newpath += separator + static_cast<const char*>(CStringA(fullpath));
-			PySys_SetPath(const_cast<char*>(newpath.c_str()));
-
-			module_name = static_cast<const char*>(CStringA(filepart));
+			script_path1 = fullpath;
+			module_name = filepart;
 		}
 	}
 	else
@@ -482,49 +512,92 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			throw python_error("No script_file specified");
 		}
 		module_name = _bstr_t(script_file_it->second.bstrVal);
-		if (module_name != "" && PathIsRelativeA(module_name.c_str())) {
+		if (module_name != L"" && PathIsRelativeW(module_name.c_str())) {
 			std::replace(module_name.begin(), module_name.end(), '/', '\\');
 			if (module_name.rfind('\\') != std::string::npos)
 			{
-				std::string path = module_name.substr(0, module_name.rfind('\\'));
+				std::wstring path = module_name.substr(0, module_name.rfind('\\'));
 
-				newpath = workingDir + "\\CyPhyPythonScripts\\" + path + separator + newpath;
-				newpath = workingDir + "\\" + path + separator + newpath;
-				PySys_SetPath(const_cast<char*>(newpath.c_str()));
+				script_path1 = workingDir + L"\\CyPhyPythonScripts\\" + path;
+				script_path2 = workingDir + L"\\" + path;
 				module_name = module_name.substr(module_name.rfind('\\') + 1);
 			}
 			else
 			{
-				newpath = workingDir + "\\CyPhyPythonScripts" + separator + newpath;
-				newpath = workingDir + separator + newpath;
-				PySys_SetPath(const_cast<char*>(newpath.c_str()));
+				script_path1 = workingDir + L"\\CyPhyPythonScripts";
+				script_path2 = workingDir;
+			}
+		}
+		else if (module_name != L"") {
+			TCHAR fullpath[MAX_PATH];
+			TCHAR* filepart;
+			if (!GetFullPathNameW(module_name.c_str(), sizeof(fullpath) / sizeof(fullpath[0]), fullpath, &filepart)) {
+			}
+			else {
+				*(filepart - 1) = '\0';
+
+				script_path1 = fullpath;
+				module_name = filepart;
 			}
 
-			//newpath += separator + fullpath;
-			//PySys_SetPath(const_cast<char*>(newpath.c_str()));
 		}
 	}
+
 	{
-		PyObject_RAII ret = PyRun_StringFlags("import site\n"
-			"reload(site)\n"
-			"import sitecustomize\n"
-			"reload(sitecustomize)\n"
-			"import os.path\n"
+		PyObject_RAII namespace_ = PyDict_New();
+		PyObject_RAII ret = PyRun_StringFlags(
+			"import importlib\n"
+			"import sys\n"
+			"if sys.modules.get('site') is None:\n"
+			"    import site\n"
+			"    site.main()\n"
+			// "import pdb; pdb.set_trace()\n"
 			"import udm\n"
-			, Py_file_input, main_namespace, main_namespace, NULL);
+			, Py_file_input, namespace_, namespace_, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
 			throw python_error(GetPythonError());
 		}
 	}
+
+	if (0)
 	{
-		const char* pythoncomname = "pythoncom" CYPHY_PYTHON_VERSION ".dll";
-		HMODULE pythoncom = GetModuleHandleA(pythoncomname);
+		Py_XDECREF(CyPhyPython.p);
+		CyPhyPython.p = NULL;
+
+		PyObject_RAII namespace_ = PyDict_New();
+
+		PyObject_RAII ret = PyRun_StringFlags(
+			"import sys\n"
+			"x = [sys.modules['CyPhyPython']]\n"
+			"import udm\n"
+			"del sys.modules['CyPhyPython']\n"
+			"import ctypes\n"
+			"ctypes.windll.kernel32.AllocConsole()\n"
+			"sys.stdout = open('CONOUT$', 'wt')\n"
+			"sys.stderr = open('CONOUT$', 'wt')\n"
+			"sys.stdin = open('CONIN$', 'rt')\n"
+			// "path = udm.findPathToNearestRoot(x)\n"
+			"import pdb\n"
+			"pdb.set_trace()\n"
+			, Py_file_input, namespace_, namespace_, NULL);
+		if (ret == NULL && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
+		return;
+
+	}
+	{
+		const wchar_t* pythoncomname = L"pythoncom" CYPHY_PYTHON_VERSION L".dll";
+		HMODULE pythoncom = GetModuleHandleW(pythoncomname);
 		if (pythoncom == nullptr) {
+			PyObject_RAII namespace_ = PyDict_New();
+
 			PyObject_RAII ret = PyRun_StringFlags(
-				// sitecustomize.py contains code to load the correct pythoncom27.dll
+				// sitecustomize.py contains code to load the correct pythoncom3x.dll
 				"import pythoncom\n"
-				, Py_file_input, main_namespace, main_namespace, NULL);
+				, Py_file_input, namespace_, namespace_, NULL);
 			if (ret == NULL && PyErr_Occurred())
 			{
 				throw python_error(GetPythonError());
@@ -550,19 +623,49 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 	}
 
 
-	if (module_name.rfind(".py") != std::string::npos)
+	if (module_name.rfind(L".py") != std::string::npos)
 	{
-		module_name = module_name.substr(0, module_name.rfind(".py"));
+		module_name = module_name.substr(0, module_name.rfind(L".py"));
 	}
-	if (module_name != "")
+	if (module_name != L"")
 	{
-		PyObject_RAII module = PyImport_ImportModule(module_name.c_str());
+		PyObject_RAII namespace_ = PyDict_New();
+		PyObject_RAII script_paths;
+
+		if (script_path2.length() == 0) {
+			script_paths.p = Py_BuildValue("(u)", script_path1.c_str());
+		}
+		else {
+			script_paths.p = Py_BuildValue("uu", script_path1.c_str(), script_path2.c_str());
+		}
+		PyDict_SetItemString(namespace_, "script_paths", script_paths);
+
+		PyObject_RAII ret = PyRun_StringFlags(
+			(std::string(
+				"import sys\n"
+				"sys.path[0:0] = script_paths\n"
+				"try:\n"
+				"    import ") + static_cast<const char*>(CStringA(module_name.c_str())) + "\n"
+				"finally:\n"
+				"    sys.path[0:len(script_paths)] = []\n"
+				"    del script_paths\n").c_str()
+			, Py_file_input, namespace_, namespace_, NULL);
+		if (ret == NULL && PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
+
+		PyObject_RAII module = PyImport_ImportModule(static_cast<const char*>(CStringA(module_name.c_str())));
 		if (!module)
 		{
 			throw python_error(GetPythonError());
 		}
+
+		PyObject_RAII reloaded_module;
+		reloaded_module.p = module.p;
+		Py_IncRef(reloaded_module.p);
 		// TODO: check if this is necessary
-		PyObject_RAII reloaded_module = PyImport_ReloadModule(module);
+		// PyObject_RAII reloaded_module = PyImport_ReloadModule(module);
 		if (!reloaded_module)
 		{
 			throw python_error(GetPythonError());
@@ -582,22 +685,23 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 		if (!invoke)
 		{
 			PyErr_Clear();
+			PyObject_RAII invoke_namespace = PyDict_New();
 			PyObject_RAII invokeGME = PyObject_GetAttrString(reloaded_module, "invokeGME");
 			if (!invokeGME.p)
 			{
 				PyErr_Clear();
 				throw python_error("Error: script has no \"invoke\" or \"invokeGME\" function");
 			}
-			PyDict_SetItemString(main_namespace, "focusObject", pyFocusObject.p);
-			PyDict_SetItemString(main_namespace, "rootObject", pyRootObject.p);
-			PyDict_SetItemString(main_namespace, "project", pyProject.p);
+			PyDict_SetItemString(invoke_namespace, "focusObject", pyFocusObject.p);
+			PyDict_SetItemString(invoke_namespace, "rootObject", pyRootObject.p);
+			PyDict_SetItemString(invoke_namespace, "project", pyProject.p);
 
 			PyObject_RAII setup = PyRun_StringFlags(
 				"import win32com.client.dynamic\n"
 				"if focusObject: focusObject = win32com.client.dynamic.Dispatch(focusObject)\n"
 				"if rootObject: rootObject = win32com.client.dynamic.Dispatch(rootObject)\n"
 				"project = win32com.client.dynamic.Dispatch(project)\n"
-				, Py_file_input, main_namespace, main_namespace, NULL);
+				, Py_file_input, invoke_namespace, invoke_namespace, NULL);
 			if (setup == nullptr && PyErr_Occurred())
 			{
 				throw python_error(GetPythonError());
@@ -605,9 +709,9 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 			PyObject_RAII empty_tuple = PyTuple_New(0);
 			PyObject_RAII args = PyDict_New();
-			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObject"));
-			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObject"));
-			PyDict_SetItemString(args, "project", PyDict_GetItemString(main_namespace, "project"));
+			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(invoke_namespace, "focusObject"));
+			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(invoke_namespace, "rootObject"));
+			PyDict_SetItemString(args, "project", PyDict_GetItemString(invoke_namespace, "project"));
 			PyDict_SetItemString(args, "componentParameters", parameters);
 
 			PyObject_RAII ret = PyObject_Call(invokeGME, empty_tuple, args);
@@ -622,9 +726,10 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 				throw python_error("Error: script \"invoke\" attribute is not callable");
 			}
 
-			PyDict_SetItemString(main_namespace, "focusObj", pyFocusObject.p);
-			PyDict_SetItemString(main_namespace, "rootObj", pyRootObject.p);
-			PyDict_SetItemString(main_namespace, "project", pyProject.p);
+			PyObject_RAII invoke_namespace = PyDict_New();
+			PyDict_SetItemString(invoke_namespace, "focusObj", pyFocusObject.p);
+			PyDict_SetItemString(invoke_namespace, "rootObj", pyRootObject.p);
+			PyDict_SetItemString(invoke_namespace, "project", pyProject.p);
 
 			PyObject_RAII setup = PyRun_StringFlags(
 				//"import ctypes\n"
@@ -650,7 +755,7 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 				"if rootObj: rootObj = win32com.client.dynamic.Dispatch(rootObj)\n"
 				"if focusObj: focusObj = udm_project.convert_gme2udm(focusObj)\n"
 				"if rootObj: rootObj = udm_project.convert_gme2udm(rootObj)\n"
-				, Py_file_input, main_namespace, main_namespace, NULL);
+				, Py_file_input, invoke_namespace, invoke_namespace, NULL);
 			if (setup == nullptr && PyErr_Occurred())
 			{
 				throw python_error(GetPythonError());
@@ -658,9 +763,9 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 			PyObject_RAII empty_tuple = PyTuple_New(0);
 			PyObject_RAII args = PyDict_New();
-			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(main_namespace, "focusObj"));
-			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(main_namespace, "rootObj"));
-			PyDict_SetItemString(args, "udmProject", PyDict_GetItemString(main_namespace, "udm_project"));
+			PyDict_SetItemString(args, "focusObject", PyDict_GetItemString(invoke_namespace, "focusObj"));
+			PyDict_SetItemString(args, "rootObject", PyDict_GetItemString(invoke_namespace, "rootObj"));
+			PyDict_SetItemString(args, "udmProject", PyDict_GetItemString(invoke_namespace, "udm_project"));
 			PyDict_SetItemString(args, "componentParameters", parameters);
 
 			PyObject_RAII ret = PyObject_Call(invoke, empty_tuple, args);
@@ -671,10 +776,10 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 			PyObject_RAII dn_close;
 			if (invokeError) {
-				dn_close.p = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+				dn_close.p = PyRun_StringFlags("udm_project.close_no_update(); cyphy.close_no_update()\n", Py_file_input, invoke_namespace, invoke_namespace, NULL);
 			}
 			else {
-				dn_close.p = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, main_namespace, main_namespace, NULL);
+				dn_close.p = PyRun_StringFlags("udm_project.close_with_update(); cyphy.close_no_update()\n", Py_file_input, invoke_namespace, invoke_namespace, NULL);
 			}
 			if (dn_close.p == NULL && PyErr_Occurred())
 			{
@@ -706,18 +811,11 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 
 		while (PyDict_Next(parameters, &pos, &key, &value)) {
 			_bstr_t paramName;
-			if (PyString_Check(key)) {
-				paramName = _bstr_t(PyString_AsString(key));
-			}
-			else if (PyUnicode_Check(key)) {
+			if (PyUnicode_Check(key)) {
 				paramName = _bstr_t(PyUnicode_AsUnicode(key));
 			}
 			else {
 				continue;
-			}
-			if (PyString_Check(value))
-			{
-				componentParameters[paramName] = _bstr_t(PyString_AsString(value));
 			}
 			if (PyUnicode_Check(value))
 			{
@@ -725,4 +823,41 @@ void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IM
 			}
 		}
 	}
+
+// #define CyPhyPython_Cleanup 1
+#ifdef CyPhyPython_Cleanup
+	{
+		PyObject_RAII sys = PyImport_ImportModule("sys");
+		PyObject_RAII sys_modules = PyObject_GetAttrString(sys, "modules");
+		PyObject_RAII py_module_name = PyUnicode_FromWideChar(module_name.c_str(), -1);
+		PyDict_DelItem(sys_modules, py_module_name);
+		if (PyErr_Occurred())
+		{
+			throw python_error(GetPythonError());
+		}
+	}
+
+	Py_XDECREF(CyPhyPython.p);
+	CyPhyPython.p = NULL;
+
+	// PyObject_RAII main = PyImport_ImportModule("__main__");
+	// if (main.p == NULL) {
+	// 	throw python_error(GetPythonError());
+	// }
+	// Py_XDECREF(main.p);
+	// main.p = NULL;
+
+	PyObject_RAII cleanup_namespace = PyDict_New();
+	PyObject_RAII ret = PyRun_StringFlags(
+		"import sys\n"
+		"del sys.modules['CyPhyPython']\n"
+		// "del sys.modules['__main__']\n"
+		"import gc; gc.collect();"
+		, Py_file_input, cleanup_namespace, cleanup_namespace, NULL);
+	if (ret == NULL && PyErr_Occurred())
+	{
+		throw python_error(GetPythonError());
+	}
+#endif
+
 }

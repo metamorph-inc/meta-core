@@ -16,6 +16,8 @@
 #include "UdmConsole.h"
 #include "UdmApp.h"
 
+#define CYPHY_PYTHON_VERSION _T(_STRINGIZE(PY_MAJOR_VERSION)) _T(_STRINGIZE(PY_MINOR_VERSION))
+
 __declspec(noreturn) void ThrowComError(HRESULT hr, LPOLESTR err);
 
 using namespace std;
@@ -45,16 +47,17 @@ STDMETHODIMP RawComponent::Invoke(IMgaProject* gme, IMgaFCOs *models, long param
 			void dummy(void) {; } // Dummy function for UDM meta initialization
 #endif
 
-std::string GetMetaPath() {
-	std::string metapath;
+std::wstring GetMetaPath() {
+	std::wstring metapath;
 	HKEY software_meta;
-	if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
+	if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"Software\\META", 0, KEY_READ, &software_meta) == ERROR_SUCCESS)
 	{
-		BYTE data[MAX_PATH];
-		DWORD type, size = sizeof(data) / sizeof(data[0]);
-		if (RegQueryValueExA(software_meta, "META_PATH", 0, &type, data, &size) == ERROR_SUCCESS)
+		wchar_t data[MAX_PATH];
+		DWORD type;
+		DWORD size = sizeof(data);
+		if (RegQueryValueExW(software_meta, L"META_PATH", 0, &type, (LPBYTE)&data[0], &size) == ERROR_SUCCESS)
 		{
-			metapath = std::string(data, data + strnlen((const char*)data, size));
+			metapath = std::wstring(data, data + wcsnlen((const wchar_t*)data, size));
 		}
 		RegCloseKey(software_meta);
 	}
@@ -65,11 +68,11 @@ std::string GetMetaPath() {
 	return metapath;
 }
 
-HMODULE LoadPythonDll(const std::string& metapath) {
-	std::string python_dll_path = metapath + "\\bin\\Python27\\Scripts\\python27.dll";
-	HMODULE python_dll = LoadLibraryA(python_dll_path.c_str());
+HMODULE LoadPythonDll(const std::wstring& metapath) {
+	std::wstring python_dll_path = metapath + L"\\bin\\Python" CYPHY_PYTHON_VERSION "\\python" CYPHY_PYTHON_VERSION ".dll";
+	HMODULE python_dll = LoadLibraryW(python_dll_path.c_str());
 	if (python_dll == nullptr)
-		throw python_error("Could not load Python27.dll at " + python_dll_path);
+		throw python_error(L"Could not load Python" CYPHY_PYTHON_VERSION ".dll at " + python_dll_path);
 	return python_dll;
 }
 
@@ -105,7 +108,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 			if (!(status & 8))
 				COMTHROW(ccpProject->BeginTransaction(terr, TRANSACTION_NON_NESTED));
 
-			std::string metapath = GetMetaPath();
+			std::wstring metapath = GetMetaPath();
 			HMODULE python_dll = LoadPythonDll(metapath);
 			RAIIFreeLibrary python_dll_cleanup(python_dll);
 			
@@ -122,28 +125,28 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 				}
 			} MGACOLL_ITERATE_END;
 
-			std::string workingDir;
+			std::wstring workingDir;
 			_bstr_t tmpbstr;
-			const char* mgaFile = 0;
+			const wchar_t* mgaFile = 0;
 			auto original_project_it = componentParameters.find(_bstr_t(L"original_project_file"));
 			if (original_project_it != componentParameters.end() && original_project_it->second.vt == VT_BSTR && wcslen(original_project_it->second.bstrVal))
 			{
 				tmpbstr = original_project_it->second.bstrVal;
-				mgaFile = static_cast<const char*>(tmpbstr);
+				mgaFile = static_cast<const wchar_t*>(tmpbstr);
 			}
 			else
 			{
 				COMTHROW(project->get_ProjectConnStr(tmpbstr.GetAddress()));
 				if (_wcsnicmp(L"MGA=", tmpbstr, 4) == 0)
 				{
-					mgaFile = (static_cast<const char*>(tmpbstr) + 4);
+					mgaFile = (static_cast<const wchar_t*>(tmpbstr) + 4);
 				}
 			}
 			if (mgaFile)
 			{
-				char fullPath[MAX_PATH] = { '\0' };
-				LPSTR filepart;
-				if (GetFullPathNameA(mgaFile, sizeof(fullPath) / sizeof(fullPath[0]), fullPath, &filepart))
+				wchar_t fullPath[MAX_PATH] = { L'\0' };
+				LPWSTR filepart;
+				if (GetFullPathNameW(mgaFile, sizeof(fullPath) / sizeof(fullPath[0]), fullPath, &filepart))
 				{
 					*(filepart-1) = '\0';
 					workingDir = fullPath;
@@ -155,7 +158,7 @@ STDMETHODIMP RawComponent::InvokeEx( IMgaProject *project,  IMgaFCO *currentobj,
 
             if (!(status & 8))
                 COMTHROW(ccpProject->CommitTransaction());
-            terr = 0;
+			terr = 0;
 
 		}
         catch (python_error &exc)

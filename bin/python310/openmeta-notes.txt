@@ -1,0 +1,18 @@
+
+
+mkdir Python310
+cd Python310
+pushd c:\Python310-32\lib
+"c:\Program Files\7-Zip\7z.exe" a ..\Python310.zip -r -x!site-packages -x!lib2to3
+popd
+copy /y c:\Python310-32\Python310.zip  .\
+mkdir DLLs
+xcopy /E/Y C:\Python310-32\DLLs\*.* DLLs\
+mkdir libs
+xcopy /E/Y C:\Python310-32\libs\*.* libs\
+mkdir include
+xcopy /E/Y C:\Python310-32\include\*.* include\
+copy C:\Python310-32\python310.dll bin\Python310\
+copy /y "c:\Python310-32\python.exe" bin\python310\python.exe
+mkdir Lib
+xcopy /E/Y c:\Python310-32\Lib\lib2to3 Lib\lib2to3\

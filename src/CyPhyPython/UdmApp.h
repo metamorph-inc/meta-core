@@ -5,16 +5,18 @@
 #include <string>
 #include <set>
 #include <map>
-#include "..\bin\Python27\Include\Python.h"
+#include "..\bin\Python310\Include\Python.h"
 
-std::string GetMetaPath();
-HMODULE LoadPythonDll(const std::string& metapath);
+std::wstring GetMetaPath();
+HMODULE LoadPythonDll(const std::wstring& metapath);
 
 
 struct python_error : public std::runtime_error
 {
 	explicit python_error(const std::string& _Message)
 		: std::runtime_error(_Message) {}
+	explicit python_error(const std::wstring& _Message)
+		: std::runtime_error(static_cast<const char*>(_bstr_t(_Message.c_str()))) {}
 };
 
 struct UnGil {
@@ -39,6 +41,6 @@ struct RAIIFreeLibrary
 	}
 };
 
-void Main(const std::string& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
+void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<IMgaObject> focusObject,
 	std::set<CComPtr<IMgaFCO> > selectedObjects,
-	long param, std::map<_bstr_t, _variant_t>& componentParameters, std::string workingDir);
+	long param, std::map<_bstr_t, _variant_t>& componentParameters, std::wstring workingDir);
