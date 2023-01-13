@@ -32,10 +32,13 @@ When installing Visual Studio, select these packages (at minimum):
 You must also install Microsoft Visual Studio 2015 Update 3
 ([download](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs))
 
-## .NETFramework Version 4.5
+## .NETFramework Version 4.6.2 Developer Pack
+Visual Studio Installer -> Modify -> Individual Components -> .NET Framework 4.6.2 Developer Pack
 
-## Java JDK version 7 to 11
+## Java JDK version 8 to 11
 [Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+
+or https://adoptium.net/download/
 
 _NOTE: Either x86 or x64 is okay_
 
