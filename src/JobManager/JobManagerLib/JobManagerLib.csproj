@@ -88,10 +88,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Setlocal EnableDelayedExpansion
-set PATH=$(TargetFrameworkSDKToolsDirectory);$(SDK40ToolsPath);%25PATH%25
-"gacutil.exe" /nologo /u JobManagerLib
-"gacutil.exe" /nologo /i JobManagerLib.dll || exit /b !ERRORLEVEL!
-"$(SolutionDir)..\instrumentdll" "$(TargetDir)" "$(TargetFileName)" "$(ProjectDir)..\..\CyPhyMasterInterpreter\AssemblySignature.snk"
+powershell -ExecutionPolicy bypass &quot;$(SolutionDir)\install_gac.ps1&quot; JobManagerLib.dll || exit /b !ERRORLEVEL!
+&quot;$(SolutionDir)..\instrumentdll&quot; &quot;$(TargetDir)&quot; &quot;$(TargetFileName)&quot; &quot;$(ProjectDir)..\..\CyPhyMasterInterpreter\AssemblySignature.snk&quot;
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
