@@ -82,4 +82,4 @@ if __name__ == "__main__":
     ### Use minidom to pretty-print the xml
     dom_d = xml.dom.minidom.parseString(d.toxml("utf-8"))
     xml_d = dom_d.toprettyxml()
-    print xml_d
+    print(xml_d)

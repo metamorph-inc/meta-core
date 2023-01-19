@@ -138,7 +138,7 @@ def get_file_id(filename):
 def download_file(url, filename):
     if os.path.isfile(filename):
         return
-    print('Downloading {} => {}'.format(url, filename))
+    print(('Downloading {} => {}'.format(url, filename)))
     if os.path.dirname(filename):
         try:
             os.makedirs(os.path.dirname(filename))
@@ -162,7 +162,7 @@ def download_file(url, filename):
         raise ValueError('Download of {} was truncated: {}/{} bytes'.format(url, downloaded_octets, r.headers['content-length']))
     else:
         os.rename(tmp_path, filename)
-        print('  => {} {}'.format(filename, hash.hexdigest()))
+        print(('  => {} {}'.format(filename, hash.hexdigest())))
 
 
 class WixProcessingInstructionHandler(ContentHandler):
@@ -216,7 +216,7 @@ def main(src, output_filename=None, id=None, diskId=None):
 
     import subprocess
     def check_call(args):
-        print " ".join(args)
+        print(" ".join(args))
         subprocess.check_call(args)
     #subprocess.check_call('set path'.split(), shell=True)
     #subprocess.check_call('where heat'.split(), shell=True)

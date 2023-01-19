@@ -7,10 +7,10 @@ ROOT_DIR = os.getcwd()  # make sure to change back to this when exiting
 
 try:
     import py_modelica as pym
-    print 'Found py_modelica in virtual python environment'
+    print('Found py_modelica in virtual python environment')
 except ImportError as err:
-    print err.message
-    print 'Use META virtual python environment'
+    print(err.message)
+    print('Use META virtual python environment')
 
 from optparse import OptionParser
 
@@ -23,7 +23,7 @@ def _exit_on_failure(error_message):
     """ Function for exiting after a failure.
     """
     os.chdir(ROOT_DIR)
-    print error_message
+    print(error_message)
     import traceback
     with open('_FAILED.txt', 'wb') as f_out:
         f_out.writelines(error_message)

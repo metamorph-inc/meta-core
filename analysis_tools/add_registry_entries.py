@@ -18,7 +18,7 @@ def register_tool(tool):
         SetValueEx(reg, 'RunCommand', 0, REG_SZ, tool['runCommand'])
         SetValueEx(reg, 'RequiredInterpreter', 0, REG_SZ, tool['requiredInterpreter'])
 
-    print ' {0} is registered with parameters {1}'.format(tool['name'], tool)
+    print(' {0} is registered with parameters {1}'.format(tool['name'], tool))
 
 
 def get_tool(tool_dir):
@@ -40,7 +40,7 @@ def main():
     # get all analysis tools
     analysis_tools_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
-    print 'Registering analysis tools from {0}'.format(analysis_tools_dir)
+    print('Registering analysis tools from {0}'.format(analysis_tools_dir))
 
     directories = [os.path.join(analysis_tools_dir, name) for name in os.listdir(analysis_tools_dir) if os.path.isdir(os.path.join(analysis_tools_dir, name)) and not name in ['.svn', 'images']]
     tools = []
@@ -50,7 +50,7 @@ def main():
     for tool in tools:
         register_tool(tool)
 
-    print 'Analysis tool registration is done.'
+    print('Analysis tool registration is done.')
 
 if __name__ == '__main__':
     sys.exit(main())

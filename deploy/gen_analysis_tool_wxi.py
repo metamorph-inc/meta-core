@@ -34,7 +34,7 @@ def generate_wxi(src, output_filename=None, id=None, diskId=None):
     import subprocess
 
     def check_call(args):
-        print " ".join(args)
+        print(" ".join(args))
         subprocess.check_call(args)
 
     check_call(['heat', 'dir', _adjacent_file(src), '-template', 'fragment', '-sreg', '-scom',

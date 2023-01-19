@@ -8,7 +8,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         mat_file_name = sys.argv[1]
         if not os.path.exists(mat_file_name):
-            print 'Given result file does not exist: {0}'.format(sys.argv[1])
+            print('Given result file does not exist: {0}'.format(sys.argv[1]))
             os._exit(3)
 
         ## First limit part

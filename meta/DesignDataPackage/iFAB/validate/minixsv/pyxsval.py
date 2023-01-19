@@ -351,7 +351,7 @@ class XsValidator:
     #
     def _verbosePrint (self, text):
         if self.verbose:
-            print text
+            print(text)
 
 
 ########################################

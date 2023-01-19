@@ -28,4 +28,4 @@ if __name__ == "__main__": #run only if main
     propList.sort()
     for prop in propList:
         propName, unit = prop
-        print propName + ": " + unit
+        print(propName + ": " + unit)

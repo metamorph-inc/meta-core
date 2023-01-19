@@ -22,9 +22,9 @@ if __name__=='__main__':
             if previous:
                 previous_job = json.loads(previous[0][0])
                 if previous_job['lastCompletedBuild'] and not previous_job['lastCompletedBuild']['building']:
-                    print "skip " + previous_job['name']
+                    print("skip " + previous_job['name'])
                     continue
-            print job['name']
+            print(job['name'])
             job['name'] = job['name'].decode('UTF-8')
             c.execute('DELETE FROM jobs WHERE name = ?', (job['name'],))
             c.execute('INSERT INTO jobs VALUES (?, ?)', (job['name'], get(job['url'] + 'api/json/?depth=5').content.decode('UTF-8')))

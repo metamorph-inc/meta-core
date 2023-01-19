@@ -53,7 +53,7 @@ def migrate_xme(xme_path):
         if path is not None:
             set_cyphy_component_path(component, path)
         else:
-            print "Could not find path in manifest for: ", component.find('name').text
+            print("Could not find path in manifest for: ", component.find('name').text)
 
     _xml = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
@@ -78,4 +78,4 @@ for file in os.listdir('.'):
     if fnmatch.fnmatch(file, '*.xme'):
         xml = migrate_xme(file)
 
-print "done"
+print("done")

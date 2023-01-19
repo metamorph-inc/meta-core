@@ -67,7 +67,7 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
         xml_file2 = os.path.abspath(xml_file2)  # convert to absolute path
 
     # -------------------------------------------------
-    print
+    print()
     log.info(" ** Run Cyber Composition Verification on xml file(s)...")
     if xml_file2:
         log.info("    Using XML files at {} and {}".format(xml_file1, xml_file2))
@@ -95,7 +95,7 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
         log.warning("    Skipping {} because not in Windows!".format(CC_EXE))
 
     # -------------------------------------------------
-    print
+    print()
     log.info(" ** Processing the result...")
     result = [] # default
     if returncode:
@@ -172,7 +172,7 @@ def run(xml_file1="", xml_file2="", matlab_path=""):
             log.warning("    No results files found with pattern {}".format("{}*Result.txt".format(fileName1)))
 
     # -------------------------------------------------
-    print
+    print()
     log.info(" ** Generating dashboard output...")
     if os.path.isdir(cyphy_dir):
         # read manifest
@@ -290,18 +290,18 @@ def main(xml_file1="", xml_file2="", matlab_path=""):
         result_prefix = model_name.split('.')[len(model_name.split('.')) - 1]  # use only last one
         om_script_path = os.path.join(cyphy_dir,OM_SCRIPT)
         with open(om_script_path,'w') as f:
-            print >> f, '''
+            print('''
 loadModel(Modelica, {{"{}"}});
-loadModel(ModelicaServices); '''.format(data["MSL_version"])
+loadModel(ModelicaServices); '''.format(data["MSL_version"]), file=f)
             for name in data["lib_package_names"]:
                 f.write('loadModel({}); \n'.format(name))
-            print >> f, '''
+            print('''
 loadFile("{}");
 setCommandLineOptions("+debug=failtrace");
 setCommandLineOptions("+showErrorMessages");
 setCommandLineOptions("+indexReductionMethod=dynamicStateSelection" );
 dumpXMLDAE({},"optimiser",addMathMLCode=true,fileNamePrefix="{}");
-print(getErrorString());'''.format(data["model_file_name"],model_name,result_prefix)
+print(getErrorString());'''.format(data["model_file_name"],model_name,result_prefix), file=f)
         log.info("  Written Open Modelica script to file {}".format(om_script_path))
 
         xml_file2 = os.path.abspath(os.path.join(cyphy_dir,result_prefix+".xml"))
@@ -330,7 +330,7 @@ print(getErrorString());'''.format(data["model_file_name"],model_name,result_pre
             error('Plant XML file {} did not get generated!'.format(xml_file2))
 
         # go through all controller .cyber.json files in CyPhy/ to find the other XML file(s):
-        print
+        print()
         log.info("* Identifying component(s) for verification...")
         returncode = 200  # initialize with non-zero in case no matching XML files found!
         json_files = glob.glob(os.path.join(cyphy_dir,'*.cyber.json'))
@@ -341,7 +341,7 @@ print(getErrorString());'''.format(data["model_file_name"],model_name,result_pre
         progress_increment = 50/len(json_files)  # how much to increment each time
         progress = 50  # keep track of progress
         for name in json_files:
-            print
+            print()
             log.info(" ** Found: {}".format(name))
             # open file for reading:
             with open(name, 'r') as f:
@@ -365,7 +365,7 @@ print(getErrorString());'''.format(data["model_file_name"],model_name,result_pre
                 log.info("    Copied map file from {}".format(mapfile))
             returncode = run(xml_file1, xml_file2, matlab_path)
             progress = progress + progress_increment
-            print("\n[PROGRESS] {0:d}%".format(progress))
+            print(("\n[PROGRESS] {0:d}%".format(progress)))
             if returncode:  # stop and show warning
                 log.error("    Run with component in file {} did NOT succeed -- stopping!".format(xml_file1))
                 break

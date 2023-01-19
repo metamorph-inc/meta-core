@@ -7,8 +7,8 @@ if __name__ == '__main__':
     for dir in sys.argv:
         for root, dirs, files in os.walk(dir):
             for filename in (fn for fn in files if fn.endswith('.msi')):
-                print os.path.join(root, filename),
+                print(os.path.join(root, filename), end=' ')
                 try:
-                    print update_meta_tools.GetMsiProperty(os.path.join(root, filename), "ProductVersion")
+                    print(update_meta_tools.GetMsiProperty(os.path.join(root, filename), "ProductVersion"))
                 except:
-                    print "[error]"
+                    print("[error]")

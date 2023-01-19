@@ -544,12 +544,12 @@ def cli():
     plates = extract(args.stepfile)
     if args.summary:
         nplates, perimeter, area = summary(plates)
-        print "{0} plates\n"\
+        print("{0} plates\n"\
               "{1} mm perimeter\n"\
-              "{2} square mm area".format(nplates, perimeter, area)
+              "{2} square mm area".format(nplates, perimeter, area))
     else:
-        print json.dumps(plates, indent=4)
-        print len(plates)
+        print(json.dumps(plates, indent=4))
+        print(len(plates))
 
 if __name__ == "__main__":
     cli()

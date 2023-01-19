@@ -45,7 +45,7 @@ for exec_ in execs:
     timestamp = requests.get(munge_url(exec_url + 'api/json')).json()['timestamp']
     delta = datetime.timedelta(seconds=calendar.timegm(time.gmtime()) - timestamp/1000)
     if delta > old_threshold:
-        print exec_url + " " + str(delta)
+        print(exec_url + " " + str(delta))
 
 #import pytz
 #naive_timestamp = datetime.datetime(*time.gmtime(timestamp / 1000.0)[:6])

@@ -88,7 +88,7 @@ if __name__ == "__main__":
     # We are going to get all *.cs files in "GeneratedCode" and
     #   do some find-and-replace in them
 
-    print os.curdir
+    print(os.curdir)
 
     for s_path in locate("*.cs", os.curdir + '\..\..\GeneratedCode'):
         TransformFile(s_path)

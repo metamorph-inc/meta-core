@@ -189,10 +189,10 @@ def isFile(filename):
 
 def checkFile(filename):
     if not os.path.isfile(filename):
-        print 'Failed.'
-        print '***ERROR: File {0} not found'.format(filename)
-        print '***Download of HybridSal .tgz was incomplete???'
-        print '***Aborting...'
+        print('Failed.')
+        print('***ERROR: File {0} not found'.format(filename))
+        print('***Download of HybridSal .tgz was incomplete???')
+        print('***Aborting...')
         sys.exit(1)
     return True
 
@@ -229,7 +229,7 @@ def sed(f1, f2, assgn):
 
 def searchForrtjar( arg_rtjar, output ):
     global parser
-    print 'Searching for rt.jar...',
+    print('Searching for rt.jar...', end=' ')
     rtjar = 'rt.jar'
     if arg_rtjar != None:
         rtjar = arg_rtjar
@@ -250,19 +250,19 @@ def searchForrtjar( arg_rtjar, output ):
         p2 = os.path.join('..','Classes')
         rtjar = findFile(baseList, [p1, p2], ['rt.jar', 'classes.jar'])
     if rtjar == None:
-        print 'Failed.'
-        print '***Warning: Failed to find rt.jar in all possible places'
-        print '***Continuing without giving explicit rt.jar path; if this does not work, then...Make sure the system has rt.jar'
-        print '***Mac: it is sometimes called classes.jar and is located at /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Classes/classes.jar)'
-        print '***Win: often located at C:\Program Files\Java\jre6\lib....Once you have rt.jar...'
-        print '***Rerun install script as: {0}'.format( parser.format_usage() )
+        print('Failed.')
+        print('***Warning: Failed to find rt.jar in all possible places')
+        print('***Continuing without giving explicit rt.jar path; if this does not work, then...Make sure the system has rt.jar')
+        print('***Mac: it is sometimes called classes.jar and is located at /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Classes/classes.jar)')
+        print('***Win: often located at C:\Program Files\Java\jre6\lib....Once you have rt.jar...')
+        print('***Rerun install script as: {0}'.format( parser.format_usage() ))
         rtjar = '.'
     else:
-        print 'Successful. Found {0}'.format(rtjar)
+        print('Successful. Found {0}'.format(rtjar))
     rtjar = os.path.abspath(rtjar)
     if rtjar.find('java-6-openjdk') >= 0:
-        print '****Warning: rt.jar in java-6-openjdk is buggy; use java-6-sun/jre instead****'
-        print '****Rerun install script as: {0}'.format( parser.format_usage() )
+        print('****Warning: rt.jar in java-6-openjdk is buggy; use java-6-sun/jre instead****')
+        print('****Rerun install script as: {0}'.format( parser.format_usage() ))
     return rtjar
 
 def searchForjikes():
@@ -270,7 +270,7 @@ def searchForjikes():
     # Search for jikes? 
     # NOTE: BD I don't have jikes but it still compile fine??
     #
-    print 'Searching for jikes or javac...',
+    print('Searching for jikes or javac...', end=' ')
     jikespath = ''
     output = checkProg('javac')
     if not output:
@@ -285,15 +285,15 @@ def searchForjikes():
         else:
             jikespath = os.path.realpath(output)
     if jikespath == '':
-        print 'Failed.'
-        print '***Warning: jikes/javac not found; You can not COMPILE hybridsal2xml'
-        print '*** But you may be able to use the class files already present'
-        print '*** The class files were built on {0} {1}'.format(sys.platform,sys.version)
-        print '***Optionally, you can try to install jikes/javac and rerun this script'
+        print('Failed.')
+        print('***Warning: jikes/javac not found; You can not COMPILE hybridsal2xml')
+        print('*** But you may be able to use the class files already present')
+        print('*** The class files were built on {0} {1}'.format(sys.platform,sys.version))
+        print('***Optionally, you can try to install jikes/javac and rerun this script')
         #sourceforge.net/projects/jikes/files/Jikes/1.22/jikes-1.22-1.windows.zip
         jikespath = 'javac'
     else:
-        print 'Successful. Found {0}'.format(jikespath)
+        print('Successful. Found {0}'.format(jikespath))
     return jikespath
 
 def create_hybridsal2xml_exe( pwd, shell, jarfile ):
@@ -303,7 +303,7 @@ def create_hybridsal2xml_exe( pwd, shell, jarfile ):
     hybridsal2xmltemplate = os.path.join(bindir, 'hybridsal2xml.template')
     if not(os.path.isdir(bindir)) or not os.path.isfile(hybridsal2xmltemplate):
         return # os.makedirs(bindir)
-    print "Creating script hybridsal2xml at {0}...".format(bindir),
+    print("Creating script hybridsal2xml at {0}...".format(bindir), end=' ')
     scriptArgs = ''
     topshell = ''
     if sys.platform.startswith('win'):  # windows
@@ -323,7 +323,7 @@ def create_hybridsal2xml_exe( pwd, shell, jarfile ):
     os.chmod( hybridsal2xml, 0775 )
     hybridsal2xml1 = os.path.join( pwd, 'hybridsal2xml' )
     shutil.copy( hybridsal2xml, hybridsal2xml1 )
-    print "Created script {0}; also copied in directory {1}.".format(hybridsal2xml, hybridsal2xml1)
+    print("Created script {0}; also copied in directory {1}.".format(hybridsal2xml, hybridsal2xml1))
     return hybridsal2xml
 
 def compile_hybridsal2xml( hybridsal2xml, shell, rtjar, jikespath ):
@@ -332,15 +332,15 @@ def compile_hybridsal2xml( hybridsal2xml, shell, rtjar, jikespath ):
     #
     os.chdir(hybridsal2xml)
     # run ./install.sh antlrpath rtjar jikespath
-    print 'Searching for antlr...',
+    print('Searching for antlr...', end=' ')
     antlrpath = os.path.join(hybridsal2xml, 'antlr-2.7.1')
     if os.path.isdir(antlrpath):
-        print 'Successful. Found {0}'.format(antlrpath)
+        print('Successful. Found {0}'.format(antlrpath))
     else:
-        print 'Failed. Failed to find antlr-2.7.1/'
+        print('Failed. Failed to find antlr-2.7.1/')
         return 1
     # subprocess.call(['sh', 'install.sh', antlrpath, rtjar, jikespath ])
-    print "Installing hybridsal2xml at {0}".format(os.getcwd())
+    print("Installing hybridsal2xml at {0}".format(os.getcwd()))
     scriptArgs = ''
     topshell = ''
     iswin = sys.platform.startswith('win')	# windows
@@ -373,15 +373,15 @@ def compile_hybridsal2xml( hybridsal2xml, shell, rtjar, jikespath ):
         #hybridsal2xml += '.sh'
     sed( hybridsal2xmltemplate, hybridsal2xml, assgn )
     os.chmod( hybridsal2xml, 0775 )
-    print "Created script {0}.".format(hybridsal2xml)
-    print 'Searching for make...',
+    print("Created script {0}.".format(hybridsal2xml))
+    print('Searching for make...', end=' ')
     output = checkProg('make')
     if not output:
-        print 'Failed.'
-        print '***To build hybridsal2xml, you need to run make in the directory hybridsal2xml/'
-        print '***Perhaps the existing built version suffices, so continuing...'
+        print('Failed.')
+        print('***To build hybridsal2xml, you need to run make in the directory hybridsal2xml/')
+        print('***Perhaps the existing built version suffices, so continuing...')
     else:
-        print 'Successful. Found {0}'.format(output)
+        print('Successful. Found {0}'.format(output))
         #os.chdir(os.path.join(antlrpath))
         #subprocess.call([ 'make' ])
         #os.chdir('..')
@@ -394,67 +394,67 @@ def compile_hybridsal2xml( hybridsal2xml, shell, rtjar, jikespath ):
             # subprocess.call([ 'ln', '-s', antlr, 'antlr' ])
         subprocess.call([ 'make' ])
     if os.path.isfile('HybridSal2Xml.class'):
-        print "hybridsal2xml installation complete."
+        print("hybridsal2xml installation complete.")
     else:
-        print "hybridsal2xml installation failed."
-        print "***See error messages above and fix***"
+        print("hybridsal2xml installation failed.")
+        print("***See error messages above and fix***")
         return 1
     hybridsal2xml1 = os.path.join( '..', 'bin' )
     shutil.copy( hybridsal2xml, hybridsal2xml1 )
-    print "Created script {0}; also saved in directory {1}.".format(hybridsal2xml, hybridsal2xml1)
+    print("Created script {0}; also saved in directory {1}.".format(hybridsal2xml, hybridsal2xml1))
     #subprocess.call([ 'jar', 'cfm', 'hybridsal2xml.jar', 'Manifest.txt', '*.class', 'antlr' ])
     shutil.copy( 'hybridsal2xml.jar', '..' )
     return os.path.join('hybridsal2xml', hybridsal2xml)
 
 def installmodelica():
-    print 'Installing Modelica2HybridSal converter ...'
-    print '-------------------------------------------'
-    print "Testing dparser...",
+    print('Installing Modelica2HybridSal converter ...')
+    print('-------------------------------------------')
+    print("Testing dparser...", end=' ')
     make_dparser = checkProg('make_dparser')
     if not make_dparser:
-        print 'Failed.'
-        print '***Could not find dparser installed in your system'
-        print '***Install dparser AND python support for dparser'
-        print '***From dparser.sourceforge.net'
-        print '***Continuing with the hope that python support for dparser was installed'
+        print('Failed.')
+        print('***Could not find dparser installed in your system')
+        print('***Install dparser AND python support for dparser')
+        print('***From dparser.sourceforge.net')
+        print('***Continuing with the hope that python support for dparser was installed')
     else:
-        print 'Successful.'
-    print "Testing python support for dparser...",
+        print('Successful.')
+    print("Testing python support for dparser...", end=' ')
     try:
         import dparser
     except ImportError:
-        print 'Failed.'
-        print '***Install python support for dparser'
-        print 'Checking if swig is installed...',
+        print('Failed.')
+        print('***Install python support for dparser')
+        print('Checking if swig is installed...', end=' ')
         swig = checkProg('swig')
         if not swig:
-            print 'Failed.'
-            print '***You need to install swig first: www.swig.org/download.html'
-            print '***Swig installation steps: download swigwin-2.0.7.zip file; unzip; ./configure; make; make install'
-            print '***Swig uses pcre from www.pcre.org; but it may not be required'
+            print('Failed.')
+            print('***You need to install swig first: www.swig.org/download.html')
+            print('***Swig installation steps: download swigwin-2.0.7.zip file; unzip; ./configure; make; make install')
+            print('***Swig uses pcre from www.pcre.org; but it may not be required')
         else:
-            print 'Successful. Found {0}'.format(swig)
-        print '***Install dparser and its python support from dparser.sourceforge.net'
-        print '***modelica2hybridsal converter installation failed'
-        print 'My Notes: swig and dparser installation required configure and make utilities'
-        print '***I installed mingw on my windows machine; and then installed unix-like utilities, such as,'
-        print '***mingw-get install gcc g++ msys-base msys-make mingw32-autotools'
-        print '***And then installed pcre; swig; dparser; dparser-python-support;'
-        print '***For python support for dparser: In the python subdirectory of dparser: python setup.py build --compiler=mingw32'
-        print '***Ideally, add --compiler=mingw32 at end of the python setup.py build in the Makefile in d/python/'
-        print '***I had to edit Python27/Lib/distutils/cygwinccompiler.py and remove all -mno-cygwin from python'
-        print 'You can still use HybridSal Relational Abstractor, but you can not use the Modelica2HybridSal front-end'
+            print('Successful. Found {0}'.format(swig))
+        print('***Install dparser and its python support from dparser.sourceforge.net')
+        print('***modelica2hybridsal converter installation failed')
+        print('My Notes: swig and dparser installation required configure and make utilities')
+        print('***I installed mingw on my windows machine; and then installed unix-like utilities, such as,')
+        print('***mingw-get install gcc g++ msys-base msys-make mingw32-autotools')
+        print('***And then installed pcre; swig; dparser; dparser-python-support;')
+        print('***For python support for dparser: In the python subdirectory of dparser: python setup.py build --compiler=mingw32')
+        print('***Ideally, add --compiler=mingw32 at end of the python setup.py build in the Makefile in d/python/')
+        print('***I had to edit Python27/Lib/distutils/cygwinccompiler.py and remove all -mno-cygwin from python')
+        print('You can still use HybridSal Relational Abstractor, but you can not use the Modelica2HybridSal front-end')
         return 1
     else:
-        print 'Successful.'
+        print('Successful.')
 
-    print 'Testing modelica2hybridsal converter...',
+    print('Testing modelica2hybridsal converter...', end=' ')
     # python  /export/u1/homes/tiwari/sal/sal-devel/ashish-tools/modelica2hsal/src/modelica2hsal.py $*
     #ex4 = os.path.join('modelica2hsal', 'examples','RCEngine.xml')
     ex4 = os.path.join('modelica2hsal', 'examples','MassSpringDamperTest.MassSpringDamperTest.xml')
     if not os.path.isfile(ex4):
-        print 'Failed.'
-        print '***Unable to find modelica example file'
+        print('Failed.')
+        print('***Unable to find modelica example file')
     else:
         hsal2hasal = 'modelica2hsal'
         if sys.platform.startswith('win'):
@@ -463,37 +463,37 @@ def installmodelica():
         try:
             subprocess.call([ exe, ex4 ])
         except Exception, e:
-            print 'Failed.'
-            print '***Failed to execute generated script {0} using python subprocess.call'.format(hsal2hasal)
-            print '***Check if the script looks ok; and if you can execute it from command line with one argument {0}'.format(ex4)
+            print('Failed.')
+            print('***Failed to execute generated script {0} using python subprocess.call'.format(hsal2hasal))
+            print('***Check if the script looks ok; and if you can execute it from command line with one argument {0}'.format(ex4))
         else:
-            print 'Successful.'
-    print 'HybridSal Relational Abstracter and Modelica front-end successfully installed.'
-    print "-------------------------------------------------"
+            print('Successful.')
+    print('HybridSal Relational Abstracter and Modelica front-end successfully installed.')
+    print("-------------------------------------------------")
 
 def installsal(args_dict):
     global parser
-    print "Searching for sal installation..."
+    print("Searching for sal installation...")
     output = checkProg('sal-inf-bmc')
     iswin = sys.platform.startswith('win')	# is windows
     if not(output) and not(iswin):	# not windows
-        print "***Download and install SAL; otherwise you can create SAL abstractions of HybridSal models, but you won't be able to model check them"
-        print "***Update PATH with location of sal-inf-bmc"
+        print("***Download and install SAL; otherwise you can create SAL abstractions of HybridSal models, but you won't be able to model check them")
+        print("***Update PATH with location of sal-inf-bmc")
         return 1
     elif not(iswin):
-        print 'sal-inf-bmc found at {0}'.format(output)
+        print('sal-inf-bmc found at {0}'.format(output))
     else:  # windows
-        print 'Checking for cygwin at c:\cygwin'
+        print('Checking for cygwin at c:\cygwin')
         cygwin = os.path.join('C:',os.path.sep,'cygwin')
         if 'cygwin' in args_dict.keys() and args_dict['cygwin']:
             cygwin = args_dict['cygwin']
         if not os.path.isdir(cygwin):
-            print '***Unable to find cygwin; install and rerun script'
-            print '***If installed in non-standard location, rerun script as'
-            print '***  {0}'.format( parser.format_usage() )
+            print('***Unable to find cygwin; install and rerun script')
+            print('***If installed in non-standard location, rerun script as')
+            print('***  {0}'.format( parser.format_usage() ))
             return 1
-        print 'cygwin found at {0}'.format(cygwin)
-        print 'searching for sal...'
+        print('cygwin found at {0}'.format(cygwin))
+        print('searching for sal...')
         saldir = None
         if 'sal' in args_dict.keys() and args_dict['sal']:
             saldir = args_dict['sal']
@@ -506,18 +506,18 @@ def installsal(args_dict):
                 if saldir != None:
                     break
         if saldir != None and os.path.isdir(saldir):
-            print 'sal found at {0}'.format(saldir)
+            print('sal found at {0}'.format(saldir))
         else:
-            print '***Unable to find SAL; download from sal.csl.sri.com'
-            print '***install and rerun script'
-            print '***If installed in non-standard location, rerun script as'
-            print '***  {0}'.format( parser.format_usage() )
+            print('***Unable to find SAL; download from sal.csl.sri.com')
+            print('***install and rerun script')
+            print('***If installed in non-standard location, rerun script as')
+            print('***  {0}'.format( parser.format_usage() ))
             return 1
         # now we have saldir and cygwin both set...
         outfile = createSALfile(cygwin, saldir)
-        print 'created file {0}'.format(outfile)
-    print 'sal-inf-bmc successfully installed.'
-    print "-------------------------------------------------"
+        print('created file {0}'.format(outfile))
+    print('sal-inf-bmc successfully installed.')
+    print("-------------------------------------------------")
 
 def main():
     global parser
@@ -542,36 +542,36 @@ def main():
         createReleaseExe('.')
         return 0
 
-    print "-------------------------------------------------"
-    print "Installing HybridSal Relational Abstraction Tool."
-    print "     Copyright (c) SRI International 2011.       "
-    print "-------------------------------------------------"
+    print("-------------------------------------------------")
+    print("Installing HybridSal Relational Abstraction Tool.")
+    print("     Copyright (c) SRI International 2011.       ")
+    print("-------------------------------------------------")
 
     #
     # Search for java and JAVA_HOME
     #
-    print 'Searching for java...',
+    print('Searching for java...', end=' ')
     javapath = checkProg('java')
     if not javapath:
-        print 'Failed. Install java and retry.'
+        print('Failed. Install java and retry.')
         return 1
     else:
-        print 'Successful. Found {0}'.format(javapath)
+        print('Successful. Found {0}'.format(javapath))
 
     # set value of shell
     shell = checkProg( 'sh' )
     if not shell and 'SHELL' in os.environ.keys():
         shell = os.environ['SHELL']
     if shell:
-        print 'Using shell at {0}'.format(shell)
+        print('Using shell at {0}'.format(shell))
 
     #
     # Check that we're in the right directory
     #
-    print 'Searching for hybridsal2xml...',
+    print('Searching for hybridsal2xml...', end=' ')
     output = os.getcwd()
     if output == '' or output == '\n':
-        print 'Error: pwd failed!'
+        print('Error: pwd failed!')
         return 1
     if output[-1] == '\n':
         pwd = output[0:-1]
@@ -584,9 +584,9 @@ def main():
         hybridsal2xml = os.path.normpath(os.path.join(pwd, "hybridsal2xml"))
         #        jarfile = os.path.join(hybridsal2xml,'hybridsal2xml.jar')
         if not os.path.isdir(hybridsal2xml):
-            print 'Failed to find hybridsal2xml.jar '
-            print '***Error: RUN THIS SCRIPT FROM THE HSAL ROOT DIRECTORY'
-            print '***The HSAL root directory is the directory created by tar -xz or unzip'
+            print('Failed to find hybridsal2xml.jar ')
+            print('***Error: RUN THIS SCRIPT FROM THE HSAL ROOT DIRECTORY')
+            print('***The HSAL root directory is the directory created by tar -xz or unzip')
             return 1
     if not os.path.isfile( jarfile ):
         rtjar = searchForrtjar( args.rtjar.name if args.rtjar else None , javapath )
@@ -600,30 +600,30 @@ def main():
             os.environ['CLASSPATH'] = hybridsal2xml + os.pathsep + os.environ['CLASSPATH']
         else:
             os.environ['CLASSPATH'] = '.' + os.pathsep + hybridsal2xml + os.pathsep + os.pathsep
-        print 'Found hybridsal2xml.jar at {0}'.format(jarfile)
+        print('Found hybridsal2xml.jar at {0}'.format(jarfile))
     else:
-        print '***Failed to create hybridsal2xml. Giving up.'
+        print('***Failed to create hybridsal2xml. Giving up.')
         return 1
 
     # Test hybridsal2xml converter
-    print 'Testing hybridsal2xml...',
+    print('Testing hybridsal2xml...', end=' ')
     hsal = os.path.join('examples', 'Linear1.hsal')
     hxml = os.path.join('examples', 'Linear1.hxml')
     if not os.path.isfile( hsal ):
-        print '***Failed to find an example (examples/Linear1.hsal) for testing'
+        print('***Failed to find an example (examples/Linear1.hsal) for testing')
     else:
         if os.path.isfile(hxml):
             os.remove(hxml)
         try:
             subprocess.call([ 'java', '-jar', jarfile, '-o', hxml, hsal ])
         except Exception, e:
-            print 'Failed.'
-            print '***Failed to run hybridsal2xml using the precompiled jar file and antlr'
-            print '***Trying to compile hybridsal2xml from sources...'
+            print('Failed.')
+            print('***Failed to run hybridsal2xml using the precompiled jar file and antlr')
+            print('***Trying to compile hybridsal2xml from sources...')
             if os.path.isfile(hxml):
                 os.remove(hxml)
         if os.path.isfile( hxml ):
-            print 'Successful.'
+            print('Successful.')
             hybridsal2xml = create_hybridsal2xml_exe( pwd, shell, jarfile )
 
     #
@@ -659,7 +659,7 @@ def main():
     srcdir = os.path.join(pwd, 'src')
     if os.path.isdir(srcdir):
         # sources downloaded; so I will create more bin/ files just to give more tools to user
-        print 'Creating bin/ files...',
+        print('Creating bin/ files...', end=' ')
         bindir = os.path.join(pwd, "bin")
         if not(os.path.isdir(bindir)):
             os.makedirs(bindir)
@@ -679,12 +679,12 @@ def main():
             #os.remove(filename)
         #subprocess.call(['ln', '-s', os.path.join('..','hybridsal2xml',hybridsal2xml), os.path.join(pwd, 'bin', 'hsal2hxml')])
         except Exception, e:
-            print 'Failed.'
-            print '***Unable to create executable scripts. Perhaps permission issues??'
-            print e
+            print('Failed.')
+            print('***Unable to create executable scripts. Perhaps permission issues??')
+            print(e)
             return 1
         else:
-            print 'Successful.'
+            print('Successful.')
     else:
         pass
 
@@ -692,33 +692,33 @@ def main():
     # python version test
     # 
     if sys.version < '2.6':
-        print '****Warning: Preferably use python version 2.6 or higher****'
+        print('****Warning: Preferably use python version 2.6 or higher****')
 
     # 
     # Test if numpy and scipy are installed
     # 
-    print 'Searching for numpy...',
+    print('Searching for numpy...', end=' ')
     try:
         import numpy
     except ImportError, e:
-        print 'Failed.'
-        print '***Install python modules numpy and scipy first.'
-        print '***On Ubuntu: sudo aptitude install python-numpy'
-        print '***On Windows: get numpy-1.6.2-win32-superpack-python2.7.exe or Scipy-stack-13.4.9.win-amd64-py2.7.exe (includes numpy)'
+        print('Failed.')
+        print('***Install python modules numpy and scipy first.')
+        print('***On Ubuntu: sudo aptitude install python-numpy')
+        print('***On Windows: get numpy-1.6.2-win32-superpack-python2.7.exe or Scipy-stack-13.4.9.win-amd64-py2.7.exe (includes numpy)')
         return 1
     else:
-        print 'Found.'
-    print 'Searching for scipy...',
+        print('Found.')
+    print('Searching for scipy...', end=' ')
     try:
         import scipy
     except ImportError, e:
-        print 'Failed.'
-        print '***Install python modules numpy and scipy first.'
-        print '***On Ubuntu: sudo aptitude install python-scipy'
-        print '***On Windows: get scipy-0.11.Orc1-superpack-python2.7.exe or Scipy-stack-13.4.9.win-amd64-py2.7.exe'
+        print('Failed.')
+        print('***Install python modules numpy and scipy first.')
+        print('***On Ubuntu: sudo aptitude install python-scipy')
+        print('***On Windows: get scipy-0.11.Orc1-superpack-python2.7.exe or Scipy-stack-13.4.9.win-amd64-py2.7.exe')
         return 1
     else:
-        print 'Found.'
+        print('Found.')
 
     # evaluate other options:
     exe = 'hsalRA.exe'
@@ -740,19 +740,19 @@ def main():
         hsal2hasal += '.bat'
     exe = os.path.join('bin',hsal2hasal)
     if os.path.isfile(exe):
-        print "Testing HybridSal relational abstracter...",
+        print("Testing HybridSal relational abstracter...", end=' ')
         try:
             subprocess.call([ exe, os.path.join('examples','Linear1.hsal') ])
         except Exception, e:
-            print 'Failed.'
-            print '***Failed to execute generated script {0} using python subprocess.call'.format(exe)
-            print '***Check if the script looks ok; and if you can execute it from command line'
+            print('Failed.')
+            print('***Failed to execute generated script {0} using python subprocess.call'.format(exe))
+            print('***Check if the script looks ok; and if you can execute it from command line')
             return 1
         if os.path.isfile( ex4 ):
-            print 'Successful.'
+            print('Successful.')
         else:
-            print 'Failed.'
-            print '***Executed the generated script {0}, but it did not generate expected output'.format(exe)
+            print('Failed.')
+            print('***Executed the generated script {0}, but it did not generate expected output'.format(exe))
             return 1
 
     #
@@ -762,22 +762,22 @@ def main():
     ex1 = os.path.join('examples','MassSpringDamperTest.MassSpringDamperTest.xml')
     prop1 = os.path.join('examples','MassSpringDamperTest.property.json')
     if os.path.isfile(exe) and os.path.isfile(ex1) and os.path.isfile(prop1):
-        print "Testing hsalRA.exe ...\n",
+        print("Testing hsalRA.exe ...\n", end=' ')
         try:
             subprocess.check_call([ exe, ex1, prop1 ])
         except Exception, e:
-            print 'Failed.'
-            print '***Failed to execute hsalRA.exe'
+            print('Failed.')
+            print('***Failed to execute hsalRA.exe')
             return 1
-        print 'Testing hsalRA.exe was successful.'
+        print('Testing hsalRA.exe was successful.')
     
     #
     # Test dparser and swig for modelica2hxml converter
     #
 
-    print 'HybridSal successfully installed.'
+    print('HybridSal successfully installed.')
     if not sys.platform.startswith('win'):
-        print 'run make test to see it working.'
+        print('run make test to see it working.')
     return 0
 
 def createSALfile(cygwin, saldir):
@@ -785,7 +785,7 @@ def createSALfile(cygwin, saldir):
     fp = open( binfile, 'w')
     cygwinbash = os.path.join(cygwin, 'bin', 'bash')
     salinfbmc = os.path.join(saldir, 'bin', 'sal-inf-bmc')
-    print >> fp, "{0} -li {1} %1 %2 %3 %4 %5 %6 %7 %8 %9".format( repr(cygwinbash)[1:-1], repr(salinfbmc)[1:-1])
+    print("{0} -li {1} %1 %2 %3 %4 %5 %6 %7 %8 %9".format( repr(cygwinbash)[1:-1], repr(salinfbmc)[1:-1]), file=fp)
     fp.close()
     os.chmod( binfile, 0775 )
     return binfile
@@ -797,10 +797,10 @@ def createBinFile(shell, pwd, bindir, filename, pythonfile):
     fp = open( binfile, 'w')
     if sys.platform.startswith('win'):
         pyfile = repr(os.path.join(pwd, pythonfile))
-        print >> fp, 'python ', pyfile[1:-1], '%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8'
+        print('python ', pyfile[1:-1], '%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', file=fp)
     else:
-        print >> fp, shell
-        print >> fp, 'python ', os.path.join(pwd, pythonfile), '$*' 
+        print(shell, file=fp)
+        print('python ', os.path.join(pwd, pythonfile), '$*', file=fp) 
     fp.close()
     # subprocess.call(['chmod', '+x', binfile])
     os.chmod( binfile, 0775 )
@@ -821,7 +821,7 @@ def make_hybridsal2xmljar(currdir, h2xmldir, dstdir):
 def make_readme(currdir, dstdir):
     os.chdir(dstdir)
     with open('README','w') as fp:
-        print >> fp, '''
+        print('''
 Prerequisites:
 --------------
 This is a precompiled version of HybridSal analysis tool
@@ -857,7 +857,7 @@ Run
 For example, run:
 
 ./hsalRA.exe examples/MassSpringDamperTest.MassSpringDamperTest.xml examples/MassSpringDamperTest.property.json
-'''
+''', file=fp)
     os.chdir(currdir)
     return
 
@@ -912,7 +912,7 @@ def createReleaseExe(srcdir):
     shutil.copy('install.py', distdir)
     shutil.copy('COPYRIGHT', distdir)
     shutil.copy( os.path.join( currdir, 'hybridsal2xml', 'hybridsal2xml.bat'), distdir)
-    print 'Successfully created distribution {0}'.format(distdir)
+    print('Successfully created distribution {0}'.format(distdir))
  
 def createRelease(srcdir,withmodelica):
     'create directory for release purposes'
@@ -927,10 +927,10 @@ def createRelease(srcdir,withmodelica):
             if os.path.isdir(distdirold):
                 shutil.rmtree( distdirold )
             os.rename(distdir, distdirold)
-            print 'directory {0} exists. Renaming it to {1}'.format(distdir, distdirold)
+            print('directory {0} exists. Renaming it to {1}'.format(distdir, distdirold))
         except Exception, e:
-            print 'Error: Exception raised', e
-            print 'System level exception; Maybe a permission issue'
+            print('Error: Exception raised', e)
+            print('System level exception; Maybe a permission issue')
             return -1
     try:
         os.mkdir(distdir, 0755)
@@ -948,16 +948,16 @@ def createRelease(srcdir,withmodelica):
             checkFile( src )
             shutil.copy2( src, dst )
     except Exception, e:
-        print 'Error: Exception raised', e
-        print 'System level exception; Maybe a permission issue'
+        print('Error: Exception raised', e)
+        print('System level exception; Maybe a permission issue')
         return -1
-    print 'Successfully created distribution directory {0}'.format(distdir)
+    print('Successfully created distribution directory {0}'.format(distdir))
     import tarfile
     tgz = tarfile.open(distdir + '.tgz', 'w|gz')
     tgz.add(distdir)
     tgz.close()
     shutil.rmtree( distdir )
-    print 'Successfully created distribution {0}'.format(distdir+'.tgz')
+    print('Successfully created distribution {0}'.format(distdir+'.tgz'))
 
 if __name__ == '__main__':
     main()

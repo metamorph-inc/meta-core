@@ -13,7 +13,7 @@ def run_importer(project, lib_root, acm_file):
     """ Runs the component importer. Project should not be in a transaction. acm_files is a list of acm or xml
         AVM component model file, which will be imported into the project.
     """
-    print 'Running Component Importer'
+    print('Running Component Importer')
     importer = win32com.client.DispatchEx("MGA.Interpreter.CyPhyComponentImporter")
     importer.Initialize(project)  # initialize GMEConsole and MGAGateway
     project.BeginTransactionInNewTerr()  # transaction is required by the ImportFiles function call

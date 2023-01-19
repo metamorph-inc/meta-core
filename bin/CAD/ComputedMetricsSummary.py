@@ -257,7 +257,7 @@ def WriteXMLFile(componentList):
 
 
 def WriteMetric2File(gComponentList):
-    print 'WriteMetric2File()'
+    print('WriteMetric2File()')
     global gConfigurationID
 
     PrintComponentList(gComponentList)

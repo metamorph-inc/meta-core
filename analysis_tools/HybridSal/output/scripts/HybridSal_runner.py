@@ -51,11 +51,11 @@ def updateEnviron(log,varname,value):
 
 def printStdOutErr(log,name,stdout,stderr):
     if stdout: # not empty
-        print
+        print()
         log.info("  === start of {} STDOUT ===\n{}".format(name,stdout.strip()))
         log.info("  === end of {} STDOUT ===".format(name))
     if stderr: # not empty
-        print
+        print()
         log.info("  === start of {} STDERR ===\n{}".format(name,stderr.strip()))
         log.info("  === end of {} STDERR ===".format(name))
 
@@ -125,18 +125,18 @@ def main():
     result_prefix = model_name.split('.')[2] 
     om_script_path = os.path.join(cyphy_dir,om_script)
     with open(om_script_path,'w') as f:
-        print >> f, '''
+        print('''
 //echo(false);
 loadModel(Modelica, {{"{}"}}); print(getErrorString());
-loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["model_file_name"])
+loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["model_file_name"]), file=f)
         for name in data["lib_package_names"]:
             f.write('loadModel({}); print(getErrorString());\n'.format(name))
-        print >> f, '''dumpXMLDAE({},"optimiser",addMathMLCode=true,fileNamePrefix="{}"); print(getErrorString());
-'''.format(model_name,result_prefix)
+        print('''dumpXMLDAE({},"optimiser",addMathMLCode=true,fileNamePrefix="{}"); print(getErrorString());
+'''.format(model_name,result_prefix), file=f)
     log.info("  Written Open Modelica script to file {}".format(om_script_path))
 
     # -------------------------------------------------
-    print
+    print()
     log.info("* Translate test bench to DAEs using Open Modelica...")
     daexml_file = os.path.abspath(os.path.join(cyphy_dir,result_prefix+".xml"))
     if sys.platform.startswith('win'):  # windows
@@ -158,7 +158,7 @@ loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["mod
         log.warning("Skipping omc.exe because not in Windows!")
 
     # -------------------------------------------------
-    print
+    print()
     log.info("* Run HybridSal on DAE xml...")
     if not os.path.isfile(daexml_file):
         error('Couldn\'t find DAE XML file\n  {}'.format(daexml_file))
@@ -184,7 +184,7 @@ loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["mod
         printStdOutErr(log,"HybridSal",stdout,stderr)
 
         # -------------------------------------------------
-        print
+        print()
         log.info("* Processing the result...")
         # read manifest
         summary_file = os.path.join(os.path.dirname(cyphy_dir),'testbench_manifest.json')
@@ -303,7 +303,7 @@ loadFile("{}"); print(getErrorString());'''.format(data["MSL_version"],data["mod
         #print json.dumps(summary_results['FormalVerification'],indent=2) # TODO: remove after testing
 
         # -------------------------------------------------
-        print
+        print()
         log.info("* Returning HybridSal exit code...")
         sys.exit(process.returncode)
 

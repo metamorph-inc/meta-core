@@ -22,5 +22,5 @@ if __name__ == "__main__":
     elif extension == ".adm":
         d = avm.Design.createFromDOM(dom_input)
     else:
-        print "Input was neither an ACM or ADM file"
+        print("Input was neither an ACM or ADM file")
         exit(-1)

@@ -280,7 +280,7 @@ if __name__ == "__main__":
     tot_exit_time *= SETTINGS["voxel_size"] / 1.0
 
     tb_results = {"total_exit_time": tot_exit_time}
-    print "Results?"
-    print tb_results
+    print("Results?")
+    print(tb_results)
 
     plot_paths(graph, [start_points[0]], door_points[0], overall_walkability_scores, SETTINGS)

@@ -8,7 +8,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         mat_file_name = sys.argv[1]
         if not os.path.exists(mat_file_name):
-            print 'Given result file does not exist: {0}'.format(sys.argv[1])
+            print('Given result file does not exist: {0}'.format(sys.argv[1]))
             os._exit(3)
 
         ## First limit part
@@ -31,21 +31,21 @@ if __name__ == '__main__':
 
         cwd = os.getcwd()
         os.chdir('..')
-        print 'Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.vehicleSpeed', 
+        print('Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.vehicleSpeed', 
                                                           pp.global_abs_max("road_Wheel_Load_Both_Sides.vehicleSpeed"),
                                                           'VehicleSpeed',
                                                           'max(road_Wheel_Load_Both_Sides.vehicleSpeed)',
-                                                          'km/h'))
-        print 'Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.Accel_20kph', 
+                                                          'km/h')))
+        print('Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.Accel_20kph', 
                                                           pp.last_value('road_Wheel_Load_Both_Sides.Accel_20kph'),
                                                           'Acc20kph',
                                                           'last_value(road_Wheel_Load_Both_Sides.Accel_20kph)',
-                                                          's'))
-        print 'Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.Accel_40kph', 
+                                                          's')))
+        print('Plot saved to : {0}'.format(pp.save_as_svg('road_Wheel_Load_Both_Sides.Accel_40kph', 
                                                           pp.last_value('road_Wheel_Load_Both_Sides.Accel_40kph'),
                                                           'Acc40kph',
                                                           'last_value(road_Wheel_Load_Both_Sides.Accel_40kph)',
-                                                          's'))
+                                                          's')))
         update_metrics_in_report_json(metrics)
         ## end of postprocessing part
 

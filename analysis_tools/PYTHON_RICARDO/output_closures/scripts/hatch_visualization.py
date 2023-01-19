@@ -251,10 +251,10 @@ if __name__ == "__main__":
             # Imperfect HACK in case the z coord isn't the one == 0
 
             # Plot the CG point overlaid on the plane. Marker is blue circle
-            print "cg pt", h.cg_pt[:2]
+            print("cg pt", h.cg_pt[:2])
             plt.plot(-h.cg_pt[0], h.cg_pt[1], marker='o', color='b')
             # Plot the hinge center pt. Marker is red triangle
-            print "hcsys all", h.hinge_csys[:-1, 3]
+            print("hcsys all", h.hinge_csys[:-1, 3])
             plt.plot(-h.hinge_csys[0, 3], h.hinge_csys[1, 3], marker='^', color='r')
 
     if show3d:

@@ -63,6 +63,6 @@ if __name__ == "__main__":
                 logger.info('Logging level set to {}'.format(args.level.upper()))
 
         # call split functions with argument:
-        print split(args.property) # display vars
+        print(split(args.property)) # display vars
     finally:
         logging.shutdown()

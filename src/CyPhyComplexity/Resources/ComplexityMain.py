@@ -224,7 +224,7 @@ def eval_variate(var):
 # THIS FUNCTION CAN BE ADAPTED
 # FOR INTEGRATION WITH THE DISPLAY MODULE
 def displaymessage(message_text,end_execution=False):
-    print message_text
+    print(message_text)
     if end_execution:
         exit()
     return
@@ -232,37 +232,37 @@ def displaymessage(message_text,end_execution=False):
 def update_complexity_metrics(complexity_value=-1):
     # check if summary report json file exits
     if not os.path.exists('testbench_manifest.json'):
-        print 'ERROR! File does not exist: testbench_manifest.json'
+        print('ERROR! File does not exist: testbench_manifest.json')
         os.exit(0)
     else:
-        print 'testbench_manifest.json found'
+        print('testbench_manifest.json found')
 
     # read current summary report, which contains the metrics
     result_json = {}
     with open('testbench_manifest.json','r') as file_in:
         result_json = json.load(file_in)
-        print 'testbench_manifest.json loaded'
+        print('testbench_manifest.json loaded')
 
     # update metrics
     if 'Metrics' in result_json:
-        print 'Metrics key found'
+        print('Metrics key found')
         metricsFound = False
         for metric in result_json['Metrics']:
-            print 'Working on one metric key'
+            print('Working on one metric key')
             metricsFound = True
             if 'Name' in metric and 'Value' in metric:
-                print 'Name and Value keys do exist in the metric'
+                print('Name and Value keys do exist in the metric')
                 if metric['Name'] == "ComplexityMetric":
-                    print 'Metric with name ComplexityMetric found'
+                    print('Metric with name ComplexityMetric found')
                     metric['Value'] = str(complexity_value)
                 else:
-                    print 'ERROR! Metric with name ComplexityMetric could not be found'
+                    print('ERROR! Metric with name ComplexityMetric could not be found')
             else:
-                print 'ERROR! Name and Value keys do not exist in the metric'
+                print('ERROR! Name and Value keys do not exist in the metric')
         if metricsFound == False:
-            print 'ERROR! No metrics found in the summary report json file'
+            print('ERROR! No metrics found in the summary report json file')
     else:
-        print 'ERROR! Metrics key not found in the summary report json file'
+        print('ERROR! Metrics key not found in the summary report json file')
 
     # save updated metrics in the summary report json file
     with open('testbench_manifest.json','wb') as file_out:
@@ -329,10 +329,10 @@ def batch_mode(directory='',sampleSize=200):
         fname1 = directory+'/'+'component_complexity'+suffix
         fname2 = directory+'/'+'interface_complexity'+suffix
 
-        print "\n\nProcessing file "+fname1+' and '+fname2
+        print("\n\nProcessing file "+fname1+' and '+fname2)
         X=compute_complexity(fname1, fname2, sampleSize)
             
-        print "Mean and Samples:\n",X
+        print("Mean and Samples:\n",X)
         results.append(X)
         
     save_results('results.csv',results)    
@@ -371,10 +371,10 @@ def main(argv=None):
                 output = value
     
     except Usage as err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print(sys.argv[0].split("/")[-1] + ": " + str(err.msg), file=sys.stderr)
         return 2
     if len(args) >= 3:
-        print compute_complexity(args[0], args[1], int(args[2]))
+        print(compute_complexity(args[0], args[1], int(args[2])))
     else:
         batch_mode(directory='complexity',sampleSize=200)
 

@@ -55,11 +55,11 @@ def RefreshLibrary(args):
 	    project.CommitTransaction()
 	    #project.Close(True)
 	    project.Save("MGA=" + args.outputfilename + ".mga")
-	    print "Saved " + args.outputfilename + ".mga"
+	    print("Saved " + args.outputfilename + ".mga")
 	    project.FlushUndoQueue()
 	    dumper = win32com.client.DispatchEx("Mga.MgaDumper")
 	    dumper.DumpProject(project, args.outputfilename + ".xme")
-	    print "Saved " + args.outputfilename + ".xme"
+	    print("Saved " + args.outputfilename + ".xme")
 	finally:
 	    project.Close(True)
 

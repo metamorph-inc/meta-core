@@ -22,7 +22,7 @@ def readManufacturabilityResults(file):
 
 	if "status" in content[0]:
 		if content[0]["status"] == "error":
-			print >> sys.stderr, content[0]["message"]
+			print(content[0]["message"], file=sys.stderr)
 			return None, None, False
 
 	if "manufacturable" in content[0] and content[0]["manufacturable"]:
@@ -49,7 +49,7 @@ def readManufacturabilityResults(file):
 
 def modifySummary(filename, cost, leadTime, isManufacturable):
 	""" Modifies an existing testbench_manifest file, changing the AnalysisStatus and Value fields. """
-	print filename
+	print(filename)
 	with open(filename, "r") as file:
 		summary = json.load(file)
 
@@ -99,12 +99,12 @@ try:
 	else:
 		cost, leadTime, isManufacturable = readManufacturabilityResults(sys.stdin)
 except:
-	print >> sys.stderr, "Error reading manufacturability results:", sys.exc_info()[1]
+	print("Error reading manufacturability results:", sys.exc_info()[1], file=sys.stderr)
 	cost, leadTime, isManufacturable = None, None, False
 
-print cost
-print leadTime
-print isManufacturable
+print(cost)
+print(leadTime)
+print(isManufacturable)
 
 if options.output:
 	modifySummary(options.output, cost, leadTime, isManufacturable)

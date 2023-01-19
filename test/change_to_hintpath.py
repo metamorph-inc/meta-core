@@ -24,7 +24,7 @@ projects = [l.split(",")[1][2:-1] for l in open("CyPhy-FunctionalTests.sln") if 
 project_basenames = set((os.path.basename(project) for project in projects))
 
 for project in projects:
-    print 'Updating ' + project
+    print('Updating ' + project)
     csproj = ElementTree.parse(project)
     
     # switch directly referenced dlls that are GACed to GAC.

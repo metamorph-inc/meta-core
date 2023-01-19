@@ -429,12 +429,12 @@ def CreateViewportPNG(myOdb, fileName, maxStressStep):
     except KeyError:
         f.write('\n')
         f.write('ERROR: Key Error' + '\n')
-        print 'Key Error'
+        print('Key Error')
         odb.close()
         exit(0)
     except (AbaqusException) as value:
         f.write('ERROR:' + value + '\n')
-        print 'ERROR:', value
+        print('ERROR:', value)
         odb.close()
         exit(0)
 

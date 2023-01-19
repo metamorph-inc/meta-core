@@ -107,13 +107,13 @@ if __name__ == "__main__":
     parts = get_parts(r"..\..\..\output_fov\CADAssembly_metrics.xml")
 
     for part in parts:
-        print
+        print()
 #        print part
         for f in part:
-            print f
-            print part[f]
+            print(f)
+            print(part[f])
 
-    print
+    print()
 
 #    print get_parts_creo(r"DriverVision_Info.xml")
 

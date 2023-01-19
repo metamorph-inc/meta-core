@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
     path, filename = os.path.split(options.model_step_file)
     filename, ext = os.path.splitext(filename)
-    print filename
+    print(filename)
     simple_parser = StepFileUtility.SimpleStepParser(options.csys_file)
     coordinate_system_populator = StepFileUtility.PopulateCoordinateInfo(simple_parser)
     csys_map = coordinate_system_populator.create_coordinate_vector()

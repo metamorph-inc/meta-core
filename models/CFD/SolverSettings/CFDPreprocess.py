@@ -6501,7 +6501,7 @@ class PreProcessing:
                 stlBool = True
          
         if stlBool is False:
-            print "STL file not found"
+            print("STL file not found")
             logFile.write("STL file not found.")
             logFile.close()
         f = open(STLfile,'r')
@@ -6624,7 +6624,7 @@ class PreProcessing:
     if not os.path.exists("testbench_manifest.json"):
         logFile.write("testbench_manifest.json does not exist. Terminating.")
         logFile.close()
-        print "testbench_manifest.json does not exist. Terminating."
+        print("testbench_manifest.json does not exist. Terminating.")
         quit()
         
     global name
@@ -6633,7 +6633,7 @@ class PreProcessing:
     if not os.path.exists("CADAssembly.xml"):
             logFile.write("CADAssembly.xml does not exist. Terminating.")
             logFile.close()
-            print "CADAssembly.xml does not exist. Terminating."
+            print("CADAssembly.xml does not exist. Terminating.")
             quit()
     else:
 
@@ -6664,7 +6664,7 @@ class PreProcessing:
     if not os.path.exists("STL_ASCII"):
         logFile.write("STL_ASCII folder does not exist. Terminating.")
         logFile.close()
-        print "STL_ASCII folder does not exist. Terminating."
+        print("STL_ASCII folder does not exist. Terminating.")
         quit()
         
     else: 
@@ -6686,14 +6686,14 @@ class PreProcessing:
         if filesThere == False:
             logFile.write("Required STL files is missing in STL_ASCII folder. Terminating.")
             logFile.close()
-            print "Required STL files is missing in STL_ASCII folder. Terminating."
+            print("Required STL files is missing in STL_ASCII folder. Terminating.")
             quit()        
                         
     
         os.chdir(InitDir)
         
     if not os.path.exists("CFD"):
-        print "CFD folder does not exist. Terminating."
+        print("CFD folder does not exist. Terminating.")
         logFile.write("CFD folder does not exist. Terminating.")
         logFile.close()
         quit()
@@ -6702,19 +6702,19 @@ class PreProcessing:
     os.chdir(dirCFD)
     
     if not os.path.exists("CFDConfig.json"):
-        print "CFDConfig.json does not exist. Terminating."
+        print("CFDConfig.json does not exist. Terminating.")
         logFile.write("CFDConfig.json does not exist. Terminating.")
         logFile.close()
         quit()
     
     if not os.path.exists("ComputedValues.xml"):
-        print "ComputedValues.xml does not exist. Terminating."
+        print("ComputedValues.xml does not exist. Terminating.")
         logFile.write("ComputedValues.xml does not exist. Terminating.")
         logFile.close()
         quit()
         
     if not os.path.exists("OpenFoam"):
-        print "OpenFoam folder does not exist. Creating OpenFoam folder."
+        print("OpenFoam folder does not exist. Creating OpenFoam folder.")
         logFile.write("OpenFoam folder does not exist. Creating OpenFoam folder.")
         
         os.makedirs(os.path.join(dirCFD, "OpenFoam"))
@@ -6762,7 +6762,7 @@ class PreProcessing:
             break
         
     if tierBool is False:
-        print "Tier not defined in CFDConfig.json. Terminating."
+        print("Tier not defined in CFDConfig.json. Terminating.")
         logFile.write("Tier not defined in CFDConfig.json. Terminating.")
         logFile.close()
         quit()
@@ -7400,5 +7400,5 @@ class PreProcessing:
     post.write("    forcesOut.write(forcesString)\n")
     post.close()
     
-    print "Success!"
+    print("Success!")
  

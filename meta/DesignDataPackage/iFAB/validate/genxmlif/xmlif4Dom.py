@@ -56,7 +56,7 @@ class XmlInterface4Dom (XmlInterfaceDom):
         XmlInterfaceDom.__init__ (self, verbose, useCaching, processXInclude)
         self.xmlIfType = XMLIF_4DOM
         if self.verbose:
-            print "Using 4Dom interface module..."
+            print("Using 4Dom interface module...")
 
 
     def parse (self, file, baseUrl="", internalOwnerDoc=None):

@@ -17,8 +17,8 @@ for root, dirs, files in os.walk('.'):
 
 for pp in pps:
     os.remove(pp)
-    print 'Removed :: ' + pp
+    print('Removed :: ' + pp)
     shutil.copy(file_to_replace, pp)
-    print ':: Copied'
+    print(':: Copied')
 
-print 'Number of replaced files :: {0}'.format(len(pps))
+print('Number of replaced files :: {0}'.format(len(pps)))

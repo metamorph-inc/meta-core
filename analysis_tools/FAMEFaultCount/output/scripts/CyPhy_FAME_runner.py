@@ -106,7 +106,7 @@ try:
     for directory in os.listdir(library_dir):
         if os.path.isdir(os.path.join(library_dir,directory)):
             model_libraries.append(os.path.abspath(os.path.join(library_dir,directory)))
-    print model_libraries
+    print(model_libraries)
 
     get_fame_toolbox_modelica_libraries()
     

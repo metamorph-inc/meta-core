@@ -80,8 +80,8 @@ def subprocess_call(command, log):
     """
     global cnt_call
     cnt_call += 1
-    print "[{0:3}/{1}]".format(cnt_call, cnt_tot)
-    print "About to call : {0}".format(command)
+    print("[{0:3}/{1}]".format(cnt_call, cnt_tot))
+    print("About to call : {0}".format(command))
     try:
         return_out = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         log.info('Subprocess call returned with 0.')
@@ -91,7 +91,7 @@ def subprocess_call(command, log):
         log.error(err.cmd)
         log.error(err.output)
         raise err
-    print "Success!"
+    print("Success!")
     return return_out
 
 
@@ -157,14 +157,14 @@ def generate_unit_tests_methods(cmd_infos):
         lines.append("    self._execute_cmd_file(cmd_file, cmd_dir)")
         lines.append("")
         lines.append("f_map['test_{0}'] = test_{0}".format(unit_test_name))
-        print 'New test created : test_{0}'.format(unit_test_name)
+        print('New test created : test_{0}'.format(unit_test_name))
 
     with open('generated_methods.py', 'wb') as f_out:
         f_out.writelines('\n'.join(lines))
 
     global cnt_tot
     cnt_tot = cnt
-    print "Generated {0} unit_tests".format(cnt)
+    print("Generated {0} unit_tests".format(cnt))
 
 
 if __name__ == '__main__':
@@ -182,10 +182,10 @@ if __name__ == '__main__':
     import generated_methods
     for f_name, f in six.iteritems(generated_methods.f_map):
         setattr(RunEntryPoints, f_name, f)
-    print "Running tests... See test_results_test.xml when done..."
+    print("Running tests... See test_results_test.xml when done...")
     with open('pcc_results.xml', 'w') as f_out:
         f_out.write("<testsuites>")
         suite1 = unittest.TestLoader().loadTestsFromTestCase(RunEntryPoints)
         xmlrunner.XMLTestRunner(f_out).run(suite1)
         f_out.write("</testsuites>")
-    print "Execution time : {0:.2f} s.".format(time.time() - t_start)
+    print("Execution time : {0:.2f} s.".format(time.time() - t_start))

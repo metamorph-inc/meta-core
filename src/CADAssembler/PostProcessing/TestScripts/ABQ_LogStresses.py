@@ -37,8 +37,8 @@ def PrintStressTensors(fileName):
         lastFrame = myOdb.steps['STEP_1_SOL_101_LC'].frames[-1]
         #stressFields = lastFrame.fieldOutputs[stress]
         stressFields = lastFrame.fieldOutputs[stress]
-        print 'Available Invariants of Stress:'
-        print stressFields.validInvariants
+        print('Available Invariants of Stress:')
+        print(stressFields.validInvariants)
         for stressValue in stressFields.values:
             gFile.write('%10.4E,%10.4E,%10.4E,%10.4E,%10.4E,%10.4E \n' % (stressValue.maxPrincipal, stressValue.midPrincipal, stressValue.minPrincipal, stressValue.tresca, stressValue.mises, stressValue.press) )
             for data in stressValue.data:
@@ -49,12 +49,12 @@ def PrintStressTensors(fileName):
         gFile.close()
             
     except KeyError:
-        print 'Key Error'
+        print('Key Error')
         myOdb.close()
         gFile.close()
         sys.exit(0)
     except AbaqusException as value:
-        print 'Error:', value
+        print('Error:', value)
         myOdb.close()
         gFile.close()
         sys.exit(0)

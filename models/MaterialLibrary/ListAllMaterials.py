@@ -15,5 +15,5 @@ if __name__ == "__main__": #run only if main
     matList = library_manager.listAllMaterials()
     matList.sort()
     for material in matList:
-        print material
+        print(material)
     

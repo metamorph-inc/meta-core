@@ -355,8 +355,8 @@ class PatranPostProcess:
             for metric in tb_metrics:
                 metric_id = metric['ID']
                 metrid_name =  metric['Name']
-                print metrid_name
-                print globalMetrics
+                print(metrid_name)
+                print(globalMetrics)
                 if ( metrid_name.lower() == "fea_total_volume" or metrid_name.lower() == "fea_total_mass" ):
                     if (  metrid_name.lower() == "fea_total_volume" ):
                         metric_value = globalMetrics.get("TotalVolume".lower())
@@ -474,8 +474,8 @@ class PatranPostProcess:
             for metric in tb_metrics:
                 metric_id = metric['ID']
                 metrid_name =  metric['Name']
-                print metrid_name
-                print globalMetrics
+                print(metrid_name)
+                print(globalMetrics)
                 if ( metrid_name.lower() == "fea_total_volume" or metrid_name.lower() == "fea_total_mass" ):
                     found_mass_or_volume = True
                     if (  metrid_name.lower() == "fea_total_volume" ):

@@ -8,7 +8,7 @@ sys.path.append(os.path.join(meta_path, 'bin'))
 import udm
 
 def log(s):
-    print s
+    print(s)
 try:
     import CyPhyPython # will fail if not running under CyPhyPython
     import cgi
@@ -30,7 +30,7 @@ def start_pdb():
 # This is the entry point    
 def invoke(focusObject, rootObject, **kwargs):
     log(rootObject.name)
-    print repr(rootObject.name)
+    print(repr(rootObject.name))
     if focusObject:
         log("%s (%s) %s" % (focusObject.name, focusObject.type.name, udm.UdmId2GmeId(focusObject.id)))
         log(repr(dir(udm)))

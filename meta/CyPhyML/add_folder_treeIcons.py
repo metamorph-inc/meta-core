@@ -19,12 +19,12 @@ else:
 base = os.path.splitext(file)[0]
 
 if os.path.exists(file) == False:
-    print '%s does not exist' % file
+    print('%s does not exist' % file)
     xmplog = base + '.xmp.log'
     if os.path.exists(xmplog):
         with open(xmplog, 'r') as f_p:
             for line in iter(f_p):
-                print line
+                print(line)
 
 metarefsFilename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'metarefs')
 
@@ -92,5 +92,5 @@ else:
 
 project = win32com.client.dynamic.Dispatch('Mga.MgaMetaProject')
 project.Open('MGA=' + file)
-print 'metamodel GUID is {}'.format(uuid.UUID(bytes_le=project.GUID))
+print('metamodel GUID is {}'.format(uuid.UUID(bytes_le=project.GUID)))
 project.Close()

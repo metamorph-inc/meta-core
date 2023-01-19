@@ -220,12 +220,12 @@ def findCriticalFault(numFaults,outputFileName,component,fault,amount):
                             criticalFault.append(i)
                             criticality = 1
             except:
-                print "could not understand the result: ", matfilename
+                print("could not understand the result: ", matfilename)
                 crashedSimulationCnt += 1
                 for kpi in kpiList:
                     FAMESimRsltDict[faultID]['metrics'][kpi] = np.nan
         else:
-            print "could not find the result: ", matfilename
+            print("could not find the result: ", matfilename)
             crashedSimulationCnt += 1
             for kpi in kpiList:
                 FAMESimRsltDict[faultID]['metrics'][kpi] = np.nan
@@ -237,8 +237,8 @@ def findCriticalFault(numFaults,outputFileName,component,fault,amount):
     with open(os.path.join(script_dir,outputFileName),'w') as outfile:
         json.dump(FAMESimRsltDict,outfile, indent=4,sort_keys=False)
 
-    print set(criticalFault)
-    print crashedSimulationCnt
+    print(set(criticalFault))
+    print(crashedSimulationCnt)
     os.chdir(script_dir) 
     return len(set(criticalFault)),crashedSimulationCnt      
 

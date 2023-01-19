@@ -110,17 +110,17 @@ class Exporter(object):
             json.dump(json_test, f_out, indent=4)
 
     def run_ui(self):
-        print "In order to see all options run this script with input option -h.\n"
+        print("In order to see all options run this script with input option -h.\n")
 
         do_svn = False
         do_export = False
         if check_svn():
-            print "This folder, {0}, is under subversion control.".format(os.getcwd())
-            print "Files will be added to svn."
+            print("This folder, {0}, is under subversion control.".format(os.getcwd()))
+            print("Files will be added to svn.")
             #do_svn = prompt_yes_or_no("Would you like to add files to repository?")
             do_svn = True
         else:
-            print "Files will be exported."
+            print("Files will be exported.")
             #do_export = prompt_yes_or_no("Would you like to export files locally?")
             do_export = True
         """
@@ -132,7 +132,7 @@ class Exporter(object):
         """
         # Gather files in directories and project file
         if not self.enter_project_file():
-            print "Execution aborted!"
+            print("Execution aborted!")
             return
 
         self.enter_directories()
@@ -241,8 +241,8 @@ class Exporter(object):
         """
 
         if not opts.add_to_svn and not opts.export_locally:
-            print "This execution will probably not have any effect. Make sure at least one of "\
-                "the options -l and -a are activated."
+            print("This execution will probably not have any effect. Make sure at least one of "\
+                "the options -l and -a are activated.")
 
         svn_OK = False
         if opts.add_to_svn:
@@ -300,14 +300,14 @@ class Exporter(object):
         files = glob('*.project.json')
 
         if len(files) == 0:
-            print "\nThere is no x.project.json file in this directory."
+            print("\nThere is no x.project.json file in this directory.")
             return False
         elif len(files) > 1:
-            print "\nThese are multiple x.project.json files in this directory:\n{0}\n".format(files)
+            print("\nThese are multiple x.project.json files in this directory:\n{0}\n".format(files))
             return False
         else:
             self.project_file = files[0]
-            print "\nObtaining project data from {0}...\n".format(self.project_file)
+            print("\nObtaining project data from {0}...\n".format(self.project_file))
 
         with open(self.project_file,'r') as f_in:
             project_json = json.load(f_in)
@@ -373,7 +373,7 @@ class Exporter(object):
     def enter_meta_results_file(self):
 
         if not os.path.exists(self.meta_results_file):
-            print 'The file {0} does not exists.'.format(self.meta_results_file)
+            print('The file {0} does not exists.'.format(self.meta_results_file))
             return False
 
         with open(self.meta_results_file, 'r') as f_in:
@@ -402,7 +402,7 @@ class Exporter(object):
 
     def add_to_svn(self, include_dashboard=True):
 
-        print "Adding files to repository..."
+        print("Adding files to repository...")
         if include_dashboard:
             subprocess_call('svn add {0} --force'.format('dashboard'))
             subprocess_call('svn add {0} --force'.format('index.html'))
@@ -443,7 +443,7 @@ class Exporter(object):
         subprocess_call(svn_add_command)
         os.remove('__files_to_add.tmp')
 
-        print "Adding done! Use your svn-client to commit the added files."
+        print("Adding done! Use your svn-client to commit the added files.")
 
         return True
 
@@ -457,7 +457,7 @@ class Exporter(object):
             dst_dir += '_new'
 
         os.makedirs(dst_dir)
-        print "Exporting files to : {0}".format(os.path.abspath(dst_dir))
+        print("Exporting files to : {0}".format(os.path.abspath(dst_dir)))
         # copy entire dashboard_dir
         if include_dashboard:
             dashboard_dst = os.path.join(dst_dir, self.dashboard_dir)
@@ -514,7 +514,7 @@ class Exporter(object):
         #    linked_folder_dst = os.path.dirname(os.path.join(dst_dir, folder))
         #    shutil.copytree(folder, linked_folder_dst)
 
-        print "Exportation done!"
+        print("Exportation done!")
 
     def _pr_intersect(self):
         self.design_files.intersection_update(self.design_files_pr)
@@ -537,7 +537,7 @@ class Exporter(object):
 
         """
 
-        print "Reading in project file..."
+        print("Reading in project file...")
         with open(self.project_file,'r') as f_in:
             project_json = json.load(f_in)
 
@@ -580,7 +580,7 @@ class Exporter(object):
         with open(self.project_file,'wb') as f_out:
             json.dump(project_json, f_out, indent=4)
 
-        print "Written out cleaned up project dictionary."
+        print("Written out cleaned up project dictionary.")
 
     def _clean_up_meta_results_file(self):
         """
@@ -589,7 +589,7 @@ class Exporter(object):
 
         """
 
-        print "Reading in meta-results file..."
+        print("Reading in meta-results file...")
         with open(self.meta_results_file, 'r') as f_in:
             meta_results_json = json.load(f_in)
 
@@ -612,7 +612,7 @@ class Exporter(object):
         with open(self.meta_results_file,'wb') as f_out:
             json.dump(meta_results_json, f_out, indent=4)
 
-        print "Written out cleaned up results dictionary."
+        print("Written out cleaned up results dictionary.")
 
     def _check_pr_and_ms_references(self):
 
@@ -699,8 +699,8 @@ class SummaryReportsLinks(object):
                             if hasattr(self, function_tag):
                                 getattr(self, function_tag)()
             except IOError:
-                print '{0} does not exist on this filesystem. I cannot be check for references '\
-                      'to other files.'.format(result_file)
+                print('{0} does not exist on this filesystem. I cannot be check for references '\
+                      'to other files.'.format(result_file))
 
     def manufacturing_manifest_json(self):
         """
@@ -795,7 +795,7 @@ def subprocess_call(command):
     try:
         return_out = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         if return_out.strip():
-            print return_out
+            print(return_out)
     except subprocess.CalledProcessError as err:
         msg = "Subprocess call failed!"\
               "\n  command       : {0}"\
@@ -818,18 +818,18 @@ def check_svn():
         return_out = subprocess.check_output('svnversion', stderr=subprocess.STDOUT, shell=True)
         try:
             int(return_out[0])
-            print "Current SVN-revision number : {0}".format(return_out)
+            print("Current SVN-revision number : {0}".format(return_out))
             return True
 
         except ValueError:
-            print return_out
-            print "Looks like this folder is not under revision control.\n"
+            print(return_out)
+            print("Looks like this folder is not under revision control.\n")
             return False
 
     except subprocess.CalledProcessError as err:
-        print "Looks like there is no svn-client for command-window installed;"
-        print "Command called : {0}".format(err.cmd)
-        print "Call output    : {0}".format(err.output)
+        print("Looks like there is no svn-client for command-window installed;")
+        print("Command called : {0}".format(err.cmd))
+        print("Call output    : {0}".format(err.output))
         return False
 
 def prompt_yes_or_no(question, def_yes=True):
@@ -843,7 +843,7 @@ def prompt_yes_or_no(question, def_yes=True):
         is_yes = ans == 'y' or ans == ''
         is_no = ans == 'n'
         if not (is_yes or is_no):
-            print "Invalid answer! Answer must be n or y or simple enter."
+            print("Invalid answer! Answer must be n or y or simple enter.")
             prompt_yes_or_no(question, def_yes)
         else:
             return is_yes
@@ -852,7 +852,7 @@ def prompt_yes_or_no(question, def_yes=True):
         is_yes = ans == 'y'
         is_no = ans == 'n' or ans == ''
         if not (is_yes or is_no):
-            print "Invalid answer! Answer must be n or y or simple enter."
+            print("Invalid answer! Answer must be n or y or simple enter.")
             prompt_yes_or_no(question, def_yes)
         else:
             return is_yes
@@ -875,8 +875,8 @@ def generate_config_template():
 
     with open('export_config.txt', 'wb') as f_new:
         f_new.write('\r\n'.join(lines))
-    print 'Template generated. Edit this file as you please and call this script '\
-        'with the -f option enabled.'
+    print('Template generated. Edit this file as you please and call this script '\
+        'with the -f option enabled.')
 
 def call_for_options(parser):
     """
@@ -927,7 +927,7 @@ def main():
     opts = call_for_options(parser)
     if opts.read_opts_from_file:
         if not os.path.exists('export_config.txt'):
-            print 'No export_config.txt exists. \nWriting out template...'
+            print('No export_config.txt exists. \nWriting out template...')
             generate_config_template()
             return
         else:

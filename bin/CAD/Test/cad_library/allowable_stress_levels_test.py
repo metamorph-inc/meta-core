@@ -20,27 +20,27 @@ material_lib_props_dict = {}  # AnalysisMaterialProperties dictionary, material-
 try:
     material_properties.get_props_from_material_library(material_names_list, material_lib_props_dict)
 except CADExcep.CADError as e:
-    print e.message
+    print(e.message)
 
 # Print the retrieved data
-print "*************** Material Properties ************"
+print("*************** Material Properties ************")
 for k in material_lib_props_dict:
-    print
-    print "key: ", k
-    print str(material_lib_props_dict[k])
+    print()
+    print("key: ", k)
+    print(str(material_lib_props_dict[k]))
 
 
 # Compute and print material allowables
-print "*************** Material Allowables ************"
+print("*************** Material Allowables ************")
 #
 # WARNING - The following exception occurs for aluminum_qc7
 #            Error, Function: compute_allowable_stress_levels, Message: Material aluminum_qc7 does not have a
 #          shear strength defined. Aluminum must have shear strength defined.
 #
 for k in material_lib_props_dict:
-    print
-    print "key: ", k
-    print str(material_lib_props_dict[k])
+    print()
+    print("key: ", k)
+    print(str(material_lib_props_dict[k]))
 
     allowables = allowable_stress_levels.AnalysisMaterialPropertiesAllowables(k)
     try:
@@ -48,19 +48,19 @@ for k in material_lib_props_dict:
                         allowable_stress_levels.MECHANICAL_INFINITE_CYCLES_INDICATOR,
                         material_lib_props_dict[k],
                         allowables)
-        print
-        print "Allowables - Pa"
-        print str(allowables)
-        print
+        print()
+        print("Allowables - Pa")
+        print(str(allowables))
+        print()
         # Convert from PA to MPa
         allowable_stress_levels.convert_allowables_from_Pa_to_MPa(allowables)
-        print
-        print "Allowables - MPa"
-        print str(allowables)
-        print
+        print()
+        print("Allowables - MPa")
+        print(str(allowables))
+        print()
 
     except CADExcep.CADError as e:
-        print e.message
+        print(e.message)
 
 """
 # Manual (i.e. not using the material libary) approach for future testing.

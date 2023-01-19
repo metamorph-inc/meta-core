@@ -16,7 +16,7 @@ import sys
 import cad_library
 
 def scan_for_CAD_files(mypath):
-    print "Starting test script for ExtractACM-XMLfromCASModules.exe"
+    print("Starting test script for ExtractACM-XMLfromCASModules.exe")
         
     from os import listdir
     from os.path import isfile, join, getsize
@@ -44,19 +44,19 @@ def count_alive_threads(thread_array):
     return count
 
 def run_the_extractor(filename):
-    print "converting " + filename
+    print("converting " + filename)
     outfilename = filename + '.xml'
     exe_path = cad_library.META_PATH + r'bin\CAD\Creo\bin\ExtractACM-XMLfromCreoModels.exe'
     arguments = ' -c "'+filename+'" -x "' + outfilename + '"'
     command = exe_path + arguments
     return_code = subprocess.call(command)
     if return_code:
-        print " Error on converting file "+ filename + " (return code " + str(return_code) + ")"
+        print(" Error on converting file "+ filename + " (return code " + str(return_code) + ")")
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print "Syntax: testExtractACM <PathtoScan>"
+        print("Syntax: testExtractACM <PathtoScan>")
         exit()
     mypath =  sys.argv[1]
     scan_for_CAD_files(mypath)

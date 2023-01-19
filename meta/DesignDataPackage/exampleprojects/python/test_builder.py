@@ -175,7 +175,7 @@ if __name__ == "__main__":
 
     from lxml import etree
     root = etree.fromstring(c.toxml("utf-8"))
-    print etree.tostring(root, pretty_print = True)
+    print(etree.tostring(root, pretty_print = True))
 
     # ### Use minidom to pretty-print the xml
     # dom_c = xml.dom.minidom.parseString(c.toxml("utf-8"))

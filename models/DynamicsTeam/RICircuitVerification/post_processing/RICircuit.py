@@ -7,7 +7,7 @@ if __name__ == '__main__':
         try:
             mat_file_name = sys.argv[1]
             if not os.path.exists(mat_file_name):
-                print 'Given result file does not exist: {0}'.format(sys.argv[1])
+                print('Given result file does not exist: {0}'.format(sys.argv[1]))
                 os._exit(3)
             
             limits_dict, filter = read_limits()
@@ -27,7 +27,7 @@ if __name__ == '__main__':
             check_limits_and_add_to_report_json(pp, limits_dict)
             os.chdir(cwd)
         except Exception as err:
-            print err.message
+            print(err.message)
             if os.name == 'nt':
                 import win32api
                 win32api.TerminateProcess(win32api.GetCurrentProcess(), 1)

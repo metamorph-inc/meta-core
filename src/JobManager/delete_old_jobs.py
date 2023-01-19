@@ -73,7 +73,7 @@ def delete_job(url):
 def main():
     root = get(root_url + "/api/json")
     for job in json.loads(root.content)['jobs']:
-        print job['url']
+        print(job['url'])
         if jobname_prefix and job['url'].find(jobname_prefix) == -1:
             continue
         j = get(job['url'] + 'api/json')
@@ -85,13 +85,13 @@ def main():
         if j_json['lastFailedBuild']:
             lastFailed = get_build_time(j_json['lastFailedBuild']['url'])
         if lastSuccess < datetime.datetime.now() + delta or lastFailed < datetime.datetime.now() + delta:
-            print 'delete ' + j_json['name']
+            print('delete ' + j_json['name'])
             delete_job(j_json['url'])
         if jobname_prefix and j_json['name'].startswith(jobname_prefix):
-            print 'delete ' + j_json['name']
+            print('delete ' + j_json['name'])
             delete_job(j_json['url'])
         if lastFailed == lastSuccess == datetime.datetime.max:
-            print 'never built ' + j_json['name']
+            print('never built ' + j_json['name'])
             # delete_job(j_json['url'])
 
 if __name__=='__main__':

@@ -38,7 +38,7 @@ def validate(xml, xsd):
 def cli():
     args = get_args()
     result = validate(args.xml, args.xsd)
-    print result.message
+    print(result.message)
 
 if __name__ == "__main__":
     cli()

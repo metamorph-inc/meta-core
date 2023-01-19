@@ -13,7 +13,7 @@ import tempfile
 import pywintypes
 
 def log(msg):
-    print "%s: %s" % (os.path.basename(sys.argv[0]), msg)
+    print("%s: %s" % (os.path.basename(sys.argv[0]), msg))
 
 def main(source, destination, job_name, version):
     extensions = set(('.pdb', '.dll', '.exe', '.ocx'))

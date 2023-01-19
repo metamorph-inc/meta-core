@@ -31,7 +31,7 @@ if __name__ == '__main__':
         path_DesignModel = sys.argv[1]
         path_BOMOutput = sys.argv[2]
     else:
-        print "USAGE: DesignModel2BOM  path_to_design_model  [path_for_BOM_output_file]"
+        print("USAGE: DesignModel2BOM  path_to_design_model  [path_for_BOM_output_file]")
         sys.exit(1)
 
     file_DesignModel = open(path_DesignModel,"r")

@@ -348,8 +348,8 @@ def update_result_file(result_file, field_name, value, unit="", successful=True)
         modified = False
 
     if not modified:
-        print "Unable to find or update result file!  Please ensure the file exists and"
-        print "contains the", field_name, "metric."
+        print("Unable to find or update result file!  Please ensure the file exists and")
+        print("contains the", field_name, "metric.")
         sys.exit(-1)
 
 def calculate_completeness(file):
@@ -399,7 +399,7 @@ def calculate_completeness(file):
         else:
             completeness_metric = 100 * float(number_of_connections - incomplete_join_data - missing_join_data) / number_of_connections  
 
-        print completeness_metric
+        print(completeness_metric)
 
         output["number_of_components"] = number_of_components
         output["number_of_free_components"] = number_of_free_components
@@ -429,7 +429,7 @@ if __name__ == "__main__":
             file = sys.argv[1]
 
     if not os.path.exists(file):
-        print file, "does not exist!"
+        print(file, "does not exist!")
         sys.exit(-1)
 
     if os.path.isdir(file):
@@ -442,7 +442,7 @@ if __name__ == "__main__":
                 break
 
         if file is None or not os.path.exists(file):
-            print directory, "does not contain an ADM file!"
+            print(directory, "does not contain an ADM file!")
             update_result_file(os.path.join(directory, "testbench_manifest.json"), "Structural_Completeness", 0.0, "%", False)
             sys.exit(-1)
 

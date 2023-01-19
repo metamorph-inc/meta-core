@@ -17,9 +17,9 @@ extensions = set(('.pdb', '.dll', '.exe', '.ocx'))
 files_copied = 0
 
 starttime = datetime.datetime.now()
-print "Start " + starttime.isoformat()
+print("Start " + starttime.isoformat())
 destdir = tempfile.mkdtemp()
-print "Destination " + destdir
+print("Destination " + destdir)
 
 
 for root, dirs, files in os.walk(top_dir):
@@ -36,7 +36,7 @@ for root, dirs, files in os.walk(top_dir):
         if exclude in dirs:
             dirs.remove(exclude)
 
-print "%d files copied" % files_copied            
+print("%d files copied" % files_copied)            
 
 startup = win32process.STARTUPINFO()
 startup.dwFlags += win32process.STARTF_USESTDHANDLES
@@ -54,7 +54,7 @@ win32api.CloseHandle(hThread)
 # Don't need to wait here, but it doesn't take long, and we can remove the temp dir
 import win32event
 win32event.WaitForSingleObject(hProcess, win32event.INFINITE)
-print "symstore exited with code " + str(win32process.GetExitCodeProcess(hProcess))
+print("symstore exited with code " + str(win32process.GetExitCodeProcess(hProcess)))
 import shutil
 #shutil.rmtree(destdir)
 
@@ -62,5 +62,5 @@ win32api.CloseHandle(hProcess)
 
 # print "\n".join(open(os.path.join(destdir, 'log'), 'r'))
 
-print "Finish " + datetime.datetime.now().isoformat()
-print "Elapsed time %d seconds" % (datetime.datetime.now() - starttime).seconds
+print("Finish " + datetime.datetime.now().isoformat())
+print("Elapsed time %d seconds" % (datetime.datetime.now() - starttime).seconds)

@@ -11,7 +11,7 @@ def convert():
 			srf = open_geom(os.path.join(ivdir, iv))
 			save_binary_stl(os.path.join(stldir, str(os.path.splitext(iv)[0] + ".stl")), srf)
 	else:
-		print "No inventor file directory found."
+		print("No inventor file directory found.")
 
 if __name__ == "__main__":
 	convert()

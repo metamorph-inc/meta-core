@@ -164,7 +164,7 @@ class GatherStatJsonFiles(object):
                     self.jenkins_json_dict['stats'].update({job['name']: stat_json})
                     add_stat = True
                     i_stat += 1
-                    print i_stat
+                    print(i_stat)
                     break
 
             if add_stat == True:

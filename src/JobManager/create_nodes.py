@@ -65,23 +65,23 @@ def main():
         if node_prefix == computer['displayName']:
             template_node= computer
     
-    print node_names
+    print(node_names)
     
     if not template_node:
-        print node_prefix + ' was NOT found'
+        print(node_prefix + ' was NOT found')
         return
     
     if node_prefix:
         for i in range(0, num_new_slaves):
             new_node_name = '{0}-{1}'.format(node_prefix, i)
-            print new_node_name
+            print(new_node_name)
             # if node exists delete first
             if new_node_name in node_names:
-                print 'deleting first ' + new_node_name
+                print('deleting first ' + new_node_name)
                 get(root_url + "computer/" + new_node_name + "/delete")
     
             with requests.session() as s: 
-                print 'Sending create ' + new_node_name
+                print('Sending create ' + new_node_name)
                 s.post(root_url + 'computer/createItem', {
                     'name':new_node_name,
                     'mode':'copy',

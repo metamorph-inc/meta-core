@@ -21,12 +21,12 @@ def get_workspace_zip(filename, **kwargs):
     import boto.s3
     b = boto.s3.bucket.Bucket(conn, bucket_name)
     key_name = kwargs.get('key_name') or os.path.basename(filename)
-    print key_name
+    print(key_name)
     k = b.get_key(key_name)
     if k is not None:
-        print "Current key has etag " + k.etag
+        print("Current key has etag " + k.etag)
         if not kwargs.get('overwrite', False):
-            print "Use --overwrite to overwrite current contents"
+            print("Use --overwrite to overwrite current contents")
             return
     k = boto.s3.key.Key(b, key_name)
     k.set_contents_from_filename(filename)

@@ -71,49 +71,49 @@ def main():
     # TODO: take the build number as parameter if empty use last successful build
     url = "{0}/{1}/artifact/deploy/{2}.msi".format(installer, build_number, installer_name)
     
-    print " == Arguments =="
-    print installer
-    print build_number    
-    print release
-    print url
+    print(" == Arguments ==")
+    print(installer)
+    print(build_number)    
+    print(release)
+    print(url)
 
-    print "Getting new META installer from build.isis Release: {0} build: #{1} ".format(release, build_number)
-    print url
+    print("Getting new META installer from build.isis Release: {0} build: #{1} ".format(release, build_number))
+    print(url)
 
     downloaded_msi = "{0}_{1}_build_{2}.msi".format(installer_name, release, build_number)
 
     # download new META installer
     six.moves.urllib.request.urlretrieve(url, downloaded_msi)
-    print downloaded_msi
+    print(downloaded_msi)
 
     META_install = query_META_install()
 
     msiVersion = GetMsiProperty(downloaded_msi ,"ProductVersion")
-    print 'Downloaded version: ' + msiVersion    
+    print('Downloaded version: ' + msiVersion)    
     
     if 'UninstallString' in META_install:
-        print 'Installed version: ' + msiVersion
+        print('Installed version: ' + msiVersion)
         if META_install['DisplayVersion'] == msiVersion:
-            print 'Skipping uninstall and reinstall while versions are matching.'
+            print('Skipping uninstall and reinstall while versions are matching.')
             return 0
 
         # uninstall first
-        print META_install['DisplayVersion']
-        print META_install['UninstallString'] + ' /qb'
-        print 'Uninstalling old version of META tool chain ...'
+        print(META_install['DisplayVersion'])
+        print(META_install['UninstallString'] + ' /qb')
+        print('Uninstalling old version of META tool chain ...')
         subprocess.check_call(META_install['UninstallString'] + ' /qb', shell=True)
 
     # install
-    print 'Installing new version of META tool chain ...'
+    print('Installing new version of META tool chain ...')
     install_cmd = 'msiexec.exe /qb /i {0} /lewmi {0}.log'.format(downloaded_msi)
-    print install_cmd
+    print(install_cmd)
     subprocess.check_call(install_cmd, shell=True)
 
     # ready to use
     META_install_new = query_META_install()
 
     if 'DisplayVersion' in META_install_new:
-        print META_install_new['DisplayVersion']
+        print(META_install_new['DisplayVersion'])
     
     return 0
     

@@ -6,10 +6,10 @@ ROOT_DIR = os.getcwd()  # make sure to change back to this when exiting
 
 try:
     import py_modelica as pym
-    print 'Found py_modelica in virtual python environment'
+    print('Found py_modelica in virtual python environment')
 except ImportError as err:
-    print err.message
-    print 'Use META virtual python environment'
+    print(err.message)
+    print('Use META virtual python environment')
 
 
 class TestBenchExecutionError(Exception):

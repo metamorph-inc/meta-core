@@ -51,7 +51,7 @@ def get_projs(rel_sln, platform="Win32", configuration="Release"):
     sln.Open(slnname)
     sleep(3)
     desert_projects = [os.path.normpath(os.path.join(os.path.dirname(slnname), proj.UniqueName)) for proj in allProjects(sln)]
-    print desert_projects
+    print(desert_projects)
     desert_configs = {}
     for solutionConfiguration2 in sln.SolutionBuild.SolutionConfigurations:
         if solutionConfiguration2.Name == configuration and solutionConfiguration2.PlatformName == platform:
@@ -74,7 +74,7 @@ sleep(3)
 cyphy_projects = [os.path.normpath(os.path.join(os.path.dirname(meta_path + r"\src\CyPhyML.sln"), proj.UniqueName)) for proj in allProjects(sln)]
 dep_projects2 = []
 for proj in dep_projects:
-    print proj
+    print(proj)
     if proj not in cyphy_projects:
         dep_projects2.append(sln.AddFromFile(proj, False))
 for vcxproj in (r"src\MetaLink\MetaLink_maven.vcxproj", ):

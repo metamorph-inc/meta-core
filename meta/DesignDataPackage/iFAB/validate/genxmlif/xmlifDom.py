@@ -66,7 +66,7 @@ class XmlInterfaceDom (XmlInterfaceBase):
                 parse = childElementWrapper.getAttributeOrDefault ("parse", "xml")
                 encoding = childElementWrapper.getAttribute ("encoding")
                 if self.verbose:
-                    print "Xinclude: %s" %href
+                    print("Xinclude: %s" %href)
                 try:
                     if parse == "xml":
                         subTreeWrapper = self.parse (href, baseUrl, ownerDoc)

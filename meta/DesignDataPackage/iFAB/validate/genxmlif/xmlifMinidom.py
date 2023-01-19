@@ -60,7 +60,7 @@ class XmlInterfaceMinidom (XmlInterfaceDom):
         XmlInterfaceDom.__init__ (self, verbose, useCaching, processXInclude)
         self.xmlIfType = XMLIF_MINIDOM
         if self.verbose:
-            print "Using minidom interface module..."
+            print("Using minidom interface module...")
 
 
     def createXmlTree (self, namespace, xmlRootTagName, attributeDict={}, publicId=None, systemId=None):

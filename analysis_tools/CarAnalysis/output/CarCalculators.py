@@ -52,14 +52,14 @@ def update_manifest(tbmanifest, metricvalues):
                         metric['Value'] = metricvalues[key]
         else:
             # create warning message
-            print('% does not contain Metrics' % tbmanifest)
+            print(('% does not contain Metrics' % tbmanifest))
     else:
-        print('Given result file does not exist: {0}'.format(tbmanifest))
+        print(('Given result file does not exist: {0}'.format(tbmanifest)))
 
     # update json file with the new values
     with open(tbmanifest, 'wb') as file_out:
         json.dump(result_json, file_out, indent=4)
-    print('Finished updating %s file.' % tbmanifest)
+    print(('Finished updating %s file.' % tbmanifest))
 
 def calcturnradius(crampangle0, crampangle1, front_left, front_right, rear_left, rear_right):
     cadmetrics = cad_library.CADMetrics

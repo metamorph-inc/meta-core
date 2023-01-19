@@ -119,11 +119,11 @@ class ErrorHandler:
 
     def flushOutput (self):
         if self.infoDict != {}:
-            print string.join (list(self.infoDict.keys()), "\n")
+            print(string.join (list(self.infoDict.keys()), "\n"))
             self.infoList = []
 
         if self.warningProc == PRINT_WARNINGS and self.warningList != []:
-            print self._assembleOutputList(self.warningList, sorted=1)
+            print(self._assembleOutputList(self.warningList, sorted=1))
             self.warningList = []
         elif self.warningProc == STOP_ON_WARNINGS:
             self.errorList.extend (self.warningList)

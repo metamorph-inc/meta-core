@@ -157,7 +157,7 @@ class CADJobDriver():
     def call_subprocess(self, cmd, failonexit=True):
         global print_cmds
         if print_cmds is True:
-            print cmd
+            print(cmd)
 
         result = 0
 
@@ -174,7 +174,7 @@ class CADJobDriver():
     def copy_failed_and_exit(self, code):
         for (root, dirs, files) in os.walk(os.getcwd(), topdown=False):
             for file in files:
-                print os.path.join(root, file)
+                print(os.path.join(root, file))
                 if file == '_FAILED.txt':
                     # copy_command = 'copy {} {}'.format(os.path.join(root, file), os.getcwd())
                     os.system('copy ' + os.path.join(root, file) + ' ' + os.getcwd())
@@ -240,7 +240,7 @@ class CADJobDriver():
                 meta_python_path, patran_pp_path, post_processing_args)
             cmd_file_out.write(cmd_text)
 
-        print("Starting {}...".format(pp_command))
+        print(("Starting {}...".format(pp_command)))
 
         pp_result = self.call_subprocess(pp_command)
 

@@ -26,11 +26,11 @@ def main():
     py_path = _query_registry()
     command = '"{0}" sot.py'.format(py_path)
     
-    print 'Calling "{0}" as a subprocess.'.format(command)
+    print('Calling "{0}" as a subprocess.'.format(command))
     try:
         popen = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=None)
         (stdoutdata, _) = popen.communicate()
-        print stdoutdata
+        print(stdoutdata)
         popen.wait()
         if popen.returncode != 0:
             raise subprocess.CalledProcessError(popen.returncode, command)

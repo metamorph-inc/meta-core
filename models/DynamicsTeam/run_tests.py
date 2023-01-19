@@ -80,18 +80,18 @@ def subprocess_call(command, log):
     """
     global cnt_call
     cnt_call += 1
-    print "[{0:3}/{1}]".format(cnt_call, cnt_tot)
-    print "About to call : {0}".format(command)
+    print("[{0:3}/{1}]".format(cnt_call, cnt_tot))
+    print("About to call : {0}".format(command))
     try:
         return_out = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         log.info('Subprocess call returned with 0.')
         log.info('console output : \n{0}'.format(return_out))
     except subprocess.CalledProcessError as err:
-        print "Failed!"
+        print("Failed!")
         log.error(err.cmd)
         log.error(err.output)
         raise err
-    print "Success!"
+    print("Success!")
     return return_out
 
 
@@ -127,7 +127,7 @@ def generate_unit_tests_methods(cmd_types=['simulate_dymola.cmd']):
             if file_name in cmd_types:
                 #cmd_infos.append([r'MSD_PCC\MSD_dymola_CA', 'simulate_dymola.cmd'])
                 cmd_infos.append([dir_name[2:], file_name])
-                print "Added {0:20} : {1}".format(file_name,dir_name[2:])
+                print("Added {0:20} : {1}".format(file_name,dir_name[2:]))
 
     lines = []
     lines.append("f_map = {}")
@@ -157,14 +157,14 @@ def generate_unit_tests_methods(cmd_types=['simulate_dymola.cmd']):
         lines.append("    self._execute_cmd_file(cmd_file, cmd_dir)")
         lines.append("")
         lines.append("f_map['test_{0}'] = test_{0}".format(unit_test_name))
-        print 'New test created : test_{0}'.format(unit_test_name)
+        print('New test created : test_{0}'.format(unit_test_name))
 
     with open('generated_methods.py', 'wb') as f_out:
         f_out.writelines('\n'.join(lines))
 
     global cnt_tot
     cnt_tot = cnt
-    print "Generated {0} unit_tests".format(cnt)
+    print("Generated {0} unit_tests".format(cnt))
 
 
 if __name__ == '__main__':
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     import generated_methods
     for f_name, f in six.iteritems(generated_methods.f_map):
         setattr(RunEntryPoints, f_name, f)
-    print "Running tests... See test_results_test.xml when done..."
+    print("Running tests... See test_results_test.xml when done...")
     with open('test_results_test.xml', 'w') as f_out:
         f_out.write("<testsuites>")
         suite1 = unittest.TestLoader().loadTestsFromTestCase(RunEntryPoints)

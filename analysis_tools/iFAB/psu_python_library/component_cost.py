@@ -51,7 +51,7 @@ def cli(argv):
     if args.verbose:
         verbosity = "report"
     report = evaluate(args.design, verbosity)
-    print json.dumps(report, indent=4)
+    print(json.dumps(report, indent=4))
 
 def read_design(designfile):
     """
@@ -251,7 +251,7 @@ def to_kg(value, unit="kg"):
     elif unit == "tonne":
         return value * 1000
     else:
-        print "Unrecognized unit", unit
+        print("Unrecognized unit", unit)
         return value
 
 def lookup_weight(id, path):

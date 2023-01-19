@@ -21,7 +21,7 @@ if __name__=='__main__':
     for row in c.execute('SELECT name,json from jobs'):
         job_name,job = row
         job = json.loads(job)
-        print job['url']
+        print(job['url'])
         if job['lastCompletedBuild'] and not job['lastCompletedBuild']['building']:
             build = job['lastCompletedBuild']
             #print build['result']
@@ -41,6 +41,6 @@ if __name__=='__main__':
 #lastSuccessfulBuild':{'number':1,'url':'http://10.2.204.106:8080/job/Sandeep_Neema_CyPhy2Modelica_NewComponentAssembly_cfg18_00051_C52EA554/1/'}       
 #{'causes':[{'shortDescription':'Started by user neemask','userName':'neemask'}
 
-    print dict(results)
-    print dict(users)
-    print dates
+    print(dict(results))
+    print(dict(users))
+    print(dates)

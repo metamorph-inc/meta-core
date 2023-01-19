@@ -68,9 +68,9 @@ x_min, x_max = np.min(x) - voxel_size - margin, np.max(x) + voxel_size + margin
 y_min, y_max = np.min(y) - voxel_size - margin, np.max(y) + voxel_size + margin
 z_min, z_max = np.min(z) - voxel_size - margin, np.max(z) + voxel_size + margin
 
-print x_min, x_max
-print y_min, y_max
-print z_min, z_max
+print(x_min, x_max)
+print(y_min, y_max)
+print(z_min, z_max)
 
 b_tree = BSP_Grid(nodes, tris)
 
@@ -87,11 +87,11 @@ size_i = len(x_coords)
 size_j = len(y_coords)
 size_k = len(z_coords)
 
-print "num_i", size_i
-print "num_j", size_j
-print "num_k", size_k
+print("num_i", size_i)
+print("num_j", size_j)
+print("num_k", size_k)
 
-print "sample_points", size_i * size_j * size_k
+print("sample_points", size_i * size_j * size_k)
 
 file_name = "voxels_temp_" + stl_file + "_" + str(voxel_size) + ".npz"
 
@@ -105,7 +105,7 @@ else:
     
     #print tgb
     for i, x_pos in enumerate(x_coords[1:]):
-        print "Slice {} of {}".format(i, size_i)
+        print("Slice {} of {}".format(i, size_i))
     #    print "\n\n-----------------------------------------------------------------------------\n\n"
         b_above_x, b_below_x = b_x_root.split_at(0, x_pos)
         b_y_root = b_below_x
@@ -154,7 +154,7 @@ if make_single_solid:
 #label_corner = labels[-1, -1, -1]
 
 for obj_num in range(count + 1):
-    print obj_num, np.sum(labels == obj_num)
+    print(obj_num, np.sum(labels == obj_num))
 
 
 show_3d = True
@@ -186,9 +186,9 @@ if show_3d:
         color = (0.5, 0.5, 1.0) if obj_num == 0 else next(bright_colors)
         hit = []
         floor = []
-        print obj_num, np.sum(labels == obj_num)
+        print(obj_num, np.sum(labels == obj_num))
         for i, x_pos in enumerate(x_coords[1:]):
-            print "Slice {} of {}".format(i, len(x_coords))
+            print("Slice {} of {}".format(i, len(x_coords)))
             for j, y_pos in enumerate(y_coords[1:]):
                 for k, z_pos in enumerate(z_coords[1:]):
                     if labels[i, j, k] == obj_num:
@@ -210,7 +210,7 @@ if show_3d:
     ref_position = [(x_coords[len(x_coords) / 2], y_coords[0], z_coords[len(z_coords) / 2])]
 
     for q in range(8):
-        print q, (1 & q), (2 & q), (4 & q)
+        print(q, (1 & q), (2 & q), (4 & q))
         ref_position.append((x_coords[(len(x_coords) - 1) * (1 & q)], 
                              y_coords[(len(y_coords) - 1) * (2 & q) / 2],
                              z_coords[(len(z_coords) - 1) * (4 & q) / 4]))

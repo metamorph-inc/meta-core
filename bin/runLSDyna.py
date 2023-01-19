@@ -9,7 +9,7 @@ import udm
 import shutil
 
 def log(s):
-    print s
+    print(s)
 try:
     import CyPhyPython # will fail if not running under CyPhyPython
     import cgi
@@ -19,7 +19,7 @@ except ImportError:
     pass
 
 def log_formatted(s):
-    print s
+    print(s)
 try:
     import CyPhyPython # will fail if not running under CyPhyPython
     import cgi

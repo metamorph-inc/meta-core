@@ -38,7 +38,7 @@ def Parse_Assembly_File(asm_xml):
         try: # fallback on us-ascii parser
             eltree = ET.parse(asm_xml, parser=ET.XMLParser(encoding="us-ascii"))
         except ET.ParseError: # can't read the file
-            print "Unable to parse CAD assembly xml."
+            print("Unable to parse CAD assembly xml.")
 
     # Get assembly file name
     assembly = eltree.getroot().find('.//Assembly')
@@ -93,15 +93,15 @@ def Parse_Assembly_File(asm_xml):
         # Check for unique name to avoid writing over data with duplicate key
 
         if component.get('Name') in comps:
-            print 'Filename already exists as key, copying file to new name...'
+            print('Filename already exists as key, copying file to new name...')
             old_path = os.path.join(os.getcwd(), "STL", component.get('Name') + '.stl')
             new_name = component.get('Name') + '_' + 'Z' + str(ii)
             new_path = os.path.join(os.getcwd(), "STL", new_name + '.stl')
             if (os.path.exists(old_path)):
                 shutil.copy(old_path, new_path)
-                print 'Copied ', component.get('Name'), ' as ', new_name, '\n'
+                print('Copied ', component.get('Name'), ' as ', new_name, '\n')
             else:
-                print old_name + ' could not be found.\n'
+                print(old_name + ' could not be found.\n')
             ii += 1
             comps[new_name] = comp
         else:
@@ -174,7 +174,7 @@ def build_assembly(struct):
 
     asm = ''
     for component in struct['Components']:
-        print "Adding component " + component
+        print("Adding component " + component)
         temp = add_component_to_assembly(struct, component, stl_loc)
         asm = asm + temp
 
@@ -205,16 +205,16 @@ def add_component_to_assembly(struct, component, file_loc):
     return scad_render(comp)
 
 def launch_openscad(file):
-    print "Launching OpenSCAD..."
+    print("Launching OpenSCAD...")
     os.startfile(file)
 
 def usage():
-  print '''
+  print('''
   Usage :
   -i (--input) <input file path (defaults to CADAssembly_aug.xml)>
   -o (--output) <output openSCAD file path (default to CADAssembly.scad)>
   -h shows this help information.
-  '''
+  ''')
 def main(argv):
   cad_assembly_file = 'CADAssembly_aug.xml'
   open_scad_file = None
@@ -243,10 +243,10 @@ def main(argv):
 
   with open(open_scad_file, 'w') as f:
       f.write(asm)
-  print "\nOpenSCAD object saved to {0}".format(open_scad_file)
+  print("\nOpenSCAD object saved to {0}".format(open_scad_file))
   launch_openscad(open_scad_file)
 
-  print "Time: ", time.time() - start
+  print("Time: ", time.time() - start)
 
 
 if __name__ == "__main__":

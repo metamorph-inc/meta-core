@@ -47,7 +47,7 @@ def use_si_units():
                 if fco.IsLibObject:
                     continue
                 fco.Referred = si_unit
-                print fco.Name
+                print(fco.Name)
     finally:
         mga.CommitTransaction()
 # use_si_units()

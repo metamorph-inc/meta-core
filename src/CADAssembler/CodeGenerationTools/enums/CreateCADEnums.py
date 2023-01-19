@@ -482,7 +482,7 @@ def main():
 
             if state == 'ENUM_EXISTING':
                 if words[0].upper() == 'ENUM_EXISTING':
-                    print "ENUM_EXISTING"
+                    print("ENUM_EXISTING")
                     if len(words) != 4:
                         raise CADExcep("Error, Function: " + function_name + "\n   " + input_file_name +
                             " line number: " + str(line_count) + "\n   Expected 4 tokens. \n   Line: " + line)
@@ -507,7 +507,7 @@ def main():
 
             if state == 'ENUM_NEW':
                 if words[0].upper() == 'ENUM_NEW':
-                    print "ENUM_NEW"
+                    print("ENUM_NEW")
                     if len(words) != 4:
                         raise CADExcep("Error, Function: " + function_name + "\n   " + input_file_name +
                             " line number: " + str(line_count) + "\n   Expected 4 tokens. \n   Line: " + line)
@@ -534,7 +534,7 @@ def main():
                     if len(words) != 4:
                         raise CADExcep("Error, Function: " + function_name + "\n   " + input_file_name +
                             " line number: " + str(line_count) + "\n   Expected 4 tokens. \n   Line: " + line)
-                    print "ENUM_LINKED"
+                    print("ENUM_LINKED")
                     enumLinked_temp.inputFileLineNum = line_count
                     enumLinked_temp.writtenToFile = False
                     enumLinked_temp.fileID = words[3].upper()           # e.g Creo, SolidWorks,  NOT CAD
@@ -561,23 +561,23 @@ def main():
             enumLinked_temp = EnumLinked()
 
 
-        print '******************** File IDs to File Name *****************************'
-        print 'fileID_Name_dict length: ' + str(len(fileID_Name_dict))
-        print '----------------------------'
+        print('******************** File IDs to File Name *****************************')
+        print('fileID_Name_dict length: ' + str(len(fileID_Name_dict)))
+        print('----------------------------')
         for key, value in six.iteritems(fileID_Name_dict):
-            print  key + '  ' + value
+            print(key + '  ' + value)
 
-        print '************************** Enum Data ***********************************'
-        print 'enum_list length length: ' + str(len(enums_list))
+        print('************************** Enum Data ***********************************')
+        print('enum_list length length: ' + str(len(enums_list)))
         for enumData_itr in enums_list:
-            print '----------------------------'
-            print str(enumData_itr)
+            print('----------------------------')
+            print(str(enumData_itr))
 
-        print '*********************** Enum Linked Data *******************************'
-        print 'enumsLinked_list length: ' + str(len(enumsLinked_list))
+        print('*********************** Enum Linked Data *******************************')
+        print('enumsLinked_list length: ' + str(len(enumsLinked_list)))
         for enumLinked in enumsLinked_list:
-            print '----------------------------'
-            print str(enumLinked)
+            print('----------------------------')
+            print(str(enumLinked))
 
         #### Close Input File ######
         inputFile.close()
@@ -616,12 +616,12 @@ def main():
             fileHandles_cpp_dict[key].close()
 
 
-        print "\nCompleted Successfully."
+        print("\nCompleted Successfully.")
 
 
     except Exception as e:
-        print "\nFailed."
-        print "\n" + e.message
+        print("\nFailed.")
+        print("\n" + e.message)
 
 if __name__ == '__main__':
     main()

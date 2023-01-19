@@ -69,11 +69,11 @@ def GenerateSubmissionJSON():
 
             # If the ADM file was not specified by the TestBench field, search the directory for an ADM file
             if 'metaDesign' not in submission:
-                print "ADM file not specified in testbench_manifest.json!"
+                print("ADM file not specified in testbench_manifest.json!")
                 for file in os.listdir(directory):
                     if file.upper().endswith(".ADM"):
                         submission['metaDesign'] = file
-                        print "Found " + file
+                        print("Found " + file)
 
             #### submissionID section ####
             submission['submissionID'] = str(uuid.uuid4())            
@@ -136,7 +136,7 @@ def GenerateSubmissionJSON():
         matchingFiles = None
 
         if not os.path.exists(stpPrefix):
-            print "Could not find AP203_E2_SEPARATE_PART_FILES directory!"
+            print("Could not find AP203_E2_SEPARATE_PART_FILES directory!")
 
         r = re.compile(manifest['Name'] + '.*_asm.stp', flags=re.I)
         matchingFiles = [ x for x in os.listdir(stpPrefix) if r.match(x) ]
@@ -150,9 +150,9 @@ def GenerateSubmissionJSON():
             matchingFiles = [ x for x in os.listdir(stpPrefix) if r.match(x) ]
 
         if len(matchingFiles) == 0:
-            print "Unable to locate STEP assembly file!"
+            print("Unable to locate STEP assembly file!")
         else:
-            print "Found STEP assembly: " + matchingFiles[0]
+            print("Found STEP assembly: " + matchingFiles[0])
 
             modelEntities.append(dict({
                 'name': re.sub(r'_asm.*', '_asm', matchingFiles[0]).upper(),
@@ -177,8 +177,8 @@ def Create_Submission_Request():
 
     # If the following is not hit in this command it will not be hit in the other functions. 
     if stderr != '':
-        print stderr
-        print ''
+        print(stderr)
+        print('')
         raise Exception('\n\n'
             'Java exception. Missing keystore or IP address is firewalled.\n'
             'If exception above mentions "trustAnchors parameter must be non-empty", machine the test'
@@ -228,7 +228,7 @@ def DownloadAllfiles(out):
         call = subprocess.Popen(base_command + ' ' + file_download + ' ' + ' '.join(fileIds) + ' ' + feedbackDir, stdout=subprocess.PIPE, shell=True)
         out, err = call.communicate()
     else:
-        print "No feedback PDFs to download."
+        print("No feedback PDFs to download.")
 
 def CreateDummySubmission():
     submissionID = str(uuid.uuid4())
@@ -248,7 +248,7 @@ def main():
     submissionID = GenerateSubmissionJSON()
     #submissionID = CreateDummySubmission()
     UUID = str(submissionID)
-    print 'Generated UUID:', UUID 
+    print('Generated UUID:', UUID) 
 
     # Send to iFAB
     Create_Submission_Request()
@@ -260,12 +260,12 @@ def main():
         out = Query_Status(UUID) # Query submission status        
 
         if out[0]["status"]=="complete" or out[0]["status"]=="failed":
-            print "Manufacturability assessment completed!"
+            print("Manufacturability assessment completed!")
             IsCompleted = True
         elif out[0]["status"]=="error":
             raise Exception(out)
         else:
-            print "Still running,", out[0]["completedTasks"], "of", out[0]["totalTasks"], "tasks complete."
+            print("Still running,", out[0]["completedTasks"], "of", out[0]["totalTasks"], "tasks complete.")
             time.sleep(30)
 
     # Get the manufacturing results

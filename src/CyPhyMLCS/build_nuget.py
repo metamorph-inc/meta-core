@@ -23,7 +23,7 @@ def get_svnversion(filename):
 def update_version():
     # system([MSBUILD, os.path.join(THIS_DIR, "../.nuget/NuGet.Targets"), "/t:CheckPrerequisites", "/p:DownloadNuGetExe=True"])
     cyphy_version = int(get_svnversion(os.path.join(THIS_DIR, "../../meta/CyPhyML/CyPhyML.xme")))
-    print "CyPhyML.xme version: " + str(cyphy_version)
+    print("CyPhyML.xme version: " + str(cyphy_version))
     version_str = '1.0.0.%d' % cyphy_version
     cyphy_version_data = 'using System.Reflection;\n' + '[assembly: AssemblyFileVersion("%s")]\n' % version_str
     if not os.path.isfile(version_filename) or cyphy_version_data != open(version_filename, 'rb').read():

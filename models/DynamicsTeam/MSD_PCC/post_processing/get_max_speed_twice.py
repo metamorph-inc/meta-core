@@ -27,7 +27,7 @@ if __name__ == '__main__':
     except Exception as err:
         import traceback
         trace = traceback.format_exc()
-        print trace
+        print(trace)
         if os.name == 'nt':
             import win32api
             win32api.TerminateProcess(win32api.GetCurrentProcess(), 1)

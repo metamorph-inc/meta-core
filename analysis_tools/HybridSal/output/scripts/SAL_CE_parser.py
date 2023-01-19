@@ -373,27 +373,27 @@ Step <M>:
             subprocess.check_call(command)
             logger.info('MATLAB finished')
 
-            print
+            print()
             if LTL_form:
-                print tcolors.BOLD + \
+                print(tcolors.BOLD + \
                       '  ~~~ Property:\n      ' + \
                       tcolors.GREEN + \
                       '{}'.format(LTL_form) + \
-                      tcolors.ENDC
-            print tcolors.BOLD + \
+                      tcolors.ENDC)
+            print(tcolors.BOLD + \
                   '  ~~~ Find the MATLAB input files under ' + \
                   tcolors.BLUE + \
                   '{}-*.mat'.format(output) + \
-                  tcolors.ENDC
+                  tcolors.ENDC)
             # clean up manually (because tempfile.NamedTemporaryFile() prevents MATLAB in Windows to use the file):
             os.remove(temp_path)
             if reduceToVars:
-                print tcolors.BOLD + \
+                print(tcolors.BOLD + \
                       '  ~~~ When adding a scope then limit to these variables from LTL:\n      ' + \
                       tcolors.RED + \
                       '{}'.format(list(reduceToVars)) \
-                      + tcolors.ENDC
-            print
+                      + tcolors.ENDC)
+            print()
 
     return [{"GroupTitle": title,
              "GroupBody": group_body}]
@@ -594,7 +594,7 @@ if __name__ == "__main__":
             break
 
         if args.json_output:
-            print('Result is:\n{}'.format(json.dumps(result, sort_keys=False, indent=2)))
+            print(('Result is:\n{}'.format(json.dumps(result, sort_keys=False, indent=2))))
     finally:
         logging.shutdown()
         sys.exit(0)

@@ -24,4 +24,4 @@ if __name__ == '__main__':
         '-o', output_filename] + ['UdmDll_VS10.wixlib', 'UdmDll_VC11_x64.wixlib', 'UdmDll_VC14.wixlib']
         + [get_wixobj(file) for file in sources])
 
-    print('Created {}'.format(output_filename))
+    print(('Created {}'.format(output_filename)))

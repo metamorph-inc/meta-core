@@ -28,9 +28,9 @@ z = surf["z"] / 1000.0
 
 
 
-print "X", np.min(x), np.max(x)
-print "Y", np.min(y), np.max(y)
-print "Z", np.min(z), np.max(z)
+print("X", np.min(x), np.max(x))
+print("Y", np.min(y), np.max(y))
+print("Z", np.min(z), np.max(z))
 nodes = np.vstack((x, y, z)).T
 
 b_tree = BSP_Tree(nodes, surf["tris"], min_tris=200, min_dim=0.5)
@@ -40,17 +40,17 @@ start_pt = np.array([-0.25, 0.5, -1.5])
 end_pt = np.array([-0.05, 0.5, 0.5])
 vector = (end_pt - start_pt)
 
-print vector
+print(vector)
 
 unit_vector = vector / sqrt(np.dot(vector, vector))
 
-print unit_vector
+print(unit_vector)
 
 i_points = b_tree.get_line_intersection_all(start_pt, end_pt)
 
-print i_points
+print(i_points)
 
-print b_tree.get_line_intersection(start_pt, end_pt)
+print(b_tree.get_line_intersection(start_pt, end_pt))
 
 points = []
 points.append(start_pt)
@@ -65,7 +65,7 @@ points = np.array(points)
 
 
 
-print points
+print(points)
 
 #view_model(surf)
 

@@ -26,7 +26,7 @@ if __name__ == '__main__':
     except Exception as err:
         import traceback
         trace = traceback.format_exc()
-        print trace
+        print(trace)
         sys.exit(1)
 
 

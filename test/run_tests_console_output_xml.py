@@ -51,16 +51,16 @@ def run_test(filename, cwd, result_dir):
         if retcode != 0:
             # xunit exe returns 1 when a test fails
             if os.path.exists(result_xml):
-                print "Test \"" + filename + "\" failed"
+                print("Test \"" + filename + "\" failed")
             else:
-                print "Error while testing ", filename, " return code: ", retcode
+                print("Error while testing ", filename, " return code: ", retcode)
         if os.path.exists(result_xml):
             fixup_nunit_xml(result_xml)
             return result_xml
 
-        print "test warning: %s was not produced" % result_xml 
+        print("test warning: %s was not produced" % result_xml) 
         with open(result_xml + '.log', 'rb') as logfile:
-            print " xunit.exe output: " + logfile.read()
+            print(" xunit.exe output: " + logfile.read())
         return None
 
 def get_test_assemblies(xunit_file):

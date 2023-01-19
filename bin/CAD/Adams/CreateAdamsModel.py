@@ -834,10 +834,10 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
             if added_instance_id == asminfo.root.cyphyid or assembly_instance_id == asminfo.root.cyphyid:
                 continue
             if asminfo.componentsdict[added_instance_id].is_assembly() and asminfo.componentsdict[added_instance_id].kinematic:
-                print "Skipping joint " + joint.id + ", added component is a kinematic assembly: " + added_instance_id
+                print("Skipping joint " + joint.id + ", added component is a kinematic assembly: " + added_instance_id)
                 continue
             if asminfo.componentsdict[added_instance_id].is_assembly() and asminfo.componentsdict[added_instance_id].kinematic:
-                print "Skipping joint " + joint.id + ", assembled component is a kinematic assembly: " + assembly_instance_id
+                print("Skipping joint " + joint.id + ", assembled component is a kinematic assembly: " + assembly_instance_id)
                 continue
             component_added = mod.get_component(added_instance_id)
             if component_added is None:
@@ -846,7 +846,7 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
                     continue
                 component_added = mod.get_component(added_instance_id)
             if component_added is None:
-                print "Component is not found, but referred to in a joint: " + added_instance_id
+                print("Component is not found, but referred to in a joint: " + added_instance_id)
                 return None
             component_assembly = mod.get_component(assembly_instance_id)
             if component_assembly is None:
@@ -855,7 +855,7 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
                     continue
                 component_assembly = mod.get_component(assembly_instance_id)
             if component_assembly is None:
-                print "Component is not found, but referred to in a joint: " + assembly_instance_id
+                print("Component is not found, but referred to in a joint: " + assembly_instance_id)
                 return None
             asm_marker = MBD_Marker(idMarker, joint.location, joint.orientation)
             component_assembly.add_marker(asm_marker)
@@ -868,15 +868,15 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
                                         component_assembly, asm_marker, component_added, added_marker))
                 idJoint += 1
             else:
-                print "Invalid joint type: " + joint.type + ". Please correct this error."
+                print("Invalid joint type: " + joint.type + ". Please correct this error.")
                 return None
 
     for s in fixedsets:
         for i in s:
-            print i.get_partname()
+            print(i.get_partname())
         first = s.pop()
         mod.add_merge(MBD_Merge(first, s))
-        print "\n"
+        print("\n")
 
     # add anchor/ground
     if args.terrain is not None:
@@ -887,7 +887,7 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
         mod.add_component(terrain)
         idMarker += 1
     elif postproc.get_Ground() is None:
-        print "No ground is present."
+        print("No ground is present.")
         return None
     else:
         anchor = analysis.get_Ground().get_CyphyId()
@@ -909,7 +909,7 @@ def setup_model(analysis, asminfo, cadpostproc, firstpass):
                                 terrain, terrain_marker))
         idJoint += 1
     elif anchor is None:
-        print 'WARNING: No anchor component was specified. No body is going to be constrained to the ground.'
+        print('WARNING: No anchor component was specified. No body is going to be constrained to the ground.')
     # Fix the root to the ground
     elif anchor is not None and ground is not None:
         ground_added_marker = MBD_Marker(idMarker, groundpos, None)
@@ -949,7 +949,7 @@ def AdamsExport(model, firstpass, issilent=True):
         else:
             resultfile.write(model.export2Adams())
     if not issilent:
-        print model.export2Adams()
+        print(model.export2Adams())
     return
 
 def main():
@@ -961,13 +961,13 @@ def main():
 
     missing = False
     if not os.path.isfile(os.getcwd() + os.sep + globalParams["Analysis_File"]):
-        print 'File ' + os.getcwd() + os.sep + globalParams["Analysis_File"] + ' is missing'
+        print('File ' + os.getcwd() + os.sep + globalParams["Analysis_File"] + ' is missing')
         missing = True
     if not os.path.isfile(os.getcwd() + os.sep + globalParams["CADMetrics_File"]):
-        print 'File ' + os.getcwd() + os.sep + globalParams["CADMetrics_File"] + ' is missing'
+        print('File ' + os.getcwd() + os.sep + globalParams["CADMetrics_File"] + ' is missing')
         missing = True
     if not os.path.isfile(os.getcwd() + os.sep + globalParams["CADPostProc_File"]):
-        print 'File ' + os.getcwd() + os.sep + globalParams["CADPostProc_File"] + ' is missing'
+        print('File ' + os.getcwd() + os.sep + globalParams["CADPostProc_File"] + ' is missing')
         missing = True
 
     if missing:
@@ -978,13 +978,13 @@ def main():
     try:
         analysis = MA.parse(os.getcwd() + os.sep + globalParams["Analysis_File"], True)
     except MA.GDSParseError as exc:
-        print "Unable to parse " + globalParams["Analysis_File"] + ", exiting. Error message: " + exc.message
+        print("Unable to parse " + globalParams["Analysis_File"] + ", exiting. Error message: " + exc.message)
         exit(-1)
 
     try:
         asminfo.read_metrics_file(os.getcwd() + os.sep + globalParams["CADMetrics_File"])
     except Exception as exc:
-        print "Unable to parse " + globalParams["CADMetrics_File"] + ", exiting. Error message: " + exc.message
+        print("Unable to parse " + globalParams["CADMetrics_File"] + ", exiting. Error message: " + exc.message)
         exit(-1)
 
     #cad_library.ComponentData.dump_hierarchy(asminfo.root)
@@ -992,7 +992,7 @@ def main():
     try:
         cadpostproc = CP.parse(os.getcwd() + os.sep + globalParams["CADPostProc_File"], True)
     except CP.GDSParseError as exc:
-        print "Unable to parse " + globalParams["CADPostProc_File"] + ", exiting. Error message: " + exc.message
+        print("Unable to parse " + globalParams["CADPostProc_File"] + ", exiting. Error message: " + exc.message)
         exit(-1)
 
     firstpass = False
@@ -1004,15 +1004,15 @@ def main():
 
     try:
         if model is None:
-            print "Unable to setup model, exiting."
+            print("Unable to setup model, exiting.")
             exit(-1)
 
         AdamsExport(model, firstpass, True)
     except ProcessingError as e:
-        print "Processing error: " + e.message
+        print("Processing error: " + e.message)
         exit(-1)
 
-    print "adams_output" + '.' + globalParams['AdamsExtension'] + " has been succesfully generated."
+    print("adams_output" + '.' + globalParams['AdamsExtension'] + " has been succesfully generated.")
     #except:
     #    print "Unexpected exception during script running."
     #    exit(-1)

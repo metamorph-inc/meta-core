@@ -122,9 +122,9 @@ if __name__ == '__main__':
 
         
     except Exception as e:
-        print e
-        print type(e)  # prints the type of exception
-        print type(e).__name__  # prints the type's name
+        print(e)
+        print(type(e))  # prints the type of exception
+        print(type(e).__name__)  # prints the type's name
     except ZeroDivisionError:
-        print "division by zero!"
+        print("division by zero!")
         

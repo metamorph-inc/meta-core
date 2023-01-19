@@ -188,7 +188,7 @@ class BSP_Tree(object):
                 tree_list.append((elem.above, start, end))
 
             i += 1  
-        print "tests: {}".format(i)
+        print("tests: {}".format(i))
         return set(intersections)
         
         

@@ -26,7 +26,7 @@ def find_java():
             JAVA_EXE = os.path.join(os.environ.get("JAVA_HOME"), "bin", "java")
         else:
             JAVA_EXE = find_executable("java")
-    print JAVA_EXE
+    print(JAVA_EXE)
     return '"' + JAVA_EXE + '"'
 
 def fault_enable_library (library_root, other_libraries, output_directory=None, fame_cyphy_package=None):
@@ -60,7 +60,7 @@ def fault_enable_library (library_root, other_libraries, output_directory=None, 
         additional_libraries.append(os.path.dirname(os.path.abspath(library)))
     additional_libraries = list(OrderedDict.fromkeys(additional_libraries))
     additional_libraries = os.pathsep.join(additional_libraries)
-    print additional_libraries
+    print(additional_libraries)
 
     # run the fault-enabler
     try:
@@ -70,7 +70,7 @@ def fault_enable_library (library_root, other_libraries, output_directory=None, 
                '-modelicapath=' + additional_libraries,
                '-outputdirectory=' + output_directory,
                '-nogui', os.path.normpath(library_root)])
-        print cmd
+        print(cmd)
 
         proc = subprocess.Popen(cmd,
                                 stderr=subprocess.STDOUT,

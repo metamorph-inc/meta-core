@@ -29,7 +29,7 @@ try:
         if len(fs) != 1:
             raise Exception("No equivalent for lib folder " + libfolder.Name)
         folders.append(fs[0])
-    print 'Updating ' + ", ".join([f.Name for f in folders])
+    print('Updating ' + ", ".join([f.Name for f in folders]))
     switcher = win32com.client.DispatchEx("MGA.Interpreter.ReferenceSwitcher")
     switcher.SwitchReferences(libfolders, folders)
     project.RootFolder.Name = rf_name

@@ -37,12 +37,12 @@ if __name__=='__main__':
     status = win32event.WaitForSingleObject(hProcess, 45000)
     win32api.CloseHandle(startup.hStdError)
     if status == win32event.WAIT_TIMEOUT:
-        print "Dymola timed out. Likely the license could not be acquired"
+        print("Dymola timed out. Likely the license could not be acquired")
         sys.exit(2)
 
     if win32process.GetExitCodeProcess(hProcess) != 0:
-        print "Dymola exited with code " + str(win32process.GetExitCodeProcess(hProcess))
+        print("Dymola exited with code " + str(win32process.GetExitCodeProcess(hProcess)))
         sys.exit(1)
 
-    print "Test executed ok"
+    print("Test executed ok")
     sys.exit(0)

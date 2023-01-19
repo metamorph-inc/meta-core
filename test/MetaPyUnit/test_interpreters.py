@@ -155,11 +155,11 @@ meta_doc_path = os.path.join(os.environ["PUBLIC"], "Documents", "META Documents"
 model_dir = ''
 
 if os.path.exists(meta_doc_path):
-    print 'User machine'
+    print('User machine')
     model_dir = meta_doc_path
     user_machine = True
 else:
-    print 'Developer machine'
+    print('Developer machine')
     hKey = win32api.RegOpenKey (win32con.HKEY_LOCAL_MACHINE, r"SOFTWARE\META")
     value, type = win32api.RegQueryValueEx (hKey, "META_PATH")
     model_dir = os.path.join(value, 'models')
@@ -172,7 +172,7 @@ else:
 test_cases = []
 
 config_file = os.path.abspath('InterpreterTestCasesConfig.json')
-print config_file
+print(config_file)
 if os.path.exists(config_file):
     if os.path.isfile(config_file):
         with open(config_file, 'r') as f_p:
@@ -180,9 +180,9 @@ if os.path.exists(config_file):
 
         #print test_cases        
     else:
-        print 'config file is not a file'
+        print('config file is not a file')
 else:
-    print 'config file does not exist'
+    print('config file does not exist')
 
 
 
@@ -238,7 +238,7 @@ for test_case in test_cases:
         lambda self, test_case=test_case: self._test_run_interpreters(test_case))
 
 # test project import functionality
-print model_dir
+print(model_dir)
 i = 0
 xme_files = []
 for r,d,f in os.walk(model_dir):
@@ -246,7 +246,7 @@ for r,d,f in os.walk(model_dir):
         if files.endswith(".xme"):
             xme_files.append(os.path.join(r,files))
 
-print xme_files
+print(xme_files)
 for xme_file in xme_files:
     i += 1
     # setattr(

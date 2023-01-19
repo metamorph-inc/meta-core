@@ -34,5 +34,5 @@ def update_version(version, last_version):
     return ".".join(version)
     
 if __name__ == '__main__':
-    print last_cad_rev()
+    print(last_cad_rev())
     throw_if_modified()

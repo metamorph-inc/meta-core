@@ -7,7 +7,7 @@ from six.moves import zip
 
 
 def exitwithcode(code):
-    print code
+    print(code)
     exit(code)
 
 

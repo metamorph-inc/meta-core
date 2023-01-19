@@ -273,13 +273,13 @@ def main():
      
     ASF = computeASF(material,size,ta/25.4,tg/25.4)
     if verbFlag:
-        print "ASF is: ", ASF
+        print("ASF is: ", ASF)
     if ASF is None:
         return 1
 
     probFailure = computeProbFail(material,ASF)
     if verbFlag:
-        print "probFailure is: ", probFailure
+        print("probFailure is: ", probFailure)
     
     output(probFailure,failureProb,ta,tg,material,size)
     return 0
@@ -357,7 +357,7 @@ def test(material, size, ta, tg):
     mat = {"Steel": 1, "Aluminum": 2}.get(material)
     ASF = computeASF(mat, size, ta/25.4, tg/25.4)
     # we round to 6 significant digits here to avoid floating-point mismatches
-    print round(ASF, 6), round(computeProbFail(mat, ASF), 6)
+    print(round(ASF, 6), round(computeProbFail(mat, ASF), 6))
 
 def testJSON(material, size, ta, tg):
     """
@@ -448,7 +448,7 @@ def testJSON(material, size, ta, tg):
             return None
         results = json.load(open("Bracket_Fatigue.testbench.json"))
         # we round to 6 significant digits here to avoid floating-point mismatches
-        print round(results["Metric"][0]["Value"], 6)
+        print(round(results["Metric"][0]["Value"], 6))
         if os.path.exists("Bracket_Fatigue.testbench.json"):
             os.unlink("Bracket_Fatigue.testbench.json")
     finally:

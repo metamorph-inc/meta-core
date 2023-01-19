@@ -44,7 +44,7 @@ def get_nuget_packages():
         version = package.get('version')
         if svnversion is not None:
             version = vc_info.update_version(version, svnversion())
-        print "NuGet install " + package.get('id') + " " + version
+        print("NuGet install " + package.get('id') + " " + version)
         # n.b. don't specify -ConfigFile, as it makes nuget.exe ignore %APPDATA%\NuGet\NuGet.config
         system([r'..\src\.nuget\nuget.exe', 'install', '-PreRelease', '-Version', version, package.get('id')], os.path.join(this_dir, 'CAD_Installs'))
         package_dir = r'CAD_Installs\%s.%s' % (package.get('id'), version)
@@ -58,7 +58,7 @@ def get_nuget_packages():
             destination_file = destination_file[0]
 
             from win32file import CreateHardLink
-            print "Linking %s to %s" % (os.path.join(this_dir, filename), os.path.join(this_dir, destination_file))
+            print("Linking %s to %s" % (os.path.join(this_dir, filename), os.path.join(this_dir, destination_file)))
             CreateHardLink(os.path.join(this_dir, destination_file), os.path.join(this_dir, filename))
             destination_files.remove(destination_file)
 
@@ -144,8 +144,8 @@ def add_vcs_defines(defines):
 
     vcshash = get_githash()
 
-    print "Version description: " + vcsdescription
-    print "Installer version: " + version
+    print("Version description: " + vcsdescription)
+    print("Installer version: " + version)
     defines.append(('VERSIONSTR', version))
     defines.append(('VCSHASH', vcshash))
     defines.append(('VCSDESCRIPTION', vcsdescription))
@@ -237,7 +237,7 @@ def build_msi(with_offline=False):
     # For each each ComponentGroupRef in "source_wxs" and "analysis_tools.wxi",
     # add its corresponding file to "include_wxis"
     for wxs in glob.glob(sourcedir + source_wxs) + glob.glob(sourcedir + 'analysis_tools.wxi'):
-        print 'Processing WXS: ' + wxs
+        print('Processing WXS: ' + wxs)
         tree = ET.parse(wxs)
         root = tree.getroot()
         # print root
@@ -326,7 +326,7 @@ def build_msi(with_offline=False):
         system('candle.exe META_bundle_ba.wxi -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension'.split() + ['-d' + d[0] + '=' + d[1] for d in defines])
         system('light.exe -o META_bundle_x64.exe META_bundle_ba.wixobj META_bundle_x64.wixobj -ext WixBalExtension -ext WixUtilExtension -ext WixDependencyExtension -ext WixNetFxExtension'.split())
 
-        print "elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds
+        print("elapsed time: %d seconds" % (datetime.datetime.now() - starttime).seconds)
     else:
         msm_output = os.path.splitext(source_wxs)[0] + ".msm"
         system(['light', '-ext', 'WixUtilExtension', '-o', msm_output] + [get_wixobj(file) for file in sources])

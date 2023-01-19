@@ -283,7 +283,7 @@ def evaluate(directory, **kwargs):
     return verbose, summary
 
 def print_results(verbose, summary):
-    print json.dumps({"verbose": verbose, "summary": summary}, indent=4)
+    print(json.dumps({"verbose": verbose, "summary": summary}, indent=4))
 
 def write_summaryfile(filename, summary):
     try:

@@ -44,12 +44,12 @@ floor = np.ones((in_out.shape[0], in_out.shape[2]), dtype=np.uint16) * (in_out.s
 
 
 for obj_num in range(count + 1):
-    print obj_num, np.sum(labels == obj_num)
+    print(obj_num, np.sum(labels == obj_num))
     if obj_num == label_corner:
         continue
-    print obj_num, np.sum(labels == obj_num)
+    print(obj_num, np.sum(labels == obj_num))
     for i in xrange(in_out.shape[0]):
-        print "Slice {} of {}".format(i, in_out.shape[0])
+        print("Slice {} of {}".format(i, in_out.shape[0]))
         for j in xrange(in_out.shape[1]):
             for k in xrange(in_out.shape[2]):
                 if labels[i, j, k] == obj_num:
@@ -63,7 +63,7 @@ full = in_out_manikin_base.shape[1]
 manikin_heights = [full, full - full // 10, full - full // 4] 
 manikin_heights = [full] 
 
-print manikin_heights
+print(manikin_heights)
 
 v_min = None
 v_max = None
@@ -85,8 +85,8 @@ for config, manikin_height in enumerate(manikin_heights):
     half_k = manikin_k // 2
     
     
-    print in_out.shape
-    print in_out_manikin.shape
+    print(in_out.shape)
+    print(in_out_manikin.shape)
     
     intersection_checks = 0
     
@@ -99,7 +99,7 @@ for config, manikin_height in enumerate(manikin_heights):
                                                            k : k + manikin_k])
             intersection_checks += 1
     
-    print "Intersection checks", intersection_checks                                        
+    print("Intersection checks", intersection_checks)                                        
      
     
 #    results = results / manikin_volume

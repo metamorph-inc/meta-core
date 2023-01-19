@@ -24,13 +24,13 @@ def compute_local_hash(results_content):
     #digest.update(results_json["Time"])
     #print digest.digest()
     #return digest.digest()
-    print results_content
-    print digest.hexdigest()
+    print(results_content)
+    print(digest.hexdigest())
     return digest.hexdigest()
 
 def main():
     if len(sys.argv) < 2:
-        print 'First argument must be a json file'
+        print('First argument must be a json file')
         return 1
     
     filename = sys.argv[1]  
@@ -49,8 +49,8 @@ def main():
     results_content = 'The quick brown fox jumps over the lazy dog.'
     digest = hmac.new(
        key, results_content, hashlib.sha512)
-    print results_content
-    print digest.hexdigest()
+    print(results_content)
+    print(digest.hexdigest())
     
     return 0
     

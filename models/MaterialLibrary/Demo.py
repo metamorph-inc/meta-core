@@ -103,8 +103,8 @@ if __name__ == "__main__": #run only if main
         pass
         #print mat
     
-    print "Checking version number: "
+    print("Checking version number: ")
     version = library_manager.checkVersion(username, password)
-    print "Version: " + str(version)
+    print("Version: " + str(version))
     library_manager.updateJSON(username, password)
-    print "\nDone with the demo!"
+    print("\nDone with the demo!")

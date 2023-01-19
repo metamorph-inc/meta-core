@@ -70,7 +70,7 @@ class XmlInterfaceElementTree (XmlInterfaceBase):
         XmlInterfaceBase.__init__ (self, verbose, useCaching, processXInclude)
         self.xmlIfType = XMLIF_ELEMENTTREE
         if self.verbose:
-            print "Using elementtree interface module..."
+            print("Using elementtree interface module...")
 
 
     def createXmlTree (self, namespace, xmlRootTagName, attributeDict={}, publicId=None, systemId=None):

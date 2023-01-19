@@ -18,7 +18,7 @@ def pushd(newDir):
 
 
 def call_xsd2code(abspath_xsd2code, path_xsd, cu_namespace=None):
-    print "Generating for " + path_xsd
+    print("Generating for " + path_xsd)
     call = abspath_xsd2code + ' ' + path_xsd + ' /eit /is /xa'
     if cu_namespace is not None:
         call = call + ' /cu ' + cu_namespace
@@ -32,9 +32,9 @@ def rmdir(path):
 
 
 def make():
-    print "====== Generate Libraries ======"
-    print ""
-    print "== Copy Schema Files =="
+    print("====== Generate Libraries ======")
+    print("")
+    print("== Copy Schema Files ==")
     # Prepare the /schema folder
     path_schema = "schema"
     if os.path.exists(path_schema):
@@ -51,11 +51,11 @@ def make():
     os.remove(os.path.join(path_schema, 'XMLType.xsd'))
 
     for xsd in glob.glob(os.path.join(path_schema, "*.xsd")):
-        print xsd
+        print(xsd)
 
     # Generate C# classes
-    print ""
-    print "== Generate C# classes =="
+    print("")
+    print("== Generate C# classes ==")
     if sys.platform.startswith('win32'):
         relpath_Xsd2Code = os.path.join('..', '..', '3rdParty', 'xsd2code', 'Xsd2Code.exe')
         abspath_Xsd2Code = os.path.abspath(relpath_Xsd2Code)
@@ -71,10 +71,10 @@ def make():
             for cs in glob.glob('*.cs'):
                 shutil.copy2(cs, os.path.join('..', 'lib', 'csharp', 'OpenMETA.Interchange', 'generated'))
     else:
-        print "ERROR: Xsd2Code cannot run on a non-Windows platform; skipping C# generation"
+        print("ERROR: Xsd2Code cannot run on a non-Windows platform; skipping C# generation")
 
-    print ""
-    print "== Generate Python library =="
+    print("")
+    print("== Generate Python library ==")
     relpath_pyxbgen = os.path.join('..', '..', 'bin', 'Python27', 'Scripts', 'pyxbgen')
     abspath_pyxbgen = os.path.abspath(relpath_pyxbgen)
     abspath_python_interpreter = sys.executable
@@ -84,7 +84,7 @@ def make():
         subprocess.check_call(command_, shell=False)
 
         for py in glob.glob('*.py'):
-            print py
+            print(py)
 
     # clear old python libraries
     path_pylib = os.path.join('lib', 'python')
@@ -121,8 +121,8 @@ def make():
                     .replace(abspath_schema.replace('\\', '\\\\') + '\\\\', '')
                 sys.stdout.write(newline)
 
-    print ""
-    print "== Make Release =="
+    print("")
+    print("== Make Release ==")
     path_release = 'release'
     rmdir(os.path.abspath(path_release))
     os.makedirs(path_release)

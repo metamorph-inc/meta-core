@@ -71,7 +71,7 @@ def execute_elevated(*args):
         # Not running under py2exe exe
         parameters += "\"" + sys.argv[0] + "\" "
     parameters += " ".join(["\"" + str(x) + "\"" for x in args])
-    print "Executing elevated with parameters " + parameters
+    print("Executing elevated with parameters " + parameters)
     # TODO: capture output (maybe via named pipe)
     rc = ShellExecuteEx(hwnd=hwnd, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb="runas", lpFile=sys.executable, 
         lpParameters=parameters, nShow=win32con.SW_SHOW)
@@ -199,15 +199,15 @@ def register_if_not_registered(file):
         paradigm = project.project.RootFolder.Name
         if not is_registered(paradigm):
             project.run_interpreter("MGA.Interpreter.MetaInterpreter", param=REGISTER)
-            print "Paradigm '%s' is now registered" % paradigm
+            print("Paradigm '%s' is now registered" % paradigm)
         elif not os.path.isfile(get_paradigm_file(paradigm)):
             #FIXME: should we look for the .xmp?
             project.run_interpreter("MGA.Interpreter.MetaInterpreter", param=REGISTER)
-            print "Paradigm '%s' had nonexistant .mta; it is now reregistered" % paradigm
+            print("Paradigm '%s' had nonexistant .mta; it is now reregistered" % paradigm)
         # TODO: can we check if it is up-to-date?
         # or os.path.getmtime(get_paradigm_file(paradigm)) < os.path.getmtime(file):
         else:
-            print "Paradigm '%s' is already registered" % paradigm
+            print("Paradigm '%s' is already registered" % paradigm)
 
 def mga2xmp(mgafile, register=REGISTER):
     # if we don't give GME an absolute path, it registers the mta with a relative path (which is bad)
@@ -373,7 +373,7 @@ OBJTYPE_CONNECTION = 4
 OBJTYPE_SET = 5
 OBJTYPE_FOLDER = 6
 def is_container(fco):
-    print fco.ObjType
+    print(fco.ObjType)
     return fco.ObjType == OBJTYPE_MODEL or fco.ObjType == OBJTYPE_FOLDER
 
 def is_library(fco):
@@ -482,7 +482,7 @@ class Project():
 
     @staticmethod
     def open(file, mga_to_save=None, refresh=False):
-        print refresh
+        print(refresh)
         if not os.path.isfile(file):
             raise Exception("'" + file + "' not found")
         extension = os.path.splitext(file)[1]
@@ -543,8 +543,8 @@ def print_paradigm(xmefile):
     "Print the input file and paradigm of a given xme"
     xme = win32com.client.DispatchEx("Mga.MgaParser")
     (paradigm, parversion, parguid, basename, ver) = xme.GetXMLInfo(xmefile)
-    print xmefile
-    print paradigm
+    print(xmefile)
+    print(paradigm)
 
 def run_module(name, *args):
     sys.path.append('.')
@@ -557,8 +557,8 @@ def usage():
     names.extend(list(gme_dict.keys()))
     for name in [name for name in names if type(gme_dict[name]) == type(print_paradigm)]:
         if gme_dict[name].__doc__ and name.find('_') != 0:
-            print name
-            print "\t" + gme_dict[name].__doc__
+            print(name)
+            print("\t" + gme_dict[name].__doc__)
     sys.exit(2)
 
 import traceback

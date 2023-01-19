@@ -280,7 +280,7 @@ class XsValBase:
             return
 
         if self.verbose:
-            print "including %s..." %(includeUrl)
+            print("including %s..." %(includeUrl))
         rootNode = tree.getRootNode()
 
         subTree = self._parseIncludeSchemaFile(baseTree, tree, nextSibling, includeUrl, baseUrl)

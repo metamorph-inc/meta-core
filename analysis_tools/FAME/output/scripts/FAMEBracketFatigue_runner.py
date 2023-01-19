@@ -36,7 +36,7 @@ if os.name == 'nt':
     
     fame_cyphy_directory = os.path.join(tools['FAMEBracketFatigue']['InstallLocation'], 'BracketFatigue')
 
-print fame_cyphy_directory
+print(fame_cyphy_directory)
 
 # TODO: check if directory exists
 # add fame_cyphy_dir to python search path

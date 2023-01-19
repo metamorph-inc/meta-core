@@ -28,7 +28,7 @@ if __name__ == '__main__':
             check_limits_and_add_to_report_json(pp, limit_dict)
             os.chdir(cwd)
         except Exception as err:
-            print err.message
+            print(err.message)
             if os.name == 'nt':
                 import win32api
                 win32api.TerminateProcess(win32api.GetCurrentProcess(), 1)

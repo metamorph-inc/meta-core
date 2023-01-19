@@ -186,7 +186,7 @@ def eval_variate(var):
 # THIS FUNCTION CAN BE ADAPTED
 # FOR INTEGRATION WITH THE DISPLAY MODULE
 def displaymessage(message_text,end_execution=False):
-    print message_text
+    print(message_text)
     if end_execution:
         exit()
     return
@@ -235,30 +235,30 @@ def main(argv=None):
                 output = value
     
     except Usage as err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print(sys.argv[0].split("/")[-1] + ": " + str(err.msg), file=sys.stderr)
         return 2
     if len(args) >= 3:
-        print compute_complexity(args[0], args[1], args[2])
+        print(compute_complexity(args[0], args[1], args[2]))
     else:
         #print compute_complexity('component_complexity.csv', 'interface_complexity.csv')
 
         sampleSize=10
         X=compute_complexity('component_complexity1.csv', 'interface_complexity1.csv',sampleSize)
-        print "Example 1:"
-        print X
-        print "mean: ",sum(X)/len(X)
+        print("Example 1:")
+        print(X)
+        print("mean: ",sum(X)/len(X))
 
         sampleSize=10
         X=compute_complexity('component_complexity2.csv', 'interface_complexity2.csv',sampleSize)
-        print "Example 2:"
-        print X
-        print "mean: ",sum(X)/len(X)
+        print("Example 2:")
+        print(X)
+        print("mean: ",sum(X)/len(X))
 
         sampleSize=10
         X=compute_complexity('component_complexity3.csv', 'interface_complexity3.csv',sampleSize)
-        print "Example 3:"
-        print X
-        print "mean: ",sum(X)/len(X)
+        print("Example 3:")
+        print(X)
+        print("mean: ",sum(X)/len(X))
 
     return    
 

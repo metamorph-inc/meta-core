@@ -29,12 +29,12 @@ try:
 
     # Print the retrieved data
     for k in material_lib_props_dict:
-        print
-        print "key: ", k
+        print()
+        print("key: ", k)
         #material_lib_props_dict[k].print_self()
-        print str(material_lib_props_dict[k])
+        print(str(material_lib_props_dict[k]))
 
 except CADExcep.CADError as e:
-    print e.message
+    print(e.message)
 
 

@@ -401,6 +401,6 @@ if __name__ == "__main__":
     plates = json.load(args.hullplates)
     tables = json.load(args.model_data)
     build, material, report = evaluate(plates, tables)
-    print report
+    print(report)
 
 # vim:ts=4:sw=4:expandtab:fdm=indent:wrap lbr:ai:colorcolumn=70

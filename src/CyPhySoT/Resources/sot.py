@@ -171,7 +171,7 @@ def run_sot(sot):
         'Project filename was not found'
         return 1
     
-    print project_filename
+    print(project_filename)
     
     sot_id = None
     
@@ -181,16 +181,16 @@ def run_sot(sot):
         'SoTID was not found'
         return 1
     
-    print 'Current object: {0}'.format(sot_id)
+    print('Current object: {0}'.format(sot_id))
     
     project = Project.open(project_filename)
     current_fco = None
     project.begin_transaction()
     try:
         current_fco = project.project.GetFCOByID(str(sot_id))
-        print current_fco.AbsPath
+        print(current_fco.AbsPath)
     except:
-        print 'Object was not found??'
+        print('Object was not found??')
     
     project.abort_transaction()
     
@@ -207,22 +207,22 @@ def run_sot(sot):
     sotInterpreter.set_ComponentParameter('do_config', 'false')
     sotInterpreter.set_ComponentParameter('run_silent', 'true')
     
-    print 'Calling CyPhySOT interpreter ...'
+    print('Calling CyPhySOT interpreter ...')
     # calling CyPhySOT interpreter
     selectedobj = win32com.client.DispatchEx("Mga.MgaFCOs")
     sotInterpreter.InvokeEx(project.project, current_fco, selectedobj, 0)
     
-    print 'Done.'
+    print('Done.')
     return 0
     
 def main():
     # TODO: change current working  directory to __file__'s directory
     # restore the working dir before return
     
-    print 'Running sot... '
+    print('Running sot... ')
     
     if not os.path.exists(manifest_filename):
-        print 'Sot manifest file does not exist.'
+        print('Sot manifest file does not exist.')
         safe_return(1)
         return 1
     
