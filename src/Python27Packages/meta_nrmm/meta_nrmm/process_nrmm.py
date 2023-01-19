@@ -78,7 +78,7 @@ def main(argv):
 
     if (len(argv) > 1):
         if not os.path.exists(argv[1]):
-            print 'Given metric file does not exist: {0}'.format(argv[1])
+            print('Given metric file does not exist: {0}'.format(argv[1]))
             sys.exit(2)
     else:
         sys.stderr.write('Usage: %s testbench_manifest.json\n' % sys.argv[0])
@@ -97,14 +97,14 @@ def main(argv):
         for metric in result_json['Metrics']:
             if 'Name' in metric and 'Value' in metric:
                 if metric['Name'] in nameSpace:
-                    print metric['Name'] + ': '+ metric['Value']
+                    print(metric['Name'] + ': '+ metric['Value'])
                     nameSpace[metric['Name']] = float(metric['Value'])
             else:
                 # create warning message
                 pass
     else:
         # create warning message
-        print 'no metric file'
+        print('no metric file')
         sys.exit(3)
         
     nameSpace.update({'vehicle_identifier':'M1 TANK WES Jan94', 'VEHICLE':'$VEHICLE', 'VEHICL':'$VEHICL', 'END':'$END', 'LFVDAT':'$LFVDAT'})
@@ -129,7 +129,7 @@ def main(argv):
     now = datetime.datetime.now()
     t.timestamp = now.strftime("%Y-%m-%d %H:%M")
     t.filename = template_file
-    print t
+    print(t)
     absoutputfilename = OBS_VEH_FILENAME
 
     try:
@@ -140,7 +140,7 @@ def main(argv):
     f.write(str(t))
     f.close()
 
-    print 'wrote ' + absoutputfilename
+    print('wrote ' + absoutputfilename)
 
     #print 'hit enter'
     #os.system('pause')
@@ -155,10 +155,10 @@ def main(argv):
     cmdline = cmdexe_fullpath + '< fang.INP > fang_OBS.log'
 
     if not os.path.exists(cmdexe_fullpath):
-        print 'File does not exist:' + cmdexe_fullpath
+        print('File does not exist:' + cmdexe_fullpath)
         os.exit(4)
 
-    print cmdline
+    print(cmdline)
 
     #print 'hit enter to run OBSDP'
     #os.system('pause')
@@ -189,7 +189,7 @@ def main(argv):
     now = datetime.datetime.now()
     t.timestamp = now.strftime("%Y-%m-%d %H:%M")
     t.filename = template_file
-    print t
+    print(t)
     absoutputfilename = NRMM_STD_FILENAME
 
     try:
@@ -200,7 +200,7 @@ def main(argv):
     f.write(str(t))
     f.close()
 
-    print 'wrote ' + absoutputfilename
+    print('wrote ' + absoutputfilename)
 
     #print 'hit enter'
     #os.system('pause')
@@ -220,9 +220,9 @@ def main(argv):
     cmdexe_fullpath = os.path.join(NRMMEXEPATH, NRMMEXE)
     cmdline = cmdexe_fullpath + '< fang_ME.INP'
     #print cmdexe_fullpath
-    print cmdline
+    print(cmdline)
     if not os.path.exists(cmdexe_fullpath):
-        print 'File does not exist:' + cmdexe_fullpath
+        print('File does not exist:' + cmdexe_fullpath)
         os.exit(5)
 
     check_system(cmdline)
@@ -230,9 +230,9 @@ def main(argv):
     #### GE
     cmdexe_fullpath = os.path.join(NRMMEXEPATH, NRMMEXE)
     cmdline = cmdexe_fullpath + '< fang_GE.INP'
-    print cmdline
+    print(cmdline)
     if not os.path.exists(cmdexe_fullpath):
-        print 'File does not exist:' + cmdexe_fullpath
+        print('File does not exist:' + cmdexe_fullpath)
         os.exit(6)
         
     check_system(cmdline)
@@ -240,9 +240,9 @@ def main(argv):
     #### NK
     cmdexe_fullpath = os.path.join(NRMMEXEPATH, NRMMEXE)
     cmdline = cmdexe_fullpath + '< fang_NK.INP'
-    print cmdline
+    print(cmdline)
     if not os.path.exists(cmdexe_fullpath):
-        print 'File does not exist:' + cmdexe_fullpath
+        print('File does not exist:' + cmdexe_fullpath)
         os.exit(7)
     check_system(cmdline)
 
@@ -278,7 +278,7 @@ def main(argv):
         if n > 0 and line[1] != 'h':
             #print n
             v80_str = line[n+3] + line[n+4] + line[n+5] + line[n+6] + line[n+7]
-            print v80_str
+            print(v80_str)
             v80 = float(v80_str)
             #print v80
             nrmm_v80_metrics.append(str(v80))
@@ -327,9 +327,9 @@ def main(argv):
             #print v80
             nrmm_v80_metrics.append(str(v80))
             
-    print 'metrics: '
-    print nrmm_metrics
-    print nrmm_v80_metrics
+    print('metrics: ')
+    print(nrmm_metrics)
+    print(nrmm_v80_metrics)
             
     ##########################################
     # write to metric file
@@ -369,7 +369,7 @@ def main(argv):
                 # create warning message
             pass
             
-    print 'write out metrics'
+    print('write out metrics')
 
     # update json file with the new values
 
@@ -377,7 +377,7 @@ def main(argv):
         json.dump(result_json, file_out)
 
 
-    print 'done'
+    print('done')
     sys.exit(0)
 
 

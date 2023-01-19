@@ -151,7 +151,7 @@ def UP_PCE(problem, driver):
     # ----------------------  Analyze  ---------------------------
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     # Calculate the PCC for the FFNI method
     if otpt>1:
@@ -172,7 +172,7 @@ def UP_PCE(problem, driver):
     C_Y_pdf = [0]*otpt
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     for k in range(otpt):
         PCC[k],dtype[k],Inv1[k],m1[k],m2[k],a1[k],a2[k],alph[k],beta[k],lo[k],hi[k] =\

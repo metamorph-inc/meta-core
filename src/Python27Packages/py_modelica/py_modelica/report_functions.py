@@ -13,7 +13,7 @@ INVALID_NUMBER_IN_REPORT_FILE = False
 
 
 def invalid_number(x):
-    print 'Found invalid {0} in report-file'.format(x)
+    print('Found invalid {0} in report-file'.format(x))
     global INVALID_NUMBER_IN_REPORT_FILE
     INVALID_NUMBER_IN_REPORT_FILE = True
     return None
@@ -201,7 +201,7 @@ def update_metrics_and_check_limits(mat_file='', model_config='model_config.json
             if metric['Name'] in metrics_map:
                 metric_value = str(mfp.last_value(metrics_map[metric['Name']]))
                 metric['Value'] = metric_value
-                print 'Metric {0} :: {1}'.format(metric['Name'], metric_value)
+                print('Metric {0} :: {1}'.format(metric['Name'], metric_value))
         with open(report_file, 'wb') as file_out:
             json.dump(result_json, file_out, indent=4)
 
@@ -228,7 +228,7 @@ def read_limits():
         variable_filter.add(limit_item['VariableFullPath'])
 
     variable_filter = list(variable_filter)
-    print "Variables for limit-checking : {0}".format(variable_filter)
+    print("Variables for limit-checking : {0}".format(variable_filter))
 
     return limit_dict, variable_filter
 
@@ -245,9 +245,9 @@ def check_limits_and_add_to_report_json(pp, limit_dict, report_file=REPORT_FILE)
         limit_value = limit_item['Value']
         limit_type = limit_item['Type']
 
-        print "--== {0} ==--".format(modelica_uri)
-        print "Type of Limit : {0}".format(limit_type)
-        print "Limit : {0} ".format(limit_value)
+        print("--== {0} ==--".format(modelica_uri))
+        print("Type of Limit : {0}".format(limit_type))
+        print("Limit : {0} ".format(limit_value))
         if limit_type == 'min':
             limit_exceeded, actual_value = pp.check_min_limit(modelica_uri, limit_value)
             limit_item['LimitExceeded'] = limit_exceeded
@@ -279,7 +279,7 @@ def check_limits_and_add_to_report_json(pp, limit_dict, report_file=REPORT_FILE)
             limit_item['ActualValue'] = actual_value
 
         limit_item['Value'] = str(limit_value)
-        print "Violation : {0}".format(limit_item["LimitExceeded"])
+        print("Violation : {0}".format(limit_item["LimitExceeded"]))
 
     with open(report_file, 'r') as f_in:
         sum_rep_json = json.load(f_in)

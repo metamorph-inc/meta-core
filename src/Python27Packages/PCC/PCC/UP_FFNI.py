@@ -101,7 +101,7 @@ def UP_FFNI(problem, driver):
     C_Y_pdf = [0]*otpt
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     for k in range(0,otpt):
         PCC[k],dtype[k],Inv1[k],m1[k],m2[k],a1[k],a2[k],alph[k],beta[k],lo[k],hi[k] = pearscdf.pearscdf(limstate[k], Moments['Mean'][k], sqrt(CovarianceMatrix[k, k]), Moments['Skewness'][k], Moments['Kurtosis'][k], methd, k, output)

@@ -141,7 +141,7 @@ class MakeTestBenches():
         
     def generate(self):
         self.log.info('Generating test benches...')
-        print self.config
+        print(self.config)
         for c in self.config.keys():
             self.config[c].update({'base_model' : c})
             

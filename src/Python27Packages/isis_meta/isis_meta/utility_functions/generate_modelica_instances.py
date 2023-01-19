@@ -6,14 +6,14 @@ def parse_xml(xml_filename):
     results = []
     
     if not os.path.exists(xml_filename):
-        print 'XML file does not exist'
+        print('XML file does not exist')
         return result
     
     
     mydoc = ElementTree(file=xml_filename)
     
     if not mydoc.getroot().tag == 'AVMComponent':
-        print '{0} is not AVMComponent instance'.format(xml_filename)
+        print('{0} is not AVMComponent instance'.format(xml_filename))
         return result
     
     mo_file_path = os.path.normpath(os.path.join('Instances', os.path.splitext(xml_filename)[0])).replace('.', '_')
@@ -59,20 +59,20 @@ def parse_xml(xml_filename):
                 # find association DstFeature
                 associations = mydoc.findall("./Associations/Association[@DstFeature='" + bm_param_id +"']")
                 if not associations:
-                    print 'No association has found with DstFeature id: {0} for parameter {1}.'.format(bm_param_id, p.get('Name'))
+                    print('No association has found with DstFeature id: {0} for parameter {1}.'.format(bm_param_id, p.get('Name')))
                     continue
                 
                 association = associations[0]
                 
                 if len(associations) > 1:
-                    print 'More than one association has found with DstFeature id: {0} for parameter {1}.'
-                    print 'Using first one: {0}'.format(association.get('Note'))
+                    print('More than one association has found with DstFeature id: {0} for parameter {1}.')
+                    print('Using first one: {0}'.format(association.get('Note')))
                 
                 nv_id = association.get('SrcFeature')
                 named_values = mydoc.findall("./Feature/NamedValues/NamedValue[@id='" + nv_id +"']")
                 
                 if not named_values:
-                    print 'No named value has found with id: {0} for association {1}.'.format(nv_id, association.get('Note'))
+                    print('No named value has found with id: {0} for association {1}.'.format(nv_id, association.get('Note')))
                     continue
     
                 # Using first value
@@ -111,7 +111,7 @@ def make_package(dir_name):
         f.write('  annotation (uses(Modelica(version="3.2")));')
         f.write('end {0};\n'.format(os.path.basename(dir_name)))
     
-    print 'Created: {0}'.format(package_file)
+    print('Created: {0}'.format(package_file))
     
 def ensure_package_dir(mo_filename):
     dir_name = os.path.dirname(mo_filename)
@@ -152,7 +152,7 @@ def make_instance(instance):
         f.write('  annotation (uses(Modelica(version="3.2")));\n')
         f.write('end {0};\n'.format(instance['model_name']))
     
-    print 'Created: {0}'.format(instance['mo_file'])
+    print('Created: {0}'.format(instance['mo_file']))
     
     # TODO: save instances for debugging purposes
     #print instance

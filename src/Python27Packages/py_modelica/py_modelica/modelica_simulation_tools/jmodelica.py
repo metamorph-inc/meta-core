@@ -115,7 +115,7 @@ class JModelica(ToolBase):
                 lib_paths += '"{0}"'.format(lib_full_path)
                 lib_paths += os.pathsep
             else:
-                print "The library path {0} does not exist, this might lead to errors.".format(lib_full_path)
+                print("The library path {0} does not exist, this might lead to errors.".format(lib_full_path))
 
         if 'MODELICAPATH' in my_env:
             my_env['MODELICAPATH'] += os.pathsep + lib_paths

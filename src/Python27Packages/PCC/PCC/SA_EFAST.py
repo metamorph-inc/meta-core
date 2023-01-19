@@ -221,7 +221,7 @@ def SETFREQ(Kci, OMciMAX):
         ISTEP = int(round((OMciMAX - 1) / (INFD - 1)))
         if (OMciMAX == 1):
             ISTEP = 0
-        print 'ISTEP=',ISTEP
+        print('ISTEP=',ISTEP)
         OTMP = list(range(1, int(INFD * ISTEP) + ISTEP, ISTEP))
         fl_INFD = int(floor(INFD))
         OMci = zeros(Kci)

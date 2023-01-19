@@ -25,6 +25,6 @@ class ListGen(HasTraits):
     def _next_row(self):
         nsims = len(self.inputs)
         for i in range(nsims):
-            print 'Running simulation',i+1,'of',nsims,'with inputs',self.inputs[i]
+            print('Running simulation',i+1,'of',nsims,'with inputs',self.inputs[i])
             yield run_model(self.driver, self.inputs[i])
 

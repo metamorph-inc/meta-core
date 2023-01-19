@@ -137,9 +137,9 @@ class MappingCsvRecorder(BaseRecorder):
                     except IOError as e:
                         if e.errno == errno.ENOENT:
                             if not analysisErrorOccurred:
-                                print("WARNING: Driver Objective {} is connected to ".format(mapped_name)
+                                print(("WARNING: Driver Objective {} is connected to ".format(mapped_name)
                                       + "{}, but MappingCsvRecorder did not find a file.".format(name)
-                                      + "\n         {}".format(str(e).replace("[Errno 2] ", "")))
+                                      + "\n         {}".format(str(e).replace("[Errno 2] ", ""))))
                         else:
                             raise
 

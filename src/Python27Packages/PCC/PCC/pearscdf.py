@@ -60,7 +60,7 @@ def pearscdf(X, mu, sigma, skew, kurt, method, k, output):
         limstate = X
 
     if sigma == 0:
-        print "Warning: The standard deviation of output distribution",k,"is zero. No distribution or correlation can be calculated for it."
+        print("Warning: The standard deviation of output distribution",k,"is zero. No distribution or correlation can be calculated for it.")
         if mu>=X[0] and mu<=X[1]:   #mean is in the limits
             return 1, None, inf, None, None, None, None, None, None, None, None
         else:                       #mean is outside the limits
@@ -83,7 +83,7 @@ def pearscdf(X, mu, sigma, skew, kurt, method, k, output):
         #p = zeros(sizeout)+nan
         dtype = NaN
         coefs = zeros((1,3))+nan
-        print 'Illegal parameter values passed to pearscdf! (sigma:',sigma,'  beta1:',beta1,'  beta2:', beta2,')'
+        print('Illegal parameter values passed to pearscdf! (sigma:',sigma,'  beta1:',beta1,'  beta2:', beta2,')')
         return
 
     #% Classify the distribution and find the roots of c0 + c1*x + c2*x^2
@@ -339,7 +339,7 @@ def pearscdf(X, mu, sigma, skew, kurt, method, k, output):
         #     p = sqrt(c0./(1-c2)).*tpdf(X,nu);
         #     X = sqrt(c0./(1-c2)).*X;
     else:
-        print "ERROR: Unknown data type!"
+        print("ERROR: Unknown data type!")
 #    elif dtype == 8:
         #Monte Carlo Simulation Histogram
 #        out = kurt

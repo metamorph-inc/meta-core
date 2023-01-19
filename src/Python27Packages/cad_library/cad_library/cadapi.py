@@ -227,7 +227,7 @@ class CalculixResults(object):
         if info[0] == -1:
             self.nodes[float(info[1])] = {'x': info[2], 'y': info[3], 'z': info[4]}
         else:
-            print "Failing line: " + line
+            print("Failing line: " + line)
             raise Exception('Unexpected node description.')
         if float(info[1]) == float(total):
             expect_break = True
@@ -249,7 +249,7 @@ class CalculixResults(object):
                 raise Exception('Element not fully defined!')
             prev_el = ''
         else:
-            print "Failing line: " + line
+            print("Failing line: " + line)
             raise Exception('Unexpected element description.')        
         return prev_el
         
@@ -410,7 +410,7 @@ class AssemblyInfo(object):
 
     def compare(self, other):
         if cmp(self.root.cyphyid,other.root.cyphyid)!=0:
-            print 'Comparison root failed: ' + self.root.cyphyid + ' vs ' + other.root.cyphyid
+            print('Comparison root failed: ' + self.root.cyphyid + ' vs ' + other.root.cyphyid)
             return False
         for x in self.componentsdict:
             if x in other.componentsdict:
@@ -507,7 +507,7 @@ class ComponentData(object):
     def dump_hierarchy(cls, root, level = 0):
         for x in root.children:
             ComponentData.dump_hierarchy(x, level+1)
-        print ('\t' * level)  + root.cyphyid + ", " + str(root.steporder) + ', ' + str(root.cadmodelname)
+        print(('\t' * level)  + root.cyphyid + ", " + str(root.steporder) + ', ' + str(root.cadmodelname))
 
     def import_metricsdata(self, mdata):
         self.type = mdata.get_Type()

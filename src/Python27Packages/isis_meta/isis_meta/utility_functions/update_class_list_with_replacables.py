@@ -5,7 +5,7 @@ import sys
 import subprocess
 
 def main():
-    print 'Get all classes and detect test benches... using getTestBenches.mos'
+    print('Get all classes and detect test benches... using getTestBenches.mos')
     # generate test_benches.json file
     subprocess.check_output([os.path.join(os.environ['OPENMODELICAHOME'], 'bin', 'omc'), 'getTestBenches.mos'])
 
@@ -18,9 +18,9 @@ def main():
 
     OMPython.execute("cd()")
     modelica_lib_loaded = OMPython.execute('loadModel(Modelica,{"3.2"})')
-    print modelica_lib_loaded
+    print(modelica_lib_loaded)
     c2m2l_loaded = OMPython.execute('loadFile("C2M2L_Ext/package.mo")')
-    print c2m2l_loaded
+    print(c2m2l_loaded)
     
 
     # allClassNames = OMPython.execute('getClassNames(C2M2L_Ext, qualified = true, recursive=true, sort=true)')
@@ -50,7 +50,7 @@ def main():
     index = 0
     tbs = 0
     w_r = 0
-    print 'Detecting replacable components in test benches...'
+    print('Detecting replacable components in test benches...')
     for class_name in test_benches.keys():
         index = index + 1
         sys.stdout.write('{0}/{1} [{2} test benches {3} with replacable] {4}\r'.format(index, num_all, tbs, w_r, class_name))

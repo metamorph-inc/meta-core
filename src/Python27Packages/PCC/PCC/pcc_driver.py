@@ -195,7 +195,7 @@ class PCCdriver(PredeterminedRunsDriver):
                 I_mu = float(raw_I_mu)
                 I_sigma = float(raw_I_sigma)
             else:
-                print 'distribution', distName, ' is not supported'
+                print('distribution', distName, ' is not supported')
                 logging.error('distribution %s is not supported', distName)
                 raise IndexError()
 
@@ -328,7 +328,7 @@ class PCCdriver(PredeterminedRunsDriver):
         # skip method 6 until we get the right MATLAB toolkit (or port it to Python!)
         for method in self._json_tree['Configurations']['Configuration']\
                                      ['PCCInputArguments']['Methods']:
-            print('------------------  Starting method {} -------------------'.format(method))
+            print(('------------------  Starting method {} -------------------'.format(method)))
             # Here is where the real work is done.  The UP methods Propagate
             # Uncertainty through the component to calculate the probability
             # of the component working.  The SA methods estimate the
@@ -374,7 +374,7 @@ class PCCdriver(PredeterminedRunsDriver):
                 self.method_name = 'DPCE'
                 self.results = UP_DPCE(problem, self)
             else:
-                print 'attempting to execute illegal method', method
+                print('attempting to execute illegal method', method)
                 logging.error('attempting to execute illegal method %d', method)
                 raise Exception
 
@@ -383,30 +383,30 @@ class PCCdriver(PredeterminedRunsDriver):
 
             np.set_printoptions(suppress=True)  # prettier printing. Supresses scientific notation
             if 'MPPUpperBound' in list(self.results.keys()):
-                print 'Most Probable Points of Failure (upper bound):\n', self.results['MPPUpperBound']
-                print 'Most Probable Points of Failure (lower bound):\n', self.results['MPPLowerBound']
+                print('Most Probable Points of Failure (upper bound):\n', self.results['MPPUpperBound'])
+                print('Most Probable Points of Failure (lower bound):\n', self.results['MPPLowerBound'])
             if 'CorrelationMatrix' in list(self.results.keys()):
-                print 'Correlation:\n', self.results['CorrelationMatrix']
+                print('Correlation:\n', self.results['CorrelationMatrix'])
             if 'Moments' in list(self.results.keys()):
-                print 'Moments:\n',
-                print "  Mean =", self.results['Moments']['Mean']
-                print "  Variance =", self.results['Moments']['Variance']
-                print "  Skewness =", self.results['Moments']['Skewness']
-                print "  Kurtosis =", self.results['Moments']['Kurtosis']
+                print('Moments:\n', end=' ')
+                print("  Mean =", self.results['Moments']['Mean'])
+                print("  Variance =", self.results['Moments']['Variance'])
+                print("  Skewness =", self.results['Moments']['Skewness'])
+                print("  Kurtosis =", self.results['Moments']['Kurtosis'])
             if 'dtype' in list(self.results.keys()):
-                print 'Pearson Distribution Type =', self.results['dtype']
+                print('Pearson Distribution Type =', self.results['dtype'])
             if 'PCC' in list(self.results.keys()):
-                print 'PCC:', self.results['PCC']
+                print('PCC:', self.results['PCC'])
             if 'Distribution' in list(self.results.keys()):
                 if 'Complexity' in list(self.results['Distribution'].keys()):
-                    print 'Complexity estimates:', self.results['Distribution']['Complexity']
+                    print('Complexity estimates:', self.results['Distribution']['Complexity'])
             if 'FirstOrderSensitivity' in list(self.results.keys()):
-                print 'First order sensitivity:\n', self.results['FirstOrderSensitivity']
+                print('First order sensitivity:\n', self.results['FirstOrderSensitivity'])
             if 'TotalEffectSensitivity' in list(self.results.keys()):
-                print 'Total effect sensitivity:\n', self.results['TotalEffectSensitivity']
+                print('Total effect sensitivity:\n', self.results['TotalEffectSensitivity'])
             if 'SRC' in list(self.results.keys()):
-                print 'Standardized regression coefficients:\n', self.results['SRC']
-                print 'R^2:\n', self.results['R^2']
+                print('Standardized regression coefficients:\n', self.results['SRC'])
+                print('R^2:\n', self.results['R^2'])
 
             self.save_output_to_json()
             # should be called here rather than in PCCDriver_component.py to allow results from more than one method to be saved

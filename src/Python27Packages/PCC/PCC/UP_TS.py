@@ -55,7 +55,7 @@ def UP_TS(problem, driver):
         G = lambda x: next(out)
         F1 = taylorseries.taylorseries(G, mu, delta*array(sigma), inpt, otpt)
 
-    print 'Taylor Series:\n',F1
+    print('Taylor Series:\n',F1)
 
     covar_m = zeros((otpt, otpt))
     for j in range(otpt):
@@ -66,7 +66,7 @@ def UP_TS(problem, driver):
                 covar_m[k, j] = covar_m[j, k]
 
     CovarianceMatrix = covar_m.transpose()
-    print 'Covariance Matrix:\n',CovarianceMatrix
+    print('Covariance Matrix:\n',CovarianceMatrix)
     Moments = {'Mean': G_mean, 'Variance': diag(CovarianceMatrix), 'Skewness': zeros((otpt, 1)), 'Kurtosis': 3 * ones((otpt, 1))}
 
     if otpt>1:
@@ -89,7 +89,7 @@ def UP_TS(problem, driver):
     # ----------------------  Analyze  ---------------------------
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     for k in range(0,otpt):
         PCC[k],dtype[k],Inv1[k],m1[k],m2[k],a1[k],a2[k],alph[k],beta[k],lo[k],hi[k] = pearscdf.pearscdf(limstate[k], Moments['Mean'][k], sqrt(CovarianceMatrix[k, k]), Moments['Skewness'][k], Moments['Kurtosis'][k], methd, k, output)

@@ -120,7 +120,7 @@ class MatFile2Dict():
 
         """
         if not self.gather_desc:
-            print 'You ought to instantiate MatFile2Dict with gather_desc if you want such.'
+            print('You ought to instantiate MatFile2Dict with gather_desc if you want such.')
             self.gather_desc = True
             self._convert()
 

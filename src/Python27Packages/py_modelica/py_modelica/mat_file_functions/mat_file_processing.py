@@ -65,7 +65,7 @@ class MatFileProcessing(object):
         """
 
         time = self.time
-        print 'here are time intervals:', time
+        print('here are time intervals:', time)
 
         return time
 
@@ -568,17 +568,17 @@ class MatFileProcessing(object):
         start_index = 0
         global_max = -np.Inf
         cnt = 0
-        print 'check_max_limit'
+        print('check_max_limit')
         while start_index > -1:
             index = self.find_first_max_violation(name, value, start_index)
             if index > -1:
                 end_index = self.find_first_min_violation(name, value, index)
                 d_t = self.delta_t(index, end_index)
-                print 'Found violation at t={0} lasting : {1}'.format(self.time[index], d_t)
+                print('Found violation at t={0} lasting : {1}'.format(self.time[index], d_t))
                 if d_t >= duration:
                     limit_exceeded = True
                     local_max = self.get_local_max(name, index, end_index)
-                    print 'Local maximum : {0}'.format(local_max)
+                    print('Local maximum : {0}'.format(local_max))
                     if local_max > global_max:
                         global_max = local_max
                 start_index = end_index
@@ -588,7 +588,7 @@ class MatFileProcessing(object):
             cnt += 1
             if cnt == MAX_ITERATIONS:
                 msg = 'Limit checking for variable {0} aborted after {1} iterations'.format(name, MAX_ITERATIONS)
-                print msg
+                print(msg)
                 raise StopIteration(msg)
 
         if limit_exceeded:
@@ -610,17 +610,17 @@ class MatFileProcessing(object):
         start_index = 0
         global_min = np.Inf
         cnt = 0
-        print 'check_min_limit'
+        print('check_min_limit')
         while start_index > -1:
             index = self.find_first_min_violation(name, value, start_index)
             if index > -1:
                 end_index = self.find_first_max_violation(name, value, index)
                 d_t = self.delta_t(index, end_index)
-                print 'Found violation at t={0} lasting : {1} s'.format(self.time[index], d_t)
+                print('Found violation at t={0} lasting : {1} s'.format(self.time[index], d_t))
                 if d_t >= duration:
                     limit_exceeded = True
                     local_min = self.get_local_min(name, index, end_index)
-                    print 'Local minimum : {0}'.format(local_min)
+                    print('Local minimum : {0}'.format(local_min))
                     if local_min < global_min:
                         global_min = local_min
                 start_index = end_index
@@ -630,7 +630,7 @@ class MatFileProcessing(object):
             cnt += 1
             if cnt == MAX_ITERATIONS:
                 msg = 'Limit checking for variable {0} aborted after {1} iterations'.format(name, MAX_ITERATIONS)
-                print msg
+                print(msg)
                 raise StopIteration(msg)
 
         if limit_exceeded:

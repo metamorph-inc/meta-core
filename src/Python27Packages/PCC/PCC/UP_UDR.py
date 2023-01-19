@@ -119,7 +119,7 @@ def UP_UDR(problem, driver):
     C_Y_pdf = [0]*otpt
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     for k in range(0,otpt):
         PCC[k],dtype[k],Inv1[k],m1[k],m2[k],a1[k],a2[k],alph[k],beta[k],lo[k],hi[k] = pearscdf.pearscdf(limstate[k], Moments['Mean'][k], sqrt(CovarianceMatrix[k, k]), Moments['Skewness'][k], Moments['Kurtosis'][k], methd, k, output)
@@ -238,7 +238,7 @@ def predictor(x=None, dmodel=None):
 # Last update August 26, 2002
 
     or1 = NaN
-    or2 = NaN; print or2
+    or2 = NaN; print(or2)
     dmse = NaN
     # Default return values
     if isnan(dmodel.beta):
@@ -279,18 +279,18 @@ def predictor(x=None, dmodel=None):
                 or1 = or1.cT
             if nargout > 2:            # MSE wanted
 
-                rt = dmodel.C; print rt
+                rt = dmodel.C; print(rt)
                 r
 
                 u = dmodel.Ft.T * rt - f.T
-                v = dmodel.G; print v
+                v = dmodel.G; print(v)
                 u
 
                 or2 = repmat(dmodel.sigma2, mx, 1) *elmul* repmat((1 + sum(v **elpow** 2) - sum(rt **elpow** 2)).cT, 1, q)
 
                 if nargout > 3:                # gradient/Jacobian of MSE wanted
                     # Scaled gradient as a row vector
-                    Gv = dmodel.G.cT; print Gv
+                    Gv = dmodel.G.cT; print(Gv)
                     v
 
                     -(df * Gv).cT
@@ -312,7 +312,7 @@ def predictor(x=None, dmodel=None):
     else:    # several trial sites
         # Get distances to design sites
         dx = zeros(mx * m, n)
-        kk = mslice[1:m]; print kk
+        kk = mslice[1:m]; print(kk)
 
         for k in mslice[1:mx]:
             dx[kk, :] = repmat(x[k, :], m, 1) - dmodel.S
@@ -328,7 +328,7 @@ def predictor(x=None, dmodel=None):
         y = repmat(dmodel.Ysc[1, :], mx, 1) + repmat(dmodel.Ysc[2, :], mx, 1) * sy
 
         if nargout > 1:        # MSE wanted
-            rt = dmodel.C; print rt
+            rt = dmodel.C; print(rt)
             r
 
             u = dmodel.G(dmodel.Ft.T * rt - f.T)
@@ -343,9 +343,9 @@ def predictor(x=None, dmodel=None):
 def colsum(x=None):
     # Columnwise sum of elements in  x
     if size(x, 1) == 1:
-        s = x; print s
+        s = x; print(s)
     else:
-        s = sum(x); print s
+        s = sum(x); print(s)
     return s
 
 # Copyright (c) 2011, Christopher Hoyle.

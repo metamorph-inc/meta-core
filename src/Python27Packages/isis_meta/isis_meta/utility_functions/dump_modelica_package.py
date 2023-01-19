@@ -24,10 +24,10 @@ class DumpModelicaPackage():
         return res
         
     def dump(self):
-        print self._get_packages(self.libs[0])
-        print self._get_models('Modelica.Electrical.Analog.Basic')
+        print(self._get_packages(self.libs[0]))
+        print(self._get_models('Modelica.Electrical.Analog.Basic'))
         
-        print 'Output'
+        print('Output')
         
     def _get_packages(self, package_name):
         return self._get_class_by_type(package_name, 'Package')

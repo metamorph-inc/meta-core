@@ -30,7 +30,7 @@ class ListGen(Group):
     def _next_row(self):
         nsims = len(self.inputs)
         for i, row in enumerate(self.inputs):
-            print 'Running simulation', i + 1, 'of', nsims, 'with inputs', row
+            print('Running simulation', i + 1, 'of', nsims, 'with inputs', row)
             yield row
 
 
@@ -67,7 +67,7 @@ def run_list(problem, driver, inputs):
             driver.sequential = False
 
         if UseCluster:
-            print 'Using remote cluster.'
+            print('Using remote cluster.')
             driver.sequential = False
             # This is necessary more often than it should be.
             driver.ignore_egg_requirements = True

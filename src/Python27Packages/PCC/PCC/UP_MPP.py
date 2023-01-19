@@ -56,7 +56,7 @@ def UP_MPP(problem, driver):
     else:
         PCC = [0]*otpt
     for k in range(otpt):
-        print 'Testing output',k+1,'of',otpt    
+        print('Testing output',k+1,'of',otpt)    
         if krig == 1:        
             load("dmodel")        
             if limstate[k][1] == inf:            
@@ -89,7 +89,7 @@ def UP_MPP(problem, driver):
                 uk, alp = Hasofer.Hasofer(G, u, Tinv, k, delta, I_sigma, inpt, otpt)
                 diff = abs(linalg.norm(uk) - linalg.norm(u))            
                 u = uk
-                print 'X =', Tinv(u)
+                print('X =', Tinv(u))
             beta1[k] = linalg.norm(u)        
             beta2[k] = inf
             if cdist == 1:            
@@ -110,7 +110,7 @@ def UP_MPP(problem, driver):
                     uk, alp = Hasofer.Hasofer(G1, u, Tinv, k, delta, I_sigma, inpt, otpt)        
                     diff = abs(linalg.norm(uk) - linalg.norm(u))
                     u = uk
-                    print 'X =', Tinv(u)
+                    print('X =', Tinv(u))
                 beta1[k] = linalg.norm(u)        
                 Xl[k] = Tinv(u)
             except ValueError:
@@ -123,7 +123,7 @@ def UP_MPP(problem, driver):
                     uk, alp = Hasofer.Hasofer(G2, u, Tinv, k, delta, I_sigma, inpt, otpt)            
                     diff = abs(linalg.norm(uk) - linalg.norm(u))            
                     u = uk
-                    print 'X =', Tinv(u)
+                    print('X =', Tinv(u))
                 beta2[k] = linalg.norm(u) 
                 Xu[k] = Tinv(u)
                 alpha[k] = -alp

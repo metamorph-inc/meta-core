@@ -47,22 +47,22 @@ class Dymola(ToolBase):
                 try:
                     self.tool_path = self._get_dymola_bin_path('Dymola 2015')
                 except IOError as err:
-                    print err.message
-                    print 'Looking for Dymola 2014 FD01...'
+                    print(err.message)
+                    print('Looking for Dymola 2014 FD01...')
                     try:
                         self.tool_path = self._get_dymola_bin_path('Dymola 2014 FD01')
                     except IOError as err:
-                        print err.message
-                        print 'Looking for Dymola 2014...'
+                        print(err.message)
+                        print('Looking for Dymola 2014...')
                         try:
                             self.tool_path = self._get_dymola_bin_path('Dymola 2014')
                         except IOError as err:
-                            print err.message
-                            print 'Looking for Dymola 2013...'
+                            print(err.message)
+                            print('Looking for Dymola 2013...')
                             try:
                                 self.tool_path = self._get_dymola_bin_path('Dymola 2013')
                             except IOError as err:
-                                print err.message
+                                print(err.message)
                                 raise ModelicaInstantiationError('Could not find any dymola installation amongst: ' +
                                                                  '2015, 2014 FD01, 2014 and 2013.')
             try:
@@ -70,12 +70,12 @@ class Dymola(ToolBase):
                 key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
                 try:
                     self.MAX_DYMOLA_STEP_TIME = wr.QueryValueEx(key, 'MAX_DYMOLA_STEP_TIME')[0]
-                    print 'Found MAX_DYMOLA_STEP_TIME in registry, value was {0}'\
-                        .format(self.MAX_DYMOLA_STEP_TIME)
+                    print('Found MAX_DYMOLA_STEP_TIME in registry, value was {0}'\
+                        .format(self.MAX_DYMOLA_STEP_TIME))
                 except WindowsError:
-                    print 'MAX_DYMOLA_STEP_TIME not set in registry, using default (5min).'
+                    print('MAX_DYMOLA_STEP_TIME not set in registry, using default (5min).')
             except WindowsError:
-                print 'META-Tools not installed, using default MAX_DYMOLA_STEP_TIME (5min).'
+                print('META-Tools not installed, using default MAX_DYMOLA_STEP_TIME (5min).')
 
         self._initialize(model_config)
     # end of __init__
@@ -88,7 +88,7 @@ class Dymola(ToolBase):
         dymola_home = try_get_dymola_bin(os.path.join(r"C:\Program Files (x86)", dymola_version))
         if not dymola_home:
             try:
-                print 'Did not find {0} in default location, will look for registry key.'.format(dymola_version)
+                print('Did not find {0} in default location, will look for registry key.'.format(dymola_version))
                 dymola_reg, version_nbr = self._query_registry(dymola_version)
                 self.tool_version_nbr = version_nbr
                 if os.path.isdir(dymola_reg):
@@ -187,7 +187,7 @@ class Dymola(ToolBase):
                 lib_paths += '"{0}"'.format(lib_full_path)
                 lib_paths += os.pathsep
             else:
-                print "The library path {0} does not exist, this might lead to errors.".format(lib_full_path)
+                print("The library path {0} does not exist, this might lead to errors.".format(lib_full_path))
 
         if 'MODELICAPATH' in my_env:
             my_env['MODELICAPATH'] += os.pathsep + lib_paths

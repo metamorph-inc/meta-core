@@ -42,7 +42,7 @@ def pretaylorseries(x, Tinv, delta, inpt):
         xvecMINS = Tinv(xvecMINS)
 
         if inf in xvecPLUS or -inf in xvecPLUS or inf in xvecMINS or -inf in xvecMINS:
-            print "Attempted to search past limits, stopping search."
+            print("Attempted to search past limits, stopping search.")
             raise ValueError
 
         values.append(xvecPLUS)

@@ -68,8 +68,8 @@ class ToolBase(six.with_metaclass(ABCMeta)):
                             'result_file' (str), 'experiment' ({str})
         """
 
-        print ' --- =====  See debug.log for error/debug messages ===== --- \n'
-        print ' in {0}'.format(os.getcwd())
+        print(' --- =====  See debug.log for error/debug messages ===== --- \n')
+        print(' in {0}'.format(os.getcwd()))
 
         # create a logger, (will only be written to if no other logger defined 'higher' up)
         logging.basicConfig(filename="debug.log",
@@ -180,14 +180,14 @@ class ToolBase(six.with_metaclass(ABCMeta)):
                 key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
                 try:
                     self.max_simulation_time = wr.QueryValueEx(key, 'MAX_SIMULATION_TIME')[0]
-                    print 'Found MAX_SIMULATION_TIME in registry, value was {0} (={1:.1f} h).'\
-                        .format(self.max_simulation_time, float(self.max_simulation_time)/3600)
+                    print('Found MAX_SIMULATION_TIME in registry, value was {0} (={1:.1f} h).'\
+                        .format(self.max_simulation_time, float(self.max_simulation_time)/3600))
                 except WindowsError:
-                    print 'MAX_SIMULATION_TIME not set in registry, using default {0} (={1:.1f} h).'\
-                        .format(self.max_simulation_time, float(self.max_simulation_time)/3600)
+                    print('MAX_SIMULATION_TIME not set in registry, using default {0} (={1:.1f} h).'\
+                        .format(self.max_simulation_time, float(self.max_simulation_time)/3600))
             except WindowsError:
-                print 'META-Tools not installed, using default max_simulation_time at {0} (={1:.1f} h).'\
-                    .format(self.max_simulation_time, float(self.max_simulation_time)/3600)
+                print('META-Tools not installed, using default max_simulation_time at {0} (={1:.1f} h).'\
+                    .format(self.max_simulation_time, float(self.max_simulation_time)/3600))
 
     # end of __initialize__
 

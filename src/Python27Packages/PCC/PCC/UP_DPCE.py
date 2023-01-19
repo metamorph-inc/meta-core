@@ -146,7 +146,7 @@ def UP_DPCE(problem, driver):
     f.close()
 
     command = 'dakota dakota_pce.in | tee dakota_output.txt'
-    print 'Calling "{0}" as a subprocess.'.format(command)
+    print('Calling "{0}" as a subprocess.'.format(command))
     return_code = subprocess.call(command, shell=True)
 
     f = open('dakota_output.txt', 'r')
@@ -171,7 +171,7 @@ def UP_DPCE(problem, driver):
     for out in range(otpt):
         DPCC[out] = float(dakota_output[fn_start+19]) - float(dakota_output[fn_start+17])
         fn_start = fn_start + 23  # go to next response function, if any
-    print 'Dakota PCCs:', DPCC
+    print('Dakota PCCs:', DPCC)
 
     CovarianceMatrix = zeros((otpt, otpt))
     covpos = dakota_output.index('[[')+1
@@ -185,7 +185,7 @@ def UP_DPCE(problem, driver):
     # ----------------------  Analyze  ---------------------------
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     # Calculate the PCC for the FFNI method
     if otpt>1:
@@ -206,7 +206,7 @@ def UP_DPCE(problem, driver):
     C_Y_pdf = [0]*otpt
 
     if any(Moments['Variance']==0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     for k in range(otpt):
         PCC[k],dtype[k],Inv1[k],m1[k],m2[k],a1[k],a2[k],alph[k],beta[k],lo[k],hi[k] =\

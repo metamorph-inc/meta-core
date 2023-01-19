@@ -61,12 +61,12 @@ class DymolaDemo(ToolBase):
                 key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
                 try:
                     self.MAX_DYMOLA_STEP_TIME = wr.QueryValueEx(key, 'MAX_DYMOLA_STEP_TIME')[0]
-                    print 'Found MAX_DYMOLA_STEP_TIME in registry, value was {0}'\
-                        .format(self.MAX_DYMOLA_STEP_TIME)
+                    print('Found MAX_DYMOLA_STEP_TIME in registry, value was {0}'\
+                        .format(self.MAX_DYMOLA_STEP_TIME))
                 except WindowsError:
-                    print 'MAX_DYMOLA_STEP_TIME not set in registry, using default (5min).'
+                    print('MAX_DYMOLA_STEP_TIME not set in registry, using default (5min).')
             except WindowsError:
-                print 'META-Tools not installed, using default MAX_DYMOLA_STEP_TIME (5min).'
+                print('META-Tools not installed, using default MAX_DYMOLA_STEP_TIME (5min).')
 
         self._initialize(model_config)
     # end of __init__

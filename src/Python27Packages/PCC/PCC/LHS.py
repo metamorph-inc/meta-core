@@ -29,7 +29,7 @@ def LHS(dim, iterations):
 def OrthLHS(dim, iterations):
     points = GetLHSpoints(dim, iterations)
     secsizes = GetSectionSizes(dim, iterations)
-    print secsizes
+    print(secsizes)
 
     unused = []  
     for d in range(dim):
@@ -48,7 +48,7 @@ def OrthLHS(dim, iterations):
 
     indices = GetOrthLHSsampleIndices(dim,secsizes)
     
-    print unused
+    print(unused)
     for s in range(iterations):
         maxv = 0
         for i in indices:
@@ -60,7 +60,7 @@ def OrthLHS(dim, iterations):
             if val>maxv:
                 maxv = val
                 available = [i]
-        print 'Available indices:',available
+        print('Available indices:',available)
         rpoint = int(random.random()*len(available))
         index = available[rpoint]
         if maxv<dim:
@@ -71,38 +71,38 @@ def OrthLHS(dim, iterations):
                         break
             i = sampleidx.index(index)
             last = list(index)
-            print 'Choosing',index,'instead'
+            print('Choosing',index,'instead')
             sample = GetSample(index,dim,unused)
-            print 'giving sample',sample
-            print unused
+            print('giving sample',sample)
+            print(unused)
             samples.append(sample)
             sampleidx.append(index)
             sampleavail.append(available)
             while True:
-                print 'Redoing step',i
+                print('Redoing step',i)
                 if(len(sampleavail[i])<2):
-                    print 'Could not complete'
+                    print('Could not complete')
                 while last==sampleidx[i]:
                     last = sampleavail[i][int(random.random()*len(sampleavail[i]))]
-                print 'For step',i,'choosing',last,'instead'
+                print('For step',i,'choosing',last,'instead')
                 for d in range(dim):
                     unused[d][sampleidx[i][d]].append(samples[i][d])
-                print unused
+                print(unused)
                 samples[i]=GetSample(last,dim,unused)
-                print samples[i]
-                print unused
+                print(samples[i])
+                print(unused)
                 sampleidx[i]=last
                 try:
                     i = sampleidx.index(last)
                 except ValueError:
                     break
         else:
-            print 'Choosing index',index,'with value',maxv,
+            print('Choosing index',index,'with value',maxv, end=' ')
 
 
             sample = GetSample(index,dim,unused)
-            print 'giving sample',sample
-            print unused
+            print('giving sample',sample)
+            print(unused)
             del indices[rpoint]
             samples.append(sample)
             sampleidx.append(index)
@@ -113,14 +113,14 @@ def OrthLHS(dim, iterations):
 # recursive function to obtain LHS samples
 def GetOrthLHSsamples(depth,dim,samples,unused,points,secsizes,index):
     if depth==dim:
-        print 'index=',index
+        print('index=',index)
         for d in range(dim):    #check if there are sections available for this sample. If not, we can't take the sample
             if unused[d][index[d]] == []:
                 return
         sample = GetSample(index,dim,unused)
-        print sample
+        print(sample)
         samples.append(sample)
-        print unused        
+        print(unused)        
     else:
         for s in range(secsizes[depth]):
             index[depth]=s

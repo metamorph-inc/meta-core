@@ -3,7 +3,7 @@ import json
 
 
 def load_json_file(filename):
-    print("Opening {} ...".format(filename))
+    print(("Opening {} ...".format(filename)))
     with open(filename) as f_in:
         json_dict = json.load(f_in)
     return json_dict

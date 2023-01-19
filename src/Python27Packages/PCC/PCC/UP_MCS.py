@@ -75,7 +75,7 @@ def UP_MCS(problem, driver):
     # ----------------------  Analyze  ---------------------------
 
     if any(Moments['Variance'] == 0):
-        print "Warning: One or more outputs does not vary over given parameter variation."
+        print("Warning: One or more outputs does not vary over given parameter variation.")
 
     C_Y = [0]*otpt
     for k in range(0, otpt):
