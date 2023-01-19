@@ -72,7 +72,7 @@ def UP_PCE(problem, driver):
         if p == 1:        
             P[p] = term2        
         else:        
-            P[p] = term2 - sum(P[range(1,p+1)])
+            P[p] = term2 - sum(P[list(range(1,p+1))])
     
     G_s = zeros((pts, otpt))
     if krig == 1:    
@@ -134,7 +134,7 @@ def UP_PCE(problem, driver):
     covar_m = zeros((otpt,otpt))
     for i in range(pts):
         for k in range(otpt):
-            U_s[i][k] = U[k].subs(dict(zip(x, node[i])))
+            U_s[i][k] = U[k].subs(dict(list(zip(x, node[i]))))
     for k in range(otpt):
 #        G_mean[k] = sum(matrix(weight) * matrix(U_s[:, k]).transpose())
         G_mean[k] = sum(weight * U_s[:, k])
@@ -206,7 +206,7 @@ def UP_PCE(problem, driver):
 def fullfact(levels):    
     args = []
     for l in levels:
-        args.append(range(0,l))
+        args.append(list(range(0,l)))
     ff = itertools.product(*args)
     return array(list(ff))
 

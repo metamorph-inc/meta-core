@@ -66,7 +66,7 @@ class Dymola(ToolBase):
                                 raise ModelicaInstantiationError('Could not find any dymola installation amongst: ' +
                                                                  '2015, 2014 FD01, 2014 and 2013.')
             try:
-                import _winreg as wr
+                import six.moves.winreg as wr
                 key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
                 try:
                     self.MAX_DYMOLA_STEP_TIME = wr.QueryValueEx(key, 'MAX_DYMOLA_STEP_TIME')[0]
@@ -107,22 +107,22 @@ class Dymola(ToolBase):
         Queries the registry for the installation path of Dymola.
 
         """
-        import _winreg
+        import six.moves.winreg
 
         base_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
 
-        uninstall_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, base_key, 0,
-                                        _winreg.KEY_ALL_ACCESS | _winreg.KEY_WOW64_32KEY)
+        uninstall_key = six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, base_key, 0,
+                                        six.moves.winreg.KEY_ALL_ACCESS | six.moves.winreg.KEY_WOW64_32KEY)
 
-        number_of_keys = _winreg.QueryInfoKey(uninstall_key)[0]  # 0 means number of sub_keys
+        number_of_keys = six.moves.winreg.QueryInfoKey(uninstall_key)[0]  # 0 means number of sub_keys
 
         product_key = None
         for sub_key_id in range(0, number_of_keys):
-            sub_key_name = _winreg.EnumKey(uninstall_key, sub_key_id)
-            sub_key = _winreg.OpenKey(uninstall_key, sub_key_name)
-            number_of_values = _winreg.QueryInfoKey(sub_key)[1]
+            sub_key_name = six.moves.winreg.EnumKey(uninstall_key, sub_key_id)
+            sub_key = six.moves.winreg.OpenKey(uninstall_key, sub_key_name)
+            number_of_values = six.moves.winreg.QueryInfoKey(sub_key)[1]
             for value_id in range(0, number_of_values):
-                value_tuple = _winreg.EnumValue(sub_key, value_id)
+                value_tuple = six.moves.winreg.EnumValue(sub_key, value_id)
                 value_name = value_tuple[0]
                 value = value_tuple[1]
                 if value_name == 'DisplayName' and value == display_name:
@@ -133,9 +133,9 @@ class Dymola(ToolBase):
 
         install_location = ""
         display_version = ""
-        number_of_values = _winreg.QueryInfoKey(product_key)[1]
+        number_of_values = six.moves.winreg.QueryInfoKey(product_key)[1]
         for value_id in range(0, number_of_values):
-            value_tuple = _winreg.EnumValue(product_key, value_id)
+            value_tuple = six.moves.winreg.EnumValue(product_key, value_id)
             value_name = value_tuple[0]
             value = value_tuple[1]
             if value_name == "InstallLocation":

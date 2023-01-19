@@ -22,13 +22,14 @@ import getopt
 import re as re_
 import base64
 import datetime as datetime_
+import six
 
 etree_ = None
 Verbose_import_ = False
 (
     XMLParser_import_none, XMLParser_import_lxml,
     XMLParser_import_elementtree
-) = range(3)
+) = list(range(3))
 XMLParser_import_library = None
 try:
     # lxml
@@ -87,7 +88,7 @@ def parsexml_(*args, **kwargs):
 
 try:
     from generatedssuper import GeneratedsSuper
-except ImportError, exp:
+except ImportError as exp:
 
     class GeneratedsSuper(object):
         tzoff_pattern = re_.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
@@ -363,7 +364,7 @@ except ImportError, exp:
             return None
         @classmethod
         def gds_reverse_node_mapping(cls, mapping):
-            return dict(((v, k) for k, v in mapping.iteritems()))
+            return dict(((v, k) for k, v in six.iteritems(mapping)))
 
 
 #
@@ -404,7 +405,7 @@ def showIndent(outfile, level, pretty_print=True):
 def quote_xml(inStr):
     if not inStr:
         return ''
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, six.string_types) and inStr or
           '%s' % inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
@@ -413,7 +414,7 @@ def quote_xml(inStr):
 
 
 def quote_attrib(inStr):
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, six.string_types) and inStr or
           '%s' % inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
@@ -2043,7 +2044,7 @@ class LifeCycleType(GeneratedsSuper):
             already_processed.add('NumberOfCycles')
             try:
                 self.NumberOfCycles = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('Duration', node)
         if value is not None and 'Duration' not in already_processed:
@@ -2435,7 +2436,7 @@ class AllowableBearingStressType(GeneratedsSuper):
             already_processed.add('Value')
             try:
                 self.Value = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (Value): %s' % exp)
         value = find_attr_value_('_subtype', node)
         if value is not None and '_subtype' not in already_processed:
@@ -2648,7 +2649,7 @@ class AllowableShearStressType(GeneratedsSuper):
             already_processed.add('Value')
             try:
                 self.Value = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (Value): %s' % exp)
         value = find_attr_value_('_subtype', node)
         if value is not None and '_subtype' not in already_processed:
@@ -2861,7 +2862,7 @@ class AllowableTensileStressType(GeneratedsSuper):
             already_processed.add('Value')
             try:
                 self.Value = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (Value): %s' % exp)
         value = find_attr_value_('_subtype', node)
         if value is not None and '_subtype' not in already_processed:

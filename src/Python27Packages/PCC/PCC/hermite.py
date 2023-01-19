@@ -10,7 +10,7 @@ def hermite(k, vec, L, x):
     
     h_sym = simplify((-1) ** k * exp(sum(x**2) / 2.0) * deriv)
     
-    h = h_sym.subs(dict(zip(x, L)))
+    h = h_sym.subs(dict(list(zip(x, L))))
 
     return h, h_sym
 

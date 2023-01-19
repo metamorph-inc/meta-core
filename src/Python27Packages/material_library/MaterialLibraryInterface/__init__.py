@@ -4,6 +4,7 @@ import uuid
 import ctypes
 import os
 import sys
+import six
 
 __authors__ = ["Kevin Zeillmann"]
 __author__ = __authors__[0]
@@ -76,7 +77,7 @@ class LibraryManager:
         tempMap = json.load(open(self.filename))
         self.version = tempMap["version"]
         self.data = {}
-        for k, v in tempMap["Material library"].iteritems():
+        for k, v in six.iteritems(tempMap["Material library"]):
             self.data[k.lower()] = v
 
     def materialData(self, in_material):    

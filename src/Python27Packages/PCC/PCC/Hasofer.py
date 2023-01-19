@@ -4,8 +4,8 @@ def Hasofer(G, u, Tinv, k, delta, sigma, inpt, otpt):
     values = [Tinv(u)]
     values.extend(pretaylorseries(u, Tinv, delta*sigma, inpt))
     out = iter(G(values))
-    beta_t = out.next()
-    G2 = lambda x: out.next()
+    beta_t = next(out)
+    G2 = lambda x: next(out)
 
     grad_g = taylorseries(G2, u, Tinv, delta*sigma, inpt, otpt).transpose()
     alpha = grad_g[k] / linalg.norm(grad_g[k])

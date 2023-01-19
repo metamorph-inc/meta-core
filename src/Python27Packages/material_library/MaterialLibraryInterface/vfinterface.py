@@ -1,6 +1,6 @@
-import urllib2
-import urllib
-import cookielib
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
+import six.moves.http_cookiejar
 import json
 from contextlib import contextmanager
 import re
@@ -46,9 +46,9 @@ class VehicleForgeInterface(object):
             self.base_url += ':{}'.format(port)
 
         # build opener
-        self._cookie_jar = cookielib.CookieJar()
-        self._opener = urllib2.build_opener(
-            urllib2.HTTPCookieProcessor(self._cookie_jar))
+        self._cookie_jar = six.moves.http_cookiejar.CookieJar()
+        self._opener = six.moves.urllib.request.build_opener(
+            six.moves.urllib.request.HTTPCookieProcessor(self._cookie_jar))
 
         # attributes
         self._username = None
@@ -59,14 +59,14 @@ class VehicleForgeInterface(object):
         full_url = self.base_url + uri
         data = None
         if params:
-            data = urllib.urlencode(params)
+            data = six.moves.urllib.parse.urlencode(params)
             if method.lower() == "get":
-                url, query = urllib.splitquery(full_url)
+                url, query = six.moves.urllib.parse.splitquery(full_url)
                 if query:
                     data += '&' + query
                 full_url = url + '?' + data
                 data = None
-        return urllib2.Request(full_url, data=data, **kw)
+        return six.moves.urllib.request.Request(full_url, data=data, **kw)
 
     def open(self, uri, params=None, check_auth=True, method="GET", **kw):
         # do request

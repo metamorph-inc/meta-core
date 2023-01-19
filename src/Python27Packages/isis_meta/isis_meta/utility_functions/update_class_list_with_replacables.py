@@ -46,7 +46,7 @@ def main():
     # return
     test_benches_out = {}
       
-    num_all = len(test_benches.keys())
+    num_all = len(list(test_benches.keys()))
     index = 0
     tbs = 0
     w_r = 0

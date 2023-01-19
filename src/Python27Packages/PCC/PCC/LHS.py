@@ -10,7 +10,7 @@ def LHS(dim, iterations):
 
     unused = []  
     for d in range(dim):
-        unused.append(range(iterations))
+        unused.append(list(range(iterations)))
 
     samples = []
     for i in range(iterations):
@@ -37,7 +37,7 @@ def OrthLHS(dim, iterations):
         start = 0
         for s in range(secsizes[d]):
             secsize = int(ceil((iterations-start)/(secsizes[d]-s)))
-            sections.append(range(start,start+secsize))
+            sections.append(list(range(start,start+secsize)))
             start += secsize
         unused.append(sections)
 

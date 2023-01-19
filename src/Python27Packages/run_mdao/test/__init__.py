@@ -15,6 +15,7 @@ import csv
 import hashlib
 import io
 import six
+from six.moves import map
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 run_mdao.CACHE_THRESHOLD_SECONDS = 0  # this enables caching for all TestBenchComponent runs
@@ -76,7 +77,7 @@ class RegressionTest(unittest.TestCase):
                 writer = csv.writer(csv_desvar_file)
                 reader = csv.reader(csv_input_file)
                 for row in reader:
-                    writer.writerow(map(type(''), row[1:3]))
+                    writer.writerow(list(map(type(''), row[1:3])))
         with run_regression(os.path.join(_this_dir, 'run_csv.csv')):
             driver = run_mdao.drivers.CsvDriver(_this_dir, 'run_csv_input.csv')
             run_mdao.run('mdao_config_basic_CyPhy.json', override_driver=driver)

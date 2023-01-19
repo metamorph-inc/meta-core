@@ -241,7 +241,7 @@ def UP_DPCE(problem, driver):
 def fullfact(levels):
     args = []
     for l in levels:
-        args.append(range(0,l))
+        args.append(list(range(0,l)))
     ff = itertools.product(*args)
     return array(list(ff))
 

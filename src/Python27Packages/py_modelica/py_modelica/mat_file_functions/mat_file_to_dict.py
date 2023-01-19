@@ -2,6 +2,7 @@ import os
 import numpy as np
 from scipy.io import loadmat
 from scipy.io.matlab.mio4 import VarReader4
+import six
 
 VARIABLE_INDICES = set()
 VARIABLES = {}
@@ -101,7 +102,7 @@ class MatFile2Dict():
 
         # expand constants values into time series
         array_c = {}
-        for co in self.constants.iteritems():
+        for co in six.iteritems(self.constants):
             #print "\nConstant : [name : {0}, value : {1}]".format(co[0], co[1])
             array_c[co[0]] = np.ones(len(self.variables['time'])) * [co[1]]
 
@@ -226,7 +227,7 @@ class MatFile2Dict():
             #root_node = TreeNode("root_node")
             #root_node.populate_tree(filter)
 
-        for i in xrange(names.shape[0]):
+        for i in range(names.shape[0]):
             # Most time is spent here...
             name = str(u''.join(e for e in names[i])).rstrip().replace(' ', '')
 
@@ -279,7 +280,7 @@ class MatFile2Dict():
 
         loadmat(self.data_file, matlab_compatible=True, variable_names=['data_2'])
         variables = {}
-        for var in var_info.iteritems():
+        for var in six.iteritems(var_info):
             index = var[1][0]
             sign = var[1][1]
             vv = {var[0]: VARIABLES[index] * sign}

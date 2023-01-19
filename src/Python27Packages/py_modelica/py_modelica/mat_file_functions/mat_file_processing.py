@@ -2,6 +2,7 @@ __author__ = 'pmeijer'
 
 import numpy as np
 from py_modelica.mat_file_functions.mat_file_to_dict import MatFile2Dict
+import six
 
 # Rescue if the limit-checking should get stuck in an infinite while-loop.
 # Which should be impossible to start with, but if I am wrong...
@@ -35,7 +36,7 @@ class MatFileProcessing(object):
 
         # convert lists into numpy arrays
         self.result = {}
-        for item in result_lists.iteritems():
+        for item in six.iteritems(result_lists):
             self.result.update({item[0]: np.array(item[1])})
 
         self.time = self.result['time']
@@ -100,7 +101,7 @@ class MatFileProcessing(object):
         """
         i = 0
         time = self.time
-        while time[i] < time_val and i in xrange(time.size - 1):
+        while time[i] < time_val and i in range(time.size - 1):
             i += 1
         data_arr = self.data_array(name)
         if time[i - 1] != time_val:
@@ -125,7 +126,7 @@ class MatFileProcessing(object):
         """
         i = 0
         time = self.time
-        while time[i] < time_val and i in xrange(time.size-1):
+        while time[i] < time_val and i in range(time.size-1):
             i += 1
 
         return i
@@ -265,7 +266,7 @@ class MatFileProcessing(object):
         data = self.data_array(name)
         total_sum = 0
         nxt_t = time[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = next
             nxt = data[i]
             cur_t = nxt_t
@@ -287,7 +288,7 @@ class MatFileProcessing(object):
         prev = 0
         cur = 0
         nxt = data[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             if cur < prev and cur <= nxt:
                 minima.append(cur)
             prev = cur
@@ -307,7 +308,7 @@ class MatFileProcessing(object):
         prev = 0
         cur = 0
         nxt = data[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             if cur >= prev and cur > nxt:
                 maxima.append(cur)
             prev = cur
@@ -330,7 +331,7 @@ class MatFileProcessing(object):
         time = []
 
         nxt = -1
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = nxt
             nxt = data[i]
             if (cur > 0 + tol) and (nxt <= 0 + tol):
@@ -354,7 +355,7 @@ class MatFileProcessing(object):
         data = self.data_array(name)
         time_arr = self.time
         nxt = 1
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = nxt
             nxt = data[i]
             if (cur <= 0 + tol) and (nxt > 0 + tol):
@@ -383,14 +384,14 @@ class MatFileProcessing(object):
         nxt = data[i]
         tolerance = 0.00000015
         if data[value_index] >= 0:
-            while nxt >= 0 + tolerance and i in xrange(data.size - 1):
+            while nxt >= 0 + tolerance and i in range(data.size - 1):
                 i += 1
                 cur = nxt
                 nxt = data[i]
             if nxt >= 0 + tolerance:
                 return -1
         else:
-            while nxt <= 0 + tolerance and i in xrange(data.size - 1):
+            while nxt <= 0 + tolerance and i in range(data.size - 1):
                 i += 1
                 cur = nxt
                 nxt = data[i]
@@ -421,14 +422,14 @@ class MatFileProcessing(object):
         nxt = data[i]
         tolerance = 0.00000015
         if data[value_index - 1] >= 0:
-            while nxt >= 0 + tolerance and i in xrange(data.size):
+            while nxt >= 0 + tolerance and i in range(data.size):
                 i -= 1
                 cur = nxt
                 nxt = data[i]
             if nxt >= 0 + tolerance:
                 return -1
         else:
-            while nxt <= 0 + tolerance and i in xrange(data.size):
+            while nxt <= 0 + tolerance and i in range(data.size):
                 i -= 1
                 cur = nxt
                 nxt = data[i]
@@ -469,7 +470,7 @@ class MatFileProcessing(object):
         """
         data1 = self.data_array(name1)
         data2 = self.data_array(name2)
-        for i in xrange(data1.size):
+        for i in range(data1.size):
             if data1[i] != data2[i]:
                 return False
 

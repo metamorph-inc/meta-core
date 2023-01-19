@@ -21,6 +21,7 @@ from SA_EFAST import SA_EFAST
 from UP_DPCE import UP_DPCE
 
 import jsonout
+import six
 
 
 class PCCdriver(PredeterminedRunsDriver):
@@ -122,7 +123,7 @@ class PCCdriver(PredeterminedRunsDriver):
 
         try:
             outputdict = self._json_tree['Configurations']['Configuration']['PCCInputArguments']['PCCMetrics']
-        except Exception, err:
+        except Exception as err:
             logging.exception('Could not find PCCMetrics in Configurations.')
             raise err
 
@@ -147,7 +148,7 @@ class PCCdriver(PredeterminedRunsDriver):
             inputdict = self._json_tree['Configurations']['Configuration']\
                              ['PCCInputArguments']['StochasticInputs']\
                              ['InputDistributions']
-        except Exception, err:
+        except Exception as err:
             logging.exception('Could not find InputDistributions in Configurations')
             raise err
 
@@ -164,7 +165,7 @@ class PCCdriver(PredeterminedRunsDriver):
             try:
                 params.append(inp['Param1'])
                 params.append(inp['Param2'])
-            except Exception, err:
+            except Exception as err:
                 logging.exception('Could not read Param1 and Param2 for input %s:', input)
                 raise err
             # "designVariable" comes from run_mdao
@@ -180,7 +181,7 @@ class PCCdriver(PredeterminedRunsDriver):
                 try:
                     params.append(inp['Param3'])
                     params.append(inp['Param4'])
-                except Exception, err:
+                except Exception as err:
                     logging.exception('Could not read Param3 and Param4 for input %s:', input)
                     raise err
                 I_mu, I_sigma = stats.beta.stats(params[0], params[1])
@@ -381,29 +382,29 @@ class PCCdriver(PredeterminedRunsDriver):
             # import pdb; pdb.set_trace()
 
             np.set_printoptions(suppress=True)  # prettier printing. Supresses scientific notation
-            if 'MPPUpperBound' in self.results.keys():
+            if 'MPPUpperBound' in list(self.results.keys()):
                 print 'Most Probable Points of Failure (upper bound):\n', self.results['MPPUpperBound']
                 print 'Most Probable Points of Failure (lower bound):\n', self.results['MPPLowerBound']
-            if 'CorrelationMatrix' in self.results.keys():
+            if 'CorrelationMatrix' in list(self.results.keys()):
                 print 'Correlation:\n', self.results['CorrelationMatrix']
-            if 'Moments' in self.results.keys():
+            if 'Moments' in list(self.results.keys()):
                 print 'Moments:\n',
                 print "  Mean =", self.results['Moments']['Mean']
                 print "  Variance =", self.results['Moments']['Variance']
                 print "  Skewness =", self.results['Moments']['Skewness']
                 print "  Kurtosis =", self.results['Moments']['Kurtosis']
-            if 'dtype' in self.results.keys():
+            if 'dtype' in list(self.results.keys()):
                 print 'Pearson Distribution Type =', self.results['dtype']
-            if 'PCC' in self.results.keys():
+            if 'PCC' in list(self.results.keys()):
                 print 'PCC:', self.results['PCC']
-            if 'Distribution' in self.results.keys():
-                if 'Complexity' in self.results['Distribution'].keys():
+            if 'Distribution' in list(self.results.keys()):
+                if 'Complexity' in list(self.results['Distribution'].keys()):
                     print 'Complexity estimates:', self.results['Distribution']['Complexity']
-            if 'FirstOrderSensitivity' in self.results.keys():
+            if 'FirstOrderSensitivity' in list(self.results.keys()):
                 print 'First order sensitivity:\n', self.results['FirstOrderSensitivity']
-            if 'TotalEffectSensitivity' in self.results.keys():
+            if 'TotalEffectSensitivity' in list(self.results.keys()):
                 print 'Total effect sensitivity:\n', self.results['TotalEffectSensitivity']
-            if 'SRC' in self.results.keys():
+            if 'SRC' in list(self.results.keys()):
                 print 'Standardized regression coefficients:\n', self.results['SRC']
                 print 'R^2:\n', self.results['R^2']
 
@@ -417,7 +418,7 @@ class PCCdriver(PredeterminedRunsDriver):
     def ReadString(self, name, default):
         settings = self._json_tree['Configurations']['Configuration']
         if name in settings:
-            if type(settings[name]) is unicode:
+            if type(settings[name]) is six.text_type:
                 return settings[name]
             else:
                 logging.error('%s must be of type unicode. (attempted to set %s to %s)', name, name, settings[name])

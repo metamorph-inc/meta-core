@@ -51,8 +51,8 @@ def UP_TS(problem, driver):
         values = [mu]
         values.extend(taylorseries.pretaylorseries(mu, delta*array(sigma), inpt))
         out = iter(run_list(problem, driver, values))
-        G_mean = out.next()
-        G = lambda x: out.next()
+        G_mean = next(out)
+        G = lambda x: next(out)
         F1 = taylorseries.taylorseries(G, mu, delta*array(sigma), inpt, otpt)
 
     print 'Taylor Series:\n',F1

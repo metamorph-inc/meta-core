@@ -214,7 +214,7 @@ class CalculixResults(object):
         except IndexError:
             self.job[info[0][2:].lower()] = ''
         finally:
-            if '' in self.job.keys():
+            if '' in list(self.job.keys()):
                 del self.job['']
           
           
@@ -332,7 +332,7 @@ class CalculixResults(object):
                     if j > 0:
                         temp[j] = d + temp[j]  # Make value negative.
             newline.extend(temp)
-        return map(float, newline)
+        return list(map(float, newline))
                 
 class AssemblyInfo(object):
     """Represents information about the assembly and analysis data."""

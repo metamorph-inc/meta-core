@@ -87,12 +87,12 @@ def SA_SOBOL(problem, driver):
     if krig != 1:
         out = iter(run_list(problem, driver, values))
         for i in range(nSOBOL):
-            YXMA[i] = out.next()
+            YXMA[i] = next(out)
         for i in range(nSOBOL):
-            YXMB[i] = out.next()
+            YXMB[i] = next(out)
         for i in range(inpt):
             for j in range(nSOBOL):
-                YXMC[i, j] = out.next()
+                YXMC[i, j] = next(out)
 
     f0 = mean(YXMA,0)
     if otpt==1:

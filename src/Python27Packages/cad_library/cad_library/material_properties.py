@@ -12,7 +12,7 @@ __author__ = 'rowens'
 #    See \bin\CAD\Test\cad_library\material_properties_test.py for an example of how to invoke this module.
 
 import cad_exception_classes as CADExcep
-import _winreg
+import six.moves.winreg
 import os
 import sys
 import uuid, ctypes
@@ -805,9 +805,9 @@ def get_material_library_manager():
     function_name = "get_material_library_manager"
 
     try:
-        with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
-                             _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-            META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
+        with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
+                             six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+            META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
 
         materialLibInterfacePath = os.path.join(META_PATH, "bin", "Python27", "Lib", "site-packages",
                                                 "material_library")

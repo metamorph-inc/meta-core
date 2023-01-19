@@ -68,10 +68,10 @@ def UP_UDR(problem, driver):
                 values.append(X)
 
     out = iter(run_list(problem, driver, values))
-    G_mu = out.next()
+    G_mu = next(out)
     for k,inputname in enumerate(driver._json_tree['Configurations']['Configuration']['PCCInputArguments']['StochasticInputs']['InputDistributions']):
         for j in  range(0,nodes[k]):
-            G_s[k, j] = out.next()
+            G_s[k, j] = next(out)
 
     G_mean = zeros(otpt)
     G_kurt = zeros(otpt)
@@ -244,7 +244,7 @@ def predictor(x=None, dmodel=None):
     if isnan(dmodel.beta):
         y = NaN
         logging.error('DMODEL has not been found')
-        raise ValueError,'DMODEL has not been found'
+        raise ValueError('DMODEL has not been found')
 
     [m, n] = size(dmodel.S)# number of design sites and number of dimensions
     sx = size(x)# number of trial sites and their dimension

@@ -4,11 +4,10 @@ import logging
 from py_modelica.exception_classes import ModelicaInstantiationError
 
 from abc import ABCMeta, abstractmethod
+import six
 
 
-class ToolBase:
-    __metaclass__ = ABCMeta
-
+class ToolBase(six.with_metaclass(ABCMeta)):
     tool_name = ''
     tool_version = ''
     tool_version_nbr = ''
@@ -177,7 +176,7 @@ class ToolBase:
 
         if os.name == 'nt':
             try:
-                import _winreg as wr
+                import six.moves.winreg as wr
                 key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
                 try:
                     self.max_simulation_time = wr.QueryValueEx(key, 'MAX_SIMULATION_TIME')[0]

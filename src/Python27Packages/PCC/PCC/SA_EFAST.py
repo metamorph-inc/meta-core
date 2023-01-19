@@ -75,7 +75,7 @@ def SA_EFAST(problem, driver):
     sim = 0
     if (N * NR < 65):
         logging.error('sample size must be >= 65 per factor.')
-        raise ValueError,'sample size must be >= 65 per factor.'
+        raise ValueError('sample size must be >= 65 per factor.')
 
     # Algorithm for selecting the set of frequencies. OMci(i), i=1:inpt-1, contains
     # the set of frequencies to be used by the complementary group.
@@ -107,7 +107,7 @@ def SA_EFAST(problem, driver):
             for j in range(inpt):
                 FI[j] = random.random() * 2 * pi        # random phase shift
             S_VEC = pi * (2 * arange(1,N+1) - N - 1) / N
-            OM_VEC = OM[range(inpt)]
+            OM_VEC = OM[list(range(inpt))]
             FI_MAT = transpose(array([FI]*N))
             ANGLE = matrix(OM_VEC).T*matrix(S_VEC) + matrix(FI_MAT)
             X = 0.5 + arcsin(sin(ANGLE.T)) / pi
@@ -222,7 +222,7 @@ def SETFREQ(Kci, OMciMAX):
         if (OMciMAX == 1):
             ISTEP = 0
         print 'ISTEP=',ISTEP
-        OTMP = range(1, int(INFD * ISTEP) + ISTEP, ISTEP)
+        OTMP = list(range(1, int(INFD * ISTEP) + ISTEP, ISTEP))
         fl_INFD = int(floor(INFD))
         OMci = zeros(Kci)
         for i in range(Kci):

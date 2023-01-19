@@ -61,7 +61,7 @@ def run_list(problem, driver, inputs):
         recorder.startup(driver.root)
         driver.recorders.append(recorder)
         problem.setup()
-        driver.runlist = [zip(driver.inputNames, input) for input in inputs]
+        driver.runlist = [list(zip(driver.inputNames, input)) for input in inputs]
 
         if UseParallel:
             driver.sequential = False
@@ -90,7 +90,7 @@ def run_list(problem, driver, inputs):
                     real_path = name
                 unknown = unknowns.get(real_path, missing)
                 if unknown is missing:
-                    raise Exception('No outputs from simulator matching requested output \'{0}\'. Available outputs: {1}'.format(real_path, unknowns.keys()))
+                    raise Exception('No outputs from simulator matching requested output \'{0}\'. Available outputs: {1}'.format(real_path, list(unknowns.keys())))
                 if unknown is None:
                     # FIXME upgrade OpenMDAO, and the testbench should throw AnalysisException
                     raise Exception('No value from simulator matching requested output \'{0}\'. Perhaps the testbench failed')

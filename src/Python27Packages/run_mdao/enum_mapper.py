@@ -20,12 +20,12 @@ class EnumMapper(Component):
                 # First run
                 first_key = key
                 first_map = val
-                first_map_counter = Counter(val.keys())
+                first_map_counter = Counter(list(val.keys()))
 
             else:
                 # Check for key consistency
                 # TODO: Check for type consistency
-                same = first_map_counter == Counter(val.keys())
+                same = first_map_counter == Counter(list(val.keys()))
                 if same is False:
                     raise
 

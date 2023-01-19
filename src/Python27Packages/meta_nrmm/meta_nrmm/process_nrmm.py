@@ -134,7 +134,7 @@ def main(argv):
 
     try:
         f = open(absoutputfilename, "wb")
-    except Exception, e:
+    except Exception as e:
         self.log("Skipping Output: Could not open file for writing %s: %s" % (absoutputfilename, str(e)), 3)
                     
     f.write(str(t))
@@ -194,7 +194,7 @@ def main(argv):
 
     try:
         f = open(absoutputfilename, "wb")
-    except Exception, e:
+    except Exception as e:
         self.log("Skipping Output: Could not open file for writing %s: %s" % (absoutputfilename, str(e)), 3)
                     
     f.write(str(t))

@@ -6,6 +6,7 @@ import os
 import json
 
 from py_modelica.mat_file_functions.mat_file_processing import MatFileProcessing
+import six
 
 REPORT_FILE = 'testbench_manifest.json'
 INVALID_NUMBER_IN_REPORT_FILE = False
@@ -186,7 +187,7 @@ def update_metrics_and_check_limits(mat_file='', model_config='model_config.json
 
     limits_dict, variable_filter = read_limits()
 
-    for key, value in metrics_map.iteritems():
+    for key, value in six.iteritems(metrics_map):
         variable_filter.append(value)
 
     mfp = MatFileProcessing(mat_file, variable_filter)

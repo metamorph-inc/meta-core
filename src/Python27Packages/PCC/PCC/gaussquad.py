@@ -6,7 +6,7 @@ import logging
 def gaussquad(n=None, dist=None, param1=None, param2=None):
     if n < 0:
         logging.error('need non-negative number of nodes')
-        raise ValueError,'need non-negative number of nodes'
+        raise ValueError('need non-negative number of nodes')
     elif n == 0:
         nodes = 0
         weights = 0
@@ -21,7 +21,7 @@ def gaussquad(n=None, dist=None, param1=None, param2=None):
             x = exp(param1)
         else:
             logging.error('Unexpected distribution type')
-            raise ValueError,'Unexpected distribution type'
+            raise ValueError('Unexpected distribution type')
         nodes = x
         weights = 1
     else:
@@ -62,7 +62,7 @@ def gaussquad(n=None, dist=None, param1=None, param2=None):
             b[1:(n - 1)] = sqrt(4. * i2 * (i2 + param1 - 1) * (i2 + param2 - 1) * (i2 + ab - 2) / (abi ** 2 - 1) / abi ** 2)
         else:
             logging.error('Unexpected distribution type.')
-            raise ValueError,'Unexpected distribution type.'
+            raise ValueError('Unexpected distribution type.')
         A = zeros((n * n, 1))
         for j in range(0,n):
             A[(n + 1) * j] = a[j]

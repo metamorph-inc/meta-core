@@ -57,7 +57,7 @@ def _memoize_solve(component, fn):
     memo = {}
     component.add_output('_runtime', val=0.0)
     # don't attempt to memoize components with FileRefs
-    if [v for v in itertools.chain(component._init_unknowns_dict.values(), component._init_params_dict.values()) if isinstance(v['val'], FileRef)]:
+    if [v for v in itertools.chain(list(component._init_unknowns_dict.values()), list(component._init_params_dict.values())) if isinstance(v['val'], FileRef)]:
         return fn
 
     def solve_nonlinear(tb_params, unknowns, resids):

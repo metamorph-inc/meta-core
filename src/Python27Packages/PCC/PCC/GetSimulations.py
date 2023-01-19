@@ -1,5 +1,6 @@
 from operator import mul
 from numpy import *
+from functools import reduce
 
 #return the number of simulations expected for any given method
 def GetSimulations(method, inputs, num=1280, nodes=None):
