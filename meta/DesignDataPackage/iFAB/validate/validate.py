@@ -25,11 +25,11 @@ def get_args():
 def validate(xml, xsd):
     try:
         parseAndValidate(xml, xsdFile=xsd)
-    except IOError, errstr:
+    except IOError as errstr:
         return ValidationResult(False, errstr)
-    except GenXmlIfError, errstr:
+    except GenXmlIfError as errstr:
         return ValidationResult(False, errstr)
-    except XsvalError, errstr:
+    except XsvalError as errstr:
         return ValidationResult(False, errstr)
 
     return ValidationResult(True, 

@@ -74,19 +74,19 @@ def CalculateMetrics(sectionData):
             maxShear = max(maxShear, tmpShear)
             maxBearing = max(maxBearing, tmpBear)
         # FactorOfSafety
-        if (ComputedMetricsSummary.gComponentList.has_key(ELSet_ID)):
+        if (ELSet_ID in ComputedMetricsSummary.gComponentList):
             tmpComponent = ComputedMetricsSummary.gComponentList[ELSet_ID]
             #factorOfSafety = min(float(tmpComponent.MaterialProperty['Shear'])/maxShear,
             #                 float(tmpComponent.MaterialProperty['Bearing'])/maxBearing,
             #                 float(tmpComponent.MaterialProperty['Mises'])/maxMises)
             factorOfSafety = float(tmpComponent.MaterialProperty['Mises'])/maxMises
-            if (tmpComponent.MetricsInfo.has_key('Shear')):
+            if ('Shear' in tmpComponent.MetricsInfo):
                 tmpComponent.MetricsOutput[tmpComponent.MetricsInfo['Shear']] = maxShear
-            if (tmpComponent.MetricsInfo.has_key('Mises')):
+            if ('Mises' in tmpComponent.MetricsInfo):
                 tmpComponent.MetricsOutput[tmpComponent.MetricsInfo['Mises']] = maxMises
-            if (tmpComponent.MetricsInfo.has_key('Bearing')):
+            if ('Bearing' in tmpComponent.MetricsInfo):
                 tmpComponent.MetricsOutput[tmpComponent.MetricsInfo['Bearing']] = maxBearing
-            if (tmpComponent.MetricsInfo.has_key('FactorOfSafety')):
+            if ('FactorOfSafety' in tmpComponent.MetricsInfo):
                 tmpComponent.MetricsOutput[tmpComponent.MetricsInfo['FactorOfSafety']] = factorOfSafety
             ComputedMetricsSummary.gComponentList[ELSet_ID] = tmpComponent      #?            
 

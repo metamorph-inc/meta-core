@@ -1,4 +1,4 @@
-import urllib
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
 import subprocess
 import argparse
 import sys
@@ -14,23 +14,23 @@ def GetMsiProperty(path ,property):
     return result.GetString(1)
   
 def query_META_install():
-    import _winreg
+    import six.moves.winreg
     current_version = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
  
-    current_version_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, current_version, 0,
-                                         _winreg.KEY_READ | _winreg.KEY_WOW64_64KEY)
+    current_version_key = six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, current_version, 0,
+                                         six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_64KEY)
  
-    number_of_keys =  _winreg.QueryInfoKey(current_version_key)[0]  # 0 means number of sub_keys
+    number_of_keys =  six.moves.winreg.QueryInfoKey(current_version_key)[0]  # 0 means number of sub_keys
 
     info = {}
     for sub_key_id in range(0, number_of_keys):
-        sub_key_name = _winreg.EnumKey(current_version_key, sub_key_id)
-        sub_key = _winreg.OpenKey(current_version_key, sub_key_name)
+        sub_key_name = six.moves.winreg.EnumKey(current_version_key, sub_key_id)
+        sub_key = six.moves.winreg.OpenKey(current_version_key, sub_key_name)
         
-        number_of_values = _winreg.QueryInfoKey(sub_key)[1]
+        number_of_values = six.moves.winreg.QueryInfoKey(sub_key)[1]
         found = False
         for value_id in range(0, number_of_values):
-            value_tuple = _winreg.EnumValue(sub_key, value_id)
+            value_tuple = six.moves.winreg.EnumValue(sub_key, value_id)
             value_name = value_tuple[0]
             value = value_tuple[1]
             
@@ -40,7 +40,7 @@ def query_META_install():
         
         if found:
             for value_id in range(0, number_of_values):
-                value_tuple = _winreg.EnumValue(sub_key, value_id)
+                value_tuple = six.moves.winreg.EnumValue(sub_key, value_id)
                 value_name = value_tuple[0]
                 value = value_tuple[1]
                 info[value_name] = value
@@ -83,7 +83,7 @@ def main():
     downloaded_msi = "{0}_{1}_build_{2}.msi".format(installer_name, release, build_number)
 
     # download new META installer
-    urllib.urlretrieve(url, downloaded_msi)
+    six.moves.urllib.request.urlretrieve(url, downloaded_msi)
     print downloaded_msi
 
     META_install = query_META_install()

@@ -60,10 +60,10 @@ __all__ = [
 import string
 import genxmlif
 from minixsv           import *
-from xsvalErrorHandler import ErrorHandler
-from xsvalXmlIf        import XsvXmlElementWrapper
-from xsvalBase         import XsValBase
-from xsvalSchema       import XsValSchema
+from .xsvalErrorHandler import ErrorHandler
+from .xsvalXmlIf        import XsvXmlElementWrapper
+from .xsvalBase         import XsValBase
+from .xsvalSchema       import XsValSchema
 
 
 __author__  = "Roland Leuthe <roland@leuthe-net.de>"
@@ -87,10 +87,10 @@ def getVersion ():
 # access function for adding a user specific XML interface class
 #
 def addUserSpecXmlIfClass (xmlIfKey, factory):
-    if not _xmlIfDict.has_key(xmlIfKey):
+    if xmlIfKey not in _xmlIfDict:
         _xmlIfDict[xmlIfKey] = factory
     else:
-        raise KeyError, "xmlIfKey %s already implemented!" %(xmlIfKey)
+        raise KeyError("xmlIfKey %s already implemented!" %(xmlIfKey))
 
 
 ########################################
@@ -277,7 +277,7 @@ class XsValidator:
         xsvGivenXsdFile = XsValSchema (self.xmlIf, self.errorHandler, self.verbose)
         xsvGivenXsdFile.validate(xsdTreeWrapper, [rulesTreeWrapper,])
         self.schemaDependancyList.append (xsdFile)
-        self.schemaDependancyList.extend (xsvGivenXsdFile.xsdIncludeDict.keys())
+        self.schemaDependancyList.extend (list(xsvGivenXsdFile.xsdIncludeDict.keys()))
         xsvGivenXsdFile.unlink()
         self.errorHandler.flushOutput()
         return xsdTreeWrapper
@@ -304,7 +304,7 @@ class XsValidator:
         for namespace, xsdFile in xsdFileList:
             try:
                 xsdTreeWrapper = self.parse (xsdFile, inputTreeWrapper.getRootNode().getAbsUrl())
-            except IOError, e:
+            except IOError as e:
                 if e.errno == 2: # catch IOError: No such file or directory
                     self.errorHandler.raiseError ("XML schema file %s not found!" %(xsdFile), inputTreeWrapper.getRootNode())
                 else:

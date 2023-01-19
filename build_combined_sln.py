@@ -65,7 +65,7 @@ desert_projects, desert_configs = get_projs(r"externals\desert\desertVS2010.sln"
 #cybertools_projects, cybertools_configs = get_projs(r"src\Cyber-Tools.sln")
 
 dep_projects = set(desert_projects)
-dep_configs = dict(desert_configs.items())
+dep_configs = dict(list(desert_configs.items()))
 
 sln = win32com.client.DispatchEx("VisualStudio.Solution.%s" % _vs_version)
 # print win32com.client.DispatchEx("InterfaceEnum").Enum(sln)

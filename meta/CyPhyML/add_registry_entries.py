@@ -3,7 +3,7 @@
 import sys
 import os
 import json
-from _winreg import *
+from six.moves.winreg import *
 
 
 def register_tool(tool):

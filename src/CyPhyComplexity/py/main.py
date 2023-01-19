@@ -222,7 +222,7 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
-        except getopt.error, msg:
+        except getopt.error as msg:
             raise Usage(msg)
     
         # option processing
@@ -234,7 +234,7 @@ def main(argv=None):
             if option in ("-o", "--output"):
                 output = value
     
-    except Usage, err:
+    except Usage as err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
         return 2
     if len(args) >= 3:

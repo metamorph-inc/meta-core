@@ -36,7 +36,7 @@ Created by Ozgur Yapar   <oyapar@isis.vanderbilt.edu>
 
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-import _winreg
+import six.moves.winreg
 import odbAccess
 import shutil
 import glob
@@ -51,9 +51,9 @@ import json
 import os
 
 
-with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
-                     _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-    META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
+with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
+                     six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+    META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
     sys.path.append(os.path.join(META_PATH, 'bin', 'Python27', 'Lib', 'site-packages'))
 
 import cad_library
@@ -134,7 +134,7 @@ def modifyMetaDataFile(xmlname, asminfo, uniqueSuffix, asmIdentifier):
     try:
         tree = ET.ElementTree()
         tree.parse(xmlname)
-    except Exception, inst:
+    except Exception as inst:
         cad_library.exitwitherror('Unexpected error opening ' + xmlname + str(inst), 1, 'AbaqusMain.py')
 
     rootNode = tree.getroot()  # CADAnalysisMetaData

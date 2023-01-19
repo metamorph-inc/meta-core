@@ -16,7 +16,7 @@ from numpy import array, cross, transpose, vstack, dot
 import numpy.linalg as LA
 import string as STR
 import xml.etree.ElementTree as ET
-import _winreg, sys, ctypes, uuid, traceback
+import six.moves.winreg, sys, ctypes, uuid, traceback
 
 
 MAIN = os.getcwd()                                                           # initial working directory

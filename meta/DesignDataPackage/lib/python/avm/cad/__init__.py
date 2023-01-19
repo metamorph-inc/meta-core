@@ -11,6 +11,7 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
+import six
 
 # Unique identifier for bindings created at the same time
 _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
@@ -56,7 +57,7 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
     xmld = xml_text
-    if isinstance(xmld, unicode):
+    if isinstance(xmld, six.text_type):
         xmld = xmld.encode(pyxb._InputEncoding)
     saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
@@ -1204,11 +1205,11 @@ def _BuildAutomaton ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 33, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 33, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 34, 10))
+    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 34, 10))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 35, 10))
+    cc_2 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 35, 10))
     counters.add(cc_2)
     states = []
     final_update = set()
@@ -1259,7 +1260,7 @@ def _BuildAutomaton_ ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 54, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 54, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1284,7 +1285,7 @@ def _BuildAutomaton_2 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1333,7 +1334,7 @@ def _BuildAutomaton_4 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=2L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10))
+    cc_0 = fac.CounterCondition(min=2, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 159, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1364,11 +1365,11 @@ def _BuildAutomaton_5 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 237, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 238, 10))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 239, 10))
     counters.add(cc_2)
     states = []
     final_update = set()
@@ -1423,11 +1424,11 @@ def _BuildAutomaton_6 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 251, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 252, 10))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 253, 10))
     counters.add(cc_2)
     states = []
     final_update = set()
@@ -1480,7 +1481,7 @@ def _BuildAutomaton_7 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=2L, max=2L, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 120, 10))
+    cc_0 = fac.CounterCondition(min=2, max=2, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 120, 10))
     counters.add(cc_0)
     states = []
     final_update = None
@@ -1515,7 +1516,7 @@ def _BuildAutomaton_8 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=3L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 129, 10))
+    cc_0 = fac.CounterCondition(min=3, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 129, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1546,7 +1547,7 @@ def _BuildAutomaton_9 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 140, 10))
     counters.add(cc_0)
     states = []
     final_update = None
@@ -1643,7 +1644,7 @@ def _BuildAutomaton_12 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1668,7 +1669,7 @@ def _BuildAutomaton_13 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1693,7 +1694,7 @@ def _BuildAutomaton_14 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1718,7 +1719,7 @@ def _BuildAutomaton_15 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
@@ -1745,9 +1746,9 @@ def _BuildAutomaton_16 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 44, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 85, 10))
+    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.cad.xsd', 85, 10))
     counters.add(cc_1)
     states = []
     final_update = set()

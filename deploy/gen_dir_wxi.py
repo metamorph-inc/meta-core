@@ -13,6 +13,7 @@ import requests
 from xml.etree import ElementTree
 import xml.sax
 from xml.sax.handler import ContentHandler
+import six
 
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 prefs = { 'verbose': True }
@@ -177,7 +178,7 @@ class WixProcessingInstructionHandler(ContentHandler):
             pass  # TODO
 
     def eval_vars(self, attr):
-        for name, val in self.defines.iteritems():
+        for name, val in six.iteritems(self.defines):
             attr = attr.replace('$(var.{})'.format(name), str(val))
         return attr
 

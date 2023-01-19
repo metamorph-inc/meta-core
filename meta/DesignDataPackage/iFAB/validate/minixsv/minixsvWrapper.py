@@ -3,9 +3,9 @@
 import sys
 import getopt
 from genxmlif          import GenXmlIfError
-from xsvalErrorHandler import ErrorHandler, XsvalError
+from .xsvalErrorHandler import ErrorHandler, XsvalError
 from minixsv           import *
-from pyxsval           import parseAndValidate
+from .pyxsval           import parseAndValidate
 
 
 ##########################################
@@ -51,7 +51,7 @@ def checkShellInputParameter():
                 print 'minixsv needs one argument (XML input file)!'
                 sys.exit(-1)
 
-    except getopt.GetoptError, errstr:
+    except getopt.GetoptError as errstr:
         print errstr
         sys.exit(-1)
     return xmlInputFilename, xsdFilename, xmlParser
@@ -61,13 +61,13 @@ def main():
     xmlInputFilename, xsdFileName, xmlParser = checkShellInputParameter()
     try:
         parseAndValidate (xmlInputFilename, xsdFile=xsdFileName, xmlIfClass=xmlParser)
-    except IOError, errstr:
+    except IOError as errstr:
         print errstr
         sys.exit(-1)
-    except GenXmlIfError, errstr:
+    except GenXmlIfError as errstr:
         print errstr
         sys.exit(-1)
-    except XsvalError, errstr:
+    except XsvalError as errstr:
         print errstr
         sys.exit(-1)
     

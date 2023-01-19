@@ -1389,7 +1389,7 @@ def output_Solid_constructs(in_OutputModelFile_obj,
     # the output file of this program in that order.  There is no guarantee that the order
     # in AnalysisMetaData.xml is correct.
 
-    componentInsanceID_AnalysisMetaData_sorted = sorted(in_ComponentInsanceID_AnalysisMetaData.values(),
+    componentInsanceID_AnalysisMetaData_sorted = sorted(list(in_ComponentInsanceID_AnalysisMetaData.values()),
                                                         key=operator.attrgetter('fEAElementID'))
     """ Old Approach, not sorted
     for k, v in in_ComponentInsanceID_AnalysisMetaData.items():

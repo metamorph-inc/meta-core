@@ -27,9 +27,10 @@ import traceback
 import time
 import uuid, ctypes
 import xml.etree.ElementTree as ET
-import _winreg
+import six.moves.winreg
 
 from Adams2AbaqusGeometry import *
+import six
 
 MAIN = os.getcwd()                                                                                          # Initial working directory
 LOGDIR = os.path.join(MAIN, "log", "CyPhy2AbaqusCmd.log")                                                      # Path to log file
@@ -102,7 +103,7 @@ def defineMaterials(myModel, mtrlRef):                                          
     # create materials (rough)
     try:
     
-        for (key,mtrl) in mtrlRef.iteritems():                                                              # For each material described in mtrlRef:
+        for (key,mtrl) in six.iteritems(mtrlRef):                                                              # For each material described in mtrlRef:
             myMaterial = myModel.Material(name=key)                                                         # Declare a new material object
             elasticP = (mtrl['mechanical__modulus_elastic'],
                 mtrl['mechanical__ratio_poissons'])                                                         # Grab modulus of elasticity and poissons ratio values for the current material
@@ -350,7 +351,7 @@ def getBoundingNodes(jointsMBDXML, key, instRef, myModel, myAsm):               
                 refPntOtherComp.update([[otherCompName,refPntLoc]])                                         # Store the name and the x, y and z coordinates of the connected part.
 
 
-    sortedOtherComp = sorted(sortOtherComp.iteritems(), key=operator.itemgetter(1))                         # Sort the dictionary of the connected parts (sortOtherComp) based on the nodes...
+    sortedOtherComp = sorted(six.iteritems(sortOtherComp), key=operator.itemgetter(1))                         # Sort the dictionary of the connected parts (sortOtherComp) based on the nodes...
                                                                                                             #...of the current part inside the connected parts bounding box
     f_p.close()
 
@@ -377,7 +378,7 @@ def defineMPCs(sortedOtherComp, refPntOtherComp, refPointRef,
         Z = float(refPntLocSplit[2])                                                                        # Store the value of z coordinate
 
         dist = float('+inf')
-        for (RP,coord) in refPointRef.iteritems():                                                          # Loop through the coordinate values inside the LOD files provided by Adams
+        for (RP,coord) in six.iteritems(refPointRef):                                                          # Loop through the coordinate values inside the LOD files provided by Adams
             if RP not in usedRP:
                 preciseX = coord[0]                                                                         # Store the value of x coordinate
                 preciseY = coord[1]                                                                         # Store the value of y coordinate

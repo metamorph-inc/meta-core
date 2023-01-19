@@ -12,7 +12,7 @@ def RMS(data, time, t_end):
     next_data = data[0]
     next_t = time[0]
     ncp = 0
-    for i in xrange(data.size):
+    for i in range(data.size):
         cur_data = next_data
         next_data = data[i]
         height = (next_data + cur_data) / 2

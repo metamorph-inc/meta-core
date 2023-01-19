@@ -119,7 +119,7 @@ class ErrorHandler:
 
     def flushOutput (self):
         if self.infoDict != {}:
-            print string.join (self.infoDict.keys(), "\n")
+            print string.join (list(self.infoDict.keys()), "\n")
             self.infoList = []
 
         if self.warningProc == PRINT_WARNINGS and self.warningList != []:
@@ -163,6 +163,6 @@ class ErrorHandler:
         return "%s: %s%s%s" %(listElement[2], fileStr, lineStr, listElement[3])
     
 
-class XsvalError (StandardError):
+class XsvalError (Exception):
     pass
 

@@ -11,6 +11,7 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
+import six
 
 # Unique identifier for bindings created at the same time
 _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
@@ -56,7 +57,7 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
     xmld = xml_text
-    if isinstance(xmld, unicode):
+    if isinstance(xmld, six.text_type):
         xmld = xmld.encode(pyxb._InputEncoding)
     saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
@@ -281,7 +282,7 @@ def _BuildAutomaton ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location(u'avm.adamsCar.xsd', 11, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.adamsCar.xsd', 11, 10))
     counters.add(cc_0)
     states = []
     final_update = None
@@ -317,7 +318,7 @@ def _BuildAutomaton_ ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.adamsCar.xsd', 21, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.adamsCar.xsd', 21, 10))
     counters.add(cc_0)
     states = []
     final_update = set()

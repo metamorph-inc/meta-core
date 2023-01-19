@@ -4,6 +4,7 @@ import sys
 import gme
 import gc
 import os
+from six.moves import map
 
 
 def compare (file1, file2):
@@ -26,7 +27,7 @@ def iter_parents(fco):
 def fco_path(fco):
     parents = list(iter_parents(fco))
     parents.reverse()
-    return "/".join(map(lambda x: x.Name, parents))
+    return "/".join([x.Name for x in parents])
 
 def _get_Meta(object):
     if object.ObjType == 6:
@@ -65,7 +66,7 @@ def compare2(project1, project2):
             connectionEndpointsEqual = True
             if current1.ObjType == 4 and current2.ObjType == 4:
                 def mapConnpoints(conn):
-                    ret = map(lambda point: (point.ConnRole, [fco_path(point.Target), map(fco_path, point.References)]), conn.ConnPoints)
+                    ret = [(point.ConnRole, [fco_path(point.Target), list(map(fco_path, point.References))]) for point in conn.ConnPoints]
                     return dict(ret)
                 connectionEndpointsEqual = mapConnpoints(current1) == mapConnpoints(current2)
                 # Debugging aid:
@@ -230,14 +231,14 @@ def compareAssoc(*current):
 
 def compareAttrib(fco1, fco2):
     def mapAttribs(fco):
-        ret = map(lambda attr: (attr.Meta.Name, attr.Value), fco.Attributes)
+        ret = [(attr.Meta.Name, attr.Value) for attr in fco.Attributes]
         return dict(ret)
     fco1Attribs = mapAttribs(fco1)
     fco2Attribs = mapAttribs(fco2)
     if fco1Attribs != fco2Attribs:
         print "'%s' has differing attributes:" % fco1.AbsPath
-        unequalkeys = filter(lambda key: fco1Attribs.get(key) != fco2Attribs.get(key), fco1Attribs.keys())
-        print "\n".join(map(lambda key: "Name: %s: '%s' != '%s' " % (key, fco1Attribs.get(key), fco2Attribs.get(key)), unequalkeys))
+        unequalkeys = [key for key in list(fco1Attribs.keys()) if fco1Attribs.get(key) != fco2Attribs.get(key)]
+        print "\n".join(["Name: %s: '%s' != '%s' " % (key, fco1Attribs.get(key), fco2Attribs.get(key)) for key in unequalkeys])
         return False
     return True
 

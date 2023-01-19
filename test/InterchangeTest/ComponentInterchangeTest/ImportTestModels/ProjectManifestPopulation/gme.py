@@ -12,18 +12,20 @@ import runpy
 import subprocess
 import itertools
 import posixpath
-import urllib
-from urlparse import urlparse
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
+from six.moves.urllib.parse import urlparse
 
 
 # Disable early binding: full of race conditions writing the cache files,
 # and changes the semantics since inheritance isn't handled correctly
 import win32com.client.gencache
+from six.moves import filter
+import six
 _savedGetClassForCLSID = win32com.client.gencache.GetClassForCLSID
 win32com.client.gencache.GetClassForCLSID = lambda x: None
 
 def get_last_modified(filename):
-    local_file = urllib.urlopen(filename)
+    local_file = six.moves.urllib.request.urlopen(filename)
     last_modified = local_file.info()['Last-Modified']
     local_file.close()
     return last_modified
@@ -33,7 +35,7 @@ def urlretrieve(url, file=None):
         file = posixpath.basename(urlparse(url).path)
     class NotModifiedException(Exception):
         pass
-    class MyURLopener(urllib.FancyURLopener):
+    class MyURLopener(six.moves.urllib.request.FancyURLopener):
         def http_error_default(self, url, fp, errcode, errmsg, headers):
             void = fp.read()
             fp.close()
@@ -66,7 +68,7 @@ def execute_elevated(*args):
     if not hasattr(sys, "frozen"):
         # Not running under py2exe exe
         parameters += "\"" + sys.argv[0] + "\" "
-    parameters += " ".join(map(lambda x: "\"" + str(x) + "\"", args))
+    parameters += " ".join(["\"" + str(x) + "\"" for x in args])
     print "Executing elevated with parameters " + parameters
     # TODO: capture output (maybe via named pipe)
     rc = ShellExecuteEx(hwnd=hwnd, fMask=shellcon.SEE_MASK_NOCLOSEPROCESS, lpVerb="runas", lpFile=sys.executable, 
@@ -177,7 +179,7 @@ def is_registered(paradigm):
     paradigms.extend(registrar.GetParadigmsDisp(1))
     # REGACCESS_SYSTEM = 2
     paradigms.extend(registrar.GetParadigmsDisp(2))
-    return filter(lambda p: p == paradigm, paradigms)
+    return [p for p in paradigms if p == paradigm]
 
 REGISTER = 128
 DONT_REGISTER = 0
@@ -310,10 +312,10 @@ def RunGreatMasterInt(file):
 # Explorer context menu
 def context_menu_reg():
     """Register explorer context menu options"""
-    import _winreg
+    import six.moves.winreg
     if hasattr(sys, "frozen"):
         # Running under py2exe exe
-        gmepydir = os.path.dirname(unicode(sys.executable, sys.getfilesystemencoding( )))
+        gmepydir = os.path.dirname(six.text_type(sys.executable, sys.getfilesystemencoding( )))
     else:
         gmepydir = os.path.dirname(__file__)
     # Windows won't let us start gme.py from the context menu, so use the exe
@@ -333,10 +335,10 @@ def context_menu_reg():
         reg.write("Windows Registry Editor Version 5.00\n")
         for p in menus:
             try:
-                key = _winreg.OpenKey(_winreg.ConnectRegistry(None, _winreg.HKEY_CLASSES_ROOT), "."+p[0])
-                n,v,t = _winreg.EnumValue(key, 0)
+                key = six.moves.winreg.OpenKey(six.moves.winreg.ConnectRegistry(None, six.moves.winreg.HKEY_CLASSES_ROOT), "."+p[0])
+                n,v,t = six.moves.winreg.EnumValue(key, 0)
                 ext = v
-                _winreg.CloseKey(key)
+                six.moves.winreg.CloseKey(key)
             except WindowsError:
                 ext = "."+p[0]
             str = """[HKEY_CLASSES_ROOT\{ext}\shell]
@@ -394,8 +396,8 @@ class Project():
         path_a = path.split("/")
         current = self.project.RootFolder
         for name in path_a[0:-1]:
-            containers = filter(is_container, get_children(current))
-            matches = list(filter(lambda x: x.Name == name, containers))
+            containers = list(filter(is_container, get_children(current)))
+            matches = list([x for x in containers if x.Name == name])
             if matches:
                 current = matches[0]
             else:
@@ -516,8 +518,8 @@ def run_module(name, *args):
 def usage():
     gme_dict = sys.modules[__name__].__dict__
     names = []
-    names.extend(gme_dict.keys())
-    for name in filter(lambda name: type(gme_dict[name]) == type(print_paradigm), names):
+    names.extend(list(gme_dict.keys()))
+    for name in [name for name in names if type(gme_dict[name]) == type(print_paradigm)]:
         if gme_dict[name].__doc__ and name.find('_') != 0:
             print name
             print "\t" + gme_dict[name].__doc__

@@ -5,6 +5,7 @@ import re
 import numpy as np
 from py_modelica.mat_file_functions.mat_file_to_dict import MatFile2Dict
 import matplotlib.pyplot as plt
+import six
 # Rescue if the limit-checking should get stuck in an infinite while-loop.
 # Which should be impossible to start with, but if I am wrong...
 MAX_ITERATIONS = 100000
@@ -32,7 +33,7 @@ class PostProcess:
 
         # convert lists into numpy arrays
         self.result = {}
-        for item in result_lists.iteritems():
+        for item in six.iteritems(result_lists):
             self.result.update({item[0]: np.array(item[1])})
 
         self.time = self.result['time']
@@ -61,7 +62,7 @@ class PostProcess:
         print name
         print 'here is the data: (with index)'
         print '[',
-        for i in xrange(data.size - 1):
+        for i in range(data.size - 1):
             print str(i) + ':', str(data[i]) + ',',
         print str(i + 1) + ':', str(data[i + 1]) + ']'
 
@@ -134,7 +135,7 @@ class PostProcess:
         """
         i = 0
         time = self.time
-        while time[i] < time_val and i in xrange(time.size - 1):
+        while time[i] < time_val and i in range(time.size - 1):
             i += 1
         data_arr = self.data_array(name)
         if time[i - 1] != time_val:
@@ -159,7 +160,7 @@ class PostProcess:
         """
         i = 0
         time = self.time
-        while time[i] < time_val and i in xrange(time.size-1):
+        while time[i] < time_val and i in range(time.size-1):
             i += 1
 
         return i
@@ -300,7 +301,7 @@ class PostProcess:
         sum = 0
         next = data[0]
         next_t = time[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = next
             next = data[i]
             cur_t = next_t
@@ -322,7 +323,7 @@ class PostProcess:
         prev = 0
         cur = 0
         next = data[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             if cur < prev and cur <= next:
                 min.append(cur)
             prev = cur
@@ -342,7 +343,7 @@ class PostProcess:
         prev = 0
         cur = 0
         next = data[0]
-        for i in xrange(data.size):
+        for i in range(data.size):
             if cur >= prev and cur > next:
                 max.append(cur)
             prev = cur
@@ -364,7 +365,7 @@ class PostProcess:
         time = []
 
         next = -1
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = next
             next = data[i]
             if cur > 0 + tol and next <= 0 + tol:
@@ -388,7 +389,7 @@ class PostProcess:
         data = self.data_array(name)
         time_arr = self.time
         next = 1
-        for i in xrange(data.size):
+        for i in range(data.size):
             cur = next
             next = data[i]
             if cur <= 0 + tol and next > 0 + tol:
@@ -417,14 +418,14 @@ class PostProcess:
         next = data[i]
         tolerance = 0.00000015
         if data[value_index] >= 0:
-            while next >= 0 + tolerance and i in xrange(data.size - 1):
+            while next >= 0 + tolerance and i in range(data.size - 1):
                 i += 1
                 cur = next
                 next = data[i]
             if next >= 0 + tolerance:
                 return -1
         else:
-            while next <= 0 + tolerance and i in xrange(data.size - 1):
+            while next <= 0 + tolerance and i in range(data.size - 1):
                 i += 1
                 cur = next
                 next = data[i]
@@ -455,14 +456,14 @@ class PostProcess:
         next = data[i]
         tolerance = 0.00000015
         if data[value_index - 1] >= 0:
-            while next >= 0 + tolerance and i in xrange(data.size):
+            while next >= 0 + tolerance and i in range(data.size):
                 i -= 1
                 cur = next
                 next = data[i]
             if next >= 0 + tolerance:
                 return -1
         else:
-            while next <= 0 + tolerance and i in xrange(data.size):
+            while next <= 0 + tolerance and i in range(data.size):
                 i -= 1
                 cur = next
                 next = data[i]
@@ -503,7 +504,7 @@ class PostProcess:
         """
         data1 = self.data_array(name1)
         data2 = self.data_array(name2)
-        for i in xrange(data1.size):
+        for i in range(data1.size):
             if data1[i] != data2[i]:
                 return False
 
@@ -678,7 +679,7 @@ def update_metrics_in_report_json(metrics, report_file='testbench_manifest.json'
     if 'Metrics' in result_json:
         for metric in result_json['Metrics']:
             if 'Name' in metric and 'Value' in metric:
-                if metric['Name'] in metrics.keys():
+                if metric['Name'] in list(metrics.keys()):
                     new_value = metrics[metric['Name']]['value']
                     new_unit = metrics[metric['Name']]['unit']
                     if new_unit is not None:

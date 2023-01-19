@@ -53,7 +53,7 @@ def PrintStressTensors(fileName):
         myOdb.close()
         gFile.close()
         sys.exit(0)
-    except AbaqusException, value:
+    except AbaqusException as value:
         print 'Error:', value
         myOdb.close()
         gFile.close()

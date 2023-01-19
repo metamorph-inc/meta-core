@@ -169,7 +169,7 @@ def CalculateMetrics(frdfile, components, reqMetricsFile, elementMapFile):
     try:
         tree = ElementTree()
         tree.parse(reqMetricsFile)
-    except Exception, inst:
+    except Exception as inst:
         cad_library.exitwitherror('Unexpected error opening ' + reqMetricsFile + str(inst), -1)
     rootNode = tree.getroot()  # Metrics
 

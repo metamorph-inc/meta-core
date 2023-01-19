@@ -108,7 +108,7 @@ def runAbaqusAdaptive(myModel, myAsm, instRef, analysisStepName, rigidPartPresen
     processName = 'Adaptivity-1'
     mdb.AdaptivityProcess(jobPrefix='', job=j, name=processName,
                           maxIterations=maxNumberIter)
-    instList = myAsm.instances.keys()
+    instList = list(myAsm.instances.keys())
     for i in range(len(myAsm.instances)):
         ruleName = 'RemeshingRule-%d' % i
         myInst = myAsm.instances[instList[i]]

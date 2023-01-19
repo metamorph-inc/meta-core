@@ -1,5 +1,5 @@
-import _winreg as wreg
-import cPickle as pickle
+import six.moves.winreg as wreg
+import six.moves.cPickle as pickle
 
 class WindowsRegistry:
 
@@ -21,7 +21,7 @@ class WindowsRegistry:
     def set(self, name, value):
         " set value in registry "
         if not self.write:
-            raise Exception, "registry is read only"
+            raise Exception("registry is read only")
         wreg.SetValue(self.key, name, wreg.REG_SZ,str(value))
 
     def pset(self, name, value):

@@ -3,6 +3,7 @@ import sys
 import csv
 import json
 import itertools
+from six.moves import zip
 
 
 def exitwithcode(code):
@@ -35,7 +36,7 @@ def check_csv(test, reference):
     with open(test, 'rb') as testcsv, open(reference, 'rb') as referencecsv:
         test_reader = csv.reader(testcsv)
         ref_reader = csv.reader(referencecsv)
-        for lhs, rhs in itertools.izip(test_reader, ref_reader):
+        for lhs, rhs in zip(test_reader, ref_reader):
             if lhs != rhs:
                 exitwithcode(-1)
 

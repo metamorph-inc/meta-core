@@ -2,7 +2,7 @@ import sys
 import requests
 import datetime
 import json
-import urlparse
+import six.moves.urllib.parse
 
 if len(sys.argv) > 1:
     root_url = sys.argv[1]
@@ -25,9 +25,9 @@ def _request(method, *args, **kwargs):
     args = list(args)
     # TODO: configure for firewall/reverse proxy/etc
     #args[0] = args[0].replace(':8080', '')
-    url = urlparse.urlparse(args[0])
-    rurl = urlparse.urlparse(root_url)
-    args[0] = urlparse.ParseResult(rurl.scheme, rurl.netloc, url.path, url.params, url.query, url.fragment).geturl()
+    url = six.moves.urllib.parse.urlparse(args[0])
+    rurl = six.moves.urllib.parse.urlparse(root_url)
+    args[0] = six.moves.urllib.parse.ParseResult(rurl.scheme, rurl.netloc, url.path, url.params, url.query, url.fragment).geturl()
     kwargs.setdefault('cookies', {})
     
     kwargs['cookies'].update(dict(username=username))

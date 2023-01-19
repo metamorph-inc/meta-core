@@ -1,5 +1,6 @@
 #!/bin/python
 
+from six.moves import filter
 manifest_filename = 'manifest.sot.json'
 
 
@@ -49,14 +50,14 @@ class Project():
             containers = list(filter(is_container, current.ChildFCOs))
             if current.ObjType == OBJTYPE_FOLDER:
                 containers += list(filter(is_container, current.ChildFolders))
-            matches = filter(lambda x: x.Name == name, containers)
+            matches = [x for x in containers if x.Name == name]
             if matches:
                 current = matches[0]
             else:
                 raise Exception("Cant find %s in path %s" % (name, path))
-        matches = array(filter(lambda x: x.Name == path_a[-1], current.ChildFCOs))
+        matches = array([x for x in current.ChildFCOs if x.Name == path_a[-1]])
         if current.ObjType == OBJTYPE_FOLDER:
-            matches += array(filter(lambda x: x.Name == path_a[-1], current.ChildFolders))
+            matches += array([x for x in current.ChildFolders if x.Name == path_a[-1]])
         if matches:
             return matches[0]
         else:

@@ -11,14 +11,14 @@
 
 import os
 import sys
-import _winreg
+import six.moves.winreg
 import logging
 import csv
 import json
 
-with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
-                     _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-    META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
+with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0,
+                     six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+    META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
     sys.path.append(os.path.join(META_PATH, 'bin', 'Python27', 'Lib', 'site-packages'))
     ppDir = os.path.join(META_PATH, 'bin', 'CAD')
     abaqusDir = os.path.join(META_PATH, 'bin', 'CAD', 'Abaqus')
@@ -361,19 +361,19 @@ def SetupViewportPNG(myOdb, fileName, reqMetricSet, maxStressStep=None):
                                     font='-*-arial-medium-r-normal-*-*-120-*-*-p-*-*-*')
             myViewport.plotAnnotation(annotation=t)
             if metric == 'S' and maxStressStep in mySteps.keys():
-                stepKey = mySteps.keys()[maxStressStep]
+                stepKey = list(mySteps.keys())[maxStressStep]
                 myViewport.odbDisplay.commonOptions.setValues(visibleEdges=EXTERIOR)
                 step = mySteps[stepKey]
                 CreateViewportPNG(myOdb, metric, fileName, myViewport, step)
             else:
                 for i in range(numSteps):
                     myViewport.odbDisplay.commonOptions.setValues(visibleEdges=EXTERIOR)
-                    stepKey = mySteps.keys()[i]
+                    stepKey = list(mySteps.keys())[i]
                     step = mySteps[stepKey]
                     CreateViewportPNG(myOdb, metric, fileName, myViewport, step)
     except KeyError:
         cad_library.exitwitherror(('KeyError', -1, 'ABQ_CompletePostProcess.py [SetupViewportPNG()]'))
-    except AbaqusException, value:
+    except AbaqusException as value:
         cad_library.exitwitherror('AbaqusException: ' + str(value), -1, 'ABQ_CompletePostProcess.py [SetupViewportPNG]')
 
 

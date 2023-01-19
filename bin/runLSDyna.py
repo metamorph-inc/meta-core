@@ -1,6 +1,7 @@
 ﻿import sys
+import sys
 import os
-import _winreg as winreg
+import six.moves.winreg as winreg
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
     meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
 sys.path.append(os.path.join(meta_path, 'bin'))

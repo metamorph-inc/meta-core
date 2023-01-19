@@ -14,7 +14,7 @@ def start_autolayout():
 	while True:
 		topWindows = []
 		win32gui.EnumWindows(windowEnumerationHandler, topWindows)
-		windows = filter(lambda x: re.match("GME AutoLayout Component", x[1]), topWindows)
+		windows = [x for x in topWindows if re.match("GME AutoLayout Component", x[1])]
 		if windows:
 			hwnd = windows[0][0]
 			break
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 			launcher = win32com.client.Dispatch("Mga.MgaLauncher")
 			territory = gme.MgaProject.BeginTransactionInNewTerr()
 			try:
-				models = filter(lambda x: x.mga_type() == "Model" and not x.in_library(), gme.MgaProject.AllFCOs(gme.MgaProject.CreateFilter()))
+				models = [x for x in gme.MgaProject.AllFCOs(gme.MgaProject.CreateFilter()) if x.mga_type() == "Model" and not x.in_library()]
 			finally:
 				gme.MgaProject.AbortTransaction()
 				territory.Destroy()

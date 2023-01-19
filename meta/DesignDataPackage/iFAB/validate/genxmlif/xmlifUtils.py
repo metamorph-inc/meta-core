@@ -41,8 +41,8 @@
 import string
 import re
 import os
-import urllib
-import urlparse
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
+import six.moves.urllib.parse
 from types   import StringTypes, TupleType
 from xml.dom import EMPTY_PREFIX, EMPTY_NAMESPACE
 
@@ -125,7 +125,7 @@ def convertToUrl (fileOrUrl):
     else:
         # local filename
 #        url = "file:" + urllib.pathname2url (fileOrUrl)
-        url = urllib.pathname2url (fileOrUrl)
+        url = six.moves.urllib.request.pathname2url (fileOrUrl)
 
     return url
 
@@ -135,9 +135,9 @@ def convertToUrl (fileOrUrl):
 
 def convertToAbsUrl (fileOrUrl, baseUrl):
     if fileOrUrl == "" and baseUrl != "":
-        absUrl = "file:" + urllib.pathname2url (os.path.join(os.getcwd(), baseUrl, "__NO_FILE__"))
+        absUrl = "file:" + six.moves.urllib.request.pathname2url (os.path.join(os.getcwd(), baseUrl, "__NO_FILE__"))
     elif os.path.isfile(fileOrUrl):
-        absUrl = "file:" + urllib.pathname2url (os.path.join(os.getcwd(), fileOrUrl))
+        absUrl = "file:" + six.moves.urllib.request.pathname2url (os.path.join(os.getcwd(), fileOrUrl))
     else:
         matchObject = _reSplitUrlApplication.match(fileOrUrl)
         if matchObject:
@@ -150,7 +150,7 @@ def convertToAbsUrl (fileOrUrl, baseUrl):
         else:
             # given fileOrUrl is treated as a relative URL
             if baseUrl != "":
-                absUrl = urlparse.urljoin (baseUrl, fileOrUrl)
+                absUrl = six.moves.urllib.parse.urljoin (baseUrl, fileOrUrl)
             else:
                 absUrl = fileOrUrl
 #                raise IOError, "File %s not found!" %(fileOrUrl)
@@ -190,7 +190,7 @@ def nsNameToQName (nsLocalName, curNs):
         if ns == None:
             return nsLocalName[1]
         else:
-            raise LookupError, "Prefix for namespaceURI '%s' not found!" % (ns)
+            raise LookupError("Prefix for namespaceURI '%s' not found!" % (ns))
 
 
 def splitQName (qName):

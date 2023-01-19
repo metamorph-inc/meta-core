@@ -4,6 +4,7 @@ import argparse
 import CreateAdamsModel_analysis as MA
 import cad_library
 import CreateAdamsModel_cadPostProcessing as CP
+import six
 
 # Global parameters - change if needed
 globalParams = {"Analysis_File": "Analysis_MBD.xml",
@@ -139,7 +140,7 @@ class MBD_Model(object):
         self.merge_list.append(merge)
 
     def get_components(self):
-        return self.component_dict.iteritems()
+        return six.iteritems(self.component_dict)
 
     def export_merge_2_adams(self):
         resultstr = ''
@@ -452,7 +453,7 @@ class MBD_Body:
         self.__metricstranslation = [] # translation coming from the metrics file
         if readInfo:
             self.read_infofile(self.get_ownPartname()+'.nfo')
-        if self.__cadmodelname not in self.cadfilesmap.keys():
+        if self.__cadmodelname not in list(self.cadfilesmap.keys()):
             self.cadfilesmap[self.__cadmodelname] = 0
         self.cadfilesmap[self.__cadmodelname] = self.cadfilesmap[self.__cadmodelname] + 1
         self.__uniquecounter = self.cadfilesmap[self.__cadmodelname]

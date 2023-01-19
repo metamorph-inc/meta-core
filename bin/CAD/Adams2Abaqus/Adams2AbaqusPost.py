@@ -26,7 +26,7 @@ import xml.etree.ElementTree as ET
 import string as STR
 import uuid, ctypes
 import csv
-import _winreg
+import six.moves.winreg
 import odbAccess
 import shutil
 from collections import defaultdict
@@ -70,7 +70,7 @@ def afterJob(jobName,superRef):
     numSteps = len(mySteps)
     
     for i in range(numSteps):
-        stepKey = mySteps.keys()[i]
+        stepKey = list(mySteps.keys())[i]
         step = mySteps[stepKey]
 
         try:
@@ -295,7 +295,7 @@ def CreateViewportPNG(myOdb, fileName, maxStressStep):
         session.printOptions.setValues(rendition=COLOR,
                                        vpDecorations=OFF, vpBackground=OFF)
         
-        stepKey = mySteps.keys()[maxStressStep]
+        stepKey = list(mySteps.keys())[maxStressStep]
         step = mySteps[stepKey]
 
         save2fileName=fileName.replace(' ','') + "_"
@@ -432,7 +432,7 @@ def CreateViewportPNG(myOdb, fileName, maxStressStep):
         print 'Key Error'
         odb.close()
         exit(0)
-    except (AbaqusException), value:
+    except (AbaqusException) as value:
         f.write('ERROR:' + value + '\n')
         print 'ERROR:', value
         odb.close()

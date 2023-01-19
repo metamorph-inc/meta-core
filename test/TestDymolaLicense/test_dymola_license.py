@@ -10,9 +10,9 @@ import win32file
 import win32security
 
 def get_python_exe():
-    import _winreg
-    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\Meta', 0, _winreg.KEY_READ) as key:
-        meta_path = _winreg.QueryValueEx(key, 'META_PATH')[0]
+    import six.moves.winreg
+    with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\Meta', 0, six.moves.winreg.KEY_READ) as key:
+        meta_path = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
         return os.path.join(meta_path, r'bin\Python27\Scripts\python.exe')
 
 if __name__=='__main__':

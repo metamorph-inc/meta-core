@@ -2,6 +2,7 @@
 Generates and executes unit-tests based on the cmd-files in the sub-directories.
 
 """
+import six
 __author__ = 'pmeijer'
 import os
 import xmlrunner
@@ -183,7 +184,7 @@ if __name__ == '__main__':
 
     generate_unit_tests_methods(cmd_infos)
     import generated_methods
-    for f_name, f in generated_methods.f_map.iteritems():
+    for f_name, f in six.iteritems(generated_methods.f_map):
         setattr(RunEntryPoints, f_name, f)
     print "Running tests... See test_results_test.xml when done..."
     with open('test_results_test.xml', 'w') as f_out:

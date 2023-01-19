@@ -1,6 +1,6 @@
 import sys
 import datetime
-import urlparse
+import six.moves.urllib.parse
 import json
 import itertools
 import glob

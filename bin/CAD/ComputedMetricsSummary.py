@@ -6,6 +6,7 @@ from time import gmtime, strftime
 from xml.dom import minidom
 import cad_library.allowable_stress_levels as allowable_stress_levels
 import cad_library.material_properties as material_properties
+import six
 
 gVersion = '1.0.0.2'
 gConfigurationID = ''
@@ -36,10 +37,10 @@ class ComponentData:
 
     def __str__(self):
         stringRep = 'Component: ' + self.ComponentID + ' FEAElementID: ' + self.ElementID + '\n'
-        for key, value in self.MaterialProperty.iteritems():
+        for key, value in six.iteritems(self.MaterialProperty):
             stringRep += "".join(['Material %s:%s ' % (key, value)])
         stringRep += '\n'
-        for key, value in self.MetricsInfo.iteritems():
+        for key, value in six.iteritems(self.MetricsInfo):
             stringRep += "".join(['Metrics %s:%s ' % (key, value)])
         return stringRep
 
@@ -132,7 +133,7 @@ def ParseMetaDataFile(xmlname, odbName, adams):
         
         tree = ElementTree()
         tree.parse(xmlname) 
-    except Exception, inst:
+    except Exception as inst:
         LogException('Unexpected error opening ' + xmlname + str(inst))
     
     rootNode = tree.getroot()  # CADAnalysisMetaData
@@ -165,7 +166,7 @@ def ParseReqMetricsFile(xmlname, componentList=None):
         
         tree = ElementTree()
         tree.parse(xmlname) 
-    except Exception, inst:
+    except Exception as inst:
         LogException('Unexpected error opening ' + xmlname + str(inst))
         
     logger.info('FUNCTION: ParseMetricsFile()')

@@ -19,7 +19,7 @@ from numpy import array, cross, transpose, vstack, dot
 import numpy.linalg as LA
 import string as STR
 import xml.etree.ElementTree as ET
-import _winreg, sys, ctypes, uuid, traceback
+import six.moves.winreg, sys, ctypes, uuid, traceback
 
 
 MAIN = os.getcwd()                                                           # initial working directory
@@ -27,8 +27,8 @@ LOGDIR = os.path.join(MAIN, "log", "CyPhy2AbaqusCmd.log")                    # p
 	
 # returns the material library data
 def parseMaterialLibrary():
-    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-        META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
+    with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+        META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
 
     MATERIALLIBINTERFACEPATH = os.path.join(META_PATH, "bin", "Python27", "Lib", "site-packages")
 

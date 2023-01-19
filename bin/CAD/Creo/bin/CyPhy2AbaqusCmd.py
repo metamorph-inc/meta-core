@@ -46,7 +46,7 @@ import xml.etree.ElementTree as ET
 import string as STR
 import uuid, ctypes
 import csv
-import _winreg
+import six.moves.winreg
 import odbAccess
 import shutil
 from collections import defaultdict
@@ -56,6 +56,7 @@ import traceback
 from subprocess import Popen
 import pickle
 import time
+import six
 
 root = os.getcwd()                              # initial working directory
 logDir = os.path.join(root,"log",
@@ -63,8 +64,8 @@ logDir = os.path.join(root,"log",
 
 try:
 
-    with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-        META_PATH = _winreg.QueryValueEx(key, 'META_PATH')[0]
+    with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\META', 0, six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+        META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
 
     adamsDir = os.path.join(META_PATH, 'bin', 'CAD', 'Adams2Abaqus')
     sys.path.append(adamsDir)
@@ -756,7 +757,7 @@ def EliminateOverlaps(instRef,rigidParts,myAsm,myModel):
     f.write('\n')
         
     for rigid in rigidParts:
-        for (key,entry) in instRef.iteritems():
+        for (key,entry) in six.iteritems(instRef):
             if not rigid == key:
                 try:
                     newName = 'temp_' + str(count)
@@ -816,7 +817,7 @@ def CreateViewportPNG(myOdb, fileName):
                                        vpDecorations=OFF, vpBackground=OFF)
         
         for i in range(numSteps):
-            stepKey = mySteps.keys()[i]
+            stepKey = list(mySteps.keys())[i]
             step = mySteps[stepKey]
             numFrames = len(step.frames)
 
@@ -996,7 +997,7 @@ def CreateViewportPNG(myOdb, fileName):
         f.write('ERROR: Key Error' + '\n')
         odb.close()
         exit(0)
-    except (AbaqusException), value:
+    except (AbaqusException) as value:
         f.write('ERROR:' + value + '\n')
         odb.close()
         exit(0)
@@ -1223,17 +1224,17 @@ def coordTransform(localTMs,localTVs,asm,subAsms,asmParts,localCoords):
                 subAsm,subAsms,asmParts,localCoords)
             for part in subCoords.keys():                                   # for each part/sub-sub-assembly in chosen sub-assembly:
                 globalCoords.update([[part,{}]])                                # create new entry in globalCoords
-                for (point,coord) in subCoords[part].iteritems():               # for each point in part/sub-sub-assembly:
+                for (point,coord) in six.iteritems(subCoords[part]):               # for each point in part/sub-sub-assembly:
                     globalCoords[part].update([[point,transCoord(                   # translate/transform point to globalCoords
                         array(coord),localTMs[subAsm],localTVs[subAsm])]])
             globalCoords.update([[subAsm,{}]])                              # create entry for sub-assembly in globalCoords
-            for (point,coord) in localCoords[subAsm].iteritems():           # for each point specified at top level of that sub-assembly:
+            for (point,coord) in six.iteritems(localCoords[subAsm]):           # for each point specified at top level of that sub-assembly:
                 globalCoords[subAsm].update([[point,transCoord(                 # translate/transform point to globalCoords
                     array(coord),localTMs[subAsm],localTVs[subAsm])]])
     if asm in asmParts:                                             # if assembly has top-level parts:
         for part in asmParts[asm]:                                      # for each top-level part:
             globalCoords.update([[part,{}]])                                # create new entry in globalCoords
-            for (point,coord) in localCoords[part].iteritems():             # for each point in part:
+            for (point,coord) in six.iteritems(localCoords[part]):             # for each point in part:
                 globalCoords[part].update([[point,transCoord(                   # translate/transform point to globalCoords
                     array(coord),localTMs[part],localTVs[part])]])
     return globalCoords
@@ -2205,7 +2206,7 @@ def main():
     localCoords = {}
     CGs = {}
     try:
-        for (key,value) in inst2SR.iteritems():
+        for (key,value) in six.iteritems(inst2SR):
             localCoords.update([[key,pointsBySR[value]]])
     except Exception as e:
         f.write(STR.join(traceback.format_exception(*sys.exc_info())))
@@ -2225,7 +2226,7 @@ def main():
                 CGZ = float(centerOfGravity.get('Z'))
                 CGs.update([[componentName,(CGX, CGY, CGZ)]]) 
 
-        for (key,value) in CGs.iteritems():
+        for (key,value) in six.iteritems(CGs):
             localCoords[key].update([['CG_'+key,value]])
 
     except Exception as e:
@@ -2292,7 +2293,7 @@ def main():
     # create materials (rough)
     try:
     
-        for (key,mtrl) in mtrlRef.iteritems():              # for each material described in mtrlRef:
+        for (key,mtrl) in six.iteritems(mtrlRef):              # for each material described in mtrlRef:
             myMaterial = myModel.Material(name=key)             # declare a new Material object
             elasticP = (mtrl['mechanical__modulus_elastic'],
                 mtrl['mechanical__ratio_poissons'])
@@ -2330,7 +2331,7 @@ def main():
             # myAsm.features.changeKey(fromName=newDatum.name,toName=datumGUIname)
 
     try:
-        for (key,entry) in instRef.iteritems():
+        for (key,entry) in six.iteritems(instRef):
             sectionName = key
             if entry['isShell']:
                 myModel.HomogeneousShellSection(name=sectionName,			# create shell section assignemtn- only used for shell parts
@@ -2476,7 +2477,7 @@ def main():
     try:
         refPointKeys = []
         refPointLocation = []
-        for (key,entry) in instRef.iteritems():
+        for (key,entry) in six.iteritems(instRef):
             sectionName = key
 #           if entry['isRigid']:
             if entry['isRigid'] and Jan24_deactivate_rigidity:
@@ -2951,7 +2952,7 @@ def main():
                     #myModel.Gravity(name='Gravity_Load',
                     #    createStepName=myStep.name,comp1=accel['x'],
                     #    comp2=accel['y'],comp3=accel['z'])
-                    for (key,entry) in instRef.iteritems():
+                    for (key,entry) in six.iteritems(instRef):
                         loadName = str(key)
                         myRegion = (myAsm.instances[key].cells,)
 #                        if not entry['isRigid']:
@@ -3436,7 +3437,7 @@ def main():
             processName = 'Adaptivity-1'
             mdb.AdaptivityProcess(jobPrefix='',job=j,name=processName,
                 maxIterations=args.meshIterations)
-            instList = myAsm.instances.keys()
+            instList = list(myAsm.instances.keys())
             for i in range(len(myAsm.instances)):
                 ruleName = 'RemeshingRule-%d' % i
                 myInst = myAsm.instances[instList[i]]

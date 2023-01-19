@@ -17,6 +17,7 @@ import string as STR
 import logging
 import cad_library
 from AbaqusGeometry import *
+import six
 
 
 def processStep(stepPath, testBenchName, uniqueSuffix, asmIdentifier):
@@ -200,7 +201,7 @@ def generateLocalCoords(inst2SR, pointsBySR, asminfo, uniqueSuffix):
     CGs = {}
     logger = logging.getLogger()
     try:
-        for (key, value) in inst2SR.iteritems():
+        for (key, value) in six.iteritems(inst2SR):
             localCoords.update([[key, pointsBySR[value]]])
     except IndexError:
         cad_library.exitwitherror('Error in creating the dictionary to index points by part name - ' +
@@ -221,7 +222,7 @@ def generateLocalCoords(inst2SR, pointsBySR, asminfo, uniqueSuffix):
         else:
             pass
 
-        for (key, value) in CGs.iteritems():
+        for (key, value) in six.iteritems(CGs):
             localCoords[key].update([['CG_'+key, value]])
 
     return localCoords, CGs

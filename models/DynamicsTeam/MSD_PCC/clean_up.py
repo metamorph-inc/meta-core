@@ -1,6 +1,7 @@
 import shutil
 import os
 import sys 
+from six.moves import input
 dir_list = ['dashboard', 'designs', 'design-space', 'results', 'test-benches' ,'tmp', 'stats']
     
 file_list = ['index.html', 'manifest.project.json', 'export_for_dashboard_scoring.py']
@@ -16,7 +17,7 @@ def main():
                     print 'Entire Directory deleted : {0}'.format(dir)
                 except WindowsError as msg:
                     print '\n{0}\n'.format(str(msg))
-                    raw_input("Press enter to continue...")
+                    input("Press enter to continue...")
         for file in files:
             if file in file_list:
                 try:
@@ -24,7 +25,7 @@ def main():
                     print 'File deleted : {0}'.format(file)
                 except WindowsError as msg:
                     print '\n{0}\n'.format(str(msg))
-                    raw_input("Press enter to continue...")
+                    input("Press enter to continue...")
         break
 
 if __name__ == '__main__':
@@ -34,10 +35,10 @@ if __name__ == '__main__':
     print "\nand entire directories :\n"
     for d in dir_list:
         print "{0}".format(d)
-    do_it = raw_input("\nWould you liked to do this clean up? [y] or n : ")
+    do_it = input("\nWould you liked to do this clean up? [y] or n : ")
     if do_it.strip() == 'y' or do_it.strip() == '':
         main()
-        raw_input("\nDone! (Hit any key to close)")
+        input("\nDone! (Hit any key to close)")
         os.exit(0)
             
 

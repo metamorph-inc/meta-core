@@ -2,7 +2,7 @@ import time
 import subprocess
 import sys
 import os
-import _winreg as wr
+import six.moves.winreg as wr
 
 def _query_registry():
     """
@@ -37,7 +37,7 @@ def main():
         
         #execution_time = time.time() - t_1
         #_write_out_stat(execution_time, iso_time)
-    except subprocess.CalledProcessError, err:
+    except subprocess.CalledProcessError as err:
         sys.stderr.write('Out-print : {0}\n\n{1}\n'.format(err, err.output))
         sys.stderr.write('Failed calling {0}\n'.format(command))
         sys.exit(5)

@@ -28,7 +28,7 @@ if __name__ == '__main__':
         
         n = len(speed_array)
         acc10kph = -1
-        points = range(n)
+        points = list(range(n))
         for i in points:
             if speed_array[i] < -10:
                 acc10kph = time_array[i]

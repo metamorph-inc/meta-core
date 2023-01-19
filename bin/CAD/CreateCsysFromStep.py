@@ -79,7 +79,7 @@ class CADDatumXmlHandler:
             #tree.write(self._filename,
             #                encoding='utf-8')
             
-        except Exception, inst:
+        except Exception as inst:
             self._logger.error('Unexpected error in handling %s: %s' %(self._filename, str(inst)))
             return
 

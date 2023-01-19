@@ -72,7 +72,7 @@ class PopulateCoordinateInfo:
 
         # create coordinate axis vectors, add them to 1 of 3 maps
         for edge_id in self._step_parser._edge_curve_list:
-            if self._step_parser._entity_map.has_key(edge_id):                  #is edge_curve
+            if edge_id in self._step_parser._entity_map:                  #is edge_curve
                 edge_type_id = self._step_parser._entity_map[edge_id][1][3]
                 if edge_type_id in self._step_parser._line_list:                #edge_curve refers to a line
                     #self._logger.debug('%s' %edge_id)

@@ -27,7 +27,7 @@ import traceback
 import time
 import uuid, ctypes
 import xml.etree.ElementTree as ET
-import _winreg
+import six.moves.winreg
 
 from Adams2AbaqusGeometry import *
 from Adams2AbaqusParse import *
@@ -35,6 +35,7 @@ from Adams2AbaqusDict import *
 from Adams2AbaqusRun import *
 from Adams2AbaqusStep import *
 from Adams2AbaqusCAE import *
+import six
 
 
 MAIN = os.getcwd()                                                                                          # Initial working directory
@@ -141,7 +142,7 @@ def primary():
         anchorID, anchorPointID, instRef, myModel)                                                          # Decide if the anchored part will be included in the analysis
 
     try:
-        for (key,entry) in instRef.iteritems():                                                             # Iterate through all parts
+        for (key,entry) in six.iteritems(instRef):                                                             # Iterate through all parts
             
             if not includeAnchoredPart and key == anchoredPart:
                 continue

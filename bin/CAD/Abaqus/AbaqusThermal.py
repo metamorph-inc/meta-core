@@ -191,7 +191,7 @@ def generateThermalConstructs(thermalSetXML, loadBCLib, asminfo):
                 # Finish current entry, but set ComponentID to first child
                 loadBCLib[-1].update([['ComponentID', compChildren[0].cyphyid]])
                 loadBCLib[-1].update([['Component', True]])      # Apply constraint to entire instance
-                for child in xrange(1, len(compChildren)):
+                for child in range(1, len(compChildren)):
                     # For remaining children (if app.), copy previous entry under remaining ComponentIDs
                     # Can't use line below as set comprehension not available in Python 2.6
                     # loadBCLib.append({x: loadBCLib[-1][x] for x in loadBCLib[-1].keys()})

@@ -27,9 +27,10 @@ import traceback
 import time
 import uuid, ctypes
 import xml.etree.ElementTree as ET
-import _winreg
+import six.moves.winreg
 
 from Adams2AbaqusGeometry import *
+import six
 
 MAIN = os.getcwd()                                                           # initial working directory
 LOGDIR = os.path.join(MAIN, "log", "CyPhy2AbaqusCmd.log")                    # path to log file
@@ -164,7 +165,7 @@ def generateLocalCoords(inst2SR, pointsBySR):
     # new dict to index points by part name, rather than by SHAPE_REPRESENTATION pointer
     localCoords = {}
     try:
-        for (key,value) in inst2SR.iteritems():
+        for (key,value) in six.iteritems(inst2SR):
             localCoords.update([[key,pointsBySR[value]]])
     except Exception as e:
         f_p.write(STR.join(traceback.format_exception(*sys.exc_info())))

@@ -75,7 +75,7 @@ def main(source, destination, job_name, version):
     exit_code = win32process.GetExitCodeProcess(hProcess)
     log("symstore exited with code " + str(exit_code))
     win32api.CloseHandle(startup.hStdOutput)
-    with file(log_path, "r") as log_file:
+    with open(log_path, "r") as log_file:
         for line in log_file:
             log("symstore: " + line.rstrip('\r\n'))
     import shutil

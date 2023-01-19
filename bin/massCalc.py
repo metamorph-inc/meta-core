@@ -4,7 +4,8 @@ import os
 #sys.path.append(r"C:\Program Files\ISIS\Udm\bin")
 #if os.environ.has_key("UDM_PATH"):
 #    sys.path.append(os.path.join(os.environ["UDM_PATH"], "bin"))
-import _winreg as winreg
+import six.moves.winreg as winreg
+import six
 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
     meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
 sys.path.append(os.path.join(meta_path, 'bin'))
@@ -90,7 +91,7 @@ class ComputeClassificationCounts(object):
         if os.path.isfile(json_filename):
             with open(json_filename, "r") as json_file:
                 json_data = json.load(json_file)
-        counts = dict(((class_, len(members)) for class_, members in classifications.iteritems()))
+        counts = dict(((class_, len(members)) for class_, members in six.iteritems(classifications)))
         # must conform to MetaTBReport.cs
         #json_data.setdefault('Metrics', []).append(
         #    {
@@ -105,7 +106,7 @@ class ComputeClassificationCounts(object):
             if isinstance(item, dict) and item.get("ID") == "d408d8c0-fcd0-426a-be4a-c60d1ad9ff4f":
                 json_data['Metrics'].remove(item)
         human_models = 0
-        for category, count in counts.iteritems():
+        for category, count in six.iteritems(counts):
             if category.startswith("AVM.Ontology.") and category.endswith(".Category.Human_Models"):
                 human_models += count
         # META-554
@@ -181,7 +182,7 @@ def invoke(focusObject, rootObject, componentParameters, **kwargs):
 
 # Allow calling this script with a .mga file as an argument    
 if __name__=='__main__':
-    import _winreg as winreg
+    import six.moves.winreg as winreg
     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
         meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
 

@@ -6,6 +6,7 @@ import requests
 import time
 import calendar
 import datetime
+import six
 
 
 old_threshold = datetime.timedelta(hours=24)
@@ -36,7 +37,7 @@ jenkinsapi.build.Build._poll = _poll
 
 j = Jenkins('http://localhost:9999')
 execs = []
-for (name, node) in j.get_nodes().iteritems():
+for (name, node) in six.iteritems(j.get_nodes()):
     execs.extend((exec_ for exec_ in j.get_executors(name).__iter__() if not exec_.is_idle()))
 
 for exec_ in execs:

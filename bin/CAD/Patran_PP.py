@@ -10,7 +10,7 @@ import logging
 import csv
 import json
 from lxml import etree as letree
-import _winreg
+import six.moves.winreg
 
 # 10/12/2016 R.O. WARNING - This file was updated to support:
 #    FEA_Total_Volume
@@ -26,7 +26,7 @@ import _winreg
 def recurse_list(component, component_list):
     for comp in component_list.values():
         if component.ComponentID in comp.Children and not comp.IsConfigurationID:
-            if len(comp.MetricsInfo.keys()) == 0:
+            if len(list(comp.MetricsInfo.keys())) == 0:
                 recurse_list(comp, component_list)
             else:
                 component.MetricsInfo = comp.MetricsInfo

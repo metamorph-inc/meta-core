@@ -3,6 +3,7 @@ import os.path
 import sys
 from win32api import GetFileVersionInfo, HIWORD, LOWORD
 import subprocess
+from six.moves import map
 
 MSBUILD = os.path.join(os.environ['windir'], r"Microsoft.NET\Framework\v4.0.30319\MSBuild.exe")
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))

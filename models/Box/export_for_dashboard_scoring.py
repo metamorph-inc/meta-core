@@ -4,6 +4,8 @@ import time
 import shutil
 import subprocess
 from glob import glob
+import six
+from six.moves import input
 
 # remarks: should TestBenches inside the project-file be empty?
 
@@ -248,7 +250,7 @@ class Exporter(object):
 
         # look for and enter project file
         if not self.enter_project_file():
-            raw_input("Execution aborted!\nPress any key to close.")
+            input("Execution aborted!\nPress any key to close.")
             return
 
         # which files are in directories
@@ -264,7 +266,7 @@ class Exporter(object):
 
         if opts.meta_results_file_link:
             if not self.enter_meta_results_file():
-                raw_input("Execution aborted!\nPress any key to close.")
+                input("Execution aborted!\nPress any key to close.")
                 return
             self._ms_intersect()
 
@@ -683,7 +685,7 @@ class SummaryReportsLinks(object):
             try:
                 with open(result_file) as f_in:
                     sum_rep = json.load(f_in)
-                if sum_rep.has_key('Artifacts'):
+                if 'Artifacts' in sum_rep:
                     for linked_artifact in sum_rep['Artifacts']:
                         artifact_path = linked_artifact['Path']
                         # For now assume only files are linked (no folders)
@@ -755,7 +757,7 @@ class SummaryReportsLinks(object):
             # If it's a dictionary,
             #	go through the dictionary items and recursively parse those objects, 
             #	skipping those that have a key of 'Name'
-            for k,v in obj.iteritems():
+            for k,v in six.iteritems(obj):
                 if k == 'Name':
                     continue
                 else:
@@ -764,7 +766,7 @@ class SummaryReportsLinks(object):
             # If it's a list, parse each element in the list
             for d in obj:
                 self.tdp_recursive_gather(d,rel_path_from_results)
-        elif isinstance(obj,basestring):
+        elif isinstance(obj,six.string_types):
             # If it's a string, then it's the path of a file that should be added.
             # 	We assume that strings that were marked as 'Name' have been ignored.
             linked_file_rel_path = os.path.join(rel_path_from_results, obj)
@@ -794,7 +796,7 @@ def subprocess_call(command):
         return_out = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
         if return_out.strip():
             print return_out
-    except subprocess.CalledProcessError, err:
+    except subprocess.CalledProcessError as err:
         msg = "Subprocess call failed!"\
               "\n  command       : {0}"\
               "\n  console output: \n\n{1}"\
@@ -824,7 +826,7 @@ def check_svn():
             print "Looks like this folder is not under revision control.\n"
             return False
 
-    except subprocess.CalledProcessError, err:
+    except subprocess.CalledProcessError as err:
         print "Looks like there is no svn-client for command-window installed;"
         print "Command called : {0}".format(err.cmd)
         print "Call output    : {0}".format(err.output)
@@ -837,7 +839,7 @@ def prompt_yes_or_no(question, def_yes=True):
 
     """
     if def_yes:
-        ans = raw_input(question + ' [y] or n: ')
+        ans = input(question + ' [y] or n: ')
         is_yes = ans == 'y' or ans == ''
         is_no = ans == 'n'
         if not (is_yes or is_no):
@@ -846,7 +848,7 @@ def prompt_yes_or_no(question, def_yes=True):
         else:
             return is_yes
     else:
-        ans = raw_input(question + ' y or [n]: ')
+        ans = input(question + ' y or [n]: ')
         is_yes = ans == 'y'
         is_no = ans == 'n' or ans == ''
         if not (is_yes or is_no):
@@ -946,7 +948,7 @@ def main():
         exporter.run_test()
     else:
         exporter.run_ui()
-        raw_input("Press any key to close.")
+        input("Press any key to close.")
 
 ## Main entry when script called
 if __name__ == '__main__':

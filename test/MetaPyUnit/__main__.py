@@ -12,7 +12,7 @@ if sys.version <= (2.7):
 
 def run_xmlrunner(tests, output_filename):
     import os.path
-    import xmlrunner
+    from . import xmlrunner
     results = []
     with open(output_filename, "w") as output:
         output.write("<testsuites>")

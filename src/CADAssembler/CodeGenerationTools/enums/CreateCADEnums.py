@@ -1,3 +1,4 @@
+import six
 #	This program creates .h and .cpp files defining enums and functions to 
 #	convert between the eunums and strings.
 #	The input to this program is a file (e.g.CreateCADEnums_InputFile.txt) that
@@ -563,7 +564,7 @@ def main():
         print '******************** File IDs to File Name *****************************'
         print 'fileID_Name_dict length: ' + str(len(fileID_Name_dict))
         print '----------------------------'
-        for key, value in fileID_Name_dict.iteritems():
+        for key, value in six.iteritems(fileID_Name_dict):
             print  key + '  ' + value
 
         print '************************** Enum Data ***********************************'
@@ -587,7 +588,7 @@ def main():
         fileHandles_h_dict = {}
         fileHandles_cpp_dict = {}
 
-        for key, value in fileID_Name_dict.iteritems():
+        for key, value in six.iteritems(fileID_Name_dict):
             fileHandles_h_dict[key] = open(value + '.h', 'w')
             fileHandles_cpp_dict[key] = open(value + '.cpp', 'w')
 
@@ -610,7 +611,7 @@ def main():
         ###############################################
         #########Close .h and .cpp Files ##############
         ###############################################
-        for key, value in fileID_Name_dict.iteritems():
+        for key, value in six.iteritems(fileID_Name_dict):
             fileHandles_h_dict[key].close()
             fileHandles_cpp_dict[key].close()
 

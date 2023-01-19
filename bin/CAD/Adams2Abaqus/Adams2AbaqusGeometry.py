@@ -15,6 +15,7 @@ import os, re
 from numpy import array, cross, transpose, vstack, dot
 import numpy.linalg as LA
 import string as STR
+import six
 
 
 MAIN = os.getcwd()                                                           # initial working directory
@@ -94,17 +95,17 @@ def coordTransform(localTMs,localTVs,asm,subAsms,asmParts,localCoords):
                 subAsm,subAsms,asmParts,localCoords)
             for part in subCoords.keys():                                   # for each part/sub-sub-assembly in chosen sub-assembly:
                 globalCoords.update([[part,{}]])                                # create new entry in globalCoords
-                for (point,coord) in subCoords[part].iteritems():               # for each point in part/sub-sub-assembly:
+                for (point,coord) in six.iteritems(subCoords[part]):               # for each point in part/sub-sub-assembly:
                     globalCoords[part].update([[point,transCoord(                   # translate/transform point to globalCoords
                         array(coord),localTMs[subAsm],localTVs[subAsm])]])
             globalCoords.update([[subAsm,{}]])                              # create entry for sub-assembly in globalCoords
-            for (point,coord) in localCoords[subAsm].iteritems():           # for each point specified at top level of that sub-assembly:
+            for (point,coord) in six.iteritems(localCoords[subAsm]):           # for each point specified at top level of that sub-assembly:
                 globalCoords[subAsm].update([[point,transCoord(                 # translate/transform point to globalCoords
                     array(coord),localTMs[subAsm],localTVs[subAsm])]])
     if asm in asmParts:                                             # if assembly has top-level parts:
         for part in asmParts[asm]:                                      # for each top-level part:
             globalCoords.update([[part,{}]])                                # create new entry in globalCoords
-            for (point,coord) in localCoords[part].iteritems():             # for each point in part:
+            for (point,coord) in six.iteritems(localCoords[part]):             # for each point in part:
                 globalCoords[part].update([[point,transCoord(                   # translate/transform point to globalCoords
                     array(coord),localTMs[part],localTVs[part])]])
     return globalCoords

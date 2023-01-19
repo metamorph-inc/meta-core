@@ -3,6 +3,7 @@ import getpass
 import uuid
 import ctypes
 import os
+from six.moves import input
 
 if __name__ == "__main__": #run only if main
     #get path to public documents
@@ -12,7 +13,7 @@ if __name__ == "__main__": #run only if main
     libraryLocation = os.path.join(path.value, "META Documents", "MaterialLibrary", "material_library.json")
     
     library_manager = LibraryManager(libraryLocation)
-    username = raw_input("Username: ")
+    username = input("Username: ")
     #We use getpass so that we don't echo the password to the screen
     password = getpass.getpass("Password: ")
     matList = library_manager.updateJSON(username, password)

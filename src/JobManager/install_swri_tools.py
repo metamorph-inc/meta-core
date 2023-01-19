@@ -2,7 +2,7 @@ import os
 import os.path
 import sys
 import shutil
-import urllib
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
 import posixpath
 import subprocess
 import tempfile
@@ -24,7 +24,7 @@ def uninstall():
     # TODO C:\Program Files\LSTC\LS-PrePost\4.1-X64
 
 def install(url):
-    urllib.urlretrieve(url, posixpath.basename(url))
+    six.moves.urllib.request.urlretrieve(url, posixpath.basename(url))
 
     subprocess.check_call([posixpath.basename(url), "/S"])
   

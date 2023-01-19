@@ -40,6 +40,7 @@ import time
 import types
 from xml.dom.minidom import parseString
 from xml.dom import Node
+import six
 
 def parse_xml(xml):
     model = {}
@@ -52,7 +53,7 @@ def parse_xml(xml):
         container = parent.getAttribute('name')
         code = prismatic.getAttribute('Source').decode('string_escape')
         # sys.stderr.write(code)
-        if container not in components.keys():
+        if container not in list(components.keys()):
             components[container] = {}
             components[container]['prismatic'] = {}
         components[container]['prismatic']['code'] = code
@@ -65,11 +66,11 @@ def parse_xml(xml):
         parent = mode.parentNode.parentNode; # Skip over <modes> tag too....
         container = parent.getAttribute('name')
         name = mode.getAttribute('name')
-        if container not in components.keys():
+        if container not in list(components.keys()):
             components[container] = {}
-        if 'modes' not in components[container].keys():
+        if 'modes' not in list(components[container].keys()):
             components[container]['modes'] = {}
-        if name not in components[container]['modes'].keys():
+        if name not in list(components[container]['modes'].keys()):
             components[container]['modes'][name] = {}
         try:
             probability = float(mode.getAttribute('Probability'))
@@ -109,7 +110,7 @@ def parse_xml(xml):
             while source_type in INTERNAL_CONNECTION_TYPES:
                 source = get_source(source, dom)
                 source_type = source.nodeName
-            if 'inputs' not in components[container].keys():
+            if 'inputs' not in list(components[container].keys()):
                 components[container]['inputs'] = {}
             components[container]['inputs'][sibling.getAttribute('name')] = source.parentNode.getAttribute('name'), source.getAttribute('name')
             # sys.stderr.write("  FOUND: %s %s (%s)\n" % (source.parentNode.getAttribute('name'), source.getAttribute('name'), source.nodeName))
@@ -214,9 +215,9 @@ def parse_behavior(component_name, behavior):
 def print_output_formulas(component_name, component):
     # Collect behaviors in the form $behaviors->{mode}->{formula} = equation.
     behaviors = {}
-    if 'modes' not in component.keys():
+    if 'modes' not in list(component.keys()):
         return
-    for mode_name,mode in component['modes'].iteritems():
+    for mode_name,mode in six.iteritems(component['modes']):
         behaviors[mode_name] = parse_behavior(component_name, mode['behavior'])
     # Here we have a structure like mode->formula_name->equation. Need
     # to turn this into:
@@ -268,16 +269,16 @@ def print_module(component_name, component):
     # }
     # to make it easy to spit out transitions.
     transitions = {}
-    for mode_name,mode in component['modes'].iteritems():
-        if 'condition' not in mode.keys() or not mode['condition']:
+    for mode_name,mode in six.iteritems(component['modes']):
+        if 'condition' not in list(mode.keys()) or not mode['condition']:
             continue
-        if mode['condition'] not in transitions.keys():
+        if mode['condition'] not in list(transitions.keys()):
             transitions[mode['condition']] = {}
         transitions[mode['condition']][mode_name] = mode['probability']
         #$transitions->{$mode->{condition}}->{$mode_name} = $mode->{probability};
 
     # Actually print the transitions.
-    for condition,out in transitions.iteritems():
+    for condition,out in six.iteritems(transitions):
         # Namespace identifiers with component name.
         condition = re.sub(r"[a-zA-Z]\w*", component_name + "_\g<0>", condition)
         print "\t[] " + condition + " ->"
@@ -285,7 +286,7 @@ def print_module(component_name, component):
         if stay_prob < 0:
             sys.stderr.write("Transitions on '$condition' sum to greater than 1\n")
         transition_lines = ()
-        for dest,prob in out.iteritems():
+        for dest,prob in six.iteritems(out):
             dest_mode = component_name + "_mode_" + dest
             transition_lines = transition_lines + ("\t\t" + str(prob) + " : (" + mode_var + "' = " + dest_mode + ")",)
         if stay_prob > 0:
@@ -337,16 +338,16 @@ def print_connections(model):
     print line
     print "/" * len(line)
 
-    for component_name,component in model['components'].iteritems():
-        if 'inputs' not in component.keys():
+    for component_name,component in six.iteritems(model['components']):
+        if 'inputs' not in list(component.keys()):
             continue
-        for dst,src in component['inputs'].iteritems():
-            if isinstance(src, types.TupleType):
+        for dst,src in six.iteritems(component['inputs']):
+            if isinstance(src, tuple):
                 src = '_'.join(src)
             print "formula " + component_name + "_" + dst + " = " + str(src) + ";"
 
 def print_properties(model):
-    for description,pctl in model['properties'].iteritems():
+    for description,pctl in six.iteritems(model['properties']):
         print "// " + description
         print "\n".join(pctl)
         print ''
@@ -362,12 +363,12 @@ def print_prismatic_script(infile, model):
     print 'model = """'
     print_prism_header(infile);
     
-    for component_name,component in model['components'].iteritems():
+    for component_name,component in six.iteritems(model['components']):
         print_component_header(component_name, component)
         print_output_formulas(component_name, component)
-        if 'prismatic' in component.keys():
+        if 'prismatic' in list(component.keys()):
             print_prismatic(component_name, component)
-        elif 'modes' in component.keys() and 'nominal' in component['modes'].keys():
+        elif 'modes' in list(component.keys()) and 'nominal' in list(component['modes'].keys()):
             print_mode_constants(component_name, component)
             print_module(component_name, component)
         else:
@@ -470,7 +471,7 @@ if ( len( sys.argv ) <= 2 ):
 else:
     outpath = sys.argv[2]
 
-input = file(infile).read()
+input = open(infile).read()
 base,extension = os.path.splitext(infile)
 if extension.lower() == '.json':
     model = json.loads(input)
@@ -486,4 +487,4 @@ with open(outfilename, 'w') as outfile:
     print_prismatic_script(infile, model)
 sys.stdout = sys.__stdout__
 # Anyone can execute the generated script.
-os.chmod(outfilename, 0755)
+os.chmod(outfilename, 0o755)

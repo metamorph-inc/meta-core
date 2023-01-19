@@ -27,6 +27,7 @@ import operator
 from AbaqusParse import parseLOD, parseInpTemp
 from AbaqusCAE import meshInstances
 from AbaqusGeometry import *
+import six
 
 
 def constrainWithSoftSprings(key, myAsm):
@@ -171,7 +172,7 @@ def getBoundingNodes(asminfo, key, instRef, myModel, myAsm):
 
     # Sort the dictionary of the connected parts (sortOtherComp) based on the nodes...
     #...of the current part inside the connected parts bounding box
-    sortedOtherComp = sorted(sortOtherComp.iteritems(), key=operator.itemgetter(1))
+    sortedOtherComp = sorted(six.iteritems(sortOtherComp), key=operator.itemgetter(1))
 
     return refPntOtherComp, sortedOtherComp
   
@@ -193,7 +194,7 @@ def defineMPCs(sortedOtherComp, refPntOtherComp, refPointRef,
 
         dist = float('+inf')
         # Loop through the coordinate values inside the LOD files provided by Adams
-        for (RP, coord) in refPointRef.iteritems():
+        for (RP, coord) in six.iteritems(refPointRef):
             if RP not in usedRP:
                 preciseX = coord[0]               # Store the value of x coordinate
                 preciseY = coord[1]               # Store the value of y coordinate
@@ -439,7 +440,7 @@ def AbaqusCAE_ADAMS(asminfo, instRef, includeAnchoredPart, anchoredPart, myModel
             for comp in asmParts[asm]:
                 del myAsm.instances[comp]
                 
-    for (key, entry) in instRef.iteritems():  # Iterate through all parts
+    for (key, entry) in six.iteritems(instRef):  # Iterate through all parts
         if key in parts_to_be_merged:
             skipped.append([key, entry])
             continue

@@ -22,13 +22,14 @@ import getopt
 import re as re_
 import base64
 import datetime as datetime_
+import six
 
 etree_ = None
 Verbose_import_ = False
 (
     XMLParser_import_none, XMLParser_import_lxml,
     XMLParser_import_elementtree
-) = range(3)
+) = list(range(3))
 XMLParser_import_library = None
 try:
     # lxml
@@ -87,7 +88,7 @@ def parsexml_(*args, **kwargs):
 
 try:
     from generatedssuper import GeneratedsSuper
-except ImportError, exp:
+except ImportError as exp:
 
     class GeneratedsSuper(object):
         tzoff_pattern = re_.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
@@ -363,7 +364,7 @@ except ImportError, exp:
             return None
         @classmethod
         def gds_reverse_node_mapping(cls, mapping):
-            return dict(((v, k) for k, v in mapping.iteritems()))
+            return dict(((v, k) for k, v in six.iteritems(mapping)))
 
 
 #
@@ -404,7 +405,7 @@ def showIndent(outfile, level, pretty_print=True):
 def quote_xml(inStr):
     if not inStr:
         return ''
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, six.string_types) and inStr or
           '%s' % inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
@@ -413,7 +414,7 @@ def quote_xml(inStr):
 
 
 def quote_attrib(inStr):
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, six.string_types) and inStr or
           '%s' % inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
@@ -2662,7 +2663,7 @@ class SimulationType(GeneratedsSuper):
             already_processed.add('Steps')
             try:
                 self.Steps = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.Steps <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -2671,7 +2672,7 @@ class SimulationType(GeneratedsSuper):
             already_processed.add('Time')
             try:
                 self.Time = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (Time): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass

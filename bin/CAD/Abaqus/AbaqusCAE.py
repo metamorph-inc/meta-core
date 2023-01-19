@@ -207,7 +207,7 @@ def defineMaterials(myModel, mtrlRef):
 
     # create materials (rough)
     try:
-        for (key, mtrl) in mtrlRef.iteritems():                         # For each material described in mtrlRef:
+        for (key, mtrl) in mtrlRef.items():                         # For each material described in mtrlRef:
             myMaterial = myModel.Material(name=key)                     # Declare a new material object
             # Grab modulus of elasticity and poissons ratio values for the current material
             elasticP = (mtrl.mechanical__modulus_elastic,
@@ -269,7 +269,7 @@ def assignSections(instRef, myModel, myAsm, subAsms, asmParts):
         A section in Abaqus is a collection of surfaces with a similar assigned material.
         Each section in model-based is an entire component.
     """
-    for (key, entry) in instRef.iteritems():
+    for (key, entry) in instRef.items():
         sectionName = key
         if entry['isShell']:
             myModel.HomogeneousShellSection(name=sectionName,
@@ -305,7 +305,7 @@ def EliminateOverlaps(instRef, rigidParts, myAsm, myModel):
     logger.info("**********************************************************************************\n")
     logger.info("Checking for overlapping (buy) parts")
     for rigid in rigidParts:  # Loop through all rigidly-defined parts.
-        for (key, entry) in instRef.iteritems():  # Iterate over each item in the instRef.
+        for (key, entry) in instRef.items():  # Iterate over each item in the instRef.
             if not rigid == key:
                 try:
                     newName = 'temp_' + str(count)
@@ -363,7 +363,7 @@ def defineRigidBodyConstraints(instRef, Jan24_deactivate_rigidity,
     try:
         refPointKeys = []
         refPointLocation = []
-        for (key, entry) in instRef.iteritems():
+        for (key, entry) in instRef.items():
             # sectionName = key
             if entry['isRigid'] and Jan24_deactivate_rigidity:  
                 instName = instIndex[entry['ComponentID']]
@@ -896,7 +896,7 @@ def apply_acceleration(myModel, myAsm, myStep, instRef, accel, amp, args, Jan24_
     logger.info("**********************************************************************************" + '\n')
     if accel['x'] or accel['y'] or accel['z']:
         if not args.modal:
-            for (key, entry) in instRef.iteritems():
+            for (key, entry) in instRef.items():
                 loadName = str(key)
                 try:
                     myRegion = (myAsm.instances[key].cells,)
@@ -985,7 +985,7 @@ def get_mesh_statistics(entry, myAsm, myInst, full_asm_stats, mesh_fname):
     """ Query mesh quality statistics for given component instance. """
     with open(mesh_fname, 'a') as mq_csv:
         csv_writer = csv.writer(mq_csv)
-        csv.field_size_limit(sys.maxint)
+        csv.field_size_limit(sys.maxsize)
         # Generate Mesh Statistics META-3027
         meshStats = myAsm.getMeshStats(regions=(myInst,))
         statistics = [stat for stat in dir(meshStats) if not
@@ -1053,12 +1053,12 @@ def meshInstances(asminfo, edgeSeedDensity, unitShort, instRef,
         # mesh instances
         logger.info("Writing mesh quality statistics to MeshQuality.csv." + '\n')
         if runAdams:
-            mesh_fname = "MeshQuality_" + str(myAsm.instances.keys()[0]) + ".csv"
+            mesh_fname = "MeshQuality_" + str(list(myAsm.instances.keys())[0]) + ".csv"
         else:
             mesh_fname = "MeshQuality.csv"
         with open(mesh_fname, 'wb') as mq_csv:
             csv_writer = csv.writer(mq_csv)
-            csv.field_size_limit(sys.maxint)
+            csv.field_size_limit(sys.maxsize)
             csv_writer.writerow(['Full Assembly', 'ComponentID', 'Total Elements', 'Warning Elements',
                                  'Failed Elements', 'NA Elements', 'Hex Elements', 'Line Elements', 'Meshed Regions',
                                  'Total Nodes', 'Point Elements', 'Pyramid Elements', 'Quad Elements',

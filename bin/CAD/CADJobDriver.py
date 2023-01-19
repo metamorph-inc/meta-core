@@ -371,13 +371,13 @@ class CADJobDriver():
         # self.call_subprocess(sys.executable + patran_pp_py_args)
 
     def run_calculix(self):
-        import _winreg
+        import six.moves.winreg
         os.chdir(os.getcwd() + "\\Analysis\\Calculix")
         deckconvexe = os.path.join(cad_library.META_PATH, 'bin', 'CAD', 'Creo', 'bin', 'DeckConverter.exe')
         self.call_subprocess(deckconvexe + ' -i ..\\Nastran_mod.nas')
-        with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'Software\CMS\CalculiX', 0,
-                         _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY) as key:
-            bconvergedpath = _winreg.QueryValueEx(key, 'InstallLocation')[0]
+        with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\CMS\CalculiX', 0,
+                         six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
+            bconvergedpath = six.moves.winreg.QueryValueEx(key, 'InstallLocation')[0]
         self.call_subprocess(bconvergedpath+'\\CalculiX\\bin\\ccx.bat -i ..\\Nastran_mod')
         metapython = os.path.join(cad_library.META_PATH, 'bin', 'Python27', 'Scripts', 'python.exe')
         calculix_pp = os.path.join(cad_library.META_PATH, 'bin', 'CAD', 'ProcessCalculix.py')

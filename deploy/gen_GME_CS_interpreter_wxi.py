@@ -51,7 +51,7 @@ _template = '''<?xml version="1.0" encoding="utf-8"?>
 '''
 
 if __name__=='__main__':
-    if os.environ.has_key("UDM_3RDPARTY_PATH"):
+    if "UDM_3RDPARTY_PATH" in os.environ:
         sys.path.append(os.path.join(os.environ["UDM_3RDPARTY_PATH"], r"Cheetah-2.4.4\build\lib.win32-2.6"))
     from Cheetah.Template import Template
     import re
@@ -61,7 +61,7 @@ if __name__=='__main__':
     with open(sys.argv[1], 'r') as config:
         lines = config.readlines()
     defines = {}
-    for line in filter(lambda line: line.find('public') != -1, lines):
+    for line in [line for line in lines if line.find('public') != -1]:
         match = re.search(r"public\s+(?:const|static)\s+\w+\s+(\w+)\s*=\s*\"?([\w. \(\)/|\*-]+)\"?;", line)
         if match:
             defines[match.groups()[0]] = match.groups()[1]

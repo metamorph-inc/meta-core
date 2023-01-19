@@ -1,4 +1,5 @@
 import os, fnmatch
+import six
 
 def locate(pattern, root=os.curdir):
     '''Locate all files matching supplied filename pattern in and below
@@ -45,7 +46,7 @@ def TransformFile(s_path):
         s_codeLine = sa_code[i]
 
         b_changesInLine = 0
-        for k, v in d_terms.iteritems():
+        for k, v in six.iteritems(d_terms):
             s_find = ' ' + k + ' '
             s_replace = ' ' + v + ' '
             if s_codeLine.find(s_find) != -1:

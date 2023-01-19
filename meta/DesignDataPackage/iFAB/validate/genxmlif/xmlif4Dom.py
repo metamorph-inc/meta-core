@@ -39,11 +39,12 @@
 # --------------------------------------------------------------------
 
 import urllib
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
 from xml.dom.ext.reader.Sax2   import Reader, XmlDomGenerator
 from xml.sax._exceptions       import SAXParseException
 from genxmlif                  import XMLIF_4DOM, GenXmlIfError
-from xmlifUtils                import convertToAbsUrl
-from xmlifDom                  import XmlInterfaceDom, XmlIfBuilderExtensionDom, InternalDomTreeWrapper, InternalDomElementWrapper
+from .xmlifUtils                import convertToAbsUrl
+from .xmlifDom                  import XmlInterfaceDom, XmlIfBuilderExtensionDom, InternalDomTreeWrapper, InternalDomElementWrapper
 
 
 class XmlInterface4Dom (XmlInterfaceDom):
@@ -60,7 +61,7 @@ class XmlInterface4Dom (XmlInterfaceDom):
 
     def parse (self, file, baseUrl="", internalOwnerDoc=None):
         absUrl = convertToAbsUrl (file, baseUrl)
-        fp     = urllib.urlopen (absUrl)
+        fp     = six.moves.urllib.request.urlopen (absUrl)
         return self._parseStream (fp, file, absUrl, internalOwnerDoc)
 
 
@@ -82,9 +83,9 @@ class XmlInterface4Dom (XmlInterfaceDom):
         try:
             tree = reader.fromStream(fp, ownerDoc)
             fp.close()
-        except SAXParseException, errInst:
+        except SAXParseException as errInst:
             fp.close()
-            raise GenXmlIfError, "%s: SAXParseException: %s" %(file, str(errInst))
+            raise GenXmlIfError("%s: SAXParseException: %s" %(file, str(errInst)))
 
         treeWrapper = reader.handler.treeWrapper
         
@@ -124,7 +125,7 @@ class ExtXmlDomGenerator(XmlDomGenerator, XmlIfBuilderExtensionDom):
 
         curNode = self._nodeStack[-1]
         internal4DomElementWrapper = InternalDomElementWrapper(curNode, self.treeWrapper.getTree())
-        curNs = self._namespaces.items()
+        curNs = list(self._namespaces.items())
         try:
             curNs.remove( (None,None) )
         except:

@@ -26,8 +26,8 @@ def update_version():
     print "CyPhyML.xme version: " + str(cyphy_version)
     version_str = '1.0.0.%d' % cyphy_version
     cyphy_version_data = 'using System.Reflection;\n' + '[assembly: AssemblyFileVersion("%s")]\n' % version_str
-    if not os.path.isfile(version_filename) or cyphy_version_data != file(version_filename, 'rb').read():
-        with file(version_filename, 'wb') as cyphy_version_cs:
+    if not os.path.isfile(version_filename) or cyphy_version_data != open(version_filename, 'rb').read():
+        with open(version_filename, 'wb') as cyphy_version_cs:
             cyphy_version_cs.write(cyphy_version_data)
 
 
@@ -35,7 +35,7 @@ def build():
     system([MSBUILD, os.path.join(THIS_DIR, "../CyPhyML.sln"), "/t:CyPhyLanguage\\CyPhyMLCS", "/p:Configuration=Release;Platform=Mixed Platforms", "/m", "/nodeReuse:false"])
 
 def _parse_version():
-    return file(version_filename, 'rb').read().split('"')[1]
+    return open(version_filename, 'rb').read().split('"')[1]
     
 def pack_nuget():
     system([nuget, "pack", os.path.join(THIS_DIR, "CyPhyMLCS.csproj"),
