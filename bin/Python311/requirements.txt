@@ -1,0 +1,90 @@
+# Windows setup:
+#  Install latest Python 2.7.x
+#  rd /s/q Python311
+#  scipy, numpy: http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+# mkdir Python311
+# cd Python311
+# pushd c:\Python311\lib
+# "c:\Program Files\7-Zip\7z.exe" a ..\Python311.zip -r -x!site-packages -x!lib2to3
+# popd
+# copy /y c:\Python311\Python311.zip  .\
+# mkdir DLLs
+# xcopy /E/Y C:\Python311\DLLs\*.* DLLs\
+# mkdir libs
+# xcopy /E/Y C:\Python311\libs\*.* libs\
+# mkdir include
+# xcopy /E/Y C:\Python311\include\*.* include\
+# copy /y C:\Python311\Python311.dll Python311\
+# copy /y "c:\Python311\python.exe" Python311\python.exe
+# mkdir Lib
+# xcopy /E/Y c:\Python311\Lib\lib2to3 Lib\lib2to3\
+# 
+# mkdir Lib\site-packages\pip-22.3.1.dist-info
+# xcopy /E/Y "C:\Python311\Lib\site-packages\pip-22.3.1.dist-info" Lib\site-packages\pip-22.3.1.dist-info
+# mkdir Lib\site-packages\pip
+# xcopy /E/Y "C:\Python311\Lib\site-packages\pip" Lib\site-packages\pip
+# mkdir Lib\site-packages\pkg_resources
+# xcopy /E/Y "C:\Python311\Lib\site-packages\pkg_resources" Lib\site-packages\pkg_resources
+# 
+# .\python.exe -m pip install \Users\kevin\Documents\Udm\src\UdmPython\dist\Udm-3.2.3-cp311-cp311-win32.whl
+#  git checkout Python27/requirements
+#  python -m pip install %userprofile%\Downloads\numpy-1.11.1+mkl-cp27-cp27m-win32.whl
+#  python -m pip install %userprofile%\Downloads\scipy-0.18.0-cp27-cp27m-win32.whl
+#  python -m pip install %userprofile%\Downloads\matplotlib-1.5.2-cp27-cp27m-win32.whl # Ricardo tool
+#  python -m pip install %userprofile%\Downloads\pyparsing-2.1.6-py2.py3-none-any.whl # simviz tool
+#  python -m pip install --egg -r Python27\requirements
+# rem openmodelica importer needs omniORB
+# unzip %userprofile%\Downloads\omniORBpy-4.2.0-win32-py27.zip -d bin\Python27\Lib\site-packages
+# copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omniORB420_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omnithread40_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# comment out last line of pywin32.pth
+#   # import pywin32_bootstrap
+# git add -f --all bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\python bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
+# git clean -xdf bin\Python27\Lib\site-packages\omniORBpy-4.2.0
+# echo omniORBpy-4.2.0\lib\python > bin\Python27\Lib\site-packages\omniORBpy.pth
+# echo omniORBpy-4.2.0\lib\x86_win32 >> bin\Python27\Lib\site-packages\omniORBpy.pth
+
+
+# apply patch from this revision: git log HEAD@"{2017-01-04}" -- bin/Python27/Lib/site-packages/openmdao/units/unit_library.ini
+#  git checkout HEAD -- ubuntu_create_venv.sh ubuntu_create_venv_w_META_packages.sh Lib/site-packages/sitecustomize.py
+#  bash: cd $(git rev-parse --show-toplevel) && git status --porcelain bin/Python27/Scripts | grep '^ D ' | grep -E '(\.pyd|dll)' | sed 's/^...//' | xargs git checkout HEAD -- bin/Python27/Scripts/{activate.bat,Python27.zip} bin/Python27/libs/python27.lib
+#  git add -f --all Python311
+
+# cmd /c "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86 ^& editbin.exe /largeaddressaware   bin\Python311\python.exe
+Udm==3.2.3
+openmdao==1.7.3
+decorator==4.0.4 # simviz
+lxml==4.9.2
+# TODO mpmath==0.17 # PCC
+pywin32==305
+numpy==1.22.4+mkl
+scipy==1.8.1
+# TODO Cheetah # meta_nrmm
+# Interchange format library support
+pyxb
+# For Ricardo tools (META-1745)
+python-dateutil
+# For Ricardo tools (META-1745) and META-1783
+matplotlib # ==1.5.2
+# For py_modelica_exporter to get Modelica icons
+svgwrite #==1.1.3
+OMPython #==2.0.7
+solidpython #==0.1.1
+sympy #==0.7.2  # PET PCC
+requests #==2.11.0  # installer
+smop==0.23+g9bf6295
+#For testbenchexecutor
+Jinja2 # ==2.10
+# for py_modelica_exporter
+# 2 only? backports.functools_lru_cache
+
+networkx==1.11
+requests
+# https://github.com/metamorph-inc/matlab_wrapper/releases
+matlab_wrapper
+matlab_proxy
+
+# For run_mdao status updates
+grpcio==1.51.1
+protobuf==3.11.3

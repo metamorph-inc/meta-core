@@ -29,10 +29,8 @@ namespace META
 
         private static string m_ProeISISExtVer = string.Empty;
 
-        private static string m_PythonVEnvScriptsPath = string.Empty;
         private static string m_PythonVEnvPath = string.Empty;
         private static string m_PythonVEnvExe = string.Empty;
-        private static string m_PythonVEnvActivate = string.Empty;
 
 
         public static string CyPhyMLGuid
@@ -254,25 +252,6 @@ namespace META
         }
 
         /// <summary>
-        /// returns with the virtual python environment's Scripts folder
-        /// </summary>
-        public static string PythonVEnvScriptsPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonVEnvPath))
-                {
-                    m_PythonVEnvPath = Path.Combine(
-                        MetaPath,
-                        "bin",
-                        "Python27",
-                        "Scripts");
-                }
-                return m_PythonVEnvPath;
-            }
-        }
-
-        /// <summary>
         /// returns the virtual python environment's toplevel folder
         /// </summary>
         public static string PythonVEnvPath
@@ -282,13 +261,13 @@ namespace META
                 return Path.Combine(
                     MetaPath,
                     "bin",
-                    "Python27");
+                    "Python311");
             }
         }
 
         /// <summary>
         /// returns with the virtual python environment's python.exe
-        /// (currently META_PATH\bin\Python27\scripts\python.exe)
+        /// (currently META_PATH\bin\Python311\python.exe)
         /// </summary>
         public static string PythonVEnvExe
         {
@@ -296,29 +275,11 @@ namespace META
             {
                 if (string.IsNullOrEmpty(m_PythonVEnvExe))
                 {
-                    m_PythonVEnvExe = Path.Combine(PythonVEnvScriptsPath, "python.exe");
+                    m_PythonVEnvExe = Path.Combine(PythonVEnvPath, "python.exe");
                 }
                 return m_PythonVEnvExe;
             }
         }
-
-        /// <summary>
-        /// returns with the virtual python environment's activate.bat
-        /// </summary>
-        public static string PythonVEnvActivate
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_PythonVEnvActivate))
-                {
-                    m_PythonVEnvActivate = Path.Combine(
-                        PythonVEnvScriptsPath,
-                        "activate.bat");
-                }
-                return m_PythonVEnvActivate;
-            }
-        }
-
 
         public static string CADCreoParametricCreateAssemblyVersion
         {

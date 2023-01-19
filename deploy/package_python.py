@@ -9,7 +9,7 @@ import zipfile
 import py_compile
 
 PYC_EXCLUDES = ('matlab_proxy', 'jinja2\\asyncsupport.py', 'jinja2\\asyncfilters.py', r'mpmath\libmp\exec_py3.py', r'mpmath\tests', r'grpc\experimental\aio')
-
+PYTHON_VERSION = ''.join((str(v) for v in sys.version_info[0:2]))
 
 def pyc_exclude(filename):
     for exclude in PYC_EXCLUDES:
@@ -19,8 +19,8 @@ def pyc_exclude(filename):
 
 
 def print_zip_safe():
-    for egg_dir in os.listdir('../bin/Python27/Lib/site-packages'):
-        egg_dir = '../bin/Python27/Lib/site-packages/' + egg_dir
+    for egg_dir in os.listdir(f'../bin/Python{PYTHON_VERSION}/Lib/site-packages'):
+        egg_dir = f'../bin/Python{PYTHON_VERSION}/Lib/site-packages/' + egg_dir
         if egg_dir.endswith('.dist-info'):
             continue
         if os.path.isfile(egg_dir):
@@ -35,7 +35,7 @@ def compileall():
 
     # ls_files = subprocess.Popen('git ls-files'.split() + [src], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # ls_files = subprocess.Popen('git grep -EL "(pkg_resources|__file__)"  ../bin/Python27/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    ls_files = subprocess.Popen('git ls-files  ../bin/Python27/Lib/site-packages/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    ls_files = subprocess.Popen(f'git ls-files  ../bin/Python{PYTHON_VERSION}/Lib/site-packages/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = ls_files.communicate()
     exit_code = ls_files.poll()
     if exit_code != 0:
@@ -61,9 +61,9 @@ def compileall():
 def zipall():
     zipped_files = {}
     # subprocess.check_call('git checkout ../bin/Python27/Scripts/Python27.zip')
-    shutil.copyfile('../bin/Python27/Scripts/Python27.zip', 'Python27.zip')
+    shutil.copyfile(f'../bin/Python{PYTHON_VERSION}/Scripts/Python{PYTHON_VERSION}.zip', f'Python{PYTHON_VERSION}.zip')
 
-    with zipfile.ZipFile('Python27.zip', 'a', compression=zipfile.ZIP_DEFLATED, allowZip64=True) as python_zip:
+    with zipfile.ZipFile(f'Python{PYTHON_VERSION}.zip', 'a', compression=zipfile.ZIP_DEFLATED, allowZip64=True) as python_zip:
         i = 0
         # these packages have been determined to be zip-safe
         # TODO fix openmdao """with open(os.path.join(os.path.dirname(__file__), 'unit_library.ini')) as default_lib:"""
@@ -72,7 +72,7 @@ def zipall():
         for package in ("dateutil", "excel_wrapper", "markdown", "mpmath", "networkx",
                 "OMPython", "colorama", "wrapt", "pytz",
                 ):
-            ls_files = subprocess.Popen('git ls-files  ../bin/Python27/Lib/site-packages/{}/**'.format(package), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            ls_files = subprocess.Popen(f'git ls-files  ../bin/Python{PYTHON_VERSION}/Lib/site-packages/{package}/**', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = ls_files.communicate()
             exit_code = ls_files.poll()
             if exit_code != 0:
@@ -80,7 +80,7 @@ def zipall():
 
             for filename in list(line.replace("/", "\\") for line in out.splitlines()):
                 i = i + 1
-                dest_filename = filename[len('../bin/Python27/Lib/site-packages/'):]
+                dest_filename = filename[len(f'../bin/Python{PYTHON_VERSION}/Lib/site-packages/'):]
                 zipped_files[os.path.normpath(filename)] = None
                 if filename.endswith('.py'):
                     if not pyc_exclude(filename):
@@ -91,7 +91,6 @@ def zipall():
                     dest_filename = dest_filename[dest_filename.index('.egg\\') + len('.egg\\'):]
                 # print(filename, dest_filename)
                 python_zip.write(filename, dest_filename)
-    # shutil.copyfile('Python27.zip', '../bin/Python27/Scripts/Python27.zip')
     return zipped_files
 
 

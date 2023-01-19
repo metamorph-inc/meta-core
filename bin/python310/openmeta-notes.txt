@@ -12,7 +12,7 @@ mkdir libs
 xcopy /E/Y C:\Python310-32\libs\*.* libs\
 mkdir include
 xcopy /E/Y C:\Python310-32\include\*.* include\
-copy C:\Python310-32\python310.dll bin\Python310\
-copy /y "c:\Python310-32\python.exe" bin\python310\python.exe
+copy C:\Python310-32\python310.dll Python310\
+copy /y "c:\Python310-32\python.exe" Python310\python.exe
 mkdir Lib
 xcopy /E/Y c:\Python310-32\Lib\lib2to3 Lib\lib2to3\

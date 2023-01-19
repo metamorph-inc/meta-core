@@ -35,6 +35,9 @@ You must also install Microsoft Visual Studio 2015 Update 3
 ## .NETFramework Version 4.6.2 Developer Pack
 Visual Studio Installer -> Modify -> Individual Components -> .NET Framework 4.6.2 Developer Pack
 
+https://my.visualstudio.com/Downloads?q=.NET%20Framework%204.6.2%20Developer%20Pack%20and%20Language%20Pack&wt.mc_id=o~msft~vscom~older-downloads
+
+
 ## Java JDK version 8 to 11
 [Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 
@@ -70,7 +73,5 @@ Clone this repository to your disk.
 1. Open Visual Studio Command Prompt (2015 or 2017) with ”Run as administrator”. (Do not use "x64 Native Tools Command Prompt" or "x86 x64 Cross Tools Command Prompt")
 2. From the root repository directory, run `make_all_without_installer.cmd`. This may take 30 minutes to build. _(Warnings may be ignored, but there should be no errors.)_
 
-If you encounter errors, try to build once more. There may be some remaining race conditions in the build scripts.
-
 # Installer
-Run `bin\Python27\Scripts\python.exe deploy\build_msi.py` to build the installer.
+Run `bin\Python2311\python.exe deploy\build_msi.py` to build the installer.

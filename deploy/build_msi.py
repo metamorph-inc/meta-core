@@ -73,13 +73,13 @@ def bin_mods():
     fragment = tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Fragment")[0]
     for element in ("""<Property Id="pywin219"/>""",
             """<CustomActionRef Id="WixRemoveFoldersEx" />""",
-            r"""<CustomAction Id="Setpywin219" Property="pywin219" Value="[ProgramFilesFolder]META\bin\Python27"/>""",
+            r"""<CustomAction Id="Setpywin219" Property="pywin219" Value="[ProgramFilesFolder]META\bin\Python311"/>""",
             """<InstallExecuteSequence>
                 <Custom Action="Setpywin219" Before="WixRemoveFoldersEx" />
             </InstallExecuteSequence>"""):
         fragment.insert(0, ElementTree.fromstring(element))
 
-    python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python27_Scripts']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python27\Scripts\python.exe']")[0]
+    python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python311_Scripts']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python311\Scripts\python.exe']")[0]
     parent_map[python_exe].insert(0, ElementTree.fromstring("""<util:RemoveFolderEx xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" On="install" Property="pywin219" />"""))
 
     #for element in parent_map.keys():
@@ -87,10 +87,10 @@ def bin_mods():
     #        source = element.attrib['Source']
     #        import pdb
     #        pdb.set_trace()
-    #        if source.startswith(r'..\bin\Python27\Lib') and source.endswith('.py'):
+    #        if source.startswith(r'..\bin\Python311\Lib') and source.endswith('.py'):
     #            element.attrib['Source'] = source + 'c'
-    python_zip = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}" + "File[@Id='{}']".format(get_file_id(r"..\bin\Python27\Scripts\Python27.zip")))[0]
-    python_zip.attrib['Source'] = 'Python27.zip'
+    python_zip = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}" + "File[@Id='{}']".format(get_file_id(r"..\bin\Python311\Scripts\Python311.zip")))[0]
+    python_zip.attrib['Source'] = 'Python311.zip'
 
     ElementTree.ElementTree(tree).write(output_filename, xml_declaration=True, encoding='utf-8')
 
@@ -199,15 +199,15 @@ def build_msi(with_offline=False):
 
     # gen_dir_from_vc: "explicit is better than implicit"
     #  consider: generated files are left on disk after an svn switch, and get included in an installer that shouldn't have them
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\material_library\MaterialLibraryInterface",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\cad_library\cad_library",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\run_mdao",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\testbenchexecutor",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\PCC\PCC",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\isis_meta\isis_meta",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\material_library\MaterialLibraryInterface",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\meta_nrmm\meta_nrmm",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica\py_modelica",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\cad_library\cad_library",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\run_mdao",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\testbenchexecutor",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
     #gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
@@ -218,11 +218,11 @@ def build_msi(with_offline=False):
     bin_file_map.update(package_python.zipall())
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3', file_map=bin_file_map)
     bin_mods()
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\PCC\PCC",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\isis_meta\isis_meta",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\meta_nrmm\meta_nrmm",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica\py_modelica",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica_exporter\py_modelica_exporter",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
     add_vcs_defines(defines)

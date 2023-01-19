@@ -2,10 +2,10 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <DirectoryRef Id="dir_bin_Python27_Lib_site_packages" />
+        <DirectoryRef Id="dir_bin_Python311_Lib_site_packages" />
     </Fragment>
     <Fragment>
-        <DirectoryRef Id="dir_bin_Python27_Lib_site_packages">
+        <DirectoryRef Id="dir_bin_Python311_Lib_site_packages">
             <Directory Id="isis_meta" Name="isis_meta" />
             <Directory Id="MaterialLibraryInterface" Name="MaterialLibraryInterface" />
             <Directory Id="meta_nrmm" Name="meta_nrmm" />

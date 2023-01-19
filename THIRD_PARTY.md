@@ -88,7 +88,6 @@ Bundled Python packages
 * `dateutil` - [python-dateutil](https://dateutil.readthedocs.io/en/stable/) - BSD License
 * `decorator.py` - [decorator](https://github.com/micheles/decorator) - BSD License
 * `docutils` - [docutils - Python Documentation Utilities](http://docutils.sourceforge.net/) - Mostly public domain, with some components licensed under BSD License or GPLv3
-* `elementtree-1.2.7_20070827_preview-py2.7-win32.egg` - [ElementTree](http://effbot.org/zone/element-index.htm) - Python License (MIT-style)
 * `euclid.py` - [Euclid](https://code.google.com/archive/p/pyeuclid/) - LGPLv2.1+
 * `excel_wrapper` - [OpenMDAO Excel Wrapper](https://github.com/OpenMDAO-Plugins/excel_wrapper) - GPLv2
 * `imagesize` - [imagesize](https://github.com/shibukawa/imagesize_py) - MIT License

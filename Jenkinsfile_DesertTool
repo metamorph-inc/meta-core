@@ -27,8 +27,8 @@ pipeline {
                 bat($/
                     cd externals\desert\test
                     set PYTHONUSERBASE=%CD%
-                    ..\..\..\bin\Python27\Scripts\python -m pip install --user nose || exit /b 1
-                    ..\..\..\bin\Python27\Scripts\python -m nose
+                    ..\..\..\bin\Python311\python -m pip install --user nose || exit /b 1
+                    ..\..\..\bin\Python311\python -m nose
                 /$)
 
 

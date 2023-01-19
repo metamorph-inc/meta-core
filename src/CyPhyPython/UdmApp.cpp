@@ -179,7 +179,7 @@ static PyObject *CyPhyPython_log(PyObject *self, PyObject *args)
 		if (PyObject_HasAttrString(CyPhyPython, "_logfile"))
 		{
 			PyObject_RAII logfile = PyObject_GetAttrString(CyPhyPython, "_logfile");
-			if (logfile.p && PyUnicode_Check(arg1)))
+			if (logfile.p && PyUnicode_Check(arg1))
 			{
 				PyObject_RAII write = PyObject_GetAttrString(logfile, "write");
 				{
@@ -385,7 +385,7 @@ PyObject* _GetOrCreateCyPhyPythonModule() {
 
 		PyObject_RAII CyPhyPython = PyModule_Create(&CyPhyPython_module);
 		PyObject* CyPhyPython_namespace = PyModule_GetDict(CyPhyPython);
-		PyModule_AddObjectRef(CyPhyPython, "spam", PyLong_FromLong(4242)); // xxx dont commit
+		// PyModule_AddObjectRef(CyPhyPython, "spam", PyLong_FromLong(4242)); // xxx dont commit
 
 		PyObject_RAII sys = PyImport_ImportModule("sys");
 		PyObject_RAII sys_modules = PyObject_GetAttrString(sys, "modules");
@@ -426,7 +426,7 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 
 	if (meta_path.length()) {
 		auto cprefix = meta_path + L"bin\\Python" CYPHY_PYTHON_VERSION;
-		PyObject_RAII prefix = PyUnicode_FromWideChar(cprefix.c_str(), -1));
+		PyObject_RAII prefix = PyUnicode_FromWideChar(cprefix.c_str(), -1);
 		PyObject_RAII sys = PyImport_ImportModule("sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
 		PyObject_SetAttrString(sys, "exec_prefix", prefix);
