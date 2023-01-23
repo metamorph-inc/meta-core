@@ -1,5 +1,5 @@
 import json
-import vfinterface
+from . import vfinterface
 import uuid
 import ctypes
 import os
@@ -49,7 +49,7 @@ class LibraryManager:
          library, but it defaults to where it is installed  
          by the META tools suite
         """
-        if in_filename is not "":
+        if in_filename != "":
             self.filename = in_filename
         else:
             path = ctypes.c_wchar_p(chr(0x00) * 256)

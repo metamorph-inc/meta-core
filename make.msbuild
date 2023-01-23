@@ -57,11 +57,11 @@
   
   <Target Name="Install_PythonLibs" DependsOnTargets="">
     <!-- make sure pip works -->
-    <Exec Command="bin\Python27\Scripts\python.exe -m pip --disable-pip-version-check freeze >NUL" IgnoreExitCode="false" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+    <Exec Command="bin\Python311\python.exe -m pip --disable-pip-version-check freeze >NUL" IgnoreExitCode="false" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
   </Target>
   
   <Target Name="DownloadNuGetPackages">
-    <Exec Command="..\bin\Python27\Scripts\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"
+    <Exec Command="..\bin\Python311\python.exe -c &quot;import build_msi; build_msi.get_nuget_packages()&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)\deploy"
         CustomErrorRegularExpression="is not found in the following primary source"
     />
   </Target>
@@ -71,11 +71,11 @@
   </Target>
   
   <Target Name="source_code_analysis">
-    <Exec Command="..\bin\Python27\Scripts\python.exe source_code_analysis.py" WorkingDirectory="source_code_analysis" Condition="'$(Platform)' != 'x64'"/>
+    <Exec Command="..\bin\Python311\python.exe source_code_analysis.py" WorkingDirectory="source_code_analysis" Condition="'$(Platform)' != 'x64'"/>
   </Target>
   
   <Target Name="Installer" DependsOnTargets="All">
-    <Exec Command="..\bin\Python27\Scripts\python.exe build_msi.py META_x64.wxs" WorkingDirectory="deploy" Condition="'$(Platform)' != 'x64'"/>
+    <Exec Command="..\bin\Python311\python.exe build_msi.py META_x64.wxs" WorkingDirectory="deploy" Condition="'$(Platform)' != 'x64'"/>
   </Target>
 
 </Project>

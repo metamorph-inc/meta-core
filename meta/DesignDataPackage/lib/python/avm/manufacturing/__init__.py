@@ -1,9 +1,10 @@
 # .\_manufacturing.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:001f63800ae37c355961a3d233bb19365b0ea8cb
-# Generated 2017-02-15 15:01:22.002000 by PyXB version 1.2.3
+# Generated 2023-01-19 12:49:23.714021 by PyXB version 1.2.6 using Python 3.11.1.final.0
 # Namespace manufacturing [xmlns:manufacturing]
 
+from __future__ import unicode_literals
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
@@ -11,23 +12,26 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
-import six
-
+import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:fd91d353-9829-11ed-9fb1-415645000030')
 
 # Version of PyXB used to generate the bindings
-_PyXBVersion = '1.2.3'
+_PyXBVersion = '1.2.6'
 # Generated bindings are not compatible across PyXB versions
 if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
+
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
 import avm as _ImportedBinding__avm
 import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
-Namespace = pyxb.namespace.NamespaceForURI(u'manufacturing', create_if_missing=True)
+Namespace = pyxb.namespace.NamespaceForURI('manufacturing', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
 
 def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
@@ -51,13 +55,13 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
 
     if pyxb.XMLStyle_saxer != pyxb._XMLStyle:
         dom = pyxb.utils.domutils.StringToDOM(xml_text)
-        return CreateFromDOM(dom.documentElement)
+        return CreateFromDOM(dom.documentElement, default_namespace=default_namespace)
     if default_namespace is None:
         default_namespace = Namespace.fallbackNamespace()
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
     xmld = xml_text
-    if isinstance(xmld, six.text_type):
+    if isinstance(xmld, _six.text_type):
         xmld = xmld.encode(pyxb._InputEncoding)
     saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
@@ -79,21 +83,21 @@ class ManufacturingModel_ (_ImportedBinding__avm.DomainModel_):
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
-    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'ManufacturingModel')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 7, 2)
+    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ManufacturingModel')
+    _XSDLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 7, 2)
     _ElementMap = _ImportedBinding__avm.DomainModel_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.DomainModel_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.DomainModel_
     
     # Element Parameter uses Python identifier Parameter
-    __Parameter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'Parameter'), 'Parameter', '__manufacturing_ManufacturingModel__Parameter', True, pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 11, 10), )
+    __Parameter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, 'Parameter'), 'Parameter', '__manufacturing_ManufacturingModel__Parameter', True, pyxb.utils.utility.Location('avm.manufacturing.xsd', 11, 10), )
 
     
     Parameter = property(__Parameter.value, __Parameter.set, None, None)
 
     
     # Element Metric uses Python identifier Metric
-    __Metric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'Metric'), 'Metric', '__manufacturing_ManufacturingModel__Metric', True, pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 12, 10), )
+    __Metric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, 'Metric'), 'Metric', '__manufacturing_ManufacturingModel__Metric', True, pyxb.utils.utility.Location('avm.manufacturing.xsd', 12, 10), )
 
     
     Metric = property(__Metric.value, __Metric.set, None, None)
@@ -117,7 +121,8 @@ class ManufacturingModel_ (_ImportedBinding__avm.DomainModel_):
     _AttributeMap.update({
         
     })
-Namespace.addCategoryObject('typeBinding', u'ManufacturingModel', ManufacturingModel_)
+_module_typeBindings.ManufacturingModel_ = ManufacturingModel_
+Namespace.addCategoryObject('typeBinding', 'ManufacturingModel', ManufacturingModel_)
 
 
 # Complex type {manufacturing}Parameter with content type ELEMENT_ONLY
@@ -126,14 +131,14 @@ class Parameter_ (_ImportedBinding__avm.DomainModelParameter_):
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
-    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'Parameter')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 17, 2)
+    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'Parameter')
+    _XSDLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 17, 2)
     _ElementMap = _ImportedBinding__avm.DomainModelParameter_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.DomainModelParameter_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.DomainModelParameter_
     
     # Element Value uses Python identifier Value
-    __Value = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'Value'), 'Value', '__manufacturing_Parameter__Value', False, pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 21, 10), )
+    __Value = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, 'Value'), 'Value', '__manufacturing_Parameter__Value', False, pyxb.utils.utility.Location('avm.manufacturing.xsd', 21, 10), )
 
     
     Value = property(__Value.value, __Value.set, None, None)
@@ -146,17 +151,17 @@ class Parameter_ (_ImportedBinding__avm.DomainModelParameter_):
     # Attribute YPosition inherited from {avm}DomainModelParameter
     
     # Attribute Locator uses Python identifier Locator
-    __Locator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Locator'), 'Locator', '__manufacturing_Parameter__Locator', pyxb.binding.datatypes.string)
-    __Locator._DeclarationLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 23, 8)
-    __Locator._UseLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 23, 8)
+    __Locator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'Locator'), 'Locator', '__manufacturing_Parameter__Locator', pyxb.binding.datatypes.string)
+    __Locator._DeclarationLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 23, 8)
+    __Locator._UseLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 23, 8)
     
     Locator = property(__Locator.value, __Locator.set, None, None)
 
     
     # Attribute Name uses Python identifier Name
-    __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Name'), 'Name', '__manufacturing_Parameter__Name', pyxb.binding.datatypes.string)
-    __Name._DeclarationLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 24, 8)
-    __Name._UseLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 24, 8)
+    __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'Name'), 'Name', '__manufacturing_Parameter__Name', pyxb.binding.datatypes.string)
+    __Name._DeclarationLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 24, 8)
+    __Name._UseLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 24, 8)
     
     Name = property(__Name.value, __Name.set, None, None)
 
@@ -167,7 +172,8 @@ class Parameter_ (_ImportedBinding__avm.DomainModelParameter_):
         __Locator.name() : __Locator,
         __Name.name() : __Name
     })
-Namespace.addCategoryObject('typeBinding', u'Parameter', Parameter_)
+_module_typeBindings.Parameter_ = Parameter_
+Namespace.addCategoryObject('typeBinding', 'Parameter', Parameter_)
 
 
 # Complex type {manufacturing}Metric with content type ELEMENT_ONLY
@@ -176,8 +182,8 @@ class Metric_ (_ImportedBinding__avm.DomainModelMetric_):
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
-    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'Metric')
-    _XSDLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 28, 2)
+    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'Metric')
+    _XSDLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 28, 2)
     _ElementMap = _ImportedBinding__avm.DomainModelMetric_._ElementMap.copy()
     _AttributeMap = _ImportedBinding__avm.DomainModelMetric_._AttributeMap.copy()
     # Base type is _ImportedBinding__avm.DomainModelMetric_
@@ -193,9 +199,9 @@ class Metric_ (_ImportedBinding__avm.DomainModelMetric_):
     # Attribute YPosition inherited from {avm}DomainModelMetric
     
     # Attribute Name uses Python identifier Name
-    __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Name'), 'Name', '__manufacturing_Metric__Name', pyxb.binding.datatypes.string, required=True)
-    __Name._DeclarationLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 31, 8)
-    __Name._UseLocation = pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 31, 8)
+    __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'Name'), 'Name', '__manufacturing_Metric__Name', pyxb.binding.datatypes.string, required=True)
+    __Name._DeclarationLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 31, 8)
+    __Name._UseLocation = pyxb.utils.utility.Location('avm.manufacturing.xsd', 31, 8)
     
     Name = property(__Name.value, __Name.set, None, None)
 
@@ -205,23 +211,24 @@ class Metric_ (_ImportedBinding__avm.DomainModelMetric_):
     _AttributeMap.update({
         __Name.name() : __Name
     })
-Namespace.addCategoryObject('typeBinding', u'Metric', Metric_)
+_module_typeBindings.Metric_ = Metric_
+Namespace.addCategoryObject('typeBinding', 'Metric', Metric_)
 
 
-ManufacturingModel = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'ManufacturingModel'), ManufacturingModel_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 4, 2))
+ManufacturingModel = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ManufacturingModel'), ManufacturingModel_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 4, 2))
 Namespace.addCategoryObject('elementBinding', ManufacturingModel.name().localName(), ManufacturingModel)
 
-Parameter = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'Parameter'), Parameter_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 5, 2))
+Parameter = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Parameter'), Parameter_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 5, 2))
 Namespace.addCategoryObject('elementBinding', Parameter.name().localName(), Parameter)
 
-Metric = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'Metric'), Metric_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 6, 2))
+Metric = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Metric'), Metric_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 6, 2))
 Namespace.addCategoryObject('elementBinding', Metric.name().localName(), Metric)
 
 
 
-ManufacturingModel_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Parameter'), Parameter_, scope=ManufacturingModel_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 11, 10)))
+ManufacturingModel_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, 'Parameter'), Parameter_, scope=ManufacturingModel_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 11, 10)))
 
-ManufacturingModel_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Metric'), Metric_, scope=ManufacturingModel_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 12, 10)))
+ManufacturingModel_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, 'Metric'), Metric_, scope=ManufacturingModel_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 12, 10)))
 
 def _BuildAutomaton ():
     # Remove this helper function from the namespace after it is invoked
@@ -230,19 +237,19 @@ def _BuildAutomaton ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 11, 10))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('avm.manufacturing.xsd', 11, 10))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 12, 10))
+    cc_1 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('avm.manufacturing.xsd', 12, 10))
     counters.add(cc_1)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(ManufacturingModel_._UseForTag(pyxb.namespace.ExpandedName(None, u'Parameter')), pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 11, 10))
+    symbol = pyxb.binding.content.ElementUse(ManufacturingModel_._UseForTag(pyxb.namespace.ExpandedName(None, 'Parameter')), pyxb.utils.utility.Location('avm.manufacturing.xsd', 11, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(ManufacturingModel_._UseForTag(pyxb.namespace.ExpandedName(None, u'Metric')), pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 12, 10))
+    symbol = pyxb.binding.content.ElementUse(ManufacturingModel_._UseForTag(pyxb.namespace.ExpandedName(None, 'Metric')), pyxb.utils.utility.Location('avm.manufacturing.xsd', 12, 10))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     transitions = []
@@ -261,7 +268,7 @@ ManufacturingModel_._Automaton = _BuildAutomaton()
 
 
 
-Parameter_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Value'), _ImportedBinding__avm.Value_, scope=Parameter_, location=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 21, 10)))
+Parameter_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, 'Value'), _ImportedBinding__avm.Value_, scope=Parameter_, location=pyxb.utils.utility.Location('avm.manufacturing.xsd', 21, 10)))
 
 def _BuildAutomaton_ ():
     # Remove this helper function from the namespace after it is invoked
@@ -270,12 +277,12 @@ def _BuildAutomaton_ ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 21, 10))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('avm.manufacturing.xsd', 21, 10))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(Parameter_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.manufacturing.xsd', 21, 10))
+    symbol = pyxb.binding.content.ElementUse(Parameter_._UseForTag(pyxb.namespace.ExpandedName(None, 'Value')), pyxb.utils.utility.Location('avm.manufacturing.xsd', 21, 10))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -295,12 +302,12 @@ def _BuildAutomaton_2 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('avm.xsd', 265, 6))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
+    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, 'Value')), pyxb.utils.utility.Location('avm.xsd', 265, 6))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []

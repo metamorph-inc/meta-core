@@ -1,8 +1,8 @@
 from numpy import *
 from scipy.stats import beta,norm,lognorm,uniform
 import random
-import SRC_regress
-from model_calls import run_list
+from . import SRC_regress
+from .model_calls import run_list
 import logging
 
 def SA_EFAST(problem, driver):

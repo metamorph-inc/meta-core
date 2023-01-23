@@ -1,11 +1,11 @@
 from numpy import *
-import pearscdf
-import params
-import jsonout
-from mvncdf import mvstdnormcdf
+from . import pearscdf
+from . import params
+from . import jsonout
+from .mvncdf import mvstdnormcdf
 import sys
-import estimate_complexity
-from model_calls import run_list
+from . import estimate_complexity
+from .model_calls import run_list
 import logging
 
 def UP_UDR(problem, driver):

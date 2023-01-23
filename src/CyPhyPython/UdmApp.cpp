@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#include "..\bin\Python310\Include\Python.h"
+#include "..\bin\Python311\Include\Python.h"
 #include <algorithm>
 #include <memory>
 
@@ -60,6 +60,7 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 {
 	PyObject_RAII type, value, traceback;
 	PyErr_Fetch(&type.p, &value.p, &traceback.p);
+	PyErr_NormalizeException(&type.p, &value.p, &traceback.p);
 	PyErr_Clear();
 	std::string error;
 	bool isErrorMessageException = false;
@@ -73,7 +74,13 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 			error += ": ";
 		}
 	}
-	PyObject_RAII message = PyObject_GetAttrString(value, "message");
+	PyObject_RAII exception_args = PyObject_GetAttrString(value, "args");
+	PyObject_RAII message;
+	if (exception_args.p && PyTuple_Check(exception_args)) {
+		if (PyTuple_Size(exception_args)) {
+			message.p = PyTuple_GetItem(exception_args, 0);
+		}
+	}
 	if (message && PyUnicode_Check(message))
 	{
 		PyObject_RAII str_value = PyObject_Str(message);
@@ -390,7 +397,11 @@ PyObject* _GetOrCreateCyPhyPythonModule() {
 		PyObject_RAII sys = PyImport_ImportModule("sys");
 		PyObject_RAII sys_modules = PyObject_GetAttrString(sys, "modules");
 		// n.b. can't use PyImport_AppendInittab because we may be called from COM under Python.exe
-		PyDict_SetItemString(sys_modules, "CyPhyPython", CyPhyPython);
+		int failed = PyDict_SetItemString(sys_modules, "CyPhyPython", CyPhyPython);
+		if (failed)
+		{
+			throw python_error("Could not set sys.modules['CyPhyPython']");
+		}
 
 		// PyDict_SetItemString(CyPhyPython_namespace, "__builtins__", PyEval_GetBuiltins());
 		PyObject_RAII pyrun_ret = PyRun_StringFlags(
@@ -430,6 +441,24 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 		PyObject_RAII sys = PyImport_ImportModule("sys");
 		PyObject_SetAttrString(sys, "prefix", prefix);
 		PyObject_SetAttrString(sys, "exec_prefix", prefix);
+
+		// add meta_path/bin to sys.path
+		PyObject* sys_dict = PyModule_GetDict(sys);
+		PyObject* sys_path = PyDict_GetItemString(sys_dict, "path");
+
+		if (PyList_Check(sys_path)) {
+			PyObject_RAII py_meta_path = PyUnicode_FromWideChar(meta_path.c_str(), -1);
+			PyObject_RAII meta_path_bin = PyUnicode_FromFormat("%U%s", py_meta_path, "bin");
+			
+			
+			if (PySequence_Contains(sys_path, meta_path_bin) == 0) {
+				PyObject_RAII meta_path_bin_tuple = Py_BuildValue("(O)", meta_path_bin);
+				PyList_SetSlice(sys_path, 0, 0, meta_path_bin_tuple);
+			}
+			if (PyErr_Occurred()) {
+				throw python_error(GetPythonError());
+			}
+		}
 	}
 
 	PyObject_RAII CyPhyPython = _GetOrCreateCyPhyPythonModule();
@@ -643,12 +672,13 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 		PyObject_RAII ret = PyRun_StringFlags(
 			(std::string(
 				"import sys\n"
+				"_old_path = list(sys.path)\n"
 				"sys.path[0:0] = script_paths\n"
 				"try:\n"
 				"    import ") + static_cast<const char*>(CStringA(module_name.c_str())) + "\n"
 				"finally:\n"
-				"    sys.path[0:len(script_paths)] = []\n"
-				"    del script_paths\n").c_str()
+				"    sys.path[:] = _old_path\n"
+				).c_str()
 			, Py_file_input, namespace_, namespace_, NULL);
 		if (ret == NULL && PyErr_Occurred())
 		{
@@ -792,8 +822,8 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 			PyObject_RAII logfile = PyObject_GetAttrString(CyPhyPython, "_logfile");
 			if (logfile.p)
 			{
-				PyObject_RAII write = PyObject_GetAttrString(logfile, "close");
-				PyObject_RAII ret = PyObject_CallObject(write, NULL);
+				PyObject_RAII close = PyObject_GetAttrString(logfile, "close");
+				PyObject_RAII ret = PyObject_CallObject(close, NULL);
 				ASSERT(ret.p);
 				if (ret == NULL)
 				{

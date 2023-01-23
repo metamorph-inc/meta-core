@@ -1,11 +1,11 @@
 from numpy import *
-import params
-import pearscdf
-import jsonout
-from mvncdf import mvstdnormcdf
-import estimate_complexity
+from . import params
+from . import pearscdf
+from . import jsonout
+from .mvncdf import mvstdnormcdf
+from . import estimate_complexity
 import itertools  #for fullfact function
-from model_calls import run_list
+from .model_calls import run_list
 
 def UP_FFNI(problem, driver):
 

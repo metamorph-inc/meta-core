@@ -1,7 +1,7 @@
 from numpy import *
-import pearscdf
-from mvncdf import mvstdnormcdf
-import estimate_complexity
+from . import pearscdf
+from .mvncdf import mvstdnormcdf
+from . import estimate_complexity
 import itertools  # for fullfact function
 import os
 import subprocess

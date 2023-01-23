@@ -39,7 +39,7 @@ def add_wix_to_path():
     os.environ['PATH'] = os.path.join(_this_dir, 'CAD_Installs', wix_dir, 'tools') + ';' + os.environ['PATH']
 
 # http://bugs.python.org/issue8277
-class CommentedTreeBuilder(ElementTree.XMLTreeBuilder):
+class CommentedTreeBuilder(ElementTree.TreeBuilder):
     def __init__(self, html=0, target=None):
         ElementTree.XMLTreeBuilder.__init__(self, html, target)
         self._parser.CommentHandler = self.handle_comment

@@ -10,7 +10,12 @@ from pywintypes import com_error
 #import site
 #print(site.__file__)
 
-import sys
+# remove src/ from sys.path since we don't want src/CyPhyPython/ imported
+_this_dir = os.path.dirname(os.path.abspath(__file__))
+_test_dir = os.path.dirname(_this_dir)
+_src_dir = os.path.abspath(os.path.join(_test_dir, '..', 'src'))
+if _src_dir in sys.path:
+    sys.path.remove(_src_dir)
 print(sys.path)
 
 def log_formatted(s):
@@ -44,8 +49,13 @@ def start_pdb():
 
 # This is the entry point
 def invoke(focusObject, rootObject, componentParameters, **kwargs):
+    import CyPhyPET_unit_matcher
+    import socket
+    log(CyPhyPET_unit_matcher.__file__)
     log(focusObject.name + " from test_CyPhyPython\n")
     import __main__
+
+
     #setattr(__main__, 'asdf', focusObject.convert_udm2gme())
     #setattr(__main__, 'asdf2', focusObject)
 

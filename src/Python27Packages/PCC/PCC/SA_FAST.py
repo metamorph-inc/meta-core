@@ -1,7 +1,7 @@
 from numpy import *
 from scipy.stats import beta,norm,lognorm,uniform
-import SRC_regress
-from model_calls import run_list
+from . import SRC_regress
+from .model_calls import run_list
 
 def SA_FAST(problem, driver):
     

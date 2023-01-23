@@ -5,7 +5,7 @@
 #include <string>
 #include <set>
 #include <map>
-#include "..\bin\Python310\Include\Python.h"
+#include "..\bin\Python311\Include\Python.h"
 
 std::wstring GetMetaPath();
 HMODULE LoadPythonDll(const std::wstring& metapath);

@@ -1,9 +1,9 @@
 from __future__ import division # tells python to use "true" division throughout
 from numpy import *
 from scipy.stats import beta,norm,lognorm,uniform
-import SRC_regress
-import LHS
-from model_calls import run_list
+from . import SRC_regress
+from . import LHS
+from .model_calls import run_list
 from copy import copy, deepcopy
 
 def SA_SOBOL(problem, driver):

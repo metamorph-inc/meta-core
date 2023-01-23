@@ -79,7 +79,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
       <RegisterOutput>true</RegisterOutput>
-      <AdditionalLibraryDirectories>..\..\bin\Python310\libs;.;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\bin\Python311\libs;.;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Message>ThreadingModel=Apartment</Message>
@@ -118,8 +118,8 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>Component.def</ModuleDefinitionFile>
       <RegisterOutput>true</RegisterOutput>
-      <AdditionalLibraryDirectories>..\..\bin\Python310\libs;.;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>Python310.dll</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>..\..\bin\Python311\libs;.;$(UDM_PATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>Python311.dll</DelayLoadDLLs>
     </Link>
     <CustomBuildStep>
       <Command>reg add HKCR\Wow6432Node\CLSID\{83D57532-DB24-4592-A540-14629B9ECBD0}\InprocServer32 /v ThreadingModel /d Apartment /f &gt; "$(IntDir)\Threadingmarker"</Command>

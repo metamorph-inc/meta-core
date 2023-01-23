@@ -1,5 +1,5 @@
 from numpy import array, asarray
-import motorDesign
+from . import motorDesign
 
 from openmdao.api import Group, InMemoryRecorder
 

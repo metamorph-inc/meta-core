@@ -1,15 +1,15 @@
 from numpy import *
-import pearscdf
-from mvncdf import mvstdnormcdf
-import estimate_complexity
-import Dist
-import gaussquad
+from . import pearscdf
+from .mvncdf import mvstdnormcdf
+from . import estimate_complexity
+from . import Dist
+from . import gaussquad
 import itertools  #for fullfact function
 import scipy #for misc.factorial function
-import xvector
-import hermite
+from . import xvector
+from . import hermite
 from sympy import N, symbols
-from model_calls import run_list
+from .model_calls import run_list
 
 def UP_PCE(problem, driver):
     # Uses the PCE method for UP

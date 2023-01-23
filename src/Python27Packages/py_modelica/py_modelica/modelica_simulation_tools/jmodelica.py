@@ -43,7 +43,7 @@ class JModelica(ToolBase):
     # end of _set_tool_home
 
     def _query_registry(self):
-        """
+        r"""
 
         Queries the registry for the installation path of JModelica.
         (HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\JModelica.org-1.11

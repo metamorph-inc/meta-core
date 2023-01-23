@@ -74,7 +74,7 @@ namespace CyPhyPETTest
         [Fact]
         public void TestCodeParameters()
         {
-            Dictionary<string, object> assignment = CyPhyPET.PET.getPythonAssignment("x = 1\ny = '2'\nz = u'a\ud83d\ude4ca'");
+            Dictionary<string, object> assignment = CyPhyPET.PET.getPythonAssignment("x = 1\ny = '2'\nz = 'a\ud83d\ude4ca'");
             Assert.Equal(1L, assignment["x"]);
             Assert.Equal("2", assignment["y"]);
             // compute UTF16: map(hex, struct.unpack('H'*3, u'\U0001F64C'.encode('utf16')))
@@ -353,8 +353,8 @@ namespace CyPhyPETTest
             //Check output.csv results
             var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
             Assert.Equal("GUID,AnalysisError,Average,FourthValue,Array,StrArray,Sentence,Number", lines[0]);
-            Assert.Equal("16.357142857142858,32.714285714285715,\"[[7.0, 0.7142857142857143, 25.0, 32.714285714285715]]\",\"[[u'This', u'that']]\",This is a lot of that.,5.0", lines[1].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
-            Assert.Equal("56.416666666666664,112.83333333333333,\"[[12.0, 0.8333333333333334, 100.0, 112.83333333333333]]\",\"[[u'This', u'words.']]\",This is a lot of words..,10.0", lines[2].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
+            Assert.Equal("16.357142857142858,32.714285714285715,\"[[7.0, 0.7142857142857143, 25.0, 32.714285714285715]]\",\"[['This', 'that']]\",This is a lot of that.,5.0", lines[1].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
+            Assert.Equal("56.416666666666664,112.83333333333333,\"[[12.0, 0.8333333333333334, 100.0, 112.83333333333333]]\",\"[['This', 'words.']]\",This is a lot of words..,10.0", lines[2].Substring(Guid.Empty.ToString("D").Length + ",False,".Length));
         }
 
         [Fact]
@@ -557,17 +557,19 @@ namespace CyPhyPETTest
             Assert.True(0 == retcode, "run_mdao failed: " + stderr);
 
             //Check output.csv results
-            var lines = File.ReadAllLines(Path.Combine(resultOutputDir, "output.csv"));
+            var outputCsvPath = Path.Combine(resultOutputDir, "output.csv");
+            var lines = File.ReadAllLines(outputCsvPath);
             Assert.Equal("GUID,AnalysisError,x,y,f_xy", lines[0]);
 
-            double[] expectedFxy = new double[] { 7422.0, 2822.0, 3222.0, 2122.0, 22.0, 2922.0, 1822.0, 2222.0, 7622.0 };
-            int index = 0;
+            List<double> expectedFxy = new double[] { 7422.0, 2822.0, 3222.0, 2122.0, 22.0, 2922.0, 1822.0, 2222.0, 7622.0 }.ToList();
+            List<double> actualFxy = lines.Skip(1).Select(line => Convert.ToDouble(line.Split(',')[4])).ToList();
+            Assert.Equal(expectedFxy.Count, actualFxy.Count);
+            
             const double Epsilon = 0.0001;
-            foreach (var line in lines.Skip(1))
+            for (int i = 0; i < expectedFxy.Count; i++)
             {
-                var values = line.Split(',');
-                Assert.True((Math.Abs(Convert.ToDouble(values[4]) - expectedFxy[index])) < Epsilon, "output.csv 'f_xy' fields don't match expected");
-                index++;
+                Assert.True(Math.Abs(expectedFxy[i] - actualFxy[i]) < Epsilon, String.Format("{0} 'f_xy' fields don't match expected: {1}  {2}",
+                    outputCsvPath, expectedFxy[i], actualFxy[i]));
             }
 
             return;

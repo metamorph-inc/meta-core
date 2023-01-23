@@ -16,6 +16,7 @@
 # mkdir include
 # xcopy /E/Y C:\Python311\include\*.* include\
 # copy /y C:\Python311\Python311.dll Python311\
+# copy /y C:\Python311\Python3.dll Python311\
 # copy /y "c:\Python311\python.exe" Python311\python.exe
 # mkdir Lib
 # xcopy /E/Y c:\Python311\Lib\lib2to3 Lib\lib2to3\
@@ -62,7 +63,7 @@ numpy==1.22.4+mkl
 scipy==1.8.1
 # TODO Cheetah # meta_nrmm
 # Interchange format library support
-pyxb
+pyxb==1.2.6  # if upgraded, regenerate bindings in meta\DesignDataPackage\lib\python\avm
 # For Ricardo tools (META-1745)
 python-dateutil
 # For Ricardo tools (META-1745) and META-1783
@@ -88,3 +89,7 @@ matlab_proxy
 # For run_mdao status updates
 grpcio==1.51.1
 protobuf==3.11.3
+
+excel_wrapper
+
+omniORB  # py_modelica_exporter

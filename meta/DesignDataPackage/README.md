@@ -26,6 +26,8 @@ TODO: apply gitattributes for EOL on xsd in EMF_MetaModel
 
 Run `make.bat`
 
+Change change "import modelica" to "import avm.modelica" in generated .py files.
+
 ## HOWTO: generate Java code
 
     cmd /c make.bat

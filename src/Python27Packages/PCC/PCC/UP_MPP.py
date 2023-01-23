@@ -1,10 +1,10 @@
 from numpy import *
 # import loadargs
-import Hasofer
-import Dist
+from . import Hasofer
+from . import Dist
 from scipy.stats import norm
-from mvncdf import mvstdnormcdf
-from model_calls import run_list
+from .mvncdf import mvstdnormcdf
+from .model_calls import run_list
 
 def UP_MPP(problem, driver):
     # Uses the MPP method for UP    

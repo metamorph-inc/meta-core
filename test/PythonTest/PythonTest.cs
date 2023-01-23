@@ -67,7 +67,8 @@ namespace PythonTest
         public void TestImports()
         {
             var module_names = new string[] {
-                    // Check openmdao.api to be sure bin\Python27\requirements directions were followed re: https://bugs.python.org/issue24960
+                    // This issue has been fixed since 3.11, but let's still test openmdao.api anyways:
+                    //    Check openmdao.api to be sure bin\Python27\requirements directions were followed re: https://bugs.python.org/issue24960
                     "openmdao.api",
                     //"isis_meta", not used anywhere
                     "MaterialLibraryInterface",
@@ -79,7 +80,7 @@ namespace PythonTest
                     "run_mdao",
                     "run_mdao.cad.update_parameters",
                     // importing these tests code in sitecustomize.py
-                    // (these may fail only if there's another version of pywintypes27.dll or pythoncom27.dll in c:\Windows\SysWOW64)
+                    // (these may fail only if there's another version of pywintypes311.dll or pythoncom311.dll in c:\Windows\SysWOW64)
                     "win32api",
                     "win32file",
                     "pythoncom",
@@ -108,10 +109,10 @@ namespace PythonTest
         [Fact]
         public void TestTk()
         {
-            var e = CheckCommand("import Tkinter; Tkinter.Tk()");
+            var e = CheckCommand("import tkinter; tkinter.Tk()");
             if (e != null)
             {
-                Assert.True(e == null, "Tkinter failed: " + e.ToString());
+                Assert.True(e == null, "tkinter failed: " + e.ToString());
             }
         }
 
@@ -166,6 +167,7 @@ namespace PythonTest
             var script = @"
 import os
 import unittest
+from importlib import reload
 
 class TestEnvironment(unittest.TestCase):
     def test_env(self):
@@ -188,14 +190,14 @@ if __name__ == '__main__':
         [Fact]
         public void TestSmop()
         {
-            var smopMain = Path.Combine(VersionInfo.MetaPath, "bin\\Python27\\Lib\\site-packages\\smop\\main.py");
+            var smopMain = Path.Combine(VersionInfo.PythonVEnvPath, "Lib\\site-packages\\smop\\main.py");
             if (File.Exists(smopMain) == false)
             {
                 smopMain += "c";
             }
             var e = CheckPython(String.Format("\"{0}\" \"{1}\"",
                 smopMain,
-                Path.Combine(VersionInfo.MetaPath, "bin/Python27/Lib/site-packages/matlab_wrapper/test/stat2.m")));
+                Path.Combine(VersionInfo.PythonVEnvPath, "Lib/site-packages/matlab_wrapper/test/stat2.m")));
             if (e != null)
             {
                 Assert.True(e == null, "smop failed: " + e.ToString());

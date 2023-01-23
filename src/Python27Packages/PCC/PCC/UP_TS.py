@@ -1,9 +1,9 @@
 from numpy import *
-from mvncdf import mvstdnormcdf
-import pearscdf
-import estimate_complexity
-import taylorseries
-from model_calls import run_list
+from .mvncdf import mvstdnormcdf
+from . import pearscdf
+from . import estimate_complexity
+from . import taylorseries
+from .model_calls import run_list
 
 def UP_TS(problem, driver):
     # Uses the TS method for UP

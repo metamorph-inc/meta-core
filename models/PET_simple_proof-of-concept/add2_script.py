@@ -88,5 +88,5 @@ if __name__ == '__main__':
         if isinstance(metric['Value'], numpy.ndarray):
             metric['Value'] = metric['Value'].tolist()
     output = json.dumps(testbench_manifest, indent=4)
-    with open('testbench_manifest.json', 'wb') as testbench_manifest_json:
+    with open('testbench_manifest.json', 'w') as testbench_manifest_json:
         testbench_manifest_json.write(output)

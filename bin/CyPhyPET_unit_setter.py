@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 import sys
-# sys.path[0:0] = ['C:\\Users\\kevin\\Documents\\meta-tonka\\bin\\Python27\\lib\\site-packages']
+import importlib
 import operator
 import openmdao.units.units
 import re
@@ -167,7 +167,7 @@ def set_unit(unit_fco, set_units):
         set_units('')
         return
     except TypeError as e:
-        if 'cannot multiply units with non-zero offset' in e.message:
+        if 'cannot multiply units with non-zero offset' in e.args[0]:
             # FIXME: investigate why .../degC always fails
             set_units('')
             return
@@ -232,7 +232,7 @@ if __name__ == '__ax_main__':
         gme.ConsoleMessage(six.text_type(msg), 1)
     debug_log = log
 
-    reload(openmdao.units.units)
+    importlib.reload(openmdao.units.units)
     assert _find_unit('lbf').factor == 4.4482216152605
 
     gme.MgaProject.BeginTransactionInNewTerr()

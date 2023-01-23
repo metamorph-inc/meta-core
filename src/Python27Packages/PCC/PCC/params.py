@@ -1,6 +1,6 @@
 from collections import namedtuple      #here so we can use a "structure"-like entity
 from numpy import *
-import gaussquad
+from . import gaussquad
 
 #*****************COMPUTATION OF QUADRATURE NODES AND WEIGHTS**************
 def params(method=None, m=None, inpt=None, stvars=None):

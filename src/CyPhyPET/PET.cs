@@ -344,11 +344,17 @@ namespace CyPhyPET
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
+                    StandardOutputEncoding = new UTF8Encoding(false),
+                    StandardErrorEncoding = new UTF8Encoding(false),
                     Arguments = "-E -c \"import sys, json;" +
+                        "sys.stdin.reconfigure(encoding='utf-8');" +
+                        "sys.stdout.reconfigure(encoding='utf-8');" +
+                        // "print('xxx') ; print(repr(sys.stdin)) ;" +
                         "assignment = {};" +
-                        "eval(compile(sys.stdin.read().decode('utf8'), '<driver Code>', 'exec'), globals(), assignment);" +
+                        "eval(compile(sys.stdin.read(), '<driver Code>', 'exec'), globals(), assignment);" +
                         "print(json.dumps(assignment))\""
                 };
+                // getParamsAndUnknowns.StartInfo.EnvironmentVariables.Add("PYTHONIOENCODING", "utf8");
 
                 getParamsAndUnknowns.Start();
                 StreamWriter utf8Writer = new StreamWriter(getParamsAndUnknowns.StandardInput.BaseStream, new UTF8Encoding(false));

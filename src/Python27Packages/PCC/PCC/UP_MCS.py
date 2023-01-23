@@ -1,9 +1,9 @@
 from __future__ import division
 from numpy import *
-import LHS
+from . import LHS
 from scipy.stats import beta, norm, lognorm, uniform, skew, kurtosis
-import estimate_complexity
-from model_calls import run_list
+from . import estimate_complexity
+from .model_calls import run_list
 
 
 def UP_MCS(problem, driver):

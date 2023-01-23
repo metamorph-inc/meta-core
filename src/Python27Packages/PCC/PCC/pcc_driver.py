@@ -8,19 +8,19 @@ from collections import namedtuple
 import json
 import logging
 
-from UP_MCS import UP_MCS
-from UP_TS import UP_TS
-from UP_MPP import UP_MPP
-from UP_FFNI import UP_FFNI
-from UP_UDR import UP_UDR
-from UP_PCE import UP_PCE
-from SA_SOBOL import SA_SOBOL
+from .UP_MCS import UP_MCS
+from .UP_TS import UP_TS
+from .UP_MPP import UP_MPP
+from .UP_FFNI import UP_FFNI
+from .UP_UDR import UP_UDR
+from .UP_PCE import UP_PCE
+from .SA_SOBOL import SA_SOBOL
 # from SA_MORRIS import SA_MORRIS
-from SA_FAST import SA_FAST
-from SA_EFAST import SA_EFAST
-from UP_DPCE import UP_DPCE
+from .SA_FAST import SA_FAST
+from .SA_EFAST import SA_EFAST
+from .UP_DPCE import UP_DPCE
 
-import jsonout
+from . import jsonout
 import six
 
 
