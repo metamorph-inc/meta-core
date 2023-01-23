@@ -153,9 +153,9 @@
     </genClasses>
     <genClasses image="false" ecoreClass="AVM.ecore#//DomainModelPort"/>
     <genClasses image="false" ecoreClass="AVM.ecore#//DomainModelParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/YPosition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/Notes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/XPosition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//DomainModelParameter/YPosition"/>
     </genClasses>
     <genClasses ecoreClass="AVM.ecore#//ParametricValue">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//ParametricValue/Default"/>
@@ -334,6 +334,43 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//ValueFlowMux/Source"/>
     </genClasses>
     <genClasses image="false" ecoreClass="AVM.ecore#//DesignDomainFeature"/>
+    <genClasses ecoreClass="AVM.ecore#//GenericDomainModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AVM.ecore#//GenericDomainModel/GenericDomainModelPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AVM.ecore#//GenericDomainModel/GenericDomainModelParameter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/Type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/Domain"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute0"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute3"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute4"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute5"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute6"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModel/GenericAttribute7"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//GenericDomainModelPort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/Type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute0"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute3"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute4"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute5"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute6"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute7"/>
+    </genClasses>
+    <genClasses ecoreClass="AVM.ecore#//GenericDomainModelParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/Value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute0"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute3"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute4"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute5"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute6"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute7"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/Name"/>
+    </genClasses>
     <nestedGenPackages prefix="Modelica" basePackage="avm" resource="XML" disposableProviderFactory="true"
         ecorePackage="AVM.ecore#//modelica">
       <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">

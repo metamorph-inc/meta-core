@@ -91,6 +91,7 @@ namespace CyPhyML2AVM
             { typeof(CyPhyMLClasses.Point).ToString(),                      Creator<avm.cad.Point>.get_singleton()                  },
             { typeof(CyPhyMLClasses.AbstractPort).ToString(),               Creator<avm.AbstractPort>.get_singleton()               },
             { typeof(CyPhyMLClasses.ModelicaConnector).ToString(),          Creator<avm.modelica.Connector>.get_singleton()         },
+            { typeof(CyPhyMLClasses.GenericDomainModelPort).ToString(),     Creator<avm.GenericDomainModelPort>.get_singleton()     },
             { typeof(CyPhyMLClasses.SecurityClassification).ToString(),     Creator<avm.SecurityClassification>.get_singleton()     },
             { typeof(CyPhyMLClasses.Proprietary).ToString(),                Creator<avm.Proprietary>.get_singleton()                },
             { typeof(CyPhyMLClasses.ITAR).ToString(),                       Creator<avm.ITAR>.get_singleton()                       },

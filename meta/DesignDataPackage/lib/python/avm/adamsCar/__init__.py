@@ -1,7 +1,7 @@
 # .\_adamsCar.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:d15a81270be312be76c1307050be0cc3df24dc84
-# Generated 2017-02-15 15:01:22.002000 by PyXB version 1.2.3
+# Generated 2023-01-23 15:50:31.164000 by PyXB version 1.2.3
 # Namespace adamsCar [xmlns:adamsCar]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f4c2140f-9b67-11ed-b37a-415645000030')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import avm as _ImportedBinding__avm
 import pyxb.binding.datatypes
+import avm as _ImportedBinding__avm
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI(u'adamsCar', create_if_missing=True)
@@ -180,11 +180,11 @@ class Parameter_ (_ImportedBinding__avm.DomainModelParameter_):
     Name = property(__Name.value, __Name.set, None, None)
 
     
+    # Attribute YPosition inherited from {avm}DomainModelParameter
+    
     # Attribute Notes inherited from {avm}DomainModelParameter
     
     # Attribute XPosition inherited from {avm}DomainModelParameter
-    
-    # Attribute YPosition inherited from {avm}DomainModelParameter
     _ElementMap.update({
         __Value.name() : __Value
     })

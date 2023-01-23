@@ -1,7 +1,7 @@
 # .\_cad.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:462c18d5b89050fb1b7f8fca1e535af868009675
-# Generated 2017-02-15 15:01:22.001000 by PyXB version 1.2.3
+# Generated 2023-01-23 15:50:31.165000 by PyXB version 1.2.3
 # Namespace cad [xmlns:cad]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:e7551791-f3c1-11e6-bc8f-2c6e8597a6b6')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f4c2140f-9b67-11ed-b37a-415645000030')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import avm as _ImportedBinding__avm
 import pyxb.binding.datatypes
+import avm as _ImportedBinding__avm
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI(u'cad', create_if_missing=True)
@@ -230,11 +230,11 @@ class Parameter_ (_ImportedBinding__avm.DomainModelParameter_):
     Value = property(__Value.value, __Value.set, None, None)
 
     
+    # Attribute YPosition inherited from {avm}DomainModelParameter
+    
     # Attribute Notes inherited from {avm}DomainModelParameter
     
     # Attribute XPosition inherited from {avm}DomainModelParameter
-    
-    # Attribute YPosition inherited from {avm}DomainModelParameter
     
     # Attribute Name uses Python identifier Name
     __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Name'), 'Name', '__cad_Parameter__Name', pyxb.binding.datatypes.string, required=True)
@@ -1284,12 +1284,12 @@ def _BuildAutomaton_2 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 268, 6))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 265, 6))
+    symbol = pyxb.binding.content.ElementUse(Metric_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 268, 6))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []

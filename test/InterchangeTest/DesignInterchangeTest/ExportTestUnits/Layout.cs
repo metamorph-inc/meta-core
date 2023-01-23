@@ -8,6 +8,7 @@ using GME.MGA;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using OpenMETA.Interchange;
 
 namespace DesignExporterUnitTests
 {
@@ -83,7 +84,7 @@ namespace DesignExporterUnitTests
             String pathXmlOut = Path.Combine(LayoutFixture.PathTest, "DesignContainer.adm");
             using (StreamWriter sw = new StreamWriter(pathXmlOut, false))
             {
-                sw.Write(design.Serialize());
+                sw.Write(AvmXmlSerializer.Serialize(design));
             }
 
             var checker = new LayoutDataChecker();

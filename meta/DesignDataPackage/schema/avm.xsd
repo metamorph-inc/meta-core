@@ -62,6 +62,9 @@
   <xsd:element ecore:ignore="true" name="Settings" type="avm:Settings"/>
   <xsd:element ecore:ignore="true" name="ValueFlowMux" type="avm:ValueFlowMux"/>
   <xsd:element ecore:ignore="true" name="DesignDomainFeature" type="avm:DesignDomainFeature"/>
+  <xsd:element ecore:ignore="true" name="GenericDomainModel" type="avm:GenericDomainModel"/>
+  <xsd:element ecore:ignore="true" name="GenericDomainModelPort" type="avm:GenericDomainModelPort"/>
+  <xsd:element ecore:ignore="true" name="GenericDomainModelParameter" type="avm:GenericDomainModelParameter"/>
   <xsd:complexType name="Component">
     <xsd:annotation>
       <xsd:documentation>Test documentation for Component type. Yep.</xsd:documentation>
@@ -185,9 +188,9 @@
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType abstract="true" name="DomainModelParameter">
+    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
     <xsd:attribute ecore:name="Notes" name="Notes" type="xsd:string"/>
     <xsd:attribute ecore:name="XPosition" name="XPosition" type="xsd:unsignedInt"/>
-    <xsd:attribute ecore:name="YPosition" name="YPosition" type="xsd:unsignedInt"/>
   </xsd:complexType>
   <xsd:complexType name="ParametricValue">
     <xsd:complexContent>
@@ -572,4 +575,55 @@
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType abstract="true" name="DesignDomainFeature"/>
+  <xsd:complexType name="GenericDomainModel">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModel">
+        <xsd:sequence>
+          <xsd:element ecore:name="GenericDomainModelPort" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="GenericDomainModelPort" type="avm:GenericDomainModelPort"/>
+          <xsd:element ecore:name="GenericDomainModelParameter" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="GenericDomainModelParameter" type="avm:GenericDomainModelParameter"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:name="Type" name="Type" type="xsd:string"/>
+        <xsd:attribute ecore:name="Domain" name="Domain" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute0" name="GenericAttribute0" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute1" name="GenericAttribute1" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute2" name="GenericAttribute2" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute3" name="GenericAttribute3" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute4" name="GenericAttribute4" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute5" name="GenericAttribute5" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute6" name="GenericAttribute6" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute7" name="GenericAttribute7" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GenericDomainModelPort">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelPort">
+        <xsd:attribute ecore:name="Type" name="Type" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute0" name="GenericAttribute0" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute1" name="GenericAttribute1" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute2" name="GenericAttribute2" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute3" name="GenericAttribute3" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute4" name="GenericAttribute4" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute5" name="GenericAttribute5" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute6" name="GenericAttribute6" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute7" name="GenericAttribute7" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GenericDomainModelParameter">
+    <xsd:complexContent>
+      <xsd:extension base="avm:DomainModelParameter">
+        <xsd:attribute ecore:name="Value" name="Value" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute0" name="GenericAttribute0" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute1" name="GenericAttribute1" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute2" name="GenericAttribute2" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute3" name="GenericAttribute3" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute4" name="GenericAttribute4" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute5" name="GenericAttribute5" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute6" name="GenericAttribute6" type="xsd:string"/>
+        <xsd:attribute ecore:name="GenericAttribute7" name="GenericAttribute7" type="xsd:string"/>
+        <xsd:attribute ecore:name="Name" name="Name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 </xsd:schema>

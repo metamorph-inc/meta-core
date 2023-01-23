@@ -125,9 +125,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DomainModelPort" abstract="true" eSuperTypes="#//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="DomainModelParameter" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Notes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="XPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="YPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//UnsignedIntObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParametricValue" eSuperTypes="#//ValueExpressionType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="Default" lowerBound="1"
@@ -355,7 +355,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TopLevelSystemUnderTest" eSuperTypes="#//ContainerInstanceBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="DesignID" lowerBound="1"
-        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="processing" value="skip"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TestBenchValueBase"/>
   <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//TestBenchValueBase"/>
@@ -399,6 +403,45 @@
         eType="#//ValueNode" eKeys="#//ValueNode/ID"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DesignDomainFeature" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericDomainModel" eSuperTypes="#//DomainModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="GenericDomainModelPort"
+        upperBound="-1" eType="#//GenericDomainModelPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="GenericDomainModelParameter"
+        upperBound="-1" eType="#//GenericDomainModelParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Domain" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute0" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute2" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute3" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute4" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute5" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute6" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute7" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericDomainModelPort" eSuperTypes="#//DomainModelPort">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute0" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute2" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute3" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute4" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute5" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute6" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute7" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericDomainModelParameter" eSuperTypes="#//DomainModelParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute0" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute2" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute3" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute4" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute5" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute6" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute7" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+  </eClassifiers>
   <eSubpackages name="modelica" nsURI="modelica" nsPrefix="modelica">
     <eClassifiers xsi:type="ecore:EClass" name="ModelicaModel" eSuperTypes="#//DomainModel">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Class" lowerBound="1"

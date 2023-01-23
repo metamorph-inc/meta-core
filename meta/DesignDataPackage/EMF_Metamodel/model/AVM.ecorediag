@@ -1910,6 +1910,222 @@
       <element xsi:nil="true"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pMngM7wIEeKt-NvGxWTSPg" x="378" y="108" width="253" height="64"/>
     </children>
+    <children xmi:type="notation:Node" xmi:id="_oNxroJs3Ee2-AoB_bSk7wA" type="1001">
+      <children xmi:type="notation:Node" xmi:id="_oN0H4Js3Ee2-AoB_bSk7wA" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_oN0H4Zs3Ee2-AoB_bSk7wA" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_6jAmcJtLEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/Type"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_6jAmcZtLEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_7z2jQJtLEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/Domain"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_7z3KUJtLEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_9OCpUJtLEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute0"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_9OCpUZtLEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_D55dUJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute1"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_D55dUZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_E7AVAJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute2"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_E7AVAZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_GDY5YJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute3"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_GDY5YZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_G9kpsJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute4"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_G9kpsZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_H3WxYJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute5"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_H3WxYZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_XsEnUJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute6"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_XsEnUZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_YxPfoJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModel/GenericAttribute7"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_YxPfoZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_oN0H4ps3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_oN0H45s3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_oN0H5Js3Ee2-AoB_bSk7wA"/>
+        <layoutConstraint xmi:type="notation:Ratio" xmi:id="_2e2NcJtLEe2-AoB_bSk7wA" value="0.589041095890411"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_oN0H5Zs3Ee2-AoB_bSk7wA" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_oN0H5ps3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_oN0H55s3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_oN0H6Js3Ee2-AoB_bSk7wA"/>
+        <layoutConstraint xmi:type="notation:Ratio" xmi:id="_2e4CoJtLEe2-AoB_bSk7wA" value="0.1780821917808219"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_oNxroZs3Ee2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//GenericDomainModel"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oNxrops3Ee2-AoB_bSk7wA" x="252" y="216" width="195" height="243"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_3KbRIJs3Ee2-AoB_bSk7wA" type="1001">
+      <children xmi:type="notation:Node" xmi:id="_3Kb4MJs3Ee2-AoB_bSk7wA" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_3Kb4MZs3Ee2-AoB_bSk7wA" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_z0-ywJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/Type"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_z0-ywZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_0jFO4JtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute0"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_0jFO4ZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_2IXxsJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute1"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_2IXxsZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_2tB98JtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute2"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_2tB98ZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_3RkOYJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute3"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_3RkOYZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_361N0JtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute4"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_361N0ZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_4lsvwJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute5"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_4lsvwZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_5KvWgJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute6"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_5KvWgZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_5v4q8JtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelPort/GenericAttribute7"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_5v4q8ZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_3Kb4Mps3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_3Kb4M5s3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_3Kb4NJs3Ee2-AoB_bSk7wA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_3Kb4NZs3Ee2-AoB_bSk7wA" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_3Kb4Nps3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_3Kb4N5s3Ee2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_3Kb4OJs3Ee2-AoB_bSk7wA"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_3KbRIZs3Ee2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//GenericDomainModelPort"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3KbRIps3Ee2-AoB_bSk7wA" x="384" y="540" width="219" height="195"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Agp4UJtGEe2-AoB_bSk7wA" type="1001">
+      <children xmi:type="notation:Node" xmi:id="_AgrGcJtGEe2-AoB_bSk7wA" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_AgrGcZtGEe2-AoB_bSk7wA" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_EOFfcJteEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/Name"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_EOFfcZteEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_bzDDwJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/Value"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_bzDDwZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_eoauYJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute0"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_eoauYZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_nymmAJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute1"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_nymmAZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_o1VOUJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute2"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_o1VOUZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_p67kcJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute3"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_p67kcZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_udhl4JtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute4"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_udhl4ZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_vCvLwJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute5"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_vCvLwZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_vcfIgJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute6"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_vcfIgZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_wmp1kJtMEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute7"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_wmp1kZtMEe2-AoB_bSk7wA"/>
+        </children>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_AgrGcptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_AgrGc5tGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_AgrGdJtGEe2-AoB_bSk7wA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_AgrGdZtGEe2-AoB_bSk7wA" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_AgrGdptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_AgrGd5tGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_AgrGeJtGEe2-AoB_bSk7wA"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_Agp4UZtGEe2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//GenericDomainModelParameter"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Agp4UptGEe2-AoB_bSk7wA" x="168" y="540" height="219"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_T6HAUJtGEe2-AoB_bSk7wA" type="1001">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_T6RYYJtGEe2-AoB_bSk7wA" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_T6RYYZtGEe2-AoB_bSk7wA" key="modelID" value="EcoreTools"/>
+      </eAnnotations>
+      <children xmi:type="notation:Node" xmi:id="_T6HnYJtGEe2-AoB_bSk7wA" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_T6HnYZtGEe2-AoB_bSk7wA" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_T6IOdJtGEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//DomainModelParameter/YPosition"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_T6IOdZtGEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_T6IOcJtGEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//DomainModelParameter/Notes"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_T6IOcZtGEe2-AoB_bSk7wA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_T6IOcptGEe2-AoB_bSk7wA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//DomainModelParameter/XPosition"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_T6IOc5tGEe2-AoB_bSk7wA"/>
+        </children>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_T6HnYptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_T6HnY5tGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_T6HnZJtGEe2-AoB_bSk7wA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_T6HnZZtGEe2-AoB_bSk7wA" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_T6HnZptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_T6HnZ5tGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_T6HnaJtGEe2-AoB_bSk7wA"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_T6HAUZtGEe2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//DomainModelParameter"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_T6HAUptGEe2-AoB_bSk7wA" x="168" y="792"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ht4SMJtGEe2-AoB_bSk7wA" type="1001">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_huEfcJtGEe2-AoB_bSk7wA" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_huEfcZtGEe2-AoB_bSk7wA" key="modelID" value="EcoreTools"/>
+      </eAnnotations>
+      <children xmi:type="notation:Node" xmi:id="_ht45QJtGEe2-AoB_bSk7wA" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_ht45QZtGEe2-AoB_bSk7wA" type="5001">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_ht45QptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_ht45Q5tGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_ht45RJtGEe2-AoB_bSk7wA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ht5gUJtGEe2-AoB_bSk7wA" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_ht5gUZtGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_ht5gUptGEe2-AoB_bSk7wA"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_ht5gU5tGEe2-AoB_bSk7wA"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_ht4SMZtGEe2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//DomainModelPort"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ht4SMptGEe2-AoB_bSk7wA" x="432" y="756"/>
+    </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_Kf-AAayOEeKYPKEcY25JHA"/>
     <element xmi:type="ecore:EPackage" href="AVM.ecore#/"/>
     <edges xmi:type="notation:Edge" xmi:id="_QLxsQKyOEeKYPKEcY25JHA" type="3002" source="_L7lCYKyOEeKYPKEcY25JHA" target="_QLuB4KyOEeKYPKEcY25JHA">
@@ -1937,6 +2153,52 @@
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_JKoDA7wLEeKt-NvGxWTSPg" points="[-1, 11, 1, -136]$[-1, 135, 1, -12]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_JKsUcLwLEeKt-NvGxWTSPg" id="(0.4628099173553719,0.7755102040816326)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_JKsUcbwLEeKt-NvGxWTSPg" id="(0.4931506849315068,0.11504424778761062)"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_sYMdoJs3Ee2-AoB_bSk7wA" type="3003" source="_oNxroJs3Ee2-AoB_bSk7wA" target="_L7lCYKyOEeKYPKEcY25JHA">
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_sYMdoZs3Ee2-AoB_bSk7wA" routing="Rectilinear" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_sYMdops3Ee2-AoB_bSk7wA" fontName="Segoe UI"/>
+      <element xsi:nil="true"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sYMdo5s3Ee2-AoB_bSk7wA" points="[-20, -17, 144, 131]$[-162, -95, 2, 53]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sYNrwJs3Ee2-AoB_bSk7wA" id="(0.4943820224719101,0.14634146341463414)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sYNrwZs3Ee2-AoB_bSk7wA" id="(0.8871794871794871,0.5309734513274337)"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_BrrCUJs4Ee2-AoB_bSk7wA" type="3002" source="_oNxroJs3Ee2-AoB_bSk7wA" target="_3KbRIJs3Ee2-AoB_bSk7wA">
+      <children xmi:type="notation:Node" xmi:id="_BrrCVJs4Ee2-AoB_bSk7wA" type="4011">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_BrrCVZs4Ee2-AoB_bSk7wA" x="-5" y="-65"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_BrrCVps4Ee2-AoB_bSk7wA" type="4012">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_BrrCV5s4Ee2-AoB_bSk7wA" x="-5" y="21"/>
+      </children>
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_BrrCUZs4Ee2-AoB_bSk7wA" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_BrrCUps4Ee2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+      <element xmi:type="ecore:EReference" href="AVM.ecore#//GenericDomainModel/GenericDomainModelPort"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_BrrCU5s4Ee2-AoB_bSk7wA" points="[30, 37, -49, -60]$[80, 88, 1, -9]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_7IdroJtFEe2-AoB_bSk7wA" id="(0.7897435897435897,0.96)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_BrsQcJs4Ee2-AoB_bSk7wA" id="(0.2571428571428571,0.05084745762711865)"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_Dluy4JtGEe2-AoB_bSk7wA" type="3002" source="_oNxroJs3Ee2-AoB_bSk7wA" target="_Agp4UJtGEe2-AoB_bSk7wA">
+      <children xmi:type="notation:Node" xmi:id="_DlvZ8JtGEe2-AoB_bSk7wA" type="4011">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_DlvZ8ZtGEe2-AoB_bSk7wA" x="-5" y="13"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_DlvZ8ptGEe2-AoB_bSk7wA" type="4012">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_DlvZ85tGEe2-AoB_bSk7wA" x="14" y="20"/>
+      </children>
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_Dluy4ZtGEe2-AoB_bSk7wA" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_Dluy4ptGEe2-AoB_bSk7wA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+      <element xmi:type="ecore:EReference" href="AVM.ecore#//GenericDomainModel/GenericDomainModelParameter"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Dluy45tGEe2-AoB_bSk7wA" points="[-18, 37, 90, -127]$[-12, 162, 96, -2]"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_XF0HUJtGEe2-AoB_bSk7wA" type="3003" source="_Agp4UJtGEe2-AoB_bSk7wA" target="_T6HAUJtGEe2-AoB_bSk7wA">
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_XF0HUZtGEe2-AoB_bSk7wA" routing="Rectilinear" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_XF0HUptGEe2-AoB_bSk7wA" fontName="Segoe UI"/>
+      <element xsi:nil="true"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_XF0HU5tGEe2-AoB_bSk7wA" points="[71, 21, -227, -48]$[254, 111, -44, 42]"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_i31j4JtGEe2-AoB_bSk7wA" type="3003" source="_3KbRIJs3Ee2-AoB_bSk7wA" target="_ht4SMJtGEe2-AoB_bSk7wA">
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_i31j4ZtGEe2-AoB_bSk7wA" routing="Rectilinear" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_i31j4ptGEe2-AoB_bSk7wA" fontName="Segoe UI"/>
+      <element xsi:nil="true"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_i31j45tGEe2-AoB_bSk7wA" points="[7, 29, 2, -83]$[7, 133, 2, 21]"/>
     </edges>
   </notation:Diagram>
   <notation:Diagram xmi:id="_1n5LoKySEeKYPKEcY25JHA" type="EcoreTools" name="CADModel" measurementUnit="Pixel">
@@ -3224,21 +3486,6 @@
       <element xmi:type="ecore:EClass" href="AVM.ecore#//ComponentPortInstance"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SZWXItVLEeKpYdWrh6xN3A" x="45" y="171"/>
     </children>
-    <children xmi:type="notation:Node" xmi:id="_8CURQO3tEeOYAegT-IeA0Q" type="1001">
-      <children xmi:type="notation:Node" xmi:id="_8CeCQO3tEeOYAegT-IeA0Q" type="4001"/>
-      <children xmi:type="notation:Node" xmi:id="_8CeCQe3tEeOYAegT-IeA0Q" type="5001">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_8CeCQu3tEeOYAegT-IeA0Q"/>
-        <styles xmi:type="notation:SortingStyle" xmi:id="_8CeCQ-3tEeOYAegT-IeA0Q"/>
-        <styles xmi:type="notation:FilteringStyle" xmi:id="_8CeCRO3tEeOYAegT-IeA0Q"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_8CeCRe3tEeOYAegT-IeA0Q" type="5002">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_8CeCRu3tEeOYAegT-IeA0Q"/>
-        <styles xmi:type="notation:SortingStyle" xmi:id="_8CeCR-3tEeOYAegT-IeA0Q"/>
-        <styles xmi:type="notation:FilteringStyle" xmi:id="_8CeCSO3tEeOYAegT-IeA0Q"/>
-      </children>
-      <styles xmi:type="notation:ShapeStyle" xmi:id="_8CURQe3tEeOYAegT-IeA0Q" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8CURQu3tEeOYAegT-IeA0Q" x="48" y="264"/>
-    </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_F7N-wcijEeKeC_-AWxhd0A"/>
     <element xmi:type="ecore:EPackage" href="AVM.ecore#/"/>
     <edges xmi:type="notation:Edge" xmi:id="_KTIIQMilEeKeC_-AWxhd0A" type="3003" source="_Bt3_IMikEeKeC_-AWxhd0A" target="_CPGc4MikEeKeC_-AWxhd0A">
@@ -3286,12 +3533,6 @@
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UN76M9VLEeKpYdWrh6xN3A" points="[-5, -31, -5, 193]$[-5, -200, -5, 24]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ZVu6cNVLEeKpYdWrh6xN3A" id="(0.72,0.03076923076923077)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Y3GdsNVLEeKpYdWrh6xN3A" id="(0.9117647058823529,0.8979591836734694)"/>
-    </edges>
-    <edges xmi:type="notation:Edge" xmi:id="_8sfPoO3tEeOYAegT-IeA0Q" type="3003" source="_8CURQO3tEeOYAegT-IeA0Q" target="_HkUHQNVLEeKpYdWrh6xN3A">
-      <styles xmi:type="notation:ConnectorStyle" xmi:id="_8sfPoe3tEeOYAegT-IeA0Q" routing="Rectilinear" lineColor="4210752"/>
-      <styles xmi:type="notation:FontStyle" xmi:id="_8sfPou3tEeOYAegT-IeA0Q" fontName="Segoe UI"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8sfPo-3tEeOYAegT-IeA0Q" points="[-3, -24, 7, 214]$[-65, -237, -55, 1]"/>
     </edges>
   </notation:Diagram>
   <notation:Diagram xmi:id="_yRVogMl7EeKeC_-AWxhd0A" type="EcoreTools" name="Geometry" measurementUnit="Pixel">

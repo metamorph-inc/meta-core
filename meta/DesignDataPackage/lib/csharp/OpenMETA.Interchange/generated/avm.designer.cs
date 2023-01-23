@@ -361,6 +361,7 @@ namespace avm {
         #endregion
     }
     
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GenericDomainModel))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1834,952 +1835,6 @@ namespace avm {
         #endregion
     }
     
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ComponentPortInstance))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Port))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DomainModelPort))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
-    public partial class PortMapTarget {
-        
-        private string idField;
-        
-        private List<string> portMapField;
-        
-        private static System.Xml.Serialization.XmlSerializer serializer;
-        
-        public PortMapTarget() {
-            this.portMapField = new List<string>();
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string ID {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public List<string> PortMap {
-            get {
-                return this.portMapField;
-            }
-            set {
-                this.portMapField = value;
-            }
-        }
-        
-        private static System.Xml.Serialization.XmlSerializer Serializer {
-            get {
-                if ((serializer == null)) {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(PortMapTarget));
-                }
-                return serializer;
-            }
-        }
-        
-        #region Serialize/Deserialize
-        /// <summary>
-        /// Serializes current PortMapTarget object into an XML document
-        /// </summary>
-        /// <returns>string XML value</returns>
-        public virtual string Serialize() {
-            System.IO.StreamReader streamReader = null;
-            System.IO.MemoryStream memoryStream = null;
-            try {
-                memoryStream = new System.IO.MemoryStream();
-                Serializer.Serialize(memoryStream, this);
-                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                streamReader = new System.IO.StreamReader(memoryStream);
-                return streamReader.ReadToEnd();
-            }
-            finally {
-                if ((streamReader != null)) {
-                    streamReader.Dispose();
-                }
-                if ((memoryStream != null)) {
-                    memoryStream.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes workflow markup into an PortMapTarget object
-        /// </summary>
-        /// <param name="xml">string workflow markup to deserialize</param>
-        /// <param name="obj">Output PortMapTarget object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool Deserialize(string xml, out PortMapTarget obj, out System.Exception exception) {
-            exception = null;
-            obj = default(PortMapTarget);
-            try {
-                obj = Deserialize(xml);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool Deserialize(string xml, out PortMapTarget obj) {
-            System.Exception exception = null;
-            return Deserialize(xml, out obj, out exception);
-        }
-        
-        public static PortMapTarget Deserialize(string xml) {
-            System.IO.StringReader stringReader = null;
-            try {
-                stringReader = new System.IO.StringReader(xml);
-                return ((PortMapTarget)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
-            }
-            finally {
-                if ((stringReader != null)) {
-                    stringReader.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Serializes current PortMapTarget object into file
-        /// </summary>
-        /// <param name="fileName">full path of outupt xml file</param>
-        /// <param name="exception">output Exception value if failed</param>
-        /// <returns>true if can serialize and save into file; otherwise, false</returns>
-        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
-            exception = null;
-            try {
-                SaveToFile(fileName);
-                return true;
-            }
-            catch (System.Exception e) {
-                exception = e;
-                return false;
-            }
-        }
-        
-        public virtual void SaveToFile(string fileName) {
-            System.IO.StreamWriter streamWriter = null;
-            try {
-                string xmlString = Serialize();
-                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
-                streamWriter = xmlFile.CreateText();
-                streamWriter.WriteLine(xmlString);
-                streamWriter.Close();
-            }
-            finally {
-                if ((streamWriter != null)) {
-                    streamWriter.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes xml markup from file into an PortMapTarget object
-        /// </summary>
-        /// <param name="fileName">string xml file to load and deserialize</param>
-        /// <param name="obj">Output PortMapTarget object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool LoadFromFile(string fileName, out PortMapTarget obj, out System.Exception exception) {
-            exception = null;
-            obj = default(PortMapTarget);
-            try {
-                obj = LoadFromFile(fileName);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool LoadFromFile(string fileName, out PortMapTarget obj) {
-            System.Exception exception = null;
-            return LoadFromFile(fileName, out obj, out exception);
-        }
-        
-        public static PortMapTarget LoadFromFile(string fileName) {
-            System.IO.FileStream file = null;
-            System.IO.StreamReader sr = null;
-            try {
-                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
-                sr = new System.IO.StreamReader(file);
-                string xmlString = sr.ReadToEnd();
-                sr.Close();
-                file.Close();
-                return Deserialize(xmlString);
-            }
-            finally {
-                if ((file != null)) {
-                    file.Dispose();
-                }
-                if ((sr != null)) {
-                    sr.Dispose();
-                }
-            }
-        }
-        #endregion
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
-    public partial class ComponentPortInstance : PortMapTarget {
-        
-        private string iDinComponentModelField;
-        
-        private static System.Xml.Serialization.XmlSerializer serializer;
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string IDinComponentModel {
-            get {
-                return this.iDinComponentModelField;
-            }
-            set {
-                this.iDinComponentModelField = value;
-            }
-        }
-        
-        private static System.Xml.Serialization.XmlSerializer Serializer {
-            get {
-                if ((serializer == null)) {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(ComponentPortInstance));
-                }
-                return serializer;
-            }
-        }
-        
-        #region Serialize/Deserialize
-        /// <summary>
-        /// Serializes current ComponentPortInstance object into an XML document
-        /// </summary>
-        /// <returns>string XML value</returns>
-        public virtual string Serialize() {
-            System.IO.StreamReader streamReader = null;
-            System.IO.MemoryStream memoryStream = null;
-            try {
-                memoryStream = new System.IO.MemoryStream();
-                Serializer.Serialize(memoryStream, this);
-                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                streamReader = new System.IO.StreamReader(memoryStream);
-                return streamReader.ReadToEnd();
-            }
-            finally {
-                if ((streamReader != null)) {
-                    streamReader.Dispose();
-                }
-                if ((memoryStream != null)) {
-                    memoryStream.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes workflow markup into an ComponentPortInstance object
-        /// </summary>
-        /// <param name="xml">string workflow markup to deserialize</param>
-        /// <param name="obj">Output ComponentPortInstance object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool Deserialize(string xml, out ComponentPortInstance obj, out System.Exception exception) {
-            exception = null;
-            obj = default(ComponentPortInstance);
-            try {
-                obj = Deserialize(xml);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool Deserialize(string xml, out ComponentPortInstance obj) {
-            System.Exception exception = null;
-            return Deserialize(xml, out obj, out exception);
-        }
-        
-        public static ComponentPortInstance Deserialize(string xml) {
-            System.IO.StringReader stringReader = null;
-            try {
-                stringReader = new System.IO.StringReader(xml);
-                return ((ComponentPortInstance)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
-            }
-            finally {
-                if ((stringReader != null)) {
-                    stringReader.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Serializes current ComponentPortInstance object into file
-        /// </summary>
-        /// <param name="fileName">full path of outupt xml file</param>
-        /// <param name="exception">output Exception value if failed</param>
-        /// <returns>true if can serialize and save into file; otherwise, false</returns>
-        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
-            exception = null;
-            try {
-                SaveToFile(fileName);
-                return true;
-            }
-            catch (System.Exception e) {
-                exception = e;
-                return false;
-            }
-        }
-        
-        public virtual void SaveToFile(string fileName) {
-            System.IO.StreamWriter streamWriter = null;
-            try {
-                string xmlString = Serialize();
-                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
-                streamWriter = xmlFile.CreateText();
-                streamWriter.WriteLine(xmlString);
-                streamWriter.Close();
-            }
-            finally {
-                if ((streamWriter != null)) {
-                    streamWriter.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes xml markup from file into an ComponentPortInstance object
-        /// </summary>
-        /// <param name="fileName">string xml file to load and deserialize</param>
-        /// <param name="obj">Output ComponentPortInstance object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool LoadFromFile(string fileName, out ComponentPortInstance obj, out System.Exception exception) {
-            exception = null;
-            obj = default(ComponentPortInstance);
-            try {
-                obj = LoadFromFile(fileName);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool LoadFromFile(string fileName, out ComponentPortInstance obj) {
-            System.Exception exception = null;
-            return LoadFromFile(fileName, out obj, out exception);
-        }
-        
-        public static ComponentPortInstance LoadFromFile(string fileName) {
-            System.IO.FileStream file = null;
-            System.IO.StreamReader sr = null;
-            try {
-                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
-                sr = new System.IO.StreamReader(file);
-                string xmlString = sr.ReadToEnd();
-                sr.Close();
-                file.Close();
-                return Deserialize(xmlString);
-            }
-            finally {
-                if ((file != null)) {
-                    file.Dispose();
-                }
-                if ((sr != null)) {
-                    sr.Dispose();
-                }
-            }
-        }
-        #endregion
-    }
-    
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DomainModelPort))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(avm.modelica.Connector))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
-    public abstract partial class Port : PortMapTarget {
-        
-        private string notesField;
-        
-        private uint xPositionField;
-        
-        private bool xPositionFieldSpecified;
-        
-        private string definitionField;
-        
-        private uint yPositionField;
-        
-        private bool yPositionFieldSpecified;
-        
-        private string nameField;
-        
-        private static System.Xml.Serialization.XmlSerializer serializer;
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Notes {
-            get {
-                return this.notesField;
-            }
-            set {
-                this.notesField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public uint XPosition {
-            get {
-                return this.xPositionField;
-            }
-            set {
-                this.xPositionField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool XPositionSpecified {
-            get {
-                return this.xPositionFieldSpecified;
-            }
-            set {
-                this.xPositionFieldSpecified = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Definition {
-            get {
-                return this.definitionField;
-            }
-            set {
-                this.definitionField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public uint YPosition {
-            get {
-                return this.yPositionField;
-            }
-            set {
-                this.yPositionField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool YPositionSpecified {
-            get {
-                return this.yPositionFieldSpecified;
-            }
-            set {
-                this.yPositionFieldSpecified = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        private static System.Xml.Serialization.XmlSerializer Serializer {
-            get {
-                if ((serializer == null)) {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(Port));
-                }
-                return serializer;
-            }
-        }
-        
-        #region Serialize/Deserialize
-        /// <summary>
-        /// Serializes current Port object into an XML document
-        /// </summary>
-        /// <returns>string XML value</returns>
-        public virtual string Serialize() {
-            System.IO.StreamReader streamReader = null;
-            System.IO.MemoryStream memoryStream = null;
-            try {
-                memoryStream = new System.IO.MemoryStream();
-                Serializer.Serialize(memoryStream, this);
-                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                streamReader = new System.IO.StreamReader(memoryStream);
-                return streamReader.ReadToEnd();
-            }
-            finally {
-                if ((streamReader != null)) {
-                    streamReader.Dispose();
-                }
-                if ((memoryStream != null)) {
-                    memoryStream.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes workflow markup into an Port object
-        /// </summary>
-        /// <param name="xml">string workflow markup to deserialize</param>
-        /// <param name="obj">Output Port object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool Deserialize(string xml, out Port obj, out System.Exception exception) {
-            exception = null;
-            obj = default(Port);
-            try {
-                obj = Deserialize(xml);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool Deserialize(string xml, out Port obj) {
-            System.Exception exception = null;
-            return Deserialize(xml, out obj, out exception);
-        }
-        
-        public static Port Deserialize(string xml) {
-            System.IO.StringReader stringReader = null;
-            try {
-                stringReader = new System.IO.StringReader(xml);
-                return ((Port)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
-            }
-            finally {
-                if ((stringReader != null)) {
-                    stringReader.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Serializes current Port object into file
-        /// </summary>
-        /// <param name="fileName">full path of outupt xml file</param>
-        /// <param name="exception">output Exception value if failed</param>
-        /// <returns>true if can serialize and save into file; otherwise, false</returns>
-        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
-            exception = null;
-            try {
-                SaveToFile(fileName);
-                return true;
-            }
-            catch (System.Exception e) {
-                exception = e;
-                return false;
-            }
-        }
-        
-        public virtual void SaveToFile(string fileName) {
-            System.IO.StreamWriter streamWriter = null;
-            try {
-                string xmlString = Serialize();
-                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
-                streamWriter = xmlFile.CreateText();
-                streamWriter.WriteLine(xmlString);
-                streamWriter.Close();
-            }
-            finally {
-                if ((streamWriter != null)) {
-                    streamWriter.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes xml markup from file into an Port object
-        /// </summary>
-        /// <param name="fileName">string xml file to load and deserialize</param>
-        /// <param name="obj">Output Port object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool LoadFromFile(string fileName, out Port obj, out System.Exception exception) {
-            exception = null;
-            obj = default(Port);
-            try {
-                obj = LoadFromFile(fileName);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool LoadFromFile(string fileName, out Port obj) {
-            System.Exception exception = null;
-            return LoadFromFile(fileName, out obj, out exception);
-        }
-        
-        public static Port LoadFromFile(string fileName) {
-            System.IO.FileStream file = null;
-            System.IO.StreamReader sr = null;
-            try {
-                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
-                sr = new System.IO.StreamReader(file);
-                string xmlString = sr.ReadToEnd();
-                sr.Close();
-                file.Close();
-                return Deserialize(xmlString);
-            }
-            finally {
-                if ((file != null)) {
-                    file.Dispose();
-                }
-                if ((sr != null)) {
-                    sr.Dispose();
-                }
-            }
-        }
-        #endregion
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
-    public partial class AbstractPort : Port {
-        
-        private static System.Xml.Serialization.XmlSerializer serializer;
-        
-        private static System.Xml.Serialization.XmlSerializer Serializer {
-            get {
-                if ((serializer == null)) {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(AbstractPort));
-                }
-                return serializer;
-            }
-        }
-        
-        #region Serialize/Deserialize
-        /// <summary>
-        /// Serializes current AbstractPort object into an XML document
-        /// </summary>
-        /// <returns>string XML value</returns>
-        public virtual string Serialize() {
-            System.IO.StreamReader streamReader = null;
-            System.IO.MemoryStream memoryStream = null;
-            try {
-                memoryStream = new System.IO.MemoryStream();
-                Serializer.Serialize(memoryStream, this);
-                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                streamReader = new System.IO.StreamReader(memoryStream);
-                return streamReader.ReadToEnd();
-            }
-            finally {
-                if ((streamReader != null)) {
-                    streamReader.Dispose();
-                }
-                if ((memoryStream != null)) {
-                    memoryStream.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes workflow markup into an AbstractPort object
-        /// </summary>
-        /// <param name="xml">string workflow markup to deserialize</param>
-        /// <param name="obj">Output AbstractPort object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool Deserialize(string xml, out AbstractPort obj, out System.Exception exception) {
-            exception = null;
-            obj = default(AbstractPort);
-            try {
-                obj = Deserialize(xml);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool Deserialize(string xml, out AbstractPort obj) {
-            System.Exception exception = null;
-            return Deserialize(xml, out obj, out exception);
-        }
-        
-        public static AbstractPort Deserialize(string xml) {
-            System.IO.StringReader stringReader = null;
-            try {
-                stringReader = new System.IO.StringReader(xml);
-                return ((AbstractPort)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
-            }
-            finally {
-                if ((stringReader != null)) {
-                    stringReader.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Serializes current AbstractPort object into file
-        /// </summary>
-        /// <param name="fileName">full path of outupt xml file</param>
-        /// <param name="exception">output Exception value if failed</param>
-        /// <returns>true if can serialize and save into file; otherwise, false</returns>
-        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
-            exception = null;
-            try {
-                SaveToFile(fileName);
-                return true;
-            }
-            catch (System.Exception e) {
-                exception = e;
-                return false;
-            }
-        }
-        
-        public virtual void SaveToFile(string fileName) {
-            System.IO.StreamWriter streamWriter = null;
-            try {
-                string xmlString = Serialize();
-                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
-                streamWriter = xmlFile.CreateText();
-                streamWriter.WriteLine(xmlString);
-                streamWriter.Close();
-            }
-            finally {
-                if ((streamWriter != null)) {
-                    streamWriter.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes xml markup from file into an AbstractPort object
-        /// </summary>
-        /// <param name="fileName">string xml file to load and deserialize</param>
-        /// <param name="obj">Output AbstractPort object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool LoadFromFile(string fileName, out AbstractPort obj, out System.Exception exception) {
-            exception = null;
-            obj = default(AbstractPort);
-            try {
-                obj = LoadFromFile(fileName);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool LoadFromFile(string fileName, out AbstractPort obj) {
-            System.Exception exception = null;
-            return LoadFromFile(fileName, out obj, out exception);
-        }
-        
-        public static AbstractPort LoadFromFile(string fileName) {
-            System.IO.FileStream file = null;
-            System.IO.StreamReader sr = null;
-            try {
-                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
-                sr = new System.IO.StreamReader(file);
-                string xmlString = sr.ReadToEnd();
-                sr.Close();
-                file.Close();
-                return Deserialize(xmlString);
-            }
-            finally {
-                if ((file != null)) {
-                    file.Dispose();
-                }
-                if ((sr != null)) {
-                    sr.Dispose();
-                }
-            }
-        }
-        #endregion
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
-    public abstract partial class DomainModelPort : Port {
-        
-        private static System.Xml.Serialization.XmlSerializer serializer;
-        
-        private static System.Xml.Serialization.XmlSerializer Serializer {
-            get {
-                if ((serializer == null)) {
-                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(DomainModelPort));
-                }
-                return serializer;
-            }
-        }
-        
-        #region Serialize/Deserialize
-        /// <summary>
-        /// Serializes current DomainModelPort object into an XML document
-        /// </summary>
-        /// <returns>string XML value</returns>
-        public virtual string Serialize() {
-            System.IO.StreamReader streamReader = null;
-            System.IO.MemoryStream memoryStream = null;
-            try {
-                memoryStream = new System.IO.MemoryStream();
-                Serializer.Serialize(memoryStream, this);
-                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-                streamReader = new System.IO.StreamReader(memoryStream);
-                return streamReader.ReadToEnd();
-            }
-            finally {
-                if ((streamReader != null)) {
-                    streamReader.Dispose();
-                }
-                if ((memoryStream != null)) {
-                    memoryStream.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes workflow markup into an DomainModelPort object
-        /// </summary>
-        /// <param name="xml">string workflow markup to deserialize</param>
-        /// <param name="obj">Output DomainModelPort object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool Deserialize(string xml, out DomainModelPort obj, out System.Exception exception) {
-            exception = null;
-            obj = default(DomainModelPort);
-            try {
-                obj = Deserialize(xml);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool Deserialize(string xml, out DomainModelPort obj) {
-            System.Exception exception = null;
-            return Deserialize(xml, out obj, out exception);
-        }
-        
-        public static DomainModelPort Deserialize(string xml) {
-            System.IO.StringReader stringReader = null;
-            try {
-                stringReader = new System.IO.StringReader(xml);
-                return ((DomainModelPort)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
-            }
-            finally {
-                if ((stringReader != null)) {
-                    stringReader.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Serializes current DomainModelPort object into file
-        /// </summary>
-        /// <param name="fileName">full path of outupt xml file</param>
-        /// <param name="exception">output Exception value if failed</param>
-        /// <returns>true if can serialize and save into file; otherwise, false</returns>
-        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
-            exception = null;
-            try {
-                SaveToFile(fileName);
-                return true;
-            }
-            catch (System.Exception e) {
-                exception = e;
-                return false;
-            }
-        }
-        
-        public virtual void SaveToFile(string fileName) {
-            System.IO.StreamWriter streamWriter = null;
-            try {
-                string xmlString = Serialize();
-                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
-                streamWriter = xmlFile.CreateText();
-                streamWriter.WriteLine(xmlString);
-                streamWriter.Close();
-            }
-            finally {
-                if ((streamWriter != null)) {
-                    streamWriter.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Deserializes xml markup from file into an DomainModelPort object
-        /// </summary>
-        /// <param name="fileName">string xml file to load and deserialize</param>
-        /// <param name="obj">Output DomainModelPort object</param>
-        /// <param name="exception">output Exception value if deserialize failed</param>
-        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
-        public static bool LoadFromFile(string fileName, out DomainModelPort obj, out System.Exception exception) {
-            exception = null;
-            obj = default(DomainModelPort);
-            try {
-                obj = LoadFromFile(fileName);
-                return true;
-            }
-            catch (System.Exception ex) {
-                exception = ex;
-                return false;
-            }
-        }
-        
-        public static bool LoadFromFile(string fileName, out DomainModelPort obj) {
-            System.Exception exception = null;
-            return LoadFromFile(fileName, out obj, out exception);
-        }
-        
-        public static DomainModelPort LoadFromFile(string fileName) {
-            System.IO.FileStream file = null;
-            System.IO.StreamReader sr = null;
-            try {
-                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
-                sr = new System.IO.StreamReader(file);
-                string xmlString = sr.ReadToEnd();
-                sr.Close();
-                file.Close();
-                return Deserialize(xmlString);
-            }
-            finally {
-                if ((file != null)) {
-                    file.Dispose();
-                }
-                if ((sr != null)) {
-                    sr.Dispose();
-                }
-            }
-        }
-        #endregion
-    }
-    
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ComponentConnectorInstance))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Connector))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
@@ -3454,6 +2509,1226 @@ namespace avm {
         }
         
         public static Connector LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DomainModelPort))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GenericDomainModelPort))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(avm.modelica.Connector))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public abstract partial class Port : PortMapTarget {
+        
+        private string notesField;
+        
+        private uint xPositionField;
+        
+        private bool xPositionFieldSpecified;
+        
+        private string definitionField;
+        
+        private uint yPositionField;
+        
+        private bool yPositionFieldSpecified;
+        
+        private string nameField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Notes {
+            get {
+                return this.notesField;
+            }
+            set {
+                this.notesField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public uint XPosition {
+            get {
+                return this.xPositionField;
+            }
+            set {
+                this.xPositionField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool XPositionSpecified {
+            get {
+                return this.xPositionFieldSpecified;
+            }
+            set {
+                this.xPositionFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Definition {
+            get {
+                return this.definitionField;
+            }
+            set {
+                this.definitionField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public uint YPosition {
+            get {
+                return this.yPositionField;
+            }
+            set {
+                this.yPositionField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool YPositionSpecified {
+            get {
+                return this.yPositionFieldSpecified;
+            }
+            set {
+                this.yPositionFieldSpecified = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(Port));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current Port object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an Port object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output Port object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out Port obj, out System.Exception exception) {
+            exception = null;
+            obj = default(Port);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out Port obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static Port Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((Port)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current Port object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an Port object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output Port object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out Port obj, out System.Exception exception) {
+            exception = null;
+            obj = default(Port);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out Port obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static Port LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ComponentPortInstance))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Port))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AbstractPort))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DomainModelPort))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GenericDomainModelPort))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class PortMapTarget {
+        
+        private string idField;
+        
+        private List<string> portMapField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public PortMapTarget() {
+            this.portMapField = new List<string>();
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public List<string> PortMap {
+            get {
+                return this.portMapField;
+            }
+            set {
+                this.portMapField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(PortMapTarget));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current PortMapTarget object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an PortMapTarget object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output PortMapTarget object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out PortMapTarget obj, out System.Exception exception) {
+            exception = null;
+            obj = default(PortMapTarget);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out PortMapTarget obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static PortMapTarget Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((PortMapTarget)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current PortMapTarget object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an PortMapTarget object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output PortMapTarget object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out PortMapTarget obj, out System.Exception exception) {
+            exception = null;
+            obj = default(PortMapTarget);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out PortMapTarget obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static PortMapTarget LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class ComponentPortInstance : PortMapTarget {
+        
+        private string iDinComponentModelField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string IDinComponentModel {
+            get {
+                return this.iDinComponentModelField;
+            }
+            set {
+                this.iDinComponentModelField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(ComponentPortInstance));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current ComponentPortInstance object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an ComponentPortInstance object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output ComponentPortInstance object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out ComponentPortInstance obj, out System.Exception exception) {
+            exception = null;
+            obj = default(ComponentPortInstance);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out ComponentPortInstance obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static ComponentPortInstance Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((ComponentPortInstance)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current ComponentPortInstance object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an ComponentPortInstance object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output ComponentPortInstance object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out ComponentPortInstance obj, out System.Exception exception) {
+            exception = null;
+            obj = default(ComponentPortInstance);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out ComponentPortInstance obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static ComponentPortInstance LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class AbstractPort : Port {
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(AbstractPort));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current AbstractPort object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an AbstractPort object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output AbstractPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out AbstractPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(AbstractPort);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out AbstractPort obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static AbstractPort Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((AbstractPort)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current AbstractPort object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an AbstractPort object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output AbstractPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out AbstractPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(AbstractPort);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out AbstractPort obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static AbstractPort LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GenericDomainModelPort))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public abstract partial class DomainModelPort : Port {
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(DomainModelPort));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current DomainModelPort object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an DomainModelPort object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output DomainModelPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out DomainModelPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(DomainModelPort);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out DomainModelPort obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static DomainModelPort Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((DomainModelPort)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current DomainModelPort object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an DomainModelPort object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output DomainModelPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out DomainModelPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(DomainModelPort);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out DomainModelPort obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static DomainModelPort LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class GenericDomainModelPort : DomainModelPort {
+        
+        private string typeField;
+        
+        private string genericAttribute0Field;
+        
+        private string genericAttribute1Field;
+        
+        private string genericAttribute2Field;
+        
+        private string genericAttribute3Field;
+        
+        private string genericAttribute4Field;
+        
+        private string genericAttribute5Field;
+        
+        private string genericAttribute6Field;
+        
+        private string genericAttribute7Field;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute0 {
+            get {
+                return this.genericAttribute0Field;
+            }
+            set {
+                this.genericAttribute0Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute1 {
+            get {
+                return this.genericAttribute1Field;
+            }
+            set {
+                this.genericAttribute1Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute2 {
+            get {
+                return this.genericAttribute2Field;
+            }
+            set {
+                this.genericAttribute2Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute3 {
+            get {
+                return this.genericAttribute3Field;
+            }
+            set {
+                this.genericAttribute3Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute4 {
+            get {
+                return this.genericAttribute4Field;
+            }
+            set {
+                this.genericAttribute4Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute5 {
+            get {
+                return this.genericAttribute5Field;
+            }
+            set {
+                this.genericAttribute5Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute6 {
+            get {
+                return this.genericAttribute6Field;
+            }
+            set {
+                this.genericAttribute6Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute7 {
+            get {
+                return this.genericAttribute7Field;
+            }
+            set {
+                this.genericAttribute7Field = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(GenericDomainModelPort));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current GenericDomainModelPort object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an GenericDomainModelPort object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output GenericDomainModelPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out GenericDomainModelPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModelPort);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out GenericDomainModelPort obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static GenericDomainModelPort Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((GenericDomainModelPort)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current GenericDomainModelPort object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an GenericDomainModelPort object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output GenericDomainModelPort object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out GenericDomainModelPort obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModelPort);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out GenericDomainModelPort obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static GenericDomainModelPort LoadFromFile(string fileName) {
             System.IO.FileStream file = null;
             System.IO.StreamReader sr = null;
             try {
@@ -7741,6 +8016,7 @@ namespace avm {
         #endregion
     }
     
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GenericDomainModelParameter))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -7748,17 +8024,37 @@ namespace avm {
     [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
     public abstract partial class DomainModelParameter {
         
+        private uint yPositionField;
+        
+        private bool yPositionFieldSpecified;
+        
         private string notesField;
         
         private uint xPositionField;
         
         private bool xPositionFieldSpecified;
         
-        private uint yPositionField;
-        
-        private bool yPositionFieldSpecified;
-        
         private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public uint YPosition {
+            get {
+                return this.yPositionField;
+            }
+            set {
+                this.yPositionField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool YPositionSpecified {
+            get {
+                return this.yPositionFieldSpecified;
+            }
+            set {
+                this.yPositionFieldSpecified = value;
+            }
+        }
         
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Notes {
@@ -7787,26 +8083,6 @@ namespace avm {
             }
             set {
                 this.xPositionFieldSpecified = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public uint YPosition {
-            get {
-                return this.yPositionField;
-            }
-            set {
-                this.yPositionField = value;
-            }
-        }
-        
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool YPositionSpecified {
-            get {
-                return this.yPositionFieldSpecified;
-            }
-            set {
-                this.yPositionFieldSpecified = value;
             }
         }
         
@@ -7942,6 +8218,601 @@ namespace avm {
         }
         
         public static DomainModelParameter LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class GenericDomainModelParameter : DomainModelParameter {
+        
+        private string valueField;
+        
+        private string genericAttribute0Field;
+        
+        private string genericAttribute1Field;
+        
+        private string genericAttribute2Field;
+        
+        private string genericAttribute3Field;
+        
+        private string genericAttribute4Field;
+        
+        private string genericAttribute5Field;
+        
+        private string genericAttribute6Field;
+        
+        private string genericAttribute7Field;
+        
+        private string nameField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute0 {
+            get {
+                return this.genericAttribute0Field;
+            }
+            set {
+                this.genericAttribute0Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute1 {
+            get {
+                return this.genericAttribute1Field;
+            }
+            set {
+                this.genericAttribute1Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute2 {
+            get {
+                return this.genericAttribute2Field;
+            }
+            set {
+                this.genericAttribute2Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute3 {
+            get {
+                return this.genericAttribute3Field;
+            }
+            set {
+                this.genericAttribute3Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute4 {
+            get {
+                return this.genericAttribute4Field;
+            }
+            set {
+                this.genericAttribute4Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute5 {
+            get {
+                return this.genericAttribute5Field;
+            }
+            set {
+                this.genericAttribute5Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute6 {
+            get {
+                return this.genericAttribute6Field;
+            }
+            set {
+                this.genericAttribute6Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute7 {
+            get {
+                return this.genericAttribute7Field;
+            }
+            set {
+                this.genericAttribute7Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(GenericDomainModelParameter));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current GenericDomainModelParameter object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an GenericDomainModelParameter object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output GenericDomainModelParameter object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out GenericDomainModelParameter obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModelParameter);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out GenericDomainModelParameter obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static GenericDomainModelParameter Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((GenericDomainModelParameter)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current GenericDomainModelParameter object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an GenericDomainModelParameter object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output GenericDomainModelParameter object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out GenericDomainModelParameter obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModelParameter);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out GenericDomainModelParameter obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static GenericDomainModelParameter LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.38968")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="avm")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="avm", IsNullable=false)]
+    public partial class GenericDomainModel : DomainModel {
+        
+        private List<GenericDomainModelPort> genericDomainModelPortField;
+        
+        private List<GenericDomainModelParameter> genericDomainModelParameterField;
+        
+        private string typeField;
+        
+        private string domainField;
+        
+        private string genericAttribute0Field;
+        
+        private string genericAttribute1Field;
+        
+        private string genericAttribute2Field;
+        
+        private string genericAttribute3Field;
+        
+        private string genericAttribute4Field;
+        
+        private string genericAttribute5Field;
+        
+        private string genericAttribute6Field;
+        
+        private string genericAttribute7Field;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public GenericDomainModel() {
+            this.genericDomainModelParameterField = new List<GenericDomainModelParameter>();
+            this.genericDomainModelPortField = new List<GenericDomainModelPort>();
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute("GenericDomainModelPort", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public List<GenericDomainModelPort> GenericDomainModelPort {
+            get {
+                return this.genericDomainModelPortField;
+            }
+            set {
+                this.genericDomainModelPortField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlElementAttribute("GenericDomainModelParameter", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public List<GenericDomainModelParameter> GenericDomainModelParameter {
+            get {
+                return this.genericDomainModelParameterField;
+            }
+            set {
+                this.genericDomainModelParameterField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Domain {
+            get {
+                return this.domainField;
+            }
+            set {
+                this.domainField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute0 {
+            get {
+                return this.genericAttribute0Field;
+            }
+            set {
+                this.genericAttribute0Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute1 {
+            get {
+                return this.genericAttribute1Field;
+            }
+            set {
+                this.genericAttribute1Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute2 {
+            get {
+                return this.genericAttribute2Field;
+            }
+            set {
+                this.genericAttribute2Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute3 {
+            get {
+                return this.genericAttribute3Field;
+            }
+            set {
+                this.genericAttribute3Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute4 {
+            get {
+                return this.genericAttribute4Field;
+            }
+            set {
+                this.genericAttribute4Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute5 {
+            get {
+                return this.genericAttribute5Field;
+            }
+            set {
+                this.genericAttribute5Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute6 {
+            get {
+                return this.genericAttribute6Field;
+            }
+            set {
+                this.genericAttribute6Field = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string GenericAttribute7 {
+            get {
+                return this.genericAttribute7Field;
+            }
+            set {
+                this.genericAttribute7Field = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(GenericDomainModel));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current GenericDomainModel object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an GenericDomainModel object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output GenericDomainModel object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out GenericDomainModel obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModel);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out GenericDomainModel obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static GenericDomainModel Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((GenericDomainModel)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current GenericDomainModel object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an GenericDomainModel object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output GenericDomainModel object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out GenericDomainModel obj, out System.Exception exception) {
+            exception = null;
+            obj = default(GenericDomainModel);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out GenericDomainModel obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static GenericDomainModel LoadFromFile(string fileName) {
             System.IO.FileStream file = null;
             System.IO.StreamReader sr = null;
             try {
