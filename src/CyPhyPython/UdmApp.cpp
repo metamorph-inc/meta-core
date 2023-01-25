@@ -75,16 +75,15 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 		}
 	}
 	PyObject_RAII exception_args = PyObject_GetAttrString(value, "args");
-	PyObject_RAII message;
+	PyObject* message = nullptr;
 	if (exception_args.p && PyTuple_Check(exception_args)) {
 		if (PyTuple_Size(exception_args)) {
-			message.p = PyTuple_GetItem(exception_args, 0);
+			message = PyTuple_GetItem(exception_args, 0);
 		}
 	}
 	if (message && PyUnicode_Check(message))
 	{
-		PyObject_RAII str_value = PyObject_Str(message);
-		error += PyUnicode_AsUTF8(str_value);
+		error += PyUnicode_AsUTF8(message);
 	}
 	else
 	{
@@ -92,7 +91,7 @@ std::string GetPythonError(PyObject* ErrorMessageException=nullptr)
 		PyErr_Clear();
 		if (type && value && value.p->ob_type->tp_str)
 		{
-			PyObject_RAII str = value.p->ob_type->tp_str(value);
+			PyObject_RAII str = PyObject_Str(value);
 			if (PyUnicode_Check(str))
 				error += PyUnicode_AsUTF8(str);
 		}
@@ -464,7 +463,7 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 	PyObject_RAII CyPhyPython = _GetOrCreateCyPhyPythonModule();
 
 	PyObject_RAII logfile;
-	PyObject* ErrorMessageException = PyObject_GetAttrString(CyPhyPython, "ErrorMessageException");
+	PyObject_RAII ErrorMessageException = PyObject_GetAttrString(CyPhyPython, "ErrorMessageException");
 	auto console_messages = componentParameters.find(L"console_messages");
 	if (console_messages != componentParameters.end()
 		&& console_messages->second.vt == VT_BSTR
