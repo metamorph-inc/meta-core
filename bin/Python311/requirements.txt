@@ -74,7 +74,7 @@ OMPython #==2.0.7
 solidpython #==0.1.1
 sympy #==0.7.2  # PET PCC
 requests #==2.11.0  # installer
-smop==0.23+g9bf6295
+smop==0.23+g6da7fc7
 #For testbenchexecutor
 Jinja2 # ==2.10
 # for py_modelica_exporter
@@ -83,8 +83,8 @@ Jinja2 # ==2.10
 networkx==1.11
 requests
 # https://github.com/metamorph-inc/matlab_wrapper/releases
-matlab_wrapper
-matlab_proxy
+matlab_wrapper==0.14
+matlab_proxy==0.14
 
 # For run_mdao status updates
 grpcio==1.51.1

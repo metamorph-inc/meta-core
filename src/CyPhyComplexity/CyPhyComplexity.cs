@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using CyPhy = ISIS.GME.Dsml.CyPhyML.Interfaces;
 using CyPhyClasses = ISIS.GME.Dsml.CyPhyML.Classes;
 using CyPhyGUIs;
+using META;
 //using Complexity;
 
 namespace CyPhyComplexity
@@ -114,8 +115,7 @@ namespace CyPhyComplexity
                     }
                     using (StreamWriter writer = new StreamWriter(mainCmdFilename))
                     {
-                        writer.WriteLine("call \"{0}\"", META_PATH_PYTHON_ACTIVATE);
-                        writer.WriteLine("python {0}  Components.csv Connections.csv 1", mainPythonFilename);
+                        writer.WriteLine("\"{0}\" \"{1}\"  Components.csv Connections.csv 1", VersionInfo.PythonVEnvExe, mainPythonFilename);
 
                         //writer.WriteLine(CyPhyComplexity.Properties.Resources.RunComplexityEvaluator);
                     }
@@ -133,16 +133,6 @@ namespace CyPhyComplexity
                                         
             }
         }
-
-        public string META_PATH { get; set; }
-        public string META_PATH_PYTHON_ACTIVATE
-        {
-            get
-            {
-                return Path.Combine(META_PATH, "bin", "Python27", "Scripts", "activate.bat");
-            }
-        }
-
 
         #region IMgaComponentEx Members
 
@@ -214,8 +204,6 @@ namespace CyPhyComplexity
 
         private void CallElaboratorAndMain(MgaProject project, MgaFCO currentobj, MgaFCOs selectedobjs, int param)
         {
-            META_PATH = META.VersionInfo.MetaPath;
-
             GMEConsole = GMEConsole.CreateFromProject(project);
 
             #region Elaborate the TestBench

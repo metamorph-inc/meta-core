@@ -38,7 +38,7 @@ Primarily tools used at build/development time
 Runtimes and tools shipped with OpenMETA
 
   * `cad.js` - [cad.js](https://github.com/ghemingway/cad.js) - MIT License
-  * `Python27` - [CPython](https://www.python.org/) - Python Software Foundation License
+  * `Python311` - [CPython](https://www.python.org/) - Python Software Foundation License
   * `spice` - [ngspice](http://ngspice.sourceforge.net/) - BSD License
   * `udm.pyd` - [Unified Data Model (UDM) Python module][UDM] - Vanderbilt University End User License Agreement
   * `UdmCopy.exe` - [Unified Data Model (UDM)][UDM] - Vanderbilt University End User License Agreement
