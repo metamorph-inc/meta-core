@@ -1,0 +1,6 @@
+[console_scripts]
+profdump = openmdao.util.profile:prof_dump
+proftotals = openmdao.util.profile:prof_totals
+view_profile = openmdao.util.profile:prof_view
+webview = openmdao.devtools.webview:webview_argv
+wingproj = openmdao.devtools.wingproj:run_wing
