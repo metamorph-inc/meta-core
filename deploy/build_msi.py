@@ -69,7 +69,7 @@ def bin_mods():
     output_filename = 'bin.wxi'
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
     tree = ElementTree.parse(output_filename, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
-    parent_map = dict((c, p) for p in tree for c in p)
+    parent_map = dict((c, p) for p in tree.iter() for c in p)
     fragment = tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Fragment")[0]
     for element in ("""<Property Id="pywin219"/>""",
             """<CustomActionRef Id="WixRemoveFoldersEx" />""",
@@ -107,13 +107,13 @@ def generate_license_rtf():
 
 def add_vcs_defines(defines):
     def get_command_output(cmd):
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         out, err = out.decode('utf8'), err.decode('utf8')
         return out.strip()
 
     def get_vcsversion():
-        p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
+        p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         out, err = out.decode('utf8'), err.decode('utf8')
         return str(int(out.strip() or '651') - 650)
@@ -138,7 +138,7 @@ def add_vcs_defines(defines):
     version = parse_describe(vcsdescription)
 
     def get_githash():
-        p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
+        p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         out, err = out.decode('utf8'), err.decode('utf8')
         #if p.returncode:
@@ -202,15 +202,15 @@ def build_msi(with_offline=False):
 
     # gen_dir_from_vc: "explicit is better than implicit"
     #  consider: generated files are left on disk after an svn switch, and get included in an installer that shouldn't have them
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\PCC\PCC",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\isis_meta\isis_meta",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\material_library\MaterialLibraryInterface",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\meta_nrmm\meta_nrmm",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica\py_modelica",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica_exporter\py_modelica_exporter",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\cad_library\cad_library",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\run_mdao",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\testbenchexecutor",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\material_library\MaterialLibraryInterface",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\cad_library\cad_library",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\run_mdao",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\testbenchexecutor",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
     #gen_dir_wxi.main(r"CAD_Installs\Proe ISIS Extensions", "Proe_ISIS_Extensions_x64.wxi", "Proe_ISIS_Extensions_x64", diskId='4')  # do not call gen_dir_from_vc, it would exclude CADCreoCreateAssembly.exe
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\CyPhyML\icons",)
@@ -221,11 +221,11 @@ def build_msi(with_offline=False):
     bin_file_map.update(package_python.zipall())
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3', file_map=bin_file_map)
     bin_mods()
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\PCC\PCC",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\isis_meta\isis_meta",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\meta_nrmm\meta_nrmm",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica\py_modelica",)
-    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python311Packages\py_modelica_exporter\py_modelica_exporter",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\isis_meta\isis_meta",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\meta_nrmm\meta_nrmm",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica\py_modelica",)
+    gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\py_modelica_exporter\py_modelica_exporter",)
     gen_dir_wxi.gen_dir_from_vc(r"..\meta\DesignDataPackage\lib\python", "DesignDataPackage_python.wxi", "DesignDataPackage_python")
 
     add_vcs_defines(defines)
@@ -287,7 +287,7 @@ def build_msi(with_offline=False):
         metaproject = win32com.client.Dispatch("MGA.MgaMetaProject")
         metaproject.Open('MGA=' + mta_file)
         try:
-            return ("{" + str(uuid.UUID(bytes_le=metaproject.GUID)).upper() + "}", metaproject.Version)
+            return ("{" + str(uuid.UUID(bytes_le=metaproject.GUID.tobytes())).upper() + "}", metaproject.Version)
         finally:
             metaproject.Close()
 
@@ -342,6 +342,7 @@ class MSBuildErrorWriter(object):
 
 if __name__ == '__main__':
     os.chdir(this_dir)
+    build_msi()
 
     import traceback
     try:

@@ -226,7 +226,7 @@ def main(src, output_filename=None, id=None, diskId=None):
     tree = ElementTree.parse(output_filename, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
     tree.insert(0, ElementTree.Comment('generated with gen_dir_wxi.py %s\n' % src))
     tree.insert(0, ElementTree.ProcessingInstruction('define', '%s=%s' % (id, os.path.normpath(src))))
-    parent_map = dict((c, p) for p in tree for c in p)
+    parent_map = dict((c, p) for p in tree.iter() for c in p)
     for file in tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Component/{http://schemas.microsoft.com/wix/2006/wi}File"):
         file_Source = file.get('Source', '')
         if file_Source.find('.svn') != -1 or os.path.basename(file_Source) in ('Thumbs.db', 'desktop.ini', '.DS_Store') or file_Source.endswith('.pyc'):
