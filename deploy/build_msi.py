@@ -218,7 +218,7 @@ def build_msi(with_offline=False):
 
     import package_python
     bin_file_map = package_python.compileall()
-    bin_file_map.update(package_python.zipall())
+    bin_file_map.update(package_python.zipall(bin_file_map))
     gen_dir_wxi.gen_dir_from_vc(r"..\bin", diskId='3', file_map=bin_file_map)
     bin_mods()
     gen_dir_wxi.gen_dir_from_vc(r"..\src\Python27Packages\PCC\PCC",)
@@ -342,7 +342,6 @@ class MSBuildErrorWriter(object):
 
 if __name__ == '__main__':
     os.chdir(this_dir)
-    build_msi()
 
     import traceback
     try:

@@ -37,6 +37,7 @@ def compileall():
     # ls_files = subprocess.Popen('git grep -EL "(pkg_resources|__file__)"  ../bin/Python27/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ls_files = subprocess.Popen(f'git ls-files  ../bin/Python{PYTHON_VERSION}/Lib/site-packages/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = ls_files.communicate()
+    out, err = out.decode('utf8'), err.decode('utf8')
     exit_code = ls_files.poll()
     if exit_code != 0:
         raise Exception('failed: ' + err)
@@ -51,14 +52,14 @@ def compileall():
 
         # tmp_name = '__tmp.pyc'   'cfile': tmp_name,
         kwargs = {'file': filename, 'dfile': dfile, 'doraise': True}
-        py_compile.compile(**kwargs)
+        pyc_filename = py_compile.compile(**kwargs)
 
-        compiled[os.path.normpath(filename)] = os.path.normpath(filename) + 'c'
+        compiled[os.path.normpath(filename)] = os.path.normpath(pyc_filename)
 
     return compiled
 
 
-def zipall():
+def zipall(bin_file_map):
     zipped_files = {}
     # subprocess.check_call('git checkout ../bin/Python27/Scripts/Python27.zip')
     shutil.copyfile(f'../bin/Python{PYTHON_VERSION}/Python{PYTHON_VERSION}.zip', f'Python{PYTHON_VERSION}.zip')
@@ -74,18 +75,19 @@ def zipall():
                 ):
             ls_files = subprocess.Popen(f'git ls-files  ../bin/Python{PYTHON_VERSION}/Lib/site-packages/{package}/**', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = ls_files.communicate()
+            out, err = out.decode('utf8'), err.decode('utf8')
             exit_code = ls_files.poll()
             if exit_code != 0:
                 raise Exception('failed: ' + err)
 
             for filename in list(line.replace("/", "\\") for line in out.splitlines()):
                 i = i + 1
-                dest_filename = filename[len(f'../bin/Python{PYTHON_VERSION}/Lib/site-packages/'):]
                 zipped_files[os.path.normpath(filename)] = None
                 if filename.endswith('.py'):
                     if not pyc_exclude(filename):
-                        filename = filename + 'c'
-                        dest_filename = dest_filename + 'c'
+                        filename = bin_file_map[filename]
+
+                dest_filename = filename[len(f'../bin/Python{PYTHON_VERSION}/Lib/site-packages/'):]
 
                 if '.egg\\' in dest_filename:
                     dest_filename = dest_filename[dest_filename.index('.egg\\') + len('.egg\\'):]
