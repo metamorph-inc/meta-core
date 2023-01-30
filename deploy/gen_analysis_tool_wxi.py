@@ -40,10 +40,10 @@ def generate_wxi(src, output_filename=None, id=None, diskId=None):
     check_call(['heat', 'dir', _adjacent_file(src), '-template', 'fragment', '-sreg', '-scom',
       '-o', output_filename, '-ag', '-cg', id, '-srd', '-var', 'var.' + id, '-dr', id, '-nologo'])
 
-    tree = ElementTree.parse(output_filename, parser=CommentedTreeBuilder()).getroot()
+    tree = ElementTree.parse(output_filename, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
     tree.insert(0, ElementTree.Comment('generated with gen_analysis_tool_wxi.py %s\n' % src))
     tree.insert(0, ElementTree.ProcessingInstruction('define', '%s=%s' % (id, os.path.normpath(src))))
-    parent_map = dict((c, p) for p in tree.getiterator() for c in p)
+    parent_map = dict((c, p) for p in tree for c in p)
     for file in tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Component/{http://schemas.microsoft.com/wix/2006/wi}File"):
         if file.get('Source', '').find('.svn') != -1:
             comp = parent_map[file]

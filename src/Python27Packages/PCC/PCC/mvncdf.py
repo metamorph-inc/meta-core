@@ -1,5 +1,5 @@
 '''multivariate normal probabilities and cumulative distribution function
-a wrapper for scipy.stats.kde.mvndst
+a wrapper for scipy.stats.mvndst
 
 
       SUBROUTINE MVNDST( N, LOWER, UPPER, INFIN, CORREL, MAXPTS,
@@ -48,8 +48,8 @@ a wrapper for scipy.stats.kde.mvndst
 import numpy as np
 import scipy
 import scipy.stats
+import scipy.stats.mvn
 import logging
-#from scipy.stats import kde
 
 informcode = {0: 'normal completion with ERROR < EPS',
               1: '''completion with ERROR > EPS and MAXPTS function values used;
@@ -59,7 +59,7 @@ informcode = {0: 'normal completion with ERROR < EPS',
 def mvstdnormcdf(lower, upper, corrcoef, **kwds):
     '''standardized multivariate normal cumulative distribution function
 
-    This is a wrapper for scipy.stats.kde.mvn.mvndst which calculates
+    This is a wrapper for scipy.stats.mvn.mvndst which calculates
     a rectangular integral over a standardized multivariate normal
     distribution.
 
@@ -126,7 +126,7 @@ def mvstdnormcdf(lower, upper, corrcoef, **kwds):
     upper = np.array(upper)
     corrcoef = np.array(corrcoef)
 
-    correl = np.zeros(n*(n-1)/2.0)  #dtype necessary?
+    correl = np.zeros(int(n*(n-1)/2.0))  #dtype necessary?
 
     if (lower.ndim != 1) or (upper.ndim != 1):
         logging.error('can handle only 1D bounds')
@@ -144,7 +144,7 @@ def mvstdnormcdf(lower, upper, corrcoef, **kwds):
         #print 'case square corr',  correl.shape
         for ii in range(n):
             for jj in range(ii):
-                correl[ jj + ((ii-2)*(ii-1))/2] = corrcoef[ii,jj]
+                correl[ jj + ((ii-2)*(ii-1))//2] = corrcoef[ii,jj]
     else:
         logging.error('corrcoef has incorrect dimension')
         raise ValueError('corrcoef has incorrect dimension')
@@ -169,7 +169,7 @@ def mvstdnormcdf(lower, upper, corrcoef, **kwds):
     #print lower,',',upper,',',infin,',',correl
     #print correl.shape
     #print kwds.items()
-    error, cdfvalue, inform = scipy.stats.kde.mvn.mvndst(lower,upper,infin,correl,**kwds)
+    error, cdfvalue, inform = scipy.stats.mvn.mvndst(lower,upper,infin,correl,**kwds)
 #    if inform:     #commented this out so that it doesn't confuse the user. This is a scary but (as far as we know) unhelpful warning.
 #        print 'something wrong', informcode[inform], error
 #        logging.warning('something wrong %s %s', informcode[inform], error)
@@ -179,7 +179,7 @@ def mvstdnormcdf(lower, upper, corrcoef, **kwds):
 def mvnormcdf(lower, upper, mu, cov, **kwds):
     '''multivariate normal cumulative distribution function
 
-    This is a wrapper for scipy.stats.kde.mvn.mvndst which calculates
+    This is a wrapper for scipy.stats.mvn.mvndst which calculates
     a rectangular integral over a multivariate normal distribution.
 
     Parameters

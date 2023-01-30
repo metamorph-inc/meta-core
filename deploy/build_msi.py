@@ -68,8 +68,8 @@ def get_nuget_packages():
 def bin_mods():
     output_filename = 'bin.wxi'
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
-    tree = ElementTree.parse(output_filename, parser=CommentedTreeBuilder()).getroot()
-    parent_map = dict((c, p) for p in tree.getiterator() for c in p)
+    tree = ElementTree.parse(output_filename, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
+    parent_map = dict((c, p) for p in tree for c in p)
     fragment = tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Fragment")[0]
     for element in ("""<Property Id="pywin219"/>""",
             """<CustomActionRef Id="WixRemoveFoldersEx" />""",
@@ -79,7 +79,7 @@ def bin_mods():
             </InstallExecuteSequence>"""):
         fragment.insert(0, ElementTree.fromstring(element))
 
-    python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python311_Scripts']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python311\Scripts\python.exe']")[0]
+    python_exe = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}Component[@Directory='dir_bin_Python311']/{http://schemas.microsoft.com/wix/2006/wi}File[@Source='..\bin\Python311\python.exe']")[0]
     parent_map[python_exe].insert(0, ElementTree.fromstring("""<util:RemoveFolderEx xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" On="install" Property="pywin219" />"""))
 
     #for element in parent_map.keys():
@@ -89,14 +89,14 @@ def bin_mods():
     #        pdb.set_trace()
     #        if source.startswith(r'..\bin\Python311\Lib') and source.endswith('.py'):
     #            element.attrib['Source'] = source + 'c'
-    python_zip = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}" + "File[@Id='{}']".format(get_file_id(r"..\bin\Python311\Scripts\Python311.zip")))[0]
+    python_zip = tree.findall(r".//{http://schemas.microsoft.com/wix/2006/wi}" + "File[@Id='{}']".format(get_file_id(r"..\bin\Python311\Python311.zip")))[0]
     python_zip.attrib['Source'] = 'Python311.zip'
 
     ElementTree.ElementTree(tree).write(output_filename, xml_declaration=True, encoding='utf-8')
 
 def generate_license_rtf():
-    with open('../license.rtf', 'wb') as rtf:
-        txt = open('../license.txt').read()
+    with open('../license.rtf', 'wt') as rtf:
+        txt = open('../license.txt', 'rt').read()
         txt = txt.replace('\r', '')
         txt = re.sub('([^\\n])\\n(?!\\n)', '\\1 ', txt)
         txt = re.sub(r'([\\{}])', r'\\\1', txt)
@@ -109,11 +109,13 @@ def add_vcs_defines(defines):
     def get_command_output(cmd):
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         out, err = p.communicate()
+        out, err = out.decode('utf8'), err.decode('utf8')
         return out.strip()
 
     def get_vcsversion():
         p = subprocess.Popen("git rev-list HEAD --count".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
+        out, err = out.decode('utf8'), err.decode('utf8')
         return str(int(out.strip() or '651') - 650)
 
     vcsversion = get_vcsversion()
@@ -138,6 +140,7 @@ def add_vcs_defines(defines):
     def get_githash():
         p = subprocess.Popen("git rev-parse --short HEAD".split(), stdout=subprocess.PIPE)
         out, err = p.communicate()
+        out, err = out.decode('utf8'), err.decode('utf8')
         #if p.returncode:
         #    raise subprocess.CalledProcessError(p.returncode, 'svnversion')
         return out.strip() or 'unknown'

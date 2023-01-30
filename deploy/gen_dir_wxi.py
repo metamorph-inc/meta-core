@@ -38,16 +38,13 @@ def add_wix_to_path():
         system([r'..\src\.nuget\nuget.exe', 'install', '-Version', '3.11.1', 'WiX'], os.path.join(_this_dir))
     os.environ['PATH'] = os.path.join(_this_dir, 'CAD_Installs', wix_dir, 'tools') + ';' + os.environ['PATH']
 
-# http://bugs.python.org/issue8277
-class CommentedTreeBuilder(ElementTree.TreeBuilder):
-    def __init__(self, html=0, target=None):
-        ElementTree.XMLTreeBuilder.__init__(self, html, target)
-        self._parser.CommentHandler = self.handle_comment
 
-    def handle_comment(self, data):
-        self._target.start(ElementTree.Comment, {})
-        self._target.data(data)
-        self._target.end(ElementTree.Comment)
+class CommentedTreeBuilder(ElementTree.TreeBuilder):
+    def comment(self, data):
+        self.start(ElementTree.Comment, {})
+        self.data(data)
+        self.end(ElementTree.Comment)
+
 
 def _adjacent_file(file):
     import os.path
@@ -97,7 +94,7 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None, file_map={}
             dir_.set('Id', 'dir_' + re.sub('[^A-Za-z0-9_]', '_', os.path.relpath(dirname, '..').replace('\\', '_').replace('.', '_').replace('-', '_')))
             # "Standard identifiers are 72 characters long or less."
             if len(dir_.attrib['Id']) > 72:
-                dir_.set('Id', 'dir_' + hashlib.md5(dirname).hexdigest())
+                dir_.set('Id', 'dir_' + hashlib.md5(dirname.encode('utf8')).hexdigest())
             dirs[dirname] = dir_
         return dir_
 
@@ -105,6 +102,7 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None, file_map={}
     # git ls-files should show files to-be-added too
     svn_status = subprocess.Popen('git ls-files'.split() + [src], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = svn_status.communicate()
+    out, err = out.decode('utf8'), err.decode('utf8')
     exit_code = svn_status.poll()
     if exit_code != 0:
         raise Exception('svn status failed: ' + err)
@@ -121,7 +119,7 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None, file_map={}
 
         component = SubElement(component_group, 'Component')
         component.set('Directory', dir_.attrib['Id'])
-        component.set('Id', 'cmp_' + hashlib.md5(filename).hexdigest())
+        component.set('Id', 'cmp_' + hashlib.md5(filename.encode('utf8')).hexdigest())
         file_ = SubElement(component, 'File')
         file_.set('Source', filename)
         file_.set('Id', get_file_id(filename))
@@ -133,7 +131,7 @@ def gen_dir_from_vc(src, output_filename=None, id=None, diskId=None, file_map={}
 
 
 def get_file_id(filename):
-    return 'fil_' + hashlib.md5(filename).hexdigest()
+    return 'fil_' + hashlib.md5(filename.encode('utf8')).hexdigest()
 
 def download_file(url, filename):
     if os.path.isfile(filename):
@@ -190,7 +188,7 @@ def download_bundle_deps(bundle_wxs):
     defines = WixProcessingInstructionHandler()
     xml.sax.parse("bundle_defines.xml", defines)
 
-    tree = ElementTree.parse(bundle_wxs, parser=CommentedTreeBuilder()).getroot()
+    tree = ElementTree.parse(bundle_wxs, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
 
     for package in itertools.chain(tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}ExePackage"),
@@ -225,10 +223,10 @@ def main(src, output_filename=None, id=None, diskId=None):
       '-o', output_filename, '-ag', '-cg', id, '-srd', '-var', 'var.' + id, '-dr', id, '-nologo'])
 
     ElementTree.register_namespace("", "http://schemas.microsoft.com/wix/2006/wi")
-    tree = ElementTree.parse(output_filename, parser=CommentedTreeBuilder()).getroot()
+    tree = ElementTree.parse(output_filename, parser=ElementTree.XMLParser(target=CommentedTreeBuilder())).getroot()
     tree.insert(0, ElementTree.Comment('generated with gen_dir_wxi.py %s\n' % src))
     tree.insert(0, ElementTree.ProcessingInstruction('define', '%s=%s' % (id, os.path.normpath(src))))
-    parent_map = dict((c, p) for p in tree.getiterator() for c in p)
+    parent_map = dict((c, p) for p in tree for c in p)
     for file in tree.findall(".//{http://schemas.microsoft.com/wix/2006/wi}Component/{http://schemas.microsoft.com/wix/2006/wi}File"):
         file_Source = file.get('Source', '')
         if file_Source.find('.svn') != -1 or os.path.basename(file_Source) in ('Thumbs.db', 'desktop.ini', '.DS_Store') or file_Source.endswith('.pyc'):

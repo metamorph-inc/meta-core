@@ -61,7 +61,7 @@ def compileall():
 def zipall():
     zipped_files = {}
     # subprocess.check_call('git checkout ../bin/Python27/Scripts/Python27.zip')
-    shutil.copyfile(f'../bin/Python{PYTHON_VERSION}/Scripts/Python{PYTHON_VERSION}.zip', f'Python{PYTHON_VERSION}.zip')
+    shutil.copyfile(f'../bin/Python{PYTHON_VERSION}/Python{PYTHON_VERSION}.zip', f'Python{PYTHON_VERSION}.zip')
 
     with zipfile.ZipFile(f'Python{PYTHON_VERSION}.zip', 'a', compression=zipfile.ZIP_DEFLATED, allowZip64=True) as python_zip:
         i = 0
