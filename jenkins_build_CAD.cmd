@@ -15,6 +15,6 @@ IF "%PROCESSOR_ARCHITEW6432%" == "AMD64" set DBGTOOLS=%ProgramW6432%\Debugging T
 IF NOT EXIST "%DBGTOOLS%" set DBGTOOLS=%ProgramFiles(x86)%\Debugging Tools for Windows (x86)
 
 echo %TIME%
-.\bin\Python27\Scripts\python.exe copy_pdbs.py
+.\bin\Python311\python.exe copy_pdbs.py
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 echo %TIME%

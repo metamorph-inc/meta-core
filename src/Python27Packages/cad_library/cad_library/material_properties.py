@@ -809,7 +809,7 @@ def get_material_library_manager():
                              six.moves.winreg.KEY_READ | six.moves.winreg.KEY_WOW64_32KEY) as key:
             META_PATH = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
 
-        materialLibInterfacePath = os.path.join(META_PATH, "bin", "Python27", "Lib", "site-packages",
+        materialLibInterfacePath = os.path.join(META_PATH, "bin", "Python311", "Lib", "site-packages",
                                                 "material_library")
 
         sys.path.insert(0, materialLibInterfacePath)

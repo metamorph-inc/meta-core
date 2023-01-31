@@ -373,14 +373,14 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
 
             sbuilder.AppendLine(":ADAMS_SCRIPT_FOUND");
             sbuilder.AppendLine("del adams.log\n");
-            sbuilder.AppendLine("\"%MetaPath%bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
+            sbuilder.AppendLine("\"%MetaPath%bin\\Python311\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
 
             if (!String.IsNullOrEmpty(TerrainFileName))
             {
                 sbuilder.AppendLine("call %ADAMS_PATH%\\bin\\adams2013_2_x64.bat aview ru-st b adams_output.cmd\n");
                 sbuilder.AppendLine("set PYTHONHOME=");
                 scriptparams = "-terrain " + TerrainFileName;
-                sbuilder.AppendLine("%MetaPath%bin\\Python27\\Scripts\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
+                sbuilder.AppendLine("%MetaPath%bin\\Python311\\Python.exe\" %ADAMS_SCRIPT% " + scriptparams + " >> adams.log\n");
             }
 
             sbuilder.AppendLine("if %ERRORLEVEL% NEQ 0 (\n");

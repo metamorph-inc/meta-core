@@ -10,10 +10,10 @@ rem "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" make.msbuild /t:source_co
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 
 echo %TIME%
-.\bin\Python27\Scripts\python.exe copy_pdbs.py
+.\bin\Python311\python.exe copy_pdbs.py
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 echo %TIME%
 
-.\bin\Python27\Scripts\python.exe run_in_job_object.py "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" test\run.msbuild
+.\bin\Python311\python.exe run_in_job_object.py "%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" test\run.msbuild
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 echo %TIME%

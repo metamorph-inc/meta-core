@@ -34,7 +34,7 @@ namespace META
             logFileHeader.AppendLine(string.Format("CyPhyML version: {0}", META.VersionInfo.CyPhyML));
             logFileHeader.AppendLine(string.Format("CyPhyML GUID:    {0}", META.VersionInfo.CyPhyMLGuid));
 
-            logFileHeader.AppendLine(string.Format("Python27 VE exe: {0}", META.VersionInfo.PythonVEnvExe));
+            logFileHeader.AppendLine(string.Format("Python311 VE exe: {0}", META.VersionInfo.PythonVEnvExe));
 
             logFileHeader.AppendLine(string.Format("CreateAssembly v {0}", META.VersionInfo.CADCreoParametricCreateAssemblyVersion));
 

@@ -27,7 +27,7 @@ if not exist %ADAMS_PATH%bin\adams2014_x64.bat goto :ERROR_SECTION
 call %ADAMS_PATH%bin\adams2014_x64.bat acar ru-st b adams_car.cmd
 call %ADAMS_PATH%bin\adams2014_x64.bat aview ru-st b adams_view.cmd
 
-""%MetaPath%\bin\Python27\Scripts\Python.exe"" ""%MetaPath%\bin\CAD\CarPostProcessor.py""
+""%MetaPath%\bin\Python311\Python.exe"" ""%MetaPath%\bin\CAD\CarPostProcessor.py""
 
 goto :OK
 

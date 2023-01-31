@@ -88,7 +88,7 @@ namespace PRISMATIC_toolchain
             console.Out.WriteLine("Generating Prismatic files...");
             runProgram( "C:\\Python26\\python.exe", new string[] { META_PATH + "\\bin\\Prismatic\\" + "cmc.py", Path.Combine( baseOutputDir, projectName + ".xml" ), baseOutputDir } );
             console.Out.WriteLine("Running Prismatic...");
-            runProgram( "C:\\Python27\\python.exe", new string[] { baseOutputDir + "\\prismatic.py" });
+            runProgram( "C:\\Python311\\python.exe", new string[] { baseOutputDir + "\\prismatic.py" });
             console.Out.WriteLine("Prismatic work done.");
         }
         string baseOutputDir;

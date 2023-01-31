@@ -93,7 +93,7 @@ namespace CyPhyComplexity.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to @echo off
-        ///set PYTHON=%META_PATH%\bin\Python27\Scripts\python.exe
+        ///set PYTHON=%META_PATH%\bin\Python311\python.exe
         ///%PYTHON% ComplexityMain.py
         ///pause
         ///.

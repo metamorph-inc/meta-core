@@ -32,7 +32,7 @@ for root, dirs, files in os.walk(top_dir):
         except pywintypes.error as err:
             if err.winerror != 183: #pywintypes.error (183, 'CreateHardLink', 'Cannot create a file when that file already exists.')
                 raise
-    for exclude in ('.git', '.svn', 'CVS', '.hg', '3rdParty', 'Python27', 'Python26'):
+    for exclude in ('.git', '.svn', 'CVS', '.hg', '3rdParty', 'Python311', 'Python27', 'Python26'):
         if exclude in dirs:
             dirs.remove(exclude)
 

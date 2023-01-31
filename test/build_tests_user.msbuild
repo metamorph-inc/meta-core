@@ -4,7 +4,7 @@
     <Message Text="Reverting all changes in this directory" Importance="High"/>
     <Exec Command="svn revert -R *Test"/>
 	<Message Text="Replacing referenced projects and dlls" Importance="High"/>
-	<Exec Command="&quot;$(ProgramFiles)\META\bin\Python27\Scripts\python.exe&quot; change_to_hintpath.py"/>	
+	<Exec Command="&quot;$(ProgramFiles)\META\bin\Python311\python.exe&quot; change_to_hintpath.py"/>	
   </Target>
 
   <Target Name="CyPhy-FunctionalTests" DependsOnTargets="change_to_hintpath">
@@ -12,15 +12,15 @@
   </Target>
 
   <Target Name="DynamicsTeamSimulations">
-    <Exec Command="&quot;$(ProgramFiles)\META\bin\Python27\Scripts\python.exe&quot; test_dymola_license.py" WorkingDirectory="TestDymolaLicense"/>
-	<Exec Command="&quot;$(ProgramFiles)\META\bin\Python27\Scripts\python.exe&quot; run_selected_set_of_tests.py" WorkingDirectory="..\models\DynamicsTeam"/>
+    <Exec Command="&quot;$(ProgramFiles)\META\bin\Python311\python.exe&quot; test_dymola_license.py" WorkingDirectory="TestDymolaLicense"/>
+	<Exec Command="&quot;$(ProgramFiles)\META\bin\Python311\python.exe&quot; run_selected_set_of_tests.py" WorkingDirectory="..\models\DynamicsTeam"/>
   </Target>
 
   <Target Name="CADCreoTest" DependsOnTargets="CyPhy-FunctionalTests">
-    <Exec Command="..\bin\Python27\Scripts\Python.exe run_tests_console_output_xml.py tests_cadcreo.xunit" />
+    <Exec Command="..\bin\Python311\Python.exe run_tests_console_output_xml.py tests_cadcreo.xunit" />
   </Target> 
   
   <Target Name="All" DependsOnTargets="CyPhy-FunctionalTests">
-      <Exec Command="..\bin\Python27\Scripts\Python.exe run_tests_console_output_xml.py functionaltests.xunit tests_cadcreo.xunit" />
+      <Exec Command="..\bin\Python311\Python.exe run_tests_console_output_xml.py functionaltests.xunit tests_cadcreo.xunit" />
   </Target>
 </Project>

@@ -20,7 +20,7 @@ def find_python_path():
         uninstall_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r"Software\META", 0,
                                         _winreg.KEY_READ | _winreg.KEY_WOW64_32KEY)
         val, typ = _winreg.QueryValueEx(uninstall_key, 'META_PATH')
-        meta_python_path = os.path.join(val, r"bin\Python27\Scripts\Python.exe")
+        meta_python_path = os.path.join(val, r"bin\Python311\Python.exe")
     except WindowsError as e:
         meta_python_path = None
         

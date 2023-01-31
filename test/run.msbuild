@@ -4,7 +4,7 @@
     TaskName="Xunit.Runner.MSBuild.xunit" />
 
   <Target Name="Test">
-    <Exec Command="..\bin\Python27\Scripts\Python.exe run_tests_console_output_xml_parallel.py" />
+    <Exec Command="..\bin\Python311\Python.exe run_tests_console_output_xml_parallel.py" />
   </Target>
 
   <ItemGroup>

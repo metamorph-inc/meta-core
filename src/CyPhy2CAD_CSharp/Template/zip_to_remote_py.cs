@@ -60,8 +60,8 @@ namespace CyPhy2CAD_CSharp.Template
                     "\r\n    try:\r\n        uninstall_key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, " +
                     "r\"Software\\META\", 0,\r\n                                        _winreg.KEY_READ |" +
                     " _winreg.KEY_WOW64_32KEY)\r\n        val, typ = _winreg.QueryValueEx(uninstall_key" +
-                    ", \'META_PATH\')\r\n        meta_python_path = os.path.join(val, r\"bin\\Python27\\Scri" +
-                    "pts\\Python.exe\")\r\n    except WindowsError as e:\r\n        meta_python_path = None" +
+                    ", \'META_PATH\')\r\n        meta_python_path = os.path.join(val, r\"bin\\Python311\\" +
+                    "Python.exe\")\r\n    except WindowsError as e:\r\n        meta_python_path = None" +
                     "\r\n        \r\n    return meta_python_path\r\n\r\n\r\ndef call_script(meta_python, script" +
                     "name, error_msg):\r\n    return_out = 0\r\n    try:\r\n        script_cmd = \'\"{0}\" \"{1" +
                     "}\"\'\\\r\n                    .format(meta_python, scriptname)\r\n            \r\n      " +

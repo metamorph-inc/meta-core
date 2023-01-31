@@ -24,7 +24,7 @@ set ERROR_MSG="Error from runCADJob.bat: Encountered error during execution of T
 goto :ERROR_SECTION
 )
 
-"%MetaPath%\bin\Python27\Scripts\Python.exe" "%MetaPath%\bin\CAD\CADJobDriver.py" -assembler <#=Assembler#> -mesher <#=Mesher#> -analyzer <#=Analyzer#> <# if (Mode!=null) { #>-mode <#=Mode#> <#}#>
+"%MetaPath%\bin\Python311\Python.exe" "%MetaPath%\bin\CAD\CADJobDriver.py" -assembler <#=Assembler#> -mesher <#=Mesher#> -analyzer <#=Analyzer#> <# if (Mode!=null) { #>-mode <#=Mode#> <#}#>
 
 @set ERROR_CODE=%ERRORLEVEL%
 @if %ERRORLEVEL% NEQ 0 (
@@ -63,7 +63,7 @@ set ERROR_MSG="Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py.
 goto :ERROR_SECTION
 
 :PY_FOUND
-"%MetaPath%\bin\Python27\Scripts\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
+"%MetaPath%\bin\Python311\Python.exe" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (

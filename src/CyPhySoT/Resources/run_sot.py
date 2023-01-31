@@ -14,7 +14,7 @@ def _query_registry():
         # try to obtain META_PATH from the registry
         key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\meta', 0, wr.KEY_READ)
         meta_path = wr.QueryValueEx(key, 'META_PATH')[0]
-        py_path = os.path.join(meta_path, r'bin\Python27\Scripts\python')
+        py_path = os.path.join(meta_path, r'bin\Python311\python')
     except WindowsError:
         sys.stderr.write('Could not find META_PATH in registry, attempting to use default python.')
         py_path = 'python'

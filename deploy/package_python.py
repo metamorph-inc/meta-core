@@ -34,7 +34,7 @@ def compileall():
     compiled = {}
 
     # ls_files = subprocess.Popen('git ls-files'.split() + [src], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # ls_files = subprocess.Popen('git grep -EL "(pkg_resources|__file__)"  ../bin/Python27/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    # ls_files = subprocess.Popen('git grep -EL "(pkg_resources|__file__)"  ../bin/Python311/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ls_files = subprocess.Popen(f'git ls-files  ../bin/Python{PYTHON_VERSION}/Lib/site-packages/**.py', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = ls_files.communicate()
     out, err = out.decode('utf8'), err.decode('utf8')
@@ -61,7 +61,7 @@ def compileall():
 
 def zipall(bin_file_map):
     zipped_files = {}
-    # subprocess.check_call('git checkout ../bin/Python27/Scripts/Python27.zip')
+    # subprocess.check_call('git checkout ../bin/Python311/Python311.zip')
     shutil.copyfile(f'../bin/Python{PYTHON_VERSION}/Python{PYTHON_VERSION}.zip', f'Python{PYTHON_VERSION}.zip')
 
     with zipfile.ZipFile(f'Python{PYTHON_VERSION}.zip', 'a', compression=zipfile.ZIP_DEFLATED, allowZip64=True) as python_zip:

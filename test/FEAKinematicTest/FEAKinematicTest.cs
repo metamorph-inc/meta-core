@@ -42,7 +42,7 @@ namespace FEAKinematicTest
                 AbqPPScript = Path.Combine(metapath ?? "", "bin", "CAD", "ABQ_CompletePostProcess.py");
                 AdamsBat = Path.Combine(adamsDir ?? "", "bin", "adams2013_2_x64.bat");
                 AbaqusBat = Path.Combine(abaquspath ?? "", "Commands", "abaqus.bat");
-                PythonExe = Path.Combine(Meta_Path ?? "", "bin", "Python27", "Scripts", "python.exe");
+                PythonExe = Path.Combine(Meta_Path ?? "", "bin", "Python311", "Scripts", "python.exe");
                 if (File.Exists(createAssemblyExe) == false)
                 {
                     throw new FileNotFoundException("CADCreoParametricCreateAssembly.exe is not installed.");

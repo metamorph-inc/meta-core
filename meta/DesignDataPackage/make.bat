@@ -1,1 +1,1 @@
-..\..\bin\Python311\Scripts\python.exe make.py
+..\..\bin\Python311\python.exe make.py

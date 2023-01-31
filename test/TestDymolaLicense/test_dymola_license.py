@@ -13,7 +13,7 @@ def get_python_exe():
     import six.moves.winreg
     with six.moves.winreg.OpenKey(six.moves.winreg.HKEY_LOCAL_MACHINE, r'Software\Meta', 0, six.moves.winreg.KEY_READ) as key:
         meta_path = six.moves.winreg.QueryValueEx(key, 'META_PATH')[0]
-        return os.path.join(meta_path, r'bin\Python27\Scripts\python.exe')
+        return os.path.join(meta_path, r'bin\Python311\python.exe')
 
 if __name__=='__main__':
     command_line = "\"" + get_python_exe() + "\" scripts\simulate.py --tool Dymola"

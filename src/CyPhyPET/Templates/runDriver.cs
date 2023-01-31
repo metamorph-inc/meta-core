@@ -32,7 +32,7 @@ SET QUERY_ERRORLEVEL=%ERRORLEVEL%
 
 IF %QUERY_ERRORLEVEL% == 0 (
     FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO SET META_PATH=%%B)
-    SET META_PYTHON_EXE=""%META_PATH%\bin\Python27\Scripts\Python.exe""
+    SET META_PYTHON_EXE=""%META_PATH%\bin\Python311\Python.exe""
 ");
             
             #line 21 "C:\META\meta_trunk\src\CyPhyPET\Templates\runDriver.tt"

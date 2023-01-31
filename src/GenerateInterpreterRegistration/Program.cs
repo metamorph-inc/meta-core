@@ -61,13 +61,13 @@ namespace GenerateInterpreterRegistration
 
             foreach (var systemOrUser in new string[] { "2", "1" })
             {
-                Console.Write("bin\\Python27\\Scripts\\Python.exe -c \"");
+                Console.Write("bin\\Python311\\Python.exe -c \"");
                 Console.Write(String.Format("reg = __import__('win32com.client').client.DispatchEx('Mga.MgaRegistrar'); [reg.UnregisterComponent(progid, {0}) for progid in reg.GetAssociatedComponentsDisp('CyPhyML', 7, {0})]", systemOrUser));
                 Console.Write("\"");
                 Console.WriteLine(exit_on_error);
             }
 
-            Console.Write("bin\\Python27\\Scripts\\Python.exe -c \"");
+            Console.Write("bin\\Python311\\Python.exe -c \"");
             Console.Write(@"import sys; import os.path; filename=r'generated\CyPhyML\models\CyPhyML.mta'; not os.path.isfile(filename) and sys.exit(0); reg = __import__('win32com.client').client.DispatchEx('Mga.MgaRegistrar'); reg.RegisterParadigmFromDataDisp('MGA=' + os.path.abspath(filename), 1)");
             Console.Write("\"");
             Console.WriteLine(exit_on_error);

@@ -1,6 +1,6 @@
 pushd "%~dp0"
 
-..\bin\Python27\Scripts\python.exe update_meta_tools.py %*
+..\bin\Python311\python.exe update_meta_tools.py %*
 IF %ERRORLEVEL% NEQ 0 exit /b %ERRORLEVEL%
 echo %TIME%
 

@@ -206,7 +206,7 @@ namespace CyPhy2CAD_CSharp.TestBenchModel
                         inputs += i.Key + "=" + i.Value + ";";
                     }
                 }
-                domaintool += "\"%MetaPath%\\bin\\Python27\\Scripts\\Python.exe\" \"%MetaPath%\\bin\\CAD\\CarCalculators.py\" -calc " + carcomp.Type.ToString().ToLower() + " -inputs " + inputs + " -metric " + carcomp.Metric + "\n";
+                domaintool += "\"%MetaPath%\\bin\\Python311\\Python.exe\" \"%MetaPath%\\bin\\CAD\\CarCalculators.py\" -calc " + carcomp.Type.ToString().ToLower() + " -inputs " + inputs + " -metric " + carcomp.Metric + "\n";
             }
             searchmeta.CallDomainTool = domaintool;*/
             using (StreamWriter writer = new StreamWriter(Path.Combine(OutputDirectory, "runCADJob.bat")))

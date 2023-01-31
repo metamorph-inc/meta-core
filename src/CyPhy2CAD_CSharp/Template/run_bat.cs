@@ -49,7 +49,7 @@ set ERROR_MSG=""Error from runCADJob.bat: Encountered error during execution of 
 goto :ERROR_SECTION
 )
 
-""%MetaPath%\bin\Python27\Scripts\Python.exe"" ""%MetaPath%\bin\CAD\CADJobDriver.py"" -assembler ");
+""%MetaPath%\bin\Python311\Python.exe"" ""%MetaPath%\bin\CAD\CADJobDriver.py"" -assembler ");
             
             #line 27 "C:\Users\kevin\Documents\meta-core\src\CyPhy2CAD_CSharp\Template\run_bat.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Assembler));
@@ -145,7 +145,7 @@ set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py
 goto :ERROR_SECTION
 
 :PY_FOUND
-""%MetaPath%\bin\Python27\Scripts\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
+""%MetaPath%\bin\Python311\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (

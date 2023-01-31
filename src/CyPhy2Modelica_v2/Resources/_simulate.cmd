@@ -13,7 +13,7 @@ IF %QUERY_ERRORLEVEL% neq 0 (
 )
 
 FOR /F "skip=2 tokens=2,*" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query "HKLM\software\META" /v "META_PATH"') DO SET META_PATH=%%B
-SET META_PYTHON_EXE="%META_PATH%\bin\Python27\Scripts\Python.exe"
+SET META_PYTHON_EXE="%META_PATH%\bin\Python311\Python.exe"
 %META_PYTHON_EXE% scripts\simulate.py --tool TOOL_TO_BE_REPLACED
 IF %ERRORLEVEL% neq 0 (
     echo on

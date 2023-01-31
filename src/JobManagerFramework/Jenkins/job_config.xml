@@ -60,7 +60,7 @@ import subprocess
 import traceback
 
 if os.pathsep == ';': # if windows (even on Jython)
-    os.environ['PATH'] = os.environ['PATH'] + os.pathsep + r'C:\Python27'
+    os.environ['PATH'] = os.environ['PATH'] + os.pathsep + r'C:\Python311'
 
 # Windows or Unix
 subprocess.check_call(&apos;python unzip.py&apos;, shell=True)

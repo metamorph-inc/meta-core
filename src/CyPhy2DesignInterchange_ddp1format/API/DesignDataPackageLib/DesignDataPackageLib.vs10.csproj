@@ -183,7 +183,7 @@
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>$(MSBuildThisFileDirectory)..\..\..\..\bin\Python27\scripts\python.exe ..\..\ResolveAliases.py</PreBuildEvent>
+    <PreBuildEvent>$(MSBuildThisFileDirectory)..\..\..\..\bin\Python311\python.exe ..\..\ResolveAliases.py</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

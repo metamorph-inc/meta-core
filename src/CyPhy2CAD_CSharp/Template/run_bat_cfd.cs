@@ -88,7 +88,7 @@ goto :ERROR_SECTION
 REM ****************************
 REM CFD Convert to STL
 REM ****************************
-FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO ""%%B\bin\Python27\Scripts\Python.exe"" scripts\convert2ascii.py
+FOR /F ""skip=2 tokens=2,*"" %%A IN ('%SystemRoot%\SysWoW64\REG.exe query ""HKLM\software\META"" /v ""META_PATH""') DO ""%%B\bin\Python311\Python.exe"" scripts\convert2ascii.py
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (
@@ -135,7 +135,7 @@ set ERROR_MSG=""Error from runCADJob.bat: Could not find UpdateReportJson_CAD.py
 goto :ERROR_SECTION
 
 :PY_FOUND
-""%MetaPath%\bin\Python27\Scripts\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
+""%MetaPath%\bin\Python311\Python.exe"" %PY_SCRIPT% -m %RESULT_XML_FILE%
 
 set ERROR_CODE=%ERRORLEVEL%
 if %ERRORLEVEL% NEQ 0 (

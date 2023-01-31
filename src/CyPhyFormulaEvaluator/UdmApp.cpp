@@ -170,7 +170,7 @@ void CUdmApp::GeneratePostProcessingPython(const Udm::Object &focusObject_in,
 		outputFile << "            # try to obtain META_PATH from the registry" << endl;
 		outputFile << "            key = wr.OpenKey(wr.HKEY_LOCAL_MACHINE, r'software\\meta', 0, wr.KEY_READ)" << endl;
 		outputFile << "            meta_path = wr.QueryValueEx(key, 'META_PATH')[0]" << endl;
-		outputFile << "            return os.path.join(meta_path, r'bin\\Python27\\Scripts\\python.exe')" << endl;
+		outputFile << "            return os.path.join(meta_path, r'bin\\Python311\\Scripts\\python.exe')" << endl;
 		outputFile << "        except WindowsError:" << endl;
 		outputFile << "            sys.stderr.write('Could not find META_PATH in registry, attempting to use default python...\\n')" << endl;
 		outputFile << "            return 'python'" << endl;

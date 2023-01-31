@@ -3,7 +3,7 @@ Opens an xme, runs AddOns (to refresh libraries), then saves the xme
 
 After updating a library, run on all xmes under META\test\InterchangeTest or regression tests fail
 
-find test/InterchangeTest -iname \*.xme | xargs -n 1 -P 4 -d \n ./bin/Python27/Scripts/python src/CyPhySignalBlocksAddOn/refresh_xmes.py
+find test/InterchangeTest -iname \*.xme | xargs -n 1 -P 4 -d \n ./bin/Python311/python src/CyPhySignalBlocksAddOn/refresh_xmes.py
 """
 
 import pythoncom
