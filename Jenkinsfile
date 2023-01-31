@@ -20,7 +20,7 @@ pipeline {
 
                 dir('deploy') {
                     script {
-                        CAD_REV = bat (script: '@..\\bin\\Python311\\python -c "import vc_info; print vc_info.last_cad_rev()"', returnStdout: true).trim()
+                        CAD_REV = bat (script: '@..\\bin\\Python311\\python -c "import vc_info; print(vc_info.last_cad_rev())"', returnStdout: true).trim()
                     }
                 }
                 bat($/"c:\Program Files\Git\Usr\bin\find.exe" src/CADAssembler -iname META.\*.nupkg ! -iname META.\*${CAD_REV}.nupkg -print -delete/$)
