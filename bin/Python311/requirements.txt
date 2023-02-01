@@ -1,25 +1,24 @@
-# Windows setup:
-#  Install latest Python 2.7.x
-#  rd /s/q Python311
-#  scipy, numpy: http://www.lfd.uci.edu/~gohlke/pythonlibs/
-
+# Initial setup:
 # mkdir Python311
 # cd Python311
 # pushd c:\Python311\lib
-# "c:\Program Files\7-Zip\7z.exe" a ..\Python311.zip -r -x!site-packages -x!lib2to3
+"c:\Program Files\7-Zip\7z.exe" a ..\Python311.zip -r -x!site-packages -x!*__pycache* -x!test*
 # popd
 # copy /y c:\Python311\Python311.zip  .\
 # mkdir DLLs
-# xcopy /E/Y C:\Python311\DLLs\*.* DLLs\
+# xcopy /E/Y C:\Python311\DLLs\*.* .\
+# move /y tcl86t.dll DLLs
+# move /y tk86t.dll DLLs
+# move /y _tkinter.pyd DLLs
+# https://ci.appveyor.com/project/Metamorph/cpython/build/artifacts -> Python311.dll
 # mkdir libs
 # xcopy /E/Y C:\Python311\libs\*.* libs\
 # mkdir include
+
 # xcopy /E/Y C:\Python311\include\*.* include\
 # copy /y C:\Python311\Python311.dll Python311\
 # copy /y C:\Python311\Python3.dll Python311\
 # copy /y "c:\Python311\python.exe" Python311\python.exe
-# mkdir Lib
-# xcopy /E/Y c:\Python311\Lib\lib2to3 Lib\lib2to3\
 # 
 # mkdir Lib\site-packages\pip-22.3.1.dist-info
 # xcopy /E/Y "C:\Python311\Lib\site-packages\pip-22.3.1.dist-info" Lib\site-packages\pip-22.3.1.dist-info
@@ -27,14 +26,21 @@
 # xcopy /E/Y "C:\Python311\Lib\site-packages\pip" Lib\site-packages\pip
 # mkdir Lib\site-packages\pkg_resources
 # xcopy /E/Y "C:\Python311\Lib\site-packages\pkg_resources" Lib\site-packages\pkg_resources
-# 
+# mkdir lib\tcl8.6
+# xcopy /E/Y C:\python311\tcl\tcl8.6 lib\tcl8.6
+# mkdir lib\tk8.6
+# xcopy /E/Y C:\python311\tcl\tk8.6 lib\tk8.6
+
+
+# Installing packages:
+#  scipy, numpy: http://www.lfd.uci.edu/~gohlke/pythonlibs/
 # .\python.exe -m pip install \Users\kevin\Documents\Udm\src\UdmPython\dist\Udm-3.2.3-cp311-cp311-win32.whl
-#  git checkout Python27/requirements
+#  git checkout Python311/requirements.txt
 #  python -m pip install %userprofile%\Downloads\numpy-1.11.1+mkl-cp27-cp27m-win32.whl
 #  python -m pip install %userprofile%\Downloads\scipy-0.18.0-cp27-cp27m-win32.whl
 #  python -m pip install %userprofile%\Downloads\matplotlib-1.5.2-cp27-cp27m-win32.whl # Ricardo tool
 #  python -m pip install %userprofile%\Downloads\pyparsing-2.1.6-py2.py3-none-any.whl # simviz tool
-#  python -m pip install --egg -r Python27\requirements
+#  python -m pip install -r Python311\requirements.txt
 # rem openmodelica importer needs omniORB
 # unzip %userprofile%\Downloads\omniORBpy-4.2.0-win32-py27.zip -d bin\Python27\Lib\site-packages
 # copy /y bin\Python27\Lib\site-packages\omniORBpy-4.2.0\bin\omniORB420_vc10_rt.dll bin\Python27\Lib\site-packages\omniORBpy-4.2.0\lib\x86_win32
