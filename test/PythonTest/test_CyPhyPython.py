@@ -42,6 +42,7 @@ def start_pdb():
     import ctypes
     ctypes.windll.kernel32.AllocConsole()
     sys.stdout = open('CONOUT$', 'wt')
+    sys.stderr = sys.stdout
     sys.stdin = open('CONIN$', 'rt')
     import pdb
     pdb.set_trace()

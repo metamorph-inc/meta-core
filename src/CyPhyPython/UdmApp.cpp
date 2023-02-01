@@ -448,8 +448,7 @@ void Main(const std::wstring& meta_path, CComPtr<IMgaProject> project, CComPtr<I
 		if (PyList_Check(sys_path)) {
 			PyObject_RAII py_meta_path = PyUnicode_FromWideChar(meta_path.c_str(), -1);
 			PyObject_RAII meta_path_bin = PyUnicode_FromFormat("%U%s", py_meta_path, "bin");
-			
-			
+
 			if (PySequence_Contains(sys_path, meta_path_bin) == 0) {
 				PyObject_RAII meta_path_bin_tuple = Py_BuildValue("(O)", meta_path_bin);
 				PyList_SetSlice(sys_path, 0, 0, meta_path_bin_tuple);

@@ -3,13 +3,12 @@
 import sys
 import os
 import json
-from _winreg import *
+from winreg import *
 
 
 def register_tool(tool):
     reg_path = "SOFTWARE\\META\\AnalysisTools\\%s\\" % (tool['name'])
     reg_key = "InstallLocation"
-    reg_value = "C:\\sadasfa\\afasf"
 
     with CreateKeyEx(HKEY_LOCAL_MACHINE, reg_path, 0, KEY_ALL_ACCESS) as reg:
         SetValueEx(reg, 'InstallLocation', 0, REG_SZ, tool['InstallLocation'])

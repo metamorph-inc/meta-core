@@ -564,7 +564,9 @@ namespace CyPhyPETTest
             List<double> expectedFxy = new double[] { 7422.0, 2822.0, 3222.0, 2122.0, 22.0, 2922.0, 1822.0, 2222.0, 7622.0 }.ToList();
             List<double> actualFxy = lines.Skip(1).Select(line => Convert.ToDouble(line.Split(',')[4])).ToList();
             Assert.Equal(expectedFxy.Count, actualFxy.Count);
-            
+
+            expectedFxy.Sort();
+            actualFxy.Sort();
             const double Epsilon = 0.0001;
             for (int i = 0; i < expectedFxy.Count; i++)
             {

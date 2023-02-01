@@ -81,7 +81,7 @@ else:
             element.attrib['metaref'] = str(metarefMax)
 
     xmpstat = os.stat(base + '.xmp')
-    with open(base + '.xmp', 'w') as out:
+    with open(base + '.xmp', 'wb') as out:
         tree.write(out, xml_declaration=True, encoding=tree.docinfo.encoding)
     os.utime(base + '.xmp', (xmpstat.st_atime, xmpstat.st_mtime))
 
@@ -92,5 +92,5 @@ else:
 
 project = win32com.client.dynamic.Dispatch('Mga.MgaMetaProject')
 project.Open('MGA=' + file)
-print('metamodel GUID is {}'.format(uuid.UUID(bytes_le=project.GUID)))
+print('metamodel GUID is {}'.format(uuid.UUID(bytes_le=project.GUID.tobytes())))
 project.Close()

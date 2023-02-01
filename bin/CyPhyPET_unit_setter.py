@@ -26,13 +26,13 @@ def log_formatted(s):
 
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
-    import cgi
+    import html
 
     def log_formatted(s):
         CyPhyPython.log(s)
 
     def log(s):
-        CyPhyPython.log(cgi.escape(s))
+        CyPhyPython.log(html.escape(s))
 except ImportError:
     pass
 
@@ -52,6 +52,7 @@ def start_pdb():
     ctypes.windll.kernel32.AllocConsole()
     import sys
     sys.stdout = open('CONOUT$', 'wt')
+    sys.stderr = sys.stdout
     sys.stdin = open('CONIN$', 'rt')
     import pdb
     pdb.set_trace()
@@ -135,7 +136,7 @@ def convert_unit_symbol(symbol):
     symbol = re.sub('\\byd\\b', 'yard', symbol)
     # TODO acre?
     # TODO metric tonne?
-    return symbol.encode('ascii', 'replace')
+    return symbol
 
 
 # This is the entry point
@@ -194,8 +195,8 @@ def set_unit(unit_fco, set_units):
     except:
         # log('exception ' + derived_unit.Name + '  ' + symbol)
         # import traceback
-        # import cgi
-        # log(cgi.escape(traceback.format_exc()))
+        # import html
+        # log(html.escape(traceback.format_exc()))
         debug_log(in_base_units(1, gme_unit))
         set_units(in_base_units(1, gme_unit))
 

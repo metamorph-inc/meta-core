@@ -17,10 +17,10 @@ def log(s):
 
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
-    import cgi
+    import html
 
     def log(s):
-        CyPhyPython.log(cgi.escape(s))
+        CyPhyPython.log(html.escape(s))
 except ImportError:
     pass
 
@@ -31,7 +31,7 @@ def log_formatted(s):
 
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
-    import cgi
+    import html
 
     def log(s):
         CyPhyPython.log(s)
@@ -46,6 +46,7 @@ def start_pdb():
     ctypes.windll.kernel32.AllocConsole()
     import sys
     sys.stdout = open('CONOUT$', 'wt')
+    sys.stderr = sys.stdout
     sys.stdin = open('CONIN$', 'rt')
     import pdb
     pdb.set_trace()

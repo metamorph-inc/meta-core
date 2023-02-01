@@ -27,13 +27,13 @@ def log_formatted(s):
 
 try:
     import CyPhyPython  # will fail if not running under CyPhyPython
-    import cgi
+    import html
 
     def log_formatted(s):
         CyPhyPython.log(s)
 
     def log(s):
-        CyPhyPython.log(cgi.escape(s))
+        CyPhyPython.log(html.escape(s))
 except ImportError:
     pass
 
@@ -53,6 +53,7 @@ def start_pdb():
     ctypes.windll.kernel32.AllocConsole()
     import sys
     sys.stdout = open('CONOUT$', 'wt')
+    sys.stderr = sys.stdout
     sys.stdin = open('CONIN$', 'rt')
     import pdb
     pdb.set_trace()
@@ -115,5 +116,5 @@ def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
     componentParameters['ret'] = json.dumps({'params': {n: add_repr_val(p) for (n, p) in six.iteritems(c._init_params_dict)},
                        'unknowns': {n: add_repr_val(u) for (n, u) in six.iteritems(c._init_unknowns_dict)}},
                       default=run_mdao.python_component.get_params_and_unknowns.json_default)
-    # import cgi
-    # debug_log(cgi.escape(componentParameters['ret']))
+    # import html
+    # debug_log(html.escape(componentParameters['ret']))

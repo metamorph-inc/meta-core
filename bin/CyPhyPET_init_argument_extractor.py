@@ -42,6 +42,7 @@ def start_pdb():
     ctypes.windll.kernel32.AllocConsole()
     import sys
     sys.stdout = open('CONOUT$', 'wt')
+    sys.stderr = sys.stdout
     sys.stdin = open('CONIN$', 'rt')
     import pdb
     pdb.set_trace()
@@ -54,5 +55,5 @@ def invokeGME(project, rootObject, focusObject, componentParameters, **kwargs):
     component_class = run_mdao.python_component.LoadPythonComponent(componentParameters['openmdao_py'])
 
     # FIXME: defaults may have values that are not json-serializable
-    componentParameters['ret'] = json.dumps(inspect.getargspec(component_class.__init__))
+    componentParameters['ret'] = json.dumps(inspect.getfullargspec(component_class.__init__))
     componentParameters['icon_path'] = getattr(component_class, 'icon_path', None)
