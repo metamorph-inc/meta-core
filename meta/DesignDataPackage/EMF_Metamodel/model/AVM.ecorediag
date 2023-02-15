@@ -1880,7 +1880,7 @@
       </children>
       <styles xmi:type="notation:ShapeStyle" xmi:id="_QvDUQayVEeKYPKEcY25JHA" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
       <element xmi:type="ecore:EClass" href="AVM.ecore#//DomainModelMetric"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_QvDUQqyVEeKYPKEcY25JHA" x="621" y="27"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_QvDUQqyVEeKYPKEcY25JHA" x="672" y="24"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_NKQosLwIEeKt-NvGxWTSPg" type="1001">
       <children xmi:type="notation:Node" xmi:id="_NKTsALwIEeKt-NvGxWTSPg" type="4001"/>
@@ -2027,10 +2027,6 @@
           <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/Name"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_EOFfcZteEe2-AoB_bSk7wA"/>
         </children>
-        <children xmi:type="notation:Node" xmi:id="_bzDDwJtMEe2-AoB_bSk7wA" type="2001">
-          <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/Value"/>
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_bzDDwZtMEe2-AoB_bSk7wA"/>
-        </children>
         <children xmi:type="notation:Node" xmi:id="_eoauYJtMEe2-AoB_bSk7wA" type="2001">
           <element xmi:type="ecore:EAttribute" href="AVM.ecore#//GenericDomainModelParameter/GenericAttribute0"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_eoauYZtMEe2-AoB_bSk7wA"/>
@@ -2126,6 +2122,25 @@
       <element xmi:type="ecore:EClass" href="AVM.ecore#//DomainModelPort"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ht4SMptGEe2-AoB_bSk7wA" x="432" y="756"/>
     </children>
+    <children xmi:type="notation:Node" xmi:id="_xTBJQK1IEe2ki9Zxi4IRfw" type="1001">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_xTfqYK1IEe2ki9Zxi4IRfw" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_xTfqYa1IEe2ki9Zxi4IRfw" key="modelID" value="EcoreTools"/>
+      </eAnnotations>
+      <children xmi:type="notation:Node" xmi:id="_xTBJQ61IEe2ki9Zxi4IRfw" type="4001"/>
+      <children xmi:type="notation:Node" xmi:id="_xTBJRK1IEe2ki9Zxi4IRfw" type="5001">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_xTBJRa1IEe2ki9Zxi4IRfw"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_xTBJRq1IEe2ki9Zxi4IRfw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_xTBJR61IEe2ki9Zxi4IRfw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_xTBJSK1IEe2ki9Zxi4IRfw" type="5002">
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_xTBJSa1IEe2ki9Zxi4IRfw"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_xTBJSq1IEe2ki9Zxi4IRfw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_xTBJS61IEe2ki9Zxi4IRfw"/>
+      </children>
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_xTBJQa1IEe2ki9Zxi4IRfw" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+      <element xmi:type="ecore:EClass" href="AVM.ecore#//Value"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xTBJQq1IEe2ki9Zxi4IRfw" x="108" y="900"/>
+    </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_Kf-AAayOEeKYPKEcY25JHA"/>
     <element xmi:type="ecore:EPackage" href="AVM.ecore#/"/>
     <edges xmi:type="notation:Edge" xmi:id="_QLxsQKyOEeKYPKEcY25JHA" type="3002" source="_L7lCYKyOEeKYPKEcY25JHA" target="_QLuB4KyOEeKYPKEcY25JHA">
@@ -2199,6 +2214,20 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_i31j4ptGEe2-AoB_bSk7wA" fontName="Segoe UI"/>
       <element xsi:nil="true"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_i31j45tGEe2-AoB_bSk7wA" points="[7, 29, 2, -83]$[7, 133, 2, 21]"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_4xlzoK1IEe2ki9Zxi4IRfw" type="3002" source="_Agp4UJtGEe2-AoB_bSk7wA" target="_xTBJQK1IEe2ki9Zxi4IRfw">
+      <children xmi:type="notation:Node" xmi:id="_4xnBwK1IEe2ki9Zxi4IRfw" type="4011">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_4xnBwa1IEe2ki9Zxi4IRfw" x="-9" y="21"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_4xnBwq1IEe2ki9Zxi4IRfw" type="4012">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_4xnBw61IEe2ki9Zxi4IRfw" x="10" y="10"/>
+      </children>
+      <styles xmi:type="notation:ConnectorStyle" xmi:id="_4xlzoa1IEe2ki9Zxi4IRfw" lineColor="4210752"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_4xlzoq1IEe2ki9Zxi4IRfw" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+      <element xmi:type="ecore:EReference" href="AVM.ecore#//GenericDomainModelParameter/Value"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4xmasK1IEe2ki9Zxi4IRfw" points="[-32, 0, 36, -208]$[-68, 0, 0, -208]$[-68, 168, 0, -40]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4xpeAK1IEe2ki9Zxi4IRfw" id="(0.17010309278350516,0.8858447488584474)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4xpeAa1IEe2ki9Zxi4IRfw" id="(0.10638297872340426,0.4019607843137255)"/>
     </edges>
   </notation:Diagram>
   <notation:Diagram xmi:id="_1n5LoKySEeKYPKEcY25JHA" type="EcoreTools" name="CADModel" measurementUnit="Pixel">

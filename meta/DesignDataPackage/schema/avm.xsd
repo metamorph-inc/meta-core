@@ -613,7 +613,9 @@
   <xsd:complexType name="GenericDomainModelParameter">
     <xsd:complexContent>
       <xsd:extension base="avm:DomainModelParameter">
-        <xsd:attribute ecore:name="Value" name="Value" type="xsd:string"/>
+        <xsd:sequence>
+          <xsd:element ecore:name="Value" ecore:resolveProxies="true" minOccurs="0" name="Value" type="avm:Value"/>
+        </xsd:sequence>
         <xsd:attribute ecore:name="GenericAttribute0" name="GenericAttribute0" type="xsd:string"/>
         <xsd:attribute ecore:name="GenericAttribute1" name="GenericAttribute1" type="xsd:string"/>
         <xsd:attribute ecore:name="GenericAttribute2" name="GenericAttribute2" type="xsd:string"/>

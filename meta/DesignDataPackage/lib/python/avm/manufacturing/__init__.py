@@ -1,7 +1,7 @@
 # .\_manufacturing.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:001f63800ae37c355961a3d233bb19365b0ea8cb
-# Generated 2023-01-23 15:50:31.163000 by PyXB version 1.2.3
+# Generated 2023-02-15 10:02:24.598000 by PyXB version 1.2.3
 # Namespace manufacturing [xmlns:manufacturing]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f4c2140f-9b67-11ed-b37a-415645000030')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:22e1ec4f-ad4a-11ed-8eff-50e085b81351')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'

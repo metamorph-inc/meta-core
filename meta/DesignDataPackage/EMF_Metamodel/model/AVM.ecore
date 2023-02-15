@@ -431,7 +431,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute7" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericDomainModelParameter" eSuperTypes="#//DomainModelParameter">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute0" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute2" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
@@ -441,6 +440,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute6" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="GenericAttribute7" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Value" eType="#//Value"
+        containment="true"/>
   </eClassifiers>
   <eSubpackages name="modelica" nsURI="modelica" nsPrefix="modelica">
     <eClassifiers xsi:type="ecore:EClass" name="ModelicaModel" eSuperTypes="#//DomainModel">

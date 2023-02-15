@@ -360,7 +360,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelPort/GenericAttribute7"/>
     </genClasses>
     <genClasses ecoreClass="AVM.ecore#//GenericDomainModelParameter">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/Value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute0"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute1"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute2"/>
@@ -370,6 +369,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute6"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/GenericAttribute7"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AVM.ecore#//GenericDomainModelParameter/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference AVM.ecore#//GenericDomainModelParameter/Value"/>
     </genClasses>
     <nestedGenPackages prefix="Modelica" basePackage="avm" resource="XML" disposableProviderFactory="true"
         ecorePackage="AVM.ecore#//modelica">

@@ -1,7 +1,7 @@
 # .\_avm.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:8c3bce54577a879cd94d42789711c9f5d444aa71
-# Generated 2023-01-23 15:50:31.162000 by PyXB version 1.2.3
+# Generated 2023-02-15 10:02:24.587000 by PyXB version 1.2.3
 # Namespace avm [xmlns:avm]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f4c2140f-9b67-11ed-b37a-415645000030')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:22e1ec4f-ad4a-11ed-8eff-50e085b81351')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
@@ -22,8 +22,8 @@ if pyxb.__version__ != _PyXBVersion:
     raise pyxb.PyXBVersionError(_PyXBVersion)
 
 # Import bindings for namespaces imported into schema
-import pyxb.binding.datatypes
 import iFAB as _ImportedBinding__iFAB
+import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI(u'avm', create_if_missing=True)
@@ -2569,11 +2569,11 @@ class GenericDomainModel_ (DomainModel_):
 Namespace.addCategoryObject('typeBinding', u'GenericDomainModel', GenericDomainModel_)
 
 
-# Complex type {avm}GenericDomainModelParameter with content type EMPTY
+# Complex type {avm}GenericDomainModelParameter with content type ELEMENT_ONLY
 class GenericDomainModelParameter_ (DomainModelParameter_):
-    """Complex type {avm}GenericDomainModelParameter with content type EMPTY"""
+    """Complex type {avm}GenericDomainModelParameter with content type ELEMENT_ONLY"""
     _TypeDefinition = None
-    _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
+    _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'GenericDomainModelParameter')
     _XSDLocation = pyxb.utils.utility.Location(u'avm.xsd', 613, 2)
@@ -2581,96 +2581,94 @@ class GenericDomainModelParameter_ (DomainModelParameter_):
     _AttributeMap = DomainModelParameter_._AttributeMap.copy()
     # Base type is DomainModelParameter_
     
+    # Element Value uses Python identifier Value
+    __Value = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(None, u'Value'), 'Value', '__avm_GenericDomainModelParameter__Value', False, pyxb.utils.utility.Location(u'avm.xsd', 617, 10), )
+
+    
+    Value = property(__Value.value, __Value.set, None, None)
+
+    
     # Attribute YPosition inherited from {avm}DomainModelParameter
     
     # Attribute Notes inherited from {avm}DomainModelParameter
     
     # Attribute XPosition inherited from {avm}DomainModelParameter
     
-    # Attribute Value uses Python identifier Value
-    __Value = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Value'), 'Value', '__avm_GenericDomainModelParameter__Value', pyxb.binding.datatypes.string)
-    __Value._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 616, 8)
-    __Value._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 616, 8)
-    
-    Value = property(__Value.value, __Value.set, None, None)
-
-    
     # Attribute GenericAttribute0 uses Python identifier GenericAttribute0
     __GenericAttribute0 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute0'), 'GenericAttribute0', '__avm_GenericDomainModelParameter__GenericAttribute0', pyxb.binding.datatypes.string)
-    __GenericAttribute0._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 617, 8)
-    __GenericAttribute0._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 617, 8)
+    __GenericAttribute0._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 619, 8)
+    __GenericAttribute0._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 619, 8)
     
     GenericAttribute0 = property(__GenericAttribute0.value, __GenericAttribute0.set, None, None)
 
     
     # Attribute GenericAttribute1 uses Python identifier GenericAttribute1
     __GenericAttribute1 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute1'), 'GenericAttribute1', '__avm_GenericDomainModelParameter__GenericAttribute1', pyxb.binding.datatypes.string)
-    __GenericAttribute1._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 618, 8)
-    __GenericAttribute1._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 618, 8)
+    __GenericAttribute1._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 620, 8)
+    __GenericAttribute1._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 620, 8)
     
     GenericAttribute1 = property(__GenericAttribute1.value, __GenericAttribute1.set, None, None)
 
     
     # Attribute GenericAttribute2 uses Python identifier GenericAttribute2
     __GenericAttribute2 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute2'), 'GenericAttribute2', '__avm_GenericDomainModelParameter__GenericAttribute2', pyxb.binding.datatypes.string)
-    __GenericAttribute2._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 619, 8)
-    __GenericAttribute2._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 619, 8)
+    __GenericAttribute2._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 621, 8)
+    __GenericAttribute2._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 621, 8)
     
     GenericAttribute2 = property(__GenericAttribute2.value, __GenericAttribute2.set, None, None)
 
     
     # Attribute GenericAttribute3 uses Python identifier GenericAttribute3
     __GenericAttribute3 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute3'), 'GenericAttribute3', '__avm_GenericDomainModelParameter__GenericAttribute3', pyxb.binding.datatypes.string)
-    __GenericAttribute3._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 620, 8)
-    __GenericAttribute3._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 620, 8)
+    __GenericAttribute3._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 622, 8)
+    __GenericAttribute3._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 622, 8)
     
     GenericAttribute3 = property(__GenericAttribute3.value, __GenericAttribute3.set, None, None)
 
     
     # Attribute GenericAttribute4 uses Python identifier GenericAttribute4
     __GenericAttribute4 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute4'), 'GenericAttribute4', '__avm_GenericDomainModelParameter__GenericAttribute4', pyxb.binding.datatypes.string)
-    __GenericAttribute4._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 621, 8)
-    __GenericAttribute4._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 621, 8)
+    __GenericAttribute4._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 623, 8)
+    __GenericAttribute4._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 623, 8)
     
     GenericAttribute4 = property(__GenericAttribute4.value, __GenericAttribute4.set, None, None)
 
     
     # Attribute GenericAttribute5 uses Python identifier GenericAttribute5
     __GenericAttribute5 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute5'), 'GenericAttribute5', '__avm_GenericDomainModelParameter__GenericAttribute5', pyxb.binding.datatypes.string)
-    __GenericAttribute5._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 622, 8)
-    __GenericAttribute5._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 622, 8)
+    __GenericAttribute5._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 624, 8)
+    __GenericAttribute5._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 624, 8)
     
     GenericAttribute5 = property(__GenericAttribute5.value, __GenericAttribute5.set, None, None)
 
     
     # Attribute GenericAttribute6 uses Python identifier GenericAttribute6
     __GenericAttribute6 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute6'), 'GenericAttribute6', '__avm_GenericDomainModelParameter__GenericAttribute6', pyxb.binding.datatypes.string)
-    __GenericAttribute6._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 623, 8)
-    __GenericAttribute6._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 623, 8)
+    __GenericAttribute6._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 625, 8)
+    __GenericAttribute6._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 625, 8)
     
     GenericAttribute6 = property(__GenericAttribute6.value, __GenericAttribute6.set, None, None)
 
     
     # Attribute GenericAttribute7 uses Python identifier GenericAttribute7
     __GenericAttribute7 = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'GenericAttribute7'), 'GenericAttribute7', '__avm_GenericDomainModelParameter__GenericAttribute7', pyxb.binding.datatypes.string)
-    __GenericAttribute7._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 624, 8)
-    __GenericAttribute7._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 624, 8)
+    __GenericAttribute7._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 626, 8)
+    __GenericAttribute7._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 626, 8)
     
     GenericAttribute7 = property(__GenericAttribute7.value, __GenericAttribute7.set, None, None)
 
     
     # Attribute Name uses Python identifier Name
     __Name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'Name'), 'Name', '__avm_GenericDomainModelParameter__Name', pyxb.binding.datatypes.string)
-    __Name._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 625, 8)
-    __Name._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 625, 8)
+    __Name._DeclarationLocation = pyxb.utils.utility.Location(u'avm.xsd', 627, 8)
+    __Name._UseLocation = pyxb.utils.utility.Location(u'avm.xsd', 627, 8)
     
     Name = property(__Name.value, __Name.set, None, None)
 
     _ElementMap.update({
-        
+        __Value.name() : __Value
     })
     _AttributeMap.update({
-        __Value.name() : __Value,
         __GenericAttribute0.name() : __GenericAttribute0,
         __GenericAttribute1.name() : __GenericAttribute1,
         __GenericAttribute2.name() : __GenericAttribute2,
@@ -4918,6 +4916,33 @@ GenericDomainModel_._Automaton = _BuildAutomaton_20()
 
 
 
+GenericDomainModelParameter_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Value'), Value_, scope=GenericDomainModelParameter_, location=pyxb.utils.utility.Location(u'avm.xsd', 617, 10)))
+
+def _BuildAutomaton_21 ():
+    # Remove this helper function from the namespace after it is invoked
+    global _BuildAutomaton_21
+    del _BuildAutomaton_21
+    import pyxb.utils.fac as fac
+
+    counters = set()
+    cc_0 = fac.CounterCondition(min=0L, max=1, metadata=pyxb.utils.utility.Location(u'avm.xsd', 617, 10))
+    counters.add(cc_0)
+    states = []
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(GenericDomainModelParameter_._UseForTag(pyxb.namespace.ExpandedName(None, u'Value')), pyxb.utils.utility.Location(u'avm.xsd', 617, 10))
+    st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_0)
+    transitions = []
+    transitions.append(fac.Transition(st_0, [
+        fac.UpdateInstruction(cc_0, True) ]))
+    st_0._set_transitionSet(transitions)
+    return fac.Automaton(states, counters, True, containing_state=None)
+GenericDomainModelParameter_._Automaton = _BuildAutomaton_21()
+
+
+
+
 Connector_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Role'), Port_, scope=Connector_, location=pyxb.utils.utility.Location(u'avm.xsd', 160, 10)))
 
 Connector_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Property'), Property_, scope=Connector_, location=pyxb.utils.utility.Location(u'avm.xsd', 161, 10)))
@@ -4928,10 +4953,10 @@ Connector_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(No
 
 Connector_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'ConnectorFeature'), ConnectorFeature_, scope=Connector_, location=pyxb.utils.utility.Location(u'avm.xsd', 164, 10)))
 
-def _BuildAutomaton_21 ():
+def _BuildAutomaton_22 ():
     # Remove this helper function from the namespace after it is invoked
-    global _BuildAutomaton_21
-    del _BuildAutomaton_21
+    global _BuildAutomaton_22
+    del _BuildAutomaton_22
     import pyxb.utils.fac as fac
 
     counters = set()
@@ -5012,7 +5037,7 @@ def _BuildAutomaton_21 ():
         fac.UpdateInstruction(cc_4, True) ]))
     st_4._set_transitionSet(transitions)
     return fac.Automaton(states, counters, True, containing_state=None)
-Connector_._Automaton = _BuildAutomaton_21()
+Connector_._Automaton = _BuildAutomaton_22()
 
 
 
@@ -5021,10 +5046,10 @@ NormalDistribution_._AddElement(pyxb.binding.basis.element(pyxb.namespace.Expand
 
 NormalDistribution_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'StandardDeviation'), ValueExpressionType_, scope=NormalDistribution_, location=pyxb.utils.utility.Location(u'avm.xsd', 218, 10)))
 
-def _BuildAutomaton_22 ():
+def _BuildAutomaton_23 ():
     # Remove this helper function from the namespace after it is invoked
-    global _BuildAutomaton_22
-    del _BuildAutomaton_22
+    global _BuildAutomaton_23
+    del _BuildAutomaton_23
     import pyxb.utils.fac as fac
 
     counters = set()
@@ -5044,15 +5069,15 @@ def _BuildAutomaton_22 ():
     transitions = []
     st_1._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
-NormalDistribution_._Automaton = _BuildAutomaton_22()
+NormalDistribution_._Automaton = _BuildAutomaton_23()
 
 
 
 
-def _BuildAutomaton_23 ():
+def _BuildAutomaton_24 ():
     # Remove this helper function from the namespace after it is invoked
-    global _BuildAutomaton_23
-    del _BuildAutomaton_23
+    global _BuildAutomaton_24
+    del _BuildAutomaton_24
     import pyxb.utils.fac as fac
 
     counters = set()
@@ -5177,17 +5202,17 @@ def _BuildAutomaton_23 ():
         fac.UpdateInstruction(cc_6, True) ]))
     st_6._set_transitionSet(transitions)
     return fac.Automaton(states, counters, True, containing_state=None)
-Optional_._Automaton = _BuildAutomaton_23()
+Optional_._Automaton = _BuildAutomaton_24()
 
 
 
 
 Alternative_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'ValueFlowMux'), ValueFlowMux_, scope=Alternative_, location=pyxb.utils.utility.Location(u'avm.xsd', 361, 10)))
 
-def _BuildAutomaton_24 ():
+def _BuildAutomaton_25 ():
     # Remove this helper function from the namespace after it is invoked
-    global _BuildAutomaton_24
-    del _BuildAutomaton_24
+    global _BuildAutomaton_25
+    del _BuildAutomaton_25
     import pyxb.utils.fac as fac
 
     counters = set()
@@ -5337,17 +5362,17 @@ def _BuildAutomaton_24 ():
         fac.UpdateInstruction(cc_7, True) ]))
     st_7._set_transitionSet(transitions)
     return fac.Automaton(states, counters, True, containing_state=None)
-Alternative_._Automaton = _BuildAutomaton_24()
+Alternative_._Automaton = _BuildAutomaton_25()
 
 
 
 
 ComplexFormula_._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(None, u'Operand'), Operand_, scope=ComplexFormula_, location=pyxb.utils.utility.Location(u'avm.xsd', 463, 10)))
 
-def _BuildAutomaton_25 ():
+def _BuildAutomaton_26 ():
     # Remove this helper function from the namespace after it is invoked
-    global _BuildAutomaton_25
-    del _BuildAutomaton_25
+    global _BuildAutomaton_26
+    del _BuildAutomaton_26
     import pyxb.utils.fac as fac
 
     counters = set()
@@ -5361,5 +5386,5 @@ def _BuildAutomaton_25 ():
          ]))
     st_0._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
-ComplexFormula_._Automaton = _BuildAutomaton_25()
+ComplexFormula_._Automaton = _BuildAutomaton_26()
 

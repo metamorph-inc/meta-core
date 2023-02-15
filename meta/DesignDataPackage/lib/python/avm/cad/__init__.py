@@ -1,7 +1,7 @@
 # .\_cad.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:462c18d5b89050fb1b7f8fca1e535af868009675
-# Generated 2023-01-23 15:50:31.165000 by PyXB version 1.2.3
+# Generated 2023-02-15 10:02:24.587000 by PyXB version 1.2.3
 # Namespace cad [xmlns:cad]
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f4c2140f-9b67-11ed-b37a-415645000030')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:22e1ec4f-ad4a-11ed-8eff-50e085b81351')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.3'
