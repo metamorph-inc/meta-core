@@ -36,14 +36,12 @@ You must also install Microsoft Visual Studio 2015 Update 3
 Visual Studio Installer -> Modify -> Individual Components -> .NET Framework 4.6.2 Developer Pack
 
 ## Java JDK version 8 to 11
-[Download it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
-
-or https://adoptium.net/download/
+[Download it here](https://adoptium.net/temurin/releases/?version=8)
 
 _NOTE: Either x86 or x64 is okay_
 
 ### Set JAVA_HOME
-Set environment variable JAVA_HOME to the installed directory, such as `C:\Program Files (x86)\Java\jdk1.7.0_09`
+Set environment variable JAVA_HOME to the installed directory, such as `C:\Program Files (x86)\Java\jdk1.7.0_09` or `C:\Program Files\Eclipse Adoptium\jdk-8.0.352.8-hotspot`
 
 The actual name of the subdirectory depends on what version you have installed.
 
